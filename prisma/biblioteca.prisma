@@ -1,0 +1,100 @@
+model Libro {
+    id Int @id @default(autoincrement())
+
+    bibliotecaId String?
+    inventarioId String  @unique
+
+    titulo String
+
+    anio Int
+    isbn String?
+
+    materias LibroMateria[]
+
+    laboratorioId Int
+    laboratorio   Laboratorio @relation(fields: [laboratorioId], references: [id], onDelete: Restrict)
+
+    armarioId Int?
+    armario   Armario? @relation(fields: [armarioId], references: [id], onDelete: Restrict)
+
+    estanteId Int?
+    estante   Estante? @relation(fields: [estanteId], references: [id], onDelete: Restrict)
+
+    autorId Int
+    autor   LibroAutor @relation(fields: [autorId], references: [id], onDelete: Restrict)
+
+    idiomaId Int
+    idioma   LibroIdioma @relation(fields: [idiomaId], references: [id], onDelete: Restrict)
+
+    editorialId Int
+    editorial   LibroEditorial @relation(fields: [editorialId], references: [id], onDelete: Restrict)
+
+    sedeId Int
+    sede   Sede @relation(fields: [sedeId], references: [id], onDelete: Cascade)
+
+    disponible Boolean @default(true)
+
+    reservas ReservaLibro[]
+
+    fechaCreacion        DateTime @default(now())
+    fechaModificacion    DateTime @default(now()) @updatedAt
+    usuarioCreadorId     String
+    usuarioModificadorId String
+
+    @@index([titulo(sort: Asc)])
+    @@index([anio(sort: Desc)])
+    @@index([bibliotecaId])
+    @@index([inventarioId])
+}
+
+model LibroMateria {
+    libroId   Int
+    materiaId Int
+
+    libro   Libro   @relation(fields: [libroId], references: [id], onDelete: Cascade)
+    materia Materia @relation(fields: [materiaId], references: [id], onDelete: Cascade)
+
+    fechaCreacion    DateTime @default(now())
+    usuarioCreadorId String
+
+    @@id([libroId, materiaId])
+}
+
+model LibroAutor {
+    id Int @id @default(autoincrement())
+
+    autorNombre String @unique
+
+    libros Libro[]
+
+    fechaCreacion    DateTime @default(now())
+    usuarioCreadorId String
+
+    @@index([autorNombre(sort: Asc)])
+}
+
+model LibroIdioma {
+    id Int @id @default(autoincrement())
+
+    idioma String @unique
+
+    libros Libro[]
+
+    fechaCreacion    DateTime @default(now())
+    usuarioCreadorId String
+
+    @@index([idioma(sort: Asc)])
+}
+
+model LibroEditorial {
+    id Int @id @default(autoincrement())
+
+    editorial String @unique
+
+    libros Libro[]
+
+    fechaCreacion    DateTime @default(now())
+    usuarioCreadorId String
+
+    @@index([editorial(sort: Asc)])
+}

@@ -1,0 +1,74 @@
+model Materia {
+    id Int @id @default(autoincrement())
+
+    nombre   String
+    codigo   String          @unique
+    anio     Int
+    duracion MateriaDuracion
+    tipo     MateriaTipo
+
+    directorUsuarioId String?
+    directorUsuario   User?   @relation(fields: [directorUsuarioId], references: [id], name: "materiasDirector")
+
+    jefeTrabajoPracticos      MateriaJefeTp[]
+    cursos                    Curso[]
+    libros                    LibroMateria[]
+    materiaPrerequisito       MateriaCorrelativa[]        @relation(name: "materiaPrerequisito")
+    correlativa               MateriaCorrelativa[]        @relation(name: "correlativa")
+    reservaLaboratorioCerrado ReservaLaboratorioCerrado[]
+
+    fechaCreacion        DateTime @default(now())
+    fechaModificacion    DateTime @default(now()) @updatedAt
+    usuarioCreadorId     String
+    usuarioModificadorId String
+
+    @@index([nombre(sort: Asc)])
+    @@index([anio(sort: Asc)])
+    @@index([duracion])
+    @@index([tipo])
+}
+
+model MateriaJefeTp {
+    materiaId Int
+    userId    String @map("jefeTrabajoPracticoUsuarioId")
+
+    materia Materia @relation(fields: [materiaId], references: [id], onDelete: Cascade)
+    usuario User    @relation(fields: [userId], references: [id], onDelete: Cascade, name: "materiasJefeTrabajoPractico")
+
+    @@id([materiaId, userId])
+}
+
+model MateriaCorrelativa {
+    materiaPrerequisitoId Int
+    correlativaId         Int
+
+    estatusCorrelativa EstatusCorrelativa
+
+    materiaPrerequisito Materia @relation("materiaPrerequisito", fields: [materiaPrerequisitoId], references: [id], onDelete: Cascade)
+    correlativa         Materia @relation("correlativa", fields: [correlativaId], references: [id], onDelete: Cascade)
+
+    fechaCreacion        DateTime @default(now())
+    fechaModificacion    DateTime @default(now()) @updatedAt
+    usuarioCreadorId     String
+    usuarioModificadorId String
+
+    @@id([estatusCorrelativa, materiaPrerequisitoId, correlativaId])
+}
+
+enum MateriaDuracion {
+    ANUAL
+    CUATRIMESTRAL
+    AMBOS
+}
+
+enum MateriaTipo {
+    INTEGRADORA
+    OBLIGATORIA
+    ELECTIVA
+}
+
+enum EstatusCorrelativa {
+    CURSAR_REGULARIZADA
+    CURSAR_APROBADA
+    RENDIR_APROBADA
+}

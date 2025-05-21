@@ -1,0 +1,98 @@
+model Laboratorio {
+    id Int @id @default(autoincrement())
+
+    nombre  String
+    tienePc Boolean @default(false)
+
+    esReservable     Boolean @default(false)
+    incluirEnReporte Boolean @default(false)
+
+    sedeId Int
+    sede   Sede @relation(fields: [sedeId], references: [id], onDelete: Cascade)
+
+    software SoftwareLaboratorio[]
+
+    armarios Armario[]
+    equipos  Equipo[]
+    libros   Libro[]
+
+    reservaLaboratorioCerrado ReservaLaboratorioCerrado[]
+    reservaLaboratorioAbierto ReservaLaboratorioAbierto[]
+
+    fechaCreacion        DateTime @default(now())
+    fechaModificacion    DateTime @default(now()) @updatedAt
+    usuarioCreadorId     String
+    usuarioModificadorId String
+
+    @@index([nombre(sort: Asc)])
+    @@index([tienePc], type: Hash)
+    @@index([esReservable], type: Hash)
+}
+
+model Armario {
+    id Int @id @default(autoincrement())
+
+    nombre String
+
+    laboratorioId Int
+    laboratorio   Laboratorio @relation(fields: [laboratorioId], references: [id], onDelete: Cascade)
+
+    estantes Estante[]
+    equipos  Equipo[]
+    libros   Libro[]
+
+    fechaCreacion        DateTime @default(now())
+    fechaModificacion    DateTime @default(now()) @updatedAt
+    usuarioCreadorId     String
+    usuarioModificadorId String
+}
+
+model Estante {
+    id Int @id @default(autoincrement())
+
+    nombre String
+
+    armarioId Int
+    armario   Armario @relation(fields: [armarioId], references: [id], onDelete: Cascade)
+
+    equipos Equipo[]
+    libros  Libro[]
+
+    fechaCreacion        DateTime @default(now())
+    fechaModificacion    DateTime @default(now()) @updatedAt
+    usuarioCreadorId     String
+    usuarioModificadorId String
+}
+
+model Software {
+    id Int @id @default(autoincrement())
+
+    nombre String
+
+    version String
+
+    estado String
+
+    windows Boolean @default(true)
+    linux   Boolean @default(false)
+
+    laboratorios SoftwareLaboratorio[]
+
+    fechaCreacion        DateTime @default(now())
+    fechaModificacion    DateTime @default(now()) @updatedAt
+    usuarioCreadorId     String
+    usuarioModificadorId String
+}
+
+model SoftwareLaboratorio {
+    softwareId    Int
+    laboratorioId Int
+
+    software    Software    @relation(fields: [softwareId], references: [id], onDelete: Cascade)
+    laboratorio Laboratorio @relation(fields: [laboratorioId], references: [id], onDelete: Cascade)
+
+    fechaCreacion    DateTime @default(now())
+    usuarioCreadorId String
+
+    @@id([softwareId, laboratorioId])
+}

@@ -1,0 +1,31 @@
+# Docker
+.dockerignore
+docker
+
+# Scripts
+start-database.sh
+
+# Next
+.next
+next-env.d.ts
+
+# Dependencies
+node_modules
+
+# Git
+.git
+.gitignore
+
+# IDE
+.vscode
+
+# Environment
+.env
+.env.example
+
+# Docs
+README.md
+
+# CI/CD
+.github
+Jenkinsfile.tst

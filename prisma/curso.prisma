@@ -1,0 +1,91 @@
+model Curso {
+    id Int @id @default(autoincrement())
+
+    horaInicio1 String
+    duracion1   String
+    horaInicio2 String?
+    duracion2   String?
+
+    dia1 CursoDia
+    dia2 CursoDia?
+
+    ayudantes  CursoAyudante[]
+    profesorId String
+    profesor   User            @relation(fields: [profesorId], references: [id], onDelete: Cascade)
+
+    anioDeCarrera Int
+    activo        Boolean
+    ac            String
+
+    sedeId Int
+    sede   Sede @relation(fields: [sedeId], references: [id], onDelete: Cascade)
+
+    materiaId Int
+    materia   Materia @relation(fields: [materiaId], references: [id], onDelete: Cascade)
+
+    divisionId Int
+    division   Division @relation(fields: [divisionId], references: [id], onDelete: Cascade)
+
+    turno TurnoCurso
+
+    reservaLaboratorioCerrado ReservaLaboratorioCerrado[]
+
+    fechaCreacion        DateTime @default(now())
+    fechaModificacion    DateTime @default(now()) @updatedAt
+    usuarioCreadorId     String
+    usuarioModificadorId String
+
+    @@index([anioDeCarrera(sort: Asc)])
+    @@index([activo], type: Hash)
+    @@index([turno], type: Hash)
+}
+
+model CursoAyudante {
+    cursoId Int
+    userId  String
+
+    curso   Curso @relation(fields: [cursoId], references: [id], onDelete: Cascade)
+    usuario User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    fechaCreacion    DateTime @default(now())
+    usuarioCreadorId String
+
+    fechaModificacion    DateTime @default(now()) @updatedAt
+    usuarioModificadorId String
+
+    @@id([cursoId, userId])
+}
+
+model Division {
+    id Int @id @default(autoincrement())
+
+    nombre String @unique
+    anio   Int
+
+    fechaCreacion    DateTime @default(now())
+    usuarioCreadorId String
+
+    fechaModificacion    DateTime @default(now()) @updatedAt
+    usuarioModificadorId String
+
+    cursos Curso[]
+
+    @@index([anio(sort: Asc)])
+    @@index([nombre(sort: Asc)])
+}
+
+enum TurnoCurso {
+    MANANA
+    TARDE
+    NOCHE
+}
+
+enum CursoDia {
+    LUNES
+    MARTES
+    MIERCOLES
+    JUEVES
+    VIERNES
+    SABADO
+    DOMINGO
+}

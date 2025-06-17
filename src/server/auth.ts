@@ -105,6 +105,7 @@ export const authOptions: NextAuthOptions = {
             clientId: process.env.KEYCLOAK_CLIENT_ID,
             clientSecret: process.env.KEYCLOAK_CLIENT_SECRET,
             issuer: process.env.KEYCLOAK_ISSUER,
+            scope: "openid profile email",
             async profile(profile: KeycloakProfile) {
               // const documentoTipo = await db.documentoTipo.findFirst({ where: { nombre: profile.documento_tipo } });
               // const provincia = await db.provincia.findFirst({ where: { nombre: profile.address.region } });
@@ -112,11 +113,11 @@ export const authOptions: NextAuthOptions = {
               return {
                 id: profile.sub,
                 name: profile.preferred_username,
-                email: profile.email,
-                emailVerified: profile.email_verified,
+                // email: profile.email,
+                // emailVerified: profile.email_verified,
                 // image: profile.picture,
                 nombre: profile.given_name,
-                apellido: profile.family_name,
+                // apellido: profile.family_name,
                 // fechaNacimiento: new Date(profile.birthdate.split("/").reverse().join("-")),
                 // legajo: profile.legajo?.replace("-", ""),
                 // direccion: profile.address.street_address,

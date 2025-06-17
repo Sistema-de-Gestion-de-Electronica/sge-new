@@ -1,0 +1,171 @@
+networks:
+  traefik-net:
+    name: traefik-net
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.18.2.0/24
+
+services:
+  traefik:
+    container_name: traefik
+    image: traefik:latest
+    command:
+      - "--api=true"
+      - "--api.dashboard=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--providers.docker.network=traefik-net"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--providers.file.directory=/configuration/"
+      - "--providers.file.watch=true"
+      - "--log.filePath=/var/log/traefik.log"
+      - "--log.level=DEBUG"
+      - "--ping=true"
+    environment:
+      - TZ=America/Argentina/Buenos_Aires
+    networks:
+      traefik-net:
+        ipv4_address: 172.18.2.2
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./certs:/certs
+      - ./pass:/user-credentials:ro
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dashboard.entrypoints=websecure"
+      - "traefik.http.routers.dashboard.tls=true"
+      - "traefik.http.routers.dashboard.rule=Host(`traefik-dev.frba.utn.edu.ar`)"
+      - "traefik.http.routers.dashboard.service=api@internal"
+      - "traefik.http.routers.dashboard.middlewares=auth"
+      - "traefik.http.middlewares.auth.basicauth.usersfile=/user-credentials"
+  keycloak-db:
+    labels:
+      - "traefik.enable=true"
+    image: postgres:17
+    container_name: keycloak-db
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_DB: bitnami_keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: asd123
+      PGPASSWORD: asd123
+      PGUSER: keycloak
+      KEYCLOAK_LOGLEVEL: DEBUG
+      QUARKUS_LOG_LEVEL: DEBUG
+    networks:
+      - traefik-net
+    depends_on:
+      - traefik
+    volumes:
+      - ./db/keycloak_dump.sql:/docker-entrypoint-initdb.d/init.sql
+
+
+  keycloak:
+    container_name: keycloak
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.keycloak.rule=Host(`auth-dev.frba.utn.edu.ar`)"
+      - "traefik.http.routers.keycloak.entrypoints=websecure"
+      - "traefik.http.routers.keycloak.tls=true"
+
+    expose:
+      - 80
+    image: bitnami/keycloak:25-debian-12
+    user: root
+    environment:
+      KEYCLOAK_ADMIN_USER: 'dev'
+      KEYCLOAK_ADMIN_PASSWORD: 'asd123'
+      KEYCLOAK_DATABASE_HOST: 'keycloak-db'
+      KEYCLOAK_DATABASE_PORT: '5432'
+      KEYCLOAK_DATABASE_NAME: 'bitnami_keycloak'
+      KEYCLOAK_DATABASE_USER: 'keycloak'
+      KEYCLOAK_DATABASE_PASSWORD: 'asd123'
+      KEYCLOAK_EXTRA_ARGS: "-Dkeycloak.profile.feature.docker=enabled -Dkeycloak.profile.feature.upload_scripts=enabled -Dkeycloak.profile=preview -Dkeycloak.profile.feature.token_exchange=enabled"
+      KEYCLOAK_HTTP_PORT: "80"
+      KEYCLOAK_HOSTNAME: "https://auth-dev.frba.utn.edu.ar"
+      KEYCLOAK_HOSTNAME_ADMIN: "https://auth-dev.frba.utn.edu.ar"
+    networks:
+      - traefik-net
+    depends_on:
+      - keycloak-db
+
+  db-sge:
+    container_name: db-sge
+    image: postgres:17.4-alpine3.21
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 2s
+      timeout: 15s
+      retries: 5
+      start_period: 3s
+    expose: ["5432"]
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: sge3
+    volumes:
+      - data:/var/lib/postgresql/data
+      # - ./db/dump.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - traefik-net
+    depends_on:
+      - traefik
+      - keycloak
+
+  app-sge:
+    image: registry.frba.utn.edu.ar/ext/sge3
+    container_name: app-sge
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.sge-frontend.rule=Host(`sge-dev.frba.utn.edu.ar`)"
+      - "traefik.http.routers.sge-frontend.entrypoints=websecure"
+      - "traefik.http.routers.sge-frontend.tls=true"
+      - "traefik.http.routers.sge-frontend.service=sge-frontend-service"
+      - "traefik.http.services.sge-frontend-service.loadbalancer.server.port=3000"
+    expose:
+      - 3000
+    ports:
+      - "3000:3000"
+    environment:
+      PORT: 3000
+
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: postgres
+      POSTGRES_DB: sge3
+
+      DATABASE_URL: postgresql://postgres:password@db-sge:5432/sge3
+      NEXTAUTH_SECRET: lp2N2u+qEluD/OrZ+rAhQsKk6xGTVnogU8xNT5MtZj0=
+      NEXTAUTH_URL: https://sge-dev.frba.utn.edu.ar
+      NODE_TLS_REJECT_UNAUTHORIZED: 0
+
+      KEYCLOAK_CLIENT_ID: sge
+      KEYCLOAK_CLIENT_SECRET: oWuK8BhZYAomRnck7siIokXJoRO9QI0Z
+      KEYCLOAK_ISSUER: https://auth-dev.frba.utn.edu.ar/realms/master
+
+      SMTP_MAIL_EMISOR: sge-new@frba.utn.edu.ar
+      SMTP_HOST: smtp.frba.utn.edu.ar
+      SMTP_PORT: 587
+      SMTP_SECURE: false
+
+      # SMTP_TESTING: false
+      # SMTP_TESTING_EMAIL_RECEPTOR: 
+      # SMTP_TESTING_EMAIL_USER: testutn@gmail.com
+      # SMTP_TESTING_EMAIL_PASSWORD: 
+
+    restart: unless-stopped
+    depends_on:
+      db-sge:
+        condition: service_healthy
+    networks:
+      - traefik-net
+
+volumes:
+  data:
+  postgresql_data:
+    driver: local

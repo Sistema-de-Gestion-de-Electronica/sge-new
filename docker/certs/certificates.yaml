@@ -1,0 +1,9 @@
+tls:
+  certificates:
+    - certFile: /certs/bundle_nginx.crt
+      keyFile: /certs/frba.utn.edu.ar.key
+  stores:
+    default:
+      defaultCertificate:
+        certFile: /certs/bundle_nginx.crt
+        keyFile: /certs/frba.utn.edu.ar.key

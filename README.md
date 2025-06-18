@@ -1,4 +1,4 @@
-# SGE 2.0
+# SGE 3.0
 
 Proyecto creado con [T3 Stack](https://create.t3.gg/).
 
@@ -9,72 +9,33 @@ Proyecto creado con [T3 Stack](https://create.t3.gg/).
 
 # Como ejecutar local
 
-Para instalar el entorno local en la red UTN-FRBA el administrador web debera tener en cuenta el proxy detras del que se encuentra para la instalación de los programas necesarios. Para este proyecto es necesario instalar:
-
-- Docker
-- Node (version >= 14)
-
-Luego se procede a realizar los siguientes pasos:
+Se requiere tener instalado Just y Docker
 
 1. Clonar el repositorio
 
    ```bash
-   git clone git@git-m01.frba.utn.edu.ar:externals/sge-new.git
+   git clone git@github.com:MartinLingeri/sge-new.git
    ```
 
-2. Para evitar errores al ejecutar los comandos que siguen, debe cambiarse el propietario de la carpeta donde se haya clonado el repositorio. Esto realiza con el comando _chown_. _user_ y _folder_ deben completarse segun el caso, el grupo siempre sera _www-data_.
+2. Levantar el entorno de desarrollo
 
    ```bash
-   sudo chown user:www-data folder
+   just deploy
    ```
+   Este comando buildea las imagenes de los contenedores y realiza un `docker-compose up` para levantar todos en el orden correcto.
 
-3. Crear archivo con las variables de entorno. Debe llamarse ".env". A modo de ejemplo se encuentra el archivo ".env.example".
+3. Modificar el /etc/hosts para que apunte a la IP del contenedor de Keycloak
 
    ```bash
-   mv .env.example .env
+   just hosts
    ```
 
-4. Iniciar la base de datos en docker
+4. Ingresar a la aplicacion
 
-   ```bash
-   ./start-database.sh
-   ```
+   - Frontend: [http://sge-dev.frba.utn.edu.ar](http://sge-dev.frba.utn.edu.ar)
+   - Keycloak: [http://auth-dev.frba.utn.edu.ar](http://auth-dev.frba.utn.edu.ar)
 
-5. Instalar dependencias
-
-   ```bash
-   npm install
-   ```
-
-6. Migrar la base de datos
-
-   ```bash
-   npm run db:deploy-migracion
-   npm run db:generar-esquema
-   ```
-
-7. Cargar el dump de la base de datos mas reciente
-
-   ```bash
-   docker cp /path/to/dump_name.sql sge2-postgres:/dump_name.sql
-   docker exec sge2-postgres sh -c "psql -U postgres sge2 < /dump_name.sql"
-   ```
-
-8. Build del sistema con la BD
-
-   ```bash
-   npm run build
-   ```
-
-9. Ejecutar el entorno local.
-
-   ```bash
-   npm run dev
-   ```
-
-Cada vez que se quiera acceder al entorno debe ejecutarse este comando. El mismo por defecto corre en _localhost:3000_. Si por algun motivo el puerto esta ocupado, intentara tomar otros puertos (3001, 3002, etc.)
-
-Si el entorno local se levanta en otro puerto, deben hacerse las modificaciones pertinentes en el archivo .env del sistema. De lo contrario no se podran realizar las autenticaciones necesarias.
+5. Ingresar con el usuario `admin` y la contraseña `admin` (se puede cambiar en el Keycloak)
 
 ## Tecnologías usadas
 

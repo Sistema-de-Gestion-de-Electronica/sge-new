@@ -9,7 +9,7 @@ export default async function Home() {
     <main className="flex flex-col items-center justify-center">
       <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
         <h1 className="text-5xl font-extrabold tracking-tight sm:text-[5rem]">
-          SGE <span className="text-blue-500">2.0</span>
+          SGE <span className="text-blue-500">3.0</span>
         </h1>
         <div className="flex flex-col items-center gap-2">
           <div className="flex flex-col items-center justify-center gap-4">

@@ -119,6 +119,9 @@ services:
       - keycloak
 
   app-sge:
+    build:
+        context: ..
+        dockerfile: ./docker/Dockerfile.dev
     image: registry.frba.utn.edu.ar/ext/sge3
     container_name: app-sge
     labels:
@@ -164,6 +167,10 @@ services:
         condition: service_healthy
     networks:
       - traefik-net
+    volumes:
+      - ../:/app
+      - /app/node_modules
+
 
 volumes:
   data:

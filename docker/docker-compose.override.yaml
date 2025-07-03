@@ -111,7 +111,7 @@ services:
       POSTGRES_DB: sge3
     volumes:
       - data:/var/lib/postgresql/data
-      # - ./db/dump.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./db/dump.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - traefik-net
     depends_on:

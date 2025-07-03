@@ -20,7 +20,7 @@ Se requiere tener instalado Just y Docker
 2. Levantar el entorno de desarrollo
 
    ```bash
-   just deploy
+   just up
    ```
    Este comando buildea las imagenes de los contenedores y realiza un `docker-compose up` para levantar todos en el orden correcto.
 

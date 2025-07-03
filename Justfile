@@ -14,8 +14,8 @@ build:
     @echo "Buildeando imagenes..."
     {{docker}} compose -f docker/docker-compose.override.yaml build
 
-deploy:
-    @echo "Desplegando..."
+up:
+    @echo "Levantando contenedores..."
     {{docker}} compose -f docker/docker-compose.override.yaml up -d
 
 down:
@@ -58,3 +58,7 @@ hosts:
     172.18.2.2 auth-dev.frba.utn.edu.ar
     172.18.2.2 sge-dev.frba.utn.edu.ar
     " >> /etc/hosts'
+
+sh:
+    @echo "Abriendo sh en el contenedor de sge..."
+    {{docker}} exec -it app-sge sh

@@ -1,6 +1,6 @@
-docker := if `groups` =~ "docker" { "docker" } else { "sudo docker" }
+docker := if os() == "windows" {"docker"} else if `groups` =~ "docker" {"docker"} else {"sudo docker"}
 
-sudo := if `echo $USER` == "root" { "" } else { "sudo" }
+sudo := if os() == "windows" {""} else if `echo $USER` == "root" {""} else {"sudo"}
 
 CERT_DIR := 'certs/frba.utn.edu.ar'
 

@@ -300,6 +300,29 @@ export const REPORTES_ROUTE: AppRoute = {
   ],
 };
 
+const PERMISOS_ACTA_CONSEJEROS =  [SgeNombre.ADMIN_ACTUALIZAR_ACTA_CONSEJEROS];
+export const CONSEJEROS_ROUTE: AppRoute = {
+  href: "/consejeros",
+  label: "Consejeros",
+  isPublic: false,
+  permisos: PERMISOS_ACTA_CONSEJEROS,
+  // subRutas: [
+  //   {
+  //     href: "/reportes/hoy",
+  //     label: "Hoy",
+  //     isPublic: false,
+  //     permisos: PERMISOS_VER_REPORTES,
+  //   },
+  //   {
+  //     href: "/reportes/mes",
+  //     label: "Mes",
+  //     isPublic: false,
+  //     permisos: [SgeNombre.ADMIN_VER_PANEL_ADMIN],
+  //   },
+  // ],
+};
+
+
 export const SGE_1_ROUTE: AppRoute[] = [
   {
     href: "https://sge.frba.utn.edu.ar/sge2/fallasreporte/falla_pc.php",
@@ -315,13 +338,13 @@ export const SGE_1_ROUTE: AppRoute[] = [
     isPublic: false,
     permisos: [],
   },
-  {
-    href: "https://sge.frba.utn.edu.ar/sge2/consejeros/index.php",
-    label: "Consejeros",
-    esExterna: true,
-    isPublic: false,
-    permisos: [SgeNombre.ADMIN_ACTUALIZAR_ACTA_CONSEJEROS],
-  },
+  // {
+  //   href: "https://sge.frba.utn.edu.ar/sge2/consejeros/index.php",
+  //   label: "Consejeros",
+  //   esExterna: true,
+  //   isPublic: false,
+  //   permisos: [SgeNombre.ADMIN_ACTUALIZAR_ACTA_CONSEJEROS],
+  // },
   {
     href: "https://sge.frba.utn.edu.ar/sge2/inscripciones_especiales/index.php",
     label: "Inscripciones especiales",
@@ -341,6 +364,7 @@ export const APP_ROUTES: AppRoute[] = [
   BIBLIOTECA_ROUTE,
   ADMIN_ROUTE,
   REPORTES_ROUTE,
+  CONSEJEROS_ROUTE,
   ...SGE_1_ROUTE,
 ];
 

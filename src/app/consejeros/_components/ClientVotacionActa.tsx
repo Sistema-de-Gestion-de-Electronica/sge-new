@@ -3,6 +3,12 @@
 import { useForm, FormProvider } from 'react-hook-form'
 import { SelectActasForm } from './SelectActasForm'
 import { SelectAniosForm } from './SelectAniosForm'
+import dynamic from 'next/dynamic';
+
+const PdfViewerClient = dynamic(() => import('./PdfViewerClient'), {
+  ssr: false,
+  loading: () => <div>Cargando visor…</div>,
+});
 
 export function ClientVotacionActa() {
   const methods = useForm({ defaultValues: { anio: '2025', acta: '' } })
@@ -26,6 +32,7 @@ export function ClientVotacionActa() {
           <p className="text-sm text-gray-600">
             Acta emitida bla bla bla sobre temas importantes tratados en la reunión...
           </p>
+          <PdfViewerClient file="/Acta-2025-05-08.pdf" />
         </div>
 
         {/* Votación + Comentario*/}

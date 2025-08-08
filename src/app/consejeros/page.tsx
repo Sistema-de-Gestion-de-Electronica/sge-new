@@ -2,7 +2,7 @@
 import PageLayout from '@/components/ui/template/page-template'
 import { CONSEJEROS_ROUTE } from '@/shared/server-routes'
 import { Suspense } from 'react'
-import { ClientVotacionActa } from './_components/ClientVotacionActa' // 👈
+import { ClientVotacionActa } from './_components/ClientVotacionActa'
 
 export default function Page() {
   return (

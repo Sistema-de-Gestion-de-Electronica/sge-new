@@ -4,6 +4,7 @@ import { useForm, FormProvider } from 'react-hook-form'
 import { SelectActasForm } from './SelectActasForm'
 import { SelectAniosForm } from './SelectAniosForm'
 import PdfIframeViewer from './PdfIframeViewer'
+import { Button } from '@/components/ui/button'
 
 export function ClientVotacionActa() {
   const methods = useForm({ defaultValues: { anio: '2025', acta: '' } })
@@ -23,11 +24,22 @@ export function ClientVotacionActa() {
 
         {/* Header acta */}
         <div className="bg-white border border-gray-200 p-4 rounded-md shadow-sm">
-          <h1 className="text-xl font-semibold text-gray-900">Acta 1</h1>
-          <p className="text-sm text-gray-600">
-            Acta emitida bla bla bla sobre temas importantes tratados en la reunión...
-          </p>
-          <PdfIframeViewer file="https://sge-dev.frba.utn.edu.ar/Acta-2025-05-08.pdf" />
+          {/* acta.estado === abierta ? ( */}
+          {true ? (
+            <>
+              <h1 className="text-xl font-semibold text-gray-900">
+                Acta del Consejo Departamental a evaluar
+              </h1>
+              <p className="text-sm text-gray-600">
+                Consejeros/as: El acta que se muestra a continuación contiene el resumen de lo tratado en la última reunión con fecha 2025-05-08.
+                Por favor exprese al pie su conformidad o disconformidad con la misma a los efectos de considerar su aprobación en la próxima reunión.
+                En caso de disconformidad o conformidad parcial, les pedimos que nos hagan saber en los comentarios las razones de esa opinión, con el objeto de evaluar cambios en la redacción. Gracias.
+              </p> 
+            </>
+          ) : (
+            <h1 className="text-xl font-semibold text-gray-900">Acta-2025-05-08</h1>
+          )}
+               <PdfIframeViewer file="https://sge-dev.frba.utn.edu.ar/Acta-2025-05-08.pdf" />
         </div>
 
         {/* Votación + Comentario*/}
@@ -35,12 +47,16 @@ export function ClientVotacionActa() {
           <h2 className="text-base font-medium text-gray-900 mb-4">Votar sobre el acta</h2>
           <div className="flex gap-3 flex-wrap mb-6">
             {['ACUERDO', 'DESACUERDO', 'PARCIAL'].map((op) => (
-              <button key={op}
-                type="button"
-                className="px-4 py-2 text-sm font-medium rounded-md border border-orange-300 bg-orange-100 text-orange-800 hover:bg-orange-200 transition"
-              >
-                {op === 'ACUERDO' ? 'De acuerdo' : op === 'DESACUERDO' ? 'En desacuerdo' : 'Acuerdo parcial'}
-              </button>
+              <div key={op} className="flex items-center gap-1">
+                <label htmlFor={op}>
+                  {op === 'ACUERDO'
+                    ? 'Acuerdo'
+                    : op === 'DESACUERDO'
+                    ? 'Desacuerdo'
+                    : 'Acuerdo parcial'}
+                </label>
+                <input type="radio" id={op} name="votacion" value={op} />
+              </div>
             ))}
           </div>
 
@@ -50,12 +66,9 @@ export function ClientVotacionActa() {
             rows={4}
             placeholder="Escribí tu comentario aquí..."
           />
-          <button
-            type="submit"
-            className="mt-4 px-5 py-2 bg-blue-600 text-white text-sm font-semibold rounded-md hover:bg-blue-700 transition"
-          >
+          <Button color="primary">
             Enviar voto
-          </button>
+          </Button>
         </div>
       </form>
     </FormProvider>

@@ -23,14 +23,14 @@ export default function VotacionActa() {
         <p className="text-center antialiased sm:text-md lg:px-28">
             Consejeros/as: Indique a continuación su voluntad respecto del acta.
             En caso de disconformidad o conformidad parcial,
-            haga nos saber a continuación sus inquietudes al respecto. Gracias.
+            háganos saber a continuación sus inquietudes al respecto. Gracias.
         </p>
 
         <br/>
 
-        <div className="flex gap-3 flex-wrap mb-6">
+        <div className="flex gap-3 flex-wrap mb-6 items-center justify-center">
             {opciones.map((op) => (
-            <div key={op} className="flex items-center gap-2">
+            <div key={op} className="flex items-center justify-center gap-2">
                 <Checkbox
                 id={op}
                 checked={voto === op}

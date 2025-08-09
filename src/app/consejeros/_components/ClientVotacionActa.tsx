@@ -4,7 +4,6 @@ import { useForm, FormProvider } from 'react-hook-form'
 import { SelectActasForm } from './SelectActasForm'
 import { SelectAniosForm } from './SelectAniosForm'
 import PdfIframeViewer from './PdfIframeViewer'
-import { Button } from '@/components/ui/button'
 import  VotacionActa from './VotacionActa'
 
 export function ClientVotacionActa() {

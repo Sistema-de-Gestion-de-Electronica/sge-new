@@ -260,6 +260,12 @@ export const ADMIN_ROUTE: AppRoute = {
       isPublic: false,
       permisos: [SgeNombre.ADMIN_VER_PANEL_ADMIN],
     },
+    {
+      href: "/admin/consejeros",
+      label: "Consejeros",
+      isPublic: false,
+      permisos: [SgeNombre.ADMIN_VER_PANEL_ADMIN],
+    },
   ],
 };
 
@@ -306,20 +312,6 @@ export const CONSEJEROS_ROUTE: AppRoute = {
   label: "Consejeros",
   isPublic: false,
   permisos: PERMISOS_ACTA_CONSEJEROS,
-  // subRutas: [
-  //   {
-  //     href: "/reportes/hoy",
-  //     label: "Hoy",
-  //     isPublic: false,
-  //     permisos: PERMISOS_VER_REPORTES,
-  //   },
-  //   {
-  //     href: "/reportes/mes",
-  //     label: "Mes",
-  //     isPublic: false,
-  //     permisos: [SgeNombre.ADMIN_VER_PANEL_ADMIN],
-  //   },
-  // ],
 };
 
 

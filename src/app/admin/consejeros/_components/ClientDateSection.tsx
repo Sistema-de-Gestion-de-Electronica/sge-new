@@ -18,12 +18,12 @@ export default function ClientDateModalPicker() {
   const [date, setDate] = useState<Date | undefined>();
 
   const label = useMemo(
-    () => (date ? date.toLocaleDateString("es-AR") : "Elegí una fecha"),
+    () => (date ? date.toLocaleDateString("es-AR") : ""),
     [date]
   );
 
   return (
-    <div className="p-4">
+    <div className="p-4 items-center justify-center">
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
           <Button variant="default" className="gap-2" aria-label="Abrir calendario">

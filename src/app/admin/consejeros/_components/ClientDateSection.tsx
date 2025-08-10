@@ -18,12 +18,12 @@ export default function ClientDateModalPicker() {
   const [date, setDate] = useState<Date | undefined>();
 
   const label = useMemo(
-    () => (date ? date.toLocaleDateString("es-AR") : ""),
+    () => (date ? date.toLocaleDateString("es-AR") : "Próxima reunión"),
     [date]
   );
 
   return (
-    <div className="p-4 items-center justify-center">
+    <div className="flex justify-end gap-2">
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
           <Button variant="default" className="gap-2" aria-label="Abrir calendario">

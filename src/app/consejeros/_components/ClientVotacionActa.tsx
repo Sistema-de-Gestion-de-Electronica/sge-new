@@ -27,7 +27,7 @@ export function ClientVotacionActa() {
           {/* acta.estado === abierta ? ( */}
           {true ? (
             <>
-              <h1 className="text-gray-90 text-center mr-8 truncate border-r border-slate-200 pr-8 text-2xl font-bold tracking-tight">
+              <h1 className="text-gray-900 text-center text-2xl font-bold tracking-tight">
                 Acta del Consejo Departamental a evaluar
               </h1>
               <br/>

@@ -15,7 +15,7 @@ export default function Page() {
       buttons={
         <TienePermiso permisos={[]}>
           {/* TODO: no se cual seria el permiso que va??*/}
-          <div className="flex items-center justify-end gap-1">
+          <div className="flex items-center justify-end gap-2">
             <UploadActa />
             <ClientDateModalPicker />
           </div>

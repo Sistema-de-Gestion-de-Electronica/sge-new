@@ -16,7 +16,7 @@ export default function VotacionActa() {
 
   return (
     <div className="bg-white border border-gray-200 p-4 rounded-md shadow-sm">
-        <h1 className="text-gray-90 text-center mr-8 truncate border-r border-slate-200 pr-8 text-2xl font-bold tracking-tight">Expresión de acuerdo/desacuerdo con el acta</h1>
+        <h1 className="text-gray-900 text-center text-2xl font-bold tracking-tight">Expresión de acuerdo/desacuerdo con el acta</h1>
 
         <br/>
 

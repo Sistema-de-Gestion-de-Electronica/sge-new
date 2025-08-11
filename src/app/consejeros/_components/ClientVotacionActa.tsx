@@ -13,15 +13,21 @@ export function ClientVotacionActa() {
     <FormProvider {...methods}>
       <form className="space-y-6">
         {/* Filtros Año y Acta */}
-        <div className="flex flex-wrap gap-4 items-end">
-          <div className="w-[200px]">
-            <SelectAniosForm name="anio" control={methods.control} />
+        <div className="flex justify-between">
+          <div className="flex flex-wrap gap-4 items-end">
+            <div className="w-[200px]">
+              <SelectAniosForm name="anio" control={methods.control} />
+            </div>
+            <div className="w-[300px]">
+              <SelectActasForm name="acta" control={methods.control} />
+            </div>
           </div>
-          <div className="w-[300px]">
-            <SelectActasForm name="acta" control={methods.control} />
+          <div className="flex flex-wrap gap-4 items-center">
+            {/* <p>Proxima reunión: {proximaFecha.fecha}</p> */}
+            <p>Proxima reunión: 2025-09-01</p>
           </div>
         </div>
-
+                
         {/* Header acta */}
         <div className="bg-white border border-gray-200 p-4 rounded-md shadow-sm">
           {/* acta.estado === abierta ? ( */}

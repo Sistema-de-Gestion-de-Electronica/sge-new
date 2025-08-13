@@ -7,7 +7,10 @@ import { Button, FormInput, toast } from "@/components/ui";
 
 import { inputSolicitarInscripcionEspecial } from "@/shared/filters/inscripciones-especiales-filter.schema";
 import { SelectMateriasMultiple } from "@/app/inscripciones_especiales/_components/select-multiple-materias";
+import { SelectAlternativas } from "@/app/inscripciones_especiales/_components/select-alternativas"
+import { FormSelect } from "@/components/ui/autocomplete";
 
+const casos = ["Ordenanza 1648", "Cambios de carrera", "Excepcion de correlativas"]
 
 type FormHelperType = {
   usuarioSolicitante: { id: string; label: string };
@@ -26,13 +29,13 @@ export default function FormularioSolicitudInscripcionEspecial() {
     materias: [],
     justificacion: "",
     turnoAlternativa1: "",
-
     turnoAlternativa2: "",
     usuarioSolicitante: {
       id: "",
       label: "",
     },
   };
+
   const formHook = useForm<FormSolicitarInscripcionEspecial>({
     mode: "onChange",
     defaultValues: solicitudBase,
@@ -41,6 +44,7 @@ export default function FormularioSolicitudInscripcionEspecial() {
   const { handleSubmit, control } = formHook;
 
   const onFormSubmit = async (formData: FormSolicitarInscripcionEspecial) => {
+    console.log("Form Data:", formData);
     // solicitarInscripcioneEspecial.mutate(formData, {
     //   onSuccess: () => {
     //     toast.success("Tu solicitud de inscripción especial ha sido enviada correctamente.");
@@ -59,6 +63,15 @@ export default function FormularioSolicitudInscripcionEspecial() {
       >
         <div className="flex w-full flex-col items-center justify-center">
           <div className="flex flex-col space-y-4 px-0 w-full">
+            <div className="flex w-full flex-row lg:flex-row lg:justify-between lg:gap-x-4">
+              <FormSelect
+                  name="caso"
+                  control={control}
+                  items={casos}
+                  label={"Caso de inscripcion"}
+                  className="w-full"
+                />
+            </div>
             <div className="flex w-full flex-col gap-x-4 sm:flex-row">
               <div className="mt-4 w-full">
                 <FormInput label={"Nombre"} control={control} name="nombre" type={"text"} required />
@@ -89,6 +102,16 @@ export default function FormularioSolicitudInscripcionEspecial() {
             <div className="flex w-full flex-row lg:flex-row lg:justify-between lg:gap-x-4">
               <div className="mt-4 w-full">
                 <FormInput label={"Justificacion"} control={control} name="justificacion" type={"textarea"} required />
+              </div>
+            </div>
+            <div className="flex w-full flex-row lg:flex-row lg:justify-between lg:gap-x-4">
+              <div className="mt-4 w-full">
+                <SelectAlternativas name="turnoAlternativa1" control={control} label="Alternativa 1"/>
+              </div>
+            </div>
+            <div className="flex w-full flex-row lg:flex-row lg:justify-between lg:gap-x-4">
+              <div className="mt-4 w-full">
+                <SelectAlternativas name="turnoAlternativa2" control={control} label="Alternativa 2"/>
               </div>
             </div>
           </div>

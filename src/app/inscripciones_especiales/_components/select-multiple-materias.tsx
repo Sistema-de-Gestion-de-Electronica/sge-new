@@ -1,11 +1,11 @@
 import { api } from "@/trpc/react";
 import { useState, useRef, useEffect } from "react";
-import { useController, type Control, type FieldValues } from "react-hook-form";
+import { useController, type Control, type FieldValues, type Path } from "react-hook-form";
 import { Skeleton } from "@/components/ui/skeleton";
 
 interface SelectMateriasMultipleProps<T extends FieldValues = FieldValues> {
   control: Control<T>;
-  name: string;
+  name: Path<T>;
 }
 
 export function SelectMateriasMultiple<T extends FieldValues = FieldValues>({ 
@@ -34,14 +34,14 @@ export function SelectMateriasMultiple<T extends FieldValues = FieldValues>({
     },
   });
 
-  const selectedIds = value || [];
-  const selectedMaterias = materias?.filter((materia) => selectedIds.includes(materia.id.toString())) || [];
+  const selectedIds: string[] = value || [];
+  const selectedMaterias = materias?.filter((materia) => selectedIds.includes(materia.id.toString())) ?? [];
 
   const materiasFiltradas =
     materias?.filter(
       (materia) =>
         materia.nombre.toLowerCase().includes(searchText.toLowerCase()) && !selectedIds.includes(materia.id.toString()),
-    ) || [];
+    ) ?? [];
 
   // Cerrar dropdown al hacer click fuera
   useEffect(() => {
@@ -91,6 +91,16 @@ export function SelectMateriasMultiple<T extends FieldValues = FieldValues>({
             ${error ? "border-red-300" : "border-gray-200"}
           `}
         >
+          
+          {/* Buscador */}
+          <input
+            type="text"
+            placeholder={"Seleccionar materias..."}
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+            onFocus={() => setIsOpen(true)}
+            className="min-w-20 flex-1 border-transparent bg-input px-2 py-2 text-sm outline-none focus:border-transparent focus:ring-0"
+          />
           {/* Tags/Chips de materias seleccionadas */}
           <div className="flex min-h-[28px] flex-wrap items-center gap-1">
             {selectedMaterias.map((materia) => (
@@ -113,16 +123,7 @@ export function SelectMateriasMultiple<T extends FieldValues = FieldValues>({
                 </button>
               </div>
             ))}
-
-            {/* Buscador */}
-            <input
-              type="text"
-              placeholder={selectedIds.length === 0 ? "Seleccionar materias..." : "Buscar..."}
-              value={searchText}
-              onChange={(e) => setSearchText(e.target.value)}
-              onFocus={() => setIsOpen(true)}
-              className="min-w-20 flex-1 border-transparent bg-input px-2 py-2 text-sm outline-none focus:border-transparent focus:ring-0"
-            />
+            
           </div>
 
           {/* Icono flecha */}

@@ -5,7 +5,8 @@ import { Suspense } from "react";
 import { AdminConsejeros } from "./_components/AdminConsejeros";
 import { TienePermiso } from "@/app/_components/permisos/tienePermiso";
 import UploadActa from "./_components/UploadActa";
-import ClientDateModalPicker from "./_components/ClientDateSection"
+import ClientDateModalPicker from "./_components/ClientDateSection";
+import OcultarEliminarActasModal from "./_components/ModalHistoricosActas";
 
 
 export default function Page() {
@@ -17,6 +18,7 @@ export default function Page() {
           {/* TODO: no se cual seria el permiso que va??*/}
           <div className="flex items-center justify-end gap-2">
             <UploadActa />
+            <OcultarEliminarActasModal />
             <ClientDateModalPicker />
           </div>
         </TienePermiso>

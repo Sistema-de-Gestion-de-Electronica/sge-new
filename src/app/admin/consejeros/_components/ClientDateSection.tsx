@@ -12,15 +12,18 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/Input";
 
 export default function ClientDateModalPicker() {
   const [open, setOpen] = useState(false);
   const [date, setDate] = useState<Date | undefined>();
+  const [link, setLink] = useState("");
 
-  const label = useMemo(
-    () => (date ? date.toLocaleDateString("es-AR") : "Próxima reunión"),
-    [date]
-  );
+  const handleSave = () => {
+    console.log("Fecha:", date);
+    console.log("Link:", link);
+    setOpen(false);
+  };
 
   return (
     <div className="flex justify-end gap-2">
@@ -28,31 +31,37 @@ export default function ClientDateModalPicker() {
         <DialogTrigger asChild>
           <Button variant="default" className="gap-2" aria-label="Abrir calendario">
             <CalendarIcon className="h-4 w-4" />
-            {label}
+            Próxima reunión
           </Button>
         </DialogTrigger>
 
-        <DialogContent className="max-w-fit">
+        <DialogContent className="max-w-sm">
           <DialogHeader>
-            <DialogTitle>Seleccioná una fecha</DialogTitle>
+            <DialogTitle>Agendar próxima reunión</DialogTitle>
           </DialogHeader>
 
-          <Calendar
-            mode="single"
-            selected={date}
-            onSelect={(d) => {
-              setDate(d);
-              if (d) setOpen(false); // cerrar al elegir
-            }}
-            weekStartsOn={1}      // lunes
-            // ejemplos útiles:
-            // disabled={{ before: new Date() }} // solo futuro
-            // disabled={[{ dayOfWeek: [0, 6] }]} // sin fines de semana
-          />
+          <div className="flex flex-col gap-4 items-center">
+            <Calendar
+              mode="single"
+              selected={date}
+              onSelect={setDate}
+              weekStartsOn={1}
+            />
+
+            <Input
+              type="url"
+              placeholder="Link de la reunión"
+              value={link}
+              onChange={(e) => setLink(e.target.value)}
+            />
+          </div>
 
           <DialogFooter>
             <Button variant="default" onClick={() => setOpen(false)}>
-              Cerrar
+              Cancelar
+            </Button>
+            <Button variant="default" onClick={handleSave}>
+              Guardar
             </Button>
           </DialogFooter>
         </DialogContent>

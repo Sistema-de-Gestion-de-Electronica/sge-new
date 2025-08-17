@@ -1,11 +1,12 @@
 model Acta {
-  id             Int          @id @default(autoincrement())
-  nombreActa     String
-  fechaReunion   DateTime
-  estado         Estado
-  visibilidad    Visibilidad
+  id           Int         @id @default(autoincrement())
+  nombreActa   String
+  fechaReunion DateTime
+  estado       Estado
+  visibilidad  Visibilidad
 
-  createdAt      DateTime     @default(now())
+  createdAt DateTime @default(now())
+  Voto      Voto[]
 
   @@index([estado])
   @@index([visibilidad])
@@ -23,16 +24,16 @@ enum Visibilidad {
 }
 
 model Voto {
-  id            Int        @id @default(autoincrement())
-  actaId        Int
-  consejeroId   String     
-  posicion      Posicion
-  comentario    String?    @db.Text
-  fechaEmision  DateTime   @default(now())
+  id           Int      @id @default(autoincrement())
+  actaId       Int
+  consejeroId  String
+  posicion     Posicion
+  comentario   String?  @db.Text
+  fechaEmision DateTime @default(now())
 
   // relaciones
-  acta        Acta       @relation(fields: [actaId], references: [id], onDelete: Cascade)
-  user        User       @relation(fields: [consejeroId], references: [id])
+  acta Acta @relation(fields: [actaId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [consejeroId], references: [id])
 
   @@index([actaId])
   @@index([consejeroId])
@@ -43,4 +44,3 @@ enum Posicion {
   DESACUERDO
   ACUERDO_PARCIAL
 }
-

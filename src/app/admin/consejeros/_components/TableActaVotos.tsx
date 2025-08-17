@@ -3,7 +3,6 @@
 import * as React from "react";
 import { useMemo, useState } from "react";
 import { DataTable } from "@/components/ui";
-import { Badge } from "@/components/ui/badge";
 import { ValorVoto, VotoActa } from "./TypeVotoActa";
 import { getColumns } from "./Columnas";
 import { SortingState } from "@tanstack/react-table";

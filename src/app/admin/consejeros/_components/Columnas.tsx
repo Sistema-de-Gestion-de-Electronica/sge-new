@@ -31,8 +31,8 @@ export function getColumns(): ColumnDef<VotoActa, any>[] {
       ),
     },
     {
-      accessorKey: "valor",
-      header: "Valor",
+      accessorKey: "posicion",
+      header: "Posición",
       sortingFn: (a, b) => a.original.valor.localeCompare(b.original.valor),
       cell: ({ row }) => <ValorBadge valor={row.original.valor} />,
     },

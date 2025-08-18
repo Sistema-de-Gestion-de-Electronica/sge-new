@@ -1,4 +1,4 @@
-import { useController, type Control, type FieldValues, type Path } from "react-hook-form";
+import { useController, type Control, type FieldValues, type Path, type PathValue } from "react-hook-form";
 
 const dias = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
 const horarios = ["Mañana", "Tarde", "Noche"];
@@ -9,17 +9,21 @@ interface SelectAlternativasProps<T extends FieldValues = FieldValues> {
   label?: string;
 }
 
-export function SelectAlternativas({name, control, label= "Alternativa"}: SelectAlternativasProps) {
+export function SelectAlternativas<T extends FieldValues = FieldValues>({
+  name, 
+  control, 
+  label = "Alternativa"
+}: SelectAlternativasProps<T>) {
   const {  
     field: { value, onChange },
     fieldState: { error },
   } = useController({
     name,
     control,
-    defaultValue: "",
+    defaultValue: "" as PathValue<T, Path<T>>,
   });
 
-  const selectionToString = (seleccion: { [dia: string]: { [horario: string]: boolean } }) => {
+  const selectionToString = (seleccion: Record<string, Record<string, boolean>>) => {
     const diasConSeleccion: string[] = [];
     
     Object.entries(seleccion).forEach(([dia, horarios]) => {

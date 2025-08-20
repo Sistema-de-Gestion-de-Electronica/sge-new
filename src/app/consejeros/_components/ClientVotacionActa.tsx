@@ -24,7 +24,7 @@ export function ClientVotacionActa() {
           </div>
           <div className="flex flex-col items-center">
             {/* <p>Proxima reunión: {proximaFecha.fecha}</p> */}
-            <p>Proxima reunión: 2025-09-01</p>
+            <p>Próxima reunión: 2025-09-01</p>
             <a href="https://zoom.com" target="_blank" className="text-blue-600">Conectarse a la reunión</a>
           </div>
         </div>

@@ -62707,8 +62707,8 @@ export namespace Prisma {
   export type ActaCreateInput = {
     nombreActa: string
     fechaReunion: Date | string
-    estado: $Enums.Estado
-    visibilidad: $Enums.Visibilidad
+    estado?: $Enums.Estado
+    visibilidad?: $Enums.Visibilidad
     createdAt?: Date | string
     Voto?: VotoCreateNestedManyWithoutActaInput
   }
@@ -62717,8 +62717,8 @@ export namespace Prisma {
     id?: number
     nombreActa: string
     fechaReunion: Date | string
-    estado: $Enums.Estado
-    visibilidad: $Enums.Visibilidad
+    estado?: $Enums.Estado
+    visibilidad?: $Enums.Visibilidad
     createdAt?: Date | string
     Voto?: VotoUncheckedCreateNestedManyWithoutActaInput
   }
@@ -62746,8 +62746,8 @@ export namespace Prisma {
     id?: number
     nombreActa: string
     fechaReunion: Date | string
-    estado: $Enums.Estado
-    visibilidad: $Enums.Visibilidad
+    estado?: $Enums.Estado
+    visibilidad?: $Enums.Visibilidad
     createdAt?: Date | string
   }
 
@@ -73573,8 +73573,8 @@ export namespace Prisma {
   export type ActaCreateWithoutVotoInput = {
     nombreActa: string
     fechaReunion: Date | string
-    estado: $Enums.Estado
-    visibilidad: $Enums.Visibilidad
+    estado?: $Enums.Estado
+    visibilidad?: $Enums.Visibilidad
     createdAt?: Date | string
   }
 
@@ -73582,8 +73582,8 @@ export namespace Prisma {
     id?: number
     nombreActa: string
     fechaReunion: Date | string
-    estado: $Enums.Estado
-    visibilidad: $Enums.Visibilidad
+    estado?: $Enums.Estado
+    visibilidad?: $Enums.Visibilidad
     createdAt?: Date | string
   }
 

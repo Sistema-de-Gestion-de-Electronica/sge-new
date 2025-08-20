@@ -2,8 +2,8 @@ model Acta {
   id           Int         @id @default(autoincrement())
   nombreActa   String
   fechaReunion DateTime
-  estado       Estado
-  visibilidad  Visibilidad
+  estado       Estado      @default(ABIERTA)
+  visibilidad  Visibilidad @default(VISIBLE)
 
   createdAt DateTime @default(now())
   Voto      Voto[]

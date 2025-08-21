@@ -3,14 +3,15 @@ import { inputAgregarActa } from "@/shared/filters/admin-actas-filter.schema";
 import { z } from "zod";
 
 type InputAgregarActa = z.infer<typeof inputAgregarActa>;
-export const agregarActa = async (ctx: { db: PrismaClient }, input: InputAgregarActa, userId: string) => {
+export const agregarActa = async (ctx: { db: PrismaClient }, input: InputAgregarActa) => {
   try {
     const acta = await ctx.db.$transaction(async (tx) => {
       const nombreActa = new Intl.DateTimeFormat("es-AR", {
         day: "2-digit",
         month: "2-digit",
         year: "numeric",
-      }).format(input.fechaReunion);
+      }).format(input.fechaReunion)
+        .replaceAll("/","-");
 
       const acta = await tx.acta.create({
         data: {

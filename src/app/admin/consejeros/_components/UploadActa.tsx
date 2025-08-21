@@ -4,9 +4,16 @@ import ModalDrawer from "@/app/_components/modal/modal-drawer";
 import { Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { api } from "@/trpc/react";
 
 export default function UploadActa() {
   const [open, setOpen] = useState(false);
+
+  const nuevaActa = api.admin.actas.nuevaActa.useMutation({
+    onSuccess: async () => {
+      setOpen(false);
+    },
+  });
 
   return (
     <ModalDrawer
@@ -23,16 +30,18 @@ export default function UploadActa() {
     >
       <form
         className="flex flex-col gap-4"
-        onSubmit={(e) => {
+        onSubmit={async (e) => {
           e.preventDefault();
           const form = e.currentTarget;
 
-          const fileInput = form.elements.namedItem(
-            "pdfFile"
-          ) as HTMLInputElement;
-          const dateInput = form.elements.namedItem(
-            "actaDate"
-          ) as HTMLInputElement;
+          const dateInput = form.elements.namedItem("actaDate") as HTMLInputElement;
+
+          if (!dateInput?.value) return;
+          const fecha = new Date(`${dateInput.value}T00:00:00`);
+
+          await nuevaActa.mutateAsync({fechaReunion: fecha,});
+
+          const fileInput = form.elements.namedItem("pdfFile") as HTMLInputElement;
         }}
       >
         {/* Fecha del acta */}
@@ -59,7 +68,7 @@ export default function UploadActa() {
             name="pdfFile"
             id="pdfFile"
             accept="application/pdf"
-            required
+            // required
             className="block w-full text-sm text-gray-500 file:mr-4 file:rounded-md file:border-0 file:bg-primary file:px-4 file:py-2 file:text-sm file:font-semibold file:text-primary-foreground hover:file:bg-primary/80"
           />
         </div>
@@ -69,10 +78,16 @@ export default function UploadActa() {
           <Button type="button" variant="default" onClick={() => setOpen(false)}>
             Cancelar
           </Button>
-          <Button type="submit" variant="default">
-            Subir Acta
+          <Button type="submit" variant="default" disabled={nuevaActa.isLoading}>
+            {nuevaActa.isLoading ? "Creando..." : "Crear acta"}
           </Button>
         </div>
+                {/* Error simple */}
+        {nuevaActa.isError && (
+          <p className="text-sm text-red-600">
+            {nuevaActa.error?.message ?? "Error al crear el acta"}
+          </p>
+        )}
       </form>
     </ModalDrawer>
   );

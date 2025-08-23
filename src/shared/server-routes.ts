@@ -261,8 +261,8 @@ export const ADMIN_ROUTE: AppRoute = {
       permisos: [SgeNombre.ADMIN_VER_PANEL_ADMIN],
     },
     {
-      href: "/admin/consejeros",
-      label: "Consejeros",
+      href: "/admin/actas",
+      label: "Actas",
       isPublic: false,
       permisos: [SgeNombre.ADMIN_VER_PANEL_ADMIN],
     },
@@ -307,9 +307,9 @@ export const REPORTES_ROUTE: AppRoute = {
 };
 
 const PERMISOS_ACTA_CONSEJEROS =  [SgeNombre.ADMIN_ACTUALIZAR_ACTA_CONSEJEROS];
-export const CONSEJEROS_ROUTE: AppRoute = {
-  href: "/consejeros",
-  label: "Consejeros",
+export const ACTAS_ROUTE: AppRoute = {
+  href: "/actas",
+  label: "Actas",
   isPublic: false,
   permisos: PERMISOS_ACTA_CONSEJEROS,
 };
@@ -356,7 +356,7 @@ export const APP_ROUTES: AppRoute[] = [
   BIBLIOTECA_ROUTE,
   ADMIN_ROUTE,
   REPORTES_ROUTE,
-  CONSEJEROS_ROUTE,
+  ACTAS_ROUTE,
   ...SGE_1_ROUTE,
 ];
 

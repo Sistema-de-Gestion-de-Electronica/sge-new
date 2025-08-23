@@ -9,38 +9,26 @@ export const inputEliminarActa = z.object ({
 })
 
 export const inputEliminarActas = z.object ({
-    fechaInicio: z.date().nullable(), //Ver si debe ser opcional o nulleable
+    fechaInicio: z.date().optional(),
     fechaFin: z.date()
 })
 
-export const inputActualizarActaById = z.object({
-  id: z.string(),                          // obligatorio
-  estado: z.enum(["ABIERTA", "CERRADA"]).optional() // opcional
-});
-
-export const inputActualizarActaByDate = z.object({
+export const inputVisibilidadActa = z.object({
   date: z.date(),                                 
   visibilidad: z.enum(["VISIBLE", "OCULTA"])
 });
 
-export const inputUpdateActas = z.object({
+export const inputVisibilidadActas = z.object({
   // visible | oculta (opcional)
-  visibilidad: z.enum(["VISIBLE", "OCULTA"]).optional(),
+  visibilidad: z.enum(["VISIBLE", "OCULTA"]),
   fechaInicio: z.coerce.date().optional(),
-  fechaFin: z.coerce.date().optional(),
+  fechaFin: z.coerce.date(),
 }).refine(
     (v) =>
       v.fechaInicio === undefined ||
       v.fechaFin === undefined ||
-      v.fechaFin >= v.fechaInicio,
-    { message: "fechaFin debe ser mayor o igual a fechaInicio" }
-  )
-  .refine(
-    (v) =>
-      v.visibilidad !== undefined ||
-      v.fechaInicio !== undefined ||
-      v.fechaFin !== undefined,
-    { message: "Debes enviar al menos un campo para actualizar" }
+      v.fechaFin > v.fechaInicio,
+    { message: "fechaFin debe ser mayor a fechaInicio" }
   );
 
 

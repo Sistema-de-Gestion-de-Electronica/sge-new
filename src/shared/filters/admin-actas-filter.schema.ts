@@ -11,7 +11,10 @@ export const inputEliminarActa = z.object ({
 export const inputEliminarActas = z.object ({
     fechaInicio: z.date().optional(),
     fechaFin: z.date()
-})
+}).refine(
+  (v) => !v.fechaInicio || v.fechaInicio < v.fechaFin,
+  { message: "fechaInicio no puede ser mayor que fechaFin", path: ["fechaInicio"] }
+);
 
 export const inputVisibilidadActa = z.object({
   date: z.date(),                                 

@@ -1,23 +1,12 @@
-'use client'
+"use client"
 
-import { useFormContext, type FieldValues } from 'react-hook-form'
-import { FormSelect, type FormSelectProps } from '@/components/ui/autocomplete'
-import { useEffect, useMemo, useState, type ReactElement } from 'react'
-import { Select, SelectTrigger, SelectValue } from '@/components/ui'
-import { Skeleton } from '@/components/ui/skeleton'
+import { useFormContext, type FieldValues } from "react-hook-form"
+import { FormSelect, type FormSelectProps } from "@/components/ui/autocomplete"
+import { Skeleton } from "@/components/ui/skeleton"
+import { api } from "@/trpc/react"
+import { useEffect, type ReactElement } from "react"
 
-type MockActa = {
-  id: string
-  titulo: string
-  anio: number
-}
-
-const mockActas: MockActa[] = [
-  { id: '1', titulo: 'Acta 01 - Reunión Enero', anio: 2025 },
-  { id: '2', titulo: 'Acta 02 - Reunión Febrero', anio: 2025 },
-  { id: '3', titulo: 'Acta 03 - Reunión Marzo', anio: 2024 },
-  { id: '4', titulo: 'Acta 04 - Reunión Abril', anio: 2023 },
-]
+type Item = { id: string; label: string }
 
 export const SelectActasForm = <
   T extends FieldValues,
@@ -27,40 +16,35 @@ export const SelectActasForm = <
   control,
   className,
   ...props
-}: Omit<FormSelectProps<T, TType>, 'items'>): ReactElement => {
-  const { watch } = useFormContext()
-  const anioSeleccionado = watch('anio')
-  const [data, setData] = useState<MockActa[] | null>(null)
-  const [loading, setLoading] = useState(true)
+}: Omit<FormSelectProps<T, TType>, "items">): ReactElement => {
+  const { watch, getValues, setValue } = useFormContext()
+  const anioSeleccionado = watch("anio") as string | number | undefined
 
+  const { data, isLoading, isError } = api.actas.getAllActas.useQuery(
+    { anio: anioSeleccionado ? Number(anioSeleccionado) : undefined },
+    { keepPreviousData: true, enabled: !!anioSeleccionado }
+  )
+
+  if (isLoading) return <Skeleton className="h-10 w-full" />
+  if (isError)   return <div className="text-sm text-red-600">No se pudieron cargar las actas.</div>
+
+  const items: Item[] =
+    data?.map((a) => ({ id: String(a.id), label: a.nombreActa })) ?? []
+
+  // Autoseleccionar la más reciente (primer ítem) si no hay valor
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      setData(mockActas)
-      setLoading(false)
-    }, 500)
-    return () => clearTimeout(timeout)
-  }, [])
-
-  const actasFiltradas = useMemo(() => {
-    if (!data) return []
-    return data
-      .filter((acta) => !anioSeleccionado || acta.anio === parseInt(anioSeleccionado))
-      .map((acta) => ({
-        label: acta.titulo,
-        id: acta.id,
-        anio: acta.anio,
-      }))
-  }, [data, anioSeleccionado])
-
-  if (loading) {
-    return <Skeleton className="h-10 w-full" />
-  }
+    if (!items.length) return
+    const current = getValues(name as string) as string | undefined
+    if (current) return
+    setValue(name as string, items[0]!.id, { shouldValidate: true })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [items.length])
 
   return (
     <FormSelect
       name={name}
       control={control}
-      items={actasFiltradas}
+      items={items}
       className={className}
       {...props}
     />

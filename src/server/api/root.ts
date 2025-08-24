@@ -11,6 +11,7 @@ import { notificacionRouter } from "./routers/notificaciones";
 import { usuarioPermiso } from "./routers/permisos";
 import { laboratoriosRouter } from "./routers/laboratorios";
 import { applicationRouter } from "./routers/application";
+import { actasRouter } from "./routers/actas";
 
 /**
  * This is the primary router for your server.
@@ -30,6 +31,7 @@ export const appRouter = createTRPCRouter({
   software: softwareRouter,
   notificacion: notificacionRouter,
   permisos: usuarioPermiso,
+  actas: actasRouter
 });
 
 // export type definition of API

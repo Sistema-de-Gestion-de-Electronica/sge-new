@@ -9,7 +9,7 @@ import { type GroupingState, type SortingState } from "@tanstack/react-table";
 import { useInscripicionesEspecialesQueryParam } from "@/app/inscripciones_especiales/_hooks/use-solicitudes-inscripciones-especiales-query-param";
 
 import { getColumnasInscripcionesEspeciales } from "@/app/inscripciones_especiales/(listado)/columns-inscripciones-especiales";
-import { VerInscripcioneEspecialvaModal } from "@/app/inscripciones_especiales/(listado)/ver-inscripcion-especial";
+import { VerInscripcionEspecialModal } from "@/app/inscripciones_especiales/(listado)/ver-inscripcion-especial";
 import { type inputGetAllInscripcionesEspeciales } from "@/shared/filters/inscripciones-especiales-filter.schema";
 import { TienePermiso } from "@/app/_components/permisos/tienePermiso";
 
@@ -52,22 +52,20 @@ export const InscripcionesEspecialesSolicitudesTable = ({ data, filters, filterB
         //   onSortingChange: (updaterOrValue: SortingState | ((prevState: SortingState) => SortingState)) =>
         //     onSortingChange(typeof updaterOrValue === "function" ? updaterOrValue([]) : updaterOrValue),
         // }}
-        // action={{
-        //   header: "Acciones",
-        //   cell({ original }) {
-        //     return (
-        //       <>
+        action={{
+          header: "Acciones",
+          cell({ original }) {
+            return (
+              <>
 
-        //         {!filterByUser && (
-        //           <TienePermiso permisos={[]}>
-        //             <VerInscripcionEspecialModal inscripcionEspecialID={original.id} />
-        //           </TienePermiso>
-        //         )}
+                  <TienePermiso permisos={[]}>
+                    <VerInscripcionEspecialModal inscripcionEspecialID={original.id} />
+                  </TienePermiso>
 
-        //       </>
-        //     );
-        //   },
-        // }}
+              </>
+            );
+          },
+        }}
       />
 
       {/* <DataTablePaginationStandalone

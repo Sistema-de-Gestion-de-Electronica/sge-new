@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 // import { InscripcionEspecialEstatus } from "@/generated/prisma";
 
-enum InscripcionEspecialEstatus {
+export enum InscripcionEspecialEstatus {
     ACEPTADA = "ACEPTADA",
     ACEPTADA_CON_CONDICION = "ACEPTADA_CON_CONDICION",
     RECHAZADA = "RECHAZADA",

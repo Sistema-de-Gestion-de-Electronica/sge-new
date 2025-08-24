@@ -12,10 +12,27 @@ export const getColumnasInscripcionesEspeciales = ({ filterByUser }: { filterByU
 
   const columnasBasicas = [
     colHelper.accessor("caso", {
-      header: "Caso",
+      header: "",
     }),
     colHelper.accessor("id", {
       header: "#",
+    }),
+    colHelper.accessor("fechaSolicitud", {
+      header: "Fecha",
+    }),
+    colHelper.accessor("materias", {
+      header: "Materias",
+      cell: ({ row }) => {
+        const materias = row.original.materias;
+        if (Array.isArray(materias)) {
+          return (
+            <div className="max-w-xs">
+              <span className="text-sm">{materias.join(", ")}</span>
+            </div>
+          );
+        }
+        return materias;
+      },
     }),
     ...(filterByUser
       ? []
@@ -25,7 +42,9 @@ export const getColumnasInscripcionesEspeciales = ({ filterByUser }: { filterByU
             cell: ({ row }) => {
               return (
                 <div className="max-w-xs">
-                  <span className="text-sm">{row.original.solicitante}</span>
+                  <span className="text-sm">
+                    {row.original.solicitante.apellido + " " + row.original.solicitante.nombre}
+                  </span>
                 </div>
               );
             },
@@ -44,7 +63,7 @@ export const getColumnasInscripcionesEspeciales = ({ filterByUser }: { filterByU
             cell: ({ row }) => {
               return (
                 <div className="max-w-xs">
-                  <span className="text-sm">{row.original.legajo}</span>
+                  <span className="text-sm">{row.original.solicitante.legajo}</span>
                 </div>
               );
             },
@@ -55,61 +74,23 @@ export const getColumnasInscripcionesEspeciales = ({ filterByUser }: { filterByU
             },
           }),
         ]),
-    colHelper.accessor("fechaSolicitud", {
-      header: "Fecha",
-    }),
+    ...(filterByUser
+      ? [
+          colHelper.accessor("respuesta", {
+            header: "Estado Respuesta",
+            cell: ({ row }) => {
+              const respuesta = row.original.respuesta;
+              return <span className="truncate text-sm">{respuesta ? "Ver en detalles" : "Sin respuesta"}</span>;
+            },
+          }),
+        ]
+      : []),
+
     colHelper.accessor("estado", {
       header: "Estado",
       cell: ({ row }) => {
         const estado = row.original.estado;
         return <BadgeEstatusInscripcionEspecial estatus={estado} />;
-      },
-    }),
-    colHelper.accessor("materias", {
-      header: "Materias",
-      cell: ({ row }) => {
-        const materias = row.original.materias;
-        if (Array.isArray(materias)) {
-          return (
-            <div className="max-w-xs">
-              <span className="text-sm">{materias.join(", ")}</span>
-            </div>
-          );
-        }
-        return materias;
-      },
-    }),
-    colHelper.display({
-      header: "Turnos",
-      cell: ({ row }) => {
-        const { turnoAlternativa1, turnoAlternativa2 } = row.original;
-        return (
-          <div className="space-y-1 text-xs">
-            {turnoAlternativa1 && (
-              <div className="rounded bg-blue-50 p-1 text-blue-700">
-                <strong>Alt 1:</strong> {turnoAlternativa1}
-              </div>
-            )}
-            {turnoAlternativa2 && (
-              <div className="rounded bg-green-50 p-1 text-green-700">
-                <strong>Alt 2:</strong> {turnoAlternativa2}
-              </div>
-            )}
-          </div>
-        );
-      },
-    }),
-    colHelper.accessor("justificacion", {
-      header: "Justificación",
-      cell: ({ row }) => {
-        const justificacion = row.original.justificacion;
-        return (
-          <div className="max-w-xs">
-            <span className="truncate text-sm">
-              {justificacion.length > 50 ? `${justificacion.substring(0, 50)}...` : justificacion}
-            </span>
-          </div>
-        );
       },
     }),
   ] as ColumnDef<InscripcionesEspecialesData>[];

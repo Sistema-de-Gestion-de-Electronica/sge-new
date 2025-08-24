@@ -20,7 +20,7 @@ export default async function Page({ searchParams }: PageProps) {
     <PageLayout route={INSCRIPCIONES_ESPECIALES_ROUTE}>
       {/* <ActionButtons filters={filters} /> */}
       <Suspense key={filter_as_key} fallback={<LoadingInscripcionesEspecialesTable />}>
-        <InscripcionesEspecialesTableContainer filters={filters} filterByUser/>
+        <InscripcionesEspecialesTableContainer filters={filters} />
       </Suspense>
     </PageLayout>
   );

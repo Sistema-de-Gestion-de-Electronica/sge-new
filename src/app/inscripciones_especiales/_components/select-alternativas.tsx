@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { useController, type Control, type FieldValues, type Path, type PathValue } from "react-hook-form";
 
 const dias = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
@@ -92,35 +93,46 @@ export function SelectAlternativas<T extends FieldValues = FieldValues>({
   return (
     <div>
       <label className="mb-2 block text-sm font-medium text-gray-700">{label}</label>
-      <div className="relative overflow-x-auto shadow-md rounded-md">
-        <table className="w-full text-left text-sm text-gray-500 rtl:text-right">
-          <thead className="text-xs uppercase text-gray-700 text-center">
-            <tr>
-              <th className="bg-gray-50 px-6 py-3">Horario</th>
-              {dias.map(dia => (
-                <th key={dia} className="px-6 py-3">{dia}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody className="text-center">
-            {horarios.map(horario => (
-              <tr key={horario} className="border-t border-gray-200">
-                <th className="bg-gray-50 px-6 py-4 font-medium text-gray-900">{horario}</th>
-                {dias.map(dia => (
-                  <td key={dia} className="px-6 py-4 text-center">
-                    <input
-                      type="checkbox"
-                      checked={seleccion[dia]?.[horario] ?? false}
-                      onChange={() => handleChange(dia, horario)}
-                      className="form-checkbox h-4 w-4 text-blue-600"
-                    />
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div className="grid grid-cols-[100px_repeat(6,1fr)] border rounded-lg overflow-hidden text-sm shadow-md">
+        {/* Encabezado */}
+        <div className="bg-gray-700 text-white font-semibold p-2 text-center">Horario</div>
+        {dias.map((dia) => (
+          <div
+            key={dia}
+            className="bg-gray-700 text-white font-semibold p-2 text-center"
+          >
+            {dia}
+          </div>
+        ))}
+
+        {/* Filas */}
+        {horarios.map((horario) => (
+          <Fragment key={horario}>
+            <div className="bg-gray-100 font-medium p-2 text-center border-t">
+              {horario}
+            </div>
+            {dias.map((dia) => {
+              const selected = seleccion[dia]?.[horario];
+              return (
+                <div
+                  key={`${dia}-${horario}`}
+                  onClick={() => handleChange(dia, horario)}
+                  className={`cursor-pointer select-none border-t p-2 text-center transition ${
+                    selected
+                      ? "bg-green-100 text-green-700 font-semibold"
+                      : "text-gray-400 hover:bg-gray-100"
+                  }`}
+                >
+                  {selected ? "✔" : "-"}
+                </div>
+              );
+            })}
+          </Fragment>
+        ))}
       </div>
+      {error && (
+        <p className="mt-1 text-sm text-red-600">{String(error.message)}</p>
+      )}
     </div>
   );
 }

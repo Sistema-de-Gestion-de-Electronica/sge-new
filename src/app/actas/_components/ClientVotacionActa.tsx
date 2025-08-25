@@ -7,7 +7,7 @@ import PdfIframeViewer from './PdfIframeViewer'
 import  VotacionActa from './VotacionActa'
 
 export function ClientVotacionActa() {
-  const methods = useForm({ defaultValues: { anio: '2025', acta: 'Acta 01 - Reunión Enero' } })
+  const methods = useForm()
 
   return (
     <FormProvider {...methods}>

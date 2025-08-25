@@ -4,7 +4,7 @@ import { useFormContext, type FieldValues } from "react-hook-form"
 import { FormSelect, type FormSelectProps } from "@/components/ui/autocomplete"
 import { Skeleton } from "@/components/ui/skeleton"
 import { api } from "@/trpc/react"
-import type { ReactElement } from "react"
+import { useEffect, useMemo, type ReactElement } from "react"
 
 type Item = { id: string; label: string }
 
@@ -17,22 +17,51 @@ export const SelectActasForm = <
   className,
   ...props
 }: Omit<FormSelectProps<T, TType>, "items">): ReactElement => {
-  const { watch } = useFormContext()
+  const { watch, getValues, setValue } = useFormContext()
   const anioSeleccionado = watch("anio") as string | number | undefined
 
   const { data, isLoading, isError } = api.actas.getAllActas.useQuery(
     { anio: anioSeleccionado ? Number(anioSeleccionado) : undefined },
-    { keepPreviousData: true }
+    { keepPreviousData: true, enabled: !!anioSeleccionado }
   )
 
-  if (isLoading) return <Skeleton className="h-10 w-full" />
-  if (isError) return <div className="text-sm text-red-600">No se pudieron cargar las actas.</div>
+  const items: Item[] = useMemo(
+    () => (data ?? []).map(a => ({ id: String(a.id), label: a.nombreActa })),
+    [data]
+  )
 
-  const items: Item[] =
-    data?.map((a) => ({
-      id: String(a.id),
-      label: a.nombreActa,
-    })) ?? []
+  useEffect(() => {
+    if (!items.length) return
+    const fieldName = name as string
+
+    const currentRaw = getValues(fieldName) as unknown
+    const currentId =
+      typeof currentRaw === "object" && currentRaw !== null
+        ? (currentRaw as any).id
+        : (currentRaw as string | undefined)
+
+    const exists = currentId ? items.some(i => i.id === String(currentId)) : false
+
+    if (!exists) {
+      setValue(fieldName, items[0]!.id, {
+        shouldValidate: true,
+        shouldDirty: false,
+        shouldTouch: false,
+      })
+    }
+  }, [items])
+
+  if (isLoading) return <Skeleton className="h-10 w-full" />
+  if (isError)   return <div className="text-sm text-red-600">No se pudieron cargar las actas.</div>
+
+  const currentRaw = getValues(name as string) as unknown
+  const currentId =
+    typeof currentRaw === "object" && currentRaw !== null
+      ? (currentRaw as any).id
+      : (currentRaw as string | undefined)
+  const ready = !!items.length && items.some(i => i.id === String(currentId))
+
+  if (!ready) return <Skeleton className="h-10 w-full" />
 
   return (
     <FormSelect

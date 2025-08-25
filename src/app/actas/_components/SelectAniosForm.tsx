@@ -1,10 +1,10 @@
 "use client"
 
-import { type FieldValues } from "react-hook-form"
+import { useEffect, useMemo, type ReactElement } from "react"
+import { useFormContext, type FieldValues } from "react-hook-form"
 import { FormSelect, type FormSelectProps } from "@/components/ui/autocomplete"
 import { Skeleton } from "@/components/ui/skeleton"
 import { api } from "@/trpc/react"
-import { type ReactElement } from "react"
 
 export const SelectAniosForm = <
   T extends FieldValues,
@@ -15,18 +15,31 @@ export const SelectAniosForm = <
   className,
   ...props
 }: Omit<FormSelectProps<T, TType>, "items">): ReactElement => {
-  // `useQuery` devuelve { data, isLoading, error, ... }
+  // 1) Hooks SIEMPRE arriba
+  const { getValues, setValue } = useFormContext()
   const { data, isLoading } = api.actas.getAllAniosActas.useQuery()
 
-  if (isLoading) {
-    return <Skeleton className="h-10 w-full" />
-  }
+  // 2) Derivo items de manera segura
+  const items = useMemo(
+    () =>
+      (data ?? []).map((anio) => ({
+        label: String(anio),
+        id: String(anio),
+      })),
+    [data]
+  )
 
-  const items =
-    data?.map((anio) => ({
-      label: String(anio),
-      id: String(anio),
-    })) ?? []
+  // 3) Autoseleccionar el año más reciente si no hay valor actual
+  useEffect(() => {
+    if (!items.length) return
+    const current = getValues(name as string) as string | undefined
+    if (current) return
+    setValue(name as string, items[0]!.id, { shouldValidate: true })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [items])
+
+  // 4) Recién acá render condicional
+  if (isLoading) return <Skeleton className="h-10 w-full" />
 
   return (
     <FormSelect

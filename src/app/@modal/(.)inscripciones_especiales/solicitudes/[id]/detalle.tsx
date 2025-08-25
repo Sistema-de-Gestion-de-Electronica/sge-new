@@ -45,6 +45,7 @@ export default function DetalleSolicitud({ id }: { id: string }) {
       description="Detalles de la reserva de laboratorio abierto."
       open={open}
       onOpenChange={handleOpenChange}
+      className="min-w-fit"
     >
       <div className="flex max-h-max w-full flex-col  gap-4">
         <ScrollArea className="max-h-[calc(100vh_-_300px)] w-full">

@@ -3,11 +3,14 @@ import { api } from "@/trpc/react";
 import { Button, toast } from "@/components/ui";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { ClockIcon } from "lucide-react";
+import { TienePermiso } from "@/app/_components/permisos/tienePermiso";
+import { SgeNombre } from "@/generated/prisma";
 
 import { InscripcionEspecialDetalle } from "@/app/inscripciones_especiales/_components/info-basica-inscripcion-especial";
 import { InscripcionEspecialGestion } from "@/app/inscripciones_especiales/_components/inscripcion-especial-gestion"
 
 import { MOCK_RESPUESTA_MIS_INSCRIPCIONES_ESPECIALES } from "../../_components/mock-mis-inscripciones"; //TODO eliminar cuando fucione el backend
+
 enum InscripcionEspecialEstatus {
   ACEPTADA = "ACEPTADA",
   ACEPTADA_CON_CONDICION = "ACEPTADA_CON_CONDICION",
@@ -43,12 +46,14 @@ export const InscripcionEspecialViewAdmin = ({
     <div className="container mx-auto space-y-8 p-4">
       <InscripcionEspecialDetalle inscripcionEspecialId={inscripcionEspecialId} />
       {esInscripcionPendiente && (
-        <InscripcionEspecialGestion
-          inscripcionEspecialId={inscripcionEspecialId}
-          onAprobar={onAprobar}
-          onCancel={onCancel}
-          onRechazar={onRechazar}
-        />
+        <TienePermiso permisos={[SgeNombre.INSCRIPCIONES_ESPECIALES_ADMIN]}>
+          <InscripcionEspecialGestion
+            inscripcionEspecialId={inscripcionEspecialId}
+            onAprobar={onAprobar}
+            onCancel={onCancel}
+            onRechazar={onRechazar}
+          />
+        </TienePermiso>
       )}
     </div>
   );

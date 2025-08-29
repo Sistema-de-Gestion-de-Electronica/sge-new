@@ -73,27 +73,23 @@ services:
       - "traefik.http.routers.keycloak.rule=Host(`auth-dev.frba.utn.edu.ar`)"
       - "traefik.http.routers.keycloak.entrypoints=websecure"
       - "traefik.http.routers.keycloak.tls=true"
-
+      - "traefik.http.services.keycloak.loadbalancer.server.port=8080"
     expose:
-      - 80
+      - 8080
     image: bitnami/keycloak:25-debian-12
     user: root
     environment:
-      KEYCLOAK_ADMIN_USER: 'dev'
-      KEYCLOAK_ADMIN_PASSWORD: 'asd123'
-      KEYCLOAK_DATABASE_HOST: 'keycloak-db'
-      KEYCLOAK_DATABASE_PORT: '5432'
-      KEYCLOAK_DATABASE_NAME: 'bitnami_keycloak'
-      KEYCLOAK_DATABASE_USER: 'keycloak'
-      KEYCLOAK_DATABASE_PASSWORD: 'asd123'
-      KEYCLOAK_EXTRA_ARGS: "-Dkeycloak.profile.feature.docker=enabled -Dkeycloak.profile.feature.upload_scripts=enabled -Dkeycloak.profile=preview -Dkeycloak.profile.feature.token_exchange=enabled"
-      KEYCLOAK_HTTP_PORT: "80"
-      KEYCLOAK_HOSTNAME: "https://auth-dev.frba.utn.edu.ar"
-      KEYCLOAK_HOSTNAME_ADMIN: "https://auth-dev.frba.utn.edu.ar"
-    networks:
-      - traefik-net
-    depends_on:
-      - keycloak-db
+      KEYCLOAK_ADMIN: dev
+      KEYCLOAK_ADMIN_PASSWORD: asd123
+      KEYCLOAK_DATABASE_HOST: keycloak-db
+      KEYCLOAK_DATABASE_PORT: 5432
+      KEYCLOAK_DATABASE_NAME: bitnami_keycloak
+      KEYCLOAK_DATABASE_USER: keycloak
+      KEYCLOAK_DATABASE_PASSWORD: asd123
+      KC_HOSTNAME: auth-dev.frba.utn.edu.ar
+      KC_HOSTNAME_STRICT: "false"
+      KC_HOSTNAME_STRICT_HTTPS: "false"
+      KC_PROXY: edge
 
   db-sge:
     container_name: db-sge

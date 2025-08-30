@@ -1,7 +1,7 @@
 import { inputAgregarActa } from "@/shared/filters/admin-actas-filter.schema";
 import { protectedProcedure } from "../../trpc";
 import { validarInput } from "../helper";
-import { agregarActa, getActaAbierta } from "../../repositories/admin/actas-admin.repository";
+import { agregarActa, getActaAbierta, getVotosFromActaAbierta } from "../../repositories/admin/actas-admin.repository";
 import { Buffer } from "buffer";
 import { saveActaPDF } from "../../utils/pdfSaver";
 
@@ -22,8 +22,27 @@ export const agregarActaProcedure = protectedProcedure
     return acta;
   });
 
-export const getActaAbiertaProcedure = protectedProcedure
-  .query(async ({ctx})) => {
-    const acta = await getActaAbierta(ctx);
-    return acta;
+export const getActaAbiertaProcedure = protectedProcedure.query(async ({ ctx }) => {
+  const acta = await getActaAbierta(ctx);
+  return acta;
+});
+
+export const getVotosFromActaAbiertaProcedure = protectedProcedure.query(async ({ ctx }) => {
+  const acta = await getActaAbierta(ctx);
+  if (!acta?.id) {
+    throw new Error("No hay un acta abierta");
   }
+  const votos = await getVotosFromActaAbierta(ctx, acta.id);
+  return votos;
+});
+
+export const getActaAndVotosProcedure = protectedProcedure.query(async ({ ctx }) => {
+  const acta = await getActaAbierta(ctx);
+  if (!acta?.id) {
+    throw new Error("No hay un acta abierta");
+  }
+  const votos = await getVotosFromActaAbierta(ctx, acta.id);
+  return {acta: acta, votos: votos};
+});
+
+

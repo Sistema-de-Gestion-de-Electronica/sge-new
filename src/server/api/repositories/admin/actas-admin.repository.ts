@@ -107,3 +107,24 @@ export const getActaAbierta = async (ctx: { db: PrismaClient }) => {
     throw error;
   }
 };
+
+export const getVotosFromActaAbierta = async (ctx: { db: PrismaClient },id: number) => {
+  try {
+    const votos = await ctx.db.voto.findMany({
+      where: {
+        actaId: id,
+        acta: {
+          estado: "ABIERTA",
+        },
+      },
+    });
+
+    return votos;
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      throw new Error("Error al obtener votos del acta");
+    }
+    throw error;
+  }
+};
+

@@ -1,7 +1,7 @@
 import { inputAgregarActa } from "@/shared/filters/admin-actas-filter.schema";
 import { protectedProcedure } from "../../trpc";
 import { validarInput } from "../helper";
-import { agregarActa } from "../../repositories/admin/actas-admin.repository";
+import { agregarActa, getActaAbierta } from "../../repositories/admin/actas-admin.repository";
 import { Buffer } from "buffer";
 import { saveActaPDF } from "../../utils/pdfSaver";
 
@@ -21,3 +21,9 @@ export const agregarActaProcedure = protectedProcedure
     const acta = await agregarActa(ctx, input);
     return acta;
   });
+
+export const getActaAbiertaProcedure = protectedProcedure
+  .query(async ({ctx})) => {
+    const acta = await getActaAbierta(ctx);
+    return acta;
+  }

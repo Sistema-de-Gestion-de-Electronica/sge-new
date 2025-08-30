@@ -86,3 +86,24 @@ export const eliminarActas = async (ctx: { db: PrismaClient }, input: InputElimi
     throw new Error(`Error eliminando actas hasta/entre fechas: ${(error as Error).message}`);
   }
 }
+
+export const getActaAbierta = async (ctx: { db: PrismaClient }) => {
+  try {
+    const acta = await ctx.db.$transaction(async (tx) => {
+      return tx.acta.findFirst({
+        where: {
+          estado: "ABIERTA",
+        },
+      });
+    });
+
+    return acta;
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error.code === "P2002") {
+        throw new Error("No existe Acta");
+      }
+    }
+    throw error;
+  }
+};

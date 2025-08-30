@@ -1,6 +1,7 @@
 import { createTRPCRouter } from "@/server/api/trpc";
-import { agregarActaProcedure } from "../../services/admin/actas-admin.service";
+import { agregarActaProcedure, getActaAbiertaProcedure } from "../../services/admin/actas-admin.service";
 
 export const actasRouter = createTRPCRouter({
-    nuevaActa: agregarActaProcedure
+    nuevaActa: agregarActaProcedure,
+    actaAbierta: getActaAbiertaProcedure 
 })

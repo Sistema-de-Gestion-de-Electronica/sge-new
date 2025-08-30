@@ -264,7 +264,7 @@ export const ADMIN_ROUTE: AppRoute = {
       href: "/admin/actas",
       label: "Actas",
       isPublic: false,
-      permisos: [SgeNombre.ADMIN_VER_PANEL_ADMIN],
+      permisos: [SgeNombre.ADMIN_VER_PANEL_ADMIN, SgeNombre.ADMIN_ACTUALIZAR_ACTA_CONSEJEROS],
     },
   ],
 };
@@ -306,12 +306,12 @@ export const REPORTES_ROUTE: AppRoute = {
   ],
 };
 
-const PERMISOS_ACTA_CONSEJEROS =  [SgeNombre.ADMIN_ACTUALIZAR_ACTA_CONSEJEROS];
+//const PERMISOS_ACTA_CONSEJEROS =  [SgeNombre.ADMIN_ACTUALIZAR_ACTA_CONSEJEROS];
 export const ACTAS_ROUTE: AppRoute = {
   href: "/actas",
   label: "Actas",
-  isPublic: false,
-  permisos: PERMISOS_ACTA_CONSEJEROS,
+  isPublic: true,
+  permisos: [],
 };
 
 

@@ -9,6 +9,5 @@ export const agregarActaProcedure = protectedProcedure
     validarInput(inputAgregarActa, input);
 
     const acta = await agregarActa(ctx, input);
-
     return acta;
   });

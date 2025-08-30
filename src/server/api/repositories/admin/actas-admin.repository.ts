@@ -1,11 +1,21 @@
 import { Prisma, type PrismaClient } from "@/generated/prisma";
-import { inputAgregarActa, inputEliminarActa, inputEliminarActas } from "@/shared/filters/admin-actas-filter.schema";
+import { inputActualizarActa, inputAgregarActa, inputEliminarActa, inputEliminarActas } from "@/shared/filters/admin-actas-filter.schema";
 import { z } from "zod";
 
 type InputAgregarActa = z.infer<typeof inputAgregarActa>;
 export const agregarActa = async (ctx: { db: PrismaClient }, input: InputAgregarActa) => {
   try {
     const acta = await ctx.db.$transaction(async (tx) => {
+
+        await tx.acta.updateMany({
+          data: {
+            estado: 'CERRADA',
+          },
+          where: {
+            estado: 'ABIERTA',
+          }
+        });
+
       const nombreActa = new Intl.DateTimeFormat("es-AR", {
         day: "2-digit",
         month: "2-digit",
@@ -17,7 +27,6 @@ export const agregarActa = async (ctx: { db: PrismaClient }, input: InputAgregar
         data: {
           nombreActa,
           fechaReunion: input.fechaReunion
-          // estado y visibilidad se dejan con DEFAULT de DB
         },
       });
 

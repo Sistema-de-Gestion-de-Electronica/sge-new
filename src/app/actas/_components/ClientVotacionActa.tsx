@@ -5,9 +5,13 @@ import { SelectActasForm } from './SelectActasForm'
 import { SelectAniosForm } from './SelectAniosForm'
 import PdfIframeViewer from './PdfIframeViewer'
 import  VotacionActa from './VotacionActa'
+import { api } from "@/trpc/react"
+
 
 export function ClientVotacionActa() {
   const methods = useForm()
+  const { data: esConsejero, isLoading, isError } = api.actas.tieneRolConsejero.useQuery();
+  
 
   return (
     <FormProvider {...methods}>
@@ -22,11 +26,16 @@ export function ClientVotacionActa() {
               <SelectActasForm name="acta" control={methods.control} />
             </div>
           </div>
-          <div className="flex flex-col items-center">
-            {/* <p>Proxima reunión: {proximaFecha.fecha}</p> */}
-            <p>Próxima reunión: 2025-09-01</p>
-            <a href="https://zoom.com" target="_blank" className="text-blue-600">Conectarse a la reunión</a>
-          </div>
+          {isLoading ? (
+            <div className="h-10 w-48 animate-pulse rounded bg-gray-200" />
+          ) : esConsejero ? (
+            <div className="flex flex-col items-center">
+              <p>Próxima reunión: 2025-09-01</p>
+              <a href="https://zoom.com" target="_blank" className="text-blue-600">Conectarse a la reunión</a>
+            </div>
+          ) : (
+          <div className="flex flex-col items-center"></div>
+          )}
         </div>
                 
         {/* Header acta */}

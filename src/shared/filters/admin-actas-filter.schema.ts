@@ -34,4 +34,8 @@ export const inputVisibilidadActas = z.object({
     { message: "fechaFin debe ser mayor a fechaInicio" }
   );
 
+export const inputActualizarActa = z.object ({
+  id: z.string(),
+})
+
 

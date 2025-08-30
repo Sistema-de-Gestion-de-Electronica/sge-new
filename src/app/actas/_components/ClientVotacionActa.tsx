@@ -6,12 +6,15 @@ import { SelectAniosForm } from './SelectAniosForm'
 import PdfIframeViewer from './PdfIframeViewer'
 import  VotacionActa from './VotacionActa'
 import { api } from "@/trpc/react"
+import { Acta } from './TypeActa'
+
+
 
 
 export function ClientVotacionActa() {
   const methods = useForm()
   const { data: esConsejero, isLoading, isError } = api.actas.tieneRolConsejero.useQuery();
-  
+  const handleState = (acta: Acta) => {console.log(acta)}
 
   return (
     <FormProvider {...methods}>
@@ -23,7 +26,7 @@ export function ClientVotacionActa() {
               <SelectAniosForm name="anio" control={methods.control} />
             </div>
             <div className="w-[300px]">
-              <SelectActasForm name="acta" control={methods.control} />
+              <SelectActasForm name="acta" control={methods.control} onStateChange={handleState} />
             </div>
           </div>
           {isLoading ? (

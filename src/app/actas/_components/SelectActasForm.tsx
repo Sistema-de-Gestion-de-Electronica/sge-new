@@ -6,7 +6,8 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { api } from "@/trpc/react"
 import { useEffect, useMemo, type ReactElement } from "react"
 
-type Item = { id: string; label: string }
+type Estado = "ABIERTA" | "CERRADA";
+type Item = { id: string; label: string; estado: Estado };
 
 export const SelectActasForm = <
   T extends FieldValues,
@@ -15,6 +16,7 @@ export const SelectActasForm = <
   name,
   control,
   className,
+  onStateChange,
   ...props
 }: Omit<FormSelectProps<T, TType>, "items">): ReactElement => {
   const { watch, getValues, setValue } = useFormContext()
@@ -26,7 +28,7 @@ export const SelectActasForm = <
   )
 
   const items: Item[] = useMemo(
-    () => (data ?? []).map(a => ({ id: String(a.id), label: a.nombreActa })),
+    () => (data ?? []).map(a => ({ id: String(a.id), label: a.nombreActa, estado: a.estado,})),
     [data]
   )
 
@@ -43,13 +45,14 @@ export const SelectActasForm = <
     const exists = currentId ? items.some(i => i.id === String(currentId)) : false
 
     if (!exists) {
-      setValue(fieldName, items[0]!.id, {
-        shouldValidate: true,
-        shouldDirty: false,
-        shouldTouch: false,
-      })
+      const first = items[0]!;
+      setValue(fieldName, first.id, { shouldValidate: true });
+      onStateChange?.(first.estado);
+    } else {
+      const sel = items.find((i) => i.id === String(currentId));
+      if (sel) onStateChange?.(sel.estado);
     }
-  }, [items])
+  }, [items]);
 
   if (isLoading) return <Skeleton className="h-10 w-full" />
   if (isError)   return <div className="text-sm text-red-600">No se pudieron cargar las actas.</div>

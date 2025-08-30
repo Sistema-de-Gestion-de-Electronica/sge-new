@@ -15,6 +15,32 @@ export default function UploadActa() {
     },
   });
 
+  function loadDataOnSubmit(e: any) {
+    const form = e.currentTarget;
+
+    //Manejo de la fecha
+    const dateInput = form.elements.namedItem("actaDate") as HTMLInputElement;
+
+    if (!dateInput?.value) return;
+    const fecha = new Date(`${dateInput.value}T00:00:00`);
+
+    //Manejo del pdf
+    const fileInput = form.elements.namedItem("pdfFile") as HTMLInputElement;
+    const file = fileInput?.files?.[0];
+
+    if (!file) {
+      alert("Por favor selecciona un archivo PDF.");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const fileBase64 = reader.result as string;
+      nuevaActa.mutateAsync({ fechaReunion: fecha, fileBase64: fileBase64 });
+    };
+    reader.readAsDataURL(file);
+  }
+
   return (
     <ModalDrawer
       titulo={"Cargar nueva acta"}
@@ -32,16 +58,7 @@ export default function UploadActa() {
         className="flex flex-col gap-4"
         onSubmit={async (e) => {
           e.preventDefault();
-          const form = e.currentTarget;
-
-          const dateInput = form.elements.namedItem("actaDate") as HTMLInputElement;
-
-          if (!dateInput?.value) return;
-          const fecha = new Date(`${dateInput.value}T00:00:00`);
-
-          await nuevaActa.mutateAsync({fechaReunion: fecha,});
-
-          const fileInput = form.elements.namedItem("pdfFile") as HTMLInputElement;
+          loadDataOnSubmit(e);
         }}
       >
         {/* Fecha del acta */}

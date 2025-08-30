@@ -1,7 +1,8 @@
 import { z } from "zod";
 
 export const inputAgregarActa = z.object ({
-    fechaReunion: z.date()
+    fechaReunion: z.date(),
+    fileBase64: z.string().optional(),
 })
 
 export const inputEliminarActa = z.object ({

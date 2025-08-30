@@ -1,6 +1,6 @@
 "use client"
 
-import { useFormContext, type FieldValues } from "react-hook-form"
+import { useFormContext, useWatch, type FieldValues } from "react-hook-form"
 import { FormSelect, type FormSelectProps } from "@/components/ui/autocomplete"
 import { Skeleton } from "@/components/ui/skeleton"
 import { api } from "@/trpc/react"
@@ -32,6 +32,7 @@ export const SelectActasForm = <
     [data]
   )
 
+  // 1) setear valor por defecto cuando cambia la lista (p.ej., cambia el año)
   useEffect(() => {
     if (!items.length) return
     const fieldName = name as string
@@ -45,14 +46,21 @@ export const SelectActasForm = <
     const exists = currentId ? items.some(i => i.id === String(currentId)) : false
 
     if (!exists) {
-      const first = items[0]!;
-      setValue(fieldName, first.id, { shouldValidate: true });
-      onStateChange?.(first.estado);
-    } else {
-      const sel = items.find((i) => i.id === String(currentId));
-      if (sel) onStateChange?.(sel.estado);
+      const first = items[0]!
+      setValue(fieldName, first.id, { shouldValidate: true, shouldDirty: true, shouldTouch: true })
+      onStateChange?.(first)
     }
-  }, [items]);
+  }, [items, name, getValues, setValue, onStateChange])
+
+
+    // 2) reaccionar a cambios de selección dentro del MISMO año
+  const selectedId = useWatch({ name: name as string, control }) as string | undefined
+
+  useEffect(() => {
+    if (!items.length || !selectedId) return
+    const sel = items.find(i => i.id === String(selectedId))
+    if (sel) onStateChange?.(sel)
+  }, [selectedId, items, onStateChange])
 
   if (isLoading) return <Skeleton className="h-10 w-full" />
   if (isError)   return <div className="text-sm text-red-600">No se pudieron cargar las actas.</div>

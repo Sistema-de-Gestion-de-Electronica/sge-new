@@ -11,7 +11,6 @@ export default function VotacionActa() {
   const [voto, setVoto] = useState<Voto>(null);
   const [comentario, setComentario] = useState("");
 
-  // ✅ Opción A: guardo el objeto entero
   const crearVoto = api.actas.agregarVoto.useMutation({
     onSuccess: () => {
       setVoto(null);

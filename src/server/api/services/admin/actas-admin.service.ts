@@ -5,6 +5,7 @@ import { agregarActa, getActaAbierta, getVotosFromActaAbierta } from "../../repo
 import { Buffer } from "buffer";
 import { saveActaPDF } from "../../utils/pdfSaver";
 import { getUsuarioPorId } from "../../repositories/admin/usuarios-admin.repository";
+import { enviarMailNuevaVotacionAbiertaProcedure } from "../mails/emailVotacionAbierta.service";
 
 
 export const agregarActaProcedure = protectedProcedure
@@ -16,10 +17,13 @@ export const agregarActaProcedure = protectedProcedure
       throw new Error("No se ha proporcionado un archivo PDF en base64");
     }
     const fileBuffer = Buffer.from(input.fileBase64.split(',')[1], 'base64');
-    console.log("Llegue service")
+    
     await saveActaPDF(fileBuffer, input.fechaReunion);
 
     const acta = await agregarActa(ctx, input);
+
+    await enviarMailNuevaVotacionAbiertaProcedure(ctx, acta);
+
     return acta;
   });
 
@@ -55,11 +59,5 @@ export const getActaAndVotosProcedure = protectedProcedure.query(async ({ ctx })
       };
     })
   );
-
   return { acta, votos: votosConPersona };
 });
-
-
-
-
-

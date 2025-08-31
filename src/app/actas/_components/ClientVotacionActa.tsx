@@ -10,10 +10,11 @@ import { useState } from 'react'
 import { Acta } from './TypeActa'
 
 export function ClientVotacionActa() {
-  const methods = useForm()
+  const methods = useForm();
   const { data: esConsejero, isLoading, isError } = api.actas.tieneRolConsejero.useQuery();
   // Estado para guardar la información del acta seleccionada
   const [acta, setActa] = useState<Acta | undefined>(undefined);
+  const { data: yaVoto } = api.actas.yaVoto.useQuery();
 
   // Función para manejar el cambio de acta seleccionada
   const handleState = (acta: Acta) => {
@@ -71,7 +72,7 @@ export function ClientVotacionActa() {
           <PdfIframeViewer file={pdfUrl} />
           
         </div>
-          {acta?.estado === "ABIERTA" && <VotacionActa />}
+          {((acta?.estado === "ABIERTA" && !yaVoto) ? <VotacionActa /> : <></>)}
       </form>
     </FormProvider>
   )

@@ -35,3 +35,18 @@ export const getAllAniosActas = async (ctx: { db: PrismaClient }, esConsejero: b
   `);
   return rows.map(r => r.year);
 };
+import { PrismaClient, User } from "@prisma/client";
+
+export const getAllConsejeros = async (ctx: { db: PrismaClient }) => {
+  return ctx.db.user.findMany({
+    where: {
+      usuarioRol: {
+        some: {
+          rol: {
+            nombre: "Consejero",
+          },
+        },
+      },
+    },
+  });
+};

@@ -3,7 +3,7 @@ import { protectedProcedure, publicProcedure } from "../../trpc";
 import { validarInput } from "../helper";
 import { getAllActas, getAllAniosActas } from "../../repositories/actas/actas.repository";
 import { getUsuarioPorId } from "../../repositories/admin/usuarios-admin.repository";
-import { Prisma, Voto } from "@/generated/prisma";
+import { Prisma } from "@/generated/prisma";
 import { inputAgregarVoto } from "@/shared/filters/votos-filter.schema";
 import { getActaAbierta, getVotosFromActaAbierta } from "../../repositories/admin/actas-admin.repository";
 import { agregarVoto } from "../../repositories/votos/votos.repository";
@@ -43,7 +43,6 @@ export const agregarVotoProcedure = protectedProcedure
   .input(inputAgregarVoto)
   .mutation(async ({ ctx, input }) => {
     try {
-      console.log("Entre al try");
       validarInput(inputAgregarVoto, input);
 
       const userId = ctx.session?.user?.id;
@@ -53,12 +52,11 @@ export const agregarVotoProcedure = protectedProcedure
       if (!acta?.id) {
         throw new TRPCError({ code: "BAD_REQUEST", message: "No hay un acta abierta" });
       }
-      console.log("Obtuve acta")
-
-      const votos = await getVotosFromActaAbierta(ctx, acta.id);
-      console.log("Obtuve votos")
-      await validarVoto(userId, votos); // lanza si ya votó
-      console.log("Valido votos");
+      
+      const yaVoto = await validarVoto(ctx, userId, acta.id);
+      if (yaVoto) {
+        throw new TRPCError({ code: "BAD_REQUEST", message: "El usuario ya voto" });
+      }
 
       const voto = await agregarVoto(ctx, input, userId, acta.id);
       console.log("Se creo el voto");
@@ -82,10 +80,17 @@ export const agregarVotoProcedure = protectedProcedure
     }
   });
 
-async function validarVoto(userId: string, votos: Voto[]): Promise<void> {
-  const yaVoto = votos.some((v) => v.consejeroId === userId);
-  if (yaVoto) {
-    throw new Error("El consejero ya votó en esta acta");
-  }
+export const yaVotoProcedure = protectedProcedure
+    .query(async ({ ctx, input }) => {
+      const acta = await getActaAbierta(ctx);
+      if (!acta?.id) {
+        throw new TRPCError({ code: "BAD_REQUEST", message: "No hay un acta abierta" });
+      }
+    return await validarVoto(ctx, ctx.session?.user?.id, acta.id);
+    })
+
+async function validarVoto(ctx: any, userId: string, actaId: number) : Promise<Boolean>{
+    const votos = await getVotosFromActaAbierta(ctx, actaId);
+    return votos.some((v) => v.consejeroId === userId);
 }
 

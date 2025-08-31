@@ -1,5 +1,5 @@
 import { Prisma, type PrismaClient } from "@/generated/prisma";
-import { inputActualizarActa, inputAgregarActa, inputEliminarActa, inputEliminarActas } from "@/shared/filters/admin-actas-filter.schema";
+import { inputAgregarActa, inputEliminarActa, inputEliminarActas } from "@/shared/filters/admin-actas-filter.schema";
 import { z } from "zod";
 
 type InputAgregarActa = z.infer<typeof inputAgregarActa>;
@@ -108,23 +108,13 @@ export const getActaAbierta = async (ctx: { db: PrismaClient }) => {
   }
 };
 
-export const getVotosFromActaAbierta = async (ctx: { db: PrismaClient },id: number) => {
-  try {
-    const votos = await ctx.db.voto.findMany({
-      where: {
-        actaId: id,
-        acta: {
-          estado: "ABIERTA",
-        },
-      },
-    });
-
-    return votos;
-  } catch (error) {
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      throw new Error("Error al obtener votos del acta");
-    }
-    throw error;
-  }
+export const getVotosFromActaAbierta = async (
+  ctx: { db: PrismaClient },
+  id: number
+) => {
+  return ctx.db.voto.findMany({
+    where: { actaId: id, acta: { estado: "ABIERTA" } },
+    orderBy: { fechaEmision: "desc" }, // opcional
+  });
 };
 

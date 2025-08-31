@@ -1,9 +1,11 @@
-export type ValorVoto = "ACUERDO" | "DESACUERDO" | "PARCIAL";
+export type ValorVoto = "ACUERDO" | "DESACUERDO" | "ACUERDO_PARCIAL";
 
 export type VotoActa = {
-  id: string;
+  id: number;
+  actaId: number;
+  consejeroId: string;
   persona: string;
-  valor: ValorVoto;
+  posicion: ValorVoto;
   comentario?: string | null;
-  fecha: string; // ISO string
+  fechaEmision: string;
 };

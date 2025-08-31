@@ -4,6 +4,7 @@ import { validarInput } from "../helper";
 import { agregarActa, getActaAbierta, getVotosFromActaAbierta } from "../../repositories/admin/actas-admin.repository";
 import { Buffer } from "buffer";
 import { saveActaPDF } from "../../utils/pdfSaver";
+import { getUsuarioPorId } from "../../repositories/admin/usuarios-admin.repository";
 
 
 export const agregarActaProcedure = protectedProcedure
@@ -41,8 +42,24 @@ export const getActaAndVotosProcedure = protectedProcedure.query(async ({ ctx })
   if (!acta?.id) {
     throw new Error("No hay un acta abierta");
   }
+
   const votos = await getVotosFromActaAbierta(ctx, acta.id);
-  return {acta: acta, votos: votos};
+
+  // enriquecer cada voto con persona = "nombre apellido"
+  const votosConPersona = await Promise.all(
+    votos.map(async (voto) => {
+      const user = await getUsuarioPorId(ctx, { id: voto.consejeroId });
+      return {
+        ...voto,
+        persona: `${user?.nombre} ${user?.apellido}`,
+      };
+    })
+  );
+
+  return { acta, votos: votosConPersona };
 });
+
+
+
 
 

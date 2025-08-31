@@ -1,19 +1,16 @@
 import { Badge } from "@/components/ui/badge";
 import { type ColumnDef } from "@tanstack/react-table";
 
-// =====================
-// Tipos (alineados al back)
-// =====================
-export type ValorVoto = "ACUERDO" | "DESACUERDO" | "PARCIAL";
+export type ValorVoto = "ACUERDO" | "DESACUERDO" | "ACUERDO_PARCIAL";
 
 export type VotoActa = {
   id: number;
   actaId: number;
   consejeroId: string;
   persona: string;
-  posicion: ValorVoto;            // <- viene como "posicion" del back
+  posicion: ValorVoto;
   comentario?: string | null;
-  fechaEmision: string;           // <- timestamp del back (ideal ISO)
+  fechaEmision: string;
 };
 
 // =====================
@@ -37,9 +34,6 @@ const ValorBadge: React.FC<{ valor: ValorVoto }> = ({ valor }) => {
   return <Badge className={`border ${tone} font-medium`}>{label}</Badge>;
 };
 
-// =====================
-// Date utils
-// =====================
 type MaybeDateInput = string | number | Date | null | undefined;
 
 const parseSafeDate = (v: MaybeDateInput): Date | null => {
@@ -48,9 +42,6 @@ const parseSafeDate = (v: MaybeDateInput): Date | null => {
   return isNaN(d.getTime()) ? null : d;
 };
 
-// =====================
-// Columnas
-// =====================
 export function getColumns(): ColumnDef<VotoActa, any>[] {
   return [
     {

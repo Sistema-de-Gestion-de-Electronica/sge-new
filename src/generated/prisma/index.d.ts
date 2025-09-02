@@ -24,6 +24,11 @@ export type Acta = $Result.DefaultSelection<Prisma.$ActaPayload>
  */
 export type Voto = $Result.DefaultSelection<Prisma.$VotoPayload>
 /**
+ * Model Reunion
+ * 
+ */
+export type Reunion = $Result.DefaultSelection<Prisma.$ReunionPayload>
+/**
  * Model Libro
  * 
  */
@@ -624,6 +629,16 @@ export class PrismaClient<
     * ```
     */
   get voto(): Prisma.VotoDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.reunion`: Exposes CRUD operations for the **Reunion** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Reunions
+    * const reunions = await prisma.reunion.findMany()
+    * ```
+    */
+  get reunion(): Prisma.ReunionDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.libro`: Exposes CRUD operations for the **Libro** model.
@@ -1486,6 +1501,7 @@ export namespace Prisma {
   export const ModelName: {
     Acta: 'Acta',
     Voto: 'Voto',
+    Reunion: 'Reunion',
     Libro: 'Libro',
     LibroMateria: 'LibroMateria',
     LibroAutor: 'LibroAutor',
@@ -1546,7 +1562,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "acta" | "voto" | "libro" | "libroMateria" | "libroAutor" | "libroIdioma" | "libroEditorial" | "curso" | "cursoAyudante" | "division" | "equipo" | "equipoMarca" | "equipoTipo" | "equipoEstado" | "laboratorio" | "armario" | "estante" | "software" | "softwareLaboratorio" | "mails" | "materia" | "materiaJefeTp" | "materiaCorrelativa" | "reserva" | "reservaEquipo" | "reservaLibro" | "reservaLaboratorioCerrado" | "reservaLaboratorioCerradoEquipo" | "reservaLaboratorioAbierto" | "reservaLaboratorioAbiertoEquipo" | "pantalla" | "account" | "session" | "verificationToken" | "sede" | "user" | "tutor" | "usuarioRol" | "rol" | "rolPermiso" | "permiso" | "provincia" | "pais" | "documentoTipo"
+      modelProps: "acta" | "voto" | "reunion" | "libro" | "libroMateria" | "libroAutor" | "libroIdioma" | "libroEditorial" | "curso" | "cursoAyudante" | "division" | "equipo" | "equipoMarca" | "equipoTipo" | "equipoEstado" | "laboratorio" | "armario" | "estante" | "software" | "softwareLaboratorio" | "mails" | "materia" | "materiaJefeTp" | "materiaCorrelativa" | "reserva" | "reservaEquipo" | "reservaLibro" | "reservaLaboratorioCerrado" | "reservaLaboratorioCerradoEquipo" | "reservaLaboratorioAbierto" | "reservaLaboratorioAbiertoEquipo" | "pantalla" | "account" | "session" | "verificationToken" | "sede" | "user" | "tutor" | "usuarioRol" | "rol" | "rolPermiso" | "permiso" | "provincia" | "pais" | "documentoTipo"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1695,6 +1711,80 @@ export namespace Prisma {
           count: {
             args: Prisma.VotoCountArgs<ExtArgs>
             result: $Utils.Optional<VotoCountAggregateOutputType> | number
+          }
+        }
+      }
+      Reunion: {
+        payload: Prisma.$ReunionPayload<ExtArgs>
+        fields: Prisma.ReunionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ReunionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReunionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ReunionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReunionPayload>
+          }
+          findFirst: {
+            args: Prisma.ReunionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReunionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ReunionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReunionPayload>
+          }
+          findMany: {
+            args: Prisma.ReunionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReunionPayload>[]
+          }
+          create: {
+            args: Prisma.ReunionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReunionPayload>
+          }
+          createMany: {
+            args: Prisma.ReunionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ReunionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReunionPayload>[]
+          }
+          delete: {
+            args: Prisma.ReunionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReunionPayload>
+          }
+          update: {
+            args: Prisma.ReunionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReunionPayload>
+          }
+          deleteMany: {
+            args: Prisma.ReunionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ReunionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ReunionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReunionPayload>[]
+          }
+          upsert: {
+            args: Prisma.ReunionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReunionPayload>
+          }
+          aggregate: {
+            args: Prisma.ReunionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateReunion>
+          }
+          groupBy: {
+            args: Prisma.ReunionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ReunionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ReunionCountArgs<ExtArgs>
+            result: $Utils.Optional<ReunionCountAggregateOutputType> | number
           }
         }
       }
@@ -4892,6 +4982,7 @@ export namespace Prisma {
   export type GlobalOmitConfig = {
     acta?: ActaOmit
     voto?: VotoOmit
+    reunion?: ReunionOmit
     libro?: LibroOmit
     libroMateria?: LibroMateriaOmit
     libroAutor?: LibroAutorOmit
@@ -8384,6 +8475,1035 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: VotoInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Reunion
+   */
+
+  export type AggregateReunion = {
+    _count: ReunionCountAggregateOutputType | null
+    _avg: ReunionAvgAggregateOutputType | null
+    _sum: ReunionSumAggregateOutputType | null
+    _min: ReunionMinAggregateOutputType | null
+    _max: ReunionMaxAggregateOutputType | null
+  }
+
+  export type ReunionAvgAggregateOutputType = {
+    id: number | null
+  }
+
+  export type ReunionSumAggregateOutputType = {
+    id: number | null
+  }
+
+  export type ReunionMinAggregateOutputType = {
+    id: number | null
+    fecha: Date | null
+    fechaNormalizada: string | null
+    link: string | null
+    createdAt: Date | null
+  }
+
+  export type ReunionMaxAggregateOutputType = {
+    id: number | null
+    fecha: Date | null
+    fechaNormalizada: string | null
+    link: string | null
+    createdAt: Date | null
+  }
+
+  export type ReunionCountAggregateOutputType = {
+    id: number
+    fecha: number
+    fechaNormalizada: number
+    link: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type ReunionAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type ReunionSumAggregateInputType = {
+    id?: true
+  }
+
+  export type ReunionMinAggregateInputType = {
+    id?: true
+    fecha?: true
+    fechaNormalizada?: true
+    link?: true
+    createdAt?: true
+  }
+
+  export type ReunionMaxAggregateInputType = {
+    id?: true
+    fecha?: true
+    fechaNormalizada?: true
+    link?: true
+    createdAt?: true
+  }
+
+  export type ReunionCountAggregateInputType = {
+    id?: true
+    fecha?: true
+    fechaNormalizada?: true
+    link?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type ReunionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Reunion to aggregate.
+     */
+    where?: ReunionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Reunions to fetch.
+     */
+    orderBy?: ReunionOrderByWithRelationInput | ReunionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ReunionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Reunions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Reunions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Reunions
+    **/
+    _count?: true | ReunionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ReunionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ReunionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ReunionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ReunionMaxAggregateInputType
+  }
+
+  export type GetReunionAggregateType<T extends ReunionAggregateArgs> = {
+        [P in keyof T & keyof AggregateReunion]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateReunion[P]>
+      : GetScalarType<T[P], AggregateReunion[P]>
+  }
+
+
+
+
+  export type ReunionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReunionWhereInput
+    orderBy?: ReunionOrderByWithAggregationInput | ReunionOrderByWithAggregationInput[]
+    by: ReunionScalarFieldEnum[] | ReunionScalarFieldEnum
+    having?: ReunionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ReunionCountAggregateInputType | true
+    _avg?: ReunionAvgAggregateInputType
+    _sum?: ReunionSumAggregateInputType
+    _min?: ReunionMinAggregateInputType
+    _max?: ReunionMaxAggregateInputType
+  }
+
+  export type ReunionGroupByOutputType = {
+    id: number
+    fecha: Date
+    fechaNormalizada: string
+    link: string
+    createdAt: Date
+    _count: ReunionCountAggregateOutputType | null
+    _avg: ReunionAvgAggregateOutputType | null
+    _sum: ReunionSumAggregateOutputType | null
+    _min: ReunionMinAggregateOutputType | null
+    _max: ReunionMaxAggregateOutputType | null
+  }
+
+  type GetReunionGroupByPayload<T extends ReunionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ReunionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ReunionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ReunionGroupByOutputType[P]>
+            : GetScalarType<T[P], ReunionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ReunionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    fecha?: boolean
+    fechaNormalizada?: boolean
+    link?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["reunion"]>
+
+  export type ReunionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    fecha?: boolean
+    fechaNormalizada?: boolean
+    link?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["reunion"]>
+
+  export type ReunionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    fecha?: boolean
+    fechaNormalizada?: boolean
+    link?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["reunion"]>
+
+  export type ReunionSelectScalar = {
+    id?: boolean
+    fecha?: boolean
+    fechaNormalizada?: boolean
+    link?: boolean
+    createdAt?: boolean
+  }
+
+  export type ReunionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "fecha" | "fechaNormalizada" | "link" | "createdAt", ExtArgs["result"]["reunion"]>
+
+  export type $ReunionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Reunion"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      fecha: Date
+      fechaNormalizada: string
+      link: string
+      createdAt: Date
+    }, ExtArgs["result"]["reunion"]>
+    composites: {}
+  }
+
+  type ReunionGetPayload<S extends boolean | null | undefined | ReunionDefaultArgs> = $Result.GetResult<Prisma.$ReunionPayload, S>
+
+  type ReunionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ReunionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ReunionCountAggregateInputType | true
+    }
+
+  export interface ReunionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Reunion'], meta: { name: 'Reunion' } }
+    /**
+     * Find zero or one Reunion that matches the filter.
+     * @param {ReunionFindUniqueArgs} args - Arguments to find a Reunion
+     * @example
+     * // Get one Reunion
+     * const reunion = await prisma.reunion.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ReunionFindUniqueArgs>(args: SelectSubset<T, ReunionFindUniqueArgs<ExtArgs>>): Prisma__ReunionClient<$Result.GetResult<Prisma.$ReunionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Reunion that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ReunionFindUniqueOrThrowArgs} args - Arguments to find a Reunion
+     * @example
+     * // Get one Reunion
+     * const reunion = await prisma.reunion.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ReunionFindUniqueOrThrowArgs>(args: SelectSubset<T, ReunionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ReunionClient<$Result.GetResult<Prisma.$ReunionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Reunion that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReunionFindFirstArgs} args - Arguments to find a Reunion
+     * @example
+     * // Get one Reunion
+     * const reunion = await prisma.reunion.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ReunionFindFirstArgs>(args?: SelectSubset<T, ReunionFindFirstArgs<ExtArgs>>): Prisma__ReunionClient<$Result.GetResult<Prisma.$ReunionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Reunion that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReunionFindFirstOrThrowArgs} args - Arguments to find a Reunion
+     * @example
+     * // Get one Reunion
+     * const reunion = await prisma.reunion.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ReunionFindFirstOrThrowArgs>(args?: SelectSubset<T, ReunionFindFirstOrThrowArgs<ExtArgs>>): Prisma__ReunionClient<$Result.GetResult<Prisma.$ReunionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Reunions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReunionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Reunions
+     * const reunions = await prisma.reunion.findMany()
+     * 
+     * // Get first 10 Reunions
+     * const reunions = await prisma.reunion.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const reunionWithIdOnly = await prisma.reunion.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ReunionFindManyArgs>(args?: SelectSubset<T, ReunionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReunionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Reunion.
+     * @param {ReunionCreateArgs} args - Arguments to create a Reunion.
+     * @example
+     * // Create one Reunion
+     * const Reunion = await prisma.reunion.create({
+     *   data: {
+     *     // ... data to create a Reunion
+     *   }
+     * })
+     * 
+     */
+    create<T extends ReunionCreateArgs>(args: SelectSubset<T, ReunionCreateArgs<ExtArgs>>): Prisma__ReunionClient<$Result.GetResult<Prisma.$ReunionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Reunions.
+     * @param {ReunionCreateManyArgs} args - Arguments to create many Reunions.
+     * @example
+     * // Create many Reunions
+     * const reunion = await prisma.reunion.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ReunionCreateManyArgs>(args?: SelectSubset<T, ReunionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Reunions and returns the data saved in the database.
+     * @param {ReunionCreateManyAndReturnArgs} args - Arguments to create many Reunions.
+     * @example
+     * // Create many Reunions
+     * const reunion = await prisma.reunion.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Reunions and only return the `id`
+     * const reunionWithIdOnly = await prisma.reunion.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ReunionCreateManyAndReturnArgs>(args?: SelectSubset<T, ReunionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReunionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Reunion.
+     * @param {ReunionDeleteArgs} args - Arguments to delete one Reunion.
+     * @example
+     * // Delete one Reunion
+     * const Reunion = await prisma.reunion.delete({
+     *   where: {
+     *     // ... filter to delete one Reunion
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ReunionDeleteArgs>(args: SelectSubset<T, ReunionDeleteArgs<ExtArgs>>): Prisma__ReunionClient<$Result.GetResult<Prisma.$ReunionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Reunion.
+     * @param {ReunionUpdateArgs} args - Arguments to update one Reunion.
+     * @example
+     * // Update one Reunion
+     * const reunion = await prisma.reunion.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ReunionUpdateArgs>(args: SelectSubset<T, ReunionUpdateArgs<ExtArgs>>): Prisma__ReunionClient<$Result.GetResult<Prisma.$ReunionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Reunions.
+     * @param {ReunionDeleteManyArgs} args - Arguments to filter Reunions to delete.
+     * @example
+     * // Delete a few Reunions
+     * const { count } = await prisma.reunion.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ReunionDeleteManyArgs>(args?: SelectSubset<T, ReunionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Reunions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReunionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Reunions
+     * const reunion = await prisma.reunion.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ReunionUpdateManyArgs>(args: SelectSubset<T, ReunionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Reunions and returns the data updated in the database.
+     * @param {ReunionUpdateManyAndReturnArgs} args - Arguments to update many Reunions.
+     * @example
+     * // Update many Reunions
+     * const reunion = await prisma.reunion.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Reunions and only return the `id`
+     * const reunionWithIdOnly = await prisma.reunion.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ReunionUpdateManyAndReturnArgs>(args: SelectSubset<T, ReunionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReunionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Reunion.
+     * @param {ReunionUpsertArgs} args - Arguments to update or create a Reunion.
+     * @example
+     * // Update or create a Reunion
+     * const reunion = await prisma.reunion.upsert({
+     *   create: {
+     *     // ... data to create a Reunion
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Reunion we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ReunionUpsertArgs>(args: SelectSubset<T, ReunionUpsertArgs<ExtArgs>>): Prisma__ReunionClient<$Result.GetResult<Prisma.$ReunionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Reunions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReunionCountArgs} args - Arguments to filter Reunions to count.
+     * @example
+     * // Count the number of Reunions
+     * const count = await prisma.reunion.count({
+     *   where: {
+     *     // ... the filter for the Reunions we want to count
+     *   }
+     * })
+    **/
+    count<T extends ReunionCountArgs>(
+      args?: Subset<T, ReunionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ReunionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Reunion.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReunionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ReunionAggregateArgs>(args: Subset<T, ReunionAggregateArgs>): Prisma.PrismaPromise<GetReunionAggregateType<T>>
+
+    /**
+     * Group by Reunion.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReunionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ReunionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ReunionGroupByArgs['orderBy'] }
+        : { orderBy?: ReunionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ReunionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetReunionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Reunion model
+   */
+  readonly fields: ReunionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Reunion.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ReunionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Reunion model
+   */
+  interface ReunionFieldRefs {
+    readonly id: FieldRef<"Reunion", 'Int'>
+    readonly fecha: FieldRef<"Reunion", 'DateTime'>
+    readonly fechaNormalizada: FieldRef<"Reunion", 'String'>
+    readonly link: FieldRef<"Reunion", 'String'>
+    readonly createdAt: FieldRef<"Reunion", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Reunion findUnique
+   */
+  export type ReunionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Reunion
+     */
+    select?: ReunionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Reunion
+     */
+    omit?: ReunionOmit<ExtArgs> | null
+    /**
+     * Filter, which Reunion to fetch.
+     */
+    where: ReunionWhereUniqueInput
+  }
+
+  /**
+   * Reunion findUniqueOrThrow
+   */
+  export type ReunionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Reunion
+     */
+    select?: ReunionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Reunion
+     */
+    omit?: ReunionOmit<ExtArgs> | null
+    /**
+     * Filter, which Reunion to fetch.
+     */
+    where: ReunionWhereUniqueInput
+  }
+
+  /**
+   * Reunion findFirst
+   */
+  export type ReunionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Reunion
+     */
+    select?: ReunionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Reunion
+     */
+    omit?: ReunionOmit<ExtArgs> | null
+    /**
+     * Filter, which Reunion to fetch.
+     */
+    where?: ReunionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Reunions to fetch.
+     */
+    orderBy?: ReunionOrderByWithRelationInput | ReunionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Reunions.
+     */
+    cursor?: ReunionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Reunions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Reunions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Reunions.
+     */
+    distinct?: ReunionScalarFieldEnum | ReunionScalarFieldEnum[]
+  }
+
+  /**
+   * Reunion findFirstOrThrow
+   */
+  export type ReunionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Reunion
+     */
+    select?: ReunionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Reunion
+     */
+    omit?: ReunionOmit<ExtArgs> | null
+    /**
+     * Filter, which Reunion to fetch.
+     */
+    where?: ReunionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Reunions to fetch.
+     */
+    orderBy?: ReunionOrderByWithRelationInput | ReunionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Reunions.
+     */
+    cursor?: ReunionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Reunions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Reunions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Reunions.
+     */
+    distinct?: ReunionScalarFieldEnum | ReunionScalarFieldEnum[]
+  }
+
+  /**
+   * Reunion findMany
+   */
+  export type ReunionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Reunion
+     */
+    select?: ReunionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Reunion
+     */
+    omit?: ReunionOmit<ExtArgs> | null
+    /**
+     * Filter, which Reunions to fetch.
+     */
+    where?: ReunionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Reunions to fetch.
+     */
+    orderBy?: ReunionOrderByWithRelationInput | ReunionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Reunions.
+     */
+    cursor?: ReunionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Reunions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Reunions.
+     */
+    skip?: number
+    distinct?: ReunionScalarFieldEnum | ReunionScalarFieldEnum[]
+  }
+
+  /**
+   * Reunion create
+   */
+  export type ReunionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Reunion
+     */
+    select?: ReunionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Reunion
+     */
+    omit?: ReunionOmit<ExtArgs> | null
+    /**
+     * The data needed to create a Reunion.
+     */
+    data: XOR<ReunionCreateInput, ReunionUncheckedCreateInput>
+  }
+
+  /**
+   * Reunion createMany
+   */
+  export type ReunionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Reunions.
+     */
+    data: ReunionCreateManyInput | ReunionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Reunion createManyAndReturn
+   */
+  export type ReunionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Reunion
+     */
+    select?: ReunionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Reunion
+     */
+    omit?: ReunionOmit<ExtArgs> | null
+    /**
+     * The data used to create many Reunions.
+     */
+    data: ReunionCreateManyInput | ReunionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Reunion update
+   */
+  export type ReunionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Reunion
+     */
+    select?: ReunionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Reunion
+     */
+    omit?: ReunionOmit<ExtArgs> | null
+    /**
+     * The data needed to update a Reunion.
+     */
+    data: XOR<ReunionUpdateInput, ReunionUncheckedUpdateInput>
+    /**
+     * Choose, which Reunion to update.
+     */
+    where: ReunionWhereUniqueInput
+  }
+
+  /**
+   * Reunion updateMany
+   */
+  export type ReunionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Reunions.
+     */
+    data: XOR<ReunionUpdateManyMutationInput, ReunionUncheckedUpdateManyInput>
+    /**
+     * Filter which Reunions to update
+     */
+    where?: ReunionWhereInput
+    /**
+     * Limit how many Reunions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Reunion updateManyAndReturn
+   */
+  export type ReunionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Reunion
+     */
+    select?: ReunionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Reunion
+     */
+    omit?: ReunionOmit<ExtArgs> | null
+    /**
+     * The data used to update Reunions.
+     */
+    data: XOR<ReunionUpdateManyMutationInput, ReunionUncheckedUpdateManyInput>
+    /**
+     * Filter which Reunions to update
+     */
+    where?: ReunionWhereInput
+    /**
+     * Limit how many Reunions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Reunion upsert
+   */
+  export type ReunionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Reunion
+     */
+    select?: ReunionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Reunion
+     */
+    omit?: ReunionOmit<ExtArgs> | null
+    /**
+     * The filter to search for the Reunion to update in case it exists.
+     */
+    where: ReunionWhereUniqueInput
+    /**
+     * In case the Reunion found by the `where` argument doesn't exist, create a new Reunion with this data.
+     */
+    create: XOR<ReunionCreateInput, ReunionUncheckedCreateInput>
+    /**
+     * In case the Reunion was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ReunionUpdateInput, ReunionUncheckedUpdateInput>
+  }
+
+  /**
+   * Reunion delete
+   */
+  export type ReunionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Reunion
+     */
+    select?: ReunionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Reunion
+     */
+    omit?: ReunionOmit<ExtArgs> | null
+    /**
+     * Filter which Reunion to delete.
+     */
+    where: ReunionWhereUniqueInput
+  }
+
+  /**
+   * Reunion deleteMany
+   */
+  export type ReunionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Reunions to delete
+     */
+    where?: ReunionWhereInput
+    /**
+     * Limit how many Reunions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Reunion without action
+   */
+  export type ReunionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Reunion
+     */
+    select?: ReunionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Reunion
+     */
+    omit?: ReunionOmit<ExtArgs> | null
   }
 
 
@@ -58337,6 +59457,17 @@ export namespace Prisma {
   export type VotoScalarFieldEnum = (typeof VotoScalarFieldEnum)[keyof typeof VotoScalarFieldEnum]
 
 
+  export const ReunionScalarFieldEnum: {
+    id: 'id',
+    fecha: 'fecha',
+    fechaNormalizada: 'fechaNormalizada',
+    link: 'link',
+    createdAt: 'createdAt'
+  };
+
+  export type ReunionScalarFieldEnum = (typeof ReunionScalarFieldEnum)[keyof typeof ReunionScalarFieldEnum]
+
+
   export const LibroScalarFieldEnum: {
     id: 'id',
     bibliotecaId: 'bibliotecaId',
@@ -59352,6 +60483,60 @@ export namespace Prisma {
     posicion?: EnumPosicionWithAggregatesFilter<"Voto"> | $Enums.Posicion
     comentario?: StringNullableWithAggregatesFilter<"Voto"> | string | null
     fechaEmision?: DateTimeWithAggregatesFilter<"Voto"> | Date | string
+  }
+
+  export type ReunionWhereInput = {
+    AND?: ReunionWhereInput | ReunionWhereInput[]
+    OR?: ReunionWhereInput[]
+    NOT?: ReunionWhereInput | ReunionWhereInput[]
+    id?: IntFilter<"Reunion"> | number
+    fecha?: DateTimeFilter<"Reunion"> | Date | string
+    fechaNormalizada?: StringFilter<"Reunion"> | string
+    link?: StringFilter<"Reunion"> | string
+    createdAt?: DateTimeFilter<"Reunion"> | Date | string
+  }
+
+  export type ReunionOrderByWithRelationInput = {
+    id?: SortOrder
+    fecha?: SortOrder
+    fechaNormalizada?: SortOrder
+    link?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ReunionWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: ReunionWhereInput | ReunionWhereInput[]
+    OR?: ReunionWhereInput[]
+    NOT?: ReunionWhereInput | ReunionWhereInput[]
+    fecha?: DateTimeFilter<"Reunion"> | Date | string
+    fechaNormalizada?: StringFilter<"Reunion"> | string
+    link?: StringFilter<"Reunion"> | string
+    createdAt?: DateTimeFilter<"Reunion"> | Date | string
+  }, "id">
+
+  export type ReunionOrderByWithAggregationInput = {
+    id?: SortOrder
+    fecha?: SortOrder
+    fechaNormalizada?: SortOrder
+    link?: SortOrder
+    createdAt?: SortOrder
+    _count?: ReunionCountOrderByAggregateInput
+    _avg?: ReunionAvgOrderByAggregateInput
+    _max?: ReunionMaxOrderByAggregateInput
+    _min?: ReunionMinOrderByAggregateInput
+    _sum?: ReunionSumOrderByAggregateInput
+  }
+
+  export type ReunionScalarWhereWithAggregatesInput = {
+    AND?: ReunionScalarWhereWithAggregatesInput | ReunionScalarWhereWithAggregatesInput[]
+    OR?: ReunionScalarWhereWithAggregatesInput[]
+    NOT?: ReunionScalarWhereWithAggregatesInput | ReunionScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Reunion"> | number
+    fecha?: DateTimeWithAggregatesFilter<"Reunion"> | Date | string
+    fechaNormalizada?: StringWithAggregatesFilter<"Reunion"> | string
+    link?: StringWithAggregatesFilter<"Reunion"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Reunion"> | Date | string
   }
 
   export type LibroWhereInput = {
@@ -62825,6 +64010,59 @@ export namespace Prisma {
     posicion?: EnumPosicionFieldUpdateOperationsInput | $Enums.Posicion
     comentario?: NullableStringFieldUpdateOperationsInput | string | null
     fechaEmision?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReunionCreateInput = {
+    fecha: Date | string
+    fechaNormalizada: string
+    link: string
+    createdAt?: Date | string
+  }
+
+  export type ReunionUncheckedCreateInput = {
+    id?: number
+    fecha: Date | string
+    fechaNormalizada: string
+    link: string
+    createdAt?: Date | string
+  }
+
+  export type ReunionUpdateInput = {
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaNormalizada?: StringFieldUpdateOperationsInput | string
+    link?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReunionUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaNormalizada?: StringFieldUpdateOperationsInput | string
+    link?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReunionCreateManyInput = {
+    id?: number
+    fecha: Date | string
+    fechaNormalizada: string
+    link: string
+    createdAt?: Date | string
+  }
+
+  export type ReunionUpdateManyMutationInput = {
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaNormalizada?: StringFieldUpdateOperationsInput | string
+    link?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReunionUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaNormalizada?: StringFieldUpdateOperationsInput | string
+    link?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LibroCreateInput = {
@@ -66511,6 +67749,38 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type ReunionCountOrderByAggregateInput = {
+    id?: SortOrder
+    fecha?: SortOrder
+    fechaNormalizada?: SortOrder
+    link?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ReunionAvgOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type ReunionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    fecha?: SortOrder
+    fechaNormalizada?: SortOrder
+    link?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ReunionMinOrderByAggregateInput = {
+    id?: SortOrder
+    fecha?: SortOrder
+    fechaNormalizada?: SortOrder
+    link?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ReunionSumOrderByAggregateInput = {
+    id?: SortOrder
   }
 
   export type IntNullableFilter<$PrismaModel = never> = {

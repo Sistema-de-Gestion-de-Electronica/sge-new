@@ -135,6 +135,14 @@ exports.Prisma.VotoScalarFieldEnum = {
   fechaEmision: 'fechaEmision'
 };
 
+exports.Prisma.ReunionScalarFieldEnum = {
+  id: 'id',
+  fecha: 'fecha',
+  fechaNormalizada: 'fechaNormalizada',
+  link: 'link',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.LibroScalarFieldEnum = {
   id: 'id',
   bibliotecaId: 'bibliotecaId',
@@ -790,6 +798,7 @@ exports.SgeNombre = exports.$Enums.SgeNombre = {
 exports.Prisma.ModelName = {
   Acta: 'Acta',
   Voto: 'Voto',
+  Reunion: 'Reunion',
   Libro: 'Libro',
   LibroMateria: 'LibroMateria',
   LibroAutor: 'LibroAutor',

@@ -45,6 +45,15 @@ enum Posicion {
   ACUERDO_PARCIAL
 }
 
+model Reunion {
+  id               Int      @id @default(autoincrement())
+  fecha            DateTime
+  fechaNormalizada String // Formato YYYY-MM-DD
+  link             String
+
+  createdAt DateTime @default(now())
+}
+
 model Libro {
   id Int @id @default(autoincrement())
 

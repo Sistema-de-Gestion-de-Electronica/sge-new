@@ -6,10 +6,14 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { api } from "@/trpc/react";
 import { toast } from "@/components/ui";
+import { useRouter } from "next/navigation";
+
 
 export default function UploadActa() {
   const [open, setOpen] = useState(false);
-
+  const router = useRouter();
+  const utils = api.useUtils();
+  
   const nuevaActa = api.admin.actas.nuevaActa.useMutation({
     onSuccess: async () => {
       setOpen(false);
@@ -45,8 +49,10 @@ export default function UploadActa() {
         await nuevaActa.mutateAsync(
           { fechaReunion: fecha, fileBase64 },
           {
-            onSuccess: () => {
+            onSuccess: async () => {
               toast.success("Acta creada con éxito.");
+              await utils.admin.actas.actaYvotos.invalidate();
+              router.refresh();
             },
             onError: (error: any) => {
               toast.error(error?.message ?? "Error al crear el acta");

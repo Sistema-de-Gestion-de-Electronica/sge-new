@@ -7,7 +7,6 @@ import EditarLaboratorioModal from "./ModalEditarActa";
 import { api } from "@/trpc/react";
 
 export function AdminConsejeros() {
-  // Llamada al endpoint actaYvotos
   const { data, isLoading, error } = api.admin.actas.actaYvotos.useQuery();
 
   if (isLoading) {

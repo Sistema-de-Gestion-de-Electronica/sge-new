@@ -8,6 +8,7 @@ import  VotacionActa from './VotacionActa'
 import { api } from "@/trpc/react"
 import { useState } from 'react'
 import { Acta } from './TypeActa'
+import GraciasPorVotar from './thankYouDiv'
 
 export function ClientVotacionActa() {
   const methods = useForm();
@@ -71,7 +72,11 @@ export function ClientVotacionActa() {
           <PdfIframeViewer file={pdfUrl} />
           
         </div>
-          {((acta?.estado === "ABIERTA" && !yaVoto) ? <VotacionActa /> : <></>)}
+        {esConsejero && acta?.estado === "ABIERTA"? (
+          !yaVoto
+            ? <VotacionActa />
+            : <GraciasPorVotar />
+        ) : <></>}
       </form>
     </FormProvider>
   )

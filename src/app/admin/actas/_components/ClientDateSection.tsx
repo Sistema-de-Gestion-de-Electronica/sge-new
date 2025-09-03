@@ -18,18 +18,11 @@ import { toast } from "@/components/ui";
 
 export default function ClientDateModalPicker() {
   const [open, setOpen] = useState(false);
-  const [dateStr, setDateStr] = useState(""); // YYYY-MM-DD
+  const [dateStr, setDateStr] = useState("");
   const [link, setLink] = useState("");
 
   const { mutateAsync: agregarReunion, isPending, error } =
-    api.reunion.agregarReunion.useMutation({
-      onSuccess: () => {
-        toast.success("Fecha de reunión agregada con éxito.");
-      },
-      onError: (error) => {
-        toast.error(error?.message ?? "Error al agregar la reunión");
-      },
-    });
+    api.reunion.agregarReunion.useMutation({});
 
   const canSave = useMemo(() => {
     return dateStr.length === 10 && link.trim().length > 0 && !isPending;
@@ -39,13 +32,15 @@ export default function ClientDateModalPicker() {
     if (!canSave) return;
     try {
       await agregarReunion({
-        fecha: new Date(dateStr), // Prisma lo recibe como Date
+        fecha: new Date(dateStr),
         link: link.trim(),
       });
+      toast.success("Fecha de reunión agregada con éxito.");
       setOpen(false);
       setDateStr("");
       setLink("");
     } catch (e) {
+      toast.error(error?.message ?? "Error al agregar la reunión");
       console.error(e);
     }
   };

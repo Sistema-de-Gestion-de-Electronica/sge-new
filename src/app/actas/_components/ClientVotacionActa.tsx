@@ -12,11 +12,10 @@ import { Acta } from './TypeActa'
 export function ClientVotacionActa() {
   const methods = useForm();
   const { data: esConsejero, isLoading, isError } = api.actas.tieneRolConsejero.useQuery();
-  // Estado para guardar la información del acta seleccionada
   const [acta, setActa] = useState<Acta | undefined>(undefined);
   const { data: yaVoto } = api.actas.yaVoto.useQuery();
+  const {data: reunion} = api.reunion.getUltimaReunion.useQuery();
 
-  // Función para manejar el cambio de acta seleccionada
   const handleState = (acta: Acta) => {
     console.log('Información del acta seleccionada:', acta);
     setActa(acta);
@@ -43,8 +42,8 @@ export function ClientVotacionActa() {
             <div className="h-10 w-48 animate-pulse rounded bg-gray-200" />
           ) : esConsejero ? (
             <div className="flex flex-col items-center">
-              <p>Próxima reunión: 2025-09-01</p>
-              <a href="https://zoom.com" target="_blank" className="text-blue-600">Conectarse a la reunión</a>
+              <p>Próxima reunión: {reunion.fechaNormalizada}</p>
+              <a href={reunion?.link} target="_blank" className="text-blue-600">Conectarse a la reunión</a>
             </div>
           ) : (
           <div className="flex flex-col items-center"></div>

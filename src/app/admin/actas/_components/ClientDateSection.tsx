@@ -2,7 +2,6 @@
 
 import { useMemo, useState } from "react";
 import { Calendar as CalendarIcon } from "lucide-react";
-import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -13,16 +12,34 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/Input";
+import { api } from "@/trpc/react";
+
 
 export default function ClientDateModalPicker() {
   const [open, setOpen] = useState(false);
-  const [date, setDate] = useState<Date | undefined>();
+  const [dateStr, setDateStr] = useState(""); // YYYY-MM-DD
   const [link, setLink] = useState("");
 
-  const handleSave = () => {
-    console.log("Fecha:", date);
-    console.log("Link:", link);
-    setOpen(false);
+  const { mutateAsync: agregarReunion, isPending, error } =
+    api.reunion.agregarReunion.useMutation({ onSuccess: async () => {},});
+
+  const canSave = useMemo(() => {
+    return dateStr.length === 10 && link.trim().length > 0 && !isPending;
+  }, [dateStr, link, isPending]);
+
+  const handleSave = async () => {
+    if (!canSave) return;
+    try {
+      await agregarReunion({
+        fecha: new Date(dateStr), // Prisma lo recibe como Date
+        link: link.trim(),
+      });
+      setOpen(false);
+      setDateStr("");
+      setLink("");
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   return (
@@ -41,11 +58,10 @@ export default function ClientDateModalPicker() {
           </DialogHeader>
 
           <div className="flex flex-col gap-4 items-center">
-            <Calendar
-              mode="single"
-              selected={date}
-              onSelect={setDate}
-              weekStartsOn={1}
+            <Input
+              type="date"
+              value={dateStr}
+              onChange={(e) => setDateStr(e.target.value)}
             />
 
             <Input
@@ -60,8 +76,8 @@ export default function ClientDateModalPicker() {
             <Button variant="default" onClick={() => setOpen(false)}>
               Cancelar
             </Button>
-            <Button variant="default" onClick={handleSave}>
-              Guardar
+            <Button variant="default" onClick={handleSave} disabled={!canSave}>
+              {isPending ? "Guardando..." : "Guardar"}
             </Button>
           </DialogFooter>
         </DialogContent>

@@ -4,12 +4,17 @@ import { useState } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { api } from "@/trpc/react";
+import { toast } from "@/components/ui";
+import { useRouter } from "next/navigation";
+
 
 type Voto = "ACUERDO" | "DESACUERDO" | "ACUERDO_PARCIAL" | null;
 
 export default function VotacionActa() {
   const [voto, setVoto] = useState<Voto>(null);
   const [comentario, setComentario] = useState("");
+  const router = useRouter();
+  const utils = api.useUtils();
 
   const crearVoto = api.actas.agregarVoto.useMutation({
     onSuccess: () => {
@@ -80,10 +85,14 @@ export default function VotacionActa() {
             if (!voto) return;
             try {
               await crearVoto.mutateAsync({
-                posicion: voto,                       // ACUERDO | DESACUERDO | ACUERDO_PARCIAL
-                comentario: comentario.trim() || null // normaliza vacío → null
+                posicion: voto,
+                comentario: comentario.trim() || null
               });
+              toast.success("Voto agregado con exito");
+              await utils.actas.yaVoto.invalidate();
+              router.refresh();
             } catch (e) {
+              toast.error("Error al registrar el voto");
               console.error(e);
             }
           }}

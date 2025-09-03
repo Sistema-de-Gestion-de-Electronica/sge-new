@@ -5,6 +5,7 @@ import { Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { api } from "@/trpc/react";
+import { toast } from "@/components/ui";
 
 export default function UploadActa() {
   const [open, setOpen] = useState(false);
@@ -20,8 +21,10 @@ export default function UploadActa() {
 
     //Manejo de la fecha
     const dateInput = form.elements.namedItem("actaDate") as HTMLInputElement;
-
-    if (!dateInput?.value) return;
+    if (!dateInput?.value) {
+      toast.error("Por favor selecciona una fecha.");
+      return;
+    }
     const fecha = new Date(`${dateInput.value}T00:00:00`);
 
     //Manejo del pdf
@@ -29,14 +32,30 @@ export default function UploadActa() {
     const file = fileInput?.files?.[0];
 
     if (!file) {
-      alert("Por favor selecciona un archivo PDF.");
+      toast.error("Por favor selecciona un archivo PDF.");
       return;
     }
 
     const reader = new FileReader();
-    reader.onloadend = () => {
+    reader.onloadend = async () => {
       const fileBase64 = reader.result as string;
-      nuevaActa.mutateAsync({ fechaReunion: fecha, fileBase64: fileBase64 });
+
+      //envio la data
+      try {
+        await nuevaActa.mutateAsync(
+          { fechaReunion: fecha, fileBase64 },
+          {
+            onSuccess: () => {
+              toast.success("Acta creada con éxito.");
+            },
+            onError: (error: any) => {
+              toast.error(error?.message ?? "Error al crear el acta");
+            },
+          }
+        );
+      } catch (error: any) {
+        toast.error(error?.message ?? "Error inesperado al crear el acta");
+      }
     };
     reader.readAsDataURL(file);
   }

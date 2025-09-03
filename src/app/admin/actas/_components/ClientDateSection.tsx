@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/Input";
 import { api } from "@/trpc/react";
+import { toast } from "@/components/ui";
 
 
 export default function ClientDateModalPicker() {
@@ -21,7 +22,14 @@ export default function ClientDateModalPicker() {
   const [link, setLink] = useState("");
 
   const { mutateAsync: agregarReunion, isPending, error } =
-    api.reunion.agregarReunion.useMutation({ onSuccess: async () => {},});
+    api.reunion.agregarReunion.useMutation({
+      onSuccess: () => {
+        toast.success("Fecha de reunión agregada con éxito.");
+      },
+      onError: (error) => {
+        toast.error(error?.message ?? "Error al agregar la reunión");
+      },
+    });
 
   const canSave = useMemo(() => {
     return dateStr.length === 10 && link.trim().length > 0 && !isPending;

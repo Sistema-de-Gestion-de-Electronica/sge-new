@@ -1,7 +1,7 @@
-import { inputAgregarActa, inputVisibilidadActa, inputVisibilidadActas } from "@/shared/filters/admin-actas-filter.schema";
+import { inputAgregarActa, inputEliminarActa, inputEliminarActas, inputVisibilidadActa, inputVisibilidadActas } from "@/shared/filters/admin-actas-filter.schema";
 import { protectedProcedure } from "../../trpc";
 import { validarInput } from "../helper";
-import { agregarActa, getActaAbierta, getVotosFromActaAbierta, visibilidadActaHasta, visibilidadActasEntre } from "../../repositories/admin/actas-admin.repository";
+import { agregarActa, eliminarActasEntre, eliminarActasHasta, getActaAbierta, getVotosFromActaAbierta, visibilidadActaHasta, visibilidadActasEntre } from "../../repositories/admin/actas-admin.repository";
 import { Buffer } from "buffer";
 import { saveActaPDF } from "../../utils/pdfSaver";
 import { getUsuarioPorId } from "../../repositories/admin/usuarios-admin.repository";
@@ -61,7 +61,7 @@ export const getActaAndVotosProcedure = protectedProcedure.query(async ({ ctx })
   return { acta, votos: votosConPersona };
 });
 
-export const visibilidadActaHastaProcedure = protectedProcedure
+export const visibilidadActasHastaProcedure = protectedProcedure
   .input(inputVisibilidadActa)
   .mutation(async ({ ctx, input }) => {
     validarInput(inputVisibilidadActa, input);
@@ -72,12 +72,34 @@ export const visibilidadActaHastaProcedure = protectedProcedure
     }
   )
 
-  export const visibilidadActaEntreProcedure = protectedProcedure
+  export const visibilidadActasEntreProcedure = protectedProcedure
   .input(inputVisibilidadActas)
   .mutation(async ({ ctx, input }) => {
     validarInput(inputVisibilidadActas, input);
 
     const acta = visibilidadActasEntre(ctx,input)
+
+    return acta;
+    }
+  )
+
+  export const eliminarActasHastaProcedure = protectedProcedure
+  .input(inputEliminarActa)
+  .mutation(async ({ ctx, input }) => {
+    validarInput(inputEliminarActa, input);
+
+    const acta = eliminarActasHasta(ctx,input)
+
+    return acta;
+    }
+  )
+
+  export const eliminarActasEntreProcedure = protectedProcedure
+  .input(inputEliminarActas)
+  .mutation(async ({ ctx, input }) => {
+    validarInput(inputEliminarActas, input);
+
+    const acta = eliminarActasEntre(ctx,input)
 
     return acta;
     }

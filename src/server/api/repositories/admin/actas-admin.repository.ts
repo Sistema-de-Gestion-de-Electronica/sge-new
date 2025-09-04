@@ -1,5 +1,5 @@
 import { Prisma, type PrismaClient } from "@/generated/prisma";
-import { inputAgregarActa, inputEliminarActa, inputEliminarActas } from "@/shared/filters/admin-actas-filter.schema";
+import { inputAgregarActa, inputEliminarActa, inputEliminarActas, inputVisibilidadActa, inputVisibilidadActas } from "@/shared/filters/admin-actas-filter.schema";
 import { z } from "zod";
 
 type InputAgregarActa = z.infer<typeof inputAgregarActa>;
@@ -46,31 +46,21 @@ export const agregarActa = async (ctx: { db: PrismaClient }, input: InputAgregar
 };
 
 type InputEliminarActa = z.infer<typeof inputEliminarActa>;
-export const eliminarActa = async (ctx: { db: PrismaClient }, input: InputEliminarActa) => {
+export const eliminarActasHasta = async (ctx: { db: PrismaClient }, input: InputEliminarActa) => {
   try {
     const acta = await ctx.db.acta.deleteMany({
       where: {
-        fechaReunion: input.fechaReunion,
+        lte: input.fechaReunion,
       },
     });
     return acta;
   } catch (error) {
-    throw new Error(`Error eliminando acta ${input.fechaReunion}`);
+    throw new Error(`Error eliminando actas hasta la fecha: ${input.fechaReunion}`);
   }
 }
 
 type InputEliminarActas = z.infer<typeof inputEliminarActas>;
-const startOfDay = (d: Date) => {
-  const x = new Date(d);
-  x.setHours(0, 0, 0, 0);
-  return x;
-};
-const endOfDay = (d: Date) => {
-  const x = new Date(d);
-  x.setHours(23, 59, 59, 999);
-  return x;
-};
-export const eliminarActas = async (ctx: { db: PrismaClient }, input: InputEliminarActas) => {
+export const eliminarActasEntre = async (ctx: { db: PrismaClient }, input: InputEliminarActas) => {
   try {
     const gte = input.fechaInicio ? startOfDay(input.fechaInicio) : undefined;
     const lte = endOfDay(input.fechaFin);
@@ -80,8 +70,7 @@ export const eliminarActas = async (ctx: { db: PrismaClient }, input: InputElimi
       : { fechaReunion: { lte } };
 
     const res = await ctx.db.acta.deleteMany({ where });
-    // res.count => cantidad borrada
-    return res; // devolvés { count: number }
+    return res;
   } catch (error) {
     throw new Error(`Error eliminando actas hasta/entre fechas: ${(error as Error).message}`);
   }
@@ -108,13 +97,59 @@ export const getActaAbierta = async (ctx: { db: PrismaClient }) => {
   }
 };
 
+type InputVisibilidadActas = z.infer<typeof inputVisibilidadActas>;
+export const visibilidadActasEntre = async (ctx: { db: PrismaClient }, input: InputVisibilidadActas) => {
+  try {
+    const gte = input.fechaInicio ? startOfDay(input.fechaInicio) : undefined;
+    const lte = endOfDay(input.fechaFin);
+
+    const where = input.fechaInicio
+      ? { fechaReunion: { gte, lte } }
+      : { fechaReunion: { lte } };
+
+    const res = await ctx.db.acta.updateMany({
+      where,
+      data: { visibilidad: input.visibilidad },
+    });
+    return res;
+  } catch (error) {
+    throw new Error(`Error actualizando actas entre fechas: ${(error as Error).message}`);
+  }
+}
+
+type InputVisibilidadActa = z.infer<typeof inputVisibilidadActa>;
+export const visibilidadActaHasta = async (ctx: { db: PrismaClient }, input: InputVisibilidadActa) => {
+  try {
+    const acta = await ctx.db.acta.updateMany({
+      where: {
+        lte: input.date,
+      },
+      data: { visibilidad: input.visibilidad },
+    });
+    return acta;
+  } catch (error) {
+    throw new Error(`Error actualizando actas hasta ${input.fechaReunion}`);
+  }
+}
+
 export const getVotosFromActaAbierta = async (
   ctx: { db: PrismaClient },
   id: number
 ) => {
   return ctx.db.voto.findMany({
     where: { actaId: id, acta: { estado: "ABIERTA" } },
-    orderBy: { fechaEmision: "desc" }, // opcional
+    orderBy: { fechaEmision: "desc" },
   });
+};
+
+const startOfDay = (d: Date) => {
+  const x = new Date(d);
+  x.setHours(0, 0, 0, 0);
+  return x;
+};
+const endOfDay = (d: Date) => {
+  const x = new Date(d);
+  x.setHours(23, 59, 59, 999);
+  return x;
 };
 

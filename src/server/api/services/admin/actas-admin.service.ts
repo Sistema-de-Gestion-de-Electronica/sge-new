@@ -1,7 +1,7 @@
-import { inputAgregarActa } from "@/shared/filters/admin-actas-filter.schema";
+import { inputAgregarActa, inputVisibilidadActa, inputVisibilidadActas } from "@/shared/filters/admin-actas-filter.schema";
 import { protectedProcedure } from "../../trpc";
 import { validarInput } from "../helper";
-import { agregarActa, getActaAbierta, getVotosFromActaAbierta } from "../../repositories/admin/actas-admin.repository";
+import { agregarActa, getActaAbierta, getVotosFromActaAbierta, visibilidadActaHasta, visibilidadActasEntre } from "../../repositories/admin/actas-admin.repository";
 import { Buffer } from "buffer";
 import { saveActaPDF } from "../../utils/pdfSaver";
 import { getUsuarioPorId } from "../../repositories/admin/usuarios-admin.repository";
@@ -49,7 +49,6 @@ export const getActaAndVotosProcedure = protectedProcedure.query(async ({ ctx })
 
   const votos = await getVotosFromActaAbierta(ctx, acta.id);
 
-  // enriquecer cada voto con persona = "nombre apellido"
   const votosConPersona = await Promise.all(
     votos.map(async (voto) => {
       const user = await getUsuarioPorId(ctx, { id: voto.consejeroId });
@@ -61,3 +60,25 @@ export const getActaAndVotosProcedure = protectedProcedure.query(async ({ ctx })
   );
   return { acta, votos: votosConPersona };
 });
+
+export const visibilidadActaHastaProcedure = protectedProcedure
+  .input(inputVisibilidadActa)
+  .mutation(async ({ ctx, input }) => {
+    validarInput(inputVisibilidadActa, input);
+
+    const acta = visibilidadActaHasta(ctx,input)
+
+    return acta;
+    }
+  )
+
+  export const visibilidadActaEntreProcedure = protectedProcedure
+  .input(inputVisibilidadActas)
+  .mutation(async ({ ctx, input }) => {
+    validarInput(inputVisibilidadActas, input);
+
+    const acta = visibilidadActasEntre(ctx,input)
+
+    return acta;
+    }
+  )

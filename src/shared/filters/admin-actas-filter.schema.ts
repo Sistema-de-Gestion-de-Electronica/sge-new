@@ -23,7 +23,6 @@ export const inputVisibilidadActa = z.object({
 });
 
 export const inputVisibilidadActas = z.object({
-  // visible | oculta (opcional)
   visibilidad: z.enum(["VISIBLE", "OCULTA"]),
   fechaInicio: z.coerce.date().optional(),
   fechaFin: z.coerce.date(),

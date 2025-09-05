@@ -48,12 +48,13 @@ export const agregarActa = async (ctx: { db: PrismaClient }, input: InputAgregar
 type InputEliminarActa = z.infer<typeof inputEliminarActa>;
 export const eliminarActasHasta = async (ctx: { db: PrismaClient }, input: InputEliminarActa) => {
   try {
-    const acta = await ctx.db.acta.deleteMany({
+    const lte = endOfDay(input.fechaReunion);
+    const res = await ctx.db.acta.deleteMany({
       where: {
-        lte: input.fechaReunion,
+        fechaReunion: lte,
       },
     });
-    return acta;
+    return res;
   } catch (error) {
     throw new Error(`Error eliminando actas hasta la fecha: ${input.fechaReunion}`);
   }
@@ -120,13 +121,14 @@ export const visibilidadActasEntre = async (ctx: { db: PrismaClient }, input: In
 type InputVisibilidadActa = z.infer<typeof inputVisibilidadActa>;
 export const visibilidadActaHasta = async (ctx: { db: PrismaClient }, input: InputVisibilidadActa) => {
   try {
-    const acta = await ctx.db.acta.updateMany({
+    const lte = endOfDay(input.fechaFin);
+    const res = await ctx.db.acta.updateMany({
       where: {
-        lte: input.date,
+        fechaReunion: { lte }
       },
       data: { visibilidad: input.visibilidad },
     });
-    return acta;
+    return res;
   } catch (error) {
     throw new Error(`Error actualizando actas hasta ${input.fechaReunion}`);
   }

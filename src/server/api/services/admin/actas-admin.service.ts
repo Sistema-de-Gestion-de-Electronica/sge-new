@@ -66,9 +66,9 @@ export const visibilidadActasHastaProcedure = protectedProcedure
   .mutation(async ({ ctx, input }) => {
     validarInput(inputVisibilidadActa, input);
 
-    const acta = visibilidadActaHasta(ctx,input)
+    const res = visibilidadActaHasta(ctx,input)
 
-    return acta;
+    return res;
     }
   )
 
@@ -77,9 +77,9 @@ export const visibilidadActasHastaProcedure = protectedProcedure
   .mutation(async ({ ctx, input }) => {
     validarInput(inputVisibilidadActas, input);
 
-    const acta = visibilidadActasEntre(ctx,input)
+    const res = visibilidadActasEntre(ctx,input)
 
-    return acta;
+    return res;
     }
   )
 
@@ -88,7 +88,8 @@ export const visibilidadActasHastaProcedure = protectedProcedure
   .mutation(async ({ ctx, input }) => {
     validarInput(inputEliminarActa, input);
 
-    eliminarActasHasta(ctx,input)
+    const res = eliminarActasHasta(ctx,input)
+    return res;
     }
   )
 
@@ -97,6 +98,7 @@ export const visibilidadActasHastaProcedure = protectedProcedure
   .mutation(async ({ ctx, input }) => {
     validarInput(inputEliminarActas, input);
 
-    eliminarActasEntre(ctx,input)
+    const res = eliminarActasEntre(ctx,input)
+    return res;
     }
   )

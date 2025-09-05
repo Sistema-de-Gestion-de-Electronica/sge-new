@@ -12,10 +12,12 @@ import GraciasPorVotar from './thankYouDiv'
 
 export function ClientVotacionActa() {
   const methods = useForm();
-  const { data: esConsejero, isLoading, isError } = api.actas.tieneRolConsejero.useQuery();
+  const { data: esConsejero, isLoading } = api.actas.tieneRolConsejero.useQuery();
   const [acta, setActa] = useState<Acta | undefined>(undefined);
   const { data: yaVoto } = api.actas.yaVoto.useQuery();
-  const {data: reunion} = api.reunion.getUltimaReunion.useQuery();
+  const {data: reunion  } = api.reunion.getUltimaReunion.useQuery();
+  const [pdfLoading, setPdfLoading] = useState(false);
+
 
   const handleState = (acta: Acta) => {
     console.log('Información del acta seleccionada:', acta);
@@ -53,25 +55,29 @@ export function ClientVotacionActa() {
                 
         {/* Header acta */}
         <div className="bg-white border border-gray-200 p-4 rounded-md shadow-sm">
-          { acta?.estado === "ABIERTA" ? (
+          {acta?.estado === "ABIERTA" ? (
             <>
               <h1 className="text-gray-900 text-center text-2xl font-bold tracking-tight">
                 Acta del Consejo Departamental a evaluar
               </h1>
-              <br/>
+              <br />
               <p className="text-center antialiased sm:text-md lg:px-28">
-                Consejeros/as: El acta que se muestra a continuación contiene el resumen de lo tratado en la última reunión con fecha {acta?.label}.
-                Por favor exprese al pie su conformidad o disconformidad con la misma a los efectos de considerar su aprobación en la próxima reunión.
-                En caso de disconformidad o conformidad parcial, les pedimos que nos hagan saber en los comentarios las razones de esa opinión, con el objeto de evaluar cambios en la redacción. Gracias.
-              </p> 
+                Consejeros/as: El acta que se muestra a continuación contiene el resumen de lo tratado
+                en la última reunión con fecha {acta?.label}. Por favor exprese al pie su conformidad
+                o disconformidad...
+              </p>
             </>
+          ) : acta ? (
+            <h1 className="text-xl font-semibold text-gray-900">Acta-{acta.label}</h1>
           ) : (
-            <h1 className="text-xl font-semibold text-gray-900">Acta-{acta?.label}</h1>
+            <div className="h-6 w-48 animate-pulse rounded bg-gray-200" />
           )}
-          <br/>
-          <PdfIframeViewer file={pdfUrl} />
-          
+
+          <br />
+
+          <PdfIframeViewer file={pdfUrl} onLoadingChange={setPdfLoading} />
         </div>
+
         {esConsejero && acta?.estado === "ABIERTA"? (
           !yaVoto
             ? <VotacionActa />

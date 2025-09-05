@@ -6,7 +6,7 @@ import { TrashIcon, EyeOffIcon, WandSparkles } from "lucide-react";
 import { Button } from "@/components/ui";
 import ModalDrawer from "@/app/_components/modal/modal-drawer";
 import { toast } from "@/components/ui";
-// import { api } from "@/trpc/react"; // ← Descomenta cuando tengas el endpoint
+import { api } from "@/trpc/react";
 
 type FilterType = "BEFORE" | "BETWEEN" | "EQUAL";
 type ActionType = "HIDE" | "DELETE";
@@ -20,16 +20,10 @@ export default function OcultarEliminarActasModal() {
 
   const [action, setAction] = useState<ActionType | null>(null);
 
-  // —————————————————————————————————————————
-  // API (stub) — reemplazá por tu TRPC:
-  // const bulkMaintain = api.admin.acta.bulkMaintenance.useMutation({
-  //   onSuccess: (res) => {
-  //     toast.success(`Acción realizada. Afectadas: ${res?.modified ?? 0} actas`);
-  //     setOpen(false);
-  //   },
-  //   onError: (err) => toast.error(err?.message ?? "Error realizando la acción"),
-  // });
-  // —————————————————————————————————————————
+  const eliminarHasta = api.admin.actas.eliminarHasta.useMutation();
+  const eliminarEntre = api.admin.actas.eliminarEntre.useMutation();
+  const visHasta = api.admin.actas.visualizacionHasta.useMutation();
+  const visEntre = api.admin.actas.visualizacionEntre.useMutation();
 
   const isValidDates = useMemo(() => {
     if (filterType === "BEFORE" || filterType === "EQUAL") {
@@ -44,7 +38,13 @@ export default function OcultarEliminarActasModal() {
 
   const canConfirm = !!action && isValidDates;
 
-  const buildPayload = () => {
+    const isPending =
+    eliminarHasta.isPending ||
+    eliminarEntre.isPending ||
+    visHasta.isPending ||
+    visEntre.isPending;
+
+const buildPayload = () => {
     if (filterType === "BEFORE") {
       return {
         action: action === "HIDE" ? "hide" : "hardDelete",
@@ -65,14 +65,47 @@ export default function OcultarEliminarActasModal() {
   };
 
   const handleConfirm = async () => {
-    if (!canConfirm) return;
+    if (!canConfirm || !action) return;
 
-    const payload = buildPayload();
+    try {
 
-    // bulkMaintain.mutate(payload); // ← tu llamada real
-    console.log("Bulk payload", payload);
-    toast.success("Acción simulada (consola). Reemplazá por tu mutate().");
-    setOpen(false);
+      const fromDate = date1;
+      const toDate = filterType === "BETWEEN" ? date2 : date1;
+
+      if (action === "HIDE") {
+        if (filterType === "BEFORE") {
+          const res = await visHasta.mutateAsync({
+            visibilidad: "OCULTA",
+            fechaReunion: new Date(toDate),
+          });
+          toast.success(`Actas ocultadas: ${res?.count ?? 0}`);
+        } else {
+          const res = await visEntre.mutateAsync({
+            visibilidad: "OCULTA",
+            fechaInicio: new Date(fromDate),
+            fechaFin: new Date(toDate),
+          });
+          toast.success(`Actas ocultadas: ${res?.count ?? 0}`);
+        }
+      } else {
+        if (filterType === "BEFORE") {
+          const res = await eliminarHasta.mutateAsync({
+            fechaReunion: new Date(toDate),
+          });
+          toast.success(`Actas eliminadas: ${res?.count ?? 0}`);
+        } else {
+          const res = await eliminarEntre.mutateAsync({
+            fechaInicio: new Date(fromDate),
+            fechaFin: new Date(toDate),
+          });
+          toast.success(`Actas eliminadas: ${res?.count ?? 0}`);
+        }
+      }
+
+      setOpen(false);
+    } catch (err: any) {
+      toast.error(err?.message ?? "Error realizando la acción");
+    }
   };
 
   const resetState = () => {
@@ -100,7 +133,6 @@ export default function OcultarEliminarActasModal() {
       }}
       onCancel={() => setOpen(false)}
       onSubmit={handleConfirm}
-      // si tu ModalDrawer usa confirmación “alert” cambiá estas props a gusto:
       isAlertDialog
     >
       <div className="flex flex-col gap-5">
@@ -191,8 +223,6 @@ export default function OcultarEliminarActasModal() {
 
         {/* FOOTER: Cancelar / Confirmar (usa los del ModalDrawer) */}
         <div className="mt-2 text-xs text-slate-500">
-          * Esta acción afectará todas las actas que cumplan el criterio
-          seleccionado.
         </div>
       </div>
     </ModalDrawer>

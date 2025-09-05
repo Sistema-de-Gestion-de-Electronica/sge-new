@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import { ActaVotosTable } from "./TableActaVotos";
-import RemoverLaboratorioModal from "./ModalEliminarActa";
 import EditarLaboratorioModal from "./ModalEditarActa";
 import { api } from "@/trpc/react";
 
@@ -26,7 +25,6 @@ export function AdminConsejeros() {
         <h1 className="text-gray-900 text-center text-2xl font-bold tracking-tight">
           Acta en curso: {acta?.nombreActa ?? "—"}
         </h1>
-        <RemoverLaboratorioModal />
         <EditarLaboratorioModal />
       </div>
 

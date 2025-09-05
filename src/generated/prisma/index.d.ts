@@ -74,6 +74,11 @@ export type EquipoTipo = $Result.DefaultSelection<Prisma.$EquipoTipoPayload>
  */
 export type EquipoEstado = $Result.DefaultSelection<Prisma.$EquipoEstadoPayload>
 /**
+ * Model InscripcionEspecial
+ * 
+ */
+export type InscripcionEspecial = $Result.DefaultSelection<Prisma.$InscripcionEspecialPayload>
+/**
  * Model Laboratorio
  * 
  */
@@ -360,7 +365,10 @@ export const SgeNombre: {
   ACTIVIDADES_USUARIO_SGE_PUBLICAR_ADMIN: 'ACTIVIDADES_USUARIO_SGE_PUBLICAR_ADMIN',
   ACTIVIDADES_USUARIO_SGE_VER_PUBLICACIONES: 'ACTIVIDADES_USUARIO_SGE_VER_PUBLICACIONES',
   ACTIVIDADES_ABIERTAS_PUBLICAR_ADMIN: 'ACTIVIDADES_ABIERTAS_PUBLICAR_ADMIN',
-  ACTIVIDADES_ABIERTAS_VER_PUBLICACIONES: 'ACTIVIDADES_ABIERTAS_VER_PUBLICACIONES'
+  ACTIVIDADES_ABIERTAS_VER_PUBLICACIONES: 'ACTIVIDADES_ABIERTAS_VER_PUBLICACIONES',
+  INSCRIPCIONES_ESPECIALES_VER_LISTADO: 'INSCRIPCIONES_ESPECIALES_VER_LISTADO',
+  INSCRIPCIONES_ESPECIALES_ADMIN: 'INSCRIPCIONES_ESPECIALES_ADMIN',
+  INSCRIPCIONES_ESPECIALES_SOLICITAR: 'INSCRIPCIONES_ESPECIALES_SOLICITAR'
 };
 
 export type SgeNombre = (typeof SgeNombre)[keyof typeof SgeNombre]
@@ -448,7 +456,7 @@ export const LaboratorioAbiertoTipo: typeof $Enums.LaboratorioAbiertoTipo
  */
 export class PrismaClient<
   ClientOptions extends Prisma.PrismaClientOptions = Prisma.PrismaClientOptions,
-  U = 'log' extends keyof ClientOptions ? ClientOptions['log'] extends Array<Prisma.LogLevel | Prisma.LogDefinition> ? Prisma.GetEvents<ClientOptions['log']> : never : never,
+  const U = 'log' extends keyof ClientOptions ? ClientOptions['log'] extends Array<Prisma.LogLevel | Prisma.LogDefinition> ? Prisma.GetEvents<ClientOptions['log']> : never : never,
   ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs
 > {
   [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['other'] }
@@ -480,13 +488,6 @@ export class PrismaClient<
    * Disconnect from the database
    */
   $disconnect(): $Utils.JsPromise<void>;
-
-  /**
-   * Add a middleware
-   * @deprecated since 4.16.0. For new code, prefer client extensions instead.
-   * @see https://pris.ly/d/extensions
-   */
-  $use(cb: Prisma.Middleware): void
 
 /**
    * Executes a prepared raw query and returns the number of affected rows.
@@ -676,6 +677,16 @@ export class PrismaClient<
     * ```
     */
   get equipoEstado(): Prisma.EquipoEstadoDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.inscripcionEspecial`: Exposes CRUD operations for the **InscripcionEspecial** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more InscripcionEspecials
+    * const inscripcionEspecials = await prisma.inscripcionEspecial.findMany()
+    * ```
+    */
+  get inscripcionEspecial(): Prisma.InscripcionEspecialDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.laboratorio`: Exposes CRUD operations for the **Laboratorio** model.
@@ -1034,8 +1045,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.6.0
-   * Query Engine version: f676762280b54cd07c770017ed3711ddde35f37a
+   * Prisma Client JS version: 6.15.0
+   * Query Engine version: 85179d7826409ee107a6ba334b5e305ae3fba9fb
    */
   export type PrismaVersion = {
     client: string
@@ -1428,6 +1439,7 @@ export namespace Prisma {
     EquipoMarca: 'EquipoMarca',
     EquipoTipo: 'EquipoTipo',
     EquipoEstado: 'EquipoEstado',
+    InscripcionEspecial: 'InscripcionEspecial',
     Laboratorio: 'Laboratorio',
     Armario: 'Armario',
     Estante: 'Estante',
@@ -1476,7 +1488,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "libro" | "libroMateria" | "libroAutor" | "libroIdioma" | "libroEditorial" | "curso" | "cursoAyudante" | "division" | "equipo" | "equipoMarca" | "equipoTipo" | "equipoEstado" | "laboratorio" | "armario" | "estante" | "software" | "softwareLaboratorio" | "mails" | "materia" | "materiaJefeTp" | "materiaCorrelativa" | "reserva" | "reservaEquipo" | "reservaLibro" | "reservaLaboratorioCerrado" | "reservaLaboratorioCerradoEquipo" | "reservaLaboratorioAbierto" | "reservaLaboratorioAbiertoEquipo" | "pantalla" | "account" | "session" | "verificationToken" | "sede" | "user" | "tutor" | "usuarioRol" | "rol" | "rolPermiso" | "permiso" | "provincia" | "pais" | "documentoTipo"
+      modelProps: "libro" | "libroMateria" | "libroAutor" | "libroIdioma" | "libroEditorial" | "curso" | "cursoAyudante" | "division" | "equipo" | "equipoMarca" | "equipoTipo" | "equipoEstado" | "inscripcionEspecial" | "laboratorio" | "armario" | "estante" | "software" | "softwareLaboratorio" | "mails" | "materia" | "materiaJefeTp" | "materiaCorrelativa" | "reserva" | "reservaEquipo" | "reservaLibro" | "reservaLaboratorioCerrado" | "reservaLaboratorioCerradoEquipo" | "reservaLaboratorioAbierto" | "reservaLaboratorioAbiertoEquipo" | "pantalla" | "account" | "session" | "verificationToken" | "sede" | "user" | "tutor" | "usuarioRol" | "rol" | "rolPermiso" | "permiso" | "provincia" | "pais" | "documentoTipo"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2365,6 +2377,80 @@ export namespace Prisma {
           count: {
             args: Prisma.EquipoEstadoCountArgs<ExtArgs>
             result: $Utils.Optional<EquipoEstadoCountAggregateOutputType> | number
+          }
+        }
+      }
+      InscripcionEspecial: {
+        payload: Prisma.$InscripcionEspecialPayload<ExtArgs>
+        fields: Prisma.InscripcionEspecialFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.InscripcionEspecialFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InscripcionEspecialPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.InscripcionEspecialFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InscripcionEspecialPayload>
+          }
+          findFirst: {
+            args: Prisma.InscripcionEspecialFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InscripcionEspecialPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.InscripcionEspecialFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InscripcionEspecialPayload>
+          }
+          findMany: {
+            args: Prisma.InscripcionEspecialFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InscripcionEspecialPayload>[]
+          }
+          create: {
+            args: Prisma.InscripcionEspecialCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InscripcionEspecialPayload>
+          }
+          createMany: {
+            args: Prisma.InscripcionEspecialCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.InscripcionEspecialCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InscripcionEspecialPayload>[]
+          }
+          delete: {
+            args: Prisma.InscripcionEspecialDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InscripcionEspecialPayload>
+          }
+          update: {
+            args: Prisma.InscripcionEspecialUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InscripcionEspecialPayload>
+          }
+          deleteMany: {
+            args: Prisma.InscripcionEspecialDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.InscripcionEspecialUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.InscripcionEspecialUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InscripcionEspecialPayload>[]
+          }
+          upsert: {
+            args: Prisma.InscripcionEspecialUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InscripcionEspecialPayload>
+          }
+          aggregate: {
+            args: Prisma.InscripcionEspecialAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateInscripcionEspecial>
+          }
+          groupBy: {
+            args: Prisma.InscripcionEspecialGroupByArgs<ExtArgs>
+            result: $Utils.Optional<InscripcionEspecialGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.InscripcionEspecialCountArgs<ExtArgs>
+            result: $Utils.Optional<InscripcionEspecialCountAggregateOutputType> | number
           }
         }
       }
@@ -4631,16 +4717,24 @@ export namespace Prisma {
     /**
      * @example
      * ```
-     * // Defaults to stdout
+     * // Shorthand for `emit: 'stdout'`
      * log: ['query', 'info', 'warn', 'error']
      * 
-     * // Emit as events
+     * // Emit as events only
      * log: [
-     *   { emit: 'stdout', level: 'query' },
-     *   { emit: 'stdout', level: 'info' },
-     *   { emit: 'stdout', level: 'warn' }
-     *   { emit: 'stdout', level: 'error' }
+     *   { emit: 'event', level: 'query' },
+     *   { emit: 'event', level: 'info' },
+     *   { emit: 'event', level: 'warn' }
+     *   { emit: 'event', level: 'error' }
      * ]
+     * 
+     * / Emit as events and log to stdout
+     * og: [
+     *  { emit: 'stdout', level: 'query' },
+     *  { emit: 'stdout', level: 'info' },
+     *  { emit: 'stdout', level: 'warn' }
+     *  { emit: 'stdout', level: 'error' }
+     * 
      * ```
      * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/logging#the-log-option).
      */
@@ -4684,6 +4778,7 @@ export namespace Prisma {
     equipoMarca?: EquipoMarcaOmit
     equipoTipo?: EquipoTipoOmit
     equipoEstado?: EquipoEstadoOmit
+    inscripcionEspecial?: InscripcionEspecialOmit
     laboratorio?: LaboratorioOmit
     armario?: ArmarioOmit
     estante?: EstanteOmit
@@ -4723,10 +4818,15 @@ export namespace Prisma {
     emit: 'stdout' | 'event'
   }
 
-  export type GetLogType<T extends LogLevel | LogDefinition> = T extends LogDefinition ? T['emit'] extends 'event' ? T['level'] : never : never
-  export type GetEvents<T extends any> = T extends Array<LogLevel | LogDefinition> ?
-    GetLogType<T[0]> | GetLogType<T[1]> | GetLogType<T[2]> | GetLogType<T[3]>
-    : never
+  export type CheckIsLogLevel<T> = T extends LogLevel ? T : never;
+
+  export type GetLogType<T> = CheckIsLogLevel<
+    T extends LogDefinition ? T['level'] : T
+  >;
+
+  export type GetEvents<T extends any[]> = T extends Array<LogLevel | LogDefinition>
+    ? GetLogType<T[number]>
+    : never;
 
   export type QueryEvent = {
     timestamp: Date
@@ -4766,25 +4866,6 @@ export namespace Prisma {
     | 'runCommandRaw'
     | 'findRaw'
     | 'groupBy'
-
-  /**
-   * These options are being passed into the middleware as "params"
-   */
-  export type MiddlewareParams = {
-    model?: ModelName
-    action: PrismaAction
-    args: any
-    dataPath: string[]
-    runInTransaction: boolean
-  }
-
-  /**
-   * The `T` type makes sure, that the `return proceed` is not forgotten in the middleware implementation
-   */
-  export type Middleware<T = any> = (
-    params: MiddlewareParams,
-    next: (params: MiddlewareParams) => $Utils.JsPromise<T>,
-  ) => $Utils.JsPromise<T>
 
   // tested in getLogLevel.test.ts
   export function getLogLevel(log: Array<LogLevel | LogDefinition>): LogLevel | undefined;
@@ -5582,6 +5663,7 @@ export namespace Prisma {
     reservasAprobadas: number
     reservasRechazadas: number
     reservasRecibidas: number
+    inscripcionesEspeciales: number
     cursosComoAyudante: number
     cursosComoProfesor: number
     MateriaJefeTp: number
@@ -5599,6 +5681,7 @@ export namespace Prisma {
     reservasAprobadas?: boolean | UserCountOutputTypeCountReservasAprobadasArgs
     reservasRechazadas?: boolean | UserCountOutputTypeCountReservasRechazadasArgs
     reservasRecibidas?: boolean | UserCountOutputTypeCountReservasRecibidasArgs
+    inscripcionesEspeciales?: boolean | UserCountOutputTypeCountInscripcionesEspecialesArgs
     cursosComoAyudante?: boolean | UserCountOutputTypeCountCursosComoAyudanteArgs
     cursosComoProfesor?: boolean | UserCountOutputTypeCountCursosComoProfesorArgs
     MateriaJefeTp?: boolean | UserCountOutputTypeCountMateriaJefeTpArgs
@@ -5678,6 +5761,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountReservasRecibidasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ReservaWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountInscripcionesEspecialesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InscripcionEspecialWhereInput
   }
 
   /**
@@ -20070,6 +20160,1176 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: EquipoEstadoInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model InscripcionEspecial
+   */
+
+  export type AggregateInscripcionEspecial = {
+    _count: InscripcionEspecialCountAggregateOutputType | null
+    _avg: InscripcionEspecialAvgAggregateOutputType | null
+    _sum: InscripcionEspecialSumAggregateOutputType | null
+    _min: InscripcionEspecialMinAggregateOutputType | null
+    _max: InscripcionEspecialMaxAggregateOutputType | null
+  }
+
+  export type InscripcionEspecialAvgAggregateOutputType = {
+    id: number | null
+    materias: number | null
+  }
+
+  export type InscripcionEspecialSumAggregateOutputType = {
+    id: number | null
+    materias: number[]
+  }
+
+  export type InscripcionEspecialMinAggregateOutputType = {
+    id: number | null
+    solicitanteId: string | null
+    caso: string | null
+    justificacion: string | null
+    turnoAlternativa1: string | null
+    turnoAlternativa2: string | null
+    estado: string | null
+    respuesta: string | null
+    fechaSolicitud: Date | null
+    fechaRespuesta: Date | null
+  }
+
+  export type InscripcionEspecialMaxAggregateOutputType = {
+    id: number | null
+    solicitanteId: string | null
+    caso: string | null
+    justificacion: string | null
+    turnoAlternativa1: string | null
+    turnoAlternativa2: string | null
+    estado: string | null
+    respuesta: string | null
+    fechaSolicitud: Date | null
+    fechaRespuesta: Date | null
+  }
+
+  export type InscripcionEspecialCountAggregateOutputType = {
+    id: number
+    solicitanteId: number
+    caso: number
+    justificacion: number
+    turnoAlternativa1: number
+    turnoAlternativa2: number
+    materias: number
+    estado: number
+    respuesta: number
+    fechaSolicitud: number
+    fechaRespuesta: number
+    _all: number
+  }
+
+
+  export type InscripcionEspecialAvgAggregateInputType = {
+    id?: true
+    materias?: true
+  }
+
+  export type InscripcionEspecialSumAggregateInputType = {
+    id?: true
+    materias?: true
+  }
+
+  export type InscripcionEspecialMinAggregateInputType = {
+    id?: true
+    solicitanteId?: true
+    caso?: true
+    justificacion?: true
+    turnoAlternativa1?: true
+    turnoAlternativa2?: true
+    estado?: true
+    respuesta?: true
+    fechaSolicitud?: true
+    fechaRespuesta?: true
+  }
+
+  export type InscripcionEspecialMaxAggregateInputType = {
+    id?: true
+    solicitanteId?: true
+    caso?: true
+    justificacion?: true
+    turnoAlternativa1?: true
+    turnoAlternativa2?: true
+    estado?: true
+    respuesta?: true
+    fechaSolicitud?: true
+    fechaRespuesta?: true
+  }
+
+  export type InscripcionEspecialCountAggregateInputType = {
+    id?: true
+    solicitanteId?: true
+    caso?: true
+    justificacion?: true
+    turnoAlternativa1?: true
+    turnoAlternativa2?: true
+    materias?: true
+    estado?: true
+    respuesta?: true
+    fechaSolicitud?: true
+    fechaRespuesta?: true
+    _all?: true
+  }
+
+  export type InscripcionEspecialAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which InscripcionEspecial to aggregate.
+     */
+    where?: InscripcionEspecialWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InscripcionEspecials to fetch.
+     */
+    orderBy?: InscripcionEspecialOrderByWithRelationInput | InscripcionEspecialOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: InscripcionEspecialWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InscripcionEspecials from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InscripcionEspecials.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned InscripcionEspecials
+    **/
+    _count?: true | InscripcionEspecialCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: InscripcionEspecialAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: InscripcionEspecialSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: InscripcionEspecialMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: InscripcionEspecialMaxAggregateInputType
+  }
+
+  export type GetInscripcionEspecialAggregateType<T extends InscripcionEspecialAggregateArgs> = {
+        [P in keyof T & keyof AggregateInscripcionEspecial]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateInscripcionEspecial[P]>
+      : GetScalarType<T[P], AggregateInscripcionEspecial[P]>
+  }
+
+
+
+
+  export type InscripcionEspecialGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InscripcionEspecialWhereInput
+    orderBy?: InscripcionEspecialOrderByWithAggregationInput | InscripcionEspecialOrderByWithAggregationInput[]
+    by: InscripcionEspecialScalarFieldEnum[] | InscripcionEspecialScalarFieldEnum
+    having?: InscripcionEspecialScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: InscripcionEspecialCountAggregateInputType | true
+    _avg?: InscripcionEspecialAvgAggregateInputType
+    _sum?: InscripcionEspecialSumAggregateInputType
+    _min?: InscripcionEspecialMinAggregateInputType
+    _max?: InscripcionEspecialMaxAggregateInputType
+  }
+
+  export type InscripcionEspecialGroupByOutputType = {
+    id: number
+    solicitanteId: string
+    caso: string
+    justificacion: string
+    turnoAlternativa1: string | null
+    turnoAlternativa2: string | null
+    materias: number[]
+    estado: string
+    respuesta: string | null
+    fechaSolicitud: Date
+    fechaRespuesta: Date | null
+    _count: InscripcionEspecialCountAggregateOutputType | null
+    _avg: InscripcionEspecialAvgAggregateOutputType | null
+    _sum: InscripcionEspecialSumAggregateOutputType | null
+    _min: InscripcionEspecialMinAggregateOutputType | null
+    _max: InscripcionEspecialMaxAggregateOutputType | null
+  }
+
+  type GetInscripcionEspecialGroupByPayload<T extends InscripcionEspecialGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<InscripcionEspecialGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof InscripcionEspecialGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], InscripcionEspecialGroupByOutputType[P]>
+            : GetScalarType<T[P], InscripcionEspecialGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type InscripcionEspecialSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    solicitanteId?: boolean
+    caso?: boolean
+    justificacion?: boolean
+    turnoAlternativa1?: boolean
+    turnoAlternativa2?: boolean
+    materias?: boolean
+    estado?: boolean
+    respuesta?: boolean
+    fechaSolicitud?: boolean
+    fechaRespuesta?: boolean
+    solicitante?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["inscripcionEspecial"]>
+
+  export type InscripcionEspecialSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    solicitanteId?: boolean
+    caso?: boolean
+    justificacion?: boolean
+    turnoAlternativa1?: boolean
+    turnoAlternativa2?: boolean
+    materias?: boolean
+    estado?: boolean
+    respuesta?: boolean
+    fechaSolicitud?: boolean
+    fechaRespuesta?: boolean
+    solicitante?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["inscripcionEspecial"]>
+
+  export type InscripcionEspecialSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    solicitanteId?: boolean
+    caso?: boolean
+    justificacion?: boolean
+    turnoAlternativa1?: boolean
+    turnoAlternativa2?: boolean
+    materias?: boolean
+    estado?: boolean
+    respuesta?: boolean
+    fechaSolicitud?: boolean
+    fechaRespuesta?: boolean
+    solicitante?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["inscripcionEspecial"]>
+
+  export type InscripcionEspecialSelectScalar = {
+    id?: boolean
+    solicitanteId?: boolean
+    caso?: boolean
+    justificacion?: boolean
+    turnoAlternativa1?: boolean
+    turnoAlternativa2?: boolean
+    materias?: boolean
+    estado?: boolean
+    respuesta?: boolean
+    fechaSolicitud?: boolean
+    fechaRespuesta?: boolean
+  }
+
+  export type InscripcionEspecialOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "solicitanteId" | "caso" | "justificacion" | "turnoAlternativa1" | "turnoAlternativa2" | "materias" | "estado" | "respuesta" | "fechaSolicitud" | "fechaRespuesta", ExtArgs["result"]["inscripcionEspecial"]>
+  export type InscripcionEspecialInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    solicitante?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type InscripcionEspecialIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    solicitante?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type InscripcionEspecialIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    solicitante?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $InscripcionEspecialPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "InscripcionEspecial"
+    objects: {
+      solicitante: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      solicitanteId: string
+      caso: string
+      justificacion: string
+      turnoAlternativa1: string | null
+      turnoAlternativa2: string | null
+      materias: number[]
+      estado: string
+      respuesta: string | null
+      fechaSolicitud: Date
+      fechaRespuesta: Date | null
+    }, ExtArgs["result"]["inscripcionEspecial"]>
+    composites: {}
+  }
+
+  type InscripcionEspecialGetPayload<S extends boolean | null | undefined | InscripcionEspecialDefaultArgs> = $Result.GetResult<Prisma.$InscripcionEspecialPayload, S>
+
+  type InscripcionEspecialCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<InscripcionEspecialFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: InscripcionEspecialCountAggregateInputType | true
+    }
+
+  export interface InscripcionEspecialDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['InscripcionEspecial'], meta: { name: 'InscripcionEspecial' } }
+    /**
+     * Find zero or one InscripcionEspecial that matches the filter.
+     * @param {InscripcionEspecialFindUniqueArgs} args - Arguments to find a InscripcionEspecial
+     * @example
+     * // Get one InscripcionEspecial
+     * const inscripcionEspecial = await prisma.inscripcionEspecial.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends InscripcionEspecialFindUniqueArgs>(args: SelectSubset<T, InscripcionEspecialFindUniqueArgs<ExtArgs>>): Prisma__InscripcionEspecialClient<$Result.GetResult<Prisma.$InscripcionEspecialPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one InscripcionEspecial that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {InscripcionEspecialFindUniqueOrThrowArgs} args - Arguments to find a InscripcionEspecial
+     * @example
+     * // Get one InscripcionEspecial
+     * const inscripcionEspecial = await prisma.inscripcionEspecial.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends InscripcionEspecialFindUniqueOrThrowArgs>(args: SelectSubset<T, InscripcionEspecialFindUniqueOrThrowArgs<ExtArgs>>): Prisma__InscripcionEspecialClient<$Result.GetResult<Prisma.$InscripcionEspecialPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first InscripcionEspecial that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InscripcionEspecialFindFirstArgs} args - Arguments to find a InscripcionEspecial
+     * @example
+     * // Get one InscripcionEspecial
+     * const inscripcionEspecial = await prisma.inscripcionEspecial.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends InscripcionEspecialFindFirstArgs>(args?: SelectSubset<T, InscripcionEspecialFindFirstArgs<ExtArgs>>): Prisma__InscripcionEspecialClient<$Result.GetResult<Prisma.$InscripcionEspecialPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first InscripcionEspecial that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InscripcionEspecialFindFirstOrThrowArgs} args - Arguments to find a InscripcionEspecial
+     * @example
+     * // Get one InscripcionEspecial
+     * const inscripcionEspecial = await prisma.inscripcionEspecial.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends InscripcionEspecialFindFirstOrThrowArgs>(args?: SelectSubset<T, InscripcionEspecialFindFirstOrThrowArgs<ExtArgs>>): Prisma__InscripcionEspecialClient<$Result.GetResult<Prisma.$InscripcionEspecialPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more InscripcionEspecials that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InscripcionEspecialFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all InscripcionEspecials
+     * const inscripcionEspecials = await prisma.inscripcionEspecial.findMany()
+     * 
+     * // Get first 10 InscripcionEspecials
+     * const inscripcionEspecials = await prisma.inscripcionEspecial.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const inscripcionEspecialWithIdOnly = await prisma.inscripcionEspecial.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends InscripcionEspecialFindManyArgs>(args?: SelectSubset<T, InscripcionEspecialFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InscripcionEspecialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a InscripcionEspecial.
+     * @param {InscripcionEspecialCreateArgs} args - Arguments to create a InscripcionEspecial.
+     * @example
+     * // Create one InscripcionEspecial
+     * const InscripcionEspecial = await prisma.inscripcionEspecial.create({
+     *   data: {
+     *     // ... data to create a InscripcionEspecial
+     *   }
+     * })
+     * 
+     */
+    create<T extends InscripcionEspecialCreateArgs>(args: SelectSubset<T, InscripcionEspecialCreateArgs<ExtArgs>>): Prisma__InscripcionEspecialClient<$Result.GetResult<Prisma.$InscripcionEspecialPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many InscripcionEspecials.
+     * @param {InscripcionEspecialCreateManyArgs} args - Arguments to create many InscripcionEspecials.
+     * @example
+     * // Create many InscripcionEspecials
+     * const inscripcionEspecial = await prisma.inscripcionEspecial.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends InscripcionEspecialCreateManyArgs>(args?: SelectSubset<T, InscripcionEspecialCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many InscripcionEspecials and returns the data saved in the database.
+     * @param {InscripcionEspecialCreateManyAndReturnArgs} args - Arguments to create many InscripcionEspecials.
+     * @example
+     * // Create many InscripcionEspecials
+     * const inscripcionEspecial = await prisma.inscripcionEspecial.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many InscripcionEspecials and only return the `id`
+     * const inscripcionEspecialWithIdOnly = await prisma.inscripcionEspecial.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends InscripcionEspecialCreateManyAndReturnArgs>(args?: SelectSubset<T, InscripcionEspecialCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InscripcionEspecialPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a InscripcionEspecial.
+     * @param {InscripcionEspecialDeleteArgs} args - Arguments to delete one InscripcionEspecial.
+     * @example
+     * // Delete one InscripcionEspecial
+     * const InscripcionEspecial = await prisma.inscripcionEspecial.delete({
+     *   where: {
+     *     // ... filter to delete one InscripcionEspecial
+     *   }
+     * })
+     * 
+     */
+    delete<T extends InscripcionEspecialDeleteArgs>(args: SelectSubset<T, InscripcionEspecialDeleteArgs<ExtArgs>>): Prisma__InscripcionEspecialClient<$Result.GetResult<Prisma.$InscripcionEspecialPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one InscripcionEspecial.
+     * @param {InscripcionEspecialUpdateArgs} args - Arguments to update one InscripcionEspecial.
+     * @example
+     * // Update one InscripcionEspecial
+     * const inscripcionEspecial = await prisma.inscripcionEspecial.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends InscripcionEspecialUpdateArgs>(args: SelectSubset<T, InscripcionEspecialUpdateArgs<ExtArgs>>): Prisma__InscripcionEspecialClient<$Result.GetResult<Prisma.$InscripcionEspecialPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more InscripcionEspecials.
+     * @param {InscripcionEspecialDeleteManyArgs} args - Arguments to filter InscripcionEspecials to delete.
+     * @example
+     * // Delete a few InscripcionEspecials
+     * const { count } = await prisma.inscripcionEspecial.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends InscripcionEspecialDeleteManyArgs>(args?: SelectSubset<T, InscripcionEspecialDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more InscripcionEspecials.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InscripcionEspecialUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many InscripcionEspecials
+     * const inscripcionEspecial = await prisma.inscripcionEspecial.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends InscripcionEspecialUpdateManyArgs>(args: SelectSubset<T, InscripcionEspecialUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more InscripcionEspecials and returns the data updated in the database.
+     * @param {InscripcionEspecialUpdateManyAndReturnArgs} args - Arguments to update many InscripcionEspecials.
+     * @example
+     * // Update many InscripcionEspecials
+     * const inscripcionEspecial = await prisma.inscripcionEspecial.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more InscripcionEspecials and only return the `id`
+     * const inscripcionEspecialWithIdOnly = await prisma.inscripcionEspecial.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends InscripcionEspecialUpdateManyAndReturnArgs>(args: SelectSubset<T, InscripcionEspecialUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InscripcionEspecialPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one InscripcionEspecial.
+     * @param {InscripcionEspecialUpsertArgs} args - Arguments to update or create a InscripcionEspecial.
+     * @example
+     * // Update or create a InscripcionEspecial
+     * const inscripcionEspecial = await prisma.inscripcionEspecial.upsert({
+     *   create: {
+     *     // ... data to create a InscripcionEspecial
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the InscripcionEspecial we want to update
+     *   }
+     * })
+     */
+    upsert<T extends InscripcionEspecialUpsertArgs>(args: SelectSubset<T, InscripcionEspecialUpsertArgs<ExtArgs>>): Prisma__InscripcionEspecialClient<$Result.GetResult<Prisma.$InscripcionEspecialPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of InscripcionEspecials.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InscripcionEspecialCountArgs} args - Arguments to filter InscripcionEspecials to count.
+     * @example
+     * // Count the number of InscripcionEspecials
+     * const count = await prisma.inscripcionEspecial.count({
+     *   where: {
+     *     // ... the filter for the InscripcionEspecials we want to count
+     *   }
+     * })
+    **/
+    count<T extends InscripcionEspecialCountArgs>(
+      args?: Subset<T, InscripcionEspecialCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], InscripcionEspecialCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a InscripcionEspecial.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InscripcionEspecialAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends InscripcionEspecialAggregateArgs>(args: Subset<T, InscripcionEspecialAggregateArgs>): Prisma.PrismaPromise<GetInscripcionEspecialAggregateType<T>>
+
+    /**
+     * Group by InscripcionEspecial.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InscripcionEspecialGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends InscripcionEspecialGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: InscripcionEspecialGroupByArgs['orderBy'] }
+        : { orderBy?: InscripcionEspecialGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, InscripcionEspecialGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetInscripcionEspecialGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the InscripcionEspecial model
+   */
+  readonly fields: InscripcionEspecialFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for InscripcionEspecial.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__InscripcionEspecialClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    solicitante<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the InscripcionEspecial model
+   */
+  interface InscripcionEspecialFieldRefs {
+    readonly id: FieldRef<"InscripcionEspecial", 'Int'>
+    readonly solicitanteId: FieldRef<"InscripcionEspecial", 'String'>
+    readonly caso: FieldRef<"InscripcionEspecial", 'String'>
+    readonly justificacion: FieldRef<"InscripcionEspecial", 'String'>
+    readonly turnoAlternativa1: FieldRef<"InscripcionEspecial", 'String'>
+    readonly turnoAlternativa2: FieldRef<"InscripcionEspecial", 'String'>
+    readonly materias: FieldRef<"InscripcionEspecial", 'Int[]'>
+    readonly estado: FieldRef<"InscripcionEspecial", 'String'>
+    readonly respuesta: FieldRef<"InscripcionEspecial", 'String'>
+    readonly fechaSolicitud: FieldRef<"InscripcionEspecial", 'DateTime'>
+    readonly fechaRespuesta: FieldRef<"InscripcionEspecial", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * InscripcionEspecial findUnique
+   */
+  export type InscripcionEspecialFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InscripcionEspecial
+     */
+    select?: InscripcionEspecialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InscripcionEspecial
+     */
+    omit?: InscripcionEspecialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InscripcionEspecialInclude<ExtArgs> | null
+    /**
+     * Filter, which InscripcionEspecial to fetch.
+     */
+    where: InscripcionEspecialWhereUniqueInput
+  }
+
+  /**
+   * InscripcionEspecial findUniqueOrThrow
+   */
+  export type InscripcionEspecialFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InscripcionEspecial
+     */
+    select?: InscripcionEspecialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InscripcionEspecial
+     */
+    omit?: InscripcionEspecialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InscripcionEspecialInclude<ExtArgs> | null
+    /**
+     * Filter, which InscripcionEspecial to fetch.
+     */
+    where: InscripcionEspecialWhereUniqueInput
+  }
+
+  /**
+   * InscripcionEspecial findFirst
+   */
+  export type InscripcionEspecialFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InscripcionEspecial
+     */
+    select?: InscripcionEspecialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InscripcionEspecial
+     */
+    omit?: InscripcionEspecialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InscripcionEspecialInclude<ExtArgs> | null
+    /**
+     * Filter, which InscripcionEspecial to fetch.
+     */
+    where?: InscripcionEspecialWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InscripcionEspecials to fetch.
+     */
+    orderBy?: InscripcionEspecialOrderByWithRelationInput | InscripcionEspecialOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for InscripcionEspecials.
+     */
+    cursor?: InscripcionEspecialWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InscripcionEspecials from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InscripcionEspecials.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of InscripcionEspecials.
+     */
+    distinct?: InscripcionEspecialScalarFieldEnum | InscripcionEspecialScalarFieldEnum[]
+  }
+
+  /**
+   * InscripcionEspecial findFirstOrThrow
+   */
+  export type InscripcionEspecialFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InscripcionEspecial
+     */
+    select?: InscripcionEspecialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InscripcionEspecial
+     */
+    omit?: InscripcionEspecialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InscripcionEspecialInclude<ExtArgs> | null
+    /**
+     * Filter, which InscripcionEspecial to fetch.
+     */
+    where?: InscripcionEspecialWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InscripcionEspecials to fetch.
+     */
+    orderBy?: InscripcionEspecialOrderByWithRelationInput | InscripcionEspecialOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for InscripcionEspecials.
+     */
+    cursor?: InscripcionEspecialWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InscripcionEspecials from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InscripcionEspecials.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of InscripcionEspecials.
+     */
+    distinct?: InscripcionEspecialScalarFieldEnum | InscripcionEspecialScalarFieldEnum[]
+  }
+
+  /**
+   * InscripcionEspecial findMany
+   */
+  export type InscripcionEspecialFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InscripcionEspecial
+     */
+    select?: InscripcionEspecialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InscripcionEspecial
+     */
+    omit?: InscripcionEspecialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InscripcionEspecialInclude<ExtArgs> | null
+    /**
+     * Filter, which InscripcionEspecials to fetch.
+     */
+    where?: InscripcionEspecialWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InscripcionEspecials to fetch.
+     */
+    orderBy?: InscripcionEspecialOrderByWithRelationInput | InscripcionEspecialOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing InscripcionEspecials.
+     */
+    cursor?: InscripcionEspecialWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InscripcionEspecials from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InscripcionEspecials.
+     */
+    skip?: number
+    distinct?: InscripcionEspecialScalarFieldEnum | InscripcionEspecialScalarFieldEnum[]
+  }
+
+  /**
+   * InscripcionEspecial create
+   */
+  export type InscripcionEspecialCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InscripcionEspecial
+     */
+    select?: InscripcionEspecialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InscripcionEspecial
+     */
+    omit?: InscripcionEspecialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InscripcionEspecialInclude<ExtArgs> | null
+    /**
+     * The data needed to create a InscripcionEspecial.
+     */
+    data: XOR<InscripcionEspecialCreateInput, InscripcionEspecialUncheckedCreateInput>
+  }
+
+  /**
+   * InscripcionEspecial createMany
+   */
+  export type InscripcionEspecialCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many InscripcionEspecials.
+     */
+    data: InscripcionEspecialCreateManyInput | InscripcionEspecialCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * InscripcionEspecial createManyAndReturn
+   */
+  export type InscripcionEspecialCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InscripcionEspecial
+     */
+    select?: InscripcionEspecialSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the InscripcionEspecial
+     */
+    omit?: InscripcionEspecialOmit<ExtArgs> | null
+    /**
+     * The data used to create many InscripcionEspecials.
+     */
+    data: InscripcionEspecialCreateManyInput | InscripcionEspecialCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InscripcionEspecialIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * InscripcionEspecial update
+   */
+  export type InscripcionEspecialUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InscripcionEspecial
+     */
+    select?: InscripcionEspecialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InscripcionEspecial
+     */
+    omit?: InscripcionEspecialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InscripcionEspecialInclude<ExtArgs> | null
+    /**
+     * The data needed to update a InscripcionEspecial.
+     */
+    data: XOR<InscripcionEspecialUpdateInput, InscripcionEspecialUncheckedUpdateInput>
+    /**
+     * Choose, which InscripcionEspecial to update.
+     */
+    where: InscripcionEspecialWhereUniqueInput
+  }
+
+  /**
+   * InscripcionEspecial updateMany
+   */
+  export type InscripcionEspecialUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update InscripcionEspecials.
+     */
+    data: XOR<InscripcionEspecialUpdateManyMutationInput, InscripcionEspecialUncheckedUpdateManyInput>
+    /**
+     * Filter which InscripcionEspecials to update
+     */
+    where?: InscripcionEspecialWhereInput
+    /**
+     * Limit how many InscripcionEspecials to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * InscripcionEspecial updateManyAndReturn
+   */
+  export type InscripcionEspecialUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InscripcionEspecial
+     */
+    select?: InscripcionEspecialSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the InscripcionEspecial
+     */
+    omit?: InscripcionEspecialOmit<ExtArgs> | null
+    /**
+     * The data used to update InscripcionEspecials.
+     */
+    data: XOR<InscripcionEspecialUpdateManyMutationInput, InscripcionEspecialUncheckedUpdateManyInput>
+    /**
+     * Filter which InscripcionEspecials to update
+     */
+    where?: InscripcionEspecialWhereInput
+    /**
+     * Limit how many InscripcionEspecials to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InscripcionEspecialIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * InscripcionEspecial upsert
+   */
+  export type InscripcionEspecialUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InscripcionEspecial
+     */
+    select?: InscripcionEspecialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InscripcionEspecial
+     */
+    omit?: InscripcionEspecialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InscripcionEspecialInclude<ExtArgs> | null
+    /**
+     * The filter to search for the InscripcionEspecial to update in case it exists.
+     */
+    where: InscripcionEspecialWhereUniqueInput
+    /**
+     * In case the InscripcionEspecial found by the `where` argument doesn't exist, create a new InscripcionEspecial with this data.
+     */
+    create: XOR<InscripcionEspecialCreateInput, InscripcionEspecialUncheckedCreateInput>
+    /**
+     * In case the InscripcionEspecial was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<InscripcionEspecialUpdateInput, InscripcionEspecialUncheckedUpdateInput>
+  }
+
+  /**
+   * InscripcionEspecial delete
+   */
+  export type InscripcionEspecialDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InscripcionEspecial
+     */
+    select?: InscripcionEspecialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InscripcionEspecial
+     */
+    omit?: InscripcionEspecialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InscripcionEspecialInclude<ExtArgs> | null
+    /**
+     * Filter which InscripcionEspecial to delete.
+     */
+    where: InscripcionEspecialWhereUniqueInput
+  }
+
+  /**
+   * InscripcionEspecial deleteMany
+   */
+  export type InscripcionEspecialDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which InscripcionEspecials to delete
+     */
+    where?: InscripcionEspecialWhereInput
+    /**
+     * Limit how many InscripcionEspecials to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * InscripcionEspecial without action
+   */
+  export type InscripcionEspecialDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InscripcionEspecial
+     */
+    select?: InscripcionEspecialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InscripcionEspecial
+     */
+    omit?: InscripcionEspecialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InscripcionEspecialInclude<ExtArgs> | null
   }
 
 
@@ -45481,6 +46741,7 @@ export namespace Prisma {
     reservasAprobadas?: boolean | User$reservasAprobadasArgs<ExtArgs>
     reservasRechazadas?: boolean | User$reservasRechazadasArgs<ExtArgs>
     reservasRecibidas?: boolean | User$reservasRecibidasArgs<ExtArgs>
+    inscripcionesEspeciales?: boolean | User$inscripcionesEspecialesArgs<ExtArgs>
     cursosComoAyudante?: boolean | User$cursosComoAyudanteArgs<ExtArgs>
     cursosComoProfesor?: boolean | User$cursosComoProfesorArgs<ExtArgs>
     MateriaJefeTp?: boolean | User$MateriaJefeTpArgs<ExtArgs>
@@ -45603,6 +46864,7 @@ export namespace Prisma {
     reservasAprobadas?: boolean | User$reservasAprobadasArgs<ExtArgs>
     reservasRechazadas?: boolean | User$reservasRechazadasArgs<ExtArgs>
     reservasRecibidas?: boolean | User$reservasRecibidasArgs<ExtArgs>
+    inscripcionesEspeciales?: boolean | User$inscripcionesEspecialesArgs<ExtArgs>
     cursosComoAyudante?: boolean | User$cursosComoAyudanteArgs<ExtArgs>
     cursosComoProfesor?: boolean | User$cursosComoProfesorArgs<ExtArgs>
     MateriaJefeTp?: boolean | User$MateriaJefeTpArgs<ExtArgs>
@@ -45637,6 +46899,7 @@ export namespace Prisma {
       reservasAprobadas: Prisma.$ReservaPayload<ExtArgs>[]
       reservasRechazadas: Prisma.$ReservaPayload<ExtArgs>[]
       reservasRecibidas: Prisma.$ReservaPayload<ExtArgs>[]
+      inscripcionesEspeciales: Prisma.$InscripcionEspecialPayload<ExtArgs>[]
       cursosComoAyudante: Prisma.$CursoAyudantePayload<ExtArgs>[]
       cursosComoProfesor: Prisma.$CursoPayload<ExtArgs>[]
       MateriaJefeTp: Prisma.$MateriaJefeTpPayload<ExtArgs>[]
@@ -46079,6 +47342,7 @@ export namespace Prisma {
     reservasAprobadas<T extends User$reservasAprobadasArgs<ExtArgs> = {}>(args?: Subset<T, User$reservasAprobadasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReservaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     reservasRechazadas<T extends User$reservasRechazadasArgs<ExtArgs> = {}>(args?: Subset<T, User$reservasRechazadasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReservaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     reservasRecibidas<T extends User$reservasRecibidasArgs<ExtArgs> = {}>(args?: Subset<T, User$reservasRecibidasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReservaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    inscripcionesEspeciales<T extends User$inscripcionesEspecialesArgs<ExtArgs> = {}>(args?: Subset<T, User$inscripcionesEspecialesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InscripcionEspecialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     cursosComoAyudante<T extends User$cursosComoAyudanteArgs<ExtArgs> = {}>(args?: Subset<T, User$cursosComoAyudanteArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CursoAyudantePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     cursosComoProfesor<T extends User$cursosComoProfesorArgs<ExtArgs> = {}>(args?: Subset<T, User$cursosComoProfesorArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CursoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     MateriaJefeTp<T extends User$MateriaJefeTpArgs<ExtArgs> = {}>(args?: Subset<T, User$MateriaJefeTpArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MateriaJefeTpPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -46808,6 +48072,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ReservaScalarFieldEnum | ReservaScalarFieldEnum[]
+  }
+
+  /**
+   * User.inscripcionesEspeciales
+   */
+  export type User$inscripcionesEspecialesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InscripcionEspecial
+     */
+    select?: InscripcionEspecialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InscripcionEspecial
+     */
+    omit?: InscripcionEspecialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InscripcionEspecialInclude<ExtArgs> | null
+    where?: InscripcionEspecialWhereInput
+    orderBy?: InscripcionEspecialOrderByWithRelationInput | InscripcionEspecialOrderByWithRelationInput[]
+    cursor?: InscripcionEspecialWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: InscripcionEspecialScalarFieldEnum | InscripcionEspecialScalarFieldEnum[]
   }
 
   /**
@@ -55961,6 +57249,23 @@ export namespace Prisma {
   export type EquipoEstadoScalarFieldEnum = (typeof EquipoEstadoScalarFieldEnum)[keyof typeof EquipoEstadoScalarFieldEnum]
 
 
+  export const InscripcionEspecialScalarFieldEnum: {
+    id: 'id',
+    solicitanteId: 'solicitanteId',
+    caso: 'caso',
+    justificacion: 'justificacion',
+    turnoAlternativa1: 'turnoAlternativa1',
+    turnoAlternativa2: 'turnoAlternativa2',
+    materias: 'materias',
+    estado: 'estado',
+    respuesta: 'respuesta',
+    fechaSolicitud: 'fechaSolicitud',
+    fechaRespuesta: 'fechaRespuesta'
+  };
+
+  export type InscripcionEspecialScalarFieldEnum = (typeof InscripcionEspecialScalarFieldEnum)[keyof typeof InscripcionEspecialScalarFieldEnum]
+
+
   export const LaboratorioScalarFieldEnum: {
     id: 'id',
     nombre: 'nombre',
@@ -57585,6 +58890,93 @@ export namespace Prisma {
     nombre?: StringWithAggregatesFilter<"EquipoEstado"> | string
     fechaCreacion?: DateTimeWithAggregatesFilter<"EquipoEstado"> | Date | string
     usuarioCreadorId?: StringWithAggregatesFilter<"EquipoEstado"> | string
+  }
+
+  export type InscripcionEspecialWhereInput = {
+    AND?: InscripcionEspecialWhereInput | InscripcionEspecialWhereInput[]
+    OR?: InscripcionEspecialWhereInput[]
+    NOT?: InscripcionEspecialWhereInput | InscripcionEspecialWhereInput[]
+    id?: IntFilter<"InscripcionEspecial"> | number
+    solicitanteId?: StringFilter<"InscripcionEspecial"> | string
+    caso?: StringFilter<"InscripcionEspecial"> | string
+    justificacion?: StringFilter<"InscripcionEspecial"> | string
+    turnoAlternativa1?: StringNullableFilter<"InscripcionEspecial"> | string | null
+    turnoAlternativa2?: StringNullableFilter<"InscripcionEspecial"> | string | null
+    materias?: IntNullableListFilter<"InscripcionEspecial">
+    estado?: StringFilter<"InscripcionEspecial"> | string
+    respuesta?: StringNullableFilter<"InscripcionEspecial"> | string | null
+    fechaSolicitud?: DateTimeFilter<"InscripcionEspecial"> | Date | string
+    fechaRespuesta?: DateTimeNullableFilter<"InscripcionEspecial"> | Date | string | null
+    solicitante?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type InscripcionEspecialOrderByWithRelationInput = {
+    id?: SortOrder
+    solicitanteId?: SortOrder
+    caso?: SortOrder
+    justificacion?: SortOrder
+    turnoAlternativa1?: SortOrderInput | SortOrder
+    turnoAlternativa2?: SortOrderInput | SortOrder
+    materias?: SortOrder
+    estado?: SortOrder
+    respuesta?: SortOrderInput | SortOrder
+    fechaSolicitud?: SortOrder
+    fechaRespuesta?: SortOrderInput | SortOrder
+    solicitante?: UserOrderByWithRelationInput
+  }
+
+  export type InscripcionEspecialWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: InscripcionEspecialWhereInput | InscripcionEspecialWhereInput[]
+    OR?: InscripcionEspecialWhereInput[]
+    NOT?: InscripcionEspecialWhereInput | InscripcionEspecialWhereInput[]
+    solicitanteId?: StringFilter<"InscripcionEspecial"> | string
+    caso?: StringFilter<"InscripcionEspecial"> | string
+    justificacion?: StringFilter<"InscripcionEspecial"> | string
+    turnoAlternativa1?: StringNullableFilter<"InscripcionEspecial"> | string | null
+    turnoAlternativa2?: StringNullableFilter<"InscripcionEspecial"> | string | null
+    materias?: IntNullableListFilter<"InscripcionEspecial">
+    estado?: StringFilter<"InscripcionEspecial"> | string
+    respuesta?: StringNullableFilter<"InscripcionEspecial"> | string | null
+    fechaSolicitud?: DateTimeFilter<"InscripcionEspecial"> | Date | string
+    fechaRespuesta?: DateTimeNullableFilter<"InscripcionEspecial"> | Date | string | null
+    solicitante?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type InscripcionEspecialOrderByWithAggregationInput = {
+    id?: SortOrder
+    solicitanteId?: SortOrder
+    caso?: SortOrder
+    justificacion?: SortOrder
+    turnoAlternativa1?: SortOrderInput | SortOrder
+    turnoAlternativa2?: SortOrderInput | SortOrder
+    materias?: SortOrder
+    estado?: SortOrder
+    respuesta?: SortOrderInput | SortOrder
+    fechaSolicitud?: SortOrder
+    fechaRespuesta?: SortOrderInput | SortOrder
+    _count?: InscripcionEspecialCountOrderByAggregateInput
+    _avg?: InscripcionEspecialAvgOrderByAggregateInput
+    _max?: InscripcionEspecialMaxOrderByAggregateInput
+    _min?: InscripcionEspecialMinOrderByAggregateInput
+    _sum?: InscripcionEspecialSumOrderByAggregateInput
+  }
+
+  export type InscripcionEspecialScalarWhereWithAggregatesInput = {
+    AND?: InscripcionEspecialScalarWhereWithAggregatesInput | InscripcionEspecialScalarWhereWithAggregatesInput[]
+    OR?: InscripcionEspecialScalarWhereWithAggregatesInput[]
+    NOT?: InscripcionEspecialScalarWhereWithAggregatesInput | InscripcionEspecialScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"InscripcionEspecial"> | number
+    solicitanteId?: StringWithAggregatesFilter<"InscripcionEspecial"> | string
+    caso?: StringWithAggregatesFilter<"InscripcionEspecial"> | string
+    justificacion?: StringWithAggregatesFilter<"InscripcionEspecial"> | string
+    turnoAlternativa1?: StringNullableWithAggregatesFilter<"InscripcionEspecial"> | string | null
+    turnoAlternativa2?: StringNullableWithAggregatesFilter<"InscripcionEspecial"> | string | null
+    materias?: IntNullableListFilter<"InscripcionEspecial">
+    estado?: StringWithAggregatesFilter<"InscripcionEspecial"> | string
+    respuesta?: StringNullableWithAggregatesFilter<"InscripcionEspecial"> | string | null
+    fechaSolicitud?: DateTimeWithAggregatesFilter<"InscripcionEspecial"> | Date | string
+    fechaRespuesta?: DateTimeNullableWithAggregatesFilter<"InscripcionEspecial"> | Date | string | null
   }
 
   export type LaboratorioWhereInput = {
@@ -59342,6 +60734,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaListRelationFilter
     reservasRechazadas?: ReservaListRelationFilter
     reservasRecibidas?: ReservaListRelationFilter
+    inscripcionesEspeciales?: InscripcionEspecialListRelationFilter
     cursosComoAyudante?: CursoAyudanteListRelationFilter
     cursosComoProfesor?: CursoListRelationFilter
     MateriaJefeTp?: MateriaJefeTpListRelationFilter
@@ -59391,6 +60784,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaOrderByRelationAggregateInput
     reservasRechazadas?: ReservaOrderByRelationAggregateInput
     reservasRecibidas?: ReservaOrderByRelationAggregateInput
+    inscripcionesEspeciales?: InscripcionEspecialOrderByRelationAggregateInput
     cursosComoAyudante?: CursoAyudanteOrderByRelationAggregateInput
     cursosComoProfesor?: CursoOrderByRelationAggregateInput
     MateriaJefeTp?: MateriaJefeTpOrderByRelationAggregateInput
@@ -59443,6 +60837,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaListRelationFilter
     reservasRechazadas?: ReservaListRelationFilter
     reservasRecibidas?: ReservaListRelationFilter
+    inscripcionesEspeciales?: InscripcionEspecialListRelationFilter
     cursosComoAyudante?: CursoAyudanteListRelationFilter
     cursosComoProfesor?: CursoListRelationFilter
     MateriaJefeTp?: MateriaJefeTpListRelationFilter
@@ -60927,6 +62322,100 @@ export namespace Prisma {
     nombre?: StringFieldUpdateOperationsInput | string
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
     usuarioCreadorId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type InscripcionEspecialCreateInput = {
+    caso: string
+    justificacion: string
+    turnoAlternativa1?: string | null
+    turnoAlternativa2?: string | null
+    materias?: InscripcionEspecialCreatemateriasInput | number[]
+    estado: string
+    respuesta?: string | null
+    fechaSolicitud?: Date | string
+    fechaRespuesta?: Date | string | null
+    solicitante: UserCreateNestedOneWithoutInscripcionesEspecialesInput
+  }
+
+  export type InscripcionEspecialUncheckedCreateInput = {
+    id?: number
+    solicitanteId: string
+    caso: string
+    justificacion: string
+    turnoAlternativa1?: string | null
+    turnoAlternativa2?: string | null
+    materias?: InscripcionEspecialCreatemateriasInput | number[]
+    estado: string
+    respuesta?: string | null
+    fechaSolicitud?: Date | string
+    fechaRespuesta?: Date | string | null
+  }
+
+  export type InscripcionEspecialUpdateInput = {
+    caso?: StringFieldUpdateOperationsInput | string
+    justificacion?: StringFieldUpdateOperationsInput | string
+    turnoAlternativa1?: NullableStringFieldUpdateOperationsInput | string | null
+    turnoAlternativa2?: NullableStringFieldUpdateOperationsInput | string | null
+    materias?: InscripcionEspecialUpdatemateriasInput | number[]
+    estado?: StringFieldUpdateOperationsInput | string
+    respuesta?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaRespuesta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    solicitante?: UserUpdateOneRequiredWithoutInscripcionesEspecialesNestedInput
+  }
+
+  export type InscripcionEspecialUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    solicitanteId?: StringFieldUpdateOperationsInput | string
+    caso?: StringFieldUpdateOperationsInput | string
+    justificacion?: StringFieldUpdateOperationsInput | string
+    turnoAlternativa1?: NullableStringFieldUpdateOperationsInput | string | null
+    turnoAlternativa2?: NullableStringFieldUpdateOperationsInput | string | null
+    materias?: InscripcionEspecialUpdatemateriasInput | number[]
+    estado?: StringFieldUpdateOperationsInput | string
+    respuesta?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaRespuesta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type InscripcionEspecialCreateManyInput = {
+    id?: number
+    solicitanteId: string
+    caso: string
+    justificacion: string
+    turnoAlternativa1?: string | null
+    turnoAlternativa2?: string | null
+    materias?: InscripcionEspecialCreatemateriasInput | number[]
+    estado: string
+    respuesta?: string | null
+    fechaSolicitud?: Date | string
+    fechaRespuesta?: Date | string | null
+  }
+
+  export type InscripcionEspecialUpdateManyMutationInput = {
+    caso?: StringFieldUpdateOperationsInput | string
+    justificacion?: StringFieldUpdateOperationsInput | string
+    turnoAlternativa1?: NullableStringFieldUpdateOperationsInput | string | null
+    turnoAlternativa2?: NullableStringFieldUpdateOperationsInput | string | null
+    materias?: InscripcionEspecialUpdatemateriasInput | number[]
+    estado?: StringFieldUpdateOperationsInput | string
+    respuesta?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaRespuesta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type InscripcionEspecialUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    solicitanteId?: StringFieldUpdateOperationsInput | string
+    caso?: StringFieldUpdateOperationsInput | string
+    justificacion?: StringFieldUpdateOperationsInput | string
+    turnoAlternativa1?: NullableStringFieldUpdateOperationsInput | string | null
+    turnoAlternativa2?: NullableStringFieldUpdateOperationsInput | string | null
+    materias?: InscripcionEspecialUpdatemateriasInput | number[]
+    estado?: StringFieldUpdateOperationsInput | string
+    respuesta?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaRespuesta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type LaboratorioCreateInput = {
@@ -62713,6 +64202,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
@@ -62759,6 +64249,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
@@ -62805,6 +64296,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
@@ -62851,6 +64343,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
@@ -64342,6 +65835,89 @@ export namespace Prisma {
     id?: SortOrder
   }
 
+  export type IntNullableListFilter<$PrismaModel = never> = {
+    equals?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    has?: number | IntFieldRefInput<$PrismaModel> | null
+    hasEvery?: number[] | ListIntFieldRefInput<$PrismaModel>
+    hasSome?: number[] | ListIntFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
+  }
+
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type InscripcionEspecialCountOrderByAggregateInput = {
+    id?: SortOrder
+    solicitanteId?: SortOrder
+    caso?: SortOrder
+    justificacion?: SortOrder
+    turnoAlternativa1?: SortOrder
+    turnoAlternativa2?: SortOrder
+    materias?: SortOrder
+    estado?: SortOrder
+    respuesta?: SortOrder
+    fechaSolicitud?: SortOrder
+    fechaRespuesta?: SortOrder
+  }
+
+  export type InscripcionEspecialAvgOrderByAggregateInput = {
+    id?: SortOrder
+    materias?: SortOrder
+  }
+
+  export type InscripcionEspecialMaxOrderByAggregateInput = {
+    id?: SortOrder
+    solicitanteId?: SortOrder
+    caso?: SortOrder
+    justificacion?: SortOrder
+    turnoAlternativa1?: SortOrder
+    turnoAlternativa2?: SortOrder
+    estado?: SortOrder
+    respuesta?: SortOrder
+    fechaSolicitud?: SortOrder
+    fechaRespuesta?: SortOrder
+  }
+
+  export type InscripcionEspecialMinOrderByAggregateInput = {
+    id?: SortOrder
+    solicitanteId?: SortOrder
+    caso?: SortOrder
+    justificacion?: SortOrder
+    turnoAlternativa1?: SortOrder
+    turnoAlternativa2?: SortOrder
+    estado?: SortOrder
+    respuesta?: SortOrder
+    fechaSolicitud?: SortOrder
+    fechaRespuesta?: SortOrder
+  }
+
+  export type InscripcionEspecialSumOrderByAggregateInput = {
+    id?: SortOrder
+    materias?: SortOrder
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
   export type SoftwareLaboratorioListRelationFilter = {
     every?: SoftwareLaboratorioWhereInput
     some?: SoftwareLaboratorioWhereInput
@@ -64908,17 +66484,6 @@ export namespace Prisma {
     not?: NestedEnumReservaTipoFilter<$PrismaModel> | $Enums.ReservaTipo
   }
 
-  export type DateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-  }
-
   export type ReservaEquipoNullableScalarRelationFilter = {
     is?: ReservaEquipoWhereInput | null
     isNot?: ReservaEquipoWhereInput | null
@@ -65040,20 +66605,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumReservaTipoFilter<$PrismaModel>
     _max?: NestedEnumReservaTipoFilter<$PrismaModel>
-  }
-
-  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type ReservaScalarRelationFilter = {
@@ -65673,6 +67224,12 @@ export namespace Prisma {
     none?: ReservaWhereInput
   }
 
+  export type InscripcionEspecialListRelationFilter = {
+    every?: InscripcionEspecialWhereInput
+    some?: InscripcionEspecialWhereInput
+    none?: InscripcionEspecialWhereInput
+  }
+
   export type MateriaListRelationFilter = {
     every?: MateriaWhereInput
     some?: MateriaWhereInput
@@ -65697,6 +67254,10 @@ export namespace Prisma {
   }
 
   export type ReservaOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type InscripcionEspecialOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -67084,6 +68645,33 @@ export namespace Prisma {
     deleteMany?: EquipoScalarWhereInput | EquipoScalarWhereInput[]
   }
 
+  export type InscripcionEspecialCreatemateriasInput = {
+    set: number[]
+  }
+
+  export type UserCreateNestedOneWithoutInscripcionesEspecialesInput = {
+    create?: XOR<UserCreateWithoutInscripcionesEspecialesInput, UserUncheckedCreateWithoutInscripcionesEspecialesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutInscripcionesEspecialesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type InscripcionEspecialUpdatemateriasInput = {
+    set?: number[]
+    push?: number | number[]
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
+  export type UserUpdateOneRequiredWithoutInscripcionesEspecialesNestedInput = {
+    create?: XOR<UserCreateWithoutInscripcionesEspecialesInput, UserUncheckedCreateWithoutInscripcionesEspecialesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutInscripcionesEspecialesInput
+    upsert?: UserUpsertWithoutInscripcionesEspecialesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutInscripcionesEspecialesInput, UserUpdateWithoutInscripcionesEspecialesInput>, UserUncheckedUpdateWithoutInscripcionesEspecialesInput>
+  }
+
   export type SedeCreateNestedOneWithoutLaboratoriosInput = {
     create?: XOR<SedeCreateWithoutLaboratoriosInput, SedeUncheckedCreateWithoutLaboratoriosInput>
     connectOrCreate?: SedeCreateOrConnectWithoutLaboratoriosInput
@@ -68086,10 +69674,6 @@ export namespace Prisma {
     set?: $Enums.ReservaTipo
   }
 
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null
-  }
-
   export type UserUpdateOneRequiredWithoutReservasSolicitadasNestedInput = {
     create?: XOR<UserCreateWithoutReservasSolicitadasInput, UserUncheckedCreateWithoutReservasSolicitadasInput>
     connectOrCreate?: UserCreateOrConnectWithoutReservasSolicitadasInput
@@ -68981,6 +70565,13 @@ export namespace Prisma {
     connect?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
   }
 
+  export type InscripcionEspecialCreateNestedManyWithoutSolicitanteInput = {
+    create?: XOR<InscripcionEspecialCreateWithoutSolicitanteInput, InscripcionEspecialUncheckedCreateWithoutSolicitanteInput> | InscripcionEspecialCreateWithoutSolicitanteInput[] | InscripcionEspecialUncheckedCreateWithoutSolicitanteInput[]
+    connectOrCreate?: InscripcionEspecialCreateOrConnectWithoutSolicitanteInput | InscripcionEspecialCreateOrConnectWithoutSolicitanteInput[]
+    createMany?: InscripcionEspecialCreateManySolicitanteInputEnvelope
+    connect?: InscripcionEspecialWhereUniqueInput | InscripcionEspecialWhereUniqueInput[]
+  }
+
   export type CursoAyudanteCreateNestedManyWithoutUsuarioInput = {
     create?: XOR<CursoAyudanteCreateWithoutUsuarioInput, CursoAyudanteUncheckedCreateWithoutUsuarioInput> | CursoAyudanteCreateWithoutUsuarioInput[] | CursoAyudanteUncheckedCreateWithoutUsuarioInput[]
     connectOrCreate?: CursoAyudanteCreateOrConnectWithoutUsuarioInput | CursoAyudanteCreateOrConnectWithoutUsuarioInput[]
@@ -69083,6 +70674,13 @@ export namespace Prisma {
     connectOrCreate?: ReservaCreateOrConnectWithoutUsuarioRecibioInput | ReservaCreateOrConnectWithoutUsuarioRecibioInput[]
     createMany?: ReservaCreateManyUsuarioRecibioInputEnvelope
     connect?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
+  }
+
+  export type InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput = {
+    create?: XOR<InscripcionEspecialCreateWithoutSolicitanteInput, InscripcionEspecialUncheckedCreateWithoutSolicitanteInput> | InscripcionEspecialCreateWithoutSolicitanteInput[] | InscripcionEspecialUncheckedCreateWithoutSolicitanteInput[]
+    connectOrCreate?: InscripcionEspecialCreateOrConnectWithoutSolicitanteInput | InscripcionEspecialCreateOrConnectWithoutSolicitanteInput[]
+    createMany?: InscripcionEspecialCreateManySolicitanteInputEnvelope
+    connect?: InscripcionEspecialWhereUniqueInput | InscripcionEspecialWhereUniqueInput[]
   }
 
   export type CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput = {
@@ -69284,6 +70882,20 @@ export namespace Prisma {
     update?: ReservaUpdateWithWhereUniqueWithoutUsuarioRecibioInput | ReservaUpdateWithWhereUniqueWithoutUsuarioRecibioInput[]
     updateMany?: ReservaUpdateManyWithWhereWithoutUsuarioRecibioInput | ReservaUpdateManyWithWhereWithoutUsuarioRecibioInput[]
     deleteMany?: ReservaScalarWhereInput | ReservaScalarWhereInput[]
+  }
+
+  export type InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput = {
+    create?: XOR<InscripcionEspecialCreateWithoutSolicitanteInput, InscripcionEspecialUncheckedCreateWithoutSolicitanteInput> | InscripcionEspecialCreateWithoutSolicitanteInput[] | InscripcionEspecialUncheckedCreateWithoutSolicitanteInput[]
+    connectOrCreate?: InscripcionEspecialCreateOrConnectWithoutSolicitanteInput | InscripcionEspecialCreateOrConnectWithoutSolicitanteInput[]
+    upsert?: InscripcionEspecialUpsertWithWhereUniqueWithoutSolicitanteInput | InscripcionEspecialUpsertWithWhereUniqueWithoutSolicitanteInput[]
+    createMany?: InscripcionEspecialCreateManySolicitanteInputEnvelope
+    set?: InscripcionEspecialWhereUniqueInput | InscripcionEspecialWhereUniqueInput[]
+    disconnect?: InscripcionEspecialWhereUniqueInput | InscripcionEspecialWhereUniqueInput[]
+    delete?: InscripcionEspecialWhereUniqueInput | InscripcionEspecialWhereUniqueInput[]
+    connect?: InscripcionEspecialWhereUniqueInput | InscripcionEspecialWhereUniqueInput[]
+    update?: InscripcionEspecialUpdateWithWhereUniqueWithoutSolicitanteInput | InscripcionEspecialUpdateWithWhereUniqueWithoutSolicitanteInput[]
+    updateMany?: InscripcionEspecialUpdateManyWithWhereWithoutSolicitanteInput | InscripcionEspecialUpdateManyWithWhereWithoutSolicitanteInput[]
+    deleteMany?: InscripcionEspecialScalarWhereInput | InscripcionEspecialScalarWhereInput[]
   }
 
   export type CursoAyudanteUpdateManyWithoutUsuarioNestedInput = {
@@ -69490,6 +71102,20 @@ export namespace Prisma {
     update?: ReservaUpdateWithWhereUniqueWithoutUsuarioRecibioInput | ReservaUpdateWithWhereUniqueWithoutUsuarioRecibioInput[]
     updateMany?: ReservaUpdateManyWithWhereWithoutUsuarioRecibioInput | ReservaUpdateManyWithWhereWithoutUsuarioRecibioInput[]
     deleteMany?: ReservaScalarWhereInput | ReservaScalarWhereInput[]
+  }
+
+  export type InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput = {
+    create?: XOR<InscripcionEspecialCreateWithoutSolicitanteInput, InscripcionEspecialUncheckedCreateWithoutSolicitanteInput> | InscripcionEspecialCreateWithoutSolicitanteInput[] | InscripcionEspecialUncheckedCreateWithoutSolicitanteInput[]
+    connectOrCreate?: InscripcionEspecialCreateOrConnectWithoutSolicitanteInput | InscripcionEspecialCreateOrConnectWithoutSolicitanteInput[]
+    upsert?: InscripcionEspecialUpsertWithWhereUniqueWithoutSolicitanteInput | InscripcionEspecialUpsertWithWhereUniqueWithoutSolicitanteInput[]
+    createMany?: InscripcionEspecialCreateManySolicitanteInputEnvelope
+    set?: InscripcionEspecialWhereUniqueInput | InscripcionEspecialWhereUniqueInput[]
+    disconnect?: InscripcionEspecialWhereUniqueInput | InscripcionEspecialWhereUniqueInput[]
+    delete?: InscripcionEspecialWhereUniqueInput | InscripcionEspecialWhereUniqueInput[]
+    connect?: InscripcionEspecialWhereUniqueInput | InscripcionEspecialWhereUniqueInput[]
+    update?: InscripcionEspecialUpdateWithWhereUniqueWithoutSolicitanteInput | InscripcionEspecialUpdateWithWhereUniqueWithoutSolicitanteInput[]
+    updateMany?: InscripcionEspecialUpdateManyWithWhereWithoutSolicitanteInput | InscripcionEspecialUpdateManyWithWhereWithoutSolicitanteInput[]
+    deleteMany?: InscripcionEspecialScalarWhereInput | InscripcionEspecialScalarWhereInput[]
   }
 
   export type CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput = {
@@ -70180,6 +71806,31 @@ export namespace Prisma {
     _min?: NestedEnumTurnoCursoFilter<$PrismaModel>
     _max?: NestedEnumTurnoCursoFilter<$PrismaModel>
   }
+
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
   export type NestedJsonFilter<$PrismaModel = never> =
     | PatchUndefined<
         Either<Required<NestedJsonFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>,
@@ -70269,17 +71920,6 @@ export namespace Prisma {
     not?: NestedEnumReservaTipoFilter<$PrismaModel> | $Enums.ReservaTipo
   }
 
-  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-  }
-
   export type NestedEnumReservaEstatusWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.ReservaEstatus | EnumReservaEstatusFieldRefInput<$PrismaModel>
     in?: $Enums.ReservaEstatus[] | ListEnumReservaEstatusFieldRefInput<$PrismaModel>
@@ -70298,20 +71938,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumReservaTipoFilter<$PrismaModel>
     _max?: NestedEnumReservaTipoFilter<$PrismaModel>
-  }
-
-  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type NestedEnumLaboratorioAbiertoTipoFilter<$PrismaModel = never> = {
@@ -71345,6 +72971,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
     MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
     materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
@@ -71390,6 +73017,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
     MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
     materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
@@ -71618,6 +73246,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
     MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
     materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
@@ -71663,6 +73292,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
     MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
     materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
@@ -71906,6 +73536,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
     cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
     materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
@@ -71951,6 +73582,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
     cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
     materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
@@ -72068,6 +73700,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
     cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
     materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
@@ -72113,6 +73746,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
     cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
     materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
@@ -73025,6 +74659,206 @@ export namespace Prisma {
   export type EquipoUpdateManyWithWhereWithoutEstadoInput = {
     where: EquipoScalarWhereInput
     data: XOR<EquipoUpdateManyMutationInput, EquipoUncheckedUpdateManyWithoutEstadoInput>
+  }
+
+  export type UserCreateWithoutInscripcionesEspecialesInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified?: boolean | null
+    image?: string
+    nombre?: string | null
+    apellido?: string | null
+    fechaNacimiento?: Date | string | null
+    direccion?: string | null
+    piso?: string | null
+    departamento?: string | null
+    ciudad?: string | null
+    codigoPostal?: string | null
+    telefonoCasa?: string | null
+    telefonoCelular?: string | null
+    telefonoLaboral?: string | null
+    documentoNumero?: string | null
+    legajo?: string | null
+    gitlab?: string | null
+    penalizaciones?: number
+    esDocente?: boolean
+    esTutor?: boolean
+    fechaRegistro?: Date | string
+    fechaUltimoAcceso?: Date | string
+    fechaUltimaActualizacion?: Date | string
+    documentoTipo?: DocumentoTipoCreateNestedOneWithoutUsuariosInput
+    provincia?: ProvinciaCreateNestedOneWithoutUsuariosInput
+    pais?: PaisCreateNestedOneWithoutUsuariosInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
+    reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
+    reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
+    reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
+    cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
+    tutor?: TutorCreateNestedOneWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
+  }
+
+  export type UserUncheckedCreateWithoutInscripcionesEspecialesInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified?: boolean | null
+    image?: string
+    nombre?: string | null
+    apellido?: string | null
+    fechaNacimiento?: Date | string | null
+    direccion?: string | null
+    piso?: string | null
+    departamento?: string | null
+    ciudad?: string | null
+    codigoPostal?: string | null
+    telefonoCasa?: string | null
+    telefonoCelular?: string | null
+    telefonoLaboral?: string | null
+    documentoNumero?: string | null
+    legajo?: string | null
+    gitlab?: string | null
+    penalizaciones?: number
+    esDocente?: boolean
+    esTutor?: boolean
+    fechaRegistro?: Date | string
+    fechaUltimoAcceso?: Date | string
+    fechaUltimaActualizacion?: Date | string
+    documentoTipoId?: number | null
+    provinciaIso?: string | null
+    paisIso?: string | null
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolUncheckedCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
+    reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
+    reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
+    reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
+    cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
+    tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
+  }
+
+  export type UserCreateOrConnectWithoutInscripcionesEspecialesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutInscripcionesEspecialesInput, UserUncheckedCreateWithoutInscripcionesEspecialesInput>
+  }
+
+  export type UserUpsertWithoutInscripcionesEspecialesInput = {
+    update: XOR<UserUpdateWithoutInscripcionesEspecialesInput, UserUncheckedUpdateWithoutInscripcionesEspecialesInput>
+    create: XOR<UserCreateWithoutInscripcionesEspecialesInput, UserUncheckedCreateWithoutInscripcionesEspecialesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutInscripcionesEspecialesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutInscripcionesEspecialesInput, UserUncheckedUpdateWithoutInscripcionesEspecialesInput>
+  }
+
+  export type UserUpdateWithoutInscripcionesEspecialesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    image?: StringFieldUpdateOperationsInput | string
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
+    apellido?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    direccion?: NullableStringFieldUpdateOperationsInput | string | null
+    piso?: NullableStringFieldUpdateOperationsInput | string | null
+    departamento?: NullableStringFieldUpdateOperationsInput | string | null
+    ciudad?: NullableStringFieldUpdateOperationsInput | string | null
+    codigoPostal?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoCasa?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoCelular?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoLaboral?: NullableStringFieldUpdateOperationsInput | string | null
+    documentoNumero?: NullableStringFieldUpdateOperationsInput | string | null
+    legajo?: NullableStringFieldUpdateOperationsInput | string | null
+    gitlab?: NullableStringFieldUpdateOperationsInput | string | null
+    penalizaciones?: IntFieldUpdateOperationsInput | number
+    esDocente?: BoolFieldUpdateOperationsInput | boolean
+    esTutor?: BoolFieldUpdateOperationsInput | boolean
+    fechaRegistro?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaUltimoAcceso?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaUltimaActualizacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    documentoTipo?: DocumentoTipoUpdateOneWithoutUsuariosNestedInput
+    provincia?: ProvinciaUpdateOneWithoutUsuariosNestedInput
+    pais?: PaisUpdateOneWithoutUsuariosNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
+    reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
+    reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
+    reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
+    cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
+    tutor?: TutorUpdateOneWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutInscripcionesEspecialesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    image?: StringFieldUpdateOperationsInput | string
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
+    apellido?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    direccion?: NullableStringFieldUpdateOperationsInput | string | null
+    piso?: NullableStringFieldUpdateOperationsInput | string | null
+    departamento?: NullableStringFieldUpdateOperationsInput | string | null
+    ciudad?: NullableStringFieldUpdateOperationsInput | string | null
+    codigoPostal?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoCasa?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoCelular?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoLaboral?: NullableStringFieldUpdateOperationsInput | string | null
+    documentoNumero?: NullableStringFieldUpdateOperationsInput | string | null
+    legajo?: NullableStringFieldUpdateOperationsInput | string | null
+    gitlab?: NullableStringFieldUpdateOperationsInput | string | null
+    penalizaciones?: IntFieldUpdateOperationsInput | number
+    esDocente?: BoolFieldUpdateOperationsInput | boolean
+    esTutor?: BoolFieldUpdateOperationsInput | boolean
+    fechaRegistro?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaUltimoAcceso?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaUltimaActualizacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    documentoTipoId?: NullableIntFieldUpdateOperationsInput | number | null
+    provinciaIso?: NullableStringFieldUpdateOperationsInput | string | null
+    paisIso?: NullableStringFieldUpdateOperationsInput | string | null
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUncheckedUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUncheckedUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUncheckedUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
+    reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
+    reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
+    reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
+    cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
+    tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
   }
 
   export type SedeCreateWithoutLaboratoriosInput = {
@@ -74181,6 +76015,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
@@ -74226,6 +76061,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
@@ -74485,6 +76321,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
@@ -74530,6 +76367,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
@@ -74734,6 +76572,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
     materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
@@ -74779,6 +76618,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
     materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
@@ -74888,6 +76728,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
     materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
@@ -74933,6 +76774,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
     materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
@@ -75157,6 +76999,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
@@ -75202,6 +77045,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
@@ -75252,6 +77096,7 @@ export namespace Prisma {
     reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
@@ -75297,6 +77142,7 @@ export namespace Prisma {
     reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
@@ -75347,6 +77193,7 @@ export namespace Prisma {
     reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
@@ -75392,6 +77239,7 @@ export namespace Prisma {
     reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
@@ -75442,6 +77290,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
@@ -75487,6 +77336,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
@@ -75537,6 +77387,7 @@ export namespace Prisma {
     reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
@@ -75582,6 +77433,7 @@ export namespace Prisma {
     reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
@@ -75632,6 +77484,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
@@ -75677,6 +77530,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
@@ -75862,6 +77716,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
@@ -75907,6 +77762,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
@@ -75963,6 +77819,7 @@ export namespace Prisma {
     reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
@@ -76008,6 +77865,7 @@ export namespace Prisma {
     reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
@@ -76064,6 +77922,7 @@ export namespace Prisma {
     reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
@@ -76109,6 +77968,7 @@ export namespace Prisma {
     reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
@@ -76165,6 +78025,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
@@ -76210,6 +78071,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
@@ -76266,6 +78128,7 @@ export namespace Prisma {
     reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
@@ -76311,6 +78174,7 @@ export namespace Prisma {
     reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
@@ -76367,6 +78231,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
@@ -76412,6 +78277,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
@@ -77280,6 +79146,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
@@ -77325,6 +79192,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
@@ -77663,6 +79531,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
@@ -77708,6 +79577,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
@@ -78413,6 +80283,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
@@ -78458,6 +80329,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
@@ -78519,6 +80391,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
@@ -78564,6 +80437,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
@@ -78609,6 +80483,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
@@ -78654,6 +80529,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
@@ -78715,6 +80591,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
@@ -78760,6 +80637,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
@@ -79764,6 +81642,41 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type InscripcionEspecialCreateWithoutSolicitanteInput = {
+    caso: string
+    justificacion: string
+    turnoAlternativa1?: string | null
+    turnoAlternativa2?: string | null
+    materias?: InscripcionEspecialCreatemateriasInput | number[]
+    estado: string
+    respuesta?: string | null
+    fechaSolicitud?: Date | string
+    fechaRespuesta?: Date | string | null
+  }
+
+  export type InscripcionEspecialUncheckedCreateWithoutSolicitanteInput = {
+    id?: number
+    caso: string
+    justificacion: string
+    turnoAlternativa1?: string | null
+    turnoAlternativa2?: string | null
+    materias?: InscripcionEspecialCreatemateriasInput | number[]
+    estado: string
+    respuesta?: string | null
+    fechaSolicitud?: Date | string
+    fechaRespuesta?: Date | string | null
+  }
+
+  export type InscripcionEspecialCreateOrConnectWithoutSolicitanteInput = {
+    where: InscripcionEspecialWhereUniqueInput
+    create: XOR<InscripcionEspecialCreateWithoutSolicitanteInput, InscripcionEspecialUncheckedCreateWithoutSolicitanteInput>
+  }
+
+  export type InscripcionEspecialCreateManySolicitanteInputEnvelope = {
+    data: InscripcionEspecialCreateManySolicitanteInput | InscripcionEspecialCreateManySolicitanteInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CursoAyudanteCreateWithoutUsuarioInput = {
     fechaCreacion?: Date | string
     usuarioCreadorId: string
@@ -80262,6 +82175,39 @@ export namespace Prisma {
     data: XOR<ReservaUpdateManyMutationInput, ReservaUncheckedUpdateManyWithoutUsuarioRecibioInput>
   }
 
+  export type InscripcionEspecialUpsertWithWhereUniqueWithoutSolicitanteInput = {
+    where: InscripcionEspecialWhereUniqueInput
+    update: XOR<InscripcionEspecialUpdateWithoutSolicitanteInput, InscripcionEspecialUncheckedUpdateWithoutSolicitanteInput>
+    create: XOR<InscripcionEspecialCreateWithoutSolicitanteInput, InscripcionEspecialUncheckedCreateWithoutSolicitanteInput>
+  }
+
+  export type InscripcionEspecialUpdateWithWhereUniqueWithoutSolicitanteInput = {
+    where: InscripcionEspecialWhereUniqueInput
+    data: XOR<InscripcionEspecialUpdateWithoutSolicitanteInput, InscripcionEspecialUncheckedUpdateWithoutSolicitanteInput>
+  }
+
+  export type InscripcionEspecialUpdateManyWithWhereWithoutSolicitanteInput = {
+    where: InscripcionEspecialScalarWhereInput
+    data: XOR<InscripcionEspecialUpdateManyMutationInput, InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteInput>
+  }
+
+  export type InscripcionEspecialScalarWhereInput = {
+    AND?: InscripcionEspecialScalarWhereInput | InscripcionEspecialScalarWhereInput[]
+    OR?: InscripcionEspecialScalarWhereInput[]
+    NOT?: InscripcionEspecialScalarWhereInput | InscripcionEspecialScalarWhereInput[]
+    id?: IntFilter<"InscripcionEspecial"> | number
+    solicitanteId?: StringFilter<"InscripcionEspecial"> | string
+    caso?: StringFilter<"InscripcionEspecial"> | string
+    justificacion?: StringFilter<"InscripcionEspecial"> | string
+    turnoAlternativa1?: StringNullableFilter<"InscripcionEspecial"> | string | null
+    turnoAlternativa2?: StringNullableFilter<"InscripcionEspecial"> | string | null
+    materias?: IntNullableListFilter<"InscripcionEspecial">
+    estado?: StringFilter<"InscripcionEspecial"> | string
+    respuesta?: StringNullableFilter<"InscripcionEspecial"> | string | null
+    fechaSolicitud?: DateTimeFilter<"InscripcionEspecial"> | Date | string
+    fechaRespuesta?: DateTimeNullableFilter<"InscripcionEspecial"> | Date | string | null
+  }
+
   export type CursoAyudanteUpsertWithWhereUniqueWithoutUsuarioInput = {
     where: CursoAyudanteWhereUniqueInput
     update: XOR<CursoAyudanteUpdateWithoutUsuarioInput, CursoAyudanteUncheckedUpdateWithoutUsuarioInput>
@@ -80424,6 +82370,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
@@ -80469,6 +82416,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
@@ -80530,6 +82478,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
@@ -80575,6 +82524,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
@@ -80619,6 +82569,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
@@ -80664,6 +82615,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
@@ -80749,6 +82701,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
@@ -80794,6 +82747,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
@@ -81132,6 +83086,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
@@ -81176,6 +83131,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
@@ -81310,6 +83266,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
@@ -81355,6 +83312,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
@@ -81473,6 +83431,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
@@ -81518,6 +83477,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
@@ -84199,6 +86159,19 @@ export namespace Prisma {
     mostrarEnPantalla?: boolean
   }
 
+  export type InscripcionEspecialCreateManySolicitanteInput = {
+    id?: number
+    caso: string
+    justificacion: string
+    turnoAlternativa1?: string | null
+    turnoAlternativa2?: string | null
+    materias?: InscripcionEspecialCreatemateriasInput | number[]
+    estado: string
+    respuesta?: string | null
+    fechaSolicitud?: Date | string
+    fechaRespuesta?: Date | string | null
+  }
+
   export type CursoAyudanteCreateManyUsuarioInput = {
     cursoId: number
     fechaCreacion?: Date | string
@@ -84821,6 +86794,44 @@ export namespace Prisma {
     mostrarEnPantalla?: BoolFieldUpdateOperationsInput | boolean
   }
 
+  export type InscripcionEspecialUpdateWithoutSolicitanteInput = {
+    caso?: StringFieldUpdateOperationsInput | string
+    justificacion?: StringFieldUpdateOperationsInput | string
+    turnoAlternativa1?: NullableStringFieldUpdateOperationsInput | string | null
+    turnoAlternativa2?: NullableStringFieldUpdateOperationsInput | string | null
+    materias?: InscripcionEspecialUpdatemateriasInput | number[]
+    estado?: StringFieldUpdateOperationsInput | string
+    respuesta?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaRespuesta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type InscripcionEspecialUncheckedUpdateWithoutSolicitanteInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    caso?: StringFieldUpdateOperationsInput | string
+    justificacion?: StringFieldUpdateOperationsInput | string
+    turnoAlternativa1?: NullableStringFieldUpdateOperationsInput | string | null
+    turnoAlternativa2?: NullableStringFieldUpdateOperationsInput | string | null
+    materias?: InscripcionEspecialUpdatemateriasInput | number[]
+    estado?: StringFieldUpdateOperationsInput | string
+    respuesta?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaRespuesta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    caso?: StringFieldUpdateOperationsInput | string
+    justificacion?: StringFieldUpdateOperationsInput | string
+    turnoAlternativa1?: NullableStringFieldUpdateOperationsInput | string | null
+    turnoAlternativa2?: NullableStringFieldUpdateOperationsInput | string | null
+    materias?: InscripcionEspecialUpdatemateriasInput | number[]
+    estado?: StringFieldUpdateOperationsInput | string
+    respuesta?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaRespuesta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
   export type CursoAyudanteUpdateWithoutUsuarioInput = {
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
     usuarioCreadorId?: StringFieldUpdateOperationsInput | string
@@ -85166,6 +87177,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
@@ -85210,6 +87222,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
@@ -85319,6 +87332,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
@@ -85364,6 +87378,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
@@ -85486,6 +87501,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
@@ -85531,6 +87547,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput

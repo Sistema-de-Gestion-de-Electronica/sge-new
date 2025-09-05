@@ -300,6 +300,35 @@ export const REPORTES_ROUTE: AppRoute = {
   ],
 };
 
+// const PERMISOS_VER_INSCRIPCIONES_ESPECIALES = [SgeNombre.INSCRIPCIONES_ESPECIALES_VER_LISTADO];
+export const INSCRIPCIONES_ESPECIALES_ROUTE: AppRoute = {
+  href: "/inscripciones_especiales",
+  label: "Inscripciones especiales",
+  isPublic: false,
+  permisos: PERMISOS_VER_REPORTES,
+  subRutas: [
+    // {
+    //   href: "/inscripciones_especiales/pendientes",
+    //   label: "Pendientes",
+    //   isPublic: false,
+    //   permisos: PERMISOS_VER_INSCRIPCIONES_ESPECIALES,
+    // },
+    // {
+    //   href: "/inscripciones_especiales/terminadas",
+    //   label: "Terminadas",
+    //   isPublic: false,
+    //   permisos: PERMISOS_VER_INSCRIPCIONES_ESPECIALES,
+    // },
+    {
+      href: "/inscripciones_especiales/solicitar",
+      label: "Solicitar",
+      isPublic: true,
+      permisos: [],
+    },
+  ]
+};
+
+
 export const SGE_1_ROUTE: AppRoute[] = [
   {
     href: "https://sge.frba.utn.edu.ar/sge2/fallasreporte/falla_pc.php",
@@ -321,14 +350,7 @@ export const SGE_1_ROUTE: AppRoute[] = [
     esExterna: true,
     isPublic: false,
     permisos: [SgeNombre.ADMIN_ACTUALIZAR_ACTA_CONSEJEROS],
-  },
-  {
-    href: "https://sge.frba.utn.edu.ar/sge2/inscripciones_especiales/index.php",
-    label: "Inscripciones especiales",
-    esExterna: true,
-    isPublic: false,
-    permisos: [SgeNombre.ADMIN_OFERTAS_LABORALES_ABM],
-  },
+  }
 ];
 
 export const APP_ROUTES: AppRoute[] = [
@@ -341,6 +363,7 @@ export const APP_ROUTES: AppRoute[] = [
   BIBLIOTECA_ROUTE,
   ADMIN_ROUTE,
   REPORTES_ROUTE,
+  INSCRIPCIONES_ESPECIALES_ROUTE,
   ...SGE_1_ROUTE,
 ];
 

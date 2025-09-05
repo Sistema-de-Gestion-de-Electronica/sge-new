@@ -18,7 +18,7 @@ export const inputEliminarActas = z.object ({
 );
 
 export const inputVisibilidadActa = z.object({
-  date: z.date(),                                 
+  fechaReunion: z.date(),                                 
   visibilidad: z.enum(["VISIBLE", "OCULTA"])
 });
 

@@ -49,12 +49,11 @@ type InputEliminarActa = z.infer<typeof inputEliminarActa>;
 export const eliminarActasHasta = async (ctx: { db: PrismaClient }, input: InputEliminarActa) => {
   try {
     const lte = endOfDay(input.fechaReunion);
-    const res = await ctx.db.acta.deleteMany({
-      where: {
-        fechaReunion: lte,
-      },
-    });
-    return res;
+    const res = await ctx.db.$executeRaw`
+      DELETE FROM "Acta"
+      WHERE "fechaReunion" <= ${lte};
+    `;
+    return { count: res };
   } catch (error) {
     throw new Error(`Error eliminando actas hasta la fecha: ${input.fechaReunion}`);
   }
@@ -121,14 +120,13 @@ export const visibilidadActasEntre = async (ctx: { db: PrismaClient }, input: In
 type InputVisibilidadActa = z.infer<typeof inputVisibilidadActa>;
 export const visibilidadActaHasta = async (ctx: { db: PrismaClient }, input: InputVisibilidadActa) => {
   try {
-    const lte = endOfDay(input.fechaFin);
-    const res = await ctx.db.acta.updateMany({
-      where: {
-        fechaReunion: { lte }
-      },
-      data: { visibilidad: input.visibilidad },
-    });
-    return res;
+    const lte = endOfDay(input.fechaReunion);
+    const res = await ctx.db.$executeRaw`
+      UPDATE "Acta"
+      SET "visibilidad" = ${input.visibilidad}
+      WHERE "fechaReunion" <= ${lte};
+    `;
+    return { count: res };
   } catch (error) {
     throw new Error(`Error actualizando actas hasta ${input.fechaReunion}`);
   }

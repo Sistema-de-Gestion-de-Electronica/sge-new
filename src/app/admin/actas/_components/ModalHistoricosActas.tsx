@@ -22,8 +22,8 @@ export default function OcultarEliminarActasModal() {
 
   const eliminarHasta = api.admin.actas.eliminarHasta.useMutation();
   const eliminarEntre = api.admin.actas.eliminarEntre.useMutation();
-  const visHasta = api.admin.actas.visualizacionHasta.useMutation();
-  const visEntre = api.admin.actas.visualizacionEntre.useMutation();
+  const visualizarHasta = api.admin.actas.visualizacionHasta.useMutation();
+  const visualizarEntre = api.admin.actas.visualizacionEntre.useMutation();
 
   const isValidDates = useMemo(() => {
     if (filterType === "BEFORE" || filterType === "EQUAL") {
@@ -41,8 +41,8 @@ export default function OcultarEliminarActasModal() {
     const isPending =
     eliminarHasta.isPending ||
     eliminarEntre.isPending ||
-    visHasta.isPending ||
-    visEntre.isPending;
+    visualizarHasta.isPending ||
+    visualizarEntre.isPending;
 
 const buildPayload = () => {
     if (filterType === "BEFORE") {
@@ -74,13 +74,13 @@ const buildPayload = () => {
 
       if (action === "HIDE") {
         if (filterType === "BEFORE") {
-          const res = await visHasta.mutateAsync({
+          const res = await visualizarHasta.mutateAsync({
             visibilidad: "OCULTA",
             fechaReunion: new Date(toDate),
           });
           toast.success(`Actas ocultadas: ${res?.count ?? 0}`);
         } else {
-          const res = await visEntre.mutateAsync({
+          const res = await visualizarEntre.mutateAsync({
             visibilidad: "OCULTA",
             fechaInicio: new Date(fromDate),
             fechaFin: new Date(toDate),

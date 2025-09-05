@@ -59,6 +59,20 @@ export const eliminarActasHasta = async (ctx: { db: PrismaClient }, input: Input
   }
 }
 
+export const eliminarActasIgual = async (ctx: { db: PrismaClient }, input: InputEliminarActa) => {
+  try {
+    const { start, next } = dayRangeUTC(input.fechaReunion);
+    const count = await ctx.db.$executeRaw`
+      DELETE FROM "Acta"
+      WHERE "fechaReunion" >= ${start}
+        AND "fechaReunion" <  ${next};
+    `;
+    return { count };
+  } catch {
+    throw new Error(`Error eliminando actas del día ${input.fechaReunion.toISOString().slice(0,10)}`);
+  }
+};
+
 type InputEliminarActas = z.infer<typeof inputEliminarActas>;
 export const eliminarActasEntre = async (ctx: { db: PrismaClient }, input: InputEliminarActas) => {
   try {
@@ -132,6 +146,21 @@ export const visibilidadActaHasta = async (ctx: { db: PrismaClient }, input: Inp
   }
 }
 
+export const visibilidadActaIgual = async (ctx: { db: PrismaClient }, input: InputVisibilidadActa) => {
+  try {
+    const { start, next } = dayRangeUTC(input.fechaReunion);
+    const count = await ctx.db.$executeRaw`
+      UPDATE "Acta"
+      SET "visibilidad" = ${input.visibilidad}
+      WHERE "fechaReunion" >= ${start}
+        AND "fechaReunion" <  ${next};
+    `;
+    return { count };
+  } catch {
+    throw new Error(`Error actualizando visibilidad del día ${input.fechaReunion.toISOString().slice(0,10)}`);
+  }
+};
+
 export const getVotosFromActaAbierta = async (
   ctx: { db: PrismaClient },
   id: number
@@ -153,3 +182,11 @@ const endOfDay = (d: Date) => {
   return x;
 };
 
+function dayRangeUTC(d: Date) {
+  const y = d.getUTCFullYear();
+  const m = d.getUTCMonth();
+  const day = d.getUTCDate();
+  const start = new Date(Date.UTC(y, m, day, 0, 0, 0, 0));
+  const next  = new Date(Date.UTC(y, m, day + 1, 0, 0, 0, 0));
+  return { start, next };
+}

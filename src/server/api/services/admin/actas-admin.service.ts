@@ -1,7 +1,7 @@
 import { inputAgregarActa, inputEliminarActa, inputEliminarActas, inputVisibilidadActa, inputVisibilidadActas } from "@/shared/filters/admin-actas-filter.schema";
 import { protectedProcedure } from "../../trpc";
 import { validarInput } from "../helper";
-import { agregarActa, eliminarActasEntre, eliminarActasHasta, getActaAbierta, getVotosFromActaAbierta, visibilidadActaHasta, visibilidadActasEntre } from "../../repositories/admin/actas-admin.repository";
+import { agregarActa, eliminarActasEntre, eliminarActasHasta, eliminarActasIgual, getActaAbierta, getVotosFromActaAbierta, visibilidadActaHasta, visibilidadActaIgual, visibilidadActasEntre } from "../../repositories/admin/actas-admin.repository";
 import { Buffer } from "buffer";
 import { saveActaPDF } from "../../utils/pdfSaver";
 import { getUsuarioPorId } from "../../repositories/admin/usuarios-admin.repository";
@@ -83,6 +83,17 @@ export const visibilidadActasHastaProcedure = protectedProcedure
     }
   )
 
+  export const visibilidadActasIgualProcedure = protectedProcedure
+  .input(inputVisibilidadActa)
+  .mutation(async ({ ctx, input }) => {
+    validarInput(inputVisibilidadActa, input);
+
+    const res = visibilidadActaIgual(ctx,input)
+
+    return res;
+    }
+  )
+
   export const eliminarActasHastaProcedure = protectedProcedure
   .input(inputEliminarActa)
   .mutation(async ({ ctx, input }) => {
@@ -99,6 +110,16 @@ export const visibilidadActasHastaProcedure = protectedProcedure
     validarInput(inputEliminarActas, input);
 
     const res = eliminarActasEntre(ctx,input)
+    return res;
+    }
+  )
+
+  export const eliminarActasIgualProcedure = protectedProcedure
+  .input(inputEliminarActa)
+  .mutation(async ({ ctx, input }) => {
+    validarInput(inputEliminarActa, input);
+
+    const res = eliminarActasIgual(ctx,input)
     return res;
     }
   )

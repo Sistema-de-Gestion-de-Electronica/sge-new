@@ -137,7 +137,7 @@ export const visibilidadActaHasta = async (ctx: { db: PrismaClient }, input: Inp
     const lte = endOfDay(input.fechaReunion);
     const res = await ctx.db.$executeRaw`
       UPDATE "Acta"
-      SET "visibilidad" = ${input.visibilidad}
+      SET "visibilidad" = ${input.visibilidad}::"Visibilidad"
       WHERE "fechaReunion" <= ${lte};
     `;
     return { count: res };
@@ -151,7 +151,7 @@ export const visibilidadActaIgual = async (ctx: { db: PrismaClient }, input: Inp
     const { start, next } = dayRangeUTC(input.fechaReunion);
     const count = await ctx.db.$executeRaw`
       UPDATE "Acta"
-      SET "visibilidad" = ${input.visibilidad}
+      SET "visibilidad" = ${input.visibilidad}::"Visibilidad"
       WHERE "fechaReunion" >= ${start}
         AND "fechaReunion" <  ${next};
     `;

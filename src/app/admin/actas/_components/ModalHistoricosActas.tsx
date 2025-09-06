@@ -22,8 +22,11 @@ export default function OcultarEliminarActasModal() {
 
   const eliminarHasta = api.admin.actas.eliminarHasta.useMutation();
   const eliminarEntre = api.admin.actas.eliminarEntre.useMutation();
+  const eliminarIgual = api.admin.actas.eliminarIgual.useMutation();
   const visualizarHasta = api.admin.actas.visualizacionHasta.useMutation();
   const visualizarEntre = api.admin.actas.visualizacionEntre.useMutation();
+  const visualizarIgual = api.admin.actas.visualizacionIgual.useMutation();
+
 
   const isValidDates = useMemo(() => {
     if (filterType === "BEFORE" || filterType === "EQUAL") {
@@ -38,75 +41,71 @@ export default function OcultarEliminarActasModal() {
 
   const canConfirm = !!action && isValidDates;
 
-    const isPending =
-    eliminarHasta.isPending ||
-    eliminarEntre.isPending ||
-    visualizarHasta.isPending ||
-    visualizarEntre.isPending;
+const isPending =
+  eliminarHasta.isPending ||
+  eliminarEntre.isPending ||
+  eliminarIgual.isPending ||            
+  visualizarHasta.isPending ||
+  visualizarEntre.isPending ||
+  visualizarIgual.isPending;            
 
-const buildPayload = () => {
-    if (filterType === "BEFORE") {
-      return {
-        action: action === "HIDE" ? "hide" : "hardDelete",
-        range: { beforeDate: date1 }, // yyyy-mm-dd
-      };
-    }
-    if (filterType === "EQUAL") {
-      return {
-        action: action === "HIDE" ? "hide" : "hardDelete",
-        range: { fromDate: date1, toDate: date1 },
-      };
-    }
-    // BETWEEN
-    return {
-      action: action === "HIDE" ? "hide" : "hardDelete",
-      range: { fromDate: date1, toDate: date2 },
-    };
-  };
+const handleConfirm = async () => {
+  if (!canConfirm || !action) return;
 
-  const handleConfirm = async () => {
-    if (!canConfirm || !action) return;
+  try {
+    const fromDate = date1;
+    const toDate = filterType === "BETWEEN" ? date2 : date1;
 
-    try {
-
-      const fromDate = date1;
-      const toDate = filterType === "BETWEEN" ? date2 : date1;
-
-      if (action === "HIDE") {
-        if (filterType === "BEFORE") {
-          const res = await visualizarHasta.mutateAsync({
-            visibilidad: "OCULTA",
-            fechaReunion: new Date(toDate),
-          });
-          toast.success(`Actas ocultadas: ${res?.count ?? 0}`);
-        } else {
-          const res = await visualizarEntre.mutateAsync({
-            visibilidad: "OCULTA",
-            fechaInicio: new Date(fromDate),
-            fechaFin: new Date(toDate),
-          });
-          toast.success(`Actas ocultadas: ${res?.count ?? 0}`);
-        }
+    if (action === "HIDE") {
+      if (filterType === "BEFORE") {
+        const res = await visualizarHasta.mutateAsync({
+          visibilidad: "OCULTA",
+          fechaReunion: new Date(toDate),
+        });
+        toast.success(`Actas ocultadas: ${res?.count ?? 0}`);
+      } else if (filterType === "EQUAL") {
+        const res = await visualizarIgual.mutateAsync({
+          visibilidad: "OCULTA",
+          fechaReunion: new Date(fromDate),
+        });
+        toast.success(`Actas ocultadas: ${res?.count ?? 0}`);
       } else {
-        if (filterType === "BEFORE") {
-          const res = await eliminarHasta.mutateAsync({
-            fechaReunion: new Date(toDate),
-          });
-          toast.success(`Actas eliminadas: ${res?.count ?? 0}`);
-        } else {
-          const res = await eliminarEntre.mutateAsync({
-            fechaInicio: new Date(fromDate),
-            fechaFin: new Date(toDate),
-          });
-          toast.success(`Actas eliminadas: ${res?.count ?? 0}`);
-        }
+        // BETWEEN
+        const res = await visualizarEntre.mutateAsync({
+          visibilidad: "OCULTA",
+          fechaInicio: new Date(fromDate),
+          fechaFin: new Date(toDate),
+        });
+        toast.success(`Actas ocultadas: ${res?.count ?? 0}`);
       }
-
-      setOpen(false);
-    } catch (err: any) {
-      toast.error(err?.message ?? "Error realizando la acción");
+    } else {
+      // DELETE
+      if (filterType === "BEFORE") {
+        const res = await eliminarHasta.mutateAsync({
+          fechaReunion: new Date(toDate),
+        });
+        toast.success(`Actas eliminadas: ${res?.count ?? 0}`);
+      } else if (filterType === "EQUAL") {
+        const res = await eliminarIgual.mutateAsync({
+          fechaReunion: new Date(fromDate),
+        });
+        toast.success(`Actas eliminadas: ${res?.count ?? 0}`);
+      } else {
+        // BETWEEN
+        const res = await eliminarEntre.mutateAsync({
+          fechaInicio: new Date(fromDate),
+          fechaFin: new Date(toDate),
+        });
+        toast.success(`Actas eliminadas: ${res?.count ?? 0}`);
+      }
     }
-  };
+
+    setOpen(false);
+  } catch (err: any) {
+    toast.error(err?.message ?? "Error realizando la acción");
+  }
+};
+
 
   const resetState = () => {
     setFilterType("BEFORE");

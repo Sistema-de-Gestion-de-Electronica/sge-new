@@ -300,28 +300,28 @@ export const REPORTES_ROUTE: AppRoute = {
   ],
 };
 
-// const PERMISOS_VER_INSCRIPCIONES_ESPECIALES = [SgeNombre.INSCRIPCIONES_ESPECIALES_VER_LISTADO];
+const PERMISOS_VER_INSCRIPCIONES_ESPECIALES = [SgeNombre.ADMIN_VER_PANEL_ADMIN];
 export const INSCRIPCIONES_ESPECIALES_ROUTE: AppRoute = {
   href: "/inscripciones_especiales",
   label: "Inscripciones especiales",
   isPublic: false,
-  permisos: PERMISOS_VER_REPORTES,
+  permisos: PERMISOS_VER_INSCRIPCIONES_ESPECIALES,
   subRutas: [
-    // {
-    //   href: "/inscripciones_especiales/pendientes",
-    //   label: "Pendientes",
-    //   isPublic: false,
-    //   permisos: PERMISOS_VER_INSCRIPCIONES_ESPECIALES,
-    // },
-    // {
-    //   href: "/inscripciones_especiales/terminadas",
-    //   label: "Terminadas",
-    //   isPublic: false,
-    //   permisos: PERMISOS_VER_INSCRIPCIONES_ESPECIALES,
-    // },
+    {
+      href: "/inscripciones_especiales/solicitudes",
+      label: "Administrar Solicitudes",
+      isPublic: false,
+      permisos: [SgeNombre.ADMIN_VER_PANEL_ADMIN],
+    },
     {
       href: "/inscripciones_especiales/solicitar",
       label: "Solicitar",
+      isPublic: true,
+      permisos: [],
+    },
+    {
+      href: "/inscripciones_especiales/mis_solicitudes",
+      label: "Mis solicitudes",
       isPublic: true,
       permisos: [],
     },

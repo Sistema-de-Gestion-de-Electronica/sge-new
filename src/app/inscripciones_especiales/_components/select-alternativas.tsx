@@ -91,9 +91,9 @@ export function SelectAlternativas<T extends FieldValues = FieldValues>({
   };
 
   return (
-    <div>
+    <div className="w-full overflow-x-auto">
       <label className="mb-2 block text-sm font-medium text-gray-700">{label}</label>
-      <div className="grid grid-cols-[100px_repeat(6,1fr)] border rounded-lg overflow-hidden text-sm shadow-md">
+      <div className="grid min-w-[700px] grid-cols-[100px_repeat(6,1fr)] border rounded-lg overflow-hidden text-sm shadow-md">
         {/* Encabezado */}
         <div className="bg-gray-700 text-white font-semibold p-2 text-center">Horario</div>
         {dias.map((dia) => (
@@ -117,7 +117,7 @@ export function SelectAlternativas<T extends FieldValues = FieldValues>({
                 <div
                   key={`${dia}-${horario}`}
                   onClick={() => handleChange(dia, horario)}
-                  className={`cursor-pointer select-none border-t p-2 text-center transition ${
+                  className={`overflow-x-auto cursor-pointer select-none border-t p-2 text-center transition ${
                     selected
                       ? "bg-green-100 text-green-700 font-semibold"
                       : "text-gray-400 hover:bg-gray-100"

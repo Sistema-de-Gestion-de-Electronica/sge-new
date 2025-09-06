@@ -56,6 +56,11 @@ const config = {
         destination: "/reportes/hoy",
         permanent: true,
       },
+      {
+        source: "/inscripciones_especiales",
+        destination: "/inscripciones_especiales/solicitudes",
+        permanent: true,
+      },
     ];
   },
   output: "standalone",

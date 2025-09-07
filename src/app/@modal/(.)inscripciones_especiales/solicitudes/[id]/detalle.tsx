@@ -42,7 +42,7 @@ export default function DetalleSolicitud({ id }: { id: string }) {
   return (
     <ModalDrawer
       titulo="Detalle de Reserva"
-      description="Detalles de la reserva de laboratorio abierto."
+      description="Detalles de la solicitud de inscripción."
       open={open}
       onOpenChange={handleOpenChange}
       className="min-w-fit"

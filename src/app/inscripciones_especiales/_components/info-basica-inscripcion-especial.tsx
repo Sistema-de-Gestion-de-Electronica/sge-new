@@ -56,7 +56,9 @@ export function InscripcionEspecialDetalle({
               <div>#{inscripcionEspecial?.id}</div>
             </CardTitle>
             <div className="flex flex-wrap justify-center gap-2 sm:justify-start">
-              <BadgeEstatusInscripcionEspecial estatus={inscripcionEspecial?.estado} />
+              <BadgeEstatusInscripcionEspecial
+                estatus={(inscripcionEspecial?.estado as InscripcionEspecialEstatus) ?? ""}
+              />
             </div>
           </div>
         </div>

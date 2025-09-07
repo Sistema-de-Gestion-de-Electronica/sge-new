@@ -70,7 +70,7 @@ export async function rechazarInscripcionEspecial(ctx: any, { id, respuesta }: {
 type InputGetAllInscripcionesEspeciales = z.infer<typeof inputGetAllInscripcionesEspeciales>;
 
 export async function getAllInscripcionesEspeciales(
-  ctx: { prisma: PrismaClient; session: any },
+  ctx: { prisma: PrismaClient; session: Session },
   input: InputGetAllInscripcionesEspeciales,
   userId: string,
 ) {
@@ -137,8 +137,11 @@ export async function getAllInscripcionesEspeciales(
 
 type inputGetInscripcionEspecialById = z.infer<typeof inputGetInscripcionEspecialById>;
 
-export async function getInscripcionEspecialById(ctx: any, input: inputGetInscripcionEspecialById) {
-  const i = await ctx.prisma.inscripcionEspecial.findUnique({
+export async function getInscripcionEspecialById(
+  ctx: { db: PrismaClient; session: Session },
+  input: inputGetInscripcionEspecialById,
+) {
+  const i = await ctx.db.inscripcionEspecial.findUnique({
     where: { id: input.id },
     include: {
       solicitante: {
@@ -155,9 +158,9 @@ export async function getInscripcionEspecialById(ctx: any, input: inputGetInscri
     },
   });
 
-  if (!i) throw new Error("Modelo inscripcionEspecial no encontrado en prisma");
+  if (!i) return null;
 
-  const materias = await ctx.prisma.materia.findMany({
+  const materias = await ctx.db.materia.findMany({
     where: { id: { in: i.materias } },
     select: { nombre: true },
   });
@@ -166,7 +169,7 @@ export async function getInscripcionEspecialById(ctx: any, input: inputGetInscri
     id: i.id,
     solicitante: i.solicitante,
     caso: i.caso,
-    materias: materias.map((m: any) => m.nombre),
+    materias: materias.map((m) => m.nombre),
     justificacion: i.justificacion,
     turnoAlternativa1: i.turnoAlternativa1 ?? "",
     turnoAlternativa2: i.turnoAlternativa2 ?? "",

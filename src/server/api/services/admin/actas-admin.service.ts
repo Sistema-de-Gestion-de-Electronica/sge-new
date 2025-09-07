@@ -6,6 +6,7 @@ import { Buffer } from "buffer";
 import { saveActaPDF } from "../../utils/pdfSaver";
 import { getUsuarioPorId } from "../../repositories/admin/usuarios-admin.repository";
 import { enviarMailNuevaVotacionAbiertaProcedure } from "../mails/emailVotacionAbierta.service";
+import { deleteActaPDF } from "../../utils/pdfDeleter";
 
 
 export const agregarActaProcedure = protectedProcedure
@@ -99,8 +100,9 @@ export const visibilidadActasHastaProcedure = protectedProcedure
   .mutation(async ({ ctx, input }) => {
     validarInput(inputEliminarActa, input);
 
-    const res = eliminarActasHasta(ctx,input)
-    return res;
+    const { count, names } = await eliminarActasHasta(ctx,input)
+    names.forEach(f => {deleteActaPDF(f)});
+    return {count};
     }
   )
 
@@ -109,8 +111,9 @@ export const visibilidadActasHastaProcedure = protectedProcedure
   .mutation(async ({ ctx, input }) => {
     validarInput(inputEliminarActas, input);
 
-    const res = eliminarActasEntre(ctx,input)
-    return res;
+    const { count, names } = await eliminarActasEntre(ctx,input)
+    names.forEach(f => {deleteActaPDF(f)});
+    return {count};
     }
   )
 
@@ -119,7 +122,8 @@ export const visibilidadActasHastaProcedure = protectedProcedure
   .mutation(async ({ ctx, input }) => {
     validarInput(inputEliminarActa, input);
 
-    const res = eliminarActasIgual(ctx,input)
-    return res;
+    const { count, names } = await eliminarActasIgual(ctx,input)
+    names.forEach(f => {deleteActaPDF(f)});
+    return {count};
     }
   )

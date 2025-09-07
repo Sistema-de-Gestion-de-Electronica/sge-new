@@ -49,11 +49,13 @@ type InputEliminarActa = z.infer<typeof inputEliminarActa>;
 export const eliminarActasHasta = async (ctx: { db: PrismaClient }, input: InputEliminarActa) => {
   try {
     const lte = endOfDay(input.fechaReunion);
-    const res = await ctx.db.$executeRaw`
+    const filas = await ctx.db.$queryRaw<{ nombreActa: string }[]>`
       DELETE FROM "Acta"
-      WHERE "fechaReunion" <= ${lte};
+      WHERE "fechaReunion" <= ${lte}
+        AND "estado" = 'CERRADA'
+      RETURNING "nombreActa";
     `;
-    return { count: res };
+    return { count: filas.length, names: filas.map(f => f.nombreActa) };
   } catch (error) {
     throw new Error(`Error eliminando actas hasta la fecha: ${input.fechaReunion}`);
   }
@@ -62,12 +64,14 @@ export const eliminarActasHasta = async (ctx: { db: PrismaClient }, input: Input
 export const eliminarActasIgual = async (ctx: { db: PrismaClient }, input: InputEliminarActa) => {
   try {
     const { start, next } = dayRangeUTC(input.fechaReunion);
-    const count = await ctx.db.$executeRaw`
+    const filas = await ctx.db.$queryRaw<{ nombreActa: string }[]>`
       DELETE FROM "Acta"
       WHERE "fechaReunion" >= ${start}
-        AND "fechaReunion" <  ${next};
+        AND "fechaReunion" <  ${next}
+        AND "estado" = 'CERRADA'
+      RETURNING "nombreActa";
     `;
-    return { count };
+    return { count: filas.length, names: filas.map(f => f.nombreActa) };
   } catch {
     throw new Error(`Error eliminando actas del día ${input.fechaReunion.toISOString().slice(0,10)}`);
   }
@@ -76,15 +80,24 @@ export const eliminarActasIgual = async (ctx: { db: PrismaClient }, input: Input
 type InputEliminarActas = z.infer<typeof inputEliminarActas>;
 export const eliminarActasEntre = async (ctx: { db: PrismaClient }, input: InputEliminarActas) => {
   try {
-    const gte = input.fechaInicio ? startOfDay(input.fechaInicio) : undefined;
-    const lte = endOfDay(input.fechaFin);
+    const start = input.fechaInicio ? dayRangeUTC(input.fechaInicio).start : null;
+    const end = dayRangeUTC(input.fechaFin).next;
 
-    const where = input.fechaInicio
-      ? { fechaReunion: { gte, lte } }
-      : { fechaReunion: { lte } };
-
-    const res = await ctx.db.acta.deleteMany({ where });
-    return res;
+    const filas = start
+      ? await ctx.db.$queryRaw<{ nombreActa: string }[]>`
+          DELETE FROM "Acta"
+          WHERE "fechaReunion" >= ${start}
+            AND "fechaReunion" <  ${end}
+            AND "estado" = 'CERRADA'
+          RETURNING "nombreActa";
+        `
+      : await ctx.db.$queryRaw<{ nombreActa: string }[]>`
+          DELETE FROM "Acta"
+          WHERE "fechaReunion" < ${end}
+            AND "estado" = 'CERRADA'
+          RETURNING "nombreActa";
+        `;
+    return { count: filas.length, names: filas.map(f => f.nombreActa) };
   } catch (error) {
     throw new Error(`Error eliminando actas hasta/entre fechas: ${(error as Error).message}`);
   }
@@ -138,7 +151,9 @@ export const visibilidadActaHasta = async (ctx: { db: PrismaClient }, input: Inp
     const res = await ctx.db.$executeRaw`
       UPDATE "Acta"
       SET "visibilidad" = ${input.visibilidad}::"Visibilidad"
-      WHERE "fechaReunion" <= ${lte};
+      WHERE "fechaReunion" <= ${lte}
+        AND "estado" = 'CERRADA';
+
     `;
     return { count: res };
   } catch (error) {
@@ -153,7 +168,8 @@ export const visibilidadActaIgual = async (ctx: { db: PrismaClient }, input: Inp
       UPDATE "Acta"
       SET "visibilidad" = ${input.visibilidad}::"Visibilidad"
       WHERE "fechaReunion" >= ${start}
-        AND "fechaReunion" <  ${next};
+        AND "fechaReunion" <  ${next}
+        AND "estado" = 'CERRADA';
     `;
     return { count };
   } catch {

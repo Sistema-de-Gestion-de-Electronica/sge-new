@@ -9,7 +9,6 @@ import { inputAgregarInscripcion } from "@/shared/filters/inscripciones-especial
 import { SelectMateriasMultiple } from "@/app/inscripciones_especiales/_components/select-multiple-materias";
 import { SelectAlternativas } from "@/app/inscripciones_especiales/_components/select-alternativas";
 import { FormSelect } from "@/components/ui/autocomplete";
-import { nuevaInscripcionEspecialProcedure } from "@/server/api/services/inscripcionesEspeciales/inscripcionesEspeciales.service";
 
 const casos = ["Ordenanza 1648", "Cambios de carrera", "Excepcion de correlativas"];
 

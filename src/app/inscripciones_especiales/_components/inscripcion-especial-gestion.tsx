@@ -23,14 +23,14 @@ export const InscripcionEspecialGestion = ({
   onCancel,
   onRechazar,
 }: InscripcionEspecialGestionProps) => {
-  //   const utils = api.useUtils();
-  //   const { isPending: estaAprobando, mutate: aprobarSolcitud } =
-  //     api.inscripcionesEspeciales.aprobarInscripcionEspecial.useMutation();
-  //   const { isPending: estaRechazando, mutate: rechazarSolicitud } =
-  //     api.inscripcionesEspeciales.rechazarInscripcionEspecial.useMutation();
-  //   const { data: inscripcionEspecialData } = api.inscripcionesEspeciales.getInscripcionEspecialPorID.useQuery({
-  //     id: inscripcionEspecialId,
-  //   });
+  const utils = api.useUtils();
+  const { isPending: estaAprobando, mutate: aprobarSolcitud } =
+    api.inscripcionesEspeciales.aprobarInscripcionEspecial.useMutation();
+  const { isPending: estaRechazando, mutate: rechazarSolicitud } =
+    api.inscripcionesEspeciales.rechazarInscripcionEspecial.useMutation();
+  const { data: inscripcionEspecialData } = api.inscripcionesEspeciales.getInscripcionEspecialPorId.useQuery({
+    id: inscripcionEspecialId,
+  });
 
   const formHook = useForm<GestionarInscripcionEspecialFormData>({
     mode: "onChange",
@@ -44,45 +44,45 @@ export const InscripcionEspecialGestion = ({
   const { handleSubmit, control, getValues } = formHook;
 
   const onSubmit = async (data: GestionarInscripcionEspecialFormData) => {
-    // aprobarSolcitud(data, {
-    //   onSuccess: () => {
-    //     toast.success("Solicitud de inscripcion especial aprobada con éxito");
-    //     utils.inscripcionesEspeciales.getInscripcionEspecialPorID
-    //       .invalidate({ id: inscripcionEspecialId })
-    //       .catch((err) => {
-    //         console.error(err);
-    //       });
-    //     onAprobar();
-    //   },
-    //   onError: (error) => {
-    //     toast.error("Error al aprobar la reserva");
-    //     console.error(error);
-    //   },
-    // });
+    aprobarSolcitud(data, {
+      onSuccess: () => {
+        toast.success("Solicitud de inscripcion especial aprobada con éxito");
+        utils.inscripcionesEspeciales.getInscripcionEspecialPorId
+          .invalidate({ id: inscripcionEspecialId })
+          .catch((err) => {
+            console.error(err);
+          });
+        onAprobar();
+      },
+      onError: (error) => {
+        toast.error("Error al aprobar la reserva");
+        console.error(error);
+      },
+    });
     console.log("Aprobando con justificacion: ", data.respuesta);
     onAprobar();
   };
 
   const handleRechazo = async () => {
     const values = getValues();
-    // rechazarSolicitud(
-    //   { id: inscripcionEspecialId, justificacion: values.justificacion },
-    //   {
-    //     onSuccess: () => {
-    //       toast.success("Solicitud de inscripcion especial rechazada con éxito");
-    //       utils.inscripcionesEspeciales.getInscripcionEspecialPorID
-    //         .invalidate({ id: inscripcionEspecialId })
-    //         .catch((err) => {
-    //           console.error(err);
-    //         });
-    //       onRechazar();
-    //     },
-    //     onError: (error) => {
-    //       toast.error("Error al rechazar la reserva");
-    //       console.error(error);
-    //     },
-    //   },
-    // );
+    rechazarSolicitud(
+      { id: inscripcionEspecialId, respuesta: values.respuesta },
+      {
+        onSuccess: () => {
+          toast.success("Solicitud de inscripcion especial rechazada con éxito");
+          utils.inscripcionesEspeciales.getInscripcionEspecialPorId
+            .invalidate({ id: inscripcionEspecialId })
+            .catch((err) => {
+              console.error(err);
+            });
+          onRechazar();
+        },
+        onError: (error) => {
+          toast.error("Error al rechazar la reserva");
+          console.error(error);
+        },
+      },
+    );
     console.log("Rechazando con justificacion: ", values.respuesta);
     onRechazar();
   };

@@ -2,7 +2,12 @@ import { type Prisma, type PrismaClient } from "@/generated/prisma";
 import { type Session } from "next-auth";
 
 import { type z } from "zod";
-import { type inputAgregarInscripcion } from "@/shared/filters/inscripciones-especiales-filter.schema";
+import {
+  type inputAgregarInscripcion,
+  type inputGetAllInscripcionesEspeciales,
+  type inputGetInscripcionEspecialById,
+} from "@/shared/filters/inscripciones-especiales-filter.schema";
+import { id } from "date-fns/locale";
 
 type InputAgregarInscripcion = z.infer<typeof inputAgregarInscripcion>;
 export const agregarInscripcionEspecial = async (
@@ -62,8 +67,79 @@ export async function rechazarInscripcionEspecial(ctx: any, { id, respuesta }: {
   });
 }
 
-export async function getAllInscripcionesEspeciales(ctx: any) {
-  const inscripciones = await ctx.prisma.inscripcionEspecial.findMany({
+type InputGetAllInscripcionesEspeciales = z.infer<typeof inputGetAllInscripcionesEspeciales>;
+
+export async function getAllInscripcionesEspeciales(
+  ctx: { prisma: PrismaClient; session: any },
+  input: InputGetAllInscripcionesEspeciales,
+  userId: string,
+) {
+  const { filterByUserId } = input;
+
+  const filtrosWhere: Prisma.InscripcionEspecialWhereInput = {
+    ...(filterByUserId === "true" ? { solicitanteId: userId } : {}),
+  };
+
+  const [count, inscripciones] = await ctx.prisma.$transaction([
+    ctx.prisma.inscripcionEspecial.count({
+      where: filtrosWhere,
+    }),
+    ctx.prisma.inscripcionEspecial.findMany({
+      where: filtrosWhere,
+      include: {
+        solicitante: {
+          select: {
+            id: true,
+            nombre: true,
+            apellido: true,
+            legajo: true,
+            email: true,
+            image: true,
+            name: true,
+          },
+        },
+      },
+      orderBy: { fechaSolicitud: "desc" },
+    }),
+  ]);
+
+  const solicitudes = await Promise.all(
+    inscripciones.map(async (i) => {
+      const materias = await ctx.prisma.materia.findMany({
+        where: { id: { in: i.materias } },
+        select: { nombre: true },
+      });
+      return {
+        id: i.id,
+        solicitante: i.solicitante,
+        caso: i.caso,
+        materias: materias.map((m) => m.nombre),
+        justificacion: i.justificacion,
+        turnoAlternativa1: i.turnoAlternativa1 ?? "",
+        turnoAlternativa2: i.turnoAlternativa2 ?? "",
+        estado: i.estado,
+        respuesta: i.respuesta ?? "",
+        fechaSolicitud: formatDateToSeconds(i.fechaSolicitud),
+        fechaRespuesta: i.fechaRespuesta ? formatDateToSeconds(i.fechaRespuesta) : "",
+      };
+    }),
+  );
+  const pageIndex = 0; // TODO SACAR O IMPLEMENTAR PAGINADO
+  const pageSize = 10;
+
+  return {
+    solicitudes,
+    count,
+    pageIndex,
+    pageSize,
+  };
+}
+
+type inputGetInscripcionEspecialById = z.infer<typeof inputGetInscripcionEspecialById>;
+
+export async function getInscripcionEspecialById(ctx: any, input: inputGetInscripcionEspecialById) {
+  const i = await ctx.prisma.inscripcionEspecial.findUnique({
+    where: { id: input.id },
     include: {
       solicitante: {
         select: {
@@ -77,47 +153,39 @@ export async function getAllInscripcionesEspeciales(ctx: any) {
         },
       },
     },
-    orderBy: {
-      createdAt: "desc",
-    },
   });
 
-  const result = await Promise.all(
-    inscripciones.map(
-      async (i: {
-        materias: any;
-        id: any;
-        solicitante: any;
-        caso: any;
-        justificacion: any;
-        turnoAlternativa1: any;
-        turnoAlternativa2: any;
-        estado: any;
-        respuesta: any;
-        fechaSolicitud: { toISOString: () => any };
-        fechaRespuesta: { toISOString: () => any };
-      }) => {
-        const materias = await ctx.prisma.materia.findMany({
-          where: { id: { in: i.materias } },
-          select: { nombre: true },
-        });
+  if (!i) throw new Error("Modelo inscripcionEspecial no encontrado en prisma");
 
-        return {
-          id: i.id,
-          solicitante: i.solicitante,
-          caso: i.caso,
-          materias: materias.map((m: { nombre: String }) => m.nombre),
-          justificacion: i.justificacion,
-          turnoAlternativa1: i.turnoAlternativa1 ?? "",
-          turnoAlternativa2: i.turnoAlternativa2 ?? "",
-          estado: i.estado,
-          respuesta: i.respuesta ?? "",
-          fechaSolicitud: i.fechaSolicitud.toISOString(),
-          fechaRespuesta: i.fechaRespuesta ? i.fechaRespuesta.toISOString() : "",
-        };
-      },
-    ),
-  );
+  const materias = await ctx.prisma.materia.findMany({
+    where: { id: { in: i.materias } },
+    select: { nombre: true },
+  });
 
-  return result;
+  return {
+    id: i.id,
+    solicitante: i.solicitante,
+    caso: i.caso,
+    materias: materias.map((m: any) => m.nombre),
+    justificacion: i.justificacion,
+    turnoAlternativa1: i.turnoAlternativa1 ?? "",
+    turnoAlternativa2: i.turnoAlternativa2 ?? "",
+    estado: i.estado,
+    respuesta: i.respuesta ?? "",
+    fechaSolicitud: formatDateToSeconds(i.fechaSolicitud),
+    fechaRespuesta: i.fechaRespuesta ? formatDateToSeconds(i.fechaRespuesta) : "",
+  };
+}
+
+function formatDateToSeconds(date: Date) {
+  const pad = (n: number) => n.toString().padStart(2, "0");
+
+  const year = date.getFullYear();
+  const month = pad(date.getMonth() + 1);
+  const day = pad(date.getDate());
+  const hours = pad(date.getHours());
+  const minutes = pad(date.getMinutes());
+  const seconds = pad(date.getSeconds());
+
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 }

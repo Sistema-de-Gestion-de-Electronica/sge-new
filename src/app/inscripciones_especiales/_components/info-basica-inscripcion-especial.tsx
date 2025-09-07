@@ -9,8 +9,17 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { DatoUsuarioReserva } from "@/app/_components/datos-usuario";
 
-import { MOCK_RESPUESTA_MIS_INSCRIPCIONES_ESPECIALES } from "./mock-mis-inscripciones"; //TODO eliminar cuando funcione el back
 import { AlternativaHorario } from "./alternativas-horario";
+
+function CardLoading() {
+  return (
+    <div className="p-4">
+      <Skeleton className="mb-2 h-6 w-1/3" />
+      <Skeleton className="mb-1 h-4 w-full" />
+      <Skeleton className="h-4 w-full" />
+    </div>
+  );
+}
 
 type InscripcionEspecialDetalleProps = {
   inscripcionEspecialId: number;
@@ -21,25 +30,22 @@ export function InscripcionEspecialDetalle({
   inscripcionEspecialId,
   mostrarCompleto,
 }: InscripcionEspecialDetalleProps) {
-  // const {
-  //     data: inscripcionEspecial,
-  //     isLoading,
-  //     isError,
-  //     refetch: refetchInscripcion,
-  //   } = api.inscripcionesEspeciales.getInscripcionPorID.useQuery({
-  //     id: Number(inscripcionEspecialId),
-  //   });
-  const inscripcionEspecial = MOCK_RESPUESTA_MIS_INSCRIPCIONES_ESPECIALES.solicitudes.find(
-    (inscripcion) => inscripcion.id === inscripcionEspecialId,
-  );
+  const {
+    data: inscripcionEspecial,
+    isLoading,
+    isError,
+    refetch: refetchInscripcion,
+  } = api.inscripcionesEspeciales.getInscripcionEspecialPorId.useQuery({
+    id: Number(inscripcionEspecialId),
+  });
 
-  // if (isError) {
-  //   return <div>Error al cargar inscripcion especial...</div>;
-  // }
+  if (isError) {
+    return <div>Error al cargar inscripcion especial...</div>;
+  }
 
-  // if (isLoading) {
-  //   return <CardLoading />;
-  // }
+  if (isLoading) {
+    return <CardLoading />;
+  }
 
   return (
     <Card className="w-full">
@@ -47,10 +53,10 @@ export function InscripcionEspecialDetalle({
         <div className="flex flex-col items-center gap-4 sm:flex-row sm:items-start">
           <div className="flex-grow text-center sm:text-left">
             <CardTitle className="mb-1 flex flex-row justify-between text-2xl">
-              <div>Inscripcion Especial #{inscripcionEspecial.id}</div>
+              <div>#{inscripcionEspecial?.id}</div>
             </CardTitle>
             <div className="flex flex-wrap justify-center gap-2 sm:justify-start">
-              <BadgeEstatusInscripcionEspecial estatus={inscripcionEspecial.estado} />
+              <BadgeEstatusInscripcionEspecial estatus={inscripcionEspecial?.estado} />
             </div>
           </div>
         </div>
@@ -68,7 +74,7 @@ export function InscripcionEspecialDetalle({
                 icon: <PersonStandingIcon className="h-4 w-4" />,
                 label: "Solicitante",
                 value: inscripcionEspecial?.solicitante ? (
-                  <DatoUsuarioReserva usuario={inscripcionEspecial.solicitante} />
+                  <DatoUsuarioReserva usuario={inscripcionEspecial?.solicitante} />
                 ) : (
                   "Sin asignar"
                 ),
@@ -106,18 +112,12 @@ export function InscripcionEspecialDetalle({
             {inscripcionEspecial?.justificacion ?? "Sin informar"}
           </div>
         </div>
-        <div className="col-span-3 flex flex-col md:flex-row items-start justify-center gap-4">
+        <div className="col-span-3 flex flex-col items-start justify-center gap-4 md:flex-row">
           {inscripcionEspecial?.turnoAlternativa1 && (
-            <AlternativaHorario
-              titulo="Alternativa Horario 1"
-              data={inscripcionEspecial.turnoAlternativa1}
-            />
+            <AlternativaHorario titulo="Alternativa Horario 1" data={inscripcionEspecial?.turnoAlternativa1} />
           )}
           {inscripcionEspecial?.turnoAlternativa2 && (
-            <AlternativaHorario
-              titulo="Alternativa Horario 2"
-              data={inscripcionEspecial.turnoAlternativa2}
-            />
+            <AlternativaHorario titulo="Alternativa Horario 2" data={inscripcionEspecial?.turnoAlternativa2} />
           )}
         </div>
 

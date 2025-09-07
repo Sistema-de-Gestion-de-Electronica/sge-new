@@ -2,6 +2,7 @@ import {
   inputGestionarInscripcionEspecial,
   inputAgregarInscripcion,
   inputGetAllInscripcionesEspeciales,
+  inputGetInscripcionEspecialById,
 } from "../../../../shared/filters/inscripciones-especiales-filter.schema";
 
 import {
@@ -9,6 +10,7 @@ import {
   aprobarInscripcionEspecial,
   rechazarInscripcionEspecial,
   getAllInscripcionesEspeciales,
+  getInscripcionEspecialById,
 } from "../../repositories/inscripcionesEspeciales/inscripcionesEspeciales.repository";
 
 import { createAuthorizedProcedure, protectedProcedure, publicProcedure } from "../../trpc";
@@ -71,6 +73,19 @@ export const rechazarInscripcionEspecialProcedure = protectedProcedure
 export const getAllInscripcionesEspecialesProcedure = protectedProcedure
   .input(inputGetAllInscripcionesEspeciales)
   .query(async ({ ctx, input }) => {
-    validarInput(inputGetAllInscripcionesEspeciales, input);
-    return await getAllInscripcionesEspeciales(ctx); //validar session con el input ctx,input
+    return await getAllInscripcionesEspeciales(
+      {
+        prisma: ctx.db,
+        session: ctx.session,
+      },
+      input,
+      ctx.session.user.id,
+    );
+  });
+
+export const getInscripcionEspecialByIdProcedure = protectedProcedure
+  .input(inputGetInscripcionEspecialById)
+  .query(async ({ ctx, input }) => {
+    validarInput(inputGetInscripcionEspecialById, input);
+    return await getInscripcionEspecialById(ctx, input); //validar session con el input ctx,input
   });

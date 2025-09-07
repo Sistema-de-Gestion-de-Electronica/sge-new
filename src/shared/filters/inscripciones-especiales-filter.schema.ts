@@ -14,5 +14,11 @@ export const inputGestionarInscripcionEspecial = z.object({
 });
 
 export const inputGetAllInscripcionesEspeciales = z.object({
+  filterByUserId: z.enum(["true", "false"]).optional(),
+  pageIndex: z.number().optional(),
+  pageSize: z.number().optional(),
+});
+
+export const inputGetInscripcionEspecialById = z.object({
   id: z.number(),
 });

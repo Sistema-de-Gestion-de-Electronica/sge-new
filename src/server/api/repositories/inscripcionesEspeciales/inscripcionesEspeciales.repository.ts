@@ -51,22 +51,17 @@ export async function aprobarInscripcionEspecial(
   ctx: { db: PrismaClient; session: Session },
   { id, respuesta }: { id: number; respuesta?: string },
 ) {
-  const estado =
-    respuesta == null || // null o undefined
-    (typeof respuesta === "string" && respuesta.trim() === "") // cadena vacía o espacios
-      ? "ACEPTADA_CON_CONDICION"
-      : "ACEPTADA";
+  const contenidoRespuesta = respuesta?.trim().toLowerCase();
 
-  await ctx.db.inscripcionEspecial.update({
+  const estado = !contenidoRespuesta || contenidoRespuesta === "null" ? "ACEPTADA" : "ACEPTADA_CON_CONDICION";
+
+  const i = await ctx.db.inscripcionEspecial.update({
     where: { id },
     data: {
       estado,
       respuesta: respuesta ?? null,
+      fechaRespuesta: new Date(),
     },
-  });
-
-  const i = await ctx.db.inscripcionEspecial.findUnique({
-    where: { id: id },
     include: {
       solicitante: {
         select: {
@@ -81,8 +76,6 @@ export async function aprobarInscripcionEspecial(
       },
     },
   });
-
-  if (!i) return null;
 
   const materias = await ctx.db.materia.findMany({
     where: { id: { in: i.materias } },
@@ -206,8 +199,8 @@ export async function getAllInscripcionesEspeciales(
         turnoAlternativa2: i.turnoAlternativa2 ?? "",
         estado: i.estado,
         respuesta: i.respuesta ?? "",
-        fechaSolicitud: formatDateToSeconds(i.fechaSolicitud),
-        fechaRespuesta: i.fechaRespuesta ? formatDateToSeconds(i.fechaRespuesta) : "",
+        fechaSolicitud: formatDateToDays(i.fechaSolicitud),
+        fechaRespuesta: i.fechaRespuesta ? formatDateToDays(i.fechaRespuesta) : "",
       };
     }),
   );
@@ -278,4 +271,14 @@ function formatDateToSeconds(date: Date) {
   const seconds = pad(date.getSeconds());
 
   return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}
+
+function formatDateToDays(date: Date) {
+  const pad = (n: number) => n.toString().padStart(2, "0");
+
+  const year = date.getFullYear();
+  const month = pad(date.getMonth() + 1);
+  const day = pad(date.getDate());
+
+  return `${year}-${month}-${day}`;
 }

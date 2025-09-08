@@ -10,7 +10,7 @@ model InscripcionEspecial {
 
     materias Int[]
 
-    estado    String // PENDIENTE, APROBADA, RECHAZADA
+    estado    String
     respuesta String?
 
     fechaSolicitud DateTime  @default(now())

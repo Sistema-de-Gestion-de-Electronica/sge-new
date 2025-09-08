@@ -47,24 +47,111 @@ export const agregarInscripcionEspecial = async (
   });
 };
 
-export async function aprobarInscripcionEspecial(ctx: any, { id, respuesta }: { id: number; respuesta?: string }) {
-  return await ctx.prisma.inscripcionEspecial.update({
+export async function aprobarInscripcionEspecial(
+  ctx: { db: PrismaClient; session: Session },
+  { id, respuesta }: { id: number; respuesta?: string },
+) {
+  const estado =
+    respuesta == null || // null o undefined
+    (typeof respuesta === "string" && respuesta.trim() === "") // cadena vacía o espacios
+      ? "ACEPTADA_CON_CONDICION"
+      : "ACEPTADA";
+
+  await ctx.db.inscripcionEspecial.update({
     where: { id },
     data: {
-      estado: "APROBADA",
+      estado,
       respuesta: respuesta ?? null,
     },
   });
+
+  const i = await ctx.db.inscripcionEspecial.findUnique({
+    where: { id: id },
+    include: {
+      solicitante: {
+        select: {
+          id: true,
+          nombre: true,
+          apellido: true,
+          legajo: true,
+          email: true,
+          image: true,
+          name: true,
+        },
+      },
+    },
+  });
+
+  if (!i) return null;
+
+  const materias = await ctx.db.materia.findMany({
+    where: { id: { in: i.materias } },
+    select: { nombre: true },
+  });
+
+  return {
+    id: i.id,
+    solicitante: i.solicitante,
+    caso: i.caso,
+    materias: materias.map((m) => m.nombre),
+    justificacion: i.justificacion,
+    turnoAlternativa1: i.turnoAlternativa1 ?? "",
+    turnoAlternativa2: i.turnoAlternativa2 ?? "",
+    estado: i.estado,
+    respuesta: i.respuesta ?? "",
+    fechaSolicitud: formatDateToSeconds(i.fechaSolicitud),
+    fechaRespuesta: i.fechaRespuesta ? formatDateToSeconds(i.fechaRespuesta) : "",
+  };
 }
 
-export async function rechazarInscripcionEspecial(ctx: any, { id, respuesta }: { id: number; respuesta?: string }) {
-  return await ctx.prisma.inscripcionEspecial.update({
+export async function rechazarInscripcionEspecial(
+  ctx: { db: PrismaClient; session: Session },
+  { id, respuesta }: { id: number; respuesta?: string },
+) {
+  await ctx.db.inscripcionEspecial.update({
     where: { id },
     data: {
       estado: "RECHAZADA",
       respuesta: respuesta ?? null,
     },
   });
+  const i = await ctx.db.inscripcionEspecial.findUnique({
+    where: { id: id },
+    include: {
+      solicitante: {
+        select: {
+          id: true,
+          nombre: true,
+          apellido: true,
+          legajo: true,
+          email: true,
+          image: true,
+          name: true,
+        },
+      },
+    },
+  });
+
+  if (!i) return null;
+
+  const materias = await ctx.db.materia.findMany({
+    where: { id: { in: i.materias } },
+    select: { nombre: true },
+  });
+
+  return {
+    id: i.id,
+    solicitante: i.solicitante,
+    caso: i.caso,
+    materias: materias.map((m) => m.nombre),
+    justificacion: i.justificacion,
+    turnoAlternativa1: i.turnoAlternativa1 ?? "",
+    turnoAlternativa2: i.turnoAlternativa2 ?? "",
+    estado: i.estado,
+    respuesta: i.respuesta ?? "",
+    fechaSolicitud: formatDateToSeconds(i.fechaSolicitud),
+    fechaRespuesta: i.fechaRespuesta ? formatDateToSeconds(i.fechaRespuesta) : "",
+  };
 }
 
 type InputGetAllInscripcionesEspeciales = z.infer<typeof inputGetAllInscripcionesEspeciales>;

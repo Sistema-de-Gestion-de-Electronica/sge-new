@@ -1,11 +1,14 @@
 import { api, type RouterOutputs } from "@/trpc/react";
 import { type ColumnDef, createColumnHelper } from "@tanstack/react-table";
-import { BadgeEstatusInscripcionEspecial } from "@/app/_components/badge-estatus-inscripcion-especial";
+import {
+  BadgeEstatusInscripcionEspecial,
+  type InscripcionEspecialEstatus,
+} from "@/app/_components/badge-estatus-inscripcion-especial";
 
-import { type InscripcionesEspecialesData } from "../_components/mock-mis-inscripciones"; //TODO eliminar cuando funcione el back
+//import { type InscripcionesEspecialesData } from "../_components/mock-mis-inscripciones"; //TODO eliminar cuando funcione el back
 
-// type InscripcionesEspecialesData =
-//   RouterOutputs["inscripcionesEspeciales"]["solicitudes"]["getAll"]["solicitudes"][number];
+type InscripcionesEspecialesData =
+  RouterOutputs["inscripcionesEspeciales"]["getAllInscripcionesEspeciales"]["solicitudes"][number];
 
 export const getColumnasInscripcionesEspeciales = ({ filterByUser }: { filterByUser?: boolean }) => {
   const colHelper = createColumnHelper<InscripcionesEspecialesData>();
@@ -89,7 +92,7 @@ export const getColumnasInscripcionesEspeciales = ({ filterByUser }: { filterByU
     colHelper.accessor("estado", {
       header: "Estado",
       cell: ({ row }) => {
-        const estado = row.original.estado;
+        const estado = (row.original.estado ?? "") as InscripcionEspecialEstatus | "";
         return <BadgeEstatusInscripcionEspecial estatus={estado} />;
       },
     }),

@@ -86,6 +86,6 @@ export const getAllInscripcionesEspecialesProcedure = protectedProcedure
 export const getInscripcionEspecialByIdProcedure = protectedProcedure
   .input(inputGetInscripcionEspecialById)
   .query(async ({ ctx, input }) => {
-    //validarInput(inputGetInscripcionEspecialById, input);
+    //validarInput(inputGetInscripcionEspecialById, input); //TODO
     return await getInscripcionEspecialById(ctx, input); //validar session con el input ctx,input
   });

@@ -56,6 +56,11 @@ const config = {
         destination: "/reportes/hoy",
         permanent: true,
       },
+      {
+        source: "/fallas",
+        destination: "/fallas/reportar_instrumento",
+        permanent: true,
+      },
     ];
   },
   output: "standalone",

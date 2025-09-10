@@ -3,7 +3,7 @@ import { protectedProcedure } from "../../trpc";
 import { validarInput } from "../helper";
 import { agregarActa, eliminarActasEntre, eliminarActasHasta, eliminarActasIgual, getActaAbierta, getVotosFromActaAbierta, visibilidadActaHasta, visibilidadActaIgual, visibilidadActasEntre } from "../../repositories/admin/actas-admin.repository";
 import { Buffer } from "buffer";
-import { saveActaPDF } from "../../utils/pdfSaver";
+import { saveActaPDF, formatDate } from "../../utils/pdfSaver";
 import { getUsuarioPorId } from "../../repositories/admin/usuarios-admin.repository";
 import { enviarMailNuevaVotacionAbiertaProcedure } from "../mails/emailVotacionAbierta.service";
 import { deleteActaPDF } from "../../utils/pdfDeleter";
@@ -26,6 +26,22 @@ export const agregarActaProcedure = protectedProcedure
     await enviarMailNuevaVotacionAbiertaProcedure(ctx, acta);
 
     return acta;
+  });
+
+  export const editarActaProcedure = protectedProcedure
+  .input(inputAgregarActa)
+  .mutation(async ({ input }) => {
+    validarInput(inputAgregarActa, input);
+
+    if (!input.fileBase64) {
+      throw new Error("No se ha proporcionado un archivo PDF en base64");
+    }
+
+    await deleteActaPDF(formatDate(input.fechaReunion));
+    
+    const fileBuffer = Buffer.from(input.fileBase64.split(',')[1], 'base64');
+
+    await saveActaPDF(fileBuffer, input.fechaReunion);
   });
 
 export const getActaAbiertaProcedure = protectedProcedure.query(async ({ ctx }) => {

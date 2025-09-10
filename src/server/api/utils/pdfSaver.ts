@@ -27,7 +27,7 @@ export const saveActaPDF = async (fileBuffer: Buffer, date: Date): Promise<strin
   });
 };
 
-const formatDate = (date: Date): string => {
+export const formatDate = (date: Date): string => {
   const day = String(date.getDate()).padStart(2, '0');  // Asegura que el día tenga dos dígitos
   const month = String(date.getMonth() + 1).padStart(2, '0');  // Mes (0 es enero, por eso sumamos 1)
   const year = date.getFullYear();  // Año

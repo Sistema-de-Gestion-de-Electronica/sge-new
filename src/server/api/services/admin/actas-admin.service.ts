@@ -61,7 +61,7 @@ export const getVotosFromActaAbiertaProcedure = protectedProcedure.query(async (
 export const getActaAndVotosProcedure = protectedProcedure.query(async ({ ctx }) => {
   const acta = await getActaAbierta(ctx);
   if (!acta?.id) {
-    throw new Error("No hay un acta abierta");
+    return {acta: null, votos: []}
   }
 
   const votos = await getVotosFromActaAbierta(ctx, acta.id);

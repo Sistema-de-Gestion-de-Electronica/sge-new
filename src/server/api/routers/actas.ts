@@ -1,5 +1,5 @@
 import { createTRPCRouter } from "@/server/api/trpc";
-import { agregarVotoProcedure, getAllActasProcedure, getAllAniosActasProcedure, tieneRolConsejero, yaVotoProcedure } from "../services/actas/actas.service";
+import { agregarVotoProcedure, existenActasProcedure, getAllActasProcedure, getAllAniosActasProcedure, tieneRolConsejero, yaVotoProcedure } from "../services/actas/actas.service";
 
 
 export const actasRouter = createTRPCRouter({
@@ -8,4 +8,5 @@ export const actasRouter = createTRPCRouter({
     tieneRolConsejero: tieneRolConsejero,
     agregarVoto: agregarVotoProcedure,
     yaVoto: yaVotoProcedure,
+    existenActas: existenActasProcedure,
 })

@@ -24,6 +24,18 @@ export const getAllActas = async (ctx: { db: PrismaClient }, input: InputGetAll,
   });
 }
 
+export const getActas = async (ctx: { db: PrismaClient }, esConsejero: boolean) => {
+
+  const where: Prisma.ActaWhereInput = {
+    visibilidad: "VISIBLE",
+    ...(esConsejero ? {} : { estado: "CERRADA" }),
+  };
+  return ctx.db.acta.findMany({
+    where,
+    orderBy: { fechaReunion: "desc" },
+  });
+}
+
 export const getAllAniosActas = async (ctx: { db: PrismaClient }, esConsejero: boolean) => {
   const extra = esConsejero ? Prisma.sql`` : Prisma.sql`AND "Acta"."estado" = 'CERRADA'`;
   const rows: { year: number }[] = await ctx.db.$queryRaw(Prisma.sql`

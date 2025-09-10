@@ -9,7 +9,7 @@ type Props = {
   acta?: Acta | null;
 };
 
-export default function EditLaboratorioModal({ acta }: Props) {
+export default function EditActaModal({ acta }: Props) {
   const [open, setOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 

@@ -1,12 +1,22 @@
 import { inputGetAllActas } from "@/shared/filters/actas-filter.schema";
 import { protectedProcedure, publicProcedure } from "../../trpc";
 import { validarInput } from "../helper";
-import { getAllActas, getAllAniosActas } from "../../repositories/actas/actas.repository";
+import { getActas, getAllActas, getAllAniosActas } from "../../repositories/actas/actas.repository";
 import { getUsuarioPorId } from "../../repositories/admin/usuarios-admin.repository";
 import { Prisma } from "@/generated/prisma";
 import { inputAgregarVoto } from "@/shared/filters/votos-filter.schema";
 import { getActaAbierta, getVotosFromActaAbierta } from "../../repositories/admin/actas-admin.repository";
 import { agregarVoto } from "../../repositories/votos/votos.repository";
+
+export const existenActasProcedure = publicProcedure
+  .query(async ({ctx}) => {
+    const esC = await esConsejero(ctx);
+    const actas = await getActas(ctx, esC);
+    if (actas.length === 0)
+      return false;
+    else
+      return true;
+  })
 
 export const getAllActasProcedure = publicProcedure
   .input(inputGetAllActas)
@@ -14,7 +24,10 @@ export const getAllActasProcedure = publicProcedure
     validarInput(inputGetAllActas, input);
     const esC = await esConsejero(ctx);
     const actas = await getAllActas(ctx, input, esC);
-    return actas;
+    if (actas.length === 0)
+      return [];
+    else
+      return actas;
   });
 
   export const getAllAniosActasProcedure = publicProcedure
@@ -84,7 +97,7 @@ export const yaVotoProcedure = protectedProcedure
     .query(async ({ ctx, input }) => {
       const acta = await getActaAbierta(ctx);
       if (!acta?.id) {
-        throw new TRPCError({ code: "BAD_REQUEST", message: "No hay un acta abierta" });
+        return false
       }
     return await validarVoto(ctx, ctx.session?.user?.id, acta.id);
     })

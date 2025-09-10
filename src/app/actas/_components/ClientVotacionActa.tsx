@@ -26,10 +26,12 @@ export function ClientVotacionActa() {
   const { data: esConsejero, isLoading } = api.actas.tieneRolConsejero.useQuery();
   const {data: existenActas} = api.actas.existenActas.useQuery();
   const [acta, setActa] = useState<Acta | undefined>(undefined);
-  const { data: yaVoto } = api.actas.yaVoto.useQuery();
   const {data: reunion  } = api.reunion.getUltimaReunion.useQuery();
   const [pdfLoading, setPdfLoading] = useState(false);
-
+  const { data: yaVoto, error: yaVotoError } = api.actas.yaVoto.useQuery(undefined, {
+    enabled: !!esConsejero,
+    retry: false,
+  });
 
   const handleState = (acta: Acta) => {
     console.log('Información del acta seleccionada:', acta);

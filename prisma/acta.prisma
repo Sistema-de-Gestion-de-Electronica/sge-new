@@ -1,0 +1,57 @@
+model Acta {
+  id           Int          @id @default(autoincrement())
+  nombreActa   String
+  fechaReunion DateTime
+  estado       Estado       @default(ABIERTA)
+  visibilidad  Visibilidad  @default(VISIBLE)
+
+  createdAt DateTime @default(now())
+  Voto      Voto[]
+
+  @@index([estado])
+  @@index([visibilidad])
+  @@index([fechaReunion])
+}
+
+enum Estado {
+  ABIERTA
+  CERRADA
+}
+
+enum Visibilidad {
+  VISIBLE
+  OCULTA
+}
+
+model Voto {
+  id           Int      @id @default(autoincrement())
+  actaId       Int
+  consejeroId  String
+  posicion     Posicion
+  comentario   String?  @db.Text
+  fechaEmision DateTime @default(now())
+
+  // relaciones
+  acta Acta @relation(fields: [actaId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [consejeroId], references: [id])
+
+  @@index([actaId])
+  @@index([consejeroId])
+}
+
+enum Posicion {
+  ACUERDO
+  DESACUERDO
+  ACUERDO_PARCIAL
+}
+
+model Reunion {
+  id               Int       @id @default(autoincrement())
+  fecha            DateTime  
+  fechaNormalizada String    // Formato YYYY-MM-DD
+  link             String
+
+  createdAt        DateTime  @default(now())
+}
+
+

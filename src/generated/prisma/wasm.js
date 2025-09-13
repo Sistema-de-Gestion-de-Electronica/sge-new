@@ -117,6 +117,32 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
+exports.Prisma.ActaScalarFieldEnum = {
+  id: 'id',
+  nombreActa: 'nombreActa',
+  fechaReunion: 'fechaReunion',
+  estado: 'estado',
+  visibilidad: 'visibilidad',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.VotoScalarFieldEnum = {
+  id: 'id',
+  actaId: 'actaId',
+  consejeroId: 'consejeroId',
+  posicion: 'posicion',
+  comentario: 'comentario',
+  fechaEmision: 'fechaEmision'
+};
+
+exports.Prisma.ReunionScalarFieldEnum = {
+  id: 'id',
+  fecha: 'fecha',
+  fechaNormalizada: 'fechaNormalizada',
+  link: 'link',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.LibroScalarFieldEnum = {
   id: 'id',
   bibliotecaId: 'bibliotecaId',
@@ -612,6 +638,22 @@ exports.Prisma.JsonNullValueFilter = {
   JsonNull: Prisma.JsonNull,
   AnyNull: Prisma.AnyNull
 };
+exports.Estado = exports.$Enums.Estado = {
+  ABIERTA: 'ABIERTA',
+  CERRADA: 'CERRADA'
+};
+
+exports.Visibilidad = exports.$Enums.Visibilidad = {
+  VISIBLE: 'VISIBLE',
+  OCULTA: 'OCULTA'
+};
+
+exports.Posicion = exports.$Enums.Posicion = {
+  ACUERDO: 'ACUERDO',
+  DESACUERDO: 'DESACUERDO',
+  ACUERDO_PARCIAL: 'ACUERDO_PARCIAL'
+};
+
 exports.CursoDia = exports.$Enums.CursoDia = {
   LUNES: 'LUNES',
   MARTES: 'MARTES',
@@ -749,10 +791,14 @@ exports.SgeNombre = exports.$Enums.SgeNombre = {
   ACTIVIDADES_USUARIO_SGE_PUBLICAR_ADMIN: 'ACTIVIDADES_USUARIO_SGE_PUBLICAR_ADMIN',
   ACTIVIDADES_USUARIO_SGE_VER_PUBLICACIONES: 'ACTIVIDADES_USUARIO_SGE_VER_PUBLICACIONES',
   ACTIVIDADES_ABIERTAS_PUBLICAR_ADMIN: 'ACTIVIDADES_ABIERTAS_PUBLICAR_ADMIN',
-  ACTIVIDADES_ABIERTAS_VER_PUBLICACIONES: 'ACTIVIDADES_ABIERTAS_VER_PUBLICACIONES'
+  ACTIVIDADES_ABIERTAS_VER_PUBLICACIONES: 'ACTIVIDADES_ABIERTAS_VER_PUBLICACIONES',
+  CONSEJERO_VOTACION_ACTA: 'CONSEJERO_VOTACION_ACTA'
 };
 
 exports.Prisma.ModelName = {
+  Acta: 'Acta',
+  Voto: 'Voto',
+  Reunion: 'Reunion',
   Libro: 'Libro',
   LibroMateria: 'LibroMateria',
   LibroAutor: 'LibroAutor',

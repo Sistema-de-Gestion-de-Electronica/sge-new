@@ -1,12 +1,12 @@
 model Mails {
-    id Int @unique @default(autoincrement())
+  id Int @unique @default(autoincrement())
 
-    emisor    String
-    para      String
-    cc        String
-    cco       String
-    contenido Json
-    asunto    String
+  emisor    String
+  para      String
+  cc        String
+  cco       String
+  contenido Json
+  asunto    String
 
-    fechaEnvio DateTime @default(now())
+  fechaEnvio DateTime @default(now())
 }

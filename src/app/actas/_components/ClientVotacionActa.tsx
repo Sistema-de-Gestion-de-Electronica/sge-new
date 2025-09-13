@@ -15,7 +15,7 @@ function EmptyStateNoActa() {
     <section className="space-y-3 text-center py-10">
       <h1 className="text-2xl font-semibold">No hay actas actualmente</h1>
       <p className="text-muted-foreground">
-        Cuando se abra una nueva acta las podras ver aqui.
+        Cuando se abra una nueva acta la podras ver aqui.
       </p>
     </section>
   );

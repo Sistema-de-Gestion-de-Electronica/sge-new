@@ -310,7 +310,7 @@ export const REPORTES_ROUTE: AppRoute = {
 export const ACTAS_ROUTE: AppRoute = {
   href: "/actas",
   label: "Actas",
-  isPublic: true,
+  isPublic: false,
   permisos: [],
 };
 

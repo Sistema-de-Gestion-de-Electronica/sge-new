@@ -6,12 +6,15 @@ import { Skeleton } from "@/components/ui/skeleton";
 interface SelectMateriasMultipleProps<T extends FieldValues = FieldValues> {
   control: Control<T>;
   name: Path<T>;
+  label?: string;
+  max?: number;
 }
 
 export function SelectMateriasMultiple<T extends FieldValues = FieldValues>({ 
   control, 
   name,
-
+  label,
+  max
 }: SelectMateriasMultipleProps<T>) {
   const [isOpen, setIsOpen] = useState(false);
   const [searchText, setSearchText] = useState("");
@@ -46,7 +49,10 @@ export function SelectMateriasMultiple<T extends FieldValues = FieldValues>({
   // Cerrar dropdown al hacer click fuera
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setIsOpen(false);
         setSearchText("");
       }
@@ -58,7 +64,7 @@ export function SelectMateriasMultiple<T extends FieldValues = FieldValues>({
   const toggleMateria = (materiaId: string) => {
     if (selectedIds.includes(materiaId)) {
       onChange(selectedIds.filter((id: string) => id !== materiaId));
-    } else if (selectedIds.length < 4) {
+    } else if (selectedIds.length < (max ?? 4)) {
       onChange([...selectedIds, materiaId]);
       setSearchText("");
     }
@@ -71,7 +77,7 @@ export function SelectMateriasMultiple<T extends FieldValues = FieldValues>({
   if (isLoading) {
     return (
       <div>
-        <label className="mb-2 block text-sm font-medium text-gray-700">Materias</label>
+        <label className="mb-2 block text-sm font-medium text-gray-700">{label ? label : "Materias"}</label>
         <Skeleton className="h-14 w-full" />
       </div>
     );
@@ -79,7 +85,7 @@ export function SelectMateriasMultiple<T extends FieldValues = FieldValues>({
 
   return (
     <div ref={dropdownRef}>
-      <label className="mb-2 block text-sm font-medium text-gray-700">Materias ({selectedIds.length}/4)</label>
+      <label className="mb-2 block text-sm font-medium text-gray-700">{label ? label : "Materias"} ({selectedIds.length}/{max ?? 4})</label>
 
       <div className="relative">
         {/* Chips */}
@@ -98,7 +104,6 @@ export function SelectMateriasMultiple<T extends FieldValues = FieldValues>({
             placeholder={"Seleccionar materias..."}
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
-            onFocus={() => setIsOpen(true)}
             className="min-w-20 flex-1 border-transparent bg-input px-2 py-2 text-sm outline-none focus:border-transparent focus:ring-0"
           />
           {/* Tags/Chips de materias seleccionadas */}

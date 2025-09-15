@@ -2,9 +2,12 @@
 
 import { z } from "zod";
 import { api } from "@/trpc/react";
+import { SgeNombre } from "@/generated/prisma";
 import { FormProvider, useForm } from "react-hook-form";
-import { Button, FormInput, toast } from "@/components/ui";
+import { Button, FormInput, Input, toast } from "@/components/ui";
 
+import { useTienePermisos } from "@/app/_hooks/use-tiene-permisos";
+import { usePermisos } from "@/app/_hooks/use-context-tiene-permisos";
 import { inputAgregarInscripcion } from "@/shared/filters/inscripciones-especiales-filter.schema";
 import { SelectMateriasMultiple } from "@/app/inscripciones_especiales/_components/select-multiple-materias";
 import { SelectAlternativas } from "@/app/inscripciones_especiales/_components/select-alternativas";
@@ -16,11 +19,17 @@ type FormSolicitarInscripcionEspecial = z.infer<typeof inputAgregarInscripcion>;
 
 export default function FormularioSolicitudInscripcionEspecial() {
   const solicitarInscripcionEspecial = api.inscripcionesEspeciales.nuevaInscripcionEspecial.useMutation();
-  //const {data: session} = useSession();
-  // console.log(session)
+  const { session } = usePermisos();
+  const { data: usuario } = api.admin.usuarios.getUsuarioPorId.useQuery(
+    { id: session?.user?.id ?? "" },
+    { enabled: !!session?.user?.id }
+  );
+
+  const { tienePermisos } = useTienePermisos([SgeNombre.ADMIN_VER_PANEL_ADMIN]);
 
   const solicitudBase: FormSolicitarInscripcionEspecial = {
     caso: "",
+    materiasAdeudadas: [],
     materias: [],
     justificacion: "",
     turnoAlternativa1: "",
@@ -40,8 +49,9 @@ export default function FormularioSolicitudInscripcionEspecial() {
       onSuccess: () => {
         toast.success("Tu solicitud de inscripción especial ha sido enviada correctamente.");
       },
-      onError: () => {
+      onError: (e) => {
         toast.error("Hubo un problema al enviar tu solicitud. Por favor, intenta nuevamente.");
+        console.log(e)
       },
     });
   };
@@ -64,52 +74,29 @@ export default function FormularioSolicitudInscripcionEspecial() {
               />
             </div>
             <div className="flex w-full flex-col gap-x-4 sm:flex-row">
-              {/*<div className="mt-4 w-full">
-                <FormInput label={"Nombre"} control={control} name="nombre" type={"text"} required />
-                <FormInput label="Nombre" name="fake-nombre" type="text" value="Nombre" disabled/>
-              </div>*/}
               <div className="mt-4 w-full">
-                <label className="text-sm font-medium">Nombre</label>
-                <input
-                  type="text"
-                  value={"Nombre 1"}
-                  disabled
-                  className="w-full rounded-md border bg-gray-100 px-2 py-1"
-                />
+                <Input label="Nombre" name="nombre" type="text" value={usuario?.nombre ?? ""} disabled={!tienePermisos} />
               </div>
-              {/*<div className="mt-4 w-full">
-                <FormInput label={"Apellido"} control={control} name="apellido" type={"text"} required />
-              </div>*/}
               <div className="mt-4 w-full">
-                <label className="text-sm font-medium">Apellido</label>
-                <input
-                  type="text"
-                  value={"Apellido 1"}
-                  disabled
-                  className="w-full rounded-md border bg-gray-100 px-2 py-1"
-                />
+                <Input label={"Apellido"} name="apellido" type={"text"} value={usuario?.apellido ?? ""} disabled={!tienePermisos} />
               </div>
             </div>
             <div className="flex w-full flex-row lg:flex-row lg:justify-between lg:gap-x-4">
-              {/*<div className="mt-4 w-full">
-                <FormInput
+              <div className="mt-4 w-full">
+                <Input
                   label={"Legajo"}
-                  control={control}
                   name="legajo"
                   type={"number"}
                   pattern="[0-9]*"
                   inputMode="numeric"
-                  required
+                  value={usuario?.legajo ?? ""}
+                  disabled={!tienePermisos}
                 />
-              </div>*/}
+              </div>
+            </div>
+            <div className="flex w-full flex-row lg:flex-row lg:justify-between lg:gap-x-4">
               <div className="mt-4 w-full">
-                <label className="text-sm font-medium">Legajo</label>
-                <input
-                  type="text"
-                  value={"Legajo"}
-                  disabled
-                  className="w-full rounded-md border bg-gray-100 px-2 py-1"
-                />
+                <SelectMateriasMultiple control={control} name="materiasAdeudadas" label={"Materias Adeudadas"} max={6}/>
               </div>
             </div>
             <div className="flex w-full flex-row lg:flex-row lg:justify-between lg:gap-x-4">

@@ -9,12 +9,14 @@ interface PermisosContextProps {
   permisos: Record<SgeNombre, boolean>;
   isLoading: boolean;
   isError: boolean;
+  session: Session | null;
 }
 
 const PermisosContext = createContext<PermisosContextProps>({
   permisos: {} as Record<SgeNombre, boolean>,
   isLoading: true,
   isError: false,
+  session: null,
 });
 
 export const PermisosProvider: React.FC<{ children: React.ReactNode; session?: Session | null }> = ({
@@ -53,7 +55,7 @@ export const PermisosProvider: React.FC<{ children: React.ReactNode; session?: S
     setPermisos(nuevosPermisos);
   }, [data]);
 
-  return <PermisosContext.Provider value={{ permisos, isLoading, isError }}>{children}</PermisosContext.Provider>;
+  return <PermisosContext.Provider value={{ permisos, isLoading, isError, session: session ?? null }}>{children}</PermisosContext.Provider>;
 };
 
 export const usePermisos = () => useContext(PermisosContext);

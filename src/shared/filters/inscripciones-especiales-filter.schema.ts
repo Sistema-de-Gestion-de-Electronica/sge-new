@@ -1,6 +1,9 @@
 import { z } from "zod";
 
 export const inputAgregarInscripcion = z.object({
+  nombre: z.string().min(1, { message: "Requerido" }),
+  apellido: z.string().min(1, { message: "Requerido" }),
+  legajo: z.string().min(1, { message: "Requerido" }),
   caso: z.string().min(1, { message: "Requerido" }),
   justificacion: z.string().min(1, { message: "Requerido" }).max(500, { message: "No debe superar 500 caracteres" }),
   turnoAlternativa1: z.string().optional(),

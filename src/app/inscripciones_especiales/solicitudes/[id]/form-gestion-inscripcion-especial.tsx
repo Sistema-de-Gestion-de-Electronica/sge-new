@@ -45,7 +45,7 @@ export const InscripcionEspecialViewAdmin = ({
     <div className="container mx-auto space-y-8 p-4">
       <InscripcionEspecialDetalle inscripcionEspecialId={inscripcionEspecialId} />
       {esInscripcionPendiente && (
-        <TienePermiso permisos={[SgeNombre.INSCRIPCIONES_ESPECIALES_ADMIN]}>
+        <TienePermiso permisos={[SgeNombre.ADMIN_VER_PANEL_ADMIN]}>
           <InscripcionEspecialGestion
             inscripcionEspecialId={inscripcionEspecialId}
             onAprobar={onAprobar}

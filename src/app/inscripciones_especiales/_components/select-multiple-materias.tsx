@@ -22,6 +22,8 @@ export function SelectMateriasMultiple<T extends FieldValues = FieldValues>({
 
   const { data: materias, isLoading } = api.materia.getAll.useQuery();
 
+  const cantidadMaterias = max ?? 4;
+
   const {
     field: { value, onChange },
     fieldState: { error },
@@ -31,7 +33,7 @@ export function SelectMateriasMultiple<T extends FieldValues = FieldValues>({
     rules: {
       validate: (val) => {
         if (!val || val.length === 0) return "Debe seleccionar al menos una materia";
-        if (val.length > 4) return "No puede seleccionar más de 4 materias";
+        if (val.length > cantidadMaterias) return `No puede seleccionar más de ${cantidadMaterias} materias`;
         return true;
       },
     },
@@ -64,7 +66,7 @@ export function SelectMateriasMultiple<T extends FieldValues = FieldValues>({
   const toggleMateria = (materiaId: string) => {
     if (selectedIds.includes(materiaId)) {
       onChange(selectedIds.filter((id: string) => id !== materiaId));
-    } else if (selectedIds.length < (max ?? 4)) {
+    } else if (selectedIds.length < cantidadMaterias) {
       onChange([...selectedIds, materiaId]);
       setSearchText("");
     }
@@ -85,7 +87,7 @@ export function SelectMateriasMultiple<T extends FieldValues = FieldValues>({
 
   return (
     <div ref={dropdownRef}>
-      <label className="mb-2 block text-sm font-medium text-gray-700">{label ? label : "Materias"} ({selectedIds.length}/{max ?? 4})</label>
+      <label className="mb-2 block text-sm font-medium text-gray-700">{label ? label : "Materias"} ({selectedIds.length}/{cantidadMaterias})</label>
 
       <div className="relative">
         {/* Chips */}
@@ -154,7 +156,7 @@ export function SelectMateriasMultiple<T extends FieldValues = FieldValues>({
                 </div>
               ) : (
                 materiasFiltradas.map((materia) => {
-                  const isDisabled = selectedIds.length >= 4;
+                  const isDisabled = selectedIds.length >= cantidadMaterias;
 
                   return (
                     <button
@@ -181,9 +183,9 @@ export function SelectMateriasMultiple<T extends FieldValues = FieldValues>({
             {/* Footer */}
             <div className="border-t border-gray-100 bg-gray-50 p-2">
               <p className="text-center text-xs text-gray-600">
-                {selectedIds.length >= 4
-                  ? "Máximo 4 materias alcanzado"
-                  : `Puedes seleccionar ${4 - selectedIds.length} materias más`}
+                {selectedIds.length >= cantidadMaterias
+                  ? `Máximo ${cantidadMaterias} materias alcanzado`
+                  : `Puedes seleccionar ${cantidadMaterias - selectedIds.length} materias más`}
               </p>
             </div>
           </div>

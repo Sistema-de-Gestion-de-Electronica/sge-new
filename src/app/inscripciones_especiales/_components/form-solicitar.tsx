@@ -22,13 +22,16 @@ export default function FormularioSolicitudInscripcionEspecial() {
   const { session } = usePermisos();
   const { data: usuario } = api.admin.usuarios.getUsuarioPorId.useQuery(
     { id: session?.user?.id ?? "" },
-    { enabled: !!session?.user?.id }
+    { enabled: !!session?.user?.id },
   );
 
   const { tienePermisos } = useTienePermisos([SgeNombre.ADMIN_VER_PANEL_ADMIN]);
 
   const solicitudBase: FormSolicitarInscripcionEspecial = {
-    caso: "",
+    nombre: usuario?.nombre ?? "",
+    apellido: usuario?.apellido ?? "",
+    legajo: usuario?.legajo ?? "",
+    caso: casos[2] ?? "",
     materiasAdeudadas: [],
     materias: [],
     justificacion: "",
@@ -44,14 +47,13 @@ export default function FormularioSolicitudInscripcionEspecial() {
   const { handleSubmit, control } = formHook;
 
   const onFormSubmit = async (formData: FormSolicitarInscripcionEspecial) => {
-    console.log("Form Data:", formData);
     solicitarInscripcionEspecial.mutate(formData, {
       onSuccess: () => {
         toast.success("Tu solicitud de inscripción especial ha sido enviada correctamente.");
       },
       onError: (e) => {
         toast.error("Hubo un problema al enviar tu solicitud. Por favor, intenta nuevamente.");
-        console.log(e)
+        console.log(e);
       },
     });
   };
@@ -75,28 +77,45 @@ export default function FormularioSolicitudInscripcionEspecial() {
             </div>
             <div className="flex w-full flex-col gap-x-4 sm:flex-row">
               <div className="mt-4 w-full">
-                <Input label="Nombre" name="nombre" type="text" value={usuario?.nombre ?? ""} disabled={!tienePermisos} />
+                <FormInput
+                  label="Nombre"
+                  name="nombre"
+                  type="text"
+                  control={control}
+                  disabled={!tienePermisos}
+                />
               </div>
               <div className="mt-4 w-full">
-                <Input label={"Apellido"} name="apellido" type={"text"} value={usuario?.apellido ?? ""} disabled={!tienePermisos} />
-              </div>
-            </div>
-            <div className="flex w-full flex-row lg:flex-row lg:justify-between lg:gap-x-4">
-              <div className="mt-4 w-full">
-                <Input
-                  label={"Legajo"}
-                  name="legajo"
-                  type={"number"}
-                  pattern="[0-9]*"
-                  inputMode="numeric"
-                  value={usuario?.legajo ?? ""}
+                <FormInput
+                  label={"Apellido"}
+                  name="apellido"
+                  type={"text"}
+                  control={control}
                   disabled={!tienePermisos}
                 />
               </div>
             </div>
             <div className="flex w-full flex-row lg:flex-row lg:justify-between lg:gap-x-4">
               <div className="mt-4 w-full">
-                <SelectMateriasMultiple control={control} name="materiasAdeudadas" label={"Materias Adeudadas"} max={6}/>
+                <FormInput
+                  label={"Legajo"}
+                  name="legajo"
+                  type={"number"}
+                  pattern="[0-9]*"
+                  inputMode="numeric"
+                  control={control}
+                  disabled={!tienePermisos}
+                />
+              </div>
+            </div>
+            <div className="flex w-full flex-row lg:flex-row lg:justify-between lg:gap-x-4">
+              <div className="mt-4 w-full">
+                <SelectMateriasMultiple
+                  control={control}
+                  name="materiasAdeudadas"
+                  label={"Materias Adeudadas"}
+                  max={6}
+                />
               </div>
             </div>
             <div className="flex w-full flex-row lg:flex-row lg:justify-between lg:gap-x-4">

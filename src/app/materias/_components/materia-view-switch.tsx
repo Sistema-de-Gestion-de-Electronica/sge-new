@@ -10,7 +10,7 @@ export default function MateriasViewSwitch() {
   console.log(materiaId)
 
   return materiaId ? (
-    <MateriaDetalle />
+    <MateriaDetalle id={materiaId}/>
   ) : (
     <MateriasTableContainer />
   );

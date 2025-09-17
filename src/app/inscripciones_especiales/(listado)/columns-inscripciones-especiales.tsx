@@ -5,10 +5,10 @@ import {
   type InscripcionEspecialEstatus,
 } from "@/app/_components/badge-estatus-inscripcion-especial";
 
-//import { type InscripcionesEspecialesData } from "../_components/mock-mis-inscripciones"; //TODO eliminar cuando funcione el back
+import { type InscripcionesEspecialesData } from "../_components/mock-mis-inscripciones"; //TODO eliminar cuando funcione el back
 
-type InscripcionesEspecialesData =
-  RouterOutputs["inscripcionesEspeciales"]["getAllInscripcionesEspeciales"]["solicitudes"][number];
+// type InscripcionesEspecialesData =
+//   RouterOutputs["inscripcionesEspeciales"]["getAllInscripcionesEspeciales"]["solicitudes"][number];
 
 export const getColumnasInscripcionesEspeciales = ({ filterByUser }: { filterByUser?: boolean }) => {
   const colHelper = createColumnHelper<InscripcionesEspecialesData>();

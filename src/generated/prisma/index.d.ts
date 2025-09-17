@@ -20178,11 +20178,13 @@ export namespace Prisma {
   export type InscripcionEspecialAvgAggregateOutputType = {
     id: number | null
     materias: number | null
+    materiasAdeudadas: number | null
   }
 
   export type InscripcionEspecialSumAggregateOutputType = {
     id: number | null
     materias: number[]
+    materiasAdeudadas: number[]
   }
 
   export type InscripcionEspecialMinAggregateOutputType = {
@@ -20219,6 +20221,7 @@ export namespace Prisma {
     turnoAlternativa1: number
     turnoAlternativa2: number
     materias: number
+    materiasAdeudadas: number
     estado: number
     respuesta: number
     fechaSolicitud: number
@@ -20230,11 +20233,13 @@ export namespace Prisma {
   export type InscripcionEspecialAvgAggregateInputType = {
     id?: true
     materias?: true
+    materiasAdeudadas?: true
   }
 
   export type InscripcionEspecialSumAggregateInputType = {
     id?: true
     materias?: true
+    materiasAdeudadas?: true
   }
 
   export type InscripcionEspecialMinAggregateInputType = {
@@ -20271,6 +20276,7 @@ export namespace Prisma {
     turnoAlternativa1?: true
     turnoAlternativa2?: true
     materias?: true
+    materiasAdeudadas?: true
     estado?: true
     respuesta?: true
     fechaSolicitud?: true
@@ -20372,6 +20378,7 @@ export namespace Prisma {
     turnoAlternativa1: string | null
     turnoAlternativa2: string | null
     materias: number[]
+    materiasAdeudadas: number[]
     estado: string
     respuesta: string | null
     fechaSolicitud: Date
@@ -20405,6 +20412,7 @@ export namespace Prisma {
     turnoAlternativa1?: boolean
     turnoAlternativa2?: boolean
     materias?: boolean
+    materiasAdeudadas?: boolean
     estado?: boolean
     respuesta?: boolean
     fechaSolicitud?: boolean
@@ -20420,6 +20428,7 @@ export namespace Prisma {
     turnoAlternativa1?: boolean
     turnoAlternativa2?: boolean
     materias?: boolean
+    materiasAdeudadas?: boolean
     estado?: boolean
     respuesta?: boolean
     fechaSolicitud?: boolean
@@ -20435,6 +20444,7 @@ export namespace Prisma {
     turnoAlternativa1?: boolean
     turnoAlternativa2?: boolean
     materias?: boolean
+    materiasAdeudadas?: boolean
     estado?: boolean
     respuesta?: boolean
     fechaSolicitud?: boolean
@@ -20450,13 +20460,14 @@ export namespace Prisma {
     turnoAlternativa1?: boolean
     turnoAlternativa2?: boolean
     materias?: boolean
+    materiasAdeudadas?: boolean
     estado?: boolean
     respuesta?: boolean
     fechaSolicitud?: boolean
     fechaRespuesta?: boolean
   }
 
-  export type InscripcionEspecialOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "solicitanteId" | "caso" | "justificacion" | "turnoAlternativa1" | "turnoAlternativa2" | "materias" | "estado" | "respuesta" | "fechaSolicitud" | "fechaRespuesta", ExtArgs["result"]["inscripcionEspecial"]>
+  export type InscripcionEspecialOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "solicitanteId" | "caso" | "justificacion" | "turnoAlternativa1" | "turnoAlternativa2" | "materias" | "materiasAdeudadas" | "estado" | "respuesta" | "fechaSolicitud" | "fechaRespuesta", ExtArgs["result"]["inscripcionEspecial"]>
   export type InscripcionEspecialInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     solicitante?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -20480,6 +20491,7 @@ export namespace Prisma {
       turnoAlternativa1: string | null
       turnoAlternativa2: string | null
       materias: number[]
+      materiasAdeudadas: number[]
       estado: string
       respuesta: string | null
       fechaSolicitud: Date
@@ -20915,6 +20927,7 @@ export namespace Prisma {
     readonly turnoAlternativa1: FieldRef<"InscripcionEspecial", 'String'>
     readonly turnoAlternativa2: FieldRef<"InscripcionEspecial", 'String'>
     readonly materias: FieldRef<"InscripcionEspecial", 'Int[]'>
+    readonly materiasAdeudadas: FieldRef<"InscripcionEspecial", 'Int[]'>
     readonly estado: FieldRef<"InscripcionEspecial", 'String'>
     readonly respuesta: FieldRef<"InscripcionEspecial", 'String'>
     readonly fechaSolicitud: FieldRef<"InscripcionEspecial", 'DateTime'>
@@ -57257,6 +57270,7 @@ export namespace Prisma {
     turnoAlternativa1: 'turnoAlternativa1',
     turnoAlternativa2: 'turnoAlternativa2',
     materias: 'materias',
+    materiasAdeudadas: 'materiasAdeudadas',
     estado: 'estado',
     respuesta: 'respuesta',
     fechaSolicitud: 'fechaSolicitud',
@@ -58903,6 +58917,7 @@ export namespace Prisma {
     turnoAlternativa1?: StringNullableFilter<"InscripcionEspecial"> | string | null
     turnoAlternativa2?: StringNullableFilter<"InscripcionEspecial"> | string | null
     materias?: IntNullableListFilter<"InscripcionEspecial">
+    materiasAdeudadas?: IntNullableListFilter<"InscripcionEspecial">
     estado?: StringFilter<"InscripcionEspecial"> | string
     respuesta?: StringNullableFilter<"InscripcionEspecial"> | string | null
     fechaSolicitud?: DateTimeFilter<"InscripcionEspecial"> | Date | string
@@ -58918,6 +58933,7 @@ export namespace Prisma {
     turnoAlternativa1?: SortOrderInput | SortOrder
     turnoAlternativa2?: SortOrderInput | SortOrder
     materias?: SortOrder
+    materiasAdeudadas?: SortOrder
     estado?: SortOrder
     respuesta?: SortOrderInput | SortOrder
     fechaSolicitud?: SortOrder
@@ -58936,6 +58952,7 @@ export namespace Prisma {
     turnoAlternativa1?: StringNullableFilter<"InscripcionEspecial"> | string | null
     turnoAlternativa2?: StringNullableFilter<"InscripcionEspecial"> | string | null
     materias?: IntNullableListFilter<"InscripcionEspecial">
+    materiasAdeudadas?: IntNullableListFilter<"InscripcionEspecial">
     estado?: StringFilter<"InscripcionEspecial"> | string
     respuesta?: StringNullableFilter<"InscripcionEspecial"> | string | null
     fechaSolicitud?: DateTimeFilter<"InscripcionEspecial"> | Date | string
@@ -58951,6 +58968,7 @@ export namespace Prisma {
     turnoAlternativa1?: SortOrderInput | SortOrder
     turnoAlternativa2?: SortOrderInput | SortOrder
     materias?: SortOrder
+    materiasAdeudadas?: SortOrder
     estado?: SortOrder
     respuesta?: SortOrderInput | SortOrder
     fechaSolicitud?: SortOrder
@@ -58973,6 +58991,7 @@ export namespace Prisma {
     turnoAlternativa1?: StringNullableWithAggregatesFilter<"InscripcionEspecial"> | string | null
     turnoAlternativa2?: StringNullableWithAggregatesFilter<"InscripcionEspecial"> | string | null
     materias?: IntNullableListFilter<"InscripcionEspecial">
+    materiasAdeudadas?: IntNullableListFilter<"InscripcionEspecial">
     estado?: StringWithAggregatesFilter<"InscripcionEspecial"> | string
     respuesta?: StringNullableWithAggregatesFilter<"InscripcionEspecial"> | string | null
     fechaSolicitud?: DateTimeWithAggregatesFilter<"InscripcionEspecial"> | Date | string
@@ -62330,6 +62349,7 @@ export namespace Prisma {
     turnoAlternativa1?: string | null
     turnoAlternativa2?: string | null
     materias?: InscripcionEspecialCreatemateriasInput | number[]
+    materiasAdeudadas?: InscripcionEspecialCreatemateriasAdeudadasInput | number[]
     estado: string
     respuesta?: string | null
     fechaSolicitud?: Date | string
@@ -62345,6 +62365,7 @@ export namespace Prisma {
     turnoAlternativa1?: string | null
     turnoAlternativa2?: string | null
     materias?: InscripcionEspecialCreatemateriasInput | number[]
+    materiasAdeudadas?: InscripcionEspecialCreatemateriasAdeudadasInput | number[]
     estado: string
     respuesta?: string | null
     fechaSolicitud?: Date | string
@@ -62357,6 +62378,7 @@ export namespace Prisma {
     turnoAlternativa1?: NullableStringFieldUpdateOperationsInput | string | null
     turnoAlternativa2?: NullableStringFieldUpdateOperationsInput | string | null
     materias?: InscripcionEspecialUpdatemateriasInput | number[]
+    materiasAdeudadas?: InscripcionEspecialUpdatemateriasAdeudadasInput | number[]
     estado?: StringFieldUpdateOperationsInput | string
     respuesta?: NullableStringFieldUpdateOperationsInput | string | null
     fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -62372,6 +62394,7 @@ export namespace Prisma {
     turnoAlternativa1?: NullableStringFieldUpdateOperationsInput | string | null
     turnoAlternativa2?: NullableStringFieldUpdateOperationsInput | string | null
     materias?: InscripcionEspecialUpdatemateriasInput | number[]
+    materiasAdeudadas?: InscripcionEspecialUpdatemateriasAdeudadasInput | number[]
     estado?: StringFieldUpdateOperationsInput | string
     respuesta?: NullableStringFieldUpdateOperationsInput | string | null
     fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -62386,6 +62409,7 @@ export namespace Prisma {
     turnoAlternativa1?: string | null
     turnoAlternativa2?: string | null
     materias?: InscripcionEspecialCreatemateriasInput | number[]
+    materiasAdeudadas?: InscripcionEspecialCreatemateriasAdeudadasInput | number[]
     estado: string
     respuesta?: string | null
     fechaSolicitud?: Date | string
@@ -62398,6 +62422,7 @@ export namespace Prisma {
     turnoAlternativa1?: NullableStringFieldUpdateOperationsInput | string | null
     turnoAlternativa2?: NullableStringFieldUpdateOperationsInput | string | null
     materias?: InscripcionEspecialUpdatemateriasInput | number[]
+    materiasAdeudadas?: InscripcionEspecialUpdatemateriasAdeudadasInput | number[]
     estado?: StringFieldUpdateOperationsInput | string
     respuesta?: NullableStringFieldUpdateOperationsInput | string | null
     fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -62412,6 +62437,7 @@ export namespace Prisma {
     turnoAlternativa1?: NullableStringFieldUpdateOperationsInput | string | null
     turnoAlternativa2?: NullableStringFieldUpdateOperationsInput | string | null
     materias?: InscripcionEspecialUpdatemateriasInput | number[]
+    materiasAdeudadas?: InscripcionEspecialUpdatemateriasAdeudadasInput | number[]
     estado?: StringFieldUpdateOperationsInput | string
     respuesta?: NullableStringFieldUpdateOperationsInput | string | null
     fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -65862,6 +65888,7 @@ export namespace Prisma {
     turnoAlternativa1?: SortOrder
     turnoAlternativa2?: SortOrder
     materias?: SortOrder
+    materiasAdeudadas?: SortOrder
     estado?: SortOrder
     respuesta?: SortOrder
     fechaSolicitud?: SortOrder
@@ -65871,6 +65898,7 @@ export namespace Prisma {
   export type InscripcionEspecialAvgOrderByAggregateInput = {
     id?: SortOrder
     materias?: SortOrder
+    materiasAdeudadas?: SortOrder
   }
 
   export type InscripcionEspecialMaxOrderByAggregateInput = {
@@ -65902,6 +65930,7 @@ export namespace Prisma {
   export type InscripcionEspecialSumOrderByAggregateInput = {
     id?: SortOrder
     materias?: SortOrder
+    materiasAdeudadas?: SortOrder
   }
 
   export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -68649,6 +68678,10 @@ export namespace Prisma {
     set: number[]
   }
 
+  export type InscripcionEspecialCreatemateriasAdeudadasInput = {
+    set: number[]
+  }
+
   export type UserCreateNestedOneWithoutInscripcionesEspecialesInput = {
     create?: XOR<UserCreateWithoutInscripcionesEspecialesInput, UserUncheckedCreateWithoutInscripcionesEspecialesInput>
     connectOrCreate?: UserCreateOrConnectWithoutInscripcionesEspecialesInput
@@ -68656,6 +68689,11 @@ export namespace Prisma {
   }
 
   export type InscripcionEspecialUpdatemateriasInput = {
+    set?: number[]
+    push?: number | number[]
+  }
+
+  export type InscripcionEspecialUpdatemateriasAdeudadasInput = {
     set?: number[]
     push?: number | number[]
   }
@@ -81648,6 +81686,7 @@ export namespace Prisma {
     turnoAlternativa1?: string | null
     turnoAlternativa2?: string | null
     materias?: InscripcionEspecialCreatemateriasInput | number[]
+    materiasAdeudadas?: InscripcionEspecialCreatemateriasAdeudadasInput | number[]
     estado: string
     respuesta?: string | null
     fechaSolicitud?: Date | string
@@ -81661,6 +81700,7 @@ export namespace Prisma {
     turnoAlternativa1?: string | null
     turnoAlternativa2?: string | null
     materias?: InscripcionEspecialCreatemateriasInput | number[]
+    materiasAdeudadas?: InscripcionEspecialCreatemateriasAdeudadasInput | number[]
     estado: string
     respuesta?: string | null
     fechaSolicitud?: Date | string
@@ -82202,6 +82242,7 @@ export namespace Prisma {
     turnoAlternativa1?: StringNullableFilter<"InscripcionEspecial"> | string | null
     turnoAlternativa2?: StringNullableFilter<"InscripcionEspecial"> | string | null
     materias?: IntNullableListFilter<"InscripcionEspecial">
+    materiasAdeudadas?: IntNullableListFilter<"InscripcionEspecial">
     estado?: StringFilter<"InscripcionEspecial"> | string
     respuesta?: StringNullableFilter<"InscripcionEspecial"> | string | null
     fechaSolicitud?: DateTimeFilter<"InscripcionEspecial"> | Date | string
@@ -86166,6 +86207,7 @@ export namespace Prisma {
     turnoAlternativa1?: string | null
     turnoAlternativa2?: string | null
     materias?: InscripcionEspecialCreatemateriasInput | number[]
+    materiasAdeudadas?: InscripcionEspecialCreatemateriasAdeudadasInput | number[]
     estado: string
     respuesta?: string | null
     fechaSolicitud?: Date | string
@@ -86800,6 +86842,7 @@ export namespace Prisma {
     turnoAlternativa1?: NullableStringFieldUpdateOperationsInput | string | null
     turnoAlternativa2?: NullableStringFieldUpdateOperationsInput | string | null
     materias?: InscripcionEspecialUpdatemateriasInput | number[]
+    materiasAdeudadas?: InscripcionEspecialUpdatemateriasAdeudadasInput | number[]
     estado?: StringFieldUpdateOperationsInput | string
     respuesta?: NullableStringFieldUpdateOperationsInput | string | null
     fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -86813,6 +86856,7 @@ export namespace Prisma {
     turnoAlternativa1?: NullableStringFieldUpdateOperationsInput | string | null
     turnoAlternativa2?: NullableStringFieldUpdateOperationsInput | string | null
     materias?: InscripcionEspecialUpdatemateriasInput | number[]
+    materiasAdeudadas?: InscripcionEspecialUpdatemateriasAdeudadasInput | number[]
     estado?: StringFieldUpdateOperationsInput | string
     respuesta?: NullableStringFieldUpdateOperationsInput | string | null
     fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -86826,6 +86870,7 @@ export namespace Prisma {
     turnoAlternativa1?: NullableStringFieldUpdateOperationsInput | string | null
     turnoAlternativa2?: NullableStringFieldUpdateOperationsInput | string | null
     materias?: InscripcionEspecialUpdatemateriasInput | number[]
+    materiasAdeudadas?: InscripcionEspecialUpdatemateriasAdeudadasInput | number[]
     estado?: StringFieldUpdateOperationsInput | string
     respuesta?: NullableStringFieldUpdateOperationsInput | string | null
     fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string

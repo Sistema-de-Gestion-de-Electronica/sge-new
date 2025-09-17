@@ -289,7 +289,8 @@ model InscripcionEspecial {
   turnoAlternativa1 String?
   turnoAlternativa2 String?
 
-  materias Int[]
+  materias          Int[]
+  materiasAdeudadas Int[]
 
   estado    String // PENDIENTE, APROBADA, RECHAZADA
   respuesta String?

@@ -628,6 +628,7 @@ CREATE TABLE "InscripcionEspecial" (
     "turnoAlternativa1" TEXT,
     "turnoAlternativa2" TEXT,
     "materias" INTEGER[] NOT NULL,
+    "materiasAdeudadas" INTEGER[] NOT NULL,
 
     "estado" TEXT NOT NULL,
     "respuesta" TEXT,

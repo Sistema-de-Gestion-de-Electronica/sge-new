@@ -77,13 +77,7 @@ export default function FormularioSolicitudInscripcionEspecial() {
             </div>
             <div className="flex w-full flex-col gap-x-4 sm:flex-row">
               <div className="mt-4 w-full">
-                <FormInput
-                  label="Nombre"
-                  name="nombre"
-                  type="text"
-                  control={control}
-                  disabled={!tienePermisos}
-                />
+                <FormInput label="Nombre" name="nombre" type="text" control={control} disabled={!tienePermisos} />
               </div>
               <div className="mt-4 w-full">
                 <FormInput
@@ -100,7 +94,7 @@ export default function FormularioSolicitudInscripcionEspecial() {
                 <FormInput
                   label={"Legajo"}
                   name="legajo"
-                  type={"number"}
+                  type={"string"}
                   pattern="[0-9]*"
                   inputMode="numeric"
                   control={control}

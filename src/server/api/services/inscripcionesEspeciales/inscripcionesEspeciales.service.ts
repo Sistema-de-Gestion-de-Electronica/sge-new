@@ -12,6 +12,7 @@ import {
   getAllInscripcionesEspeciales,
   getInscripcionEspecialById,
 } from "../../repositories/inscripcionesEspeciales/inscripcionesEspeciales.repository";
+import { enviarMailInscripcionEspecialCreadaProcedure } from "../mails/emailInscripcionEspecial.service";
 
 import { createAuthorizedProcedure, protectedProcedure, publicProcedure } from "../../trpc";
 import { validarInput } from "../helper";
@@ -24,6 +25,7 @@ export const nuevaInscripcionEspecialProcedure = protectedProcedure
 
     try {
       const inscripcion = await agregarInscripcionEspecial(ctx, { ...input });
+      void enviarMailInscripcionEspecialCreadaProcedure(ctx, inscripcion.id);
       return inscripcion;
     } catch (error) {
       console.error("Error detallado en inscripción especial:", error);

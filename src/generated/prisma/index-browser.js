@@ -262,6 +262,7 @@ exports.Prisma.InscripcionEspecialScalarFieldEnum = {
   turnoAlternativa1: 'turnoAlternativa1',
   turnoAlternativa2: 'turnoAlternativa2',
   materias: 'materias',
+  materiasAdeudadas: 'materiasAdeudadas',
   estado: 'estado',
   respuesta: 'respuesta',
   fechaSolicitud: 'fechaSolicitud',

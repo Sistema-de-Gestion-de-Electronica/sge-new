@@ -10,24 +10,32 @@ import {
 import { id } from "date-fns/locale";
 
 type InputAgregarInscripcion = z.infer<typeof inputAgregarInscripcion>;
+
 export const agregarInscripcionEspecial = async (
   ctx: { db: PrismaClient; session: Session },
   input: InputAgregarInscripcion,
 ) => {
   return await ctx.db.$transaction(async (tx) => {
+    const solicitante = await tx.user.findUnique({
+      where: { legajo: input.legajo },
+      select: { id: true },
+    });
+
+    if (!solicitante) {
+      throw new Error(`No se encontró un usuario con el legajo ${input.legajo}`);
+    }
+
+    const todasLasMaterias = [...input.materias, ...input.materiasAdeudadas];
+
     const materiasExistentes = await tx.materia.findMany({
       where: {
-        id: {
-          in: input.materias,
-        },
+        id: { in: todasLasMaterias },
       },
-      select: {
-        id: true,
-      },
+      select: { id: true },
     });
 
     const materiasEncontradas = materiasExistentes.map((m) => m.id);
-    const materiasNoEncontradas = input.materias.filter((id: number) => !materiasEncontradas.includes(id));
+    const materiasNoEncontradas = todasLasMaterias.filter((id: number) => !materiasEncontradas.includes(id));
 
     if (materiasNoEncontradas.length > 0) {
       throw new Error(`Las siguientes materias no existen: ${materiasNoEncontradas.join(", ")}`);
@@ -35,13 +43,14 @@ export const agregarInscripcionEspecial = async (
 
     return await tx.inscripcionEspecial.create({
       data: {
-        solicitanteId: ctx.session.user.id,
+        solicitanteId: solicitante.id,
         caso: input.caso,
         justificacion: input.justificacion,
         turnoAlternativa1: input.turnoAlternativa1,
         turnoAlternativa2: input.turnoAlternativa2,
         estado: "PENDIENTE",
         materias: input.materias,
+        materiasAdeudadas: input.materiasAdeudadas,
       },
     });
   });

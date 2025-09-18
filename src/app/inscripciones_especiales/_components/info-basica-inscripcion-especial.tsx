@@ -1,14 +1,13 @@
 import { api } from "@/trpc/react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CalendarIcon, PersonStandingIcon, TextIcon, NotebookIcon, ClockIcon } from "lucide-react";
-import { Label } from "@/components/ui";
+import { CalendarIcon, PersonStandingIcon, TextIcon, NotebookIcon, Mail, Copy } from "lucide-react";
+import { Label, Button, toast } from "@/components/ui";
 import {
   BadgeEstatusInscripcionEspecial,
   InscripcionEspecialEstatus,
 } from "@/app/_components/badge-estatus-inscripcion-especial";
 import { Skeleton } from "@/components/ui/skeleton";
 import { DatoUsuarioReserva } from "@/app/_components/datos-usuario";
-
 import { AlternativaHorario } from "./alternativas-horario";
 
 function CardLoading() {
@@ -107,6 +106,31 @@ export function InscripcionEspecialDetalle({
         </div>
         <div className="col-span-3 space-y-2">
           <Label className="flex items-center font-semibold">
+            <Mail className="mr-2 h-4 w-4" />
+            Email
+          </Label>
+          <div className="flex items-center gap-2">
+            <p className="text-xl">{inscripcionEspecial?.solicitante.email ?? "Sin informar"}</p>
+            {inscripcionEspecial?.solicitante?.email && (
+              <Button
+                size="sm"
+                variant="icon"
+                onClick={async () => {
+                  try {
+                    await navigator.clipboard.writeText(inscripcionEspecial.solicitante.email);
+                    toast.success("Email copiado al portapapeles");
+                  } catch {
+                    toast.error("No se pudo copiar el email");
+                  }
+                }}
+                aria-label="Copiar email"
+                icon={Copy}
+              />
+            )}
+          </div>
+        </div>
+        <div className="col-span-3 space-y-2">
+          <Label className="flex items-center font-semibold">
             <TextIcon className="mr-2 h-4 w-4" />
             Justificacion
           </Label>
@@ -122,6 +146,8 @@ export function InscripcionEspecialDetalle({
             <AlternativaHorario titulo="Alternativa Horario 2" data={inscripcionEspecial?.turnoAlternativa2} />
           )}
         </div>
+
+        
 
         {inscripcionEspecial?.estado === InscripcionEspecialEstatus.ACEPTADA_CON_CONDICION && (
           <div>

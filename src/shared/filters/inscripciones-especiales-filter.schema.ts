@@ -15,6 +15,8 @@ export const inputAgregarInscripcion = z.object({
 export const inputGestionarInscripcionEspecial = z.object({
   id: z.number(),
   respuesta: z.string().optional(),
+  alumnoContactado: z.boolean().optional(),
+  alumnoAsistio: z.boolean().optional(),
 });
 
 export const inputGetAllInscripcionesEspeciales = z.object({

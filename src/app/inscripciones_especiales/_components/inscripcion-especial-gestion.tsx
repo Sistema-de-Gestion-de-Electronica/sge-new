@@ -1,12 +1,13 @@
 import { api } from "@/trpc/react";
 import { type z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, FormProvider } from "react-hook-form";
+import { useForm, FormProvider, Controller } from "react-hook-form";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui";
 import { FormTextarea } from "@/components/ui/textarea";
 import { inputGestionarInscripcionEspecial } from "@/shared/filters/inscripciones-especiales-filter.schema";
+import { Checkbox } from "@/components/ui/checkbox";
 
 type GestionarInscripcionEspecialFormData = z.infer<typeof inputGestionarInscripcionEspecial>;
 
@@ -38,6 +39,8 @@ export const InscripcionEspecialGestion = ({
     defaultValues: {
       id: inscripcionEspecialId,
       respuesta: "",
+      alumnoContactado: inscripcionEspecialData?.alumnoContactado ?? false,
+      alumnoAsistio: inscripcionEspecialData?.alumnoAsistio ?? false,
     },
   });
 
@@ -87,6 +90,21 @@ export const InscripcionEspecialGestion = ({
     onRechazar();
   };
 
+  const { mutate: guardarContacto } = api.inscripcionesEspeciales.actualizarContactoAsistencia.useMutation();
+  const handleGuardar = () => {
+    const values = getValues();
+    guardarContacto(
+      { id: inscripcionEspecialId, alumnoContactado: values.alumnoContactado, alumnoAsistio: values.alumnoAsistio },
+      {
+        onSuccess: () => {
+          toast.success("Cambios guardados");
+          utils.inscripcionesEspeciales.getInscripcionEspecialPorId.invalidate({ id: inscripcionEspecialId });
+        },
+        onError: () => toast.error("No se pudieron guardar los cambios"),
+      },
+    );
+  };
+
   return (
     <FormProvider {...formHook}>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -106,6 +124,59 @@ export const InscripcionEspecialGestion = ({
             </div>
           </CardContent>
         </Card>
+        <div className="flex justify-center gap-2">
+          <Controller
+            name="alumnoAsistio"
+            control={control}
+            render={({ field, fieldState }) => (
+              <>
+                <div className="space-y-3 leading-none">
+                  <label
+                    htmlFor="aceptoTerminos"
+                    className="flex items-center space-x-2 text-sm leading-none underline peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
+                    <Checkbox
+                      id="aceptoTerminos"
+                      name="aceptoTerminos"
+                      className="h-8 w-8"
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                    <span>Alumno asistió</span>
+                  </label>
+                  <div className="min-h-4 text-md text-danger">{fieldState.error && fieldState.error.message}</div>
+                </div>
+              </>
+            )}
+          />
+          <Controller
+            name="alumnoContactado"
+            control={control}
+            render={({ field, fieldState }) => (
+              <>
+                <div className="space-y-3 leading-none">
+                  <label
+                    htmlFor="aceptoTerminos"
+                    className="flex items-center space-x-2 text-sm leading-none underline peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
+                    <Checkbox
+                      id="aceptoTerminos"
+                      name="aceptoTerminos"
+                      className="h-8 w-8"
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                    <span>Alumno contactado</span>
+                  </label>
+                  <div className="min-h-4 text-md text-danger">{fieldState.error && fieldState.error.message}</div>
+                </div>
+              </>
+            )}
+          />
+        </div>
+        <Button type="button" variant="outline" color="secondary" onClick={handleGuardar} className="w-full">
+          Guardar cambios
+        </Button>
 
         <div className="sticky bottom-0 flex w-full flex-row items-end justify-end space-x-4 bg-white p-2 pb-2">
           <Button

@@ -28,3 +28,9 @@ export const inputGetAllInscripcionesEspeciales = z.object({
 export const inputGetInscripcionEspecialById = z.object({
   id: z.number(),
 });
+
+export const inputActualizarContactoAsistencia = z.object({
+  id: z.number(),
+  alumnoContactado: z.boolean(),
+  alumnoAsistio: z.boolean(),
+});

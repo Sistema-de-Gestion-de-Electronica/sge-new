@@ -39,8 +39,8 @@ export const InscripcionEspecialGestion = ({
     defaultValues: {
       id: inscripcionEspecialId,
       respuesta: "",
-      alumnoContactado: inscripcionEspecialData?.alumnoContactado ?? false,
-      alumnoAsistio: inscripcionEspecialData?.alumnoAsistio ?? false,
+      alumnoContactado: inscripcionEspecialData?.fueContactado ?? false,
+      alumnoAsistio: inscripcionEspecialData?.vinoPresencialmente ?? false,
     },
   });
 
@@ -94,7 +94,11 @@ export const InscripcionEspecialGestion = ({
   const handleGuardar = () => {
     const values = getValues();
     guardarContacto(
-      { id: inscripcionEspecialId, alumnoContactado: values.alumnoContactado, alumnoAsistio: values.alumnoAsistio },
+      {
+        id: inscripcionEspecialId,
+        alumnoContactado: values.alumnoContactado ?? false,
+        alumnoAsistio: values.alumnoAsistio ?? false,
+      },
       {
         onSuccess: () => {
           toast.success("Cambios guardados");
@@ -144,7 +148,7 @@ export const InscripcionEspecialGestion = ({
                     />
                     <span>Alumno asistió</span>
                   </label>
-                  <div className="min-h-4 text-md text-danger">{fieldState.error && fieldState.error.message}</div>
+                  <div className="text-md min-h-4 text-danger">{fieldState.error && fieldState.error.message}</div>
                 </div>
               </>
             )}
@@ -168,13 +172,19 @@ export const InscripcionEspecialGestion = ({
                     />
                     <span>Alumno contactado</span>
                   </label>
-                  <div className="min-h-4 text-md text-danger">{fieldState.error && fieldState.error.message}</div>
+                  <div className="text-md min-h-4 text-danger">{fieldState.error && fieldState.error.message}</div>
                 </div>
               </>
             )}
           />
         </div>
-        <Button type="button" variant="outline" color="secondary" onClick={handleGuardar} className="w-full">
+        <Button
+          type="button"
+          variant="default"
+          color="secondary"
+          onClick={handleGuardar}
+          className="w-full border border-gray-300 bg-transparent text-gray-700 hover:bg-gray-100"
+        >
           Guardar cambios
         </Button>
 

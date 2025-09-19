@@ -6,6 +6,7 @@ import { INSCRIPCIONES_ESPECIALES_ROUTE } from "@/shared/server-routes";
 import InscripcionesEspecialesTableContainer from "@/app/inscripciones_especiales/_components/inscripciones-especiales-table-container";
 import LoadingInscripcionesEspecialesTable from "@/app/inscripciones_especiales/(listado)/loading-inscripciones-especiales-solicitudes";
 import { inputGetAllInscripcionesEspeciales } from "@/shared/filters/inscripciones-especiales-filter.schema";
+import { ExportExcelButton } from "@/app/inscripciones_especiales/_components/export-excel-button";
 
 type PageProps = {
   searchParams: Promise<ReadonlyURLSearchParams>;

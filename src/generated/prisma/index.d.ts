@@ -20196,6 +20196,8 @@ export namespace Prisma {
     turnoAlternativa2: string | null
     estado: string | null
     respuesta: string | null
+    fueContactado: boolean | null
+    vinoPresencialmente: boolean | null
     fechaSolicitud: Date | null
     fechaRespuesta: Date | null
   }
@@ -20209,6 +20211,8 @@ export namespace Prisma {
     turnoAlternativa2: string | null
     estado: string | null
     respuesta: string | null
+    fueContactado: boolean | null
+    vinoPresencialmente: boolean | null
     fechaSolicitud: Date | null
     fechaRespuesta: Date | null
   }
@@ -20224,6 +20228,8 @@ export namespace Prisma {
     materiasAdeudadas: number
     estado: number
     respuesta: number
+    fueContactado: number
+    vinoPresencialmente: number
     fechaSolicitud: number
     fechaRespuesta: number
     _all: number
@@ -20251,6 +20257,8 @@ export namespace Prisma {
     turnoAlternativa2?: true
     estado?: true
     respuesta?: true
+    fueContactado?: true
+    vinoPresencialmente?: true
     fechaSolicitud?: true
     fechaRespuesta?: true
   }
@@ -20264,6 +20272,8 @@ export namespace Prisma {
     turnoAlternativa2?: true
     estado?: true
     respuesta?: true
+    fueContactado?: true
+    vinoPresencialmente?: true
     fechaSolicitud?: true
     fechaRespuesta?: true
   }
@@ -20279,6 +20289,8 @@ export namespace Prisma {
     materiasAdeudadas?: true
     estado?: true
     respuesta?: true
+    fueContactado?: true
+    vinoPresencialmente?: true
     fechaSolicitud?: true
     fechaRespuesta?: true
     _all?: true
@@ -20381,6 +20393,8 @@ export namespace Prisma {
     materiasAdeudadas: number[]
     estado: string
     respuesta: string | null
+    fueContactado: boolean | null
+    vinoPresencialmente: boolean | null
     fechaSolicitud: Date
     fechaRespuesta: Date | null
     _count: InscripcionEspecialCountAggregateOutputType | null
@@ -20415,6 +20429,8 @@ export namespace Prisma {
     materiasAdeudadas?: boolean
     estado?: boolean
     respuesta?: boolean
+    fueContactado?: boolean
+    vinoPresencialmente?: boolean
     fechaSolicitud?: boolean
     fechaRespuesta?: boolean
     solicitante?: boolean | UserDefaultArgs<ExtArgs>
@@ -20431,6 +20447,8 @@ export namespace Prisma {
     materiasAdeudadas?: boolean
     estado?: boolean
     respuesta?: boolean
+    fueContactado?: boolean
+    vinoPresencialmente?: boolean
     fechaSolicitud?: boolean
     fechaRespuesta?: boolean
     solicitante?: boolean | UserDefaultArgs<ExtArgs>
@@ -20447,6 +20465,8 @@ export namespace Prisma {
     materiasAdeudadas?: boolean
     estado?: boolean
     respuesta?: boolean
+    fueContactado?: boolean
+    vinoPresencialmente?: boolean
     fechaSolicitud?: boolean
     fechaRespuesta?: boolean
     solicitante?: boolean | UserDefaultArgs<ExtArgs>
@@ -20463,11 +20483,13 @@ export namespace Prisma {
     materiasAdeudadas?: boolean
     estado?: boolean
     respuesta?: boolean
+    fueContactado?: boolean
+    vinoPresencialmente?: boolean
     fechaSolicitud?: boolean
     fechaRespuesta?: boolean
   }
 
-  export type InscripcionEspecialOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "solicitanteId" | "caso" | "justificacion" | "turnoAlternativa1" | "turnoAlternativa2" | "materias" | "materiasAdeudadas" | "estado" | "respuesta" | "fechaSolicitud" | "fechaRespuesta", ExtArgs["result"]["inscripcionEspecial"]>
+  export type InscripcionEspecialOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "solicitanteId" | "caso" | "justificacion" | "turnoAlternativa1" | "turnoAlternativa2" | "materias" | "materiasAdeudadas" | "estado" | "respuesta" | "fueContactado" | "vinoPresencialmente" | "fechaSolicitud" | "fechaRespuesta", ExtArgs["result"]["inscripcionEspecial"]>
   export type InscripcionEspecialInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     solicitante?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -20494,6 +20516,8 @@ export namespace Prisma {
       materiasAdeudadas: number[]
       estado: string
       respuesta: string | null
+      fueContactado: boolean | null
+      vinoPresencialmente: boolean | null
       fechaSolicitud: Date
       fechaRespuesta: Date | null
     }, ExtArgs["result"]["inscripcionEspecial"]>
@@ -20930,6 +20954,8 @@ export namespace Prisma {
     readonly materiasAdeudadas: FieldRef<"InscripcionEspecial", 'Int[]'>
     readonly estado: FieldRef<"InscripcionEspecial", 'String'>
     readonly respuesta: FieldRef<"InscripcionEspecial", 'String'>
+    readonly fueContactado: FieldRef<"InscripcionEspecial", 'Boolean'>
+    readonly vinoPresencialmente: FieldRef<"InscripcionEspecial", 'Boolean'>
     readonly fechaSolicitud: FieldRef<"InscripcionEspecial", 'DateTime'>
     readonly fechaRespuesta: FieldRef<"InscripcionEspecial", 'DateTime'>
   }
@@ -57273,6 +57299,8 @@ export namespace Prisma {
     materiasAdeudadas: 'materiasAdeudadas',
     estado: 'estado',
     respuesta: 'respuesta',
+    fueContactado: 'fueContactado',
+    vinoPresencialmente: 'vinoPresencialmente',
     fechaSolicitud: 'fechaSolicitud',
     fechaRespuesta: 'fechaRespuesta'
   };
@@ -58920,6 +58948,8 @@ export namespace Prisma {
     materiasAdeudadas?: IntNullableListFilter<"InscripcionEspecial">
     estado?: StringFilter<"InscripcionEspecial"> | string
     respuesta?: StringNullableFilter<"InscripcionEspecial"> | string | null
+    fueContactado?: BoolNullableFilter<"InscripcionEspecial"> | boolean | null
+    vinoPresencialmente?: BoolNullableFilter<"InscripcionEspecial"> | boolean | null
     fechaSolicitud?: DateTimeFilter<"InscripcionEspecial"> | Date | string
     fechaRespuesta?: DateTimeNullableFilter<"InscripcionEspecial"> | Date | string | null
     solicitante?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -58936,6 +58966,8 @@ export namespace Prisma {
     materiasAdeudadas?: SortOrder
     estado?: SortOrder
     respuesta?: SortOrderInput | SortOrder
+    fueContactado?: SortOrderInput | SortOrder
+    vinoPresencialmente?: SortOrderInput | SortOrder
     fechaSolicitud?: SortOrder
     fechaRespuesta?: SortOrderInput | SortOrder
     solicitante?: UserOrderByWithRelationInput
@@ -58955,6 +58987,8 @@ export namespace Prisma {
     materiasAdeudadas?: IntNullableListFilter<"InscripcionEspecial">
     estado?: StringFilter<"InscripcionEspecial"> | string
     respuesta?: StringNullableFilter<"InscripcionEspecial"> | string | null
+    fueContactado?: BoolNullableFilter<"InscripcionEspecial"> | boolean | null
+    vinoPresencialmente?: BoolNullableFilter<"InscripcionEspecial"> | boolean | null
     fechaSolicitud?: DateTimeFilter<"InscripcionEspecial"> | Date | string
     fechaRespuesta?: DateTimeNullableFilter<"InscripcionEspecial"> | Date | string | null
     solicitante?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -58971,6 +59005,8 @@ export namespace Prisma {
     materiasAdeudadas?: SortOrder
     estado?: SortOrder
     respuesta?: SortOrderInput | SortOrder
+    fueContactado?: SortOrderInput | SortOrder
+    vinoPresencialmente?: SortOrderInput | SortOrder
     fechaSolicitud?: SortOrder
     fechaRespuesta?: SortOrderInput | SortOrder
     _count?: InscripcionEspecialCountOrderByAggregateInput
@@ -58994,6 +59030,8 @@ export namespace Prisma {
     materiasAdeudadas?: IntNullableListFilter<"InscripcionEspecial">
     estado?: StringWithAggregatesFilter<"InscripcionEspecial"> | string
     respuesta?: StringNullableWithAggregatesFilter<"InscripcionEspecial"> | string | null
+    fueContactado?: BoolNullableWithAggregatesFilter<"InscripcionEspecial"> | boolean | null
+    vinoPresencialmente?: BoolNullableWithAggregatesFilter<"InscripcionEspecial"> | boolean | null
     fechaSolicitud?: DateTimeWithAggregatesFilter<"InscripcionEspecial"> | Date | string
     fechaRespuesta?: DateTimeNullableWithAggregatesFilter<"InscripcionEspecial"> | Date | string | null
   }
@@ -62352,6 +62390,8 @@ export namespace Prisma {
     materiasAdeudadas?: InscripcionEspecialCreatemateriasAdeudadasInput | number[]
     estado: string
     respuesta?: string | null
+    fueContactado?: boolean | null
+    vinoPresencialmente?: boolean | null
     fechaSolicitud?: Date | string
     fechaRespuesta?: Date | string | null
     solicitante: UserCreateNestedOneWithoutInscripcionesEspecialesInput
@@ -62368,6 +62408,8 @@ export namespace Prisma {
     materiasAdeudadas?: InscripcionEspecialCreatemateriasAdeudadasInput | number[]
     estado: string
     respuesta?: string | null
+    fueContactado?: boolean | null
+    vinoPresencialmente?: boolean | null
     fechaSolicitud?: Date | string
     fechaRespuesta?: Date | string | null
   }
@@ -62381,6 +62423,8 @@ export namespace Prisma {
     materiasAdeudadas?: InscripcionEspecialUpdatemateriasAdeudadasInput | number[]
     estado?: StringFieldUpdateOperationsInput | string
     respuesta?: NullableStringFieldUpdateOperationsInput | string | null
+    fueContactado?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    vinoPresencialmente?: NullableBoolFieldUpdateOperationsInput | boolean | null
     fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaRespuesta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     solicitante?: UserUpdateOneRequiredWithoutInscripcionesEspecialesNestedInput
@@ -62397,6 +62441,8 @@ export namespace Prisma {
     materiasAdeudadas?: InscripcionEspecialUpdatemateriasAdeudadasInput | number[]
     estado?: StringFieldUpdateOperationsInput | string
     respuesta?: NullableStringFieldUpdateOperationsInput | string | null
+    fueContactado?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    vinoPresencialmente?: NullableBoolFieldUpdateOperationsInput | boolean | null
     fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaRespuesta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -62412,6 +62458,8 @@ export namespace Prisma {
     materiasAdeudadas?: InscripcionEspecialCreatemateriasAdeudadasInput | number[]
     estado: string
     respuesta?: string | null
+    fueContactado?: boolean | null
+    vinoPresencialmente?: boolean | null
     fechaSolicitud?: Date | string
     fechaRespuesta?: Date | string | null
   }
@@ -62425,6 +62473,8 @@ export namespace Prisma {
     materiasAdeudadas?: InscripcionEspecialUpdatemateriasAdeudadasInput | number[]
     estado?: StringFieldUpdateOperationsInput | string
     respuesta?: NullableStringFieldUpdateOperationsInput | string | null
+    fueContactado?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    vinoPresencialmente?: NullableBoolFieldUpdateOperationsInput | boolean | null
     fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaRespuesta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -62440,6 +62490,8 @@ export namespace Prisma {
     materiasAdeudadas?: InscripcionEspecialUpdatemateriasAdeudadasInput | number[]
     estado?: StringFieldUpdateOperationsInput | string
     respuesta?: NullableStringFieldUpdateOperationsInput | string | null
+    fueContactado?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    vinoPresencialmente?: NullableBoolFieldUpdateOperationsInput | boolean | null
     fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaRespuesta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -65869,6 +65921,11 @@ export namespace Prisma {
     isEmpty?: boolean
   }
 
+  export type BoolNullableFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
+  }
+
   export type DateTimeNullableFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -65891,6 +65948,8 @@ export namespace Prisma {
     materiasAdeudadas?: SortOrder
     estado?: SortOrder
     respuesta?: SortOrder
+    fueContactado?: SortOrder
+    vinoPresencialmente?: SortOrder
     fechaSolicitud?: SortOrder
     fechaRespuesta?: SortOrder
   }
@@ -65910,6 +65969,8 @@ export namespace Prisma {
     turnoAlternativa2?: SortOrder
     estado?: SortOrder
     respuesta?: SortOrder
+    fueContactado?: SortOrder
+    vinoPresencialmente?: SortOrder
     fechaSolicitud?: SortOrder
     fechaRespuesta?: SortOrder
   }
@@ -65923,6 +65984,8 @@ export namespace Prisma {
     turnoAlternativa2?: SortOrder
     estado?: SortOrder
     respuesta?: SortOrder
+    fueContactado?: SortOrder
+    vinoPresencialmente?: SortOrder
     fechaSolicitud?: SortOrder
     fechaRespuesta?: SortOrder
   }
@@ -65931,6 +65994,14 @@ export namespace Prisma {
     id?: SortOrder
     materias?: SortOrder
     materiasAdeudadas?: SortOrder
+  }
+
+  export type BoolNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBoolNullableFilter<$PrismaModel>
+    _max?: NestedBoolNullableFilter<$PrismaModel>
   }
 
   export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -67209,11 +67280,6 @@ export namespace Prisma {
     id?: SortOrder
   }
 
-  export type BoolNullableFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
-    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
-  }
-
   export type DocumentoTipoNullableScalarRelationFilter = {
     is?: DocumentoTipoWhereInput | null
     isNot?: DocumentoTipoWhereInput | null
@@ -67395,14 +67461,6 @@ export namespace Prisma {
   export type UserSumOrderByAggregateInput = {
     penalizaciones?: SortOrder
     documentoTipoId?: SortOrder
-  }
-
-  export type BoolNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
-    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedBoolNullableFilter<$PrismaModel>
-    _max?: NestedBoolNullableFilter<$PrismaModel>
   }
 
   export type TutorCountOrderByAggregateInput = {
@@ -68696,6 +68754,10 @@ export namespace Prisma {
   export type InscripcionEspecialUpdatemateriasAdeudadasInput = {
     set?: number[]
     push?: number | number[]
+  }
+
+  export type NullableBoolFieldUpdateOperationsInput = {
+    set?: boolean | null
   }
 
   export type NullableDateTimeFieldUpdateOperationsInput = {
@@ -70762,10 +70824,6 @@ export namespace Prisma {
     connect?: ReservaLaboratorioCerradoWhereUniqueInput | ReservaLaboratorioCerradoWhereUniqueInput[]
   }
 
-  export type NullableBoolFieldUpdateOperationsInput = {
-    set?: boolean | null
-  }
-
   export type DocumentoTipoUpdateOneWithoutUsuariosNestedInput = {
     create?: XOR<DocumentoTipoCreateWithoutUsuariosInput, DocumentoTipoUncheckedCreateWithoutUsuariosInput>
     connectOrCreate?: DocumentoTipoCreateOrConnectWithoutUsuariosInput
@@ -71845,6 +71903,11 @@ export namespace Prisma {
     _max?: NestedEnumTurnoCursoFilter<$PrismaModel>
   }
 
+  export type NestedBoolNullableFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
+  }
+
   export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -71854,6 +71917,14 @@ export namespace Prisma {
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type NestedBoolNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBoolNullableFilter<$PrismaModel>
+    _max?: NestedBoolNullableFilter<$PrismaModel>
   }
 
   export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -71993,19 +72064,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumLaboratorioAbiertoTipoFilter<$PrismaModel>
     _max?: NestedEnumLaboratorioAbiertoTipoFilter<$PrismaModel>
-  }
-
-  export type NestedBoolNullableFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
-    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
-  }
-
-  export type NestedBoolNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
-    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedBoolNullableFilter<$PrismaModel>
-    _max?: NestedBoolNullableFilter<$PrismaModel>
   }
 
   export type NestedEnumSgeNombreFilter<$PrismaModel = never> = {
@@ -81689,6 +81747,8 @@ export namespace Prisma {
     materiasAdeudadas?: InscripcionEspecialCreatemateriasAdeudadasInput | number[]
     estado: string
     respuesta?: string | null
+    fueContactado?: boolean | null
+    vinoPresencialmente?: boolean | null
     fechaSolicitud?: Date | string
     fechaRespuesta?: Date | string | null
   }
@@ -81703,6 +81763,8 @@ export namespace Prisma {
     materiasAdeudadas?: InscripcionEspecialCreatemateriasAdeudadasInput | number[]
     estado: string
     respuesta?: string | null
+    fueContactado?: boolean | null
+    vinoPresencialmente?: boolean | null
     fechaSolicitud?: Date | string
     fechaRespuesta?: Date | string | null
   }
@@ -82245,6 +82307,8 @@ export namespace Prisma {
     materiasAdeudadas?: IntNullableListFilter<"InscripcionEspecial">
     estado?: StringFilter<"InscripcionEspecial"> | string
     respuesta?: StringNullableFilter<"InscripcionEspecial"> | string | null
+    fueContactado?: BoolNullableFilter<"InscripcionEspecial"> | boolean | null
+    vinoPresencialmente?: BoolNullableFilter<"InscripcionEspecial"> | boolean | null
     fechaSolicitud?: DateTimeFilter<"InscripcionEspecial"> | Date | string
     fechaRespuesta?: DateTimeNullableFilter<"InscripcionEspecial"> | Date | string | null
   }
@@ -86210,6 +86274,8 @@ export namespace Prisma {
     materiasAdeudadas?: InscripcionEspecialCreatemateriasAdeudadasInput | number[]
     estado: string
     respuesta?: string | null
+    fueContactado?: boolean | null
+    vinoPresencialmente?: boolean | null
     fechaSolicitud?: Date | string
     fechaRespuesta?: Date | string | null
   }
@@ -86845,6 +86911,8 @@ export namespace Prisma {
     materiasAdeudadas?: InscripcionEspecialUpdatemateriasAdeudadasInput | number[]
     estado?: StringFieldUpdateOperationsInput | string
     respuesta?: NullableStringFieldUpdateOperationsInput | string | null
+    fueContactado?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    vinoPresencialmente?: NullableBoolFieldUpdateOperationsInput | boolean | null
     fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaRespuesta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -86859,6 +86927,8 @@ export namespace Prisma {
     materiasAdeudadas?: InscripcionEspecialUpdatemateriasAdeudadasInput | number[]
     estado?: StringFieldUpdateOperationsInput | string
     respuesta?: NullableStringFieldUpdateOperationsInput | string | null
+    fueContactado?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    vinoPresencialmente?: NullableBoolFieldUpdateOperationsInput | boolean | null
     fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaRespuesta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -86873,6 +86943,8 @@ export namespace Prisma {
     materiasAdeudadas?: InscripcionEspecialUpdatemateriasAdeudadasInput | number[]
     estado?: StringFieldUpdateOperationsInput | string
     respuesta?: NullableStringFieldUpdateOperationsInput | string | null
+    fueContactado?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    vinoPresencialmente?: NullableBoolFieldUpdateOperationsInput | boolean | null
     fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaRespuesta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }

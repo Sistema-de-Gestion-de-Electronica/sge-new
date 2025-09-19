@@ -292,8 +292,11 @@ model InscripcionEspecial {
   materias          Int[]
   materiasAdeudadas Int[]
 
-  estado    String // PENDIENTE, APROBADA, RECHAZADA
+  estado    String
   respuesta String?
+
+  fueContactado       Boolean?
+  vinoPresencialmente Boolean?
 
   fechaSolicitud DateTime  @default(now())
   fechaRespuesta DateTime?

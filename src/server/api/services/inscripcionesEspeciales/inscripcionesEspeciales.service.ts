@@ -3,6 +3,7 @@ import {
   inputAgregarInscripcion,
   inputGetAllInscripcionesEspeciales,
   inputGetInscripcionEspecialById,
+  inputActualizarContactoAsistencia,
 } from "../../../../shared/filters/inscripciones-especiales-filter.schema";
 
 import {
@@ -11,6 +12,7 @@ import {
   rechazarInscripcionEspecial,
   getAllInscripcionesEspeciales,
   getInscripcionEspecialById,
+  actualizarContactoAsistencia,
 } from "../../repositories/inscripcionesEspeciales/inscripcionesEspeciales.repository";
 import { enviarMailInscripcionEspecialCreadaProcedure } from "../mails/emailInscripcionEspecial.service";
 
@@ -90,4 +92,10 @@ export const getInscripcionEspecialByIdProcedure = protectedProcedure
   .query(async ({ ctx, input }) => {
     //validarInput(inputGetInscripcionEspecialById, input); //TODO
     return await getInscripcionEspecialById(ctx, input); //validar session con el input ctx,input
+  });
+
+export const actualizarContactoAsistenciaProcedure = protectedProcedure
+  .input(inputActualizarContactoAsistencia)
+  .mutation(async ({ ctx, input }) => {
+    return await actualizarContactoAsistencia(ctx, input); //validar session con el input ctx,input
   });

@@ -633,6 +633,9 @@ CREATE TABLE "InscripcionEspecial" (
     "estado" TEXT NOT NULL,
     "respuesta" TEXT,
 
+    "fueContactado" boolean,
+    "vinoPresencialmente" boolean,
+
     "fechaSolicitud" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "fechaRespuesta" TIMESTAMP(3),
 

@@ -4,6 +4,7 @@ import {
   rechazarInscripcionEspecialProcedure,
   aprobarInscripcionEspecialProcedure,
   getInscripcionEspecialByIdProcedure,
+  actualizarContactoAsistenciaProcedure,
 } from "../services/inscripcionesEspeciales/inscripcionesEspeciales.service";
 
 import { createTRPCRouter } from "@/server/api/trpc";
@@ -14,4 +15,5 @@ export const inscripcionesEspecialesRouter = createTRPCRouter({
   rechazarInscripcionEspecial: rechazarInscripcionEspecialProcedure,
   aprobarInscripcionEspecial: aprobarInscripcionEspecialProcedure,
   getInscripcionEspecialPorId: getInscripcionEspecialByIdProcedure,
+  actualizarContactoAsistencia: actualizarContactoAsistenciaProcedure,
 });

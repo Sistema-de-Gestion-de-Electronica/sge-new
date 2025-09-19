@@ -158,7 +158,7 @@ services:
       # SMTP_TESTING: false
       # SMTP_TESTING_EMAIL_RECEPTOR: 
       # SMTP_TESTING_EMAIL_USER: testutn@gmail.com
-      # SMTP_TESTING_EMAIL_PASSWORD: 
+      # SMTP_TESTING_EMAIL_PASSWORD:
 
     restart: unless-stopped
     depends_on:

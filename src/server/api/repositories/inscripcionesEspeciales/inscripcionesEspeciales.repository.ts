@@ -6,6 +6,7 @@ import {
   type inputAgregarInscripcion,
   type inputGetAllInscripcionesEspeciales,
   type inputGetInscripcionEspecialById,
+  type inputActualizarContactoAsistencia,
 } from "@/shared/filters/inscripciones-especiales-filter.schema";
 import { id } from "date-fns/locale";
 
@@ -264,6 +265,8 @@ export async function getInscripcionEspecialById(
     turnoAlternativa2: i.turnoAlternativa2 ?? "",
     estado: i.estado,
     respuesta: i.respuesta ?? "",
+    fueContactado: i.fueContactado,
+    vinoPresencialmente: i.vinoPresencialmente,
     fechaSolicitud: formatDateToSeconds(i.fechaSolicitud),
     fechaRespuesta: i.fechaRespuesta ? formatDateToSeconds(i.fechaRespuesta) : "",
   };
@@ -290,4 +293,18 @@ function formatDateToDays(date: Date) {
   const day = pad(date.getDate());
 
   return `${year}-${month}-${day}`;
+}
+
+type InputActualizarContactoAsistencia = z.infer<typeof inputActualizarContactoAsistencia>;
+export async function actualizarContactoAsistencia(
+  ctx: { db: PrismaClient; session: Session },
+  input: InputActualizarContactoAsistencia,
+) {
+  return await ctx.db.inscripcionEspecial.update({
+    where: { id: input.id },
+    data: {
+      fueContactado: input.alumnoContactado,
+      vinoPresencialmente: input.alumnoAsistio,
+    },
+  });
 }

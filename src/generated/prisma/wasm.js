@@ -265,6 +265,8 @@ exports.Prisma.InscripcionEspecialScalarFieldEnum = {
   materiasAdeudadas: 'materiasAdeudadas',
   estado: 'estado',
   respuesta: 'respuesta',
+  fueContactado: 'fueContactado',
+  vinoPresencialmente: 'vinoPresencialmente',
   fechaSolicitud: 'fechaSolicitud',
   fechaRespuesta: 'fechaRespuesta'
 };

@@ -4,6 +4,7 @@ import { api } from "@/trpc/react";
 import { type z } from "zod";
 import { InscripcionesEspecialesSolicitudesTable } from "@/app/inscripciones_especiales/(listado)/table";
 import { type inputGetAllInscripcionesEspeciales } from "@/shared/filters/inscripciones-especiales-filter.schema";
+import { ExportExcelButton } from "./export-excel-button";
 
 type InscripcionesEspecialesFilters = z.infer<typeof inputGetAllInscripcionesEspeciales>;
 
@@ -27,18 +28,23 @@ export default function InscripcionesEspecialesTableContainer({
 
   //const solicitudes = MOCK_RESPUESTA_MIS_INSCRIPCIONES_ESPECIALES;
 
+  const data = solicitudes ?? {
+    count: 0,
+    solicitudes: [],
+    pageIndex: 0,
+    pageSize: 10,
+  };
+
   return (
-    <InscripcionesEspecialesSolicitudesTable
-      data={
-        solicitudes ?? {
-          count: 0,
-          solicitudes: [],
-          pageIndex: 0,
-          pageSize: 10, // o el valor que tenga sentido
-        }
-      }
-      filters={filters}
-      filterByUser={filterByUser}
-    />
+    <div className="space-y-4">
+      <div className="flex justify-end">
+        <ExportExcelButton
+          data={data.solicitudes}
+          filename="solicitudes_inscripciones_especiales"
+          disabled={!solicitudes}
+        />
+      </div>
+      <InscripcionesEspecialesSolicitudesTable data={data} filters={filters} filterByUser={filterByUser} />
+    </div>
   );
 }

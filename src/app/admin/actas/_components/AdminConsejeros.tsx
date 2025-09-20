@@ -37,7 +37,6 @@ export function AdminConsejeros() {
         <h1 className="text-gray-900 text-center text-2xl font-bold tracking-tight">
           Acta en curso: {acta?.nombreActa ?? "—"}
         </h1>
-        <EditActaModal acta={acta}/>
       </div>
 
       <div className="flex items-center justify-center">

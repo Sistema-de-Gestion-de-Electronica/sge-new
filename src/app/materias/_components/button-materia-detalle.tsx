@@ -4,7 +4,7 @@
 import { Button } from "@/components/ui";           // o "@/components/ui/button" si lo usás así
 import { Eye } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { MATERIA_ROUTE } from "@/shared/server-routes";
+import { CURSOS_ROUTE, MATERIA_ROUTE } from "@/shared/server-routes";
 
 type Props = {
   id: number;
@@ -17,8 +17,10 @@ export default function ButtonMateriaDetalle({ id, className }: Props) {
 
   function goToDetail() {
     const next = new URLSearchParams(sp.toString());
-    next.set("materiaId", String(id));
-    router.push(`${MATERIA_ROUTE.href}?${next.toString()}`);
+    //next.set("materiaId", String(id));
+    //router.push(`${MATERIA_ROUTE.href}?${next.toString()}`);
+    next.set("materia",String(id));
+    router.push(`${CURSOS_ROUTE.href}?${next.toString()}`)
   }
 
   return (

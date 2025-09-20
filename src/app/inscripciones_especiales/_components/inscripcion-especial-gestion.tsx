@@ -1,4 +1,5 @@
 import { api } from "@/trpc/react";
+import { useState } from "react";
 import { type z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, FormProvider, Controller } from "react-hook-form";
@@ -8,6 +9,7 @@ import { toast } from "@/components/ui";
 import { FormTextarea } from "@/components/ui/textarea";
 import { inputGestionarInscripcionEspecial } from "@/shared/filters/inscripciones-especiales-filter.schema";
 import { Checkbox } from "@/components/ui/checkbox";
+import ModalDrawer from "@/app/_components/modal/modal-drawer";
 
 type GestionarInscripcionEspecialFormData = z.infer<typeof inputGestionarInscripcionEspecial>;
 
@@ -109,6 +111,26 @@ export const InscripcionEspecialGestion = ({
     );
   };
 
+  const [open, setOpen] = useState(false);
+
+  const { mutate: eliminarInscripcionEspecial } = api.inscripcionesEspeciales.eliminarInscripcionEspecial.useMutation()
+  const handleEliminar = () => {
+    eliminarInscripcionEspecial(
+      { id: inscripcionEspecialId },
+      {
+        onSuccess: () => {
+          toast.success("Inscripción especial eliminada con éxito");
+          utils.inscripcionesEspeciales.getInscripcionEspecialPorId.invalidate({ id: inscripcionEspecialId });
+          setOpen(false);
+          onCancel(); // o la acción que corresponda después de eliminar
+        },
+        onError: () => {
+          toast.error("No se pudo eliminar la inscripción especial");
+        },
+      }
+    );
+  }
+
   return (
     <FormProvider {...formHook}>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -200,6 +222,16 @@ export const InscripcionEspecialGestion = ({
             Cancelar
           </Button>
           <Button
+            title="Cancelar"
+            type="button"
+            variant="default"
+            color="danger"
+            onClick={() => setOpen(true)}
+            className="w-full"
+          >
+            Eliminar
+          </Button>
+          <Button
             title="Rechazar"
             type="button"
             variant="default"
@@ -214,6 +246,36 @@ export const InscripcionEspecialGestion = ({
           </Button>
         </div>
       </form>
+      <ModalDrawer
+        titulo={"Eliminar inscripción especial"}
+        description={"¿Estás seguro de que deseas eliminar esta inscripción especial?"}
+        open={open}
+        onOpenChange={() => setOpen(false)}
+        className={"max-h-[calc(100vh_-_10%)]"}
+      >
+        <div className="flex max-h-max w-full flex-row  gap-4">
+          <Button
+            title="Cancelar"
+            type="button"
+            variant="default"
+            color="secondary"
+            onClick={() => setOpen(false)}
+            className="w-full"
+          >
+            Cancelar
+          </Button>
+          <Button
+            title="Cancelar"
+            type="button"
+            variant="default"
+            color="danger"
+            onClick={handleEliminar}
+            className="w-full"
+          >
+            Eliminar
+          </Button>
+        </div>
+      </ModalDrawer>
     </FormProvider>
   );
 };

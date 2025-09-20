@@ -28,8 +28,6 @@ export default function FormularioSolicitudInscripcionEspecial() {
   const { tienePermisos } = useTienePermisos([SgeNombre.ADMIN_VER_PANEL_ADMIN]);
 
   const solicitudBase: FormSolicitarInscripcionEspecial = {
-    nombre: usuario?.nombre ?? "",
-    apellido: usuario?.apellido ?? "",
     legajo: usuario?.legajo ?? "",
     caso: casos[2] ?? "",
     materiasAdeudadas: [],
@@ -47,14 +45,19 @@ export default function FormularioSolicitudInscripcionEspecial() {
   const { handleSubmit, control } = formHook;
 
   const onFormSubmit = async (formData: FormSolicitarInscripcionEspecial) => {
-    solicitarInscripcionEspecial.mutate(formData, {
+    console.log("Form data submitted: ", formData); 
+    const payload = {
+      ...formData,
+      legajo: String(formData.legajo ?? ""),
+    };
+    solicitarInscripcionEspecial.mutate(payload, {
       onSuccess: () => {
         toast.success("Tu solicitud de inscripción especial ha sido enviada correctamente.");
-      },
-      onError: (e) => {
-        toast.error("Hubo un problema al enviar tu solicitud. Por favor, intenta nuevamente.");
-        console.log(e);
-      },
+        },
+        onError: (e) => {
+          toast.error("Hubo un problema al enviar tu solicitud. Por favor, intenta nuevamente.");
+          console.log(e);
+        },
     });
   };
 
@@ -77,14 +80,20 @@ export default function FormularioSolicitudInscripcionEspecial() {
             </div>
             <div className="flex w-full flex-col gap-x-4 sm:flex-row">
               <div className="mt-4 w-full">
-                <FormInput label="Nombre" name="nombre" type="text" control={control} disabled={!tienePermisos} />
+                <Input
+                  label="Nombre"
+                  name="nombre"
+                  type="text"
+                  value={usuario?.nombre ?? ""}
+                  disabled={!tienePermisos}
+                />
               </div>
               <div className="mt-4 w-full">
-                <FormInput
+                <Input
                   label={"Apellido"}
                   name="apellido"
                   type={"text"}
-                  control={control}
+                  value={usuario?.apellido ?? ""}
                   disabled={!tienePermisos}
                 />
               </div>
@@ -94,7 +103,7 @@ export default function FormularioSolicitudInscripcionEspecial() {
                 <FormInput
                   label={"Legajo"}
                   name="legajo"
-                  type={"string"}
+                  type={"number"}
                   pattern="[0-9]*"
                   inputMode="numeric"
                   control={control}

@@ -5,10 +5,8 @@ import {
   type InscripcionEspecialEstatus,
 } from "@/app/_components/badge-estatus-inscripcion-especial";
 
-import { type InscripcionesEspecialesData } from "../_components/mock-mis-inscripciones"; //TODO eliminar cuando funcione el back
-
-// type InscripcionesEspecialesData =
-//   RouterOutputs["inscripcionesEspeciales"]["getAllInscripcionesEspeciales"]["solicitudes"][number];
+type InscripcionesEspecialesData =
+  RouterOutputs["inscripcionesEspeciales"]["getAllInscripcionesEspeciales"]["solicitudes"][number];
 
 export const getColumnasInscripcionesEspeciales = ({ filterByUser }: { filterByUser?: boolean }) => {
   const colHelper = createColumnHelper<InscripcionesEspecialesData>();
@@ -77,6 +75,53 @@ export const getColumnasInscripcionesEspeciales = ({ filterByUser }: { filterByU
             },
           }),
         ]),
+    ...(filterByUser
+      ? []
+      : [
+          colHelper.display({
+            header: "Contactado",
+            cell: ({ row }) => {
+              return row.original.fueContactado ? (
+                <div className="max-w-xs">
+                  <div className="font-semibold border-t bg-green-100 p-2 text-center">✔</div>
+                </div>
+              ) : (
+                <div className="max-w-xs">
+                  <div className="border-t bg-red-100 p-2 text-center font-semibold">x</div>
+                </div>
+              );
+            },
+            meta: {
+              header: {
+                hideSort: true,
+              },
+            },
+          }),
+        ]),
+    ...(filterByUser
+      ? []
+      : [
+          colHelper.display({
+            header: "Asistió",
+            cell: ({ row }) => {
+              return row.original.vinoPresencialmente ? (
+                <div className="max-w-xs">
+                  <div className="font-semibold border-t bg-green-100 p-2 text-center">✔</div>
+                </div>
+              ) : (
+                <div className="max-w-xs">
+                  <div className="border-t bg-red-100 p-2 text-center font-semibold">x</div>
+                </div>
+              );
+            },
+            meta: {
+              header: {
+                hideSort: true,
+              },
+            },
+          }),
+        ]),
+
     ...(filterByUser
       ? [
           colHelper.accessor("respuesta", {

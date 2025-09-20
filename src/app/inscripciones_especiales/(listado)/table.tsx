@@ -13,9 +13,7 @@ import { VerInscripcionEspecialModal } from "@/app/inscripciones_especiales/(lis
 import { type inputGetAllInscripcionesEspeciales } from "@/shared/filters/inscripciones-especiales-filter.schema";
 import { TienePermiso } from "@/app/_components/permisos/tienePermiso";
 
-import { RespuestaInscripcionesEspeciales } from "../_components/mock-mis-inscripciones"; //TODO eliminar cuando fucione el backend
-
-// type InscripcionesEspecialesData = RouterOutputs["inscripcionesEspeciales"]["getAll"];
+type RespuestaInscripcionesEspeciales = RouterOutputs["inscripcionesEspeciales"]["getAllInscripcionesEspeciales"];
 type inscripcionesEspecialesFilters = z.infer<typeof inputGetAllInscripcionesEspeciales>;
 
 type InscripcionesEspecialesTableProps = {

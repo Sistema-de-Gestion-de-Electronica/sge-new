@@ -23,7 +23,9 @@ export const getAllActasProcedure = publicProcedure
   .query(async ({ ctx, input }) => {
     validarInput(inputGetAllActas, input);
     const esC = await esConsejero(ctx);
-    const actas = await getAllActas(ctx, input, esC);
+    const esA = await esAdmin(ctx)
+    console.log(esA)
+    const actas = await getAllActas(ctx, input, esC,esA);
     if (actas.length === 0)
       return [];
     else
@@ -51,6 +53,16 @@ async function esConsejero(ctx: any): Promise<boolean> {
   const roles = (user?.usuarioRol ?? []).map((r) => r.rol.nombre);
   return roles.some((n) => n?.toUpperCase() === "CONSEJERO");
 }
+
+async function esAdmin(ctx: any): Promise<boolean> {
+  const userId = ctx.session?.user?.id;
+  if (!userId) return false;
+  const user = await getUsuarioPorId(ctx, { id: userId });
+  const roles = (user?.usuarioRol ?? []).map((r) => r.rol.nombre);
+  return roles.some((n) => n?.toUpperCase() === "ADMINISTRACIÓN");
+}
+
+
 
 export const agregarVotoProcedure = protectedProcedure
   .input(inputAgregarVoto)

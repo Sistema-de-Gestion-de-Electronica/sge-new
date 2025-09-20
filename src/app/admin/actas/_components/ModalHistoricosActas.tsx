@@ -1,15 +1,16 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { TrashIcon, EyeOffIcon, WandSparkles } from "lucide-react";
+import { TrashIcon, EyeOffIcon, WandSparkles, Eye } from "lucide-react";
 
 import { Button } from "@/components/ui";
 import ModalDrawer from "@/app/_components/modal/modal-drawer";
 import { toast } from "@/components/ui";
 import { api } from "@/trpc/react";
+import { SelectActasMulti } from "./SelectActasMulti";
 
-type FilterType = "BEFORE" | "BETWEEN" | "EQUAL";
-type ActionType = "HIDE" | "DELETE";
+type FilterType = "BEFORE" | "BETWEEN" | "SELECT";
+type ActionType = "HIDE" | "DELETE" | "SHOW";
 
 export default function OcultarEliminarActasModal() {
   const [open, setOpen] = useState(false);
@@ -17,6 +18,8 @@ export default function OcultarEliminarActasModal() {
   const [filterType, setFilterType] = useState<FilterType>("BEFORE");
   const [date1, setDate1] = useState<string>(""); // yyyy-mm-dd
   const [date2, setDate2] = useState<string>("");
+  const [actasIds, setActasIds] = useState<string[]>([]);
+
 
   const [action, setAction] = useState<ActionType | null>(null);
 
@@ -29,7 +32,7 @@ export default function OcultarEliminarActasModal() {
 
 
   const isValidDates = useMemo(() => {
-    if (filterType === "BEFORE" || filterType === "EQUAL") {
+    if (filterType === "BEFORE" || filterType === "SELECT") {
       return !!date1;
     }
     if (filterType === "BETWEEN") {
@@ -57,47 +60,69 @@ const handleConfirm = async () => {
     const toDate = filterType === "BETWEEN" ? date2 : date1;
 
     if (action === "HIDE") {
-      if (filterType === "BEFORE") {
-        const res = await visualizarHasta.mutateAsync({
-          visibilidad: "OCULTA",
-          fechaReunion: new Date(toDate),
-        });
-        toast.success(`Actas ocultadas: ${res?.count ?? 0}`);
-      } else if (filterType === "EQUAL") {
-        const res = await visualizarIgual.mutateAsync({
-          visibilidad: "OCULTA",
-          fechaReunion: new Date(fromDate),
-        });
-        toast.success(`Actas ocultadas: ${res?.count ?? 0}`);
-      } else {
-        // BETWEEN
-        const res = await visualizarEntre.mutateAsync({
-          visibilidad: "OCULTA",
-          fechaInicio: new Date(fromDate),
-          fechaFin: new Date(toDate),
-        });
-        toast.success(`Actas ocultadas: ${res?.count ?? 0}`);
-      }
+        if (filterType === "BEFORE") {
+          const res = await visualizarHasta.mutateAsync({
+            visibilidad: "OCULTA",
+            fechaReunion: new Date(toDate),
+          });
+          toast.success(`Actas ocultadas: ${res?.count ?? 0}`);
+        } else if (filterType === "SELECT") {
+          const res = await visualizarIgual.mutateAsync({
+            visibilidad: "OCULTA",
+            fechaReunion: new Date(fromDate),
+          });
+          toast.success(`Actas ocultadas: ${res?.count ?? 0}`);
+        } else {
+          // BETWEEN
+          const res = await visualizarEntre.mutateAsync({
+            visibilidad: "OCULTA",
+            fechaInicio: new Date(fromDate),
+            fechaFin: new Date(toDate),
+          });
+          toast.success(`Actas ocultadas: ${res?.count ?? 0}`);
+        }
+    } else if (action === "SHOW") {
+        if (filterType === "BEFORE") {
+          const res = await visualizarHasta.mutateAsync({
+            visibilidad: "VISIBLE",
+            fechaReunion: new Date(toDate),
+          });
+          toast.success(`Actas visibles: ${res?.count ?? 0}`);
+        } else if (filterType === "SELECT") {
+          const res = await visualizarIgual.mutateAsync({
+            visibilidad: "VISIBLE",
+            fechaReunion: new Date(fromDate),
+          });
+          toast.success(`Actas visibles: ${res?.count ?? 0}`);
+        } else {
+          // BETWEEN
+          const res = await visualizarEntre.mutateAsync({
+            visibilidad: "VISIBLE",
+            fechaInicio: new Date(fromDate),
+            fechaFin: new Date(toDate),
+          });
+          toast.success(`Actas visibles: ${res?.count ?? 0}`);
+        }
     } else {
-      // DELETE
-      if (filterType === "BEFORE") {
-        const res = await eliminarHasta.mutateAsync({
-          fechaReunion: new Date(toDate),
-        });
-        toast.success(`Actas eliminadas: ${res?.count ?? 0}`);
-      } else if (filterType === "EQUAL") {
-        const res = await eliminarIgual.mutateAsync({
-          fechaReunion: new Date(fromDate),
-        });
-        toast.success(`Actas eliminadas: ${res?.count ?? 0}`);
-      } else {
-        // BETWEEN
-        const res = await eliminarEntre.mutateAsync({
-          fechaInicio: new Date(fromDate),
-          fechaFin: new Date(toDate),
-        });
-        toast.success(`Actas eliminadas: ${res?.count ?? 0}`);
-      }
+        // DELETE
+        if (filterType === "BEFORE") {
+          const res = await eliminarHasta.mutateAsync({
+            fechaReunion: new Date(toDate),
+          });
+          toast.success(`Actas eliminadas: ${res?.count ?? 0}`);
+        } else if (filterType === "SELECT") {
+          const res = await eliminarIgual.mutateAsync({
+            fechaReunion: new Date(fromDate),
+          });
+          toast.success(`Actas eliminadas: ${res?.count ?? 0}`);
+        } else {
+          // BETWEEN
+          const res = await eliminarEntre.mutateAsync({
+            fechaInicio: new Date(fromDate),
+            fechaFin: new Date(toDate),
+          });
+          toast.success(`Actas eliminadas: ${res?.count ?? 0}`);
+        }
     }
 
     setOpen(false);
@@ -150,7 +175,7 @@ const handleConfirm = async () => {
             >
               <option value="BEFORE">Antes de</option>
               <option value="BETWEEN">Entre</option>
-              <option value="EQUAL">Igual a</option>
+              <option value="SELECT">Seleccion multiple</option>
             </select>
 
             {/* Date pickers dinámicos */}
@@ -168,6 +193,15 @@ const handleConfirm = async () => {
                   value={date2}
                   onChange={(e) => setDate2(e.target.value)}
                   className="rounded-md border border-slate-300 px-3 py-2 text-sm"
+                />
+              </div>
+            ) : filterType === "SELECT" ? (
+              <div className="w-full">
+                <SelectActasMulti
+                  value={actasIds}
+                  onChange={setActasIds}
+                  className="w-full"
+                  placeholder="Seleccioná actas..."
                 />
               </div>
             ) : (
@@ -216,6 +250,19 @@ const handleConfirm = async () => {
             >
               <TrashIcon className="mr-2 h-4 w-4" />
               Eliminar
+            </Button>
+
+            <Button
+              type="button"
+              onClick={() => setAction("SHOW")}
+              className={`rounded-full px-4 py-2 text-sm ${
+                action === "SHOW"
+                  ? "bg-slate-900 text-white"
+                  : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+              }`}
+            >
+              <Eye className="mr-2 h-4 w-4" />
+              Desocultar
             </Button>
           </div>
         </div>

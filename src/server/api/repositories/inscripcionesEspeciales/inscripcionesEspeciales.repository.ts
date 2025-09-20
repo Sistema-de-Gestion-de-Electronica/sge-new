@@ -204,6 +204,8 @@ export async function getAllInscripcionesEspeciales(
         solicitante: i.solicitante,
         caso: i.caso,
         materias: materias.map((m) => m.nombre),
+        vinoPresencialmente: i.vinoPresencialmente,
+        fueContactado: i.fueContactado,
         justificacion: i.justificacion,
         turnoAlternativa1: i.turnoAlternativa1 ?? "",
         turnoAlternativa2: i.turnoAlternativa2 ?? "",

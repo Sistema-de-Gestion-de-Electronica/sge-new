@@ -1,7 +1,7 @@
-import { type InscripcionesEspecialesData } from "@/app/inscripciones_especiales/_components/mock-mis-inscripciones";
+import { type InscripcionEspecialData } from "@/app/inscripciones_especiales/_components/inscripcionEspecialData";
 
 export const exportInscripcionesEspecialesToExcel = (
-  data: InscripcionesEspecialesData[],
+  data: InscripcionEspecialData[],
   filename = "inscripciones_especiales",
 ) => {
   const headers = [
@@ -16,6 +16,8 @@ export const exportInscripcionesEspecialesToExcel = (
     "Turno Alternativa 1",
     "Turno Alternativa 2",
     "Estado",
+    "Contactado",
+    "Asistio",
     "Respuesta",
     "Fecha Respuesta",
   ];
@@ -32,11 +34,13 @@ export const exportInscripcionesEspecialesToExcel = (
     inscripcion.turnoAlternativa1,
     inscripcion.turnoAlternativa2,
     inscripcion.estado,
+    inscripcion.fueContactado,
+    inscripcion.vinoPresencialmente,
     inscripcion.respuesta || "Sin respuesta",
     inscripcion.fechaRespuesta || "Sin fecha",
   ]);
 
-  const escapeCsvValue = (value: string | number | null) => {
+  const escapeCsvValue = (value: string | number | boolean | undefined | null) => {
     if (value === null || value === undefined) return "";
     const stringValue = String(value);
     if (stringValue.includes(",") || stringValue.includes('"') || stringValue.includes("\n")) {

@@ -100,10 +100,7 @@ services:
       timeout: 15s
       retries: 5
       start_period: 3s
-    expose:
-      - 5432
-    ports:
-      - "5432:5432"
+    expose: ["5432"]
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
@@ -158,7 +155,7 @@ services:
       # SMTP_TESTING: false
       # SMTP_TESTING_EMAIL_RECEPTOR: 
       # SMTP_TESTING_EMAIL_USER: testutn@gmail.com
-      # SMTP_TESTING_EMAIL_PASSWORD:
+      # SMTP_TESTING_EMAIL_PASSWORD: 
 
     restart: unless-stopped
     depends_on:

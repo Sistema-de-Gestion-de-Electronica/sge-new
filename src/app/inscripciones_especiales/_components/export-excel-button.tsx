@@ -3,10 +3,10 @@
 import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
 import { exportInscripcionesEspecialesToExcel } from "@/utils/exportToExcel";
-import { type InscripcionesEspecialesData } from "./mock-mis-inscripciones";
+import { type InscripcionEspecialData } from "./inscripcionEspecialData";
 
 interface ExportExcelButtonProps {
-  data: InscripcionesEspecialesData[];
+  data: InscripcionEspecialData[];
   filename?: string;
   disabled?: boolean;
 }

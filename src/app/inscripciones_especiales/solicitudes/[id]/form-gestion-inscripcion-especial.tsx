@@ -10,6 +10,7 @@ enum InscripcionEspecialEstatus {
   ACEPTADA_CON_CONDICION = "ACEPTADA_CON_CONDICION",
   RECHAZADA = "RECHAZADA",
   PENDIENTE = "PENDIENTE",
+  ELIMINADA = "ELIMINADA",
 }
 
 interface InscripcionEspecialViewAdminProps {
@@ -30,7 +31,7 @@ export const InscripcionEspecialViewAdmin = ({
   });
 
   const esInscripcionPendiente = inscripcionData?.estado === InscripcionEspecialEstatus.PENDIENTE;
-  const esInscripcionElimnada = inscripcionData?.eliminada ?? false
+  const esInscripcionElimnada = inscripcionData?.estado === InscripcionEspecialEstatus.ELIMINADA;
 
   return (
     <div className="container mx-auto space-y-8 p-4">

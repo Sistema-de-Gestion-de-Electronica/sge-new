@@ -32,3 +32,7 @@ export const inputActualizarContactoAsistencia = z.object({
   alumnoContactado: z.boolean(),
   alumnoAsistio: z.boolean(),
 });
+
+export const inputEliminarInscripcionEspecial = z.object({
+  id: z.number(),
+});

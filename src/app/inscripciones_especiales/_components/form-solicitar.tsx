@@ -8,7 +8,7 @@ import { Button, FormInput, Input, toast } from "@/components/ui";
 
 import { useTienePermisos } from "@/app/_hooks/use-tiene-permisos";
 import { usePermisos } from "@/app/_hooks/use-context-tiene-permisos";
-import { inputAgregarInscripcion } from "@/shared/filters/inscripciones-especiales-filter.schema";
+import type { inputAgregarInscripcion } from "@/shared/filters/inscripciones-especiales-filter.schema";
 import { SelectMateriasMultiple } from "@/app/inscripciones_especiales/_components/select-multiple-materias";
 import { SelectAlternativas } from "@/app/inscripciones_especiales/_components/select-alternativas";
 import { FormSelect } from "@/components/ui/autocomplete";
@@ -45,7 +45,7 @@ export default function FormularioSolicitudInscripcionEspecial() {
   const { handleSubmit, control } = formHook;
 
   const onFormSubmit = async (formData: FormSolicitarInscripcionEspecial) => {
-    console.log("Form data submitted: ", formData); 
+    console.log("Form data submitted: ", formData);
     const payload = {
       ...formData,
       legajo: String(formData.legajo ?? ""),
@@ -53,11 +53,11 @@ export default function FormularioSolicitudInscripcionEspecial() {
     solicitarInscripcionEspecial.mutate(payload, {
       onSuccess: () => {
         toast.success("Tu solicitud de inscripción especial ha sido enviada correctamente.");
-        },
-        onError: (e) => {
-          toast.error("Hubo un problema al enviar tu solicitud. Por favor, intenta nuevamente.");
-          console.log(e);
-        },
+      },
+      onError: (e) => {
+        toast.error("Hubo un problema al enviar tu solicitud. Por favor, intenta nuevamente.");
+        console.log(e);
+      },
     });
   };
 

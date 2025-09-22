@@ -27,10 +27,10 @@ const navBarQuePuedeVer = (listaElementos: AppRoute[], listaPermisos: SgeNombre[
   };
 
   const navbarRutasPuedeVer = listaElementos
-    .filter((item) => tienePermiso(item.permisos))
+    .filter((item) => tienePermiso(item.permisos) || item.permisos.length === 0)
     .map((item) => ({
       ...item,
-      subRutas: item.subRutas?.filter((subItem) => tienePermiso(subItem.permisos)),
+      subRutas: item.subRutas?.filter((subItem) => tienePermiso(subItem.permisos) || subItem.permisos.length === 0),
     }));
 
   return navbarRutasPuedeVer;

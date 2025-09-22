@@ -1,0 +1,22 @@
+model InscripcionEspecial {
+    id            Int    @id @default(autoincrement())
+    solicitanteId String
+    solicitante   User   @relation(fields: [solicitanteId], references: [id], name: "inscripcionesEspeciales")
+
+    caso              String
+    justificacion     String
+    turnoAlternativa1 String?
+    turnoAlternativa2 String?
+
+    materias          Int[]
+    materiasAdeudadas Int[]
+
+    estado    String
+    respuesta String?
+
+    fueContactado       Boolean?
+    vinoPresencialmente Boolean?
+
+    fechaSolicitud DateTime  @default(now())
+    fechaRespuesta DateTime?
+}

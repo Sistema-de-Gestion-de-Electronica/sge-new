@@ -52,6 +52,11 @@ const config = {
         permanent: true,
       },
       {
+        source: "/inscripciones_especiales",
+        destination: "/inscripciones_especiales/solicitar",
+        permanent: true,
+      },
+      {
         source: "/reportes",
         destination: "/reportes/hoy",
         permanent: true,

@@ -43,12 +43,13 @@ model User {
   sessions   Session[]
   usuarioRol UsuarioRol[]
 
-  reservasSolicitadas Reserva[] @relation(name: "reservasSolicitadas")
-  reservasRenovadas   Reserva[] @relation(name: "reservasRenovadas")
-  reservasComoTutor   Reserva[] @relation(name: "reservaTutor")
-  reservasAprobadas   Reserva[] @relation(name: "reservasAprobadas")
-  reservasRechazadas  Reserva[] @relation(name: "reservasRechazadas")
-  reservasRecibidas   Reserva[] @relation(name: "reservasRecibidas")
+  reservasSolicitadas     Reserva[]             @relation(name: "reservasSolicitadas")
+  reservasRenovadas       Reserva[]             @relation(name: "reservasRenovadas")
+  reservasComoTutor       Reserva[]             @relation(name: "reservaTutor")
+  reservasAprobadas       Reserva[]             @relation(name: "reservasAprobadas")
+  reservasRechazadas      Reserva[]             @relation(name: "reservasRechazadas")
+  reservasRecibidas       Reserva[]             @relation(name: "reservasRecibidas")
+  inscripcionesEspeciales InscripcionEspecial[] @relation(name: "inscripcionesEspeciales")
 
   cursosComoAyudante CursoAyudante[]
   cursosComoProfesor Curso[]

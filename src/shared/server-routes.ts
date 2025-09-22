@@ -314,6 +314,33 @@ export const ACTAS_ROUTE: AppRoute = {
   permisos: [],
 };
 
+const PERMISOS_VER_INSCRIPCIONES_ESPECIALES: SgeNombre[] = [];
+export const INSCRIPCIONES_ESPECIALES_ROUTE: AppRoute = {
+  href: "/inscripciones_especiales",
+  label: "Inscripciones especiales",
+  isPublic: false,
+  permisos: PERMISOS_VER_INSCRIPCIONES_ESPECIALES,
+  subRutas: [
+    {
+      href: "/inscripciones_especiales/solicitudes",
+      label: "Administrar Solicitudes",
+      isPublic: false,
+      permisos: [SgeNombre.ADMIN_VER_PANEL_ADMIN],
+    },
+    {
+      href: "/inscripciones_especiales/solicitar",
+      label: "Solicitar",
+      isPublic: false,
+      permisos: [],
+    },
+    {
+      href: "/inscripciones_especiales/mis_solicitudes",
+      label: "Mis solicitudes",
+      isPublic: false,
+      permisos: [],
+    },
+  ],
+};
 
 export const SGE_1_ROUTE: AppRoute[] = [
   {
@@ -330,6 +357,7 @@ export const SGE_1_ROUTE: AppRoute[] = [
     isPublic: false,
     permisos: [],
   },
+
   // {
   //   href: "https://sge.frba.utn.edu.ar/sge2/consejeros/index.php",
   //   label: "Consejeros",
@@ -337,13 +365,19 @@ export const SGE_1_ROUTE: AppRoute[] = [
   //   isPublic: false,
   //   permisos: [SgeNombre.ADMIN_ACTUALIZAR_ACTA_CONSEJEROS],
   // },
-  {
-    href: "https://sge.frba.utn.edu.ar/sge2/inscripciones_especiales/index.php",
-    label: "Inscripciones especiales",
-    esExterna: true,
-    isPublic: false,
-    permisos: [SgeNombre.ADMIN_OFERTAS_LABORALES_ABM],
-  },
+  //{
+  //  href: "https://sge.frba.utn.edu.ar/sge2/inscripciones_especiales/index.php",
+  //  label: "Inscripciones especiales",
+  //  esExterna: true,
+  //  isPublic: false,
+  //  permisos: [SgeNombre.ADMIN_OFERTAS_LABORALES_ABM],
+  //{
+  //  href: "https://sge.frba.utn.edu.ar/sge2/consejeros/index.php",
+  //  label: "Consejeros",
+  //  esExterna: true,
+  //  isPublic: false,
+  //  permisos: [SgeNombre.ADMIN_ACTUALIZAR_ACTA_CONSEJEROS],
+  //},
 ];
 
 export const APP_ROUTES: AppRoute[] = [
@@ -357,6 +391,7 @@ export const APP_ROUTES: AppRoute[] = [
   ADMIN_ROUTE,
   REPORTES_ROUTE,
   ACTAS_ROUTE,
+  INSCRIPCIONES_ESPECIALES_ROUTE,
   ...SGE_1_ROUTE,
 ];
 

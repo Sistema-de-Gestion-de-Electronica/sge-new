@@ -335,6 +335,29 @@ model EquipoEstado {
   @@index([nombre(sort: Asc)])
 }
 
+model InscripcionEspecial {
+  id            Int    @id @default(autoincrement())
+  solicitanteId String
+  solicitante   User   @relation(fields: [solicitanteId], references: [id], name: "inscripcionesEspeciales")
+
+  caso              String
+  justificacion     String
+  turnoAlternativa1 String?
+  turnoAlternativa2 String?
+
+  materias          Int[]
+  materiasAdeudadas Int[]
+
+  estado    String
+  respuesta String?
+
+  fueContactado       Boolean?
+  vinoPresencialmente Boolean?
+
+  fechaSolicitud DateTime  @default(now())
+  fechaRespuesta DateTime?
+}
+
 model Laboratorio {
   id Int @id @default(autoincrement())
 
@@ -607,6 +630,9 @@ enum SgeNombre {
   ACTIVIDADES_ABIERTAS_PUBLICAR_ADMIN
   ACTIVIDADES_ABIERTAS_VER_PUBLICACIONES
   CONSEJERO_VOTACION_ACTA
+  INSCRIPCIONES_ESPECIALES_VER_LISTADO
+  INSCRIPCIONES_ESPECIALES_ADMIN
+  INSCRIPCIONES_ESPECIALES_SOLICITAR
 }
 
 model Reserva {
@@ -958,12 +984,13 @@ model User {
   sessions   Session[]
   usuarioRol UsuarioRol[]
 
-  reservasSolicitadas Reserva[] @relation(name: "reservasSolicitadas")
-  reservasRenovadas   Reserva[] @relation(name: "reservasRenovadas")
-  reservasComoTutor   Reserva[] @relation(name: "reservaTutor")
-  reservasAprobadas   Reserva[] @relation(name: "reservasAprobadas")
-  reservasRechazadas  Reserva[] @relation(name: "reservasRechazadas")
-  reservasRecibidas   Reserva[] @relation(name: "reservasRecibidas")
+  reservasSolicitadas     Reserva[]             @relation(name: "reservasSolicitadas")
+  reservasRenovadas       Reserva[]             @relation(name: "reservasRenovadas")
+  reservasComoTutor       Reserva[]             @relation(name: "reservaTutor")
+  reservasAprobadas       Reserva[]             @relation(name: "reservasAprobadas")
+  reservasRechazadas      Reserva[]             @relation(name: "reservasRechazadas")
+  reservasRecibidas       Reserva[]             @relation(name: "reservasRecibidas")
+  inscripcionesEspeciales InscripcionEspecial[] @relation(name: "inscripcionesEspeciales")
 
   cursosComoAyudante CursoAyudante[]
   cursosComoProfesor Curso[]

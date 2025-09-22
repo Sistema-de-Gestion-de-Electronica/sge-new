@@ -7,6 +7,7 @@ import { saveActaPDF, formatDate } from "../../utils/pdfSaver";
 import { getUsuarioPorId } from "../../repositories/admin/usuarios-admin.repository";
 import { enviarMailNuevaVotacionAbiertaProcedure } from "../mails/emailVotacionAbierta.service";
 import { deleteActaPDF } from "../../utils/pdfDeleter";
+import { getAllActas } from "../../repositories/actas/actas.repository";
 
 
 export const agregarActaProcedure = protectedProcedure
@@ -143,3 +144,12 @@ export const visibilidadActasHastaProcedure = protectedProcedure
     return {count};
     }
   )
+
+  export const getAllActasProcedure = protectedProcedure
+  .query(async ({ctx}) => {
+        const actas = await getAllActas(ctx, {}, true,true,false);
+        if (actas.length === 0)
+          return [];
+        else
+          return actas;
+  })

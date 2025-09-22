@@ -22,8 +22,8 @@ type Item = {
 };
 
 type SelectActasMultiProps = {
-  value: string[];                         // lista de IDs seleccionados
-  onChange: (ids: string[]) => void;       // emite nueva lista
+  value: string[];                        
+  onChange: (ids: string[]) => void;  
   className?: string;
   placeholder?: string;
   disabled?: boolean;
@@ -49,7 +49,7 @@ export function SelectActasMulti({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [open]);
 
-    const { data, isLoading, isError } = api.actas.getAllActas.useQuery(
+    const { data, isLoading, isError } = api.admin.actas.getAllActas.useQuery(
     {},
     { keepPreviousData: true }
     );

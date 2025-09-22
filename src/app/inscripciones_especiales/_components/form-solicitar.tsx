@@ -1,10 +1,11 @@
 "use client";
 
-import { z } from "zod";
+import type { z } from "zod";
 import { api } from "@/trpc/react";
 import { SgeNombre } from "@/generated/prisma";
 import { FormProvider, useForm } from "react-hook-form";
 import { Button, FormInput, Input, toast } from "@/components/ui";
+import { useEffect } from "react";
 
 import { useTienePermisos } from "@/app/_hooks/use-tiene-permisos";
 import { usePermisos } from "@/app/_hooks/use-context-tiene-permisos";
@@ -41,6 +42,15 @@ export default function FormularioSolicitudInscripcionEspecial() {
     mode: "onChange",
     defaultValues: solicitudBase,
   });
+
+  useEffect(() => {
+    if (usuario) {
+      formHook.reset({
+        ...solicitudBase,
+        legajo: usuario.legajo ?? "",
+      });
+    }
+  }, [usuario]);
 
   const { handleSubmit, control } = formHook;
 

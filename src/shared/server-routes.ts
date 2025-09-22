@@ -300,7 +300,7 @@ export const REPORTES_ROUTE: AppRoute = {
   ],
 };
 
-const PERMISOS_VER_INSCRIPCIONES_ESPECIALES = [SgeNombre.ADMIN_VER_PANEL_ADMIN];
+const PERMISOS_VER_INSCRIPCIONES_ESPECIALES: SgeNombre[] = [];
 export const INSCRIPCIONES_ESPECIALES_ROUTE: AppRoute = {
   href: "/inscripciones_especiales",
   label: "Inscripciones especiales",
@@ -316,13 +316,13 @@ export const INSCRIPCIONES_ESPECIALES_ROUTE: AppRoute = {
     {
       href: "/inscripciones_especiales/solicitar",
       label: "Solicitar",
-      isPublic: true,
+      isPublic: false,
       permisos: [],
     },
     {
       href: "/inscripciones_especiales/mis_solicitudes",
       label: "Mis solicitudes",
-      isPublic: true,
+      isPublic: false,
       permisos: [],
     },
   ],

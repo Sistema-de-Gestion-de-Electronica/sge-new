@@ -38,4 +38,13 @@ export const inputActualizarActa = z.object ({
   id: z.string(),
 })
 
+export const inputVisibilidadActasMasivo = z.object({
+  ids: z.array(z.number()),
+  visibilidad: z.enum(["VISIBLE", "OCULTA"]),
+})
+
+export const inputEliminarActasMasivo = z.object({
+  ids: z.array(z.number())
+})
+
 

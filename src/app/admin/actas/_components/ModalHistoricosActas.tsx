@@ -18,39 +18,44 @@ export default function OcultarEliminarActasModal() {
   const [filterType, setFilterType] = useState<FilterType>("BEFORE");
   const [date1, setDate1] = useState<string>(""); // yyyy-mm-dd
   const [date2, setDate2] = useState<string>("");
-  const [actasIds, setActasIds] = useState<string[]>([]);
+  const [actasIds, setActasIds] = useState<number[]>([]);
 
 
   const [action, setAction] = useState<ActionType | null>(null);
 
   const eliminarHasta = api.admin.actas.eliminarHasta.useMutation();
   const eliminarEntre = api.admin.actas.eliminarEntre.useMutation();
-  const eliminarIgual = api.admin.actas.eliminarIgual.useMutation();
   const visualizarHasta = api.admin.actas.visualizacionHasta.useMutation();
   const visualizarEntre = api.admin.actas.visualizacionEntre.useMutation();
-  const visualizarIgual = api.admin.actas.visualizacionIgual.useMutation();
+  const eliminarMasivo = api.admin.actas.eliminarMasivo.useMutation();
+  const visualizarMasivo = api.admin.actas.visualizacionMasivo.useMutation();
+  const utils = api.useUtils();
 
 
-  const isValidDates = useMemo(() => {
-    if (filterType === "BEFORE" || filterType === "SELECT") {
-      return !!date1;
-    }
-    if (filterType === "BETWEEN") {
-      if (!date1 || !date2) return false;
-      return new Date(date1) <= new Date(date2);
-    }
-    return false;
-  }, [filterType, date1, date2]);
 
-  const canConfirm = !!action && isValidDates;
+const isValidDates = useMemo(() => {
+  if (filterType === "SELECT") {
+    return actasIds.length > 0;
+  }
+  if (filterType === "BEFORE") {
+    return !!date1;
+  }
+  if (filterType === "BETWEEN") {
+    if (!date1 || !date2) return false;
+    return new Date(date1) <= new Date(date2);
+  }
+  return false;
+}, [filterType, date1, date2, actasIds]);
+
+const canConfirm = !!action && isValidDates;
 
 const isPending =
   eliminarHasta.isPending ||
   eliminarEntre.isPending ||
-  eliminarIgual.isPending ||            
+  eliminarMasivo.isPending ||            
   visualizarHasta.isPending ||
   visualizarEntre.isPending ||
-  visualizarIgual.isPending;            
+  visualizarMasivo.isPending;            
 
 const handleConfirm = async () => {
   if (!canConfirm || !action) return;
@@ -67,9 +72,9 @@ const handleConfirm = async () => {
           });
           toast.success(`Actas ocultadas: ${res?.count ?? 0}`);
         } else if (filterType === "SELECT") {
-          const res = await visualizarIgual.mutateAsync({
+          const res = await visualizarMasivo.mutateAsync({
             visibilidad: "OCULTA",
-            fechaReunion: new Date(fromDate),
+            ids: actasIds,
           });
           toast.success(`Actas ocultadas: ${res?.count ?? 0}`);
         } else {
@@ -89,9 +94,9 @@ const handleConfirm = async () => {
           });
           toast.success(`Actas visibles: ${res?.count ?? 0}`);
         } else if (filterType === "SELECT") {
-          const res = await visualizarIgual.mutateAsync({
+          const res = await visualizarMasivo.mutateAsync({
             visibilidad: "VISIBLE",
-            fechaReunion: new Date(fromDate),
+            ids: actasIds,
           });
           toast.success(`Actas visibles: ${res?.count ?? 0}`);
         } else {
@@ -111,8 +116,8 @@ const handleConfirm = async () => {
           });
           toast.success(`Actas eliminadas: ${res?.count ?? 0}`);
         } else if (filterType === "SELECT") {
-          const res = await eliminarIgual.mutateAsync({
-            fechaReunion: new Date(fromDate),
+          const res = await eliminarMasivo.mutateAsync({
+            ids: actasIds,
           });
           toast.success(`Actas eliminadas: ${res?.count ?? 0}`);
         } else {
@@ -124,7 +129,8 @@ const handleConfirm = async () => {
           toast.success(`Actas eliminadas: ${res?.count ?? 0}`);
         }
     }
-
+    setActasIds([]);
+    await utils.admin.actas.getAllActas.invalidate();
     setOpen(false);
   } catch (err: any) {
     toast.error(err?.message ?? "Error realizando la acción");

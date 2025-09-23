@@ -15,15 +15,15 @@ type Acta = {
 };
 
 type Item = {
-  id: string;
+  id: number;
   label: string;
   estado: Estado;
   visibilidad: Visibilidad;
 };
 
 type SelectActasMultiProps = {
-  value: string[];                        
-  onChange: (ids: string[]) => void;  
+  value: number[];                        
+  onChange: (ids: number[]) => void;  
   className?: string;
   placeholder?: string;
   disabled?: boolean;
@@ -57,7 +57,7 @@ export function SelectActasMulti({
   const items: Item[] = useMemo(() => {
     const raw = (data ?? []) as Acta[];
     return raw.map((a) => ({
-      id: String(a.id),
+      id: Number(a.id),
       label: a.nombreActa,
       estado: a.estado,
       visibilidad: a.visibilidad,
@@ -72,7 +72,7 @@ export function SelectActasMulti({
   const allSelected = items.length > 0 && selected.length === items.length;
   const someSelected = selected.length > 0 && !allSelected;
 
-  function toggleOne(id: string) {
+  function toggleOne(id: number) {
     if (value.includes(id)) onChange(value.filter((x) => x !== id));
     else onChange([...value, id]);
   }
@@ -212,12 +212,12 @@ export function SelectActasMultiField<T extends FieldValues>({
   } = useController({
     name,
     control,
-    defaultValue: [] as string[],
+    defaultValue: [] as number[],
   });
 
   return (
     <SelectActasMulti
-      value={(value ?? []) as string[]}
+      value={(value ?? []) as number[]}
       onChange={onChange}
       className={className}
       placeholder={placeholder}

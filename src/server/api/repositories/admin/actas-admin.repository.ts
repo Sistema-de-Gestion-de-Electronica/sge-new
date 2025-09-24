@@ -1,5 +1,5 @@
 import { Prisma, type PrismaClient } from "@/generated/prisma";
-import { inputAgregarActa, inputEliminarActa, inputEliminarActas, inputVisibilidadActa, inputVisibilidadActas } from "@/shared/filters/admin-actas-filter.schema";
+import { inputAgregarActa, inputEliminarActa, inputEliminarActas, inputEliminarActasMasivo, inputVisibilidadActa, inputVisibilidadActas, inputVisibilidadActasMasivo } from "@/shared/filters/admin-actas-filter.schema";
 import { z } from "zod";
 
 type InputAgregarActa = z.infer<typeof inputAgregarActa>;
@@ -206,3 +206,50 @@ function dayRangeUTC(d: Date) {
   const next  = new Date(Date.UTC(y, m, day + 1, 0, 0, 0, 0));
   return { start, next };
 }
+
+type InputVisibilidadActasMasivo = z.infer<typeof inputVisibilidadActasMasivo>;
+export const visibilidadActasMasivo = async (ctx: { db: PrismaClient }, input: InputVisibilidadActasMasivo) => {
+  try {
+    const res = await ctx.db.acta.updateMany({
+      where: {
+        id: { in: input.ids },
+      },
+      data: {
+        visibilidad: input.visibilidad,
+      },
+    });
+    return res.count;
+  } catch (error) {
+    throw new Error(`Error actualizando actas`);
+  }
+}
+
+// type InputEliminarActasMasivo = z.infer<typeof inputEliminarActasMasivo>;
+// export const eliminarActasMasivo = async (ctx: { db: PrismaClient }, input: InputEliminarActasMasivo) => {
+//   try {
+//     const res = await ctx.db.acta.deleteMany({
+//       where: {
+//         id: { in: input.ids },
+//       }
+//     });
+//     return res.count;
+//   } catch (error) {
+//     throw new Error("Error eliminando actas");
+//   }
+// }
+type InputEliminarActasMasivo = z.infer<typeof inputEliminarActasMasivo>;
+export const eliminarActasMasivo = async (ctx: { db: PrismaClient },input: InputEliminarActasMasivo) => {
+  try {
+    const filas = await ctx.db.$queryRaw<{ nombreActa: string }[]>(
+      Prisma.sql`
+        DELETE FROM "Acta"
+        WHERE "id" IN (${Prisma.join(input.ids)})
+        RETURNING "nombreActa";
+      `
+    );
+
+    return { count: filas.length, names: filas.map(f => f.nombreActa) };
+  } catch (error) {
+    throw new Error("Error eliminando actas");
+  }
+};

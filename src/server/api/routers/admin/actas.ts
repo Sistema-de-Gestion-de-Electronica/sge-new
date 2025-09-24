@@ -1,5 +1,5 @@
 import { createTRPCRouter } from "@/server/api/trpc";
-import { agregarActaProcedure, editarActaProcedure, eliminarActasEntreProcedure, eliminarActasHastaProcedure, eliminarActasIgualProcedure, getActaAbiertaProcedure, getActaAndVotosProcedure, getAllActasProcedure, visibilidadActasEntreProcedure, visibilidadActasHastaProcedure, visibilidadActasIgualProcedure } from "../../services/admin/actas-admin.service";
+import { agregarActaProcedure, editarActaProcedure, eliminarActasEntreProcedure, eliminarActasHastaProcedure, eliminarActasIgualProcedure, eliminarActasMasivoProcedure, getActaAbiertaProcedure, getActaAndVotosProcedure, getAllActasProcedure, visibilidadActasEntreProcedure, visibilidadActasHastaProcedure, visibilidadActasIgualProcedure, visibilidadActasMasivoProcedure } from "../../services/admin/actas-admin.service";
 
 export const actasRouter = createTRPCRouter({
     getAllActas: getAllActasProcedure,
@@ -10,7 +10,9 @@ export const actasRouter = createTRPCRouter({
     eliminarHasta: eliminarActasHastaProcedure,
     eliminarEntre: eliminarActasEntreProcedure,
     eliminarIgual: eliminarActasIgualProcedure,
+    eliminarMasivo: eliminarActasMasivoProcedure,
     visualizacionHasta: visibilidadActasHastaProcedure,
     visualizacionEntre: visibilidadActasEntreProcedure,
     visualizacionIgual: visibilidadActasIgualProcedure,
+    visualizacionMasivo: visibilidadActasMasivoProcedure,
 })

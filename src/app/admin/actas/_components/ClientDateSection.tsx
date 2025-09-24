@@ -45,7 +45,6 @@ export default function ClientDateModalPicker() {
       toast.success("Fecha de reunión agregada con éxito.");
       setOpen(false);
       setDateStr("");
-      setLink("");
     } catch (e) {
       toast.error(error?.message ?? "Error al agregar la reunión");
       console.error(e);

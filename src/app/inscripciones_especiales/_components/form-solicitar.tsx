@@ -65,7 +65,7 @@ export default function FormularioSolicitudInscripcionEspecial() {
         toast.success("Tu solicitud de inscripción especial ha sido enviada correctamente.");
         formHook.reset(solicitudBase);
       },
-      onError: (e) => {
+      onError: (e: any) => {
         toast.error("Hubo un problema al enviar tu solicitud. Por favor, intenta nuevamente.");
         console.log(e);
       },

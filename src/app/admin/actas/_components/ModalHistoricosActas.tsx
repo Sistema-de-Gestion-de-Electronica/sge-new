@@ -36,7 +36,7 @@ export default function OcultarEliminarActasModal() {
   const utils = api.useUtils();
 
   const isValidDates = useMemo(() => {
-    if (filterType === "ALL") return true; // no necesita fechas
+    if (filterType === "ALL") return true;
     if (filterType === "BEFORE") return !!date1Str;
     if (filterType === "BETWEEN") {
       if (!date1Str || !date2Str) return false;
@@ -125,6 +125,7 @@ export default function OcultarEliminarActasModal() {
       onSubmit={handleConfirm}
       isAlertDialog
       submitDisabled={!canConfirm || isPending}
+      className="sm:max-w-[720px] w-[min(96vw,720px)]"
     >
       <div className="flex flex-col gap-5">
  
@@ -138,9 +139,9 @@ export default function OcultarEliminarActasModal() {
               onChange={(e) => {
                 const next = e.target.value as FilterTypeUI;
                 setFilterType(next);
-                // 🔹 limpiar fechas cada vez que cambias de filtro
                 setDate1Str("");
                 setDate2Str("");
+                setActasIds([]);
               }}
               className="w-40 rounded-md border border-slate-300 bg-white px-3 py-2 text-sm"
             >

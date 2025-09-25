@@ -27,11 +27,7 @@ type SelectActasMultiProps = {
   className?: string;
   placeholder?: string;
   disabled?: boolean;
-
-  // NUEVO: input de filtros aplicado por el padre (solo refetch cuando cambie este objeto)
   input?: { fechaInicio?: Date; fechaFin?: Date };
-
-  // NUEVO: callback con los items cargados (para que el padre pueda autoseleccionar)
   onItemsLoaded?: (items: Item[]) => void;
 };
 
@@ -75,8 +71,7 @@ export function SelectActasMulti({
 
   useEffect(() => {
     onItemsLoaded?.(items);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [items]); // avisamos cada vez que cambia el dataset
+  }, [items]);
 
   const selected = useMemo(() => items.filter((i) => value.includes(i.id)), [items, value]);
 

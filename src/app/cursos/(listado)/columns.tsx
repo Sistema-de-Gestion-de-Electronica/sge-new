@@ -63,6 +63,7 @@ export const getColumns = () => {
         meta: {
           header: {
             hideSort: true,
+            align: "center",
           },
         },
         cell: (info) => {

@@ -11,6 +11,7 @@ type HoraDiaProps = {
   diaDeHoy: string;
   turno: TurnoCurso;
 };
+
 export const HoraDia = ({
   dia1,
   dia2,
@@ -21,55 +22,63 @@ export const HoraDia = ({
   diaDeHoy,
   turno,
 }: HoraDiaProps) => {
-  horaInicio1 = Number(horaInicio1);
-  horaInicio2 = Number(horaInicio2);
-  duracion1 = Number(duracion1);
-  duracion2 = Number(duracion2);
+  const h1 = Number(horaInicio1 ?? 0);
+  const h2 = Number(horaInicio2 ?? 0);
+  const d1 = Number(duracion1 ?? 0);
+  const d2 = Number(duracion2 ?? 0);
 
-  const horas = [0, 1, 2, 3, 4, 5, 6];
+  const slots = [0, 1, 2, 3, 4, 5, 6];
 
   const esHoyDia1 = dia1 === diaDeHoy;
   const esHoyDia2 = dia2 === diaDeHoy;
 
-  const finClase1 = esHoyDia1 ? horaInicio1 + duracion1 : 0;
-  const finClase2 = esHoyDia2 ? horaInicio2 + duracion2 : 0;
+  const start = esHoyDia1 ? h1 : esHoyDia2 ? h2 : null;
+  const end   = esHoyDia1 ? h1 + d1 : esHoyDia2 ? h2 + d2 : null;
+  const hayClase = start !== null && end !== null;
+
+  const labelHorario = hayClase
+    ? calcularTurnoHora(turno, start as number, (end as number) - 1)
+    : null;
+
+  const CELL = 28; // ancho del bloque (más grande para el número)
+  const GAP  = 4;  // espacio entre bloques
+  const GRID_WIDTH = 7 * CELL + 6 * GAP;
+
+  const chipLeft =
+    hayClase ? (start as number) * (CELL + GAP) : 0;
+
+  const chipWidth =
+    hayClase
+      ? (end as number - (start as number)) * CELL +
+        (end as number - (start as number) - 1) * GAP
+      : 0;
 
   return (
-    <div className="flex flex-col space-y-0">
-      <div className="flex flex-row space-x-0">
-        {horas.map((hora) => {
-          if (esHoyDia1) {
-            if (esHoyDia1 && hora >= horaInicio1 && hora < finClase1) {
-              return (
-                <div key={hora} className="flex h-5 w-5  justify-center bg-primary/20">
-                  {hora}
-                </div>
-              );
-            }
-          }
+    <div className="flex flex-col items-start">
+      <div
+        className="relative grid grid-cols-7 gap-[4px]"
+        style={{ width: GRID_WIDTH }}
+      >
+        {/* Bloques con números 0..6 */}
+        {slots.map((s) => (
+          <div
+            key={s}
+            className="flex h-7 w-7 items-center justify-center rounded bg-slate-200 text-sm font-medium text-slate-700"
+          >
+            {s}
+          </div>
+        ))}
 
-          if (esHoyDia2 && hora >= horaInicio2 && hora < finClase2) {
-            return (
-              <div key={`hora2-${hora}`} className="flex h-5 w-5 justify-center bg-primary/20">
-                {hora}
-              </div>
-            );
-          }
-
-          return (
-            <div key={hora} className="flex h-5 w-5 justify-center bg-slate-300">
-              {hora}
-            </div>
-          );
-        })}
+        {/* Chip azul con rango horario */}
+        {hayClase && (
+          <div
+            className="absolute top-0 h-7 flex items-center justify-center rounded-lg bg-primary text-white text-xs font-semibold shadow-sm"
+            style={{ left: chipLeft, width: Math.max(chipWidth, CELL) }}
+          >
+            {labelHorario}
+          </div>
+        )}
       </div>
-      <span className="text-center text-xs">
-        {esHoyDia1 ? (
-          <span>{calcularTurnoHora(turno, horaInicio1, finClase1 - 1)}</span>
-        ) : esHoyDia2 ? (
-          <span>{calcularTurnoHora(turno, horaInicio2, finClase2 - 1)}</span>
-        ) : null}
-      </span>
     </div>
   );
 };

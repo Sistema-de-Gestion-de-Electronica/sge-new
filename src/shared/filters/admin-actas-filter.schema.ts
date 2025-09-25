@@ -47,4 +47,9 @@ export const inputEliminarActasMasivo = z.object({
   ids: z.array(z.number())
 })
 
+export const inputGetAllActasWithFilters = z.object({
+  fechaInicio: z.coerce.date().optional(),
+  fechaFin: z.coerce.date().optional(),
+})
+
 

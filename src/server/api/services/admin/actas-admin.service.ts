@@ -1,7 +1,7 @@
-import { inputAgregarActa, inputEliminarActa, inputEliminarActas, inputEliminarActasMasivo, inputVisibilidadActa, inputVisibilidadActas, inputVisibilidadActasMasivo } from "@/shared/filters/admin-actas-filter.schema";
+import { inputAgregarActa, inputEliminarActa, inputEliminarActas, inputEliminarActasMasivo, inputGetAllActasWithFilters, inputVisibilidadActa, inputVisibilidadActas, inputVisibilidadActasMasivo } from "@/shared/filters/admin-actas-filter.schema";
 import { protectedProcedure } from "../../trpc";
 import { validarInput } from "../helper";
-import { agregarActa, eliminarActasEntre, eliminarActasHasta, eliminarActasIgual, eliminarActasMasivo, getActaAbierta, getVotosFromActaAbierta, visibilidadActaHasta, visibilidadActaIgual, visibilidadActasEntre, visibilidadActasMasivo } from "../../repositories/admin/actas-admin.repository";
+import { agregarActa, eliminarActasEntre, eliminarActasHasta, eliminarActasIgual, eliminarActasMasivo, getActaAbierta, getAllActasWithFilters, getVotosFromActaAbierta, visibilidadActaHasta, visibilidadActaIgual, visibilidadActasEntre, visibilidadActasMasivo } from "../../repositories/admin/actas-admin.repository";
 import { Buffer } from "buffer";
 import { saveActaPDF, formatDate } from "../../utils/pdfSaver";
 import { getUsuarioPorId } from "../../repositories/admin/usuarios-admin.repository";
@@ -153,6 +153,18 @@ export const visibilidadActasHastaProcedure = protectedProcedure
         else
           return actas;
   })
+
+  export const getAllActasWithFiltersProcedure = protectedProcedure
+  .input(inputGetAllActasWithFilters)
+  .query(async ({ctx, input}) => {
+    validarInput(inputGetAllActasWithFilters,input);
+    const actas = await getAllActasWithFilters(ctx,input);
+      if (actas.length === 0)
+        return [];
+      else
+        return actas;
+    }
+  )
 
   export const visibilidadActasMasivoProcedure = protectedProcedure
   .input(inputVisibilidadActasMasivo)

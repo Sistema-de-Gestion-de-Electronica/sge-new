@@ -14,7 +14,7 @@ type Acta = {
   visibilidad: Visibilidad;
 };
 
-type Item = {
+export type Item = {
   id: number;
   label: string;
   estado: Estado;
@@ -22,11 +22,17 @@ type Item = {
 };
 
 type SelectActasMultiProps = {
-  value: number[];                        
-  onChange: (ids: number[]) => void;  
+  value: number[];
+  onChange: (ids: number[]) => void;
   className?: string;
   placeholder?: string;
   disabled?: boolean;
+
+  // NUEVO: input de filtros aplicado por el padre (solo refetch cuando cambie este objeto)
+  input?: { fechaInicio?: Date; fechaFin?: Date };
+
+  // NUEVO: callback con los items cargados (para que el padre pueda autoseleccionar)
+  onItemsLoaded?: (items: Item[]) => void;
 };
 
 export function SelectActasMulti({
@@ -35,6 +41,8 @@ export function SelectActasMulti({
   className,
   placeholder = "Seleccioná actas...",
   disabled,
+  input,
+  onItemsLoaded,
 }: SelectActasMultiProps) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement | null>(null);
@@ -49,10 +57,11 @@ export function SelectActasMulti({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [open]);
 
-    const { data, isLoading, isError } = api.admin.actas.getAllActas.useQuery(
-    {},
+  // Query con filtros aplicados
+  const { data, isLoading, isError } = api.admin.actas.getAllActasWithFilters.useQuery(
+    input ?? {}, // <- clave: solo cambia cuando el padre cambia "input" (al presionar Aplicar)
     { keepPreviousData: true }
-    );
+  );
 
   const items: Item[] = useMemo(() => {
     const raw = (data ?? []) as Acta[];
@@ -64,13 +73,12 @@ export function SelectActasMulti({
     }));
   }, [data]);
 
-  const selected = useMemo(
-    () => items.filter((i) => value.includes(i.id)),
-    [items, value]
-  );
+  useEffect(() => {
+    onItemsLoaded?.(items);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [items]); // avisamos cada vez que cambia el dataset
 
-  const allSelected = items.length > 0 && selected.length === items.length;
-  const someSelected = selected.length > 0 && !allSelected;
+  const selected = useMemo(() => items.filter((i) => value.includes(i.id)), [items, value]);
 
   function toggleOne(id: number) {
     if (value.includes(id)) onChange(value.filter((x) => x !== id));
@@ -80,6 +88,12 @@ export function SelectActasMulti({
   function clearAll() {
     onChange([]);
   }
+
+  function selectAll() {
+  if (items.length === 0) return;
+  onChange(items.map(i => i.id));
+  }
+
 
   function renderEstadoBadge(estado: Estado) {
     const cls =
@@ -104,7 +118,6 @@ export function SelectActasMulti({
       </span>
     );
   }
-
 
   return (
     <div className={`relative ${className ?? ""}`} ref={ref}>
@@ -135,57 +148,64 @@ export function SelectActasMulti({
         </div>
       </button>
 
-       {open && (
-        <div className="absolute z-20 mt-1 w-full rounded-lg border border-slate-200 bg-white shadow-lg">
-            <button
+    {open && (
+      <div className="absolute z-20 mt-1 w-full rounded-lg border border-slate-200 bg-white shadow-lg">
+        {/* Header sticky con acciones */}
+        <div className="sticky top-0 z-10 flex items-center gap-2 border-b border-slate-100 bg-white px-2 py-1.5">
+          {/* IZQUIERDA: Seleccionar todas */}
+          <button
+            type="button"
+            onClick={selectAll}
+            disabled={isLoading || isError || items.length === 0}
+            className="rounded-md px-2 py-1 text-xs text-slate-600 hover:bg-slate-50 hover:text-slate-800 disabled:opacity-50"
+          >
+            Seleccionar todas
+          </button>
+
+          {/* CONTADOR (centro) */}
+          <div className="ml-1 text-[11px] text-slate-500">
+            {value.length}/{items.length} seleccionadas
+          </div>
+
+          {/* DERECHA: Limpiar */}
+          <button
             type="button"
             onClick={clearAll}
-            className="flex w-full items-center justify-start gap-2 border-b border-slate-100 px-2 py-1.5 
-                        text-xs text-slate-500 hover:bg-slate-50 hover:text-slate-700"
-            >
+            disabled={value.length === 0}
+            className="ml-auto rounded-md px-2 py-1 text-xs text-slate-600 hover:bg-slate-50 hover:text-slate-800 disabled:opacity-50"
+          >
             Limpiar
-            </button>
+          </button>
+        </div>
 
+        {/* Lista */}
+        <div className="max-h-64 overflow-auto py-1">
+          {isLoading && <div className="px-3 py-2 text-sm text-slate-500">Cargando actas…</div>}
+          {isError && <div className="px-3 py-2 text-sm text-rose-600">No se pudieron cargar las actas.</div>}
+          {!isLoading && !isError && items.length === 0 && (
+            <div className="px-3 py-2 text-sm text-slate-500">Sin resultados.</div>
+          )}
 
-          <div className="max-h-64 overflow-auto py-1">
-            {isLoading && (
-              <div className="px-3 py-2 text-sm text-slate-500">Cargando actas…</div>
-            )}
-            {isError && (
-              <div className="px-3 py-2 text-sm text-rose-600">No se pudieron cargar las actas.</div>
-            )}
-            {!isLoading && !isError && items.length === 0 && (
-              <div className="px-3 py-2 text-sm text-slate-500">Sin resultados.</div>
-            )}
-            {items.map((i) => {
-              const checked = value.includes(i.id);
-                return (
-                <label
-                  key={i.id}
-                  className="flex cursor-pointer items-start gap-2 px-3 py-2 hover:bg-slate-50"
-                >
-                  <input
-                    type="checkbox"
-                    className="mt-0.5"
-                    checked={checked}
-                    onChange={() => toggleOne(i.id)}
-                  />
-                  <div className="flex w-full flex-col">
-                    <div className="flex items-center justify-between gap-2">
-                      {/* ⚠️ No mostramos ID */}
-                      <span className="text-sm text-slate-800">{i.label}</span>
-                      <div className="flex items-center gap-1">
-                        {renderEstadoBadge(i.estado)}
-                        {renderVisibilidadBadge(i.visibilidad)}
-                      </div>
+          {items.map((i) => {
+            const checked = value.includes(i.id);
+            return (
+              <label key={i.id} className="flex cursor-pointer items-start gap-2 px-3 py-2 hover:bg-slate-50">
+                <input type="checkbox" className="mt-0.5" checked={checked} onChange={() => toggleOne(i.id)} />
+                <div className="flex w-full flex-col">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="text-sm text-slate-800">{i.label}</span>
+                    <div className="flex items-center gap-1">
+                      {renderEstadoBadge(i.estado)}
+                      {renderVisibilidadBadge(i.visibilidad)}
                     </div>
                   </div>
-                </label>
-              );
-            })}
-          </div>
+                </div>
+              </label>
+            );
+          })}
         </div>
-      )}
+      </div>
+    )}
     </div>
   );
 }
@@ -198,6 +218,7 @@ type SelectActasMultiFieldProps<T extends FieldValues> = {
   className?: string;
   placeholder?: string;
   disabled?: boolean;
+  input?: { fechaInicio?: Date; fechaFin?: Date };
 };
 
 export function SelectActasMultiField<T extends FieldValues>({
@@ -206,6 +227,7 @@ export function SelectActasMultiField<T extends FieldValues>({
   className,
   placeholder,
   disabled,
+  input,
 }: SelectActasMultiFieldProps<T>) {
   const {
     field: { value, onChange },
@@ -222,6 +244,7 @@ export function SelectActasMultiField<T extends FieldValues>({
       className={className}
       placeholder={placeholder}
       disabled={disabled}
+      input={input}
     />
   );
 }

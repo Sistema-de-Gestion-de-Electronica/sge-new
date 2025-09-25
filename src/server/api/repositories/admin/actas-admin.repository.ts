@@ -1,5 +1,5 @@
 import { Prisma, type PrismaClient } from "@/generated/prisma";
-import { inputAgregarActa, inputEliminarActa, inputEliminarActas, inputEliminarActasMasivo, inputVisibilidadActa, inputVisibilidadActas, inputVisibilidadActasMasivo } from "@/shared/filters/admin-actas-filter.schema";
+import { inputAgregarActa, inputEliminarActa, inputEliminarActas, inputEliminarActasMasivo, inputGetAllActasWithFilters, inputVisibilidadActa, inputVisibilidadActas, inputVisibilidadActasMasivo } from "@/shared/filters/admin-actas-filter.schema";
 import { z } from "zod";
 
 type InputAgregarActa = z.infer<typeof inputAgregarActa>;
@@ -224,19 +224,6 @@ export const visibilidadActasMasivo = async (ctx: { db: PrismaClient }, input: I
   }
 }
 
-// type InputEliminarActasMasivo = z.infer<typeof inputEliminarActasMasivo>;
-// export const eliminarActasMasivo = async (ctx: { db: PrismaClient }, input: InputEliminarActasMasivo) => {
-//   try {
-//     const res = await ctx.db.acta.deleteMany({
-//       where: {
-//         id: { in: input.ids },
-//       }
-//     });
-//     return res.count;
-//   } catch (error) {
-//     throw new Error("Error eliminando actas");
-//   }
-// }
 type InputEliminarActasMasivo = z.infer<typeof inputEliminarActasMasivo>;
 export const eliminarActasMasivo = async (ctx: { db: PrismaClient },input: InputEliminarActasMasivo) => {
   try {
@@ -253,3 +240,34 @@ export const eliminarActasMasivo = async (ctx: { db: PrismaClient },input: Input
     throw new Error("Error eliminando actas");
   }
 };
+
+type InputGetAllActasWithFilters = z.infer<typeof inputGetAllActasWithFilters>;
+export const getAllActasWithFilters = async (ctx: {db: PrismaClient}, input: InputGetAllActasWithFilters) => {
+    var where: Prisma.ActaWhereInput = {
+      estado: "CERRADA" ,
+    };
+    
+    // Caso "Entre"
+    if (input.fechaInicio && input.fechaFin) {
+      where.fechaReunion = {
+        gte: startOfDay(input.fechaInicio),
+        lte: endOfDay(input.fechaFin),
+      };
+    }
+    // Caso "Desde" (solo inicio)
+    else if (input.fechaInicio) {
+      where.fechaReunion = {
+        gte: startOfDay(input.fechaInicio),
+      };
+    }
+    // Caso "Hasta"
+    else if (input.fechaFin) {
+      where.fechaReunion = {
+        lte: endOfDay(input.fechaFin),
+      };
+    }
+    return ctx.db.acta.findMany({
+    where,
+    orderBy: { fechaReunion: "desc" },
+  });
+}

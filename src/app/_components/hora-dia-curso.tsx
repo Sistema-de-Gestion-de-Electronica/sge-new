@@ -10,6 +10,12 @@ type HoraDiaProps = {
   duracion2?: string | number | null;
   diaDeHoy: string;
   turno: TurnoCurso;
+  /** altura visual de la fila donde va el chip (en px) */
+  rowHeightPx?: number;
+  /** ancho de cada columna/slot (en px) */
+  cellPx?: number;
+  /** separación entre columnas (en px) */
+  gapPx?: number;
 };
 
 export const HoraDia = ({
@@ -21,13 +27,14 @@ export const HoraDia = ({
   duracion2,
   diaDeHoy,
   turno,
+  rowHeightPx = 30, // ≈ h-7/h-8; ajustá a tu tabla
+  cellPx = 24,      // columnas más estrechas
+  gapPx = 2,        // columnas más juntas
 }: HoraDiaProps) => {
   const h1 = Number(horaInicio1 ?? 0);
   const h2 = Number(horaInicio2 ?? 0);
   const d1 = Number(duracion1 ?? 0);
   const d2 = Number(duracion2 ?? 0);
-
-  const slots = [0, 1, 2, 3, 4, 5, 6];
 
   const esHoyDia1 = dia1 === diaDeHoy;
   const esHoyDia2 = dia2 === diaDeHoy;
@@ -40,40 +47,37 @@ export const HoraDia = ({
     ? calcularTurnoHora(turno, start as number, (end as number) - 1)
     : null;
 
-  const CELL = 28; // ancho del bloque (más grande para el número)
-  const GAP  = 4;  // espacio entre bloques
-  const GRID_WIDTH = 7 * CELL + 6 * GAP;
+  // grid total width = 7 columnas + 6 gaps
+  const GRID_WIDTH = 7 * cellPx + 6 * gapPx;
 
-  const chipLeft =
-    hayClase ? (start as number) * (CELL + GAP) : 0;
-
-  const chipWidth =
-    hayClase
-      ? (end as number - (start as number)) * CELL +
-        (end as number - (start as number) - 1) * GAP
-      : 0;
+  // posición/ancho del chip en función de la grilla
+  const chipLeft = hayClase ? (start as number) * (cellPx + gapPx) : 0;
+  const dur = hayClase ? (end as number - (start as number)) : 0;
+  const chipWidth = hayClase
+    ? dur * cellPx + Math.max(0, dur - 1) * gapPx
+    : 0;
 
   return (
-    <div className="flex flex-col items-start">
+    <div className="flex flex-col items-start" style={{ height: rowHeightPx }}>
       <div
-        className="relative grid grid-cols-7 gap-[4px]"
-        style={{ width: GRID_WIDTH }}
+        className="relative grid grid-cols-7"
+        style={{
+          width: GRID_WIDTH,
+          columnGap: gapPx,
+          height: rowHeightPx, // para que el chip herede la altura de la fila
+        }}
       >
-        {/* Bloques con números 0..6 */}
-        {slots.map((s) => (
-          <div
-            key={s}
-            className="flex h-7 w-7 items-center justify-center rounded bg-slate-200 text-sm font-medium text-slate-700"
-          >
-            {s}
-          </div>
-        ))}
-
-        {/* Chip azul con rango horario */}
+        {/* Chip azul con rango horario, centrado verticalmente */}
         {hayClase && (
           <div
-            className="absolute top-0 h-7 flex items-center justify-center rounded-lg bg-primary text-white text-xs font-semibold shadow-sm"
-            style={{ left: chipLeft, width: Math.max(chipWidth, CELL) }}
+            className="absolute left-0 flex items-center justify-center rounded-lg bg-primary text-black text-xs font-semibold shadow-sm"
+            style={{
+              left: chipLeft,
+              width: Math.max(chipWidth, cellPx),
+              height: rowHeightPx,     // misma altura que la fila
+              top: "50%",              // centrado vertical
+              transform: "translateY(-50%)",
+            }}
           >
             {labelHorario}
           </div>

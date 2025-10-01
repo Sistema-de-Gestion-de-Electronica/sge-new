@@ -2,6 +2,7 @@ import { AnnoTexto } from "@/app/_components/anno-texto";
 import { DatoUsuarioReserva } from "@/app/_components/datos-usuario";
 import { HoraDia } from "@/app/_components/hora-dia-curso";
 import { CursoTurno } from "@/app/_components/turno-text";
+import { cn } from "@/components/utils";
 import { type RouterOutputs } from "@/trpc/react";
 import { type ColumnDef, createColumnHelper } from "@tanstack/react-table";
 
@@ -57,18 +58,23 @@ export const getColumns = () => {
     colHelper.accessor("sede.nombre", {
       header: "Sede",
     }),
-    ...Object.entries(dayMapper).map(([key, value]) =>
+    ...Object.entries(dayMapper).map(([key, value], idx) =>
       colHelper.display({
         header: value,
         meta: {
           header: {
-            hideSort: true,
+            align: "center",
+            hidesort: true,
+          },
+          cell: {
+            className: cn(
+              "border-r-2 border-gray-300 pr-2 pl-1 mr-1 ml-1",
+               idx === 0 && "border-l-2"
+            ),
           },
         },
-        cell: (info) => {
-          return <HoraDia {...info.row.original} diaDeHoy={key} />;
-        },
-      }),
+        cell: (info) => <HoraDia {...info.row.original} diaDeHoy={key} />,
+      })
     ),
     colHelper.display({
       header: "Profesor",

@@ -62,7 +62,7 @@ export function ClientVotacionActa() {
             <div className="h-10 w-48 animate-pulse rounded bg-gray-200" />
           ) : esConsejero ? (
             <div className="flex flex-col items-center">
-              <p>Próxima reunión: {reunion.fechaNormalizada}</p>
+              <p>Próxima reunión: {reunion?.fechaNormalizada || "Aun no hay fecha establecida"}</p>
               <a href={reunion?.link} target="_blank" className="text-blue-600">Conectarse a la reunión</a>
             </div>
           ) : (

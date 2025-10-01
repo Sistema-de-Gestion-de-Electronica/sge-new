@@ -14,6 +14,21 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
 
 
 /**
+ * Model Acta
+ * 
+ */
+export type Acta = $Result.DefaultSelection<Prisma.$ActaPayload>
+/**
+ * Model Voto
+ * 
+ */
+export type Voto = $Result.DefaultSelection<Prisma.$VotoPayload>
+/**
+ * Model Reunion
+ * 
+ */
+export type Reunion = $Result.DefaultSelection<Prisma.$ReunionPayload>
+/**
  * Model Libro
  * 
  */
@@ -73,6 +88,11 @@ export type EquipoTipo = $Result.DefaultSelection<Prisma.$EquipoTipoPayload>
  * 
  */
 export type EquipoEstado = $Result.DefaultSelection<Prisma.$EquipoEstadoPayload>
+/**
+ * Model InscripcionEspecial
+ * 
+ */
+export type InscripcionEspecial = $Result.DefaultSelection<Prisma.$InscripcionEspecialPayload>
 /**
  * Model Laboratorio
  * 
@@ -228,7 +248,32 @@ export type DocumentoTipo = $Result.DefaultSelection<Prisma.$DocumentoTipoPayloa
  * Enums
  */
 export namespace $Enums {
-  export const TurnoCurso: {
+  export const Estado: {
+  ABIERTA: 'ABIERTA',
+  CERRADA: 'CERRADA'
+};
+
+export type Estado = (typeof Estado)[keyof typeof Estado]
+
+
+export const Visibilidad: {
+  VISIBLE: 'VISIBLE',
+  OCULTA: 'OCULTA'
+};
+
+export type Visibilidad = (typeof Visibilidad)[keyof typeof Visibilidad]
+
+
+export const Posicion: {
+  ACUERDO: 'ACUERDO',
+  DESACUERDO: 'DESACUERDO',
+  ACUERDO_PARCIAL: 'ACUERDO_PARCIAL'
+};
+
+export type Posicion = (typeof Posicion)[keyof typeof Posicion]
+
+
+export const TurnoCurso: {
   MANANA: 'MANANA',
   TARDE: 'TARDE',
   NOCHE: 'NOCHE'
@@ -360,7 +405,11 @@ export const SgeNombre: {
   ACTIVIDADES_USUARIO_SGE_PUBLICAR_ADMIN: 'ACTIVIDADES_USUARIO_SGE_PUBLICAR_ADMIN',
   ACTIVIDADES_USUARIO_SGE_VER_PUBLICACIONES: 'ACTIVIDADES_USUARIO_SGE_VER_PUBLICACIONES',
   ACTIVIDADES_ABIERTAS_PUBLICAR_ADMIN: 'ACTIVIDADES_ABIERTAS_PUBLICAR_ADMIN',
-  ACTIVIDADES_ABIERTAS_VER_PUBLICACIONES: 'ACTIVIDADES_ABIERTAS_VER_PUBLICACIONES'
+  ACTIVIDADES_ABIERTAS_VER_PUBLICACIONES: 'ACTIVIDADES_ABIERTAS_VER_PUBLICACIONES',
+  CONSEJERO_VOTACION_ACTA: 'CONSEJERO_VOTACION_ACTA',
+  INSCRIPCIONES_ESPECIALES_VER_LISTADO: 'INSCRIPCIONES_ESPECIALES_VER_LISTADO',
+  INSCRIPCIONES_ESPECIALES_ADMIN: 'INSCRIPCIONES_ESPECIALES_ADMIN',
+  INSCRIPCIONES_ESPECIALES_SOLICITAR: 'INSCRIPCIONES_ESPECIALES_SOLICITAR'
 };
 
 export type SgeNombre = (typeof SgeNombre)[keyof typeof SgeNombre]
@@ -395,6 +444,18 @@ export const LaboratorioAbiertoTipo: {
 export type LaboratorioAbiertoTipo = (typeof LaboratorioAbiertoTipo)[keyof typeof LaboratorioAbiertoTipo]
 
 }
+
+export type Estado = $Enums.Estado
+
+export const Estado: typeof $Enums.Estado
+
+export type Visibilidad = $Enums.Visibilidad
+
+export const Visibilidad: typeof $Enums.Visibilidad
+
+export type Posicion = $Enums.Posicion
+
+export const Posicion: typeof $Enums.Posicion
 
 export type TurnoCurso = $Enums.TurnoCurso
 
@@ -439,8 +500,8 @@ export const LaboratorioAbiertoTipo: typeof $Enums.LaboratorioAbiertoTipo
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more Libros
- * const libros = await prisma.libro.findMany()
+ * // Fetch zero or more Actas
+ * const actas = await prisma.acta.findMany()
  * ```
  *
  *
@@ -448,7 +509,7 @@ export const LaboratorioAbiertoTipo: typeof $Enums.LaboratorioAbiertoTipo
  */
 export class PrismaClient<
   ClientOptions extends Prisma.PrismaClientOptions = Prisma.PrismaClientOptions,
-  U = 'log' extends keyof ClientOptions ? ClientOptions['log'] extends Array<Prisma.LogLevel | Prisma.LogDefinition> ? Prisma.GetEvents<ClientOptions['log']> : never : never,
+  const U = 'log' extends keyof ClientOptions ? ClientOptions['log'] extends Array<Prisma.LogLevel | Prisma.LogDefinition> ? Prisma.GetEvents<ClientOptions['log']> : never : never,
   ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs
 > {
   [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['other'] }
@@ -460,8 +521,8 @@ export class PrismaClient<
    * @example
    * ```
    * const prisma = new PrismaClient()
-   * // Fetch zero or more Libros
-   * const libros = await prisma.libro.findMany()
+   * // Fetch zero or more Actas
+   * const actas = await prisma.acta.findMany()
    * ```
    *
    *
@@ -480,13 +541,6 @@ export class PrismaClient<
    * Disconnect from the database
    */
   $disconnect(): $Utils.JsPromise<void>;
-
-  /**
-   * Add a middleware
-   * @deprecated since 4.16.0. For new code, prefer client extensions instead.
-   * @see https://pris.ly/d/extensions
-   */
-  $use(cb: Prisma.Middleware): void
 
 /**
    * Executes a prepared raw query and returns the number of affected rows.
@@ -558,6 +612,36 @@ export class PrismaClient<
   }>>
 
       /**
+   * `prisma.acta`: Exposes CRUD operations for the **Acta** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Actas
+    * const actas = await prisma.acta.findMany()
+    * ```
+    */
+  get acta(): Prisma.ActaDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.voto`: Exposes CRUD operations for the **Voto** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Votos
+    * const votos = await prisma.voto.findMany()
+    * ```
+    */
+  get voto(): Prisma.VotoDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.reunion`: Exposes CRUD operations for the **Reunion** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Reunions
+    * const reunions = await prisma.reunion.findMany()
+    * ```
+    */
+  get reunion(): Prisma.ReunionDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.libro`: Exposes CRUD operations for the **Libro** model.
     * Example usage:
     * ```ts
@@ -676,6 +760,16 @@ export class PrismaClient<
     * ```
     */
   get equipoEstado(): Prisma.EquipoEstadoDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.inscripcionEspecial`: Exposes CRUD operations for the **InscripcionEspecial** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more InscripcionEspecials
+    * const inscripcionEspecials = await prisma.inscripcionEspecial.findMany()
+    * ```
+    */
+  get inscripcionEspecial(): Prisma.InscripcionEspecialDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.laboratorio`: Exposes CRUD operations for the **Laboratorio** model.
@@ -1034,8 +1128,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.6.0
-   * Query Engine version: f676762280b54cd07c770017ed3711ddde35f37a
+   * Prisma Client JS version: 6.15.0
+   * Query Engine version: 85179d7826409ee107a6ba334b5e305ae3fba9fb
    */
   export type PrismaVersion = {
     client: string
@@ -1416,6 +1510,9 @@ export namespace Prisma {
 
 
   export const ModelName: {
+    Acta: 'Acta',
+    Voto: 'Voto',
+    Reunion: 'Reunion',
     Libro: 'Libro',
     LibroMateria: 'LibroMateria',
     LibroAutor: 'LibroAutor',
@@ -1428,6 +1525,7 @@ export namespace Prisma {
     EquipoMarca: 'EquipoMarca',
     EquipoTipo: 'EquipoTipo',
     EquipoEstado: 'EquipoEstado',
+    InscripcionEspecial: 'InscripcionEspecial',
     Laboratorio: 'Laboratorio',
     Armario: 'Armario',
     Estante: 'Estante',
@@ -1476,10 +1574,232 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "libro" | "libroMateria" | "libroAutor" | "libroIdioma" | "libroEditorial" | "curso" | "cursoAyudante" | "division" | "equipo" | "equipoMarca" | "equipoTipo" | "equipoEstado" | "laboratorio" | "armario" | "estante" | "software" | "softwareLaboratorio" | "mails" | "materia" | "materiaJefeTp" | "materiaCorrelativa" | "reserva" | "reservaEquipo" | "reservaLibro" | "reservaLaboratorioCerrado" | "reservaLaboratorioCerradoEquipo" | "reservaLaboratorioAbierto" | "reservaLaboratorioAbiertoEquipo" | "pantalla" | "account" | "session" | "verificationToken" | "sede" | "user" | "tutor" | "usuarioRol" | "rol" | "rolPermiso" | "permiso" | "provincia" | "pais" | "documentoTipo"
+      modelProps: "acta" | "voto" | "reunion" | "libro" | "libroMateria" | "libroAutor" | "libroIdioma" | "libroEditorial" | "curso" | "cursoAyudante" | "division" | "equipo" | "equipoMarca" | "equipoTipo" | "equipoEstado" | "laboratorio" | "armario" | "estante" | "software" | "softwareLaboratorio" | "mails" | "materia" | "materiaJefeTp" | "materiaCorrelativa" | "reserva" | "reservaEquipo" | "reservaLibro" | "reservaLaboratorioCerrado" | "reservaLaboratorioCerradoEquipo" | "reservaLaboratorioAbierto" | "reservaLaboratorioAbiertoEquipo" | "pantalla" | "account" | "session" | "verificationToken" | "sede" | "user" | "tutor" | "usuarioRol" | "rol" | "rolPermiso" | "permiso" | "provincia" | "pais" | "documentoTipo"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
+      Acta: {
+        payload: Prisma.$ActaPayload<ExtArgs>
+        fields: Prisma.ActaFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ActaFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActaPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ActaFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActaPayload>
+          }
+          findFirst: {
+            args: Prisma.ActaFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActaPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ActaFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActaPayload>
+          }
+          findMany: {
+            args: Prisma.ActaFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActaPayload>[]
+          }
+          create: {
+            args: Prisma.ActaCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActaPayload>
+          }
+          createMany: {
+            args: Prisma.ActaCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ActaCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActaPayload>[]
+          }
+          delete: {
+            args: Prisma.ActaDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActaPayload>
+          }
+          update: {
+            args: Prisma.ActaUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActaPayload>
+          }
+          deleteMany: {
+            args: Prisma.ActaDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ActaUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ActaUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActaPayload>[]
+          }
+          upsert: {
+            args: Prisma.ActaUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActaPayload>
+          }
+          aggregate: {
+            args: Prisma.ActaAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateActa>
+          }
+          groupBy: {
+            args: Prisma.ActaGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ActaGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ActaCountArgs<ExtArgs>
+            result: $Utils.Optional<ActaCountAggregateOutputType> | number
+          }
+        }
+      }
+      Voto: {
+        payload: Prisma.$VotoPayload<ExtArgs>
+        fields: Prisma.VotoFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.VotoFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VotoPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.VotoFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VotoPayload>
+          }
+          findFirst: {
+            args: Prisma.VotoFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VotoPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.VotoFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VotoPayload>
+          }
+          findMany: {
+            args: Prisma.VotoFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VotoPayload>[]
+          }
+          create: {
+            args: Prisma.VotoCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VotoPayload>
+          }
+          createMany: {
+            args: Prisma.VotoCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.VotoCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VotoPayload>[]
+          }
+          delete: {
+            args: Prisma.VotoDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VotoPayload>
+          }
+          update: {
+            args: Prisma.VotoUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VotoPayload>
+          }
+          deleteMany: {
+            args: Prisma.VotoDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.VotoUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.VotoUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VotoPayload>[]
+          }
+          upsert: {
+            args: Prisma.VotoUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VotoPayload>
+          }
+          aggregate: {
+            args: Prisma.VotoAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateVoto>
+          }
+          groupBy: {
+            args: Prisma.VotoGroupByArgs<ExtArgs>
+            result: $Utils.Optional<VotoGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.VotoCountArgs<ExtArgs>
+            result: $Utils.Optional<VotoCountAggregateOutputType> | number
+          }
+        }
+      }
+      Reunion: {
+        payload: Prisma.$ReunionPayload<ExtArgs>
+        fields: Prisma.ReunionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ReunionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReunionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ReunionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReunionPayload>
+          }
+          findFirst: {
+            args: Prisma.ReunionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReunionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ReunionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReunionPayload>
+          }
+          findMany: {
+            args: Prisma.ReunionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReunionPayload>[]
+          }
+          create: {
+            args: Prisma.ReunionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReunionPayload>
+          }
+          createMany: {
+            args: Prisma.ReunionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ReunionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReunionPayload>[]
+          }
+          delete: {
+            args: Prisma.ReunionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReunionPayload>
+          }
+          update: {
+            args: Prisma.ReunionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReunionPayload>
+          }
+          deleteMany: {
+            args: Prisma.ReunionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ReunionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ReunionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReunionPayload>[]
+          }
+          upsert: {
+            args: Prisma.ReunionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReunionPayload>
+          }
+          aggregate: {
+            args: Prisma.ReunionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateReunion>
+          }
+          groupBy: {
+            args: Prisma.ReunionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ReunionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ReunionCountArgs<ExtArgs>
+            result: $Utils.Optional<ReunionCountAggregateOutputType> | number
+          }
+        }
+      }
       Libro: {
         payload: Prisma.$LibroPayload<ExtArgs>
         fields: Prisma.LibroFieldRefs
@@ -2365,6 +2685,80 @@ export namespace Prisma {
           count: {
             args: Prisma.EquipoEstadoCountArgs<ExtArgs>
             result: $Utils.Optional<EquipoEstadoCountAggregateOutputType> | number
+          }
+        }
+      }
+      InscripcionEspecial: {
+        payload: Prisma.$InscripcionEspecialPayload<ExtArgs>
+        fields: Prisma.InscripcionEspecialFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.InscripcionEspecialFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InscripcionEspecialPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.InscripcionEspecialFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InscripcionEspecialPayload>
+          }
+          findFirst: {
+            args: Prisma.InscripcionEspecialFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InscripcionEspecialPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.InscripcionEspecialFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InscripcionEspecialPayload>
+          }
+          findMany: {
+            args: Prisma.InscripcionEspecialFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InscripcionEspecialPayload>[]
+          }
+          create: {
+            args: Prisma.InscripcionEspecialCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InscripcionEspecialPayload>
+          }
+          createMany: {
+            args: Prisma.InscripcionEspecialCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.InscripcionEspecialCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InscripcionEspecialPayload>[]
+          }
+          delete: {
+            args: Prisma.InscripcionEspecialDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InscripcionEspecialPayload>
+          }
+          update: {
+            args: Prisma.InscripcionEspecialUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InscripcionEspecialPayload>
+          }
+          deleteMany: {
+            args: Prisma.InscripcionEspecialDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.InscripcionEspecialUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.InscripcionEspecialUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InscripcionEspecialPayload>[]
+          }
+          upsert: {
+            args: Prisma.InscripcionEspecialUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InscripcionEspecialPayload>
+          }
+          aggregate: {
+            args: Prisma.InscripcionEspecialAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateInscripcionEspecial>
+          }
+          groupBy: {
+            args: Prisma.InscripcionEspecialGroupByArgs<ExtArgs>
+            result: $Utils.Optional<InscripcionEspecialGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.InscripcionEspecialCountArgs<ExtArgs>
+            result: $Utils.Optional<InscripcionEspecialCountAggregateOutputType> | number
           }
         }
       }
@@ -4631,16 +5025,24 @@ export namespace Prisma {
     /**
      * @example
      * ```
-     * // Defaults to stdout
+     * // Shorthand for `emit: 'stdout'`
      * log: ['query', 'info', 'warn', 'error']
      * 
-     * // Emit as events
+     * // Emit as events only
      * log: [
-     *   { emit: 'stdout', level: 'query' },
-     *   { emit: 'stdout', level: 'info' },
-     *   { emit: 'stdout', level: 'warn' }
-     *   { emit: 'stdout', level: 'error' }
+     *   { emit: 'event', level: 'query' },
+     *   { emit: 'event', level: 'info' },
+     *   { emit: 'event', level: 'warn' }
+     *   { emit: 'event', level: 'error' }
      * ]
+     * 
+     * / Emit as events and log to stdout
+     * og: [
+     *  { emit: 'stdout', level: 'query' },
+     *  { emit: 'stdout', level: 'info' },
+     *  { emit: 'stdout', level: 'warn' }
+     *  { emit: 'stdout', level: 'error' }
+     * 
      * ```
      * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/logging#the-log-option).
      */
@@ -4672,6 +5074,9 @@ export namespace Prisma {
     omit?: Prisma.GlobalOmitConfig
   }
   export type GlobalOmitConfig = {
+    acta?: ActaOmit
+    voto?: VotoOmit
+    reunion?: ReunionOmit
     libro?: LibroOmit
     libroMateria?: LibroMateriaOmit
     libroAutor?: LibroAutorOmit
@@ -4684,6 +5089,7 @@ export namespace Prisma {
     equipoMarca?: EquipoMarcaOmit
     equipoTipo?: EquipoTipoOmit
     equipoEstado?: EquipoEstadoOmit
+    inscripcionEspecial?: InscripcionEspecialOmit
     laboratorio?: LaboratorioOmit
     armario?: ArmarioOmit
     estante?: EstanteOmit
@@ -4723,10 +5129,15 @@ export namespace Prisma {
     emit: 'stdout' | 'event'
   }
 
-  export type GetLogType<T extends LogLevel | LogDefinition> = T extends LogDefinition ? T['emit'] extends 'event' ? T['level'] : never : never
-  export type GetEvents<T extends any> = T extends Array<LogLevel | LogDefinition> ?
-    GetLogType<T[0]> | GetLogType<T[1]> | GetLogType<T[2]> | GetLogType<T[3]>
-    : never
+  export type CheckIsLogLevel<T> = T extends LogLevel ? T : never;
+
+  export type GetLogType<T> = CheckIsLogLevel<
+    T extends LogDefinition ? T['level'] : T
+  >;
+
+  export type GetEvents<T extends any[]> = T extends Array<LogLevel | LogDefinition>
+    ? GetLogType<T[number]>
+    : never;
 
   export type QueryEvent = {
     timestamp: Date
@@ -4767,25 +5178,6 @@ export namespace Prisma {
     | 'findRaw'
     | 'groupBy'
 
-  /**
-   * These options are being passed into the middleware as "params"
-   */
-  export type MiddlewareParams = {
-    model?: ModelName
-    action: PrismaAction
-    args: any
-    dataPath: string[]
-    runInTransaction: boolean
-  }
-
-  /**
-   * The `T` type makes sure, that the `return proceed` is not forgotten in the middleware implementation
-   */
-  export type Middleware<T = any> = (
-    params: MiddlewareParams,
-    next: (params: MiddlewareParams) => $Utils.JsPromise<T>,
-  ) => $Utils.JsPromise<T>
-
   // tested in getLogLevel.test.ts
   export function getLogLevel(log: Array<LogLevel | LogDefinition>): LogLevel | undefined;
 
@@ -4801,6 +5193,37 @@ export namespace Prisma {
   /**
    * Count Types
    */
+
+
+  /**
+   * Count Type ActaCountOutputType
+   */
+
+  export type ActaCountOutputType = {
+    Voto: number
+  }
+
+  export type ActaCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    Voto?: boolean | ActaCountOutputTypeCountVotoArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ActaCountOutputType without action
+   */
+  export type ActaCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActaCountOutputType
+     */
+    select?: ActaCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ActaCountOutputType without action
+   */
+  export type ActaCountOutputTypeCountVotoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: VotoWhereInput
+  }
 
 
   /**
@@ -5582,11 +6005,13 @@ export namespace Prisma {
     reservasAprobadas: number
     reservasRechazadas: number
     reservasRecibidas: number
+    inscripcionesEspeciales: number
     cursosComoAyudante: number
     cursosComoProfesor: number
     MateriaJefeTp: number
     materiasDirector: number
     ReservaLaboratorioCerrado: number
+    Voto: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5599,11 +6024,13 @@ export namespace Prisma {
     reservasAprobadas?: boolean | UserCountOutputTypeCountReservasAprobadasArgs
     reservasRechazadas?: boolean | UserCountOutputTypeCountReservasRechazadasArgs
     reservasRecibidas?: boolean | UserCountOutputTypeCountReservasRecibidasArgs
+    inscripcionesEspeciales?: boolean | UserCountOutputTypeCountInscripcionesEspecialesArgs
     cursosComoAyudante?: boolean | UserCountOutputTypeCountCursosComoAyudanteArgs
     cursosComoProfesor?: boolean | UserCountOutputTypeCountCursosComoProfesorArgs
     MateriaJefeTp?: boolean | UserCountOutputTypeCountMateriaJefeTpArgs
     materiasDirector?: boolean | UserCountOutputTypeCountMateriasDirectorArgs
     ReservaLaboratorioCerrado?: boolean | UserCountOutputTypeCountReservaLaboratorioCerradoArgs
+    Voto?: boolean | UserCountOutputTypeCountVotoArgs
   }
 
   // Custom InputTypes
@@ -5683,6 +6110,13 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
+  export type UserCountOutputTypeCountInscripcionesEspecialesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InscripcionEspecialWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
   export type UserCountOutputTypeCountCursosComoAyudanteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: CursoAyudanteWhereInput
   }
@@ -5713,6 +6147,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountReservaLaboratorioCerradoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ReservaLaboratorioCerradoWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountVotoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: VotoWhereInput
   }
 
 
@@ -5892,6 +6333,3269 @@ export namespace Prisma {
   /**
    * Models
    */
+
+  /**
+   * Model Acta
+   */
+
+  export type AggregateActa = {
+    _count: ActaCountAggregateOutputType | null
+    _avg: ActaAvgAggregateOutputType | null
+    _sum: ActaSumAggregateOutputType | null
+    _min: ActaMinAggregateOutputType | null
+    _max: ActaMaxAggregateOutputType | null
+  }
+
+  export type ActaAvgAggregateOutputType = {
+    id: number | null
+  }
+
+  export type ActaSumAggregateOutputType = {
+    id: number | null
+  }
+
+  export type ActaMinAggregateOutputType = {
+    id: number | null
+    nombreActa: string | null
+    fechaReunion: Date | null
+    estado: $Enums.Estado | null
+    visibilidad: $Enums.Visibilidad | null
+    createdAt: Date | null
+  }
+
+  export type ActaMaxAggregateOutputType = {
+    id: number | null
+    nombreActa: string | null
+    fechaReunion: Date | null
+    estado: $Enums.Estado | null
+    visibilidad: $Enums.Visibilidad | null
+    createdAt: Date | null
+  }
+
+  export type ActaCountAggregateOutputType = {
+    id: number
+    nombreActa: number
+    fechaReunion: number
+    estado: number
+    visibilidad: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type ActaAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type ActaSumAggregateInputType = {
+    id?: true
+  }
+
+  export type ActaMinAggregateInputType = {
+    id?: true
+    nombreActa?: true
+    fechaReunion?: true
+    estado?: true
+    visibilidad?: true
+    createdAt?: true
+  }
+
+  export type ActaMaxAggregateInputType = {
+    id?: true
+    nombreActa?: true
+    fechaReunion?: true
+    estado?: true
+    visibilidad?: true
+    createdAt?: true
+  }
+
+  export type ActaCountAggregateInputType = {
+    id?: true
+    nombreActa?: true
+    fechaReunion?: true
+    estado?: true
+    visibilidad?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type ActaAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Acta to aggregate.
+     */
+    where?: ActaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Actas to fetch.
+     */
+    orderBy?: ActaOrderByWithRelationInput | ActaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ActaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Actas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Actas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Actas
+    **/
+    _count?: true | ActaCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ActaAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ActaSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ActaMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ActaMaxAggregateInputType
+  }
+
+  export type GetActaAggregateType<T extends ActaAggregateArgs> = {
+        [P in keyof T & keyof AggregateActa]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateActa[P]>
+      : GetScalarType<T[P], AggregateActa[P]>
+  }
+
+
+
+
+  export type ActaGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ActaWhereInput
+    orderBy?: ActaOrderByWithAggregationInput | ActaOrderByWithAggregationInput[]
+    by: ActaScalarFieldEnum[] | ActaScalarFieldEnum
+    having?: ActaScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ActaCountAggregateInputType | true
+    _avg?: ActaAvgAggregateInputType
+    _sum?: ActaSumAggregateInputType
+    _min?: ActaMinAggregateInputType
+    _max?: ActaMaxAggregateInputType
+  }
+
+  export type ActaGroupByOutputType = {
+    id: number
+    nombreActa: string
+    fechaReunion: Date
+    estado: $Enums.Estado
+    visibilidad: $Enums.Visibilidad
+    createdAt: Date
+    _count: ActaCountAggregateOutputType | null
+    _avg: ActaAvgAggregateOutputType | null
+    _sum: ActaSumAggregateOutputType | null
+    _min: ActaMinAggregateOutputType | null
+    _max: ActaMaxAggregateOutputType | null
+  }
+
+  type GetActaGroupByPayload<T extends ActaGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ActaGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ActaGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ActaGroupByOutputType[P]>
+            : GetScalarType<T[P], ActaGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ActaSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    nombreActa?: boolean
+    fechaReunion?: boolean
+    estado?: boolean
+    visibilidad?: boolean
+    createdAt?: boolean
+    Voto?: boolean | Acta$VotoArgs<ExtArgs>
+    _count?: boolean | ActaCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["acta"]>
+
+  export type ActaSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    nombreActa?: boolean
+    fechaReunion?: boolean
+    estado?: boolean
+    visibilidad?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["acta"]>
+
+  export type ActaSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    nombreActa?: boolean
+    fechaReunion?: boolean
+    estado?: boolean
+    visibilidad?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["acta"]>
+
+  export type ActaSelectScalar = {
+    id?: boolean
+    nombreActa?: boolean
+    fechaReunion?: boolean
+    estado?: boolean
+    visibilidad?: boolean
+    createdAt?: boolean
+  }
+
+  export type ActaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nombreActa" | "fechaReunion" | "estado" | "visibilidad" | "createdAt", ExtArgs["result"]["acta"]>
+  export type ActaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    Voto?: boolean | Acta$VotoArgs<ExtArgs>
+    _count?: boolean | ActaCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type ActaIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type ActaIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $ActaPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Acta"
+    objects: {
+      Voto: Prisma.$VotoPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      nombreActa: string
+      fechaReunion: Date
+      estado: $Enums.Estado
+      visibilidad: $Enums.Visibilidad
+      createdAt: Date
+    }, ExtArgs["result"]["acta"]>
+    composites: {}
+  }
+
+  type ActaGetPayload<S extends boolean | null | undefined | ActaDefaultArgs> = $Result.GetResult<Prisma.$ActaPayload, S>
+
+  type ActaCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ActaFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ActaCountAggregateInputType | true
+    }
+
+  export interface ActaDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Acta'], meta: { name: 'Acta' } }
+    /**
+     * Find zero or one Acta that matches the filter.
+     * @param {ActaFindUniqueArgs} args - Arguments to find a Acta
+     * @example
+     * // Get one Acta
+     * const acta = await prisma.acta.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ActaFindUniqueArgs>(args: SelectSubset<T, ActaFindUniqueArgs<ExtArgs>>): Prisma__ActaClient<$Result.GetResult<Prisma.$ActaPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Acta that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ActaFindUniqueOrThrowArgs} args - Arguments to find a Acta
+     * @example
+     * // Get one Acta
+     * const acta = await prisma.acta.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ActaFindUniqueOrThrowArgs>(args: SelectSubset<T, ActaFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ActaClient<$Result.GetResult<Prisma.$ActaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Acta that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActaFindFirstArgs} args - Arguments to find a Acta
+     * @example
+     * // Get one Acta
+     * const acta = await prisma.acta.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ActaFindFirstArgs>(args?: SelectSubset<T, ActaFindFirstArgs<ExtArgs>>): Prisma__ActaClient<$Result.GetResult<Prisma.$ActaPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Acta that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActaFindFirstOrThrowArgs} args - Arguments to find a Acta
+     * @example
+     * // Get one Acta
+     * const acta = await prisma.acta.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ActaFindFirstOrThrowArgs>(args?: SelectSubset<T, ActaFindFirstOrThrowArgs<ExtArgs>>): Prisma__ActaClient<$Result.GetResult<Prisma.$ActaPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Actas that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActaFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Actas
+     * const actas = await prisma.acta.findMany()
+     * 
+     * // Get first 10 Actas
+     * const actas = await prisma.acta.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const actaWithIdOnly = await prisma.acta.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ActaFindManyArgs>(args?: SelectSubset<T, ActaFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Acta.
+     * @param {ActaCreateArgs} args - Arguments to create a Acta.
+     * @example
+     * // Create one Acta
+     * const Acta = await prisma.acta.create({
+     *   data: {
+     *     // ... data to create a Acta
+     *   }
+     * })
+     * 
+     */
+    create<T extends ActaCreateArgs>(args: SelectSubset<T, ActaCreateArgs<ExtArgs>>): Prisma__ActaClient<$Result.GetResult<Prisma.$ActaPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Actas.
+     * @param {ActaCreateManyArgs} args - Arguments to create many Actas.
+     * @example
+     * // Create many Actas
+     * const acta = await prisma.acta.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ActaCreateManyArgs>(args?: SelectSubset<T, ActaCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Actas and returns the data saved in the database.
+     * @param {ActaCreateManyAndReturnArgs} args - Arguments to create many Actas.
+     * @example
+     * // Create many Actas
+     * const acta = await prisma.acta.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Actas and only return the `id`
+     * const actaWithIdOnly = await prisma.acta.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ActaCreateManyAndReturnArgs>(args?: SelectSubset<T, ActaCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActaPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Acta.
+     * @param {ActaDeleteArgs} args - Arguments to delete one Acta.
+     * @example
+     * // Delete one Acta
+     * const Acta = await prisma.acta.delete({
+     *   where: {
+     *     // ... filter to delete one Acta
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ActaDeleteArgs>(args: SelectSubset<T, ActaDeleteArgs<ExtArgs>>): Prisma__ActaClient<$Result.GetResult<Prisma.$ActaPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Acta.
+     * @param {ActaUpdateArgs} args - Arguments to update one Acta.
+     * @example
+     * // Update one Acta
+     * const acta = await prisma.acta.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ActaUpdateArgs>(args: SelectSubset<T, ActaUpdateArgs<ExtArgs>>): Prisma__ActaClient<$Result.GetResult<Prisma.$ActaPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Actas.
+     * @param {ActaDeleteManyArgs} args - Arguments to filter Actas to delete.
+     * @example
+     * // Delete a few Actas
+     * const { count } = await prisma.acta.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ActaDeleteManyArgs>(args?: SelectSubset<T, ActaDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Actas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActaUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Actas
+     * const acta = await prisma.acta.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ActaUpdateManyArgs>(args: SelectSubset<T, ActaUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Actas and returns the data updated in the database.
+     * @param {ActaUpdateManyAndReturnArgs} args - Arguments to update many Actas.
+     * @example
+     * // Update many Actas
+     * const acta = await prisma.acta.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Actas and only return the `id`
+     * const actaWithIdOnly = await prisma.acta.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ActaUpdateManyAndReturnArgs>(args: SelectSubset<T, ActaUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActaPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Acta.
+     * @param {ActaUpsertArgs} args - Arguments to update or create a Acta.
+     * @example
+     * // Update or create a Acta
+     * const acta = await prisma.acta.upsert({
+     *   create: {
+     *     // ... data to create a Acta
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Acta we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ActaUpsertArgs>(args: SelectSubset<T, ActaUpsertArgs<ExtArgs>>): Prisma__ActaClient<$Result.GetResult<Prisma.$ActaPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Actas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActaCountArgs} args - Arguments to filter Actas to count.
+     * @example
+     * // Count the number of Actas
+     * const count = await prisma.acta.count({
+     *   where: {
+     *     // ... the filter for the Actas we want to count
+     *   }
+     * })
+    **/
+    count<T extends ActaCountArgs>(
+      args?: Subset<T, ActaCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ActaCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Acta.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActaAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ActaAggregateArgs>(args: Subset<T, ActaAggregateArgs>): Prisma.PrismaPromise<GetActaAggregateType<T>>
+
+    /**
+     * Group by Acta.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActaGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ActaGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ActaGroupByArgs['orderBy'] }
+        : { orderBy?: ActaGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ActaGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetActaGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Acta model
+   */
+  readonly fields: ActaFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Acta.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ActaClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    Voto<T extends Acta$VotoArgs<ExtArgs> = {}>(args?: Subset<T, Acta$VotoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VotoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Acta model
+   */
+  interface ActaFieldRefs {
+    readonly id: FieldRef<"Acta", 'Int'>
+    readonly nombreActa: FieldRef<"Acta", 'String'>
+    readonly fechaReunion: FieldRef<"Acta", 'DateTime'>
+    readonly estado: FieldRef<"Acta", 'Estado'>
+    readonly visibilidad: FieldRef<"Acta", 'Visibilidad'>
+    readonly createdAt: FieldRef<"Acta", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Acta findUnique
+   */
+  export type ActaFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Acta
+     */
+    select?: ActaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Acta
+     */
+    omit?: ActaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActaInclude<ExtArgs> | null
+    /**
+     * Filter, which Acta to fetch.
+     */
+    where: ActaWhereUniqueInput
+  }
+
+  /**
+   * Acta findUniqueOrThrow
+   */
+  export type ActaFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Acta
+     */
+    select?: ActaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Acta
+     */
+    omit?: ActaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActaInclude<ExtArgs> | null
+    /**
+     * Filter, which Acta to fetch.
+     */
+    where: ActaWhereUniqueInput
+  }
+
+  /**
+   * Acta findFirst
+   */
+  export type ActaFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Acta
+     */
+    select?: ActaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Acta
+     */
+    omit?: ActaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActaInclude<ExtArgs> | null
+    /**
+     * Filter, which Acta to fetch.
+     */
+    where?: ActaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Actas to fetch.
+     */
+    orderBy?: ActaOrderByWithRelationInput | ActaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Actas.
+     */
+    cursor?: ActaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Actas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Actas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Actas.
+     */
+    distinct?: ActaScalarFieldEnum | ActaScalarFieldEnum[]
+  }
+
+  /**
+   * Acta findFirstOrThrow
+   */
+  export type ActaFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Acta
+     */
+    select?: ActaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Acta
+     */
+    omit?: ActaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActaInclude<ExtArgs> | null
+    /**
+     * Filter, which Acta to fetch.
+     */
+    where?: ActaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Actas to fetch.
+     */
+    orderBy?: ActaOrderByWithRelationInput | ActaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Actas.
+     */
+    cursor?: ActaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Actas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Actas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Actas.
+     */
+    distinct?: ActaScalarFieldEnum | ActaScalarFieldEnum[]
+  }
+
+  /**
+   * Acta findMany
+   */
+  export type ActaFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Acta
+     */
+    select?: ActaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Acta
+     */
+    omit?: ActaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActaInclude<ExtArgs> | null
+    /**
+     * Filter, which Actas to fetch.
+     */
+    where?: ActaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Actas to fetch.
+     */
+    orderBy?: ActaOrderByWithRelationInput | ActaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Actas.
+     */
+    cursor?: ActaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Actas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Actas.
+     */
+    skip?: number
+    distinct?: ActaScalarFieldEnum | ActaScalarFieldEnum[]
+  }
+
+  /**
+   * Acta create
+   */
+  export type ActaCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Acta
+     */
+    select?: ActaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Acta
+     */
+    omit?: ActaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActaInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Acta.
+     */
+    data: XOR<ActaCreateInput, ActaUncheckedCreateInput>
+  }
+
+  /**
+   * Acta createMany
+   */
+  export type ActaCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Actas.
+     */
+    data: ActaCreateManyInput | ActaCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Acta createManyAndReturn
+   */
+  export type ActaCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Acta
+     */
+    select?: ActaSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Acta
+     */
+    omit?: ActaOmit<ExtArgs> | null
+    /**
+     * The data used to create many Actas.
+     */
+    data: ActaCreateManyInput | ActaCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Acta update
+   */
+  export type ActaUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Acta
+     */
+    select?: ActaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Acta
+     */
+    omit?: ActaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActaInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Acta.
+     */
+    data: XOR<ActaUpdateInput, ActaUncheckedUpdateInput>
+    /**
+     * Choose, which Acta to update.
+     */
+    where: ActaWhereUniqueInput
+  }
+
+  /**
+   * Acta updateMany
+   */
+  export type ActaUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Actas.
+     */
+    data: XOR<ActaUpdateManyMutationInput, ActaUncheckedUpdateManyInput>
+    /**
+     * Filter which Actas to update
+     */
+    where?: ActaWhereInput
+    /**
+     * Limit how many Actas to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Acta updateManyAndReturn
+   */
+  export type ActaUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Acta
+     */
+    select?: ActaSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Acta
+     */
+    omit?: ActaOmit<ExtArgs> | null
+    /**
+     * The data used to update Actas.
+     */
+    data: XOR<ActaUpdateManyMutationInput, ActaUncheckedUpdateManyInput>
+    /**
+     * Filter which Actas to update
+     */
+    where?: ActaWhereInput
+    /**
+     * Limit how many Actas to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Acta upsert
+   */
+  export type ActaUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Acta
+     */
+    select?: ActaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Acta
+     */
+    omit?: ActaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActaInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Acta to update in case it exists.
+     */
+    where: ActaWhereUniqueInput
+    /**
+     * In case the Acta found by the `where` argument doesn't exist, create a new Acta with this data.
+     */
+    create: XOR<ActaCreateInput, ActaUncheckedCreateInput>
+    /**
+     * In case the Acta was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ActaUpdateInput, ActaUncheckedUpdateInput>
+  }
+
+  /**
+   * Acta delete
+   */
+  export type ActaDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Acta
+     */
+    select?: ActaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Acta
+     */
+    omit?: ActaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActaInclude<ExtArgs> | null
+    /**
+     * Filter which Acta to delete.
+     */
+    where: ActaWhereUniqueInput
+  }
+
+  /**
+   * Acta deleteMany
+   */
+  export type ActaDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Actas to delete
+     */
+    where?: ActaWhereInput
+    /**
+     * Limit how many Actas to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Acta.Voto
+   */
+  export type Acta$VotoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Voto
+     */
+    select?: VotoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Voto
+     */
+    omit?: VotoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VotoInclude<ExtArgs> | null
+    where?: VotoWhereInput
+    orderBy?: VotoOrderByWithRelationInput | VotoOrderByWithRelationInput[]
+    cursor?: VotoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: VotoScalarFieldEnum | VotoScalarFieldEnum[]
+  }
+
+  /**
+   * Acta without action
+   */
+  export type ActaDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Acta
+     */
+    select?: ActaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Acta
+     */
+    omit?: ActaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActaInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Voto
+   */
+
+  export type AggregateVoto = {
+    _count: VotoCountAggregateOutputType | null
+    _avg: VotoAvgAggregateOutputType | null
+    _sum: VotoSumAggregateOutputType | null
+    _min: VotoMinAggregateOutputType | null
+    _max: VotoMaxAggregateOutputType | null
+  }
+
+  export type VotoAvgAggregateOutputType = {
+    id: number | null
+    actaId: number | null
+  }
+
+  export type VotoSumAggregateOutputType = {
+    id: number | null
+    actaId: number | null
+  }
+
+  export type VotoMinAggregateOutputType = {
+    id: number | null
+    actaId: number | null
+    consejeroId: string | null
+    posicion: $Enums.Posicion | null
+    comentario: string | null
+    fechaEmision: Date | null
+  }
+
+  export type VotoMaxAggregateOutputType = {
+    id: number | null
+    actaId: number | null
+    consejeroId: string | null
+    posicion: $Enums.Posicion | null
+    comentario: string | null
+    fechaEmision: Date | null
+  }
+
+  export type VotoCountAggregateOutputType = {
+    id: number
+    actaId: number
+    consejeroId: number
+    posicion: number
+    comentario: number
+    fechaEmision: number
+    _all: number
+  }
+
+
+  export type VotoAvgAggregateInputType = {
+    id?: true
+    actaId?: true
+  }
+
+  export type VotoSumAggregateInputType = {
+    id?: true
+    actaId?: true
+  }
+
+  export type VotoMinAggregateInputType = {
+    id?: true
+    actaId?: true
+    consejeroId?: true
+    posicion?: true
+    comentario?: true
+    fechaEmision?: true
+  }
+
+  export type VotoMaxAggregateInputType = {
+    id?: true
+    actaId?: true
+    consejeroId?: true
+    posicion?: true
+    comentario?: true
+    fechaEmision?: true
+  }
+
+  export type VotoCountAggregateInputType = {
+    id?: true
+    actaId?: true
+    consejeroId?: true
+    posicion?: true
+    comentario?: true
+    fechaEmision?: true
+    _all?: true
+  }
+
+  export type VotoAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Voto to aggregate.
+     */
+    where?: VotoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Votos to fetch.
+     */
+    orderBy?: VotoOrderByWithRelationInput | VotoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: VotoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Votos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Votos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Votos
+    **/
+    _count?: true | VotoCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: VotoAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: VotoSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: VotoMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: VotoMaxAggregateInputType
+  }
+
+  export type GetVotoAggregateType<T extends VotoAggregateArgs> = {
+        [P in keyof T & keyof AggregateVoto]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateVoto[P]>
+      : GetScalarType<T[P], AggregateVoto[P]>
+  }
+
+
+
+
+  export type VotoGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: VotoWhereInput
+    orderBy?: VotoOrderByWithAggregationInput | VotoOrderByWithAggregationInput[]
+    by: VotoScalarFieldEnum[] | VotoScalarFieldEnum
+    having?: VotoScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: VotoCountAggregateInputType | true
+    _avg?: VotoAvgAggregateInputType
+    _sum?: VotoSumAggregateInputType
+    _min?: VotoMinAggregateInputType
+    _max?: VotoMaxAggregateInputType
+  }
+
+  export type VotoGroupByOutputType = {
+    id: number
+    actaId: number
+    consejeroId: string
+    posicion: $Enums.Posicion
+    comentario: string | null
+    fechaEmision: Date
+    _count: VotoCountAggregateOutputType | null
+    _avg: VotoAvgAggregateOutputType | null
+    _sum: VotoSumAggregateOutputType | null
+    _min: VotoMinAggregateOutputType | null
+    _max: VotoMaxAggregateOutputType | null
+  }
+
+  type GetVotoGroupByPayload<T extends VotoGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<VotoGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof VotoGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], VotoGroupByOutputType[P]>
+            : GetScalarType<T[P], VotoGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type VotoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    actaId?: boolean
+    consejeroId?: boolean
+    posicion?: boolean
+    comentario?: boolean
+    fechaEmision?: boolean
+    acta?: boolean | ActaDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["voto"]>
+
+  export type VotoSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    actaId?: boolean
+    consejeroId?: boolean
+    posicion?: boolean
+    comentario?: boolean
+    fechaEmision?: boolean
+    acta?: boolean | ActaDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["voto"]>
+
+  export type VotoSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    actaId?: boolean
+    consejeroId?: boolean
+    posicion?: boolean
+    comentario?: boolean
+    fechaEmision?: boolean
+    acta?: boolean | ActaDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["voto"]>
+
+  export type VotoSelectScalar = {
+    id?: boolean
+    actaId?: boolean
+    consejeroId?: boolean
+    posicion?: boolean
+    comentario?: boolean
+    fechaEmision?: boolean
+  }
+
+  export type VotoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "actaId" | "consejeroId" | "posicion" | "comentario" | "fechaEmision", ExtArgs["result"]["voto"]>
+  export type VotoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    acta?: boolean | ActaDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type VotoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    acta?: boolean | ActaDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type VotoIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    acta?: boolean | ActaDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $VotoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Voto"
+    objects: {
+      acta: Prisma.$ActaPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      actaId: number
+      consejeroId: string
+      posicion: $Enums.Posicion
+      comentario: string | null
+      fechaEmision: Date
+    }, ExtArgs["result"]["voto"]>
+    composites: {}
+  }
+
+  type VotoGetPayload<S extends boolean | null | undefined | VotoDefaultArgs> = $Result.GetResult<Prisma.$VotoPayload, S>
+
+  type VotoCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<VotoFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: VotoCountAggregateInputType | true
+    }
+
+  export interface VotoDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Voto'], meta: { name: 'Voto' } }
+    /**
+     * Find zero or one Voto that matches the filter.
+     * @param {VotoFindUniqueArgs} args - Arguments to find a Voto
+     * @example
+     * // Get one Voto
+     * const voto = await prisma.voto.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends VotoFindUniqueArgs>(args: SelectSubset<T, VotoFindUniqueArgs<ExtArgs>>): Prisma__VotoClient<$Result.GetResult<Prisma.$VotoPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Voto that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {VotoFindUniqueOrThrowArgs} args - Arguments to find a Voto
+     * @example
+     * // Get one Voto
+     * const voto = await prisma.voto.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends VotoFindUniqueOrThrowArgs>(args: SelectSubset<T, VotoFindUniqueOrThrowArgs<ExtArgs>>): Prisma__VotoClient<$Result.GetResult<Prisma.$VotoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Voto that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VotoFindFirstArgs} args - Arguments to find a Voto
+     * @example
+     * // Get one Voto
+     * const voto = await prisma.voto.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends VotoFindFirstArgs>(args?: SelectSubset<T, VotoFindFirstArgs<ExtArgs>>): Prisma__VotoClient<$Result.GetResult<Prisma.$VotoPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Voto that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VotoFindFirstOrThrowArgs} args - Arguments to find a Voto
+     * @example
+     * // Get one Voto
+     * const voto = await prisma.voto.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends VotoFindFirstOrThrowArgs>(args?: SelectSubset<T, VotoFindFirstOrThrowArgs<ExtArgs>>): Prisma__VotoClient<$Result.GetResult<Prisma.$VotoPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Votos that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VotoFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Votos
+     * const votos = await prisma.voto.findMany()
+     * 
+     * // Get first 10 Votos
+     * const votos = await prisma.voto.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const votoWithIdOnly = await prisma.voto.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends VotoFindManyArgs>(args?: SelectSubset<T, VotoFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VotoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Voto.
+     * @param {VotoCreateArgs} args - Arguments to create a Voto.
+     * @example
+     * // Create one Voto
+     * const Voto = await prisma.voto.create({
+     *   data: {
+     *     // ... data to create a Voto
+     *   }
+     * })
+     * 
+     */
+    create<T extends VotoCreateArgs>(args: SelectSubset<T, VotoCreateArgs<ExtArgs>>): Prisma__VotoClient<$Result.GetResult<Prisma.$VotoPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Votos.
+     * @param {VotoCreateManyArgs} args - Arguments to create many Votos.
+     * @example
+     * // Create many Votos
+     * const voto = await prisma.voto.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends VotoCreateManyArgs>(args?: SelectSubset<T, VotoCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Votos and returns the data saved in the database.
+     * @param {VotoCreateManyAndReturnArgs} args - Arguments to create many Votos.
+     * @example
+     * // Create many Votos
+     * const voto = await prisma.voto.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Votos and only return the `id`
+     * const votoWithIdOnly = await prisma.voto.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends VotoCreateManyAndReturnArgs>(args?: SelectSubset<T, VotoCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VotoPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Voto.
+     * @param {VotoDeleteArgs} args - Arguments to delete one Voto.
+     * @example
+     * // Delete one Voto
+     * const Voto = await prisma.voto.delete({
+     *   where: {
+     *     // ... filter to delete one Voto
+     *   }
+     * })
+     * 
+     */
+    delete<T extends VotoDeleteArgs>(args: SelectSubset<T, VotoDeleteArgs<ExtArgs>>): Prisma__VotoClient<$Result.GetResult<Prisma.$VotoPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Voto.
+     * @param {VotoUpdateArgs} args - Arguments to update one Voto.
+     * @example
+     * // Update one Voto
+     * const voto = await prisma.voto.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends VotoUpdateArgs>(args: SelectSubset<T, VotoUpdateArgs<ExtArgs>>): Prisma__VotoClient<$Result.GetResult<Prisma.$VotoPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Votos.
+     * @param {VotoDeleteManyArgs} args - Arguments to filter Votos to delete.
+     * @example
+     * // Delete a few Votos
+     * const { count } = await prisma.voto.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends VotoDeleteManyArgs>(args?: SelectSubset<T, VotoDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Votos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VotoUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Votos
+     * const voto = await prisma.voto.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends VotoUpdateManyArgs>(args: SelectSubset<T, VotoUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Votos and returns the data updated in the database.
+     * @param {VotoUpdateManyAndReturnArgs} args - Arguments to update many Votos.
+     * @example
+     * // Update many Votos
+     * const voto = await prisma.voto.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Votos and only return the `id`
+     * const votoWithIdOnly = await prisma.voto.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends VotoUpdateManyAndReturnArgs>(args: SelectSubset<T, VotoUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VotoPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Voto.
+     * @param {VotoUpsertArgs} args - Arguments to update or create a Voto.
+     * @example
+     * // Update or create a Voto
+     * const voto = await prisma.voto.upsert({
+     *   create: {
+     *     // ... data to create a Voto
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Voto we want to update
+     *   }
+     * })
+     */
+    upsert<T extends VotoUpsertArgs>(args: SelectSubset<T, VotoUpsertArgs<ExtArgs>>): Prisma__VotoClient<$Result.GetResult<Prisma.$VotoPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Votos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VotoCountArgs} args - Arguments to filter Votos to count.
+     * @example
+     * // Count the number of Votos
+     * const count = await prisma.voto.count({
+     *   where: {
+     *     // ... the filter for the Votos we want to count
+     *   }
+     * })
+    **/
+    count<T extends VotoCountArgs>(
+      args?: Subset<T, VotoCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], VotoCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Voto.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VotoAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends VotoAggregateArgs>(args: Subset<T, VotoAggregateArgs>): Prisma.PrismaPromise<GetVotoAggregateType<T>>
+
+    /**
+     * Group by Voto.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VotoGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends VotoGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: VotoGroupByArgs['orderBy'] }
+        : { orderBy?: VotoGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, VotoGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetVotoGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Voto model
+   */
+  readonly fields: VotoFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Voto.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__VotoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    acta<T extends ActaDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ActaDefaultArgs<ExtArgs>>): Prisma__ActaClient<$Result.GetResult<Prisma.$ActaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Voto model
+   */
+  interface VotoFieldRefs {
+    readonly id: FieldRef<"Voto", 'Int'>
+    readonly actaId: FieldRef<"Voto", 'Int'>
+    readonly consejeroId: FieldRef<"Voto", 'String'>
+    readonly posicion: FieldRef<"Voto", 'Posicion'>
+    readonly comentario: FieldRef<"Voto", 'String'>
+    readonly fechaEmision: FieldRef<"Voto", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Voto findUnique
+   */
+  export type VotoFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Voto
+     */
+    select?: VotoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Voto
+     */
+    omit?: VotoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VotoInclude<ExtArgs> | null
+    /**
+     * Filter, which Voto to fetch.
+     */
+    where: VotoWhereUniqueInput
+  }
+
+  /**
+   * Voto findUniqueOrThrow
+   */
+  export type VotoFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Voto
+     */
+    select?: VotoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Voto
+     */
+    omit?: VotoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VotoInclude<ExtArgs> | null
+    /**
+     * Filter, which Voto to fetch.
+     */
+    where: VotoWhereUniqueInput
+  }
+
+  /**
+   * Voto findFirst
+   */
+  export type VotoFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Voto
+     */
+    select?: VotoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Voto
+     */
+    omit?: VotoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VotoInclude<ExtArgs> | null
+    /**
+     * Filter, which Voto to fetch.
+     */
+    where?: VotoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Votos to fetch.
+     */
+    orderBy?: VotoOrderByWithRelationInput | VotoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Votos.
+     */
+    cursor?: VotoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Votos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Votos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Votos.
+     */
+    distinct?: VotoScalarFieldEnum | VotoScalarFieldEnum[]
+  }
+
+  /**
+   * Voto findFirstOrThrow
+   */
+  export type VotoFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Voto
+     */
+    select?: VotoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Voto
+     */
+    omit?: VotoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VotoInclude<ExtArgs> | null
+    /**
+     * Filter, which Voto to fetch.
+     */
+    where?: VotoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Votos to fetch.
+     */
+    orderBy?: VotoOrderByWithRelationInput | VotoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Votos.
+     */
+    cursor?: VotoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Votos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Votos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Votos.
+     */
+    distinct?: VotoScalarFieldEnum | VotoScalarFieldEnum[]
+  }
+
+  /**
+   * Voto findMany
+   */
+  export type VotoFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Voto
+     */
+    select?: VotoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Voto
+     */
+    omit?: VotoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VotoInclude<ExtArgs> | null
+    /**
+     * Filter, which Votos to fetch.
+     */
+    where?: VotoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Votos to fetch.
+     */
+    orderBy?: VotoOrderByWithRelationInput | VotoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Votos.
+     */
+    cursor?: VotoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Votos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Votos.
+     */
+    skip?: number
+    distinct?: VotoScalarFieldEnum | VotoScalarFieldEnum[]
+  }
+
+  /**
+   * Voto create
+   */
+  export type VotoCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Voto
+     */
+    select?: VotoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Voto
+     */
+    omit?: VotoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VotoInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Voto.
+     */
+    data: XOR<VotoCreateInput, VotoUncheckedCreateInput>
+  }
+
+  /**
+   * Voto createMany
+   */
+  export type VotoCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Votos.
+     */
+    data: VotoCreateManyInput | VotoCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Voto createManyAndReturn
+   */
+  export type VotoCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Voto
+     */
+    select?: VotoSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Voto
+     */
+    omit?: VotoOmit<ExtArgs> | null
+    /**
+     * The data used to create many Votos.
+     */
+    data: VotoCreateManyInput | VotoCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VotoIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Voto update
+   */
+  export type VotoUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Voto
+     */
+    select?: VotoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Voto
+     */
+    omit?: VotoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VotoInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Voto.
+     */
+    data: XOR<VotoUpdateInput, VotoUncheckedUpdateInput>
+    /**
+     * Choose, which Voto to update.
+     */
+    where: VotoWhereUniqueInput
+  }
+
+  /**
+   * Voto updateMany
+   */
+  export type VotoUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Votos.
+     */
+    data: XOR<VotoUpdateManyMutationInput, VotoUncheckedUpdateManyInput>
+    /**
+     * Filter which Votos to update
+     */
+    where?: VotoWhereInput
+    /**
+     * Limit how many Votos to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Voto updateManyAndReturn
+   */
+  export type VotoUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Voto
+     */
+    select?: VotoSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Voto
+     */
+    omit?: VotoOmit<ExtArgs> | null
+    /**
+     * The data used to update Votos.
+     */
+    data: XOR<VotoUpdateManyMutationInput, VotoUncheckedUpdateManyInput>
+    /**
+     * Filter which Votos to update
+     */
+    where?: VotoWhereInput
+    /**
+     * Limit how many Votos to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VotoIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Voto upsert
+   */
+  export type VotoUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Voto
+     */
+    select?: VotoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Voto
+     */
+    omit?: VotoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VotoInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Voto to update in case it exists.
+     */
+    where: VotoWhereUniqueInput
+    /**
+     * In case the Voto found by the `where` argument doesn't exist, create a new Voto with this data.
+     */
+    create: XOR<VotoCreateInput, VotoUncheckedCreateInput>
+    /**
+     * In case the Voto was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<VotoUpdateInput, VotoUncheckedUpdateInput>
+  }
+
+  /**
+   * Voto delete
+   */
+  export type VotoDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Voto
+     */
+    select?: VotoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Voto
+     */
+    omit?: VotoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VotoInclude<ExtArgs> | null
+    /**
+     * Filter which Voto to delete.
+     */
+    where: VotoWhereUniqueInput
+  }
+
+  /**
+   * Voto deleteMany
+   */
+  export type VotoDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Votos to delete
+     */
+    where?: VotoWhereInput
+    /**
+     * Limit how many Votos to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Voto without action
+   */
+  export type VotoDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Voto
+     */
+    select?: VotoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Voto
+     */
+    omit?: VotoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VotoInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Reunion
+   */
+
+  export type AggregateReunion = {
+    _count: ReunionCountAggregateOutputType | null
+    _avg: ReunionAvgAggregateOutputType | null
+    _sum: ReunionSumAggregateOutputType | null
+    _min: ReunionMinAggregateOutputType | null
+    _max: ReunionMaxAggregateOutputType | null
+  }
+
+  export type ReunionAvgAggregateOutputType = {
+    id: number | null
+  }
+
+  export type ReunionSumAggregateOutputType = {
+    id: number | null
+  }
+
+  export type ReunionMinAggregateOutputType = {
+    id: number | null
+    fecha: Date | null
+    fechaNormalizada: string | null
+    link: string | null
+    createdAt: Date | null
+  }
+
+  export type ReunionMaxAggregateOutputType = {
+    id: number | null
+    fecha: Date | null
+    fechaNormalizada: string | null
+    link: string | null
+    createdAt: Date | null
+  }
+
+  export type ReunionCountAggregateOutputType = {
+    id: number
+    fecha: number
+    fechaNormalizada: number
+    link: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type ReunionAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type ReunionSumAggregateInputType = {
+    id?: true
+  }
+
+  export type ReunionMinAggregateInputType = {
+    id?: true
+    fecha?: true
+    fechaNormalizada?: true
+    link?: true
+    createdAt?: true
+  }
+
+  export type ReunionMaxAggregateInputType = {
+    id?: true
+    fecha?: true
+    fechaNormalizada?: true
+    link?: true
+    createdAt?: true
+  }
+
+  export type ReunionCountAggregateInputType = {
+    id?: true
+    fecha?: true
+    fechaNormalizada?: true
+    link?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type ReunionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Reunion to aggregate.
+     */
+    where?: ReunionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Reunions to fetch.
+     */
+    orderBy?: ReunionOrderByWithRelationInput | ReunionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ReunionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Reunions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Reunions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Reunions
+    **/
+    _count?: true | ReunionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ReunionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ReunionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ReunionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ReunionMaxAggregateInputType
+  }
+
+  export type GetReunionAggregateType<T extends ReunionAggregateArgs> = {
+        [P in keyof T & keyof AggregateReunion]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateReunion[P]>
+      : GetScalarType<T[P], AggregateReunion[P]>
+  }
+
+
+
+
+  export type ReunionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReunionWhereInput
+    orderBy?: ReunionOrderByWithAggregationInput | ReunionOrderByWithAggregationInput[]
+    by: ReunionScalarFieldEnum[] | ReunionScalarFieldEnum
+    having?: ReunionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ReunionCountAggregateInputType | true
+    _avg?: ReunionAvgAggregateInputType
+    _sum?: ReunionSumAggregateInputType
+    _min?: ReunionMinAggregateInputType
+    _max?: ReunionMaxAggregateInputType
+  }
+
+  export type ReunionGroupByOutputType = {
+    id: number
+    fecha: Date
+    fechaNormalizada: string
+    link: string
+    createdAt: Date
+    _count: ReunionCountAggregateOutputType | null
+    _avg: ReunionAvgAggregateOutputType | null
+    _sum: ReunionSumAggregateOutputType | null
+    _min: ReunionMinAggregateOutputType | null
+    _max: ReunionMaxAggregateOutputType | null
+  }
+
+  type GetReunionGroupByPayload<T extends ReunionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ReunionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ReunionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ReunionGroupByOutputType[P]>
+            : GetScalarType<T[P], ReunionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ReunionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    fecha?: boolean
+    fechaNormalizada?: boolean
+    link?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["reunion"]>
+
+  export type ReunionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    fecha?: boolean
+    fechaNormalizada?: boolean
+    link?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["reunion"]>
+
+  export type ReunionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    fecha?: boolean
+    fechaNormalizada?: boolean
+    link?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["reunion"]>
+
+  export type ReunionSelectScalar = {
+    id?: boolean
+    fecha?: boolean
+    fechaNormalizada?: boolean
+    link?: boolean
+    createdAt?: boolean
+  }
+
+  export type ReunionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "fecha" | "fechaNormalizada" | "link" | "createdAt", ExtArgs["result"]["reunion"]>
+
+  export type $ReunionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Reunion"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      fecha: Date
+      fechaNormalizada: string
+      link: string
+      createdAt: Date
+    }, ExtArgs["result"]["reunion"]>
+    composites: {}
+  }
+
+  type ReunionGetPayload<S extends boolean | null | undefined | ReunionDefaultArgs> = $Result.GetResult<Prisma.$ReunionPayload, S>
+
+  type ReunionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ReunionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ReunionCountAggregateInputType | true
+    }
+
+  export interface ReunionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Reunion'], meta: { name: 'Reunion' } }
+    /**
+     * Find zero or one Reunion that matches the filter.
+     * @param {ReunionFindUniqueArgs} args - Arguments to find a Reunion
+     * @example
+     * // Get one Reunion
+     * const reunion = await prisma.reunion.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ReunionFindUniqueArgs>(args: SelectSubset<T, ReunionFindUniqueArgs<ExtArgs>>): Prisma__ReunionClient<$Result.GetResult<Prisma.$ReunionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Reunion that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ReunionFindUniqueOrThrowArgs} args - Arguments to find a Reunion
+     * @example
+     * // Get one Reunion
+     * const reunion = await prisma.reunion.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ReunionFindUniqueOrThrowArgs>(args: SelectSubset<T, ReunionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ReunionClient<$Result.GetResult<Prisma.$ReunionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Reunion that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReunionFindFirstArgs} args - Arguments to find a Reunion
+     * @example
+     * // Get one Reunion
+     * const reunion = await prisma.reunion.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ReunionFindFirstArgs>(args?: SelectSubset<T, ReunionFindFirstArgs<ExtArgs>>): Prisma__ReunionClient<$Result.GetResult<Prisma.$ReunionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Reunion that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReunionFindFirstOrThrowArgs} args - Arguments to find a Reunion
+     * @example
+     * // Get one Reunion
+     * const reunion = await prisma.reunion.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ReunionFindFirstOrThrowArgs>(args?: SelectSubset<T, ReunionFindFirstOrThrowArgs<ExtArgs>>): Prisma__ReunionClient<$Result.GetResult<Prisma.$ReunionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Reunions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReunionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Reunions
+     * const reunions = await prisma.reunion.findMany()
+     * 
+     * // Get first 10 Reunions
+     * const reunions = await prisma.reunion.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const reunionWithIdOnly = await prisma.reunion.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ReunionFindManyArgs>(args?: SelectSubset<T, ReunionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReunionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Reunion.
+     * @param {ReunionCreateArgs} args - Arguments to create a Reunion.
+     * @example
+     * // Create one Reunion
+     * const Reunion = await prisma.reunion.create({
+     *   data: {
+     *     // ... data to create a Reunion
+     *   }
+     * })
+     * 
+     */
+    create<T extends ReunionCreateArgs>(args: SelectSubset<T, ReunionCreateArgs<ExtArgs>>): Prisma__ReunionClient<$Result.GetResult<Prisma.$ReunionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Reunions.
+     * @param {ReunionCreateManyArgs} args - Arguments to create many Reunions.
+     * @example
+     * // Create many Reunions
+     * const reunion = await prisma.reunion.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ReunionCreateManyArgs>(args?: SelectSubset<T, ReunionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Reunions and returns the data saved in the database.
+     * @param {ReunionCreateManyAndReturnArgs} args - Arguments to create many Reunions.
+     * @example
+     * // Create many Reunions
+     * const reunion = await prisma.reunion.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Reunions and only return the `id`
+     * const reunionWithIdOnly = await prisma.reunion.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ReunionCreateManyAndReturnArgs>(args?: SelectSubset<T, ReunionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReunionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Reunion.
+     * @param {ReunionDeleteArgs} args - Arguments to delete one Reunion.
+     * @example
+     * // Delete one Reunion
+     * const Reunion = await prisma.reunion.delete({
+     *   where: {
+     *     // ... filter to delete one Reunion
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ReunionDeleteArgs>(args: SelectSubset<T, ReunionDeleteArgs<ExtArgs>>): Prisma__ReunionClient<$Result.GetResult<Prisma.$ReunionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Reunion.
+     * @param {ReunionUpdateArgs} args - Arguments to update one Reunion.
+     * @example
+     * // Update one Reunion
+     * const reunion = await prisma.reunion.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ReunionUpdateArgs>(args: SelectSubset<T, ReunionUpdateArgs<ExtArgs>>): Prisma__ReunionClient<$Result.GetResult<Prisma.$ReunionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Reunions.
+     * @param {ReunionDeleteManyArgs} args - Arguments to filter Reunions to delete.
+     * @example
+     * // Delete a few Reunions
+     * const { count } = await prisma.reunion.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ReunionDeleteManyArgs>(args?: SelectSubset<T, ReunionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Reunions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReunionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Reunions
+     * const reunion = await prisma.reunion.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ReunionUpdateManyArgs>(args: SelectSubset<T, ReunionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Reunions and returns the data updated in the database.
+     * @param {ReunionUpdateManyAndReturnArgs} args - Arguments to update many Reunions.
+     * @example
+     * // Update many Reunions
+     * const reunion = await prisma.reunion.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Reunions and only return the `id`
+     * const reunionWithIdOnly = await prisma.reunion.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ReunionUpdateManyAndReturnArgs>(args: SelectSubset<T, ReunionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReunionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Reunion.
+     * @param {ReunionUpsertArgs} args - Arguments to update or create a Reunion.
+     * @example
+     * // Update or create a Reunion
+     * const reunion = await prisma.reunion.upsert({
+     *   create: {
+     *     // ... data to create a Reunion
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Reunion we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ReunionUpsertArgs>(args: SelectSubset<T, ReunionUpsertArgs<ExtArgs>>): Prisma__ReunionClient<$Result.GetResult<Prisma.$ReunionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Reunions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReunionCountArgs} args - Arguments to filter Reunions to count.
+     * @example
+     * // Count the number of Reunions
+     * const count = await prisma.reunion.count({
+     *   where: {
+     *     // ... the filter for the Reunions we want to count
+     *   }
+     * })
+    **/
+    count<T extends ReunionCountArgs>(
+      args?: Subset<T, ReunionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ReunionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Reunion.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReunionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ReunionAggregateArgs>(args: Subset<T, ReunionAggregateArgs>): Prisma.PrismaPromise<GetReunionAggregateType<T>>
+
+    /**
+     * Group by Reunion.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReunionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ReunionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ReunionGroupByArgs['orderBy'] }
+        : { orderBy?: ReunionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ReunionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetReunionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Reunion model
+   */
+  readonly fields: ReunionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Reunion.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ReunionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Reunion model
+   */
+  interface ReunionFieldRefs {
+    readonly id: FieldRef<"Reunion", 'Int'>
+    readonly fecha: FieldRef<"Reunion", 'DateTime'>
+    readonly fechaNormalizada: FieldRef<"Reunion", 'String'>
+    readonly link: FieldRef<"Reunion", 'String'>
+    readonly createdAt: FieldRef<"Reunion", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Reunion findUnique
+   */
+  export type ReunionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Reunion
+     */
+    select?: ReunionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Reunion
+     */
+    omit?: ReunionOmit<ExtArgs> | null
+    /**
+     * Filter, which Reunion to fetch.
+     */
+    where: ReunionWhereUniqueInput
+  }
+
+  /**
+   * Reunion findUniqueOrThrow
+   */
+  export type ReunionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Reunion
+     */
+    select?: ReunionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Reunion
+     */
+    omit?: ReunionOmit<ExtArgs> | null
+    /**
+     * Filter, which Reunion to fetch.
+     */
+    where: ReunionWhereUniqueInput
+  }
+
+  /**
+   * Reunion findFirst
+   */
+  export type ReunionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Reunion
+     */
+    select?: ReunionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Reunion
+     */
+    omit?: ReunionOmit<ExtArgs> | null
+    /**
+     * Filter, which Reunion to fetch.
+     */
+    where?: ReunionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Reunions to fetch.
+     */
+    orderBy?: ReunionOrderByWithRelationInput | ReunionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Reunions.
+     */
+    cursor?: ReunionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Reunions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Reunions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Reunions.
+     */
+    distinct?: ReunionScalarFieldEnum | ReunionScalarFieldEnum[]
+  }
+
+  /**
+   * Reunion findFirstOrThrow
+   */
+  export type ReunionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Reunion
+     */
+    select?: ReunionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Reunion
+     */
+    omit?: ReunionOmit<ExtArgs> | null
+    /**
+     * Filter, which Reunion to fetch.
+     */
+    where?: ReunionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Reunions to fetch.
+     */
+    orderBy?: ReunionOrderByWithRelationInput | ReunionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Reunions.
+     */
+    cursor?: ReunionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Reunions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Reunions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Reunions.
+     */
+    distinct?: ReunionScalarFieldEnum | ReunionScalarFieldEnum[]
+  }
+
+  /**
+   * Reunion findMany
+   */
+  export type ReunionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Reunion
+     */
+    select?: ReunionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Reunion
+     */
+    omit?: ReunionOmit<ExtArgs> | null
+    /**
+     * Filter, which Reunions to fetch.
+     */
+    where?: ReunionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Reunions to fetch.
+     */
+    orderBy?: ReunionOrderByWithRelationInput | ReunionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Reunions.
+     */
+    cursor?: ReunionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Reunions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Reunions.
+     */
+    skip?: number
+    distinct?: ReunionScalarFieldEnum | ReunionScalarFieldEnum[]
+  }
+
+  /**
+   * Reunion create
+   */
+  export type ReunionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Reunion
+     */
+    select?: ReunionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Reunion
+     */
+    omit?: ReunionOmit<ExtArgs> | null
+    /**
+     * The data needed to create a Reunion.
+     */
+    data: XOR<ReunionCreateInput, ReunionUncheckedCreateInput>
+  }
+
+  /**
+   * Reunion createMany
+   */
+  export type ReunionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Reunions.
+     */
+    data: ReunionCreateManyInput | ReunionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Reunion createManyAndReturn
+   */
+  export type ReunionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Reunion
+     */
+    select?: ReunionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Reunion
+     */
+    omit?: ReunionOmit<ExtArgs> | null
+    /**
+     * The data used to create many Reunions.
+     */
+    data: ReunionCreateManyInput | ReunionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Reunion update
+   */
+  export type ReunionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Reunion
+     */
+    select?: ReunionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Reunion
+     */
+    omit?: ReunionOmit<ExtArgs> | null
+    /**
+     * The data needed to update a Reunion.
+     */
+    data: XOR<ReunionUpdateInput, ReunionUncheckedUpdateInput>
+    /**
+     * Choose, which Reunion to update.
+     */
+    where: ReunionWhereUniqueInput
+  }
+
+  /**
+   * Reunion updateMany
+   */
+  export type ReunionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Reunions.
+     */
+    data: XOR<ReunionUpdateManyMutationInput, ReunionUncheckedUpdateManyInput>
+    /**
+     * Filter which Reunions to update
+     */
+    where?: ReunionWhereInput
+    /**
+     * Limit how many Reunions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Reunion updateManyAndReturn
+   */
+  export type ReunionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Reunion
+     */
+    select?: ReunionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Reunion
+     */
+    omit?: ReunionOmit<ExtArgs> | null
+    /**
+     * The data used to update Reunions.
+     */
+    data: XOR<ReunionUpdateManyMutationInput, ReunionUncheckedUpdateManyInput>
+    /**
+     * Filter which Reunions to update
+     */
+    where?: ReunionWhereInput
+    /**
+     * Limit how many Reunions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Reunion upsert
+   */
+  export type ReunionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Reunion
+     */
+    select?: ReunionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Reunion
+     */
+    omit?: ReunionOmit<ExtArgs> | null
+    /**
+     * The filter to search for the Reunion to update in case it exists.
+     */
+    where: ReunionWhereUniqueInput
+    /**
+     * In case the Reunion found by the `where` argument doesn't exist, create a new Reunion with this data.
+     */
+    create: XOR<ReunionCreateInput, ReunionUncheckedCreateInput>
+    /**
+     * In case the Reunion was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ReunionUpdateInput, ReunionUncheckedUpdateInput>
+  }
+
+  /**
+   * Reunion delete
+   */
+  export type ReunionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Reunion
+     */
+    select?: ReunionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Reunion
+     */
+    omit?: ReunionOmit<ExtArgs> | null
+    /**
+     * Filter which Reunion to delete.
+     */
+    where: ReunionWhereUniqueInput
+  }
+
+  /**
+   * Reunion deleteMany
+   */
+  export type ReunionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Reunions to delete
+     */
+    where?: ReunionWhereInput
+    /**
+     * Limit how many Reunions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Reunion without action
+   */
+  export type ReunionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Reunion
+     */
+    select?: ReunionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Reunion
+     */
+    omit?: ReunionOmit<ExtArgs> | null
+  }
+
 
   /**
    * Model Libro
@@ -20070,6 +23774,1215 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: EquipoEstadoInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model InscripcionEspecial
+   */
+
+  export type AggregateInscripcionEspecial = {
+    _count: InscripcionEspecialCountAggregateOutputType | null
+    _avg: InscripcionEspecialAvgAggregateOutputType | null
+    _sum: InscripcionEspecialSumAggregateOutputType | null
+    _min: InscripcionEspecialMinAggregateOutputType | null
+    _max: InscripcionEspecialMaxAggregateOutputType | null
+  }
+
+  export type InscripcionEspecialAvgAggregateOutputType = {
+    id: number | null
+    materias: number | null
+    materiasAdeudadas: number | null
+  }
+
+  export type InscripcionEspecialSumAggregateOutputType = {
+    id: number | null
+    materias: number[]
+    materiasAdeudadas: number[]
+  }
+
+  export type InscripcionEspecialMinAggregateOutputType = {
+    id: number | null
+    solicitanteId: string | null
+    caso: string | null
+    justificacion: string | null
+    turnoAlternativa1: string | null
+    turnoAlternativa2: string | null
+    estado: string | null
+    respuesta: string | null
+    fueContactado: boolean | null
+    vinoPresencialmente: boolean | null
+    fechaSolicitud: Date | null
+    fechaRespuesta: Date | null
+  }
+
+  export type InscripcionEspecialMaxAggregateOutputType = {
+    id: number | null
+    solicitanteId: string | null
+    caso: string | null
+    justificacion: string | null
+    turnoAlternativa1: string | null
+    turnoAlternativa2: string | null
+    estado: string | null
+    respuesta: string | null
+    fueContactado: boolean | null
+    vinoPresencialmente: boolean | null
+    fechaSolicitud: Date | null
+    fechaRespuesta: Date | null
+  }
+
+  export type InscripcionEspecialCountAggregateOutputType = {
+    id: number
+    solicitanteId: number
+    caso: number
+    justificacion: number
+    turnoAlternativa1: number
+    turnoAlternativa2: number
+    materias: number
+    materiasAdeudadas: number
+    estado: number
+    respuesta: number
+    fueContactado: number
+    vinoPresencialmente: number
+    fechaSolicitud: number
+    fechaRespuesta: number
+    _all: number
+  }
+
+
+  export type InscripcionEspecialAvgAggregateInputType = {
+    id?: true
+    materias?: true
+    materiasAdeudadas?: true
+  }
+
+  export type InscripcionEspecialSumAggregateInputType = {
+    id?: true
+    materias?: true
+    materiasAdeudadas?: true
+  }
+
+  export type InscripcionEspecialMinAggregateInputType = {
+    id?: true
+    solicitanteId?: true
+    caso?: true
+    justificacion?: true
+    turnoAlternativa1?: true
+    turnoAlternativa2?: true
+    estado?: true
+    respuesta?: true
+    fueContactado?: true
+    vinoPresencialmente?: true
+    fechaSolicitud?: true
+    fechaRespuesta?: true
+  }
+
+  export type InscripcionEspecialMaxAggregateInputType = {
+    id?: true
+    solicitanteId?: true
+    caso?: true
+    justificacion?: true
+    turnoAlternativa1?: true
+    turnoAlternativa2?: true
+    estado?: true
+    respuesta?: true
+    fueContactado?: true
+    vinoPresencialmente?: true
+    fechaSolicitud?: true
+    fechaRespuesta?: true
+  }
+
+  export type InscripcionEspecialCountAggregateInputType = {
+    id?: true
+    solicitanteId?: true
+    caso?: true
+    justificacion?: true
+    turnoAlternativa1?: true
+    turnoAlternativa2?: true
+    materias?: true
+    materiasAdeudadas?: true
+    estado?: true
+    respuesta?: true
+    fueContactado?: true
+    vinoPresencialmente?: true
+    fechaSolicitud?: true
+    fechaRespuesta?: true
+    _all?: true
+  }
+
+  export type InscripcionEspecialAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which InscripcionEspecial to aggregate.
+     */
+    where?: InscripcionEspecialWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InscripcionEspecials to fetch.
+     */
+    orderBy?: InscripcionEspecialOrderByWithRelationInput | InscripcionEspecialOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: InscripcionEspecialWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InscripcionEspecials from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InscripcionEspecials.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned InscripcionEspecials
+    **/
+    _count?: true | InscripcionEspecialCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: InscripcionEspecialAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: InscripcionEspecialSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: InscripcionEspecialMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: InscripcionEspecialMaxAggregateInputType
+  }
+
+  export type GetInscripcionEspecialAggregateType<T extends InscripcionEspecialAggregateArgs> = {
+        [P in keyof T & keyof AggregateInscripcionEspecial]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateInscripcionEspecial[P]>
+      : GetScalarType<T[P], AggregateInscripcionEspecial[P]>
+  }
+
+
+
+
+  export type InscripcionEspecialGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InscripcionEspecialWhereInput
+    orderBy?: InscripcionEspecialOrderByWithAggregationInput | InscripcionEspecialOrderByWithAggregationInput[]
+    by: InscripcionEspecialScalarFieldEnum[] | InscripcionEspecialScalarFieldEnum
+    having?: InscripcionEspecialScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: InscripcionEspecialCountAggregateInputType | true
+    _avg?: InscripcionEspecialAvgAggregateInputType
+    _sum?: InscripcionEspecialSumAggregateInputType
+    _min?: InscripcionEspecialMinAggregateInputType
+    _max?: InscripcionEspecialMaxAggregateInputType
+  }
+
+  export type InscripcionEspecialGroupByOutputType = {
+    id: number
+    solicitanteId: string
+    caso: string
+    justificacion: string
+    turnoAlternativa1: string | null
+    turnoAlternativa2: string | null
+    materias: number[]
+    materiasAdeudadas: number[]
+    estado: string
+    respuesta: string | null
+    fueContactado: boolean | null
+    vinoPresencialmente: boolean | null
+    fechaSolicitud: Date
+    fechaRespuesta: Date | null
+    _count: InscripcionEspecialCountAggregateOutputType | null
+    _avg: InscripcionEspecialAvgAggregateOutputType | null
+    _sum: InscripcionEspecialSumAggregateOutputType | null
+    _min: InscripcionEspecialMinAggregateOutputType | null
+    _max: InscripcionEspecialMaxAggregateOutputType | null
+  }
+
+  type GetInscripcionEspecialGroupByPayload<T extends InscripcionEspecialGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<InscripcionEspecialGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof InscripcionEspecialGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], InscripcionEspecialGroupByOutputType[P]>
+            : GetScalarType<T[P], InscripcionEspecialGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type InscripcionEspecialSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    solicitanteId?: boolean
+    caso?: boolean
+    justificacion?: boolean
+    turnoAlternativa1?: boolean
+    turnoAlternativa2?: boolean
+    materias?: boolean
+    materiasAdeudadas?: boolean
+    estado?: boolean
+    respuesta?: boolean
+    fueContactado?: boolean
+    vinoPresencialmente?: boolean
+    fechaSolicitud?: boolean
+    fechaRespuesta?: boolean
+    solicitante?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["inscripcionEspecial"]>
+
+  export type InscripcionEspecialSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    solicitanteId?: boolean
+    caso?: boolean
+    justificacion?: boolean
+    turnoAlternativa1?: boolean
+    turnoAlternativa2?: boolean
+    materias?: boolean
+    materiasAdeudadas?: boolean
+    estado?: boolean
+    respuesta?: boolean
+    fueContactado?: boolean
+    vinoPresencialmente?: boolean
+    fechaSolicitud?: boolean
+    fechaRespuesta?: boolean
+    solicitante?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["inscripcionEspecial"]>
+
+  export type InscripcionEspecialSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    solicitanteId?: boolean
+    caso?: boolean
+    justificacion?: boolean
+    turnoAlternativa1?: boolean
+    turnoAlternativa2?: boolean
+    materias?: boolean
+    materiasAdeudadas?: boolean
+    estado?: boolean
+    respuesta?: boolean
+    fueContactado?: boolean
+    vinoPresencialmente?: boolean
+    fechaSolicitud?: boolean
+    fechaRespuesta?: boolean
+    solicitante?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["inscripcionEspecial"]>
+
+  export type InscripcionEspecialSelectScalar = {
+    id?: boolean
+    solicitanteId?: boolean
+    caso?: boolean
+    justificacion?: boolean
+    turnoAlternativa1?: boolean
+    turnoAlternativa2?: boolean
+    materias?: boolean
+    materiasAdeudadas?: boolean
+    estado?: boolean
+    respuesta?: boolean
+    fueContactado?: boolean
+    vinoPresencialmente?: boolean
+    fechaSolicitud?: boolean
+    fechaRespuesta?: boolean
+  }
+
+  export type InscripcionEspecialOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "solicitanteId" | "caso" | "justificacion" | "turnoAlternativa1" | "turnoAlternativa2" | "materias" | "materiasAdeudadas" | "estado" | "respuesta" | "fueContactado" | "vinoPresencialmente" | "fechaSolicitud" | "fechaRespuesta", ExtArgs["result"]["inscripcionEspecial"]>
+  export type InscripcionEspecialInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    solicitante?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type InscripcionEspecialIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    solicitante?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type InscripcionEspecialIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    solicitante?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $InscripcionEspecialPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "InscripcionEspecial"
+    objects: {
+      solicitante: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      solicitanteId: string
+      caso: string
+      justificacion: string
+      turnoAlternativa1: string | null
+      turnoAlternativa2: string | null
+      materias: number[]
+      materiasAdeudadas: number[]
+      estado: string
+      respuesta: string | null
+      fueContactado: boolean | null
+      vinoPresencialmente: boolean | null
+      fechaSolicitud: Date
+      fechaRespuesta: Date | null
+    }, ExtArgs["result"]["inscripcionEspecial"]>
+    composites: {}
+  }
+
+  type InscripcionEspecialGetPayload<S extends boolean | null | undefined | InscripcionEspecialDefaultArgs> = $Result.GetResult<Prisma.$InscripcionEspecialPayload, S>
+
+  type InscripcionEspecialCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<InscripcionEspecialFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: InscripcionEspecialCountAggregateInputType | true
+    }
+
+  export interface InscripcionEspecialDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['InscripcionEspecial'], meta: { name: 'InscripcionEspecial' } }
+    /**
+     * Find zero or one InscripcionEspecial that matches the filter.
+     * @param {InscripcionEspecialFindUniqueArgs} args - Arguments to find a InscripcionEspecial
+     * @example
+     * // Get one InscripcionEspecial
+     * const inscripcionEspecial = await prisma.inscripcionEspecial.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends InscripcionEspecialFindUniqueArgs>(args: SelectSubset<T, InscripcionEspecialFindUniqueArgs<ExtArgs>>): Prisma__InscripcionEspecialClient<$Result.GetResult<Prisma.$InscripcionEspecialPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one InscripcionEspecial that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {InscripcionEspecialFindUniqueOrThrowArgs} args - Arguments to find a InscripcionEspecial
+     * @example
+     * // Get one InscripcionEspecial
+     * const inscripcionEspecial = await prisma.inscripcionEspecial.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends InscripcionEspecialFindUniqueOrThrowArgs>(args: SelectSubset<T, InscripcionEspecialFindUniqueOrThrowArgs<ExtArgs>>): Prisma__InscripcionEspecialClient<$Result.GetResult<Prisma.$InscripcionEspecialPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first InscripcionEspecial that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InscripcionEspecialFindFirstArgs} args - Arguments to find a InscripcionEspecial
+     * @example
+     * // Get one InscripcionEspecial
+     * const inscripcionEspecial = await prisma.inscripcionEspecial.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends InscripcionEspecialFindFirstArgs>(args?: SelectSubset<T, InscripcionEspecialFindFirstArgs<ExtArgs>>): Prisma__InscripcionEspecialClient<$Result.GetResult<Prisma.$InscripcionEspecialPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first InscripcionEspecial that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InscripcionEspecialFindFirstOrThrowArgs} args - Arguments to find a InscripcionEspecial
+     * @example
+     * // Get one InscripcionEspecial
+     * const inscripcionEspecial = await prisma.inscripcionEspecial.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends InscripcionEspecialFindFirstOrThrowArgs>(args?: SelectSubset<T, InscripcionEspecialFindFirstOrThrowArgs<ExtArgs>>): Prisma__InscripcionEspecialClient<$Result.GetResult<Prisma.$InscripcionEspecialPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more InscripcionEspecials that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InscripcionEspecialFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all InscripcionEspecials
+     * const inscripcionEspecials = await prisma.inscripcionEspecial.findMany()
+     * 
+     * // Get first 10 InscripcionEspecials
+     * const inscripcionEspecials = await prisma.inscripcionEspecial.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const inscripcionEspecialWithIdOnly = await prisma.inscripcionEspecial.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends InscripcionEspecialFindManyArgs>(args?: SelectSubset<T, InscripcionEspecialFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InscripcionEspecialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a InscripcionEspecial.
+     * @param {InscripcionEspecialCreateArgs} args - Arguments to create a InscripcionEspecial.
+     * @example
+     * // Create one InscripcionEspecial
+     * const InscripcionEspecial = await prisma.inscripcionEspecial.create({
+     *   data: {
+     *     // ... data to create a InscripcionEspecial
+     *   }
+     * })
+     * 
+     */
+    create<T extends InscripcionEspecialCreateArgs>(args: SelectSubset<T, InscripcionEspecialCreateArgs<ExtArgs>>): Prisma__InscripcionEspecialClient<$Result.GetResult<Prisma.$InscripcionEspecialPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many InscripcionEspecials.
+     * @param {InscripcionEspecialCreateManyArgs} args - Arguments to create many InscripcionEspecials.
+     * @example
+     * // Create many InscripcionEspecials
+     * const inscripcionEspecial = await prisma.inscripcionEspecial.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends InscripcionEspecialCreateManyArgs>(args?: SelectSubset<T, InscripcionEspecialCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many InscripcionEspecials and returns the data saved in the database.
+     * @param {InscripcionEspecialCreateManyAndReturnArgs} args - Arguments to create many InscripcionEspecials.
+     * @example
+     * // Create many InscripcionEspecials
+     * const inscripcionEspecial = await prisma.inscripcionEspecial.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many InscripcionEspecials and only return the `id`
+     * const inscripcionEspecialWithIdOnly = await prisma.inscripcionEspecial.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends InscripcionEspecialCreateManyAndReturnArgs>(args?: SelectSubset<T, InscripcionEspecialCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InscripcionEspecialPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a InscripcionEspecial.
+     * @param {InscripcionEspecialDeleteArgs} args - Arguments to delete one InscripcionEspecial.
+     * @example
+     * // Delete one InscripcionEspecial
+     * const InscripcionEspecial = await prisma.inscripcionEspecial.delete({
+     *   where: {
+     *     // ... filter to delete one InscripcionEspecial
+     *   }
+     * })
+     * 
+     */
+    delete<T extends InscripcionEspecialDeleteArgs>(args: SelectSubset<T, InscripcionEspecialDeleteArgs<ExtArgs>>): Prisma__InscripcionEspecialClient<$Result.GetResult<Prisma.$InscripcionEspecialPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one InscripcionEspecial.
+     * @param {InscripcionEspecialUpdateArgs} args - Arguments to update one InscripcionEspecial.
+     * @example
+     * // Update one InscripcionEspecial
+     * const inscripcionEspecial = await prisma.inscripcionEspecial.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends InscripcionEspecialUpdateArgs>(args: SelectSubset<T, InscripcionEspecialUpdateArgs<ExtArgs>>): Prisma__InscripcionEspecialClient<$Result.GetResult<Prisma.$InscripcionEspecialPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more InscripcionEspecials.
+     * @param {InscripcionEspecialDeleteManyArgs} args - Arguments to filter InscripcionEspecials to delete.
+     * @example
+     * // Delete a few InscripcionEspecials
+     * const { count } = await prisma.inscripcionEspecial.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends InscripcionEspecialDeleteManyArgs>(args?: SelectSubset<T, InscripcionEspecialDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more InscripcionEspecials.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InscripcionEspecialUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many InscripcionEspecials
+     * const inscripcionEspecial = await prisma.inscripcionEspecial.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends InscripcionEspecialUpdateManyArgs>(args: SelectSubset<T, InscripcionEspecialUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more InscripcionEspecials and returns the data updated in the database.
+     * @param {InscripcionEspecialUpdateManyAndReturnArgs} args - Arguments to update many InscripcionEspecials.
+     * @example
+     * // Update many InscripcionEspecials
+     * const inscripcionEspecial = await prisma.inscripcionEspecial.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more InscripcionEspecials and only return the `id`
+     * const inscripcionEspecialWithIdOnly = await prisma.inscripcionEspecial.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends InscripcionEspecialUpdateManyAndReturnArgs>(args: SelectSubset<T, InscripcionEspecialUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InscripcionEspecialPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one InscripcionEspecial.
+     * @param {InscripcionEspecialUpsertArgs} args - Arguments to update or create a InscripcionEspecial.
+     * @example
+     * // Update or create a InscripcionEspecial
+     * const inscripcionEspecial = await prisma.inscripcionEspecial.upsert({
+     *   create: {
+     *     // ... data to create a InscripcionEspecial
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the InscripcionEspecial we want to update
+     *   }
+     * })
+     */
+    upsert<T extends InscripcionEspecialUpsertArgs>(args: SelectSubset<T, InscripcionEspecialUpsertArgs<ExtArgs>>): Prisma__InscripcionEspecialClient<$Result.GetResult<Prisma.$InscripcionEspecialPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of InscripcionEspecials.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InscripcionEspecialCountArgs} args - Arguments to filter InscripcionEspecials to count.
+     * @example
+     * // Count the number of InscripcionEspecials
+     * const count = await prisma.inscripcionEspecial.count({
+     *   where: {
+     *     // ... the filter for the InscripcionEspecials we want to count
+     *   }
+     * })
+    **/
+    count<T extends InscripcionEspecialCountArgs>(
+      args?: Subset<T, InscripcionEspecialCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], InscripcionEspecialCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a InscripcionEspecial.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InscripcionEspecialAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends InscripcionEspecialAggregateArgs>(args: Subset<T, InscripcionEspecialAggregateArgs>): Prisma.PrismaPromise<GetInscripcionEspecialAggregateType<T>>
+
+    /**
+     * Group by InscripcionEspecial.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InscripcionEspecialGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends InscripcionEspecialGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: InscripcionEspecialGroupByArgs['orderBy'] }
+        : { orderBy?: InscripcionEspecialGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, InscripcionEspecialGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetInscripcionEspecialGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the InscripcionEspecial model
+   */
+  readonly fields: InscripcionEspecialFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for InscripcionEspecial.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__InscripcionEspecialClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    solicitante<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the InscripcionEspecial model
+   */
+  interface InscripcionEspecialFieldRefs {
+    readonly id: FieldRef<"InscripcionEspecial", 'Int'>
+    readonly solicitanteId: FieldRef<"InscripcionEspecial", 'String'>
+    readonly caso: FieldRef<"InscripcionEspecial", 'String'>
+    readonly justificacion: FieldRef<"InscripcionEspecial", 'String'>
+    readonly turnoAlternativa1: FieldRef<"InscripcionEspecial", 'String'>
+    readonly turnoAlternativa2: FieldRef<"InscripcionEspecial", 'String'>
+    readonly materias: FieldRef<"InscripcionEspecial", 'Int[]'>
+    readonly materiasAdeudadas: FieldRef<"InscripcionEspecial", 'Int[]'>
+    readonly estado: FieldRef<"InscripcionEspecial", 'String'>
+    readonly respuesta: FieldRef<"InscripcionEspecial", 'String'>
+    readonly fueContactado: FieldRef<"InscripcionEspecial", 'Boolean'>
+    readonly vinoPresencialmente: FieldRef<"InscripcionEspecial", 'Boolean'>
+    readonly fechaSolicitud: FieldRef<"InscripcionEspecial", 'DateTime'>
+    readonly fechaRespuesta: FieldRef<"InscripcionEspecial", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * InscripcionEspecial findUnique
+   */
+  export type InscripcionEspecialFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InscripcionEspecial
+     */
+    select?: InscripcionEspecialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InscripcionEspecial
+     */
+    omit?: InscripcionEspecialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InscripcionEspecialInclude<ExtArgs> | null
+    /**
+     * Filter, which InscripcionEspecial to fetch.
+     */
+    where: InscripcionEspecialWhereUniqueInput
+  }
+
+  /**
+   * InscripcionEspecial findUniqueOrThrow
+   */
+  export type InscripcionEspecialFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InscripcionEspecial
+     */
+    select?: InscripcionEspecialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InscripcionEspecial
+     */
+    omit?: InscripcionEspecialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InscripcionEspecialInclude<ExtArgs> | null
+    /**
+     * Filter, which InscripcionEspecial to fetch.
+     */
+    where: InscripcionEspecialWhereUniqueInput
+  }
+
+  /**
+   * InscripcionEspecial findFirst
+   */
+  export type InscripcionEspecialFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InscripcionEspecial
+     */
+    select?: InscripcionEspecialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InscripcionEspecial
+     */
+    omit?: InscripcionEspecialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InscripcionEspecialInclude<ExtArgs> | null
+    /**
+     * Filter, which InscripcionEspecial to fetch.
+     */
+    where?: InscripcionEspecialWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InscripcionEspecials to fetch.
+     */
+    orderBy?: InscripcionEspecialOrderByWithRelationInput | InscripcionEspecialOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for InscripcionEspecials.
+     */
+    cursor?: InscripcionEspecialWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InscripcionEspecials from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InscripcionEspecials.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of InscripcionEspecials.
+     */
+    distinct?: InscripcionEspecialScalarFieldEnum | InscripcionEspecialScalarFieldEnum[]
+  }
+
+  /**
+   * InscripcionEspecial findFirstOrThrow
+   */
+  export type InscripcionEspecialFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InscripcionEspecial
+     */
+    select?: InscripcionEspecialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InscripcionEspecial
+     */
+    omit?: InscripcionEspecialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InscripcionEspecialInclude<ExtArgs> | null
+    /**
+     * Filter, which InscripcionEspecial to fetch.
+     */
+    where?: InscripcionEspecialWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InscripcionEspecials to fetch.
+     */
+    orderBy?: InscripcionEspecialOrderByWithRelationInput | InscripcionEspecialOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for InscripcionEspecials.
+     */
+    cursor?: InscripcionEspecialWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InscripcionEspecials from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InscripcionEspecials.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of InscripcionEspecials.
+     */
+    distinct?: InscripcionEspecialScalarFieldEnum | InscripcionEspecialScalarFieldEnum[]
+  }
+
+  /**
+   * InscripcionEspecial findMany
+   */
+  export type InscripcionEspecialFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InscripcionEspecial
+     */
+    select?: InscripcionEspecialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InscripcionEspecial
+     */
+    omit?: InscripcionEspecialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InscripcionEspecialInclude<ExtArgs> | null
+    /**
+     * Filter, which InscripcionEspecials to fetch.
+     */
+    where?: InscripcionEspecialWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InscripcionEspecials to fetch.
+     */
+    orderBy?: InscripcionEspecialOrderByWithRelationInput | InscripcionEspecialOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing InscripcionEspecials.
+     */
+    cursor?: InscripcionEspecialWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InscripcionEspecials from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InscripcionEspecials.
+     */
+    skip?: number
+    distinct?: InscripcionEspecialScalarFieldEnum | InscripcionEspecialScalarFieldEnum[]
+  }
+
+  /**
+   * InscripcionEspecial create
+   */
+  export type InscripcionEspecialCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InscripcionEspecial
+     */
+    select?: InscripcionEspecialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InscripcionEspecial
+     */
+    omit?: InscripcionEspecialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InscripcionEspecialInclude<ExtArgs> | null
+    /**
+     * The data needed to create a InscripcionEspecial.
+     */
+    data: XOR<InscripcionEspecialCreateInput, InscripcionEspecialUncheckedCreateInput>
+  }
+
+  /**
+   * InscripcionEspecial createMany
+   */
+  export type InscripcionEspecialCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many InscripcionEspecials.
+     */
+    data: InscripcionEspecialCreateManyInput | InscripcionEspecialCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * InscripcionEspecial createManyAndReturn
+   */
+  export type InscripcionEspecialCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InscripcionEspecial
+     */
+    select?: InscripcionEspecialSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the InscripcionEspecial
+     */
+    omit?: InscripcionEspecialOmit<ExtArgs> | null
+    /**
+     * The data used to create many InscripcionEspecials.
+     */
+    data: InscripcionEspecialCreateManyInput | InscripcionEspecialCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InscripcionEspecialIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * InscripcionEspecial update
+   */
+  export type InscripcionEspecialUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InscripcionEspecial
+     */
+    select?: InscripcionEspecialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InscripcionEspecial
+     */
+    omit?: InscripcionEspecialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InscripcionEspecialInclude<ExtArgs> | null
+    /**
+     * The data needed to update a InscripcionEspecial.
+     */
+    data: XOR<InscripcionEspecialUpdateInput, InscripcionEspecialUncheckedUpdateInput>
+    /**
+     * Choose, which InscripcionEspecial to update.
+     */
+    where: InscripcionEspecialWhereUniqueInput
+  }
+
+  /**
+   * InscripcionEspecial updateMany
+   */
+  export type InscripcionEspecialUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update InscripcionEspecials.
+     */
+    data: XOR<InscripcionEspecialUpdateManyMutationInput, InscripcionEspecialUncheckedUpdateManyInput>
+    /**
+     * Filter which InscripcionEspecials to update
+     */
+    where?: InscripcionEspecialWhereInput
+    /**
+     * Limit how many InscripcionEspecials to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * InscripcionEspecial updateManyAndReturn
+   */
+  export type InscripcionEspecialUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InscripcionEspecial
+     */
+    select?: InscripcionEspecialSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the InscripcionEspecial
+     */
+    omit?: InscripcionEspecialOmit<ExtArgs> | null
+    /**
+     * The data used to update InscripcionEspecials.
+     */
+    data: XOR<InscripcionEspecialUpdateManyMutationInput, InscripcionEspecialUncheckedUpdateManyInput>
+    /**
+     * Filter which InscripcionEspecials to update
+     */
+    where?: InscripcionEspecialWhereInput
+    /**
+     * Limit how many InscripcionEspecials to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InscripcionEspecialIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * InscripcionEspecial upsert
+   */
+  export type InscripcionEspecialUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InscripcionEspecial
+     */
+    select?: InscripcionEspecialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InscripcionEspecial
+     */
+    omit?: InscripcionEspecialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InscripcionEspecialInclude<ExtArgs> | null
+    /**
+     * The filter to search for the InscripcionEspecial to update in case it exists.
+     */
+    where: InscripcionEspecialWhereUniqueInput
+    /**
+     * In case the InscripcionEspecial found by the `where` argument doesn't exist, create a new InscripcionEspecial with this data.
+     */
+    create: XOR<InscripcionEspecialCreateInput, InscripcionEspecialUncheckedCreateInput>
+    /**
+     * In case the InscripcionEspecial was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<InscripcionEspecialUpdateInput, InscripcionEspecialUncheckedUpdateInput>
+  }
+
+  /**
+   * InscripcionEspecial delete
+   */
+  export type InscripcionEspecialDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InscripcionEspecial
+     */
+    select?: InscripcionEspecialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InscripcionEspecial
+     */
+    omit?: InscripcionEspecialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InscripcionEspecialInclude<ExtArgs> | null
+    /**
+     * Filter which InscripcionEspecial to delete.
+     */
+    where: InscripcionEspecialWhereUniqueInput
+  }
+
+  /**
+   * InscripcionEspecial deleteMany
+   */
+  export type InscripcionEspecialDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which InscripcionEspecials to delete
+     */
+    where?: InscripcionEspecialWhereInput
+    /**
+     * Limit how many InscripcionEspecials to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * InscripcionEspecial without action
+   */
+  export type InscripcionEspecialDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InscripcionEspecial
+     */
+    select?: InscripcionEspecialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InscripcionEspecial
+     */
+    omit?: InscripcionEspecialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InscripcionEspecialInclude<ExtArgs> | null
   }
 
 
@@ -45481,12 +50394,14 @@ export namespace Prisma {
     reservasAprobadas?: boolean | User$reservasAprobadasArgs<ExtArgs>
     reservasRechazadas?: boolean | User$reservasRechazadasArgs<ExtArgs>
     reservasRecibidas?: boolean | User$reservasRecibidasArgs<ExtArgs>
+    inscripcionesEspeciales?: boolean | User$inscripcionesEspecialesArgs<ExtArgs>
     cursosComoAyudante?: boolean | User$cursosComoAyudanteArgs<ExtArgs>
     cursosComoProfesor?: boolean | User$cursosComoProfesorArgs<ExtArgs>
     MateriaJefeTp?: boolean | User$MateriaJefeTpArgs<ExtArgs>
     materiasDirector?: boolean | User$materiasDirectorArgs<ExtArgs>
     tutor?: boolean | User$tutorArgs<ExtArgs>
     ReservaLaboratorioCerrado?: boolean | User$ReservaLaboratorioCerradoArgs<ExtArgs>
+    Voto?: boolean | User$VotoArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -45603,12 +50518,14 @@ export namespace Prisma {
     reservasAprobadas?: boolean | User$reservasAprobadasArgs<ExtArgs>
     reservasRechazadas?: boolean | User$reservasRechazadasArgs<ExtArgs>
     reservasRecibidas?: boolean | User$reservasRecibidasArgs<ExtArgs>
+    inscripcionesEspeciales?: boolean | User$inscripcionesEspecialesArgs<ExtArgs>
     cursosComoAyudante?: boolean | User$cursosComoAyudanteArgs<ExtArgs>
     cursosComoProfesor?: boolean | User$cursosComoProfesorArgs<ExtArgs>
     MateriaJefeTp?: boolean | User$MateriaJefeTpArgs<ExtArgs>
     materiasDirector?: boolean | User$materiasDirectorArgs<ExtArgs>
     tutor?: boolean | User$tutorArgs<ExtArgs>
     ReservaLaboratorioCerrado?: boolean | User$ReservaLaboratorioCerradoArgs<ExtArgs>
+    Voto?: boolean | User$VotoArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -45637,12 +50554,14 @@ export namespace Prisma {
       reservasAprobadas: Prisma.$ReservaPayload<ExtArgs>[]
       reservasRechazadas: Prisma.$ReservaPayload<ExtArgs>[]
       reservasRecibidas: Prisma.$ReservaPayload<ExtArgs>[]
+      inscripcionesEspeciales: Prisma.$InscripcionEspecialPayload<ExtArgs>[]
       cursosComoAyudante: Prisma.$CursoAyudantePayload<ExtArgs>[]
       cursosComoProfesor: Prisma.$CursoPayload<ExtArgs>[]
       MateriaJefeTp: Prisma.$MateriaJefeTpPayload<ExtArgs>[]
       materiasDirector: Prisma.$MateriaPayload<ExtArgs>[]
       tutor: Prisma.$TutorPayload<ExtArgs> | null
       ReservaLaboratorioCerrado: Prisma.$ReservaLaboratorioCerradoPayload<ExtArgs>[]
+      Voto: Prisma.$VotoPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -46079,12 +50998,14 @@ export namespace Prisma {
     reservasAprobadas<T extends User$reservasAprobadasArgs<ExtArgs> = {}>(args?: Subset<T, User$reservasAprobadasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReservaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     reservasRechazadas<T extends User$reservasRechazadasArgs<ExtArgs> = {}>(args?: Subset<T, User$reservasRechazadasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReservaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     reservasRecibidas<T extends User$reservasRecibidasArgs<ExtArgs> = {}>(args?: Subset<T, User$reservasRecibidasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReservaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    inscripcionesEspeciales<T extends User$inscripcionesEspecialesArgs<ExtArgs> = {}>(args?: Subset<T, User$inscripcionesEspecialesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InscripcionEspecialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     cursosComoAyudante<T extends User$cursosComoAyudanteArgs<ExtArgs> = {}>(args?: Subset<T, User$cursosComoAyudanteArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CursoAyudantePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     cursosComoProfesor<T extends User$cursosComoProfesorArgs<ExtArgs> = {}>(args?: Subset<T, User$cursosComoProfesorArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CursoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     MateriaJefeTp<T extends User$MateriaJefeTpArgs<ExtArgs> = {}>(args?: Subset<T, User$MateriaJefeTpArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MateriaJefeTpPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     materiasDirector<T extends User$materiasDirectorArgs<ExtArgs> = {}>(args?: Subset<T, User$materiasDirectorArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MateriaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     tutor<T extends User$tutorArgs<ExtArgs> = {}>(args?: Subset<T, User$tutorArgs<ExtArgs>>): Prisma__TutorClient<$Result.GetResult<Prisma.$TutorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     ReservaLaboratorioCerrado<T extends User$ReservaLaboratorioCerradoArgs<ExtArgs> = {}>(args?: Subset<T, User$ReservaLaboratorioCerradoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReservaLaboratorioCerradoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    Voto<T extends User$VotoArgs<ExtArgs> = {}>(args?: Subset<T, User$VotoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VotoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -46811,6 +51732,30 @@ export namespace Prisma {
   }
 
   /**
+   * User.inscripcionesEspeciales
+   */
+  export type User$inscripcionesEspecialesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InscripcionEspecial
+     */
+    select?: InscripcionEspecialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InscripcionEspecial
+     */
+    omit?: InscripcionEspecialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InscripcionEspecialInclude<ExtArgs> | null
+    where?: InscripcionEspecialWhereInput
+    orderBy?: InscripcionEspecialOrderByWithRelationInput | InscripcionEspecialOrderByWithRelationInput[]
+    cursor?: InscripcionEspecialWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: InscripcionEspecialScalarFieldEnum | InscripcionEspecialScalarFieldEnum[]
+  }
+
+  /**
    * User.cursosComoAyudante
    */
   export type User$cursosComoAyudanteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -46947,6 +51892,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ReservaLaboratorioCerradoScalarFieldEnum | ReservaLaboratorioCerradoScalarFieldEnum[]
+  }
+
+  /**
+   * User.Voto
+   */
+  export type User$VotoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Voto
+     */
+    select?: VotoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Voto
+     */
+    omit?: VotoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VotoInclude<ExtArgs> | null
+    where?: VotoWhereInput
+    orderBy?: VotoOrderByWithRelationInput | VotoOrderByWithRelationInput[]
+    cursor?: VotoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: VotoScalarFieldEnum | VotoScalarFieldEnum[]
   }
 
   /**
@@ -55791,6 +60760,41 @@ export namespace Prisma {
   export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
+  export const ActaScalarFieldEnum: {
+    id: 'id',
+    nombreActa: 'nombreActa',
+    fechaReunion: 'fechaReunion',
+    estado: 'estado',
+    visibilidad: 'visibilidad',
+    createdAt: 'createdAt'
+  };
+
+  export type ActaScalarFieldEnum = (typeof ActaScalarFieldEnum)[keyof typeof ActaScalarFieldEnum]
+
+
+  export const VotoScalarFieldEnum: {
+    id: 'id',
+    actaId: 'actaId',
+    consejeroId: 'consejeroId',
+    posicion: 'posicion',
+    comentario: 'comentario',
+    fechaEmision: 'fechaEmision'
+  };
+
+  export type VotoScalarFieldEnum = (typeof VotoScalarFieldEnum)[keyof typeof VotoScalarFieldEnum]
+
+
+  export const ReunionScalarFieldEnum: {
+    id: 'id',
+    fecha: 'fecha',
+    fechaNormalizada: 'fechaNormalizada',
+    link: 'link',
+    createdAt: 'createdAt'
+  };
+
+  export type ReunionScalarFieldEnum = (typeof ReunionScalarFieldEnum)[keyof typeof ReunionScalarFieldEnum]
+
+
   export const LibroScalarFieldEnum: {
     id: 'id',
     bibliotecaId: 'bibliotecaId',
@@ -55959,6 +60963,26 @@ export namespace Prisma {
   };
 
   export type EquipoEstadoScalarFieldEnum = (typeof EquipoEstadoScalarFieldEnum)[keyof typeof EquipoEstadoScalarFieldEnum]
+
+
+  export const InscripcionEspecialScalarFieldEnum: {
+    id: 'id',
+    solicitanteId: 'solicitanteId',
+    caso: 'caso',
+    justificacion: 'justificacion',
+    turnoAlternativa1: 'turnoAlternativa1',
+    turnoAlternativa2: 'turnoAlternativa2',
+    materias: 'materias',
+    materiasAdeudadas: 'materiasAdeudadas',
+    estado: 'estado',
+    respuesta: 'respuesta',
+    fueContactado: 'fueContactado',
+    vinoPresencialmente: 'vinoPresencialmente',
+    fechaSolicitud: 'fechaSolicitud',
+    fechaRespuesta: 'fechaRespuesta'
+  };
+
+  export type InscripcionEspecialScalarFieldEnum = (typeof InscripcionEspecialScalarFieldEnum)[keyof typeof InscripcionEspecialScalarFieldEnum]
 
 
   export const LaboratorioScalarFieldEnum: {
@@ -56462,13 +61486,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Boolean'
-   */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
-    
-
-
-  /**
    * Reference to a field of type 'DateTime'
    */
   export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
@@ -56479,6 +61496,55 @@ export namespace Prisma {
    * Reference to a field of type 'DateTime[]'
    */
   export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Estado'
+   */
+  export type EnumEstadoFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Estado'>
+    
+
+
+  /**
+   * Reference to a field of type 'Estado[]'
+   */
+  export type ListEnumEstadoFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Estado[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Visibilidad'
+   */
+  export type EnumVisibilidadFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Visibilidad'>
+    
+
+
+  /**
+   * Reference to a field of type 'Visibilidad[]'
+   */
+  export type ListEnumVisibilidadFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Visibilidad[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Posicion'
+   */
+  export type EnumPosicionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Posicion'>
+    
+
+
+  /**
+   * Reference to a field of type 'Posicion[]'
+   */
+  export type ListEnumPosicionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Posicion[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -56638,6 +61704,187 @@ export namespace Prisma {
    * Deep Input Types
    */
 
+
+  export type ActaWhereInput = {
+    AND?: ActaWhereInput | ActaWhereInput[]
+    OR?: ActaWhereInput[]
+    NOT?: ActaWhereInput | ActaWhereInput[]
+    id?: IntFilter<"Acta"> | number
+    nombreActa?: StringFilter<"Acta"> | string
+    fechaReunion?: DateTimeFilter<"Acta"> | Date | string
+    estado?: EnumEstadoFilter<"Acta"> | $Enums.Estado
+    visibilidad?: EnumVisibilidadFilter<"Acta"> | $Enums.Visibilidad
+    createdAt?: DateTimeFilter<"Acta"> | Date | string
+    Voto?: VotoListRelationFilter
+  }
+
+  export type ActaOrderByWithRelationInput = {
+    id?: SortOrder
+    nombreActa?: SortOrder
+    fechaReunion?: SortOrder
+    estado?: SortOrder
+    visibilidad?: SortOrder
+    createdAt?: SortOrder
+    Voto?: VotoOrderByRelationAggregateInput
+  }
+
+  export type ActaWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: ActaWhereInput | ActaWhereInput[]
+    OR?: ActaWhereInput[]
+    NOT?: ActaWhereInput | ActaWhereInput[]
+    nombreActa?: StringFilter<"Acta"> | string
+    fechaReunion?: DateTimeFilter<"Acta"> | Date | string
+    estado?: EnumEstadoFilter<"Acta"> | $Enums.Estado
+    visibilidad?: EnumVisibilidadFilter<"Acta"> | $Enums.Visibilidad
+    createdAt?: DateTimeFilter<"Acta"> | Date | string
+    Voto?: VotoListRelationFilter
+  }, "id">
+
+  export type ActaOrderByWithAggregationInput = {
+    id?: SortOrder
+    nombreActa?: SortOrder
+    fechaReunion?: SortOrder
+    estado?: SortOrder
+    visibilidad?: SortOrder
+    createdAt?: SortOrder
+    _count?: ActaCountOrderByAggregateInput
+    _avg?: ActaAvgOrderByAggregateInput
+    _max?: ActaMaxOrderByAggregateInput
+    _min?: ActaMinOrderByAggregateInput
+    _sum?: ActaSumOrderByAggregateInput
+  }
+
+  export type ActaScalarWhereWithAggregatesInput = {
+    AND?: ActaScalarWhereWithAggregatesInput | ActaScalarWhereWithAggregatesInput[]
+    OR?: ActaScalarWhereWithAggregatesInput[]
+    NOT?: ActaScalarWhereWithAggregatesInput | ActaScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Acta"> | number
+    nombreActa?: StringWithAggregatesFilter<"Acta"> | string
+    fechaReunion?: DateTimeWithAggregatesFilter<"Acta"> | Date | string
+    estado?: EnumEstadoWithAggregatesFilter<"Acta"> | $Enums.Estado
+    visibilidad?: EnumVisibilidadWithAggregatesFilter<"Acta"> | $Enums.Visibilidad
+    createdAt?: DateTimeWithAggregatesFilter<"Acta"> | Date | string
+  }
+
+  export type VotoWhereInput = {
+    AND?: VotoWhereInput | VotoWhereInput[]
+    OR?: VotoWhereInput[]
+    NOT?: VotoWhereInput | VotoWhereInput[]
+    id?: IntFilter<"Voto"> | number
+    actaId?: IntFilter<"Voto"> | number
+    consejeroId?: StringFilter<"Voto"> | string
+    posicion?: EnumPosicionFilter<"Voto"> | $Enums.Posicion
+    comentario?: StringNullableFilter<"Voto"> | string | null
+    fechaEmision?: DateTimeFilter<"Voto"> | Date | string
+    acta?: XOR<ActaScalarRelationFilter, ActaWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type VotoOrderByWithRelationInput = {
+    id?: SortOrder
+    actaId?: SortOrder
+    consejeroId?: SortOrder
+    posicion?: SortOrder
+    comentario?: SortOrderInput | SortOrder
+    fechaEmision?: SortOrder
+    acta?: ActaOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type VotoWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: VotoWhereInput | VotoWhereInput[]
+    OR?: VotoWhereInput[]
+    NOT?: VotoWhereInput | VotoWhereInput[]
+    actaId?: IntFilter<"Voto"> | number
+    consejeroId?: StringFilter<"Voto"> | string
+    posicion?: EnumPosicionFilter<"Voto"> | $Enums.Posicion
+    comentario?: StringNullableFilter<"Voto"> | string | null
+    fechaEmision?: DateTimeFilter<"Voto"> | Date | string
+    acta?: XOR<ActaScalarRelationFilter, ActaWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type VotoOrderByWithAggregationInput = {
+    id?: SortOrder
+    actaId?: SortOrder
+    consejeroId?: SortOrder
+    posicion?: SortOrder
+    comentario?: SortOrderInput | SortOrder
+    fechaEmision?: SortOrder
+    _count?: VotoCountOrderByAggregateInput
+    _avg?: VotoAvgOrderByAggregateInput
+    _max?: VotoMaxOrderByAggregateInput
+    _min?: VotoMinOrderByAggregateInput
+    _sum?: VotoSumOrderByAggregateInput
+  }
+
+  export type VotoScalarWhereWithAggregatesInput = {
+    AND?: VotoScalarWhereWithAggregatesInput | VotoScalarWhereWithAggregatesInput[]
+    OR?: VotoScalarWhereWithAggregatesInput[]
+    NOT?: VotoScalarWhereWithAggregatesInput | VotoScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Voto"> | number
+    actaId?: IntWithAggregatesFilter<"Voto"> | number
+    consejeroId?: StringWithAggregatesFilter<"Voto"> | string
+    posicion?: EnumPosicionWithAggregatesFilter<"Voto"> | $Enums.Posicion
+    comentario?: StringNullableWithAggregatesFilter<"Voto"> | string | null
+    fechaEmision?: DateTimeWithAggregatesFilter<"Voto"> | Date | string
+  }
+
+  export type ReunionWhereInput = {
+    AND?: ReunionWhereInput | ReunionWhereInput[]
+    OR?: ReunionWhereInput[]
+    NOT?: ReunionWhereInput | ReunionWhereInput[]
+    id?: IntFilter<"Reunion"> | number
+    fecha?: DateTimeFilter<"Reunion"> | Date | string
+    fechaNormalizada?: StringFilter<"Reunion"> | string
+    link?: StringFilter<"Reunion"> | string
+    createdAt?: DateTimeFilter<"Reunion"> | Date | string
+  }
+
+  export type ReunionOrderByWithRelationInput = {
+    id?: SortOrder
+    fecha?: SortOrder
+    fechaNormalizada?: SortOrder
+    link?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ReunionWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: ReunionWhereInput | ReunionWhereInput[]
+    OR?: ReunionWhereInput[]
+    NOT?: ReunionWhereInput | ReunionWhereInput[]
+    fecha?: DateTimeFilter<"Reunion"> | Date | string
+    fechaNormalizada?: StringFilter<"Reunion"> | string
+    link?: StringFilter<"Reunion"> | string
+    createdAt?: DateTimeFilter<"Reunion"> | Date | string
+  }, "id">
+
+  export type ReunionOrderByWithAggregationInput = {
+    id?: SortOrder
+    fecha?: SortOrder
+    fechaNormalizada?: SortOrder
+    link?: SortOrder
+    createdAt?: SortOrder
+    _count?: ReunionCountOrderByAggregateInput
+    _avg?: ReunionAvgOrderByAggregateInput
+    _max?: ReunionMaxOrderByAggregateInput
+    _min?: ReunionMinOrderByAggregateInput
+    _sum?: ReunionSumOrderByAggregateInput
+  }
+
+  export type ReunionScalarWhereWithAggregatesInput = {
+    AND?: ReunionScalarWhereWithAggregatesInput | ReunionScalarWhereWithAggregatesInput[]
+    OR?: ReunionScalarWhereWithAggregatesInput[]
+    NOT?: ReunionScalarWhereWithAggregatesInput | ReunionScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Reunion"> | number
+    fecha?: DateTimeWithAggregatesFilter<"Reunion"> | Date | string
+    fechaNormalizada?: StringWithAggregatesFilter<"Reunion"> | string
+    link?: StringWithAggregatesFilter<"Reunion"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Reunion"> | Date | string
+  }
 
   export type LibroWhereInput = {
     AND?: LibroWhereInput | LibroWhereInput[]
@@ -57585,6 +62832,108 @@ export namespace Prisma {
     nombre?: StringWithAggregatesFilter<"EquipoEstado"> | string
     fechaCreacion?: DateTimeWithAggregatesFilter<"EquipoEstado"> | Date | string
     usuarioCreadorId?: StringWithAggregatesFilter<"EquipoEstado"> | string
+  }
+
+  export type InscripcionEspecialWhereInput = {
+    AND?: InscripcionEspecialWhereInput | InscripcionEspecialWhereInput[]
+    OR?: InscripcionEspecialWhereInput[]
+    NOT?: InscripcionEspecialWhereInput | InscripcionEspecialWhereInput[]
+    id?: IntFilter<"InscripcionEspecial"> | number
+    solicitanteId?: StringFilter<"InscripcionEspecial"> | string
+    caso?: StringFilter<"InscripcionEspecial"> | string
+    justificacion?: StringFilter<"InscripcionEspecial"> | string
+    turnoAlternativa1?: StringNullableFilter<"InscripcionEspecial"> | string | null
+    turnoAlternativa2?: StringNullableFilter<"InscripcionEspecial"> | string | null
+    materias?: IntNullableListFilter<"InscripcionEspecial">
+    materiasAdeudadas?: IntNullableListFilter<"InscripcionEspecial">
+    estado?: StringFilter<"InscripcionEspecial"> | string
+    respuesta?: StringNullableFilter<"InscripcionEspecial"> | string | null
+    fueContactado?: BoolNullableFilter<"InscripcionEspecial"> | boolean | null
+    vinoPresencialmente?: BoolNullableFilter<"InscripcionEspecial"> | boolean | null
+    fechaSolicitud?: DateTimeFilter<"InscripcionEspecial"> | Date | string
+    fechaRespuesta?: DateTimeNullableFilter<"InscripcionEspecial"> | Date | string | null
+    solicitante?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type InscripcionEspecialOrderByWithRelationInput = {
+    id?: SortOrder
+    solicitanteId?: SortOrder
+    caso?: SortOrder
+    justificacion?: SortOrder
+    turnoAlternativa1?: SortOrderInput | SortOrder
+    turnoAlternativa2?: SortOrderInput | SortOrder
+    materias?: SortOrder
+    materiasAdeudadas?: SortOrder
+    estado?: SortOrder
+    respuesta?: SortOrderInput | SortOrder
+    fueContactado?: SortOrderInput | SortOrder
+    vinoPresencialmente?: SortOrderInput | SortOrder
+    fechaSolicitud?: SortOrder
+    fechaRespuesta?: SortOrderInput | SortOrder
+    solicitante?: UserOrderByWithRelationInput
+  }
+
+  export type InscripcionEspecialWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: InscripcionEspecialWhereInput | InscripcionEspecialWhereInput[]
+    OR?: InscripcionEspecialWhereInput[]
+    NOT?: InscripcionEspecialWhereInput | InscripcionEspecialWhereInput[]
+    solicitanteId?: StringFilter<"InscripcionEspecial"> | string
+    caso?: StringFilter<"InscripcionEspecial"> | string
+    justificacion?: StringFilter<"InscripcionEspecial"> | string
+    turnoAlternativa1?: StringNullableFilter<"InscripcionEspecial"> | string | null
+    turnoAlternativa2?: StringNullableFilter<"InscripcionEspecial"> | string | null
+    materias?: IntNullableListFilter<"InscripcionEspecial">
+    materiasAdeudadas?: IntNullableListFilter<"InscripcionEspecial">
+    estado?: StringFilter<"InscripcionEspecial"> | string
+    respuesta?: StringNullableFilter<"InscripcionEspecial"> | string | null
+    fueContactado?: BoolNullableFilter<"InscripcionEspecial"> | boolean | null
+    vinoPresencialmente?: BoolNullableFilter<"InscripcionEspecial"> | boolean | null
+    fechaSolicitud?: DateTimeFilter<"InscripcionEspecial"> | Date | string
+    fechaRespuesta?: DateTimeNullableFilter<"InscripcionEspecial"> | Date | string | null
+    solicitante?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type InscripcionEspecialOrderByWithAggregationInput = {
+    id?: SortOrder
+    solicitanteId?: SortOrder
+    caso?: SortOrder
+    justificacion?: SortOrder
+    turnoAlternativa1?: SortOrderInput | SortOrder
+    turnoAlternativa2?: SortOrderInput | SortOrder
+    materias?: SortOrder
+    materiasAdeudadas?: SortOrder
+    estado?: SortOrder
+    respuesta?: SortOrderInput | SortOrder
+    fueContactado?: SortOrderInput | SortOrder
+    vinoPresencialmente?: SortOrderInput | SortOrder
+    fechaSolicitud?: SortOrder
+    fechaRespuesta?: SortOrderInput | SortOrder
+    _count?: InscripcionEspecialCountOrderByAggregateInput
+    _avg?: InscripcionEspecialAvgOrderByAggregateInput
+    _max?: InscripcionEspecialMaxOrderByAggregateInput
+    _min?: InscripcionEspecialMinOrderByAggregateInput
+    _sum?: InscripcionEspecialSumOrderByAggregateInput
+  }
+
+  export type InscripcionEspecialScalarWhereWithAggregatesInput = {
+    AND?: InscripcionEspecialScalarWhereWithAggregatesInput | InscripcionEspecialScalarWhereWithAggregatesInput[]
+    OR?: InscripcionEspecialScalarWhereWithAggregatesInput[]
+    NOT?: InscripcionEspecialScalarWhereWithAggregatesInput | InscripcionEspecialScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"InscripcionEspecial"> | number
+    solicitanteId?: StringWithAggregatesFilter<"InscripcionEspecial"> | string
+    caso?: StringWithAggregatesFilter<"InscripcionEspecial"> | string
+    justificacion?: StringWithAggregatesFilter<"InscripcionEspecial"> | string
+    turnoAlternativa1?: StringNullableWithAggregatesFilter<"InscripcionEspecial"> | string | null
+    turnoAlternativa2?: StringNullableWithAggregatesFilter<"InscripcionEspecial"> | string | null
+    materias?: IntNullableListFilter<"InscripcionEspecial">
+    materiasAdeudadas?: IntNullableListFilter<"InscripcionEspecial">
+    estado?: StringWithAggregatesFilter<"InscripcionEspecial"> | string
+    respuesta?: StringNullableWithAggregatesFilter<"InscripcionEspecial"> | string | null
+    fueContactado?: BoolNullableWithAggregatesFilter<"InscripcionEspecial"> | boolean | null
+    vinoPresencialmente?: BoolNullableWithAggregatesFilter<"InscripcionEspecial"> | boolean | null
+    fechaSolicitud?: DateTimeWithAggregatesFilter<"InscripcionEspecial"> | Date | string
+    fechaRespuesta?: DateTimeNullableWithAggregatesFilter<"InscripcionEspecial"> | Date | string | null
   }
 
   export type LaboratorioWhereInput = {
@@ -59342,12 +64691,14 @@ export namespace Prisma {
     reservasAprobadas?: ReservaListRelationFilter
     reservasRechazadas?: ReservaListRelationFilter
     reservasRecibidas?: ReservaListRelationFilter
+    inscripcionesEspeciales?: InscripcionEspecialListRelationFilter
     cursosComoAyudante?: CursoAyudanteListRelationFilter
     cursosComoProfesor?: CursoListRelationFilter
     MateriaJefeTp?: MateriaJefeTpListRelationFilter
     materiasDirector?: MateriaListRelationFilter
     tutor?: XOR<TutorNullableScalarRelationFilter, TutorWhereInput> | null
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoListRelationFilter
+    Voto?: VotoListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -59391,12 +64742,14 @@ export namespace Prisma {
     reservasAprobadas?: ReservaOrderByRelationAggregateInput
     reservasRechazadas?: ReservaOrderByRelationAggregateInput
     reservasRecibidas?: ReservaOrderByRelationAggregateInput
+    inscripcionesEspeciales?: InscripcionEspecialOrderByRelationAggregateInput
     cursosComoAyudante?: CursoAyudanteOrderByRelationAggregateInput
     cursosComoProfesor?: CursoOrderByRelationAggregateInput
     MateriaJefeTp?: MateriaJefeTpOrderByRelationAggregateInput
     materiasDirector?: MateriaOrderByRelationAggregateInput
     tutor?: TutorOrderByWithRelationInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoOrderByRelationAggregateInput
+    Voto?: VotoOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -59443,12 +64796,14 @@ export namespace Prisma {
     reservasAprobadas?: ReservaListRelationFilter
     reservasRechazadas?: ReservaListRelationFilter
     reservasRecibidas?: ReservaListRelationFilter
+    inscripcionesEspeciales?: InscripcionEspecialListRelationFilter
     cursosComoAyudante?: CursoAyudanteListRelationFilter
     cursosComoProfesor?: CursoListRelationFilter
     MateriaJefeTp?: MateriaJefeTpListRelationFilter
     materiasDirector?: MateriaListRelationFilter
     tutor?: XOR<TutorNullableScalarRelationFilter, TutorWhereInput> | null
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoListRelationFilter
+    Voto?: VotoListRelationFilter
   }, "id" | "name" | "email" | "legajo">
 
   export type UserOrderByWithAggregationInput = {
@@ -59985,6 +65340,181 @@ export namespace Prisma {
     NOT?: DocumentoTipoScalarWhereWithAggregatesInput | DocumentoTipoScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"DocumentoTipo"> | number
     nombre?: StringWithAggregatesFilter<"DocumentoTipo"> | string
+  }
+
+  export type ActaCreateInput = {
+    nombreActa: string
+    fechaReunion: Date | string
+    estado?: $Enums.Estado
+    visibilidad?: $Enums.Visibilidad
+    createdAt?: Date | string
+    Voto?: VotoCreateNestedManyWithoutActaInput
+  }
+
+  export type ActaUncheckedCreateInput = {
+    id?: number
+    nombreActa: string
+    fechaReunion: Date | string
+    estado?: $Enums.Estado
+    visibilidad?: $Enums.Visibilidad
+    createdAt?: Date | string
+    Voto?: VotoUncheckedCreateNestedManyWithoutActaInput
+  }
+
+  export type ActaUpdateInput = {
+    nombreActa?: StringFieldUpdateOperationsInput | string
+    fechaReunion?: DateTimeFieldUpdateOperationsInput | Date | string
+    estado?: EnumEstadoFieldUpdateOperationsInput | $Enums.Estado
+    visibilidad?: EnumVisibilidadFieldUpdateOperationsInput | $Enums.Visibilidad
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    Voto?: VotoUpdateManyWithoutActaNestedInput
+  }
+
+  export type ActaUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nombreActa?: StringFieldUpdateOperationsInput | string
+    fechaReunion?: DateTimeFieldUpdateOperationsInput | Date | string
+    estado?: EnumEstadoFieldUpdateOperationsInput | $Enums.Estado
+    visibilidad?: EnumVisibilidadFieldUpdateOperationsInput | $Enums.Visibilidad
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    Voto?: VotoUncheckedUpdateManyWithoutActaNestedInput
+  }
+
+  export type ActaCreateManyInput = {
+    id?: number
+    nombreActa: string
+    fechaReunion: Date | string
+    estado?: $Enums.Estado
+    visibilidad?: $Enums.Visibilidad
+    createdAt?: Date | string
+  }
+
+  export type ActaUpdateManyMutationInput = {
+    nombreActa?: StringFieldUpdateOperationsInput | string
+    fechaReunion?: DateTimeFieldUpdateOperationsInput | Date | string
+    estado?: EnumEstadoFieldUpdateOperationsInput | $Enums.Estado
+    visibilidad?: EnumVisibilidadFieldUpdateOperationsInput | $Enums.Visibilidad
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ActaUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nombreActa?: StringFieldUpdateOperationsInput | string
+    fechaReunion?: DateTimeFieldUpdateOperationsInput | Date | string
+    estado?: EnumEstadoFieldUpdateOperationsInput | $Enums.Estado
+    visibilidad?: EnumVisibilidadFieldUpdateOperationsInput | $Enums.Visibilidad
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VotoCreateInput = {
+    posicion: $Enums.Posicion
+    comentario?: string | null
+    fechaEmision?: Date | string
+    acta: ActaCreateNestedOneWithoutVotoInput
+    user: UserCreateNestedOneWithoutVotoInput
+  }
+
+  export type VotoUncheckedCreateInput = {
+    id?: number
+    actaId: number
+    consejeroId: string
+    posicion: $Enums.Posicion
+    comentario?: string | null
+    fechaEmision?: Date | string
+  }
+
+  export type VotoUpdateInput = {
+    posicion?: EnumPosicionFieldUpdateOperationsInput | $Enums.Posicion
+    comentario?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaEmision?: DateTimeFieldUpdateOperationsInput | Date | string
+    acta?: ActaUpdateOneRequiredWithoutVotoNestedInput
+    user?: UserUpdateOneRequiredWithoutVotoNestedInput
+  }
+
+  export type VotoUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    actaId?: IntFieldUpdateOperationsInput | number
+    consejeroId?: StringFieldUpdateOperationsInput | string
+    posicion?: EnumPosicionFieldUpdateOperationsInput | $Enums.Posicion
+    comentario?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaEmision?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VotoCreateManyInput = {
+    id?: number
+    actaId: number
+    consejeroId: string
+    posicion: $Enums.Posicion
+    comentario?: string | null
+    fechaEmision?: Date | string
+  }
+
+  export type VotoUpdateManyMutationInput = {
+    posicion?: EnumPosicionFieldUpdateOperationsInput | $Enums.Posicion
+    comentario?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaEmision?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VotoUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    actaId?: IntFieldUpdateOperationsInput | number
+    consejeroId?: StringFieldUpdateOperationsInput | string
+    posicion?: EnumPosicionFieldUpdateOperationsInput | $Enums.Posicion
+    comentario?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaEmision?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReunionCreateInput = {
+    fecha: Date | string
+    fechaNormalizada: string
+    link: string
+    createdAt?: Date | string
+  }
+
+  export type ReunionUncheckedCreateInput = {
+    id?: number
+    fecha: Date | string
+    fechaNormalizada: string
+    link: string
+    createdAt?: Date | string
+  }
+
+  export type ReunionUpdateInput = {
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaNormalizada?: StringFieldUpdateOperationsInput | string
+    link?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReunionUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaNormalizada?: StringFieldUpdateOperationsInput | string
+    link?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReunionCreateManyInput = {
+    id?: number
+    fecha: Date | string
+    fechaNormalizada: string
+    link: string
+    createdAt?: Date | string
+  }
+
+  export type ReunionUpdateManyMutationInput = {
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaNormalizada?: StringFieldUpdateOperationsInput | string
+    link?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReunionUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaNormalizada?: StringFieldUpdateOperationsInput | string
+    link?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LibroCreateInput = {
@@ -60927,6 +66457,121 @@ export namespace Prisma {
     nombre?: StringFieldUpdateOperationsInput | string
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
     usuarioCreadorId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type InscripcionEspecialCreateInput = {
+    caso: string
+    justificacion: string
+    turnoAlternativa1?: string | null
+    turnoAlternativa2?: string | null
+    materias?: InscripcionEspecialCreatemateriasInput | number[]
+    materiasAdeudadas?: InscripcionEspecialCreatemateriasAdeudadasInput | number[]
+    estado: string
+    respuesta?: string | null
+    fueContactado?: boolean | null
+    vinoPresencialmente?: boolean | null
+    fechaSolicitud?: Date | string
+    fechaRespuesta?: Date | string | null
+    solicitante: UserCreateNestedOneWithoutInscripcionesEspecialesInput
+  }
+
+  export type InscripcionEspecialUncheckedCreateInput = {
+    id?: number
+    solicitanteId: string
+    caso: string
+    justificacion: string
+    turnoAlternativa1?: string | null
+    turnoAlternativa2?: string | null
+    materias?: InscripcionEspecialCreatemateriasInput | number[]
+    materiasAdeudadas?: InscripcionEspecialCreatemateriasAdeudadasInput | number[]
+    estado: string
+    respuesta?: string | null
+    fueContactado?: boolean | null
+    vinoPresencialmente?: boolean | null
+    fechaSolicitud?: Date | string
+    fechaRespuesta?: Date | string | null
+  }
+
+  export type InscripcionEspecialUpdateInput = {
+    caso?: StringFieldUpdateOperationsInput | string
+    justificacion?: StringFieldUpdateOperationsInput | string
+    turnoAlternativa1?: NullableStringFieldUpdateOperationsInput | string | null
+    turnoAlternativa2?: NullableStringFieldUpdateOperationsInput | string | null
+    materias?: InscripcionEspecialUpdatemateriasInput | number[]
+    materiasAdeudadas?: InscripcionEspecialUpdatemateriasAdeudadasInput | number[]
+    estado?: StringFieldUpdateOperationsInput | string
+    respuesta?: NullableStringFieldUpdateOperationsInput | string | null
+    fueContactado?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    vinoPresencialmente?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaRespuesta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    solicitante?: UserUpdateOneRequiredWithoutInscripcionesEspecialesNestedInput
+  }
+
+  export type InscripcionEspecialUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    solicitanteId?: StringFieldUpdateOperationsInput | string
+    caso?: StringFieldUpdateOperationsInput | string
+    justificacion?: StringFieldUpdateOperationsInput | string
+    turnoAlternativa1?: NullableStringFieldUpdateOperationsInput | string | null
+    turnoAlternativa2?: NullableStringFieldUpdateOperationsInput | string | null
+    materias?: InscripcionEspecialUpdatemateriasInput | number[]
+    materiasAdeudadas?: InscripcionEspecialUpdatemateriasAdeudadasInput | number[]
+    estado?: StringFieldUpdateOperationsInput | string
+    respuesta?: NullableStringFieldUpdateOperationsInput | string | null
+    fueContactado?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    vinoPresencialmente?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaRespuesta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type InscripcionEspecialCreateManyInput = {
+    id?: number
+    solicitanteId: string
+    caso: string
+    justificacion: string
+    turnoAlternativa1?: string | null
+    turnoAlternativa2?: string | null
+    materias?: InscripcionEspecialCreatemateriasInput | number[]
+    materiasAdeudadas?: InscripcionEspecialCreatemateriasAdeudadasInput | number[]
+    estado: string
+    respuesta?: string | null
+    fueContactado?: boolean | null
+    vinoPresencialmente?: boolean | null
+    fechaSolicitud?: Date | string
+    fechaRespuesta?: Date | string | null
+  }
+
+  export type InscripcionEspecialUpdateManyMutationInput = {
+    caso?: StringFieldUpdateOperationsInput | string
+    justificacion?: StringFieldUpdateOperationsInput | string
+    turnoAlternativa1?: NullableStringFieldUpdateOperationsInput | string | null
+    turnoAlternativa2?: NullableStringFieldUpdateOperationsInput | string | null
+    materias?: InscripcionEspecialUpdatemateriasInput | number[]
+    materiasAdeudadas?: InscripcionEspecialUpdatemateriasAdeudadasInput | number[]
+    estado?: StringFieldUpdateOperationsInput | string
+    respuesta?: NullableStringFieldUpdateOperationsInput | string | null
+    fueContactado?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    vinoPresencialmente?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaRespuesta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type InscripcionEspecialUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    solicitanteId?: StringFieldUpdateOperationsInput | string
+    caso?: StringFieldUpdateOperationsInput | string
+    justificacion?: StringFieldUpdateOperationsInput | string
+    turnoAlternativa1?: NullableStringFieldUpdateOperationsInput | string | null
+    turnoAlternativa2?: NullableStringFieldUpdateOperationsInput | string | null
+    materias?: InscripcionEspecialUpdatemateriasInput | number[]
+    materiasAdeudadas?: InscripcionEspecialUpdatemateriasAdeudadasInput | number[]
+    estado?: StringFieldUpdateOperationsInput | string
+    respuesta?: NullableStringFieldUpdateOperationsInput | string | null
+    fueContactado?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    vinoPresencialmente?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaRespuesta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type LaboratorioCreateInput = {
@@ -62713,12 +68358,14 @@ export namespace Prisma {
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
     materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
+    Voto?: VotoCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -62759,12 +68406,14 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
     materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
+    Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -62805,12 +68454,14 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
     materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
+    Voto?: VotoUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -62851,12 +68502,14 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
     materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
+    Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -63414,6 +69067,166 @@ export namespace Prisma {
     not?: NestedIntFilter<$PrismaModel> | number
   }
 
+  export type StringFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringFilter<$PrismaModel> | string
+  }
+
+  export type DateTimeFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  }
+
+  export type EnumEstadoFilter<$PrismaModel = never> = {
+    equals?: $Enums.Estado | EnumEstadoFieldRefInput<$PrismaModel>
+    in?: $Enums.Estado[] | ListEnumEstadoFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Estado[] | ListEnumEstadoFieldRefInput<$PrismaModel>
+    not?: NestedEnumEstadoFilter<$PrismaModel> | $Enums.Estado
+  }
+
+  export type EnumVisibilidadFilter<$PrismaModel = never> = {
+    equals?: $Enums.Visibilidad | EnumVisibilidadFieldRefInput<$PrismaModel>
+    in?: $Enums.Visibilidad[] | ListEnumVisibilidadFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Visibilidad[] | ListEnumVisibilidadFieldRefInput<$PrismaModel>
+    not?: NestedEnumVisibilidadFilter<$PrismaModel> | $Enums.Visibilidad
+  }
+
+  export type VotoListRelationFilter = {
+    every?: VotoWhereInput
+    some?: VotoWhereInput
+    none?: VotoWhereInput
+  }
+
+  export type VotoOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ActaCountOrderByAggregateInput = {
+    id?: SortOrder
+    nombreActa?: SortOrder
+    fechaReunion?: SortOrder
+    estado?: SortOrder
+    visibilidad?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ActaAvgOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type ActaMaxOrderByAggregateInput = {
+    id?: SortOrder
+    nombreActa?: SortOrder
+    fechaReunion?: SortOrder
+    estado?: SortOrder
+    visibilidad?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ActaMinOrderByAggregateInput = {
+    id?: SortOrder
+    nombreActa?: SortOrder
+    fechaReunion?: SortOrder
+    estado?: SortOrder
+    visibilidad?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ActaSumOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type StringWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedStringFilter<$PrismaModel>
+    _max?: NestedStringFilter<$PrismaModel>
+  }
+
+  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type EnumEstadoWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Estado | EnumEstadoFieldRefInput<$PrismaModel>
+    in?: $Enums.Estado[] | ListEnumEstadoFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Estado[] | ListEnumEstadoFieldRefInput<$PrismaModel>
+    not?: NestedEnumEstadoWithAggregatesFilter<$PrismaModel> | $Enums.Estado
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumEstadoFilter<$PrismaModel>
+    _max?: NestedEnumEstadoFilter<$PrismaModel>
+  }
+
+  export type EnumVisibilidadWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Visibilidad | EnumVisibilidadFieldRefInput<$PrismaModel>
+    in?: $Enums.Visibilidad[] | ListEnumVisibilidadFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Visibilidad[] | ListEnumVisibilidadFieldRefInput<$PrismaModel>
+    not?: NestedEnumVisibilidadWithAggregatesFilter<$PrismaModel> | $Enums.Visibilidad
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumVisibilidadFilter<$PrismaModel>
+    _max?: NestedEnumVisibilidadFilter<$PrismaModel>
+  }
+
+  export type EnumPosicionFilter<$PrismaModel = never> = {
+    equals?: $Enums.Posicion | EnumPosicionFieldRefInput<$PrismaModel>
+    in?: $Enums.Posicion[] | ListEnumPosicionFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Posicion[] | ListEnumPosicionFieldRefInput<$PrismaModel>
+    not?: NestedEnumPosicionFilter<$PrismaModel> | $Enums.Posicion
+  }
+
   export type StringNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -63429,10 +69242,72 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
-  export type StringFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: string[] | ListStringFieldRefInput<$PrismaModel>
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+  export type ActaScalarRelationFilter = {
+    is?: ActaWhereInput
+    isNot?: ActaWhereInput
+  }
+
+  export type UserScalarRelationFilter = {
+    is?: UserWhereInput
+    isNot?: UserWhereInput
+  }
+
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
+  }
+
+  export type VotoCountOrderByAggregateInput = {
+    id?: SortOrder
+    actaId?: SortOrder
+    consejeroId?: SortOrder
+    posicion?: SortOrder
+    comentario?: SortOrder
+    fechaEmision?: SortOrder
+  }
+
+  export type VotoAvgOrderByAggregateInput = {
+    id?: SortOrder
+    actaId?: SortOrder
+  }
+
+  export type VotoMaxOrderByAggregateInput = {
+    id?: SortOrder
+    actaId?: SortOrder
+    consejeroId?: SortOrder
+    posicion?: SortOrder
+    comentario?: SortOrder
+    fechaEmision?: SortOrder
+  }
+
+  export type VotoMinOrderByAggregateInput = {
+    id?: SortOrder
+    actaId?: SortOrder
+    consejeroId?: SortOrder
+    posicion?: SortOrder
+    comentario?: SortOrder
+    fechaEmision?: SortOrder
+  }
+
+  export type VotoSumOrderByAggregateInput = {
+    id?: SortOrder
+    actaId?: SortOrder
+  }
+
+  export type EnumPosicionWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Posicion | EnumPosicionFieldRefInput<$PrismaModel>
+    in?: $Enums.Posicion[] | ListEnumPosicionFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Posicion[] | ListEnumPosicionFieldRefInput<$PrismaModel>
+    not?: NestedEnumPosicionWithAggregatesFilter<$PrismaModel> | $Enums.Posicion
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumPosicionFilter<$PrismaModel>
+    _max?: NestedEnumPosicionFilter<$PrismaModel>
+  }
+
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
     lt?: string | StringFieldRefInput<$PrismaModel>
     lte?: string | StringFieldRefInput<$PrismaModel>
     gt?: string | StringFieldRefInput<$PrismaModel>
@@ -63441,7 +69316,42 @@ export namespace Prisma {
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     mode?: QueryMode
-    not?: NestedStringFilter<$PrismaModel> | string
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type ReunionCountOrderByAggregateInput = {
+    id?: SortOrder
+    fecha?: SortOrder
+    fechaNormalizada?: SortOrder
+    link?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ReunionAvgOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type ReunionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    fecha?: SortOrder
+    fechaNormalizada?: SortOrder
+    link?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ReunionMinOrderByAggregateInput = {
+    id?: SortOrder
+    fecha?: SortOrder
+    fechaNormalizada?: SortOrder
+    link?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ReunionSumOrderByAggregateInput = {
+    id?: SortOrder
   }
 
   export type IntNullableFilter<$PrismaModel = never> = {
@@ -63458,17 +69368,6 @@ export namespace Prisma {
   export type BoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
-  export type DateTimeFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
   export type LibroMateriaListRelationFilter = {
@@ -63516,11 +69415,6 @@ export namespace Prisma {
     every?: ReservaLibroWhereInput
     some?: ReservaLibroWhereInput
     none?: ReservaLibroWhereInput
-  }
-
-  export type SortOrderInput = {
-    sort: SortOrder
-    nulls?: NullsOrder
   }
 
   export type LibroMateriaOrderByRelationAggregateInput = {
@@ -63618,58 +69512,6 @@ export namespace Prisma {
     sedeId?: SortOrder
   }
 
-  export type IntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
-  }
-
-  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
-  }
-
-  export type StringWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: string[] | ListStringFieldRefInput<$PrismaModel>
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedStringFilter<$PrismaModel>
-    _max?: NestedStringFilter<$PrismaModel>
-  }
-
   export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel> | null
     in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
@@ -63692,20 +69534,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
-  }
-
-  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedDateTimeFilter<$PrismaModel>
-    _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
   export type LibroScalarRelationFilter = {
@@ -63876,11 +69704,6 @@ export namespace Prisma {
     every?: CursoAyudanteWhereInput
     some?: CursoAyudanteWhereInput
     none?: CursoAyudanteWhereInput
-  }
-
-  export type UserScalarRelationFilter = {
-    is?: UserWhereInput
-    isNot?: UserWhereInput
   }
 
   export type DivisionScalarRelationFilter = {
@@ -64340,6 +70163,111 @@ export namespace Prisma {
 
   export type EquipoEstadoSumOrderByAggregateInput = {
     id?: SortOrder
+  }
+
+  export type IntNullableListFilter<$PrismaModel = never> = {
+    equals?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    has?: number | IntFieldRefInput<$PrismaModel> | null
+    hasEvery?: number[] | ListIntFieldRefInput<$PrismaModel>
+    hasSome?: number[] | ListIntFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
+  }
+
+  export type BoolNullableFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
+  }
+
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type InscripcionEspecialCountOrderByAggregateInput = {
+    id?: SortOrder
+    solicitanteId?: SortOrder
+    caso?: SortOrder
+    justificacion?: SortOrder
+    turnoAlternativa1?: SortOrder
+    turnoAlternativa2?: SortOrder
+    materias?: SortOrder
+    materiasAdeudadas?: SortOrder
+    estado?: SortOrder
+    respuesta?: SortOrder
+    fueContactado?: SortOrder
+    vinoPresencialmente?: SortOrder
+    fechaSolicitud?: SortOrder
+    fechaRespuesta?: SortOrder
+  }
+
+  export type InscripcionEspecialAvgOrderByAggregateInput = {
+    id?: SortOrder
+    materias?: SortOrder
+    materiasAdeudadas?: SortOrder
+  }
+
+  export type InscripcionEspecialMaxOrderByAggregateInput = {
+    id?: SortOrder
+    solicitanteId?: SortOrder
+    caso?: SortOrder
+    justificacion?: SortOrder
+    turnoAlternativa1?: SortOrder
+    turnoAlternativa2?: SortOrder
+    estado?: SortOrder
+    respuesta?: SortOrder
+    fueContactado?: SortOrder
+    vinoPresencialmente?: SortOrder
+    fechaSolicitud?: SortOrder
+    fechaRespuesta?: SortOrder
+  }
+
+  export type InscripcionEspecialMinOrderByAggregateInput = {
+    id?: SortOrder
+    solicitanteId?: SortOrder
+    caso?: SortOrder
+    justificacion?: SortOrder
+    turnoAlternativa1?: SortOrder
+    turnoAlternativa2?: SortOrder
+    estado?: SortOrder
+    respuesta?: SortOrder
+    fueContactado?: SortOrder
+    vinoPresencialmente?: SortOrder
+    fechaSolicitud?: SortOrder
+    fechaRespuesta?: SortOrder
+  }
+
+  export type InscripcionEspecialSumOrderByAggregateInput = {
+    id?: SortOrder
+    materias?: SortOrder
+    materiasAdeudadas?: SortOrder
+  }
+
+  export type BoolNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBoolNullableFilter<$PrismaModel>
+    _max?: NestedBoolNullableFilter<$PrismaModel>
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type SoftwareLaboratorioListRelationFilter = {
@@ -64908,17 +70836,6 @@ export namespace Prisma {
     not?: NestedEnumReservaTipoFilter<$PrismaModel> | $Enums.ReservaTipo
   }
 
-  export type DateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-  }
-
   export type ReservaEquipoNullableScalarRelationFilter = {
     is?: ReservaEquipoWhereInput | null
     isNot?: ReservaEquipoWhereInput | null
@@ -65040,20 +70957,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumReservaTipoFilter<$PrismaModel>
     _max?: NestedEnumReservaTipoFilter<$PrismaModel>
-  }
-
-  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type ReservaScalarRelationFilter = {
@@ -65629,11 +71532,6 @@ export namespace Prisma {
     id?: SortOrder
   }
 
-  export type BoolNullableFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
-    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
-  }
-
   export type DocumentoTipoNullableScalarRelationFilter = {
     is?: DocumentoTipoWhereInput | null
     isNot?: DocumentoTipoWhereInput | null
@@ -65673,6 +71571,12 @@ export namespace Prisma {
     none?: ReservaWhereInput
   }
 
+  export type InscripcionEspecialListRelationFilter = {
+    every?: InscripcionEspecialWhereInput
+    some?: InscripcionEspecialWhereInput
+    none?: InscripcionEspecialWhereInput
+  }
+
   export type MateriaListRelationFilter = {
     every?: MateriaWhereInput
     some?: MateriaWhereInput
@@ -65697,6 +71601,10 @@ export namespace Prisma {
   }
 
   export type ReservaOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type InscripcionEspecialOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -65805,14 +71713,6 @@ export namespace Prisma {
   export type UserSumOrderByAggregateInput = {
     penalizaciones?: SortOrder
     documentoTipoId?: SortOrder
-  }
-
-  export type BoolNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
-    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedBoolNullableFilter<$PrismaModel>
-    _max?: NestedBoolNullableFilter<$PrismaModel>
   }
 
   export type TutorCountOrderByAggregateInput = {
@@ -66136,6 +72036,108 @@ export namespace Prisma {
     id?: SortOrder
   }
 
+  export type VotoCreateNestedManyWithoutActaInput = {
+    create?: XOR<VotoCreateWithoutActaInput, VotoUncheckedCreateWithoutActaInput> | VotoCreateWithoutActaInput[] | VotoUncheckedCreateWithoutActaInput[]
+    connectOrCreate?: VotoCreateOrConnectWithoutActaInput | VotoCreateOrConnectWithoutActaInput[]
+    createMany?: VotoCreateManyActaInputEnvelope
+    connect?: VotoWhereUniqueInput | VotoWhereUniqueInput[]
+  }
+
+  export type VotoUncheckedCreateNestedManyWithoutActaInput = {
+    create?: XOR<VotoCreateWithoutActaInput, VotoUncheckedCreateWithoutActaInput> | VotoCreateWithoutActaInput[] | VotoUncheckedCreateWithoutActaInput[]
+    connectOrCreate?: VotoCreateOrConnectWithoutActaInput | VotoCreateOrConnectWithoutActaInput[]
+    createMany?: VotoCreateManyActaInputEnvelope
+    connect?: VotoWhereUniqueInput | VotoWhereUniqueInput[]
+  }
+
+  export type StringFieldUpdateOperationsInput = {
+    set?: string
+  }
+
+  export type DateTimeFieldUpdateOperationsInput = {
+    set?: Date | string
+  }
+
+  export type EnumEstadoFieldUpdateOperationsInput = {
+    set?: $Enums.Estado
+  }
+
+  export type EnumVisibilidadFieldUpdateOperationsInput = {
+    set?: $Enums.Visibilidad
+  }
+
+  export type VotoUpdateManyWithoutActaNestedInput = {
+    create?: XOR<VotoCreateWithoutActaInput, VotoUncheckedCreateWithoutActaInput> | VotoCreateWithoutActaInput[] | VotoUncheckedCreateWithoutActaInput[]
+    connectOrCreate?: VotoCreateOrConnectWithoutActaInput | VotoCreateOrConnectWithoutActaInput[]
+    upsert?: VotoUpsertWithWhereUniqueWithoutActaInput | VotoUpsertWithWhereUniqueWithoutActaInput[]
+    createMany?: VotoCreateManyActaInputEnvelope
+    set?: VotoWhereUniqueInput | VotoWhereUniqueInput[]
+    disconnect?: VotoWhereUniqueInput | VotoWhereUniqueInput[]
+    delete?: VotoWhereUniqueInput | VotoWhereUniqueInput[]
+    connect?: VotoWhereUniqueInput | VotoWhereUniqueInput[]
+    update?: VotoUpdateWithWhereUniqueWithoutActaInput | VotoUpdateWithWhereUniqueWithoutActaInput[]
+    updateMany?: VotoUpdateManyWithWhereWithoutActaInput | VotoUpdateManyWithWhereWithoutActaInput[]
+    deleteMany?: VotoScalarWhereInput | VotoScalarWhereInput[]
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type VotoUncheckedUpdateManyWithoutActaNestedInput = {
+    create?: XOR<VotoCreateWithoutActaInput, VotoUncheckedCreateWithoutActaInput> | VotoCreateWithoutActaInput[] | VotoUncheckedCreateWithoutActaInput[]
+    connectOrCreate?: VotoCreateOrConnectWithoutActaInput | VotoCreateOrConnectWithoutActaInput[]
+    upsert?: VotoUpsertWithWhereUniqueWithoutActaInput | VotoUpsertWithWhereUniqueWithoutActaInput[]
+    createMany?: VotoCreateManyActaInputEnvelope
+    set?: VotoWhereUniqueInput | VotoWhereUniqueInput[]
+    disconnect?: VotoWhereUniqueInput | VotoWhereUniqueInput[]
+    delete?: VotoWhereUniqueInput | VotoWhereUniqueInput[]
+    connect?: VotoWhereUniqueInput | VotoWhereUniqueInput[]
+    update?: VotoUpdateWithWhereUniqueWithoutActaInput | VotoUpdateWithWhereUniqueWithoutActaInput[]
+    updateMany?: VotoUpdateManyWithWhereWithoutActaInput | VotoUpdateManyWithWhereWithoutActaInput[]
+    deleteMany?: VotoScalarWhereInput | VotoScalarWhereInput[]
+  }
+
+  export type ActaCreateNestedOneWithoutVotoInput = {
+    create?: XOR<ActaCreateWithoutVotoInput, ActaUncheckedCreateWithoutVotoInput>
+    connectOrCreate?: ActaCreateOrConnectWithoutVotoInput
+    connect?: ActaWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutVotoInput = {
+    create?: XOR<UserCreateWithoutVotoInput, UserUncheckedCreateWithoutVotoInput>
+    connectOrCreate?: UserCreateOrConnectWithoutVotoInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type EnumPosicionFieldUpdateOperationsInput = {
+    set?: $Enums.Posicion
+  }
+
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
+  }
+
+  export type ActaUpdateOneRequiredWithoutVotoNestedInput = {
+    create?: XOR<ActaCreateWithoutVotoInput, ActaUncheckedCreateWithoutVotoInput>
+    connectOrCreate?: ActaCreateOrConnectWithoutVotoInput
+    upsert?: ActaUpsertWithoutVotoInput
+    connect?: ActaWhereUniqueInput
+    update?: XOR<XOR<ActaUpdateToOneWithWhereWithoutVotoInput, ActaUpdateWithoutVotoInput>, ActaUncheckedUpdateWithoutVotoInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutVotoNestedInput = {
+    create?: XOR<UserCreateWithoutVotoInput, UserUncheckedCreateWithoutVotoInput>
+    connectOrCreate?: UserCreateOrConnectWithoutVotoInput
+    upsert?: UserUpsertWithoutVotoInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutVotoInput, UserUpdateWithoutVotoInput>, UserUncheckedUpdateWithoutVotoInput>
+  }
+
   export type LibroMateriaCreateNestedManyWithoutLibroInput = {
     create?: XOR<LibroMateriaCreateWithoutLibroInput, LibroMateriaUncheckedCreateWithoutLibroInput> | LibroMateriaCreateWithoutLibroInput[] | LibroMateriaUncheckedCreateWithoutLibroInput[]
     connectOrCreate?: LibroMateriaCreateOrConnectWithoutLibroInput | LibroMateriaCreateOrConnectWithoutLibroInput[]
@@ -66206,28 +72208,8 @@ export namespace Prisma {
     connect?: ReservaLibroWhereUniqueInput | ReservaLibroWhereUniqueInput[]
   }
 
-  export type NullableStringFieldUpdateOperationsInput = {
-    set?: string | null
-  }
-
-  export type StringFieldUpdateOperationsInput = {
-    set?: string
-  }
-
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
-  }
-
   export type BoolFieldUpdateOperationsInput = {
     set?: boolean
-  }
-
-  export type DateTimeFieldUpdateOperationsInput = {
-    set?: Date | string
   }
 
   export type LibroMateriaUpdateManyWithoutLibroNestedInput = {
@@ -67082,6 +73064,46 @@ export namespace Prisma {
     update?: EquipoUpdateWithWhereUniqueWithoutEstadoInput | EquipoUpdateWithWhereUniqueWithoutEstadoInput[]
     updateMany?: EquipoUpdateManyWithWhereWithoutEstadoInput | EquipoUpdateManyWithWhereWithoutEstadoInput[]
     deleteMany?: EquipoScalarWhereInput | EquipoScalarWhereInput[]
+  }
+
+  export type InscripcionEspecialCreatemateriasInput = {
+    set: number[]
+  }
+
+  export type InscripcionEspecialCreatemateriasAdeudadasInput = {
+    set: number[]
+  }
+
+  export type UserCreateNestedOneWithoutInscripcionesEspecialesInput = {
+    create?: XOR<UserCreateWithoutInscripcionesEspecialesInput, UserUncheckedCreateWithoutInscripcionesEspecialesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutInscripcionesEspecialesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type InscripcionEspecialUpdatemateriasInput = {
+    set?: number[]
+    push?: number | number[]
+  }
+
+  export type InscripcionEspecialUpdatemateriasAdeudadasInput = {
+    set?: number[]
+    push?: number | number[]
+  }
+
+  export type NullableBoolFieldUpdateOperationsInput = {
+    set?: boolean | null
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
+  export type UserUpdateOneRequiredWithoutInscripcionesEspecialesNestedInput = {
+    create?: XOR<UserCreateWithoutInscripcionesEspecialesInput, UserUncheckedCreateWithoutInscripcionesEspecialesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutInscripcionesEspecialesInput
+    upsert?: UserUpsertWithoutInscripcionesEspecialesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutInscripcionesEspecialesInput, UserUpdateWithoutInscripcionesEspecialesInput>, UserUncheckedUpdateWithoutInscripcionesEspecialesInput>
   }
 
   export type SedeCreateNestedOneWithoutLaboratoriosInput = {
@@ -68086,10 +74108,6 @@ export namespace Prisma {
     set?: $Enums.ReservaTipo
   }
 
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null
-  }
-
   export type UserUpdateOneRequiredWithoutReservasSolicitadasNestedInput = {
     create?: XOR<UserCreateWithoutReservasSolicitadasInput, UserUncheckedCreateWithoutReservasSolicitadasInput>
     connectOrCreate?: UserCreateOrConnectWithoutReservasSolicitadasInput
@@ -68981,6 +74999,13 @@ export namespace Prisma {
     connect?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
   }
 
+  export type InscripcionEspecialCreateNestedManyWithoutSolicitanteInput = {
+    create?: XOR<InscripcionEspecialCreateWithoutSolicitanteInput, InscripcionEspecialUncheckedCreateWithoutSolicitanteInput> | InscripcionEspecialCreateWithoutSolicitanteInput[] | InscripcionEspecialUncheckedCreateWithoutSolicitanteInput[]
+    connectOrCreate?: InscripcionEspecialCreateOrConnectWithoutSolicitanteInput | InscripcionEspecialCreateOrConnectWithoutSolicitanteInput[]
+    createMany?: InscripcionEspecialCreateManySolicitanteInputEnvelope
+    connect?: InscripcionEspecialWhereUniqueInput | InscripcionEspecialWhereUniqueInput[]
+  }
+
   export type CursoAyudanteCreateNestedManyWithoutUsuarioInput = {
     create?: XOR<CursoAyudanteCreateWithoutUsuarioInput, CursoAyudanteUncheckedCreateWithoutUsuarioInput> | CursoAyudanteCreateWithoutUsuarioInput[] | CursoAyudanteUncheckedCreateWithoutUsuarioInput[]
     connectOrCreate?: CursoAyudanteCreateOrConnectWithoutUsuarioInput | CursoAyudanteCreateOrConnectWithoutUsuarioInput[]
@@ -69020,6 +75045,13 @@ export namespace Prisma {
     connectOrCreate?: ReservaLaboratorioCerradoCreateOrConnectWithoutDiscrecionalDocenteInput | ReservaLaboratorioCerradoCreateOrConnectWithoutDiscrecionalDocenteInput[]
     createMany?: ReservaLaboratorioCerradoCreateManyDiscrecionalDocenteInputEnvelope
     connect?: ReservaLaboratorioCerradoWhereUniqueInput | ReservaLaboratorioCerradoWhereUniqueInput[]
+  }
+
+  export type VotoCreateNestedManyWithoutUserInput = {
+    create?: XOR<VotoCreateWithoutUserInput, VotoUncheckedCreateWithoutUserInput> | VotoCreateWithoutUserInput[] | VotoUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: VotoCreateOrConnectWithoutUserInput | VotoCreateOrConnectWithoutUserInput[]
+    createMany?: VotoCreateManyUserInputEnvelope
+    connect?: VotoWhereUniqueInput | VotoWhereUniqueInput[]
   }
 
   export type AccountUncheckedCreateNestedManyWithoutUserInput = {
@@ -69085,6 +75117,13 @@ export namespace Prisma {
     connect?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
   }
 
+  export type InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput = {
+    create?: XOR<InscripcionEspecialCreateWithoutSolicitanteInput, InscripcionEspecialUncheckedCreateWithoutSolicitanteInput> | InscripcionEspecialCreateWithoutSolicitanteInput[] | InscripcionEspecialUncheckedCreateWithoutSolicitanteInput[]
+    connectOrCreate?: InscripcionEspecialCreateOrConnectWithoutSolicitanteInput | InscripcionEspecialCreateOrConnectWithoutSolicitanteInput[]
+    createMany?: InscripcionEspecialCreateManySolicitanteInputEnvelope
+    connect?: InscripcionEspecialWhereUniqueInput | InscripcionEspecialWhereUniqueInput[]
+  }
+
   export type CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput = {
     create?: XOR<CursoAyudanteCreateWithoutUsuarioInput, CursoAyudanteUncheckedCreateWithoutUsuarioInput> | CursoAyudanteCreateWithoutUsuarioInput[] | CursoAyudanteUncheckedCreateWithoutUsuarioInput[]
     connectOrCreate?: CursoAyudanteCreateOrConnectWithoutUsuarioInput | CursoAyudanteCreateOrConnectWithoutUsuarioInput[]
@@ -69124,6 +75163,13 @@ export namespace Prisma {
     connectOrCreate?: ReservaLaboratorioCerradoCreateOrConnectWithoutDiscrecionalDocenteInput | ReservaLaboratorioCerradoCreateOrConnectWithoutDiscrecionalDocenteInput[]
     createMany?: ReservaLaboratorioCerradoCreateManyDiscrecionalDocenteInputEnvelope
     connect?: ReservaLaboratorioCerradoWhereUniqueInput | ReservaLaboratorioCerradoWhereUniqueInput[]
+  }
+
+  export type VotoUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<VotoCreateWithoutUserInput, VotoUncheckedCreateWithoutUserInput> | VotoCreateWithoutUserInput[] | VotoUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: VotoCreateOrConnectWithoutUserInput | VotoCreateOrConnectWithoutUserInput[]
+    createMany?: VotoCreateManyUserInputEnvelope
+    connect?: VotoWhereUniqueInput | VotoWhereUniqueInput[]
   }
 
   export type NullableBoolFieldUpdateOperationsInput = {
@@ -69286,6 +75332,20 @@ export namespace Prisma {
     deleteMany?: ReservaScalarWhereInput | ReservaScalarWhereInput[]
   }
 
+  export type InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput = {
+    create?: XOR<InscripcionEspecialCreateWithoutSolicitanteInput, InscripcionEspecialUncheckedCreateWithoutSolicitanteInput> | InscripcionEspecialCreateWithoutSolicitanteInput[] | InscripcionEspecialUncheckedCreateWithoutSolicitanteInput[]
+    connectOrCreate?: InscripcionEspecialCreateOrConnectWithoutSolicitanteInput | InscripcionEspecialCreateOrConnectWithoutSolicitanteInput[]
+    upsert?: InscripcionEspecialUpsertWithWhereUniqueWithoutSolicitanteInput | InscripcionEspecialUpsertWithWhereUniqueWithoutSolicitanteInput[]
+    createMany?: InscripcionEspecialCreateManySolicitanteInputEnvelope
+    set?: InscripcionEspecialWhereUniqueInput | InscripcionEspecialWhereUniqueInput[]
+    disconnect?: InscripcionEspecialWhereUniqueInput | InscripcionEspecialWhereUniqueInput[]
+    delete?: InscripcionEspecialWhereUniqueInput | InscripcionEspecialWhereUniqueInput[]
+    connect?: InscripcionEspecialWhereUniqueInput | InscripcionEspecialWhereUniqueInput[]
+    update?: InscripcionEspecialUpdateWithWhereUniqueWithoutSolicitanteInput | InscripcionEspecialUpdateWithWhereUniqueWithoutSolicitanteInput[]
+    updateMany?: InscripcionEspecialUpdateManyWithWhereWithoutSolicitanteInput | InscripcionEspecialUpdateManyWithWhereWithoutSolicitanteInput[]
+    deleteMany?: InscripcionEspecialScalarWhereInput | InscripcionEspecialScalarWhereInput[]
+  }
+
   export type CursoAyudanteUpdateManyWithoutUsuarioNestedInput = {
     create?: XOR<CursoAyudanteCreateWithoutUsuarioInput, CursoAyudanteUncheckedCreateWithoutUsuarioInput> | CursoAyudanteCreateWithoutUsuarioInput[] | CursoAyudanteUncheckedCreateWithoutUsuarioInput[]
     connectOrCreate?: CursoAyudanteCreateOrConnectWithoutUsuarioInput | CursoAyudanteCreateOrConnectWithoutUsuarioInput[]
@@ -69364,6 +75424,20 @@ export namespace Prisma {
     update?: ReservaLaboratorioCerradoUpdateWithWhereUniqueWithoutDiscrecionalDocenteInput | ReservaLaboratorioCerradoUpdateWithWhereUniqueWithoutDiscrecionalDocenteInput[]
     updateMany?: ReservaLaboratorioCerradoUpdateManyWithWhereWithoutDiscrecionalDocenteInput | ReservaLaboratorioCerradoUpdateManyWithWhereWithoutDiscrecionalDocenteInput[]
     deleteMany?: ReservaLaboratorioCerradoScalarWhereInput | ReservaLaboratorioCerradoScalarWhereInput[]
+  }
+
+  export type VotoUpdateManyWithoutUserNestedInput = {
+    create?: XOR<VotoCreateWithoutUserInput, VotoUncheckedCreateWithoutUserInput> | VotoCreateWithoutUserInput[] | VotoUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: VotoCreateOrConnectWithoutUserInput | VotoCreateOrConnectWithoutUserInput[]
+    upsert?: VotoUpsertWithWhereUniqueWithoutUserInput | VotoUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: VotoCreateManyUserInputEnvelope
+    set?: VotoWhereUniqueInput | VotoWhereUniqueInput[]
+    disconnect?: VotoWhereUniqueInput | VotoWhereUniqueInput[]
+    delete?: VotoWhereUniqueInput | VotoWhereUniqueInput[]
+    connect?: VotoWhereUniqueInput | VotoWhereUniqueInput[]
+    update?: VotoUpdateWithWhereUniqueWithoutUserInput | VotoUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: VotoUpdateManyWithWhereWithoutUserInput | VotoUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: VotoScalarWhereInput | VotoScalarWhereInput[]
   }
 
   export type AccountUncheckedUpdateManyWithoutUserNestedInput = {
@@ -69492,6 +75566,20 @@ export namespace Prisma {
     deleteMany?: ReservaScalarWhereInput | ReservaScalarWhereInput[]
   }
 
+  export type InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput = {
+    create?: XOR<InscripcionEspecialCreateWithoutSolicitanteInput, InscripcionEspecialUncheckedCreateWithoutSolicitanteInput> | InscripcionEspecialCreateWithoutSolicitanteInput[] | InscripcionEspecialUncheckedCreateWithoutSolicitanteInput[]
+    connectOrCreate?: InscripcionEspecialCreateOrConnectWithoutSolicitanteInput | InscripcionEspecialCreateOrConnectWithoutSolicitanteInput[]
+    upsert?: InscripcionEspecialUpsertWithWhereUniqueWithoutSolicitanteInput | InscripcionEspecialUpsertWithWhereUniqueWithoutSolicitanteInput[]
+    createMany?: InscripcionEspecialCreateManySolicitanteInputEnvelope
+    set?: InscripcionEspecialWhereUniqueInput | InscripcionEspecialWhereUniqueInput[]
+    disconnect?: InscripcionEspecialWhereUniqueInput | InscripcionEspecialWhereUniqueInput[]
+    delete?: InscripcionEspecialWhereUniqueInput | InscripcionEspecialWhereUniqueInput[]
+    connect?: InscripcionEspecialWhereUniqueInput | InscripcionEspecialWhereUniqueInput[]
+    update?: InscripcionEspecialUpdateWithWhereUniqueWithoutSolicitanteInput | InscripcionEspecialUpdateWithWhereUniqueWithoutSolicitanteInput[]
+    updateMany?: InscripcionEspecialUpdateManyWithWhereWithoutSolicitanteInput | InscripcionEspecialUpdateManyWithWhereWithoutSolicitanteInput[]
+    deleteMany?: InscripcionEspecialScalarWhereInput | InscripcionEspecialScalarWhereInput[]
+  }
+
   export type CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput = {
     create?: XOR<CursoAyudanteCreateWithoutUsuarioInput, CursoAyudanteUncheckedCreateWithoutUsuarioInput> | CursoAyudanteCreateWithoutUsuarioInput[] | CursoAyudanteUncheckedCreateWithoutUsuarioInput[]
     connectOrCreate?: CursoAyudanteCreateOrConnectWithoutUsuarioInput | CursoAyudanteCreateOrConnectWithoutUsuarioInput[]
@@ -69570,6 +75658,20 @@ export namespace Prisma {
     update?: ReservaLaboratorioCerradoUpdateWithWhereUniqueWithoutDiscrecionalDocenteInput | ReservaLaboratorioCerradoUpdateWithWhereUniqueWithoutDiscrecionalDocenteInput[]
     updateMany?: ReservaLaboratorioCerradoUpdateManyWithWhereWithoutDiscrecionalDocenteInput | ReservaLaboratorioCerradoUpdateManyWithWhereWithoutDiscrecionalDocenteInput[]
     deleteMany?: ReservaLaboratorioCerradoScalarWhereInput | ReservaLaboratorioCerradoScalarWhereInput[]
+  }
+
+  export type VotoUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<VotoCreateWithoutUserInput, VotoUncheckedCreateWithoutUserInput> | VotoCreateWithoutUserInput[] | VotoUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: VotoCreateOrConnectWithoutUserInput | VotoCreateOrConnectWithoutUserInput[]
+    upsert?: VotoUpsertWithWhereUniqueWithoutUserInput | VotoUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: VotoCreateManyUserInputEnvelope
+    set?: VotoWhereUniqueInput | VotoWhereUniqueInput[]
+    disconnect?: VotoWhereUniqueInput | VotoWhereUniqueInput[]
+    delete?: VotoWhereUniqueInput | VotoWhereUniqueInput[]
+    connect?: VotoWhereUniqueInput | VotoWhereUniqueInput[]
+    update?: VotoUpdateWithWhereUniqueWithoutUserInput | VotoUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: VotoUpdateManyWithWhereWithoutUserInput | VotoUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: VotoScalarWhereInput | VotoScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutTutorInput = {
@@ -69965,20 +76067,6 @@ export namespace Prisma {
     not?: NestedIntFilter<$PrismaModel> | number
   }
 
-  export type NestedStringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
-  }
-
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -69993,22 +76081,6 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
-  export type NestedIntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
   export type NestedDateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -70018,6 +76090,20 @@ export namespace Prisma {
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  }
+
+  export type NestedEnumEstadoFilter<$PrismaModel = never> = {
+    equals?: $Enums.Estado | EnumEstadoFieldRefInput<$PrismaModel>
+    in?: $Enums.Estado[] | ListEnumEstadoFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Estado[] | ListEnumEstadoFieldRefInput<$PrismaModel>
+    not?: NestedEnumEstadoFilter<$PrismaModel> | $Enums.Estado
+  }
+
+  export type NestedEnumVisibilidadFilter<$PrismaModel = never> = {
+    equals?: $Enums.Visibilidad | EnumVisibilidadFieldRefInput<$PrismaModel>
+    in?: $Enums.Visibilidad[] | ListEnumVisibilidadFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Visibilidad[] | ListEnumVisibilidadFieldRefInput<$PrismaModel>
+    not?: NestedEnumVisibilidadFilter<$PrismaModel> | $Enums.Visibilidad
   }
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
@@ -70047,6 +76133,88 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
+  export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedStringFilter<$PrismaModel>
+    _max?: NestedStringFilter<$PrismaModel>
+  }
+
+  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumEstadoWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Estado | EnumEstadoFieldRefInput<$PrismaModel>
+    in?: $Enums.Estado[] | ListEnumEstadoFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Estado[] | ListEnumEstadoFieldRefInput<$PrismaModel>
+    not?: NestedEnumEstadoWithAggregatesFilter<$PrismaModel> | $Enums.Estado
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumEstadoFilter<$PrismaModel>
+    _max?: NestedEnumEstadoFilter<$PrismaModel>
+  }
+
+  export type NestedEnumVisibilidadWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Visibilidad | EnumVisibilidadFieldRefInput<$PrismaModel>
+    in?: $Enums.Visibilidad[] | ListEnumVisibilidadFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Visibilidad[] | ListEnumVisibilidadFieldRefInput<$PrismaModel>
+    not?: NestedEnumVisibilidadWithAggregatesFilter<$PrismaModel> | $Enums.Visibilidad
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumVisibilidadFilter<$PrismaModel>
+    _max?: NestedEnumVisibilidadFilter<$PrismaModel>
+  }
+
+  export type NestedEnumPosicionFilter<$PrismaModel = never> = {
+    equals?: $Enums.Posicion | EnumPosicionFieldRefInput<$PrismaModel>
+    in?: $Enums.Posicion[] | ListEnumPosicionFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Posicion[] | ListEnumPosicionFieldRefInput<$PrismaModel>
+    not?: NestedEnumPosicionFilter<$PrismaModel> | $Enums.Posicion
+  }
+
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type NestedEnumPosicionWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Posicion | EnumPosicionFieldRefInput<$PrismaModel>
+    in?: $Enums.Posicion[] | ListEnumPosicionFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Posicion[] | ListEnumPosicionFieldRefInput<$PrismaModel>
+    not?: NestedEnumPosicionWithAggregatesFilter<$PrismaModel> | $Enums.Posicion
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumPosicionFilter<$PrismaModel>
+    _max?: NestedEnumPosicionFilter<$PrismaModel>
+  }
+
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -70064,21 +76232,20 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
-  export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: string[] | ListStringFieldRefInput<$PrismaModel>
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedStringFilter<$PrismaModel>
-    _max?: NestedStringFilter<$PrismaModel>
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -70114,20 +76281,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
-  }
-
-  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedDateTimeFilter<$PrismaModel>
-    _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
   export type NestedEnumCursoDiaFilter<$PrismaModel = never> = {
@@ -70179,6 +76332,44 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumTurnoCursoFilter<$PrismaModel>
     _max?: NestedEnumTurnoCursoFilter<$PrismaModel>
+  }
+
+  export type NestedBoolNullableFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
+  }
+
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type NestedBoolNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBoolNullableFilter<$PrismaModel>
+    _max?: NestedBoolNullableFilter<$PrismaModel>
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
   export type NestedJsonFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -70269,17 +76460,6 @@ export namespace Prisma {
     not?: NestedEnumReservaTipoFilter<$PrismaModel> | $Enums.ReservaTipo
   }
 
-  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-  }
-
   export type NestedEnumReservaEstatusWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.ReservaEstatus | EnumReservaEstatusFieldRefInput<$PrismaModel>
     in?: $Enums.ReservaEstatus[] | ListEnumReservaEstatusFieldRefInput<$PrismaModel>
@@ -70300,20 +76480,6 @@ export namespace Prisma {
     _max?: NestedEnumReservaTipoFilter<$PrismaModel>
   }
 
-  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
-  }
-
   export type NestedEnumLaboratorioAbiertoTipoFilter<$PrismaModel = never> = {
     equals?: $Enums.LaboratorioAbiertoTipo | EnumLaboratorioAbiertoTipoFieldRefInput<$PrismaModel>
     in?: $Enums.LaboratorioAbiertoTipo[] | ListEnumLaboratorioAbiertoTipoFieldRefInput<$PrismaModel>
@@ -70331,19 +76497,6 @@ export namespace Prisma {
     _max?: NestedEnumLaboratorioAbiertoTipoFilter<$PrismaModel>
   }
 
-  export type NestedBoolNullableFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
-    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
-  }
-
-  export type NestedBoolNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
-    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedBoolNullableFilter<$PrismaModel>
-    _max?: NestedBoolNullableFilter<$PrismaModel>
-  }
-
   export type NestedEnumSgeNombreFilter<$PrismaModel = never> = {
     equals?: $Enums.SgeNombre | EnumSgeNombreFieldRefInput<$PrismaModel>
     in?: $Enums.SgeNombre[] | ListEnumSgeNombreFieldRefInput<$PrismaModel>
@@ -70359,6 +76512,309 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumSgeNombreFilter<$PrismaModel>
     _max?: NestedEnumSgeNombreFilter<$PrismaModel>
+  }
+
+  export type VotoCreateWithoutActaInput = {
+    posicion: $Enums.Posicion
+    comentario?: string | null
+    fechaEmision?: Date | string
+    user: UserCreateNestedOneWithoutVotoInput
+  }
+
+  export type VotoUncheckedCreateWithoutActaInput = {
+    id?: number
+    consejeroId: string
+    posicion: $Enums.Posicion
+    comentario?: string | null
+    fechaEmision?: Date | string
+  }
+
+  export type VotoCreateOrConnectWithoutActaInput = {
+    where: VotoWhereUniqueInput
+    create: XOR<VotoCreateWithoutActaInput, VotoUncheckedCreateWithoutActaInput>
+  }
+
+  export type VotoCreateManyActaInputEnvelope = {
+    data: VotoCreateManyActaInput | VotoCreateManyActaInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type VotoUpsertWithWhereUniqueWithoutActaInput = {
+    where: VotoWhereUniqueInput
+    update: XOR<VotoUpdateWithoutActaInput, VotoUncheckedUpdateWithoutActaInput>
+    create: XOR<VotoCreateWithoutActaInput, VotoUncheckedCreateWithoutActaInput>
+  }
+
+  export type VotoUpdateWithWhereUniqueWithoutActaInput = {
+    where: VotoWhereUniqueInput
+    data: XOR<VotoUpdateWithoutActaInput, VotoUncheckedUpdateWithoutActaInput>
+  }
+
+  export type VotoUpdateManyWithWhereWithoutActaInput = {
+    where: VotoScalarWhereInput
+    data: XOR<VotoUpdateManyMutationInput, VotoUncheckedUpdateManyWithoutActaInput>
+  }
+
+  export type VotoScalarWhereInput = {
+    AND?: VotoScalarWhereInput | VotoScalarWhereInput[]
+    OR?: VotoScalarWhereInput[]
+    NOT?: VotoScalarWhereInput | VotoScalarWhereInput[]
+    id?: IntFilter<"Voto"> | number
+    actaId?: IntFilter<"Voto"> | number
+    consejeroId?: StringFilter<"Voto"> | string
+    posicion?: EnumPosicionFilter<"Voto"> | $Enums.Posicion
+    comentario?: StringNullableFilter<"Voto"> | string | null
+    fechaEmision?: DateTimeFilter<"Voto"> | Date | string
+  }
+
+  export type ActaCreateWithoutVotoInput = {
+    nombreActa: string
+    fechaReunion: Date | string
+    estado?: $Enums.Estado
+    visibilidad?: $Enums.Visibilidad
+    createdAt?: Date | string
+  }
+
+  export type ActaUncheckedCreateWithoutVotoInput = {
+    id?: number
+    nombreActa: string
+    fechaReunion: Date | string
+    estado?: $Enums.Estado
+    visibilidad?: $Enums.Visibilidad
+    createdAt?: Date | string
+  }
+
+  export type ActaCreateOrConnectWithoutVotoInput = {
+    where: ActaWhereUniqueInput
+    create: XOR<ActaCreateWithoutVotoInput, ActaUncheckedCreateWithoutVotoInput>
+  }
+
+  export type UserCreateWithoutVotoInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified?: boolean | null
+    image?: string
+    nombre?: string | null
+    apellido?: string | null
+    fechaNacimiento?: Date | string | null
+    direccion?: string | null
+    piso?: string | null
+    departamento?: string | null
+    ciudad?: string | null
+    codigoPostal?: string | null
+    telefonoCasa?: string | null
+    telefonoCelular?: string | null
+    telefonoLaboral?: string | null
+    documentoNumero?: string | null
+    legajo?: string | null
+    gitlab?: string | null
+    penalizaciones?: number
+    esDocente?: boolean
+    esTutor?: boolean
+    fechaRegistro?: Date | string
+    fechaUltimoAcceso?: Date | string
+    fechaUltimaActualizacion?: Date | string
+    documentoTipo?: DocumentoTipoCreateNestedOneWithoutUsuariosInput
+    provincia?: ProvinciaCreateNestedOneWithoutUsuariosInput
+    pais?: PaisCreateNestedOneWithoutUsuariosInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
+    reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
+    reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
+    reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
+    cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
+    tutor?: TutorCreateNestedOneWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
+  }
+
+  export type UserUncheckedCreateWithoutVotoInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified?: boolean | null
+    image?: string
+    nombre?: string | null
+    apellido?: string | null
+    fechaNacimiento?: Date | string | null
+    direccion?: string | null
+    piso?: string | null
+    departamento?: string | null
+    ciudad?: string | null
+    codigoPostal?: string | null
+    telefonoCasa?: string | null
+    telefonoCelular?: string | null
+    telefonoLaboral?: string | null
+    documentoNumero?: string | null
+    legajo?: string | null
+    gitlab?: string | null
+    penalizaciones?: number
+    esDocente?: boolean
+    esTutor?: boolean
+    fechaRegistro?: Date | string
+    fechaUltimoAcceso?: Date | string
+    fechaUltimaActualizacion?: Date | string
+    documentoTipoId?: number | null
+    provinciaIso?: string | null
+    paisIso?: string | null
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolUncheckedCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
+    reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
+    reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
+    reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
+    cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
+    tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
+  }
+
+  export type UserCreateOrConnectWithoutVotoInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutVotoInput, UserUncheckedCreateWithoutVotoInput>
+  }
+
+  export type ActaUpsertWithoutVotoInput = {
+    update: XOR<ActaUpdateWithoutVotoInput, ActaUncheckedUpdateWithoutVotoInput>
+    create: XOR<ActaCreateWithoutVotoInput, ActaUncheckedCreateWithoutVotoInput>
+    where?: ActaWhereInput
+  }
+
+  export type ActaUpdateToOneWithWhereWithoutVotoInput = {
+    where?: ActaWhereInput
+    data: XOR<ActaUpdateWithoutVotoInput, ActaUncheckedUpdateWithoutVotoInput>
+  }
+
+  export type ActaUpdateWithoutVotoInput = {
+    nombreActa?: StringFieldUpdateOperationsInput | string
+    fechaReunion?: DateTimeFieldUpdateOperationsInput | Date | string
+    estado?: EnumEstadoFieldUpdateOperationsInput | $Enums.Estado
+    visibilidad?: EnumVisibilidadFieldUpdateOperationsInput | $Enums.Visibilidad
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ActaUncheckedUpdateWithoutVotoInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nombreActa?: StringFieldUpdateOperationsInput | string
+    fechaReunion?: DateTimeFieldUpdateOperationsInput | Date | string
+    estado?: EnumEstadoFieldUpdateOperationsInput | $Enums.Estado
+    visibilidad?: EnumVisibilidadFieldUpdateOperationsInput | $Enums.Visibilidad
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserUpsertWithoutVotoInput = {
+    update: XOR<UserUpdateWithoutVotoInput, UserUncheckedUpdateWithoutVotoInput>
+    create: XOR<UserCreateWithoutVotoInput, UserUncheckedCreateWithoutVotoInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutVotoInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutVotoInput, UserUncheckedUpdateWithoutVotoInput>
+  }
+
+  export type UserUpdateWithoutVotoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    image?: StringFieldUpdateOperationsInput | string
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
+    apellido?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    direccion?: NullableStringFieldUpdateOperationsInput | string | null
+    piso?: NullableStringFieldUpdateOperationsInput | string | null
+    departamento?: NullableStringFieldUpdateOperationsInput | string | null
+    ciudad?: NullableStringFieldUpdateOperationsInput | string | null
+    codigoPostal?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoCasa?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoCelular?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoLaboral?: NullableStringFieldUpdateOperationsInput | string | null
+    documentoNumero?: NullableStringFieldUpdateOperationsInput | string | null
+    legajo?: NullableStringFieldUpdateOperationsInput | string | null
+    gitlab?: NullableStringFieldUpdateOperationsInput | string | null
+    penalizaciones?: IntFieldUpdateOperationsInput | number
+    esDocente?: BoolFieldUpdateOperationsInput | boolean
+    esTutor?: BoolFieldUpdateOperationsInput | boolean
+    fechaRegistro?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaUltimoAcceso?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaUltimaActualizacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    documentoTipo?: DocumentoTipoUpdateOneWithoutUsuariosNestedInput
+    provincia?: ProvinciaUpdateOneWithoutUsuariosNestedInput
+    pais?: PaisUpdateOneWithoutUsuariosNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
+    reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
+    reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
+    reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
+    cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
+    tutor?: TutorUpdateOneWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutVotoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    image?: StringFieldUpdateOperationsInput | string
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
+    apellido?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    direccion?: NullableStringFieldUpdateOperationsInput | string | null
+    piso?: NullableStringFieldUpdateOperationsInput | string | null
+    departamento?: NullableStringFieldUpdateOperationsInput | string | null
+    ciudad?: NullableStringFieldUpdateOperationsInput | string | null
+    codigoPostal?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoCasa?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoCelular?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoLaboral?: NullableStringFieldUpdateOperationsInput | string | null
+    documentoNumero?: NullableStringFieldUpdateOperationsInput | string | null
+    legajo?: NullableStringFieldUpdateOperationsInput | string | null
+    gitlab?: NullableStringFieldUpdateOperationsInput | string | null
+    penalizaciones?: IntFieldUpdateOperationsInput | number
+    esDocente?: BoolFieldUpdateOperationsInput | boolean
+    esTutor?: BoolFieldUpdateOperationsInput | boolean
+    fechaRegistro?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaUltimoAcceso?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaUltimaActualizacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    documentoTipoId?: NullableIntFieldUpdateOperationsInput | number | null
+    provinciaIso?: NullableStringFieldUpdateOperationsInput | string | null
+    paisIso?: NullableStringFieldUpdateOperationsInput | string | null
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUncheckedUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUncheckedUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUncheckedUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
+    reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
+    reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
+    reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
+    cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
+    tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
   }
 
   export type LibroMateriaCreateWithoutLibroInput = {
@@ -71345,11 +77801,13 @@ export namespace Prisma {
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
     MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
     materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
+    Voto?: VotoCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCursosComoProfesorInput = {
@@ -71390,11 +77848,13 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
     MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
     materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
+    Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCursosComoProfesorInput = {
@@ -71618,11 +78078,13 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
     MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
     materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
+    Voto?: VotoUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCursosComoProfesorInput = {
@@ -71663,11 +78125,13 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
     MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
     materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
+    Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type SedeUpsertWithoutCursosInput = {
@@ -71906,11 +78370,13 @@ export namespace Prisma {
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
     cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
     materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
+    Voto?: VotoCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCursosComoAyudanteInput = {
@@ -71951,11 +78417,13 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
     cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
     materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
+    Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCursosComoAyudanteInput = {
@@ -72068,11 +78536,13 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
     cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
     materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
+    Voto?: VotoUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCursosComoAyudanteInput = {
@@ -72113,11 +78583,13 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
     cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
     materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
+    Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CursoCreateWithoutDivisionInput = {
@@ -73025,6 +79497,206 @@ export namespace Prisma {
   export type EquipoUpdateManyWithWhereWithoutEstadoInput = {
     where: EquipoScalarWhereInput
     data: XOR<EquipoUpdateManyMutationInput, EquipoUncheckedUpdateManyWithoutEstadoInput>
+  }
+
+  export type UserCreateWithoutInscripcionesEspecialesInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified?: boolean | null
+    image?: string
+    nombre?: string | null
+    apellido?: string | null
+    fechaNacimiento?: Date | string | null
+    direccion?: string | null
+    piso?: string | null
+    departamento?: string | null
+    ciudad?: string | null
+    codigoPostal?: string | null
+    telefonoCasa?: string | null
+    telefonoCelular?: string | null
+    telefonoLaboral?: string | null
+    documentoNumero?: string | null
+    legajo?: string | null
+    gitlab?: string | null
+    penalizaciones?: number
+    esDocente?: boolean
+    esTutor?: boolean
+    fechaRegistro?: Date | string
+    fechaUltimoAcceso?: Date | string
+    fechaUltimaActualizacion?: Date | string
+    documentoTipo?: DocumentoTipoCreateNestedOneWithoutUsuariosInput
+    provincia?: ProvinciaCreateNestedOneWithoutUsuariosInput
+    pais?: PaisCreateNestedOneWithoutUsuariosInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
+    reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
+    reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
+    reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
+    cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
+    tutor?: TutorCreateNestedOneWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
+  }
+
+  export type UserUncheckedCreateWithoutInscripcionesEspecialesInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified?: boolean | null
+    image?: string
+    nombre?: string | null
+    apellido?: string | null
+    fechaNacimiento?: Date | string | null
+    direccion?: string | null
+    piso?: string | null
+    departamento?: string | null
+    ciudad?: string | null
+    codigoPostal?: string | null
+    telefonoCasa?: string | null
+    telefonoCelular?: string | null
+    telefonoLaboral?: string | null
+    documentoNumero?: string | null
+    legajo?: string | null
+    gitlab?: string | null
+    penalizaciones?: number
+    esDocente?: boolean
+    esTutor?: boolean
+    fechaRegistro?: Date | string
+    fechaUltimoAcceso?: Date | string
+    fechaUltimaActualizacion?: Date | string
+    documentoTipoId?: number | null
+    provinciaIso?: string | null
+    paisIso?: string | null
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolUncheckedCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
+    reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
+    reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
+    reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
+    cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
+    tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
+  }
+
+  export type UserCreateOrConnectWithoutInscripcionesEspecialesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutInscripcionesEspecialesInput, UserUncheckedCreateWithoutInscripcionesEspecialesInput>
+  }
+
+  export type UserUpsertWithoutInscripcionesEspecialesInput = {
+    update: XOR<UserUpdateWithoutInscripcionesEspecialesInput, UserUncheckedUpdateWithoutInscripcionesEspecialesInput>
+    create: XOR<UserCreateWithoutInscripcionesEspecialesInput, UserUncheckedCreateWithoutInscripcionesEspecialesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutInscripcionesEspecialesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutInscripcionesEspecialesInput, UserUncheckedUpdateWithoutInscripcionesEspecialesInput>
+  }
+
+  export type UserUpdateWithoutInscripcionesEspecialesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    image?: StringFieldUpdateOperationsInput | string
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
+    apellido?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    direccion?: NullableStringFieldUpdateOperationsInput | string | null
+    piso?: NullableStringFieldUpdateOperationsInput | string | null
+    departamento?: NullableStringFieldUpdateOperationsInput | string | null
+    ciudad?: NullableStringFieldUpdateOperationsInput | string | null
+    codigoPostal?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoCasa?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoCelular?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoLaboral?: NullableStringFieldUpdateOperationsInput | string | null
+    documentoNumero?: NullableStringFieldUpdateOperationsInput | string | null
+    legajo?: NullableStringFieldUpdateOperationsInput | string | null
+    gitlab?: NullableStringFieldUpdateOperationsInput | string | null
+    penalizaciones?: IntFieldUpdateOperationsInput | number
+    esDocente?: BoolFieldUpdateOperationsInput | boolean
+    esTutor?: BoolFieldUpdateOperationsInput | boolean
+    fechaRegistro?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaUltimoAcceso?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaUltimaActualizacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    documentoTipo?: DocumentoTipoUpdateOneWithoutUsuariosNestedInput
+    provincia?: ProvinciaUpdateOneWithoutUsuariosNestedInput
+    pais?: PaisUpdateOneWithoutUsuariosNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
+    reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
+    reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
+    reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
+    cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
+    tutor?: TutorUpdateOneWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutInscripcionesEspecialesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    image?: StringFieldUpdateOperationsInput | string
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
+    apellido?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    direccion?: NullableStringFieldUpdateOperationsInput | string | null
+    piso?: NullableStringFieldUpdateOperationsInput | string | null
+    departamento?: NullableStringFieldUpdateOperationsInput | string | null
+    ciudad?: NullableStringFieldUpdateOperationsInput | string | null
+    codigoPostal?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoCasa?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoCelular?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoLaboral?: NullableStringFieldUpdateOperationsInput | string | null
+    documentoNumero?: NullableStringFieldUpdateOperationsInput | string | null
+    legajo?: NullableStringFieldUpdateOperationsInput | string | null
+    gitlab?: NullableStringFieldUpdateOperationsInput | string | null
+    penalizaciones?: IntFieldUpdateOperationsInput | number
+    esDocente?: BoolFieldUpdateOperationsInput | boolean
+    esTutor?: BoolFieldUpdateOperationsInput | boolean
+    fechaRegistro?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaUltimoAcceso?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaUltimaActualizacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    documentoTipoId?: NullableIntFieldUpdateOperationsInput | number | null
+    provinciaIso?: NullableStringFieldUpdateOperationsInput | string | null
+    paisIso?: NullableStringFieldUpdateOperationsInput | string | null
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUncheckedUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUncheckedUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUncheckedUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
+    reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
+    reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
+    reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
+    cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
+    tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
   }
 
   export type SedeCreateWithoutLaboratoriosInput = {
@@ -74181,11 +80853,13 @@ export namespace Prisma {
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
+    Voto?: VotoCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMateriasDirectorInput = {
@@ -74226,11 +80900,13 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
+    Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMateriasDirectorInput = {
@@ -74485,11 +81161,13 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
+    Voto?: VotoUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMateriasDirectorInput = {
@@ -74530,11 +81208,13 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
+    Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type MateriaJefeTpUpsertWithWhereUniqueWithoutMateriaInput = {
@@ -74734,11 +81414,13 @@ export namespace Prisma {
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
     materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
+    Voto?: VotoCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMateriaJefeTpInput = {
@@ -74779,11 +81461,13 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
     materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
+    Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMateriaJefeTpInput = {
@@ -74888,11 +81572,13 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
     materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
+    Voto?: VotoUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMateriaJefeTpInput = {
@@ -74933,11 +81619,13 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
     materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
+    Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type MateriaCreateWithoutMateriaPrerequisitoInput = {
@@ -75157,12 +81845,14 @@ export namespace Prisma {
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
     materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
+    Voto?: VotoCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutReservasSolicitadasInput = {
@@ -75202,12 +81892,14 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
     materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
+    Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutReservasSolicitadasInput = {
@@ -75252,12 +81944,14 @@ export namespace Prisma {
     reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
     materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
+    Voto?: VotoCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutReservasAprobadasInput = {
@@ -75297,12 +81991,14 @@ export namespace Prisma {
     reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
     materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
+    Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutReservasAprobadasInput = {
@@ -75347,12 +82043,14 @@ export namespace Prisma {
     reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
     materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
+    Voto?: VotoCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutReservasRechazadasInput = {
@@ -75392,12 +82090,14 @@ export namespace Prisma {
     reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
     materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
+    Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutReservasRechazadasInput = {
@@ -75442,12 +82142,14 @@ export namespace Prisma {
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
     materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
+    Voto?: VotoCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutReservasRenovadasInput = {
@@ -75487,12 +82189,14 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
     materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
+    Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutReservasRenovadasInput = {
@@ -75537,12 +82241,14 @@ export namespace Prisma {
     reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
     materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
+    Voto?: VotoCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutReservasRecibidasInput = {
@@ -75582,12 +82288,14 @@ export namespace Prisma {
     reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
     materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
+    Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutReservasRecibidasInput = {
@@ -75632,12 +82340,14 @@ export namespace Prisma {
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
     materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
+    Voto?: VotoCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutReservasComoTutorInput = {
@@ -75677,12 +82387,14 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
     materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
+    Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutReservasComoTutorInput = {
@@ -75862,12 +82574,14 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
     materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
+    Voto?: VotoUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReservasSolicitadasInput = {
@@ -75907,12 +82621,14 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
     materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
+    Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutReservasAprobadasInput = {
@@ -75963,12 +82679,14 @@ export namespace Prisma {
     reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
     materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
+    Voto?: VotoUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReservasAprobadasInput = {
@@ -76008,12 +82726,14 @@ export namespace Prisma {
     reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
     materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
+    Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutReservasRechazadasInput = {
@@ -76064,12 +82784,14 @@ export namespace Prisma {
     reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
     materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
+    Voto?: VotoUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReservasRechazadasInput = {
@@ -76109,12 +82831,14 @@ export namespace Prisma {
     reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
     materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
+    Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutReservasRenovadasInput = {
@@ -76165,12 +82889,14 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
     materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
+    Voto?: VotoUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReservasRenovadasInput = {
@@ -76210,12 +82936,14 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
     materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
+    Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutReservasRecibidasInput = {
@@ -76266,12 +82994,14 @@ export namespace Prisma {
     reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
     materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
+    Voto?: VotoUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReservasRecibidasInput = {
@@ -76311,12 +83041,14 @@ export namespace Prisma {
     reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
     materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
+    Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutReservasComoTutorInput = {
@@ -76367,12 +83099,14 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
     materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
+    Voto?: VotoUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReservasComoTutorInput = {
@@ -76412,12 +83146,14 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
     materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
+    Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ReservaEquipoUpsertWithoutReservaInput = {
@@ -77280,11 +84016,13 @@ export namespace Prisma {
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
     materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
+    Voto?: VotoCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutReservaLaboratorioCerradoInput = {
@@ -77325,11 +84063,13 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
     materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
+    Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutReservaLaboratorioCerradoInput = {
@@ -77663,11 +84403,13 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
     materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
+    Voto?: VotoUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReservaLaboratorioCerradoInput = {
@@ -77708,11 +84450,13 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
     materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
+    Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ReservaLaboratorioCerradoEquipoUpsertWithWhereUniqueWithoutReservaLaboratorioCerradoInput = {
@@ -78413,12 +85157,14 @@ export namespace Prisma {
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
     materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
+    Voto?: VotoCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -78458,12 +85204,14 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
     materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
+    Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -78519,12 +85267,14 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
     materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
+    Voto?: VotoUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -78564,12 +85314,14 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
     materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
+    Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutSessionsInput = {
@@ -78609,12 +85361,14 @@ export namespace Prisma {
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
     materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
+    Voto?: VotoCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -78654,12 +85408,14 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
     materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
+    Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -78715,12 +85471,14 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
     materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
+    Voto?: VotoUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -78760,12 +85518,14 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
     materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
+    Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CursoCreateWithoutSedeInput = {
@@ -79764,6 +86524,47 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type InscripcionEspecialCreateWithoutSolicitanteInput = {
+    caso: string
+    justificacion: string
+    turnoAlternativa1?: string | null
+    turnoAlternativa2?: string | null
+    materias?: InscripcionEspecialCreatemateriasInput | number[]
+    materiasAdeudadas?: InscripcionEspecialCreatemateriasAdeudadasInput | number[]
+    estado: string
+    respuesta?: string | null
+    fueContactado?: boolean | null
+    vinoPresencialmente?: boolean | null
+    fechaSolicitud?: Date | string
+    fechaRespuesta?: Date | string | null
+  }
+
+  export type InscripcionEspecialUncheckedCreateWithoutSolicitanteInput = {
+    id?: number
+    caso: string
+    justificacion: string
+    turnoAlternativa1?: string | null
+    turnoAlternativa2?: string | null
+    materias?: InscripcionEspecialCreatemateriasInput | number[]
+    materiasAdeudadas?: InscripcionEspecialCreatemateriasAdeudadasInput | number[]
+    estado: string
+    respuesta?: string | null
+    fueContactado?: boolean | null
+    vinoPresencialmente?: boolean | null
+    fechaSolicitud?: Date | string
+    fechaRespuesta?: Date | string | null
+  }
+
+  export type InscripcionEspecialCreateOrConnectWithoutSolicitanteInput = {
+    where: InscripcionEspecialWhereUniqueInput
+    create: XOR<InscripcionEspecialCreateWithoutSolicitanteInput, InscripcionEspecialUncheckedCreateWithoutSolicitanteInput>
+  }
+
+  export type InscripcionEspecialCreateManySolicitanteInputEnvelope = {
+    data: InscripcionEspecialCreateManySolicitanteInput | InscripcionEspecialCreateManySolicitanteInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CursoAyudanteCreateWithoutUsuarioInput = {
     fechaCreacion?: Date | string
     usuarioCreadorId: string
@@ -79975,6 +86776,31 @@ export namespace Prisma {
 
   export type ReservaLaboratorioCerradoCreateManyDiscrecionalDocenteInputEnvelope = {
     data: ReservaLaboratorioCerradoCreateManyDiscrecionalDocenteInput | ReservaLaboratorioCerradoCreateManyDiscrecionalDocenteInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type VotoCreateWithoutUserInput = {
+    posicion: $Enums.Posicion
+    comentario?: string | null
+    fechaEmision?: Date | string
+    acta: ActaCreateNestedOneWithoutVotoInput
+  }
+
+  export type VotoUncheckedCreateWithoutUserInput = {
+    id?: number
+    actaId: number
+    posicion: $Enums.Posicion
+    comentario?: string | null
+    fechaEmision?: Date | string
+  }
+
+  export type VotoCreateOrConnectWithoutUserInput = {
+    where: VotoWhereUniqueInput
+    create: XOR<VotoCreateWithoutUserInput, VotoUncheckedCreateWithoutUserInput>
+  }
+
+  export type VotoCreateManyUserInputEnvelope = {
+    data: VotoCreateManyUserInput | VotoCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -80262,6 +87088,42 @@ export namespace Prisma {
     data: XOR<ReservaUpdateManyMutationInput, ReservaUncheckedUpdateManyWithoutUsuarioRecibioInput>
   }
 
+  export type InscripcionEspecialUpsertWithWhereUniqueWithoutSolicitanteInput = {
+    where: InscripcionEspecialWhereUniqueInput
+    update: XOR<InscripcionEspecialUpdateWithoutSolicitanteInput, InscripcionEspecialUncheckedUpdateWithoutSolicitanteInput>
+    create: XOR<InscripcionEspecialCreateWithoutSolicitanteInput, InscripcionEspecialUncheckedCreateWithoutSolicitanteInput>
+  }
+
+  export type InscripcionEspecialUpdateWithWhereUniqueWithoutSolicitanteInput = {
+    where: InscripcionEspecialWhereUniqueInput
+    data: XOR<InscripcionEspecialUpdateWithoutSolicitanteInput, InscripcionEspecialUncheckedUpdateWithoutSolicitanteInput>
+  }
+
+  export type InscripcionEspecialUpdateManyWithWhereWithoutSolicitanteInput = {
+    where: InscripcionEspecialScalarWhereInput
+    data: XOR<InscripcionEspecialUpdateManyMutationInput, InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteInput>
+  }
+
+  export type InscripcionEspecialScalarWhereInput = {
+    AND?: InscripcionEspecialScalarWhereInput | InscripcionEspecialScalarWhereInput[]
+    OR?: InscripcionEspecialScalarWhereInput[]
+    NOT?: InscripcionEspecialScalarWhereInput | InscripcionEspecialScalarWhereInput[]
+    id?: IntFilter<"InscripcionEspecial"> | number
+    solicitanteId?: StringFilter<"InscripcionEspecial"> | string
+    caso?: StringFilter<"InscripcionEspecial"> | string
+    justificacion?: StringFilter<"InscripcionEspecial"> | string
+    turnoAlternativa1?: StringNullableFilter<"InscripcionEspecial"> | string | null
+    turnoAlternativa2?: StringNullableFilter<"InscripcionEspecial"> | string | null
+    materias?: IntNullableListFilter<"InscripcionEspecial">
+    materiasAdeudadas?: IntNullableListFilter<"InscripcionEspecial">
+    estado?: StringFilter<"InscripcionEspecial"> | string
+    respuesta?: StringNullableFilter<"InscripcionEspecial"> | string | null
+    fueContactado?: BoolNullableFilter<"InscripcionEspecial"> | boolean | null
+    vinoPresencialmente?: BoolNullableFilter<"InscripcionEspecial"> | boolean | null
+    fechaSolicitud?: DateTimeFilter<"InscripcionEspecial"> | Date | string
+    fechaRespuesta?: DateTimeNullableFilter<"InscripcionEspecial"> | Date | string | null
+  }
+
   export type CursoAyudanteUpsertWithWhereUniqueWithoutUsuarioInput = {
     where: CursoAyudanteWhereUniqueInput
     update: XOR<CursoAyudanteUpdateWithoutUsuarioInput, CursoAyudanteUncheckedUpdateWithoutUsuarioInput>
@@ -80386,6 +87248,22 @@ export namespace Prisma {
     data: XOR<ReservaLaboratorioCerradoUpdateManyMutationInput, ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteInput>
   }
 
+  export type VotoUpsertWithWhereUniqueWithoutUserInput = {
+    where: VotoWhereUniqueInput
+    update: XOR<VotoUpdateWithoutUserInput, VotoUncheckedUpdateWithoutUserInput>
+    create: XOR<VotoCreateWithoutUserInput, VotoUncheckedCreateWithoutUserInput>
+  }
+
+  export type VotoUpdateWithWhereUniqueWithoutUserInput = {
+    where: VotoWhereUniqueInput
+    data: XOR<VotoUpdateWithoutUserInput, VotoUncheckedUpdateWithoutUserInput>
+  }
+
+  export type VotoUpdateManyWithWhereWithoutUserInput = {
+    where: VotoScalarWhereInput
+    data: XOR<VotoUpdateManyMutationInput, VotoUncheckedUpdateManyWithoutUserInput>
+  }
+
   export type UserCreateWithoutTutorInput = {
     id?: string
     name: string
@@ -80424,11 +87302,13 @@ export namespace Prisma {
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
     materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
+    Voto?: VotoCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTutorInput = {
@@ -80469,11 +87349,13 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
     materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
+    Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTutorInput = {
@@ -80530,11 +87412,13 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
     materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
+    Voto?: VotoUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTutorInput = {
@@ -80575,11 +87459,13 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
     materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
+    Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutUsuarioRolInput = {
@@ -80619,12 +87505,14 @@ export namespace Prisma {
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
     materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
+    Voto?: VotoCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutUsuarioRolInput = {
@@ -80664,12 +87552,14 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
     materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
+    Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutUsuarioRolInput = {
@@ -80749,12 +87639,14 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
     materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
+    Voto?: VotoUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUsuarioRolInput = {
@@ -80794,12 +87686,14 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
     materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
+    Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type RolUpsertWithoutUsuariosInput = {
@@ -81132,12 +88026,14 @@ export namespace Prisma {
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
     materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
+    Voto?: VotoCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutProvinciaInput = {
@@ -81176,12 +88072,14 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
     materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
+    Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutProvinciaInput = {
@@ -81310,12 +88208,14 @@ export namespace Prisma {
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
     materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
+    Voto?: VotoCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPaisInput = {
@@ -81355,12 +88255,14 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
     materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
+    Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPaisInput = {
@@ -81473,12 +88375,14 @@ export namespace Prisma {
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
     materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
+    Voto?: VotoCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutDocumentoTipoInput = {
@@ -81518,12 +88422,14 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
     materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
+    Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutDocumentoTipoInput = {
@@ -81550,6 +88456,37 @@ export namespace Prisma {
   export type UserUpdateManyWithWhereWithoutDocumentoTipoInput = {
     where: UserScalarWhereInput
     data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyWithoutDocumentoTipoInput>
+  }
+
+  export type VotoCreateManyActaInput = {
+    id?: number
+    consejeroId: string
+    posicion: $Enums.Posicion
+    comentario?: string | null
+    fechaEmision?: Date | string
+  }
+
+  export type VotoUpdateWithoutActaInput = {
+    posicion?: EnumPosicionFieldUpdateOperationsInput | $Enums.Posicion
+    comentario?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaEmision?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutVotoNestedInput
+  }
+
+  export type VotoUncheckedUpdateWithoutActaInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    consejeroId?: StringFieldUpdateOperationsInput | string
+    posicion?: EnumPosicionFieldUpdateOperationsInput | $Enums.Posicion
+    comentario?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaEmision?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VotoUncheckedUpdateManyWithoutActaInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    consejeroId?: StringFieldUpdateOperationsInput | string
+    posicion?: EnumPosicionFieldUpdateOperationsInput | $Enums.Posicion
+    comentario?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaEmision?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LibroMateriaCreateManyLibroInput = {
@@ -84199,6 +91136,22 @@ export namespace Prisma {
     mostrarEnPantalla?: boolean
   }
 
+  export type InscripcionEspecialCreateManySolicitanteInput = {
+    id?: number
+    caso: string
+    justificacion: string
+    turnoAlternativa1?: string | null
+    turnoAlternativa2?: string | null
+    materias?: InscripcionEspecialCreatemateriasInput | number[]
+    materiasAdeudadas?: InscripcionEspecialCreatemateriasAdeudadasInput | number[]
+    estado: string
+    respuesta?: string | null
+    fueContactado?: boolean | null
+    vinoPresencialmente?: boolean | null
+    fechaSolicitud?: Date | string
+    fechaRespuesta?: Date | string | null
+  }
+
   export type CursoAyudanteCreateManyUsuarioInput = {
     cursoId: number
     fechaCreacion?: Date | string
@@ -84261,6 +91214,14 @@ export namespace Prisma {
     fechaModificacion?: Date | string
     usuarioCreadorId: string
     usuarioModificadorId: string
+  }
+
+  export type VotoCreateManyUserInput = {
+    id?: number
+    actaId: number
+    posicion: $Enums.Posicion
+    comentario?: string | null
+    fechaEmision?: Date | string
   }
 
   export type AccountUpdateWithoutUserInput = {
@@ -84821,6 +91782,53 @@ export namespace Prisma {
     mostrarEnPantalla?: BoolFieldUpdateOperationsInput | boolean
   }
 
+  export type InscripcionEspecialUpdateWithoutSolicitanteInput = {
+    caso?: StringFieldUpdateOperationsInput | string
+    justificacion?: StringFieldUpdateOperationsInput | string
+    turnoAlternativa1?: NullableStringFieldUpdateOperationsInput | string | null
+    turnoAlternativa2?: NullableStringFieldUpdateOperationsInput | string | null
+    materias?: InscripcionEspecialUpdatemateriasInput | number[]
+    materiasAdeudadas?: InscripcionEspecialUpdatemateriasAdeudadasInput | number[]
+    estado?: StringFieldUpdateOperationsInput | string
+    respuesta?: NullableStringFieldUpdateOperationsInput | string | null
+    fueContactado?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    vinoPresencialmente?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaRespuesta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type InscripcionEspecialUncheckedUpdateWithoutSolicitanteInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    caso?: StringFieldUpdateOperationsInput | string
+    justificacion?: StringFieldUpdateOperationsInput | string
+    turnoAlternativa1?: NullableStringFieldUpdateOperationsInput | string | null
+    turnoAlternativa2?: NullableStringFieldUpdateOperationsInput | string | null
+    materias?: InscripcionEspecialUpdatemateriasInput | number[]
+    materiasAdeudadas?: InscripcionEspecialUpdatemateriasAdeudadasInput | number[]
+    estado?: StringFieldUpdateOperationsInput | string
+    respuesta?: NullableStringFieldUpdateOperationsInput | string | null
+    fueContactado?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    vinoPresencialmente?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaRespuesta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    caso?: StringFieldUpdateOperationsInput | string
+    justificacion?: StringFieldUpdateOperationsInput | string
+    turnoAlternativa1?: NullableStringFieldUpdateOperationsInput | string | null
+    turnoAlternativa2?: NullableStringFieldUpdateOperationsInput | string | null
+    materias?: InscripcionEspecialUpdatemateriasInput | number[]
+    materiasAdeudadas?: InscripcionEspecialUpdatemateriasAdeudadasInput | number[]
+    estado?: StringFieldUpdateOperationsInput | string
+    respuesta?: NullableStringFieldUpdateOperationsInput | string | null
+    fueContactado?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    vinoPresencialmente?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaRespuesta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
   export type CursoAyudanteUpdateWithoutUsuarioInput = {
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
     usuarioCreadorId?: StringFieldUpdateOperationsInput | string
@@ -85028,6 +92036,29 @@ export namespace Prisma {
     usuarioModificadorId?: StringFieldUpdateOperationsInput | string
   }
 
+  export type VotoUpdateWithoutUserInput = {
+    posicion?: EnumPosicionFieldUpdateOperationsInput | $Enums.Posicion
+    comentario?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaEmision?: DateTimeFieldUpdateOperationsInput | Date | string
+    acta?: ActaUpdateOneRequiredWithoutVotoNestedInput
+  }
+
+  export type VotoUncheckedUpdateWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    actaId?: IntFieldUpdateOperationsInput | number
+    posicion?: EnumPosicionFieldUpdateOperationsInput | $Enums.Posicion
+    comentario?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaEmision?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VotoUncheckedUpdateManyWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    actaId?: IntFieldUpdateOperationsInput | number
+    posicion?: EnumPosicionFieldUpdateOperationsInput | $Enums.Posicion
+    comentario?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaEmision?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type UsuarioRolCreateManyRolInput = {
     userId: string
     fechaCreacion?: Date | string
@@ -85166,12 +92197,14 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
     materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
+    Voto?: VotoUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProvinciaInput = {
@@ -85210,12 +92243,14 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
     materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
+    Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutProvinciaInput = {
@@ -85319,12 +92354,14 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
     materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
+    Voto?: VotoUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPaisInput = {
@@ -85364,12 +92401,14 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
     materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
+    Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutPaisInput = {
@@ -85486,12 +92525,14 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
     materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
+    Voto?: VotoUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutDocumentoTipoInput = {
@@ -85531,12 +92572,14 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
     materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
+    Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutDocumentoTipoInput = {

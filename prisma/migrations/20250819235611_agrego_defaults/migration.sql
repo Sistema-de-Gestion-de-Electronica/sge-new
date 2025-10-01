@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Acta" ALTER COLUMN "estado" SET DEFAULT 'ABIERTA',
+ALTER COLUMN "visibilidad" SET DEFAULT 'VISIBLE';

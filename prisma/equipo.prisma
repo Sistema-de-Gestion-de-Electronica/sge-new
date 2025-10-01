@@ -1,87 +1,87 @@
 model Equipo {
-    id Int @id @default(autoincrement())
+  id Int @id @default(autoincrement())
 
-    inventarioId String @unique
+  inventarioId String @unique
 
-    modelo        String?
-    numeroSerie   String?
-    observaciones String?
-    palabrasClave String?
-    imagen        String?
+  modelo        String?
+  numeroSerie   String?
+  observaciones String?
+  palabrasClave String?
+  imagen        String?
 
-    tipoId Int
-    tipo   EquipoTipo @relation(fields: [tipoId], references: [id], onDelete: Restrict)
+  tipoId Int
+  tipo   EquipoTipo @relation(fields: [tipoId], references: [id], onDelete: Restrict)
 
-    marcaId Int
-    marca   EquipoMarca @relation(fields: [marcaId], references: [id], onDelete: Restrict)
+  marcaId Int
+  marca   EquipoMarca @relation(fields: [marcaId], references: [id], onDelete: Restrict)
 
-    sedeId Int
-    sede   Sede @relation(fields: [sedeId], references: [id], onDelete: Cascade)
+  sedeId Int
+  sede   Sede @relation(fields: [sedeId], references: [id], onDelete: Cascade)
 
-    laboratorioId Int
-    laboratorio   Laboratorio @relation(fields: [laboratorioId], references: [id], onDelete: Restrict)
+  laboratorioId Int
+  laboratorio   Laboratorio @relation(fields: [laboratorioId], references: [id], onDelete: Restrict)
 
-    armarioId Int?
-    armario   Armario? @relation(fields: [armarioId], references: [id], onDelete: Restrict)
+  armarioId Int?
+  armario   Armario? @relation(fields: [armarioId], references: [id], onDelete: Restrict)
 
-    estanteId Int?
-    estante   Estante? @relation(fields: [estanteId], references: [id], onDelete: Restrict)
+  estanteId Int?
+  estante   Estante? @relation(fields: [estanteId], references: [id], onDelete: Restrict)
 
-    estadoId Int
-    estado   EquipoEstado @relation(fields: [estadoId], references: [id], onDelete: Restrict)
+  estadoId Int
+  estado   EquipoEstado @relation(fields: [estadoId], references: [id], onDelete: Restrict)
 
-    disponible Boolean @default(true)
+  disponible Boolean @default(true)
 
-    reservas ReservaEquipo[]
+  reservas ReservaEquipo[]
 
-    fechaCreacion        DateTime @default(now())
-    fechaModificacion    DateTime @default(now()) @updatedAt
-    usuarioCreadorId     String
-    usuarioModificadorId String
+  fechaCreacion        DateTime @default(now())
+  fechaModificacion    DateTime @default(now()) @updatedAt
+  usuarioCreadorId     String
+  usuarioModificadorId String
 
-    @@index([modelo(sort: Asc)])
-    @@index([numeroSerie(sort: Asc)])
+  @@index([modelo(sort: Asc)])
+  @@index([numeroSerie(sort: Asc)])
 }
 
 model EquipoMarca {
-    id Int @id @default(autoincrement())
+  id Int @id @default(autoincrement())
 
-    nombre String
+  nombre String
 
-    fechaCreacion    DateTime @default(now())
-    usuarioCreadorId String
+  fechaCreacion    DateTime @default(now())
+  usuarioCreadorId String
 
-    equipos Equipo[]
+  equipos Equipo[]
 
-    @@index([nombre(sort: Asc)])
+  @@index([nombre(sort: Asc)])
 }
 
 model EquipoTipo {
-    id Int @id @default(autoincrement())
+  id Int @id @default(autoincrement())
 
-    nombre String
-    imagen String?
+  nombre String
+  imagen String?
 
-    fechaCreacion    DateTime @default(now())
-    usuarioCreadorId String
+  fechaCreacion    DateTime @default(now())
+  usuarioCreadorId String
 
-    equipos Equipo[]
+  equipos Equipo[]
 
-    reservaLaboratorioCerradoEquipo ReservaLaboratorioCerradoEquipo[]
-    reservaLaboratorioAbiertoEquipo ReservaLaboratorioAbiertoEquipo[]
+  reservaLaboratorioCerradoEquipo ReservaLaboratorioCerradoEquipo[]
+  reservaLaboratorioAbiertoEquipo ReservaLaboratorioAbiertoEquipo[]
 
-    @@index([nombre(sort: Asc)])
+  @@index([nombre(sort: Asc)])
 }
 
 model EquipoEstado {
-    id Int @id @default(autoincrement())
+  id Int @id @default(autoincrement())
 
-    nombre String
+  nombre String
 
-    fechaCreacion    DateTime @default(now())
-    usuarioCreadorId String
+  fechaCreacion    DateTime @default(now())
+  usuarioCreadorId String
 
-    equipos Equipo[]
+  equipos Equipo[]
 
-    @@index([nombre(sort: Asc)])
+  @@index([nombre(sort: Asc)])
 }

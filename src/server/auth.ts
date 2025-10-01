@@ -66,15 +66,70 @@ export const authOptions: NextAuthOptions = {
   },
   callbacks: {
     signIn: async ({ user, account, profile }) => {
-      const existingAccount = await db.account.findFirst({ where: { userId: user.id, provider: account?.provider } });
-      if (!account || existingAccount) return true;
-      const existingUser = await db.user.findUnique({ where: { email: user.email ?? undefined } });
-      if (existingUser && profile) {
-        delete account["not-before-policy"];
-        await db.account.create({ data: { ...account, userId: existingUser.id } });
+      // Si es provider de credenciales, permitir siempre
+      if (account?.provider === "credentials") return true;
+      
+      // Para otros providers (Discord, Keycloak), verificar/crear usuario
+      if (account && user.email) {
+          // Buscar usuario existente por email
+          let existingUser = await db.user.findUnique({ 
+            where: { email: user.email } 
+          });
+          
+          // Si no existe, crearlo
+          if (!existingUser) {
+            existingUser = await db.$transaction(async (tx) => {
+              // Crear el usuario
+              const newUser = await tx.user.create({
+                data: {
+                  email: user.email!,
+                  name: user.name ?? user.email!.split('@')[0] ?? '',
+                  nombre: (user as any).nombre || user.name?.split(' ')[0] || user.email!.split('@')[0],
+                  apellido: (user as any).apellido || user.name?.split(' ')[1] || '',
+                  image: user.image || '/default-avatar.svg',
+                  fechaRegistro: new Date(),
+                  fechaUltimoAcceso: new Date(),
+                  fechaUltimaActualizacion: new Date(),
+                }
+              });
+              
+              // Asignar rol por defecto "Alumno"
+              const rolAlumno = await tx.rol.findUnique({ 
+                where: { nombre: "Alumno" } 
+              });
+              
+              if (rolAlumno?.id) {
+                await tx.usuarioRol.create({
+                  data: {
+                    rolId: rolAlumno.id,
+                    userId: newUser.id,
+                    usuarioCreadorId: newUser.id
+                  }
+                });
+              }
+              
+              return newUser;
+            });
+        
+        // Verificar si ya existe la cuenta vinculada
+        const existingAccount = await db.account.findFirst({
+          where: { 
+            userId: existingUser.id, 
+            provider: account.provider 
+          }
+        });
+        
+        // Si no existe la cuenta vinculada, crearla
+        if (!existingAccount) {
+          const accountData = { ...account, userId: existingUser.id };
+          delete accountData["not-before-policy"];
+          await db.account.create({ data: accountData });
+        }
       }
+      
       return true;
-    },
+    }
+  },
     session: ({ session, token }) => {
       return { ...session, user: { ...session.user, id: token.sub } };
     },
@@ -110,10 +165,10 @@ export const authOptions: NextAuthOptions = {
                 id: profile.sub,
                 name: profile.preferred_username,
                 email: profile.email,
-                // emailVerified: profile.email_verified,
                 // image: profile.picture,
                 nombre: profile.given_name,
                 apellido: profile.family_name,
+                // apellido: profile.family_name,
                 // fechaNacimiento: new Date(profile.birthdate.split("/").reverse().join("-")),
                 // legajo: profile.legajo?.replace("-", ""),
                 // direccion: profile.address.street_address,

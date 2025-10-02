@@ -300,14 +300,35 @@ export const REPORTES_ROUTE: AppRoute = {
   ],
 };
 
+const PERMISOS_VER_FALLAS = [SgeNombre.REP_FALLAS_REPORTAR_FALLAS];
+export const FALLAS_ROUTE: AppRoute = {
+  href: "/fallas",
+  label: "Fallas",
+  isPublic: false,
+  permisos: [],
+  subRutas: [
+    {
+      href: "/fallas/reportar_pc",
+      label: "Reportar PC",
+      isPublic: false,
+      permisos: [],
+    },
+    {
+      href: "/fallas/reportar_instrumento",
+      label: "Reportar Instrumento",
+      isPublic: false,
+      permisos: [],
+    },
+    {
+      href: "/fallas/reportes",
+      label: "Administrar",
+      isPublic: false,
+      permisos: [SgeNombre.ADMIN_VER_PANEL_ADMIN],
+    }
+  ],
+};
+
 export const SGE_1_ROUTE: AppRoute[] = [
-  {
-    href: "https://sge.frba.utn.edu.ar/sge2/fallasreporte/falla_pc.php",
-    label: "Fallas",
-    esExterna: true,
-    isPublic: false,
-    permisos: [SgeNombre.REP_FALLAS_REPORTAR_FALLAS],
-  },
   {
     href: "https://sge.frba.utn.edu.ar/sge2/ventanilla/ventanilla.php",
     label: "Ventanilla",

@@ -1,0 +1,25 @@
+model Falla {
+    id Int @id @default(autoincrement())
+
+    equipoId Int? // Puede ser nulo si no está inventariado
+    equipo   Equipo? @relation(fields: [equipoId], references: [id], onDelete: Cascade)
+
+    tipoFalla String // "PC" o "Instrumento"
+
+    fallas            String[] // Solo para PC
+    descripcionEquipo String? // Solo para Instrumento
+    descripcionFalla  String
+    condicion         String? // Solo para Instrumento
+
+    fechaReporte DateTime @default(now())
+
+    reportadoPorId String?
+    reportadoPor   User?   @relation("FallasReportadas", fields: [reportadoPorId], references: [id])
+
+    asignadoAId String?
+    asignadoA   User?   @relation("FallasAsignadas", fields: [asignadoAId], references: [id])
+
+    estado String
+
+    @@index([fechaReporte(sort: Desc)])
+}

@@ -1,0 +1,30 @@
+import { z } from "zod";
+
+export const inputReportarFallasPc = z.object({
+  laboratorio: z.string().min(1, { message: "Requerido" }),
+  nroEquipo: z.string().min(1, { message: "Requerido" }),
+  marca: z.string().min(1, { message: "Requerido" }),
+  modelo: z.string().min(1, { message: "Requerido" }),
+  fallas: z.array(z.string().min(1, { message: "Requerido" })),
+  descripcionFalla: z.string().min(1, { message: "Requerido" }),
+});
+
+export const inputReportarFallasInstrumento = z.object({
+  tipoInstrumento: z.string().min(1, { message: "Requerido" }),
+  instrumento: z.string().min(1, { message: "Requerido" }),
+  descripcionEquipo: z.string().min(1, { message: "Requerido" }),
+  descripcionFalla: z.string().min(1, { message: "Requerido" }).optional().or(z.literal("")),
+  condicion: z.string().min(1).optional(),
+});
+
+export const inputGetAllFallas = z.object({
+  filterByUserId: z.enum(["true", "false"]).optional(),
+  pageIndex: z.number().optional(),
+  pageSize: z.number().optional(),
+});
+
+export const inputGestionarFallas = z.object({
+  filterByUserId: z.enum(["true", "false"]).optional(),
+  pageIndex: z.number().optional(),
+  pageSize: z.number().optional(),
+});

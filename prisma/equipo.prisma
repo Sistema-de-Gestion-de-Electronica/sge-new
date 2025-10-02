@@ -38,6 +38,7 @@ model Equipo {
     fechaModificacion    DateTime @default(now()) @updatedAt
     usuarioCreadorId     String
     usuarioModificadorId String
+    fallaPc              Falla[]
 
     @@index([modelo(sort: Asc)])
     @@index([numeroSerie(sort: Asc)])

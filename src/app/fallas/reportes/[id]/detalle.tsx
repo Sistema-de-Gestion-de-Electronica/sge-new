@@ -26,7 +26,7 @@ export default function DetalleReporte({ id }: { id: string }) {
   return (
     <>
       <FallasViewAdmin
-        fallasId={Number(id)}
+        fallaId={Number(id)}
         onCancel={handleClickCancel}
         onEstados={handleClickEstados}
       />

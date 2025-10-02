@@ -3,49 +3,38 @@
 import { useState } from "react";
 import { DataTable } from "@/components/ui";
 import { api, type RouterOutputs } from "@/trpc/react";
-import { type z } from "zod";
 import { DataTablePaginationStandalone } from "@/components/ui/table/table-pagination-standalone";
 import { type GroupingState, type SortingState } from "@tanstack/react-table";
 //import { useFallasQueryParam } from "@/app/fallas/_hooks/use-fallas-query-param";
 
 import { getColumnasFallas } from "@/app/fallas/(listado)/columns-fallas";
 import { VerFallaModal } from "@/app/fallas/(listado)/ver-falla";
-import { VerHistorialFallaModal } from "@/app/fallas/(listado)/ver-historial";
-import { type inputGetAllFallas } from "@/shared/filters/fallas-filter.schema";
 import { TienePermiso } from "@/app/_components/permisos/tienePermiso";
 
-type RespuestaFallas = RouterOutputs["fallas"]["getAllFallas"];
-type fallasFilters = z.infer<typeof inputGetAllFallas>;
-
-type FallasTableProps = {
-  data: RespuestaFallas;
-  filters: fallasFilters;
-  filterByUser?: boolean;
+type HistorialFallaProps = {
+  fallaId: number;
 };
 
-export const FallasTable = ({
-  data,
-  filters,
-  filterByUser,
-}: FallasTableProps) => {
-  //   const { pagination, sorting, onSortingChange, onPaginationChange } = useFallasQueryParam(filters);
-
+export default function HistorialFalla({ fallaId }: HistorialFallaProps) {
+  const {
+    data: fallas,
+    isLoading,
+    isError,
+    refetch: refetchFalla,
+  } = api.fallas.getHistorialFallasPorId.useQuery({
+    id: Number(fallaId),
+  });
   const [grouping, setGrouping] = useState<GroupingState>([]);
   const columns = getColumnasFallas({ filterByUser });
 
-  const utils = api.useUtils();
-  //   const refreshGetAll = () => {
-  //     utils.fallas.getAll.invalidate().catch((err) => {
-  //       console.error(err);
-  //     });
-  //   };
-
   return (
-    <>
+    <div className="container mx-auto space-y-8 p-4">
+        <h2 className="text-2xl font-bold">Historial de la Falla #{fallaId}</h2>
+        <h4></h4>
       <DataTable
         grouping={grouping}
         setGrouping={setGrouping}
-        data={data.reportes ?? []}
+        data={fallas ?? []}
         columns={columns}
         manualSorting
         // pageSize={pagination.pageSize}
@@ -63,9 +52,6 @@ export const FallasTable = ({
                 <TienePermiso permisos={[]}>
                   <VerFallaModal fallaID={original.id} />
                 </TienePermiso>
-                <TienePermiso permisos={[]}>
-                  <VerHistorialFallaModal fallaID={original.id} />
-                </TienePermiso>
               </>
             );
           },
@@ -73,11 +59,11 @@ export const FallasTable = ({
       />
 
       {/* <DataTablePaginationStandalone
-        pageIndex={pagination.pageIndex}
-        pageSize={pagination.pageSize}
-        rowCount={data.count}
-        onChange={onPaginationChange}
-      /> */}
+          pageIndex={pagination.pageIndex}
+          pageSize={pagination.pageSize}
+          rowCount={data.count}
+          onChange={onPaginationChange}
+        /> */}
     </>
   );
-};
+}

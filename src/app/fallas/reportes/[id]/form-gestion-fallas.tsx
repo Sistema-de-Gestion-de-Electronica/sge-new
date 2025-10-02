@@ -36,7 +36,6 @@ export const FallasViewAdmin = ({
           />
         </TienePermiso>
       )} */}
-      {/* <FallasHistorial fallaId={fallaId} /> */}
     </div>
   );
 };

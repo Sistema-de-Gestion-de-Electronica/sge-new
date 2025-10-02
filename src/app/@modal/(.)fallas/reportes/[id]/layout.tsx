@@ -1,17 +1,19 @@
-import { estaLogueadoYConPermiso } from "@/server/permisos";
-import { INICIO_ROUTE } from "@/shared/server-routes";
-import { SgeNombre } from "@/generated/prisma";
+"use server";
+
 import { redirect } from "next/navigation";
+import { INICIO_ROUTE } from "@/shared/server-routes";
+import { estaLogueadoYConPermiso } from "@/server/permisos";
+import { SgeNombre } from "@/generated/prisma";
 
 type LayoutProps = {
   children: React.ReactNode;
 };
 
-export default async function Layout({ children }: LayoutProps) {
+export default async function RootLayout({ children }: LayoutProps) {
 //   const puedeVer = await estaLogueadoYConPermiso([SgeNombre.FALLAS_VER]);
 //   if (!puedeVer) {
 //     redirect(INICIO_ROUTE.href);
 //   }
 
-  return <div className="flex flex-col items-center justify-center gap-6 px-4">{children}</div>;
+  return <main className="flex flex-col">{children}</main>;
 }

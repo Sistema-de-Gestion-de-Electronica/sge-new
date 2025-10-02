@@ -16,3 +16,9 @@ export const inputReportarFallasInstrumento = z.object({
   descripcionFalla: z.string().min(1, { message: "Requerido" }),
   condicion: z.string().min(1).optional(),
 });
+
+export const inputGetAllFallas = z.object({
+  filterByUserId: z.enum(["true", "false"]).optional(),
+  pageIndex: z.number().optional(),
+  pageSize: z.number().optional(),
+});

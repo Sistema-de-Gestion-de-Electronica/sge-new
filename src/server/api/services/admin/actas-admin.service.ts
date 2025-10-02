@@ -1,12 +1,13 @@
-import { inputAgregarActa, inputEliminarActa, inputEliminarActas, inputVisibilidadActa, inputVisibilidadActas } from "@/shared/filters/admin-actas-filter.schema";
+import { inputAgregarActa, inputEliminarActa, inputEliminarActas, inputEliminarActasMasivo, inputGetAllActasWithFilters, inputVisibilidadActa, inputVisibilidadActas, inputVisibilidadActasMasivo } from "@/shared/filters/admin-actas-filter.schema";
 import { protectedProcedure } from "../../trpc";
 import { validarInput } from "../helper";
-import { agregarActa, eliminarActasEntre, eliminarActasHasta, eliminarActasIgual, getActaAbierta, getVotosFromActaAbierta, visibilidadActaHasta, visibilidadActaIgual, visibilidadActasEntre } from "../../repositories/admin/actas-admin.repository";
+import { agregarActa, eliminarActasEntre, eliminarActasHasta, eliminarActasIgual, eliminarActasMasivo, getActaAbierta, getAllActasWithFilters, getVotosFromActaAbierta, visibilidadActaHasta, visibilidadActaIgual, visibilidadActasEntre, visibilidadActasMasivo } from "../../repositories/admin/actas-admin.repository";
 import { Buffer } from "buffer";
 import { saveActaPDF, formatDate } from "../../utils/pdfSaver";
 import { getUsuarioPorId } from "../../repositories/admin/usuarios-admin.repository";
 import { enviarMailNuevaVotacionAbiertaProcedure } from "../mails/emailVotacionAbierta.service";
 import { deleteActaPDF } from "../../utils/pdfDeleter";
+import { getAllActas } from "../../repositories/actas/actas.repository";
 
 
 export const agregarActaProcedure = protectedProcedure
@@ -143,3 +144,42 @@ export const visibilidadActasHastaProcedure = protectedProcedure
     return {count};
     }
   )
+
+  export const getAllActasProcedure = protectedProcedure
+  .query(async ({ctx}) => {
+        const actas = await getAllActas(ctx, {}, true,true,false);
+        if (actas.length === 0)
+          return [];
+        else
+          return actas;
+  })
+
+  export const getAllActasWithFiltersProcedure = protectedProcedure
+  .input(inputGetAllActasWithFilters)
+  .query(async ({ctx, input}) => {
+    validarInput(inputGetAllActasWithFilters,input);
+    const actas = await getAllActasWithFilters(ctx,input);
+      if (actas.length === 0)
+        return [];
+      else
+        return actas;
+    }
+  )
+
+  export const visibilidadActasMasivoProcedure = protectedProcedure
+  .input(inputVisibilidadActasMasivo)
+  .mutation(async ({ctx, input}) => {
+    validarInput(inputVisibilidadActasMasivo, input);
+    const count = await visibilidadActasMasivo(ctx,input);
+    return {count}
+  })
+
+  export const eliminarActasMasivoProcedure = protectedProcedure
+  .input(inputEliminarActasMasivo)
+  .mutation(async ({ctx, input}) => {
+    validarInput(inputEliminarActasMasivo, input);
+    const {count, names} = await eliminarActasMasivo(ctx,input);
+    names.forEach(f => {deleteActaPDF(f)});
+    return {count}
+  })
+

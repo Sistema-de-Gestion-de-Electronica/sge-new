@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -19,8 +19,15 @@ import { toast } from "@/components/ui";
 export default function ClientDateModalPicker() {
   const [open, setOpen] = useState(false);
   const [dateStr, setDateStr] = useState("");
+  const {data: reunion  } = api.reunion.getUltimaReunion.useQuery();
   const [link, setLink] = useState("");
 
+  useEffect(() => {
+    if(reunion?.link){
+      setLink(reunion.link);
+    }
+  }, [reunion]);
+  
   const { mutateAsync: agregarReunion, isPending, error } =
     api.reunion.agregarReunion.useMutation({});
 
@@ -38,7 +45,6 @@ export default function ClientDateModalPicker() {
       toast.success("Fecha de reunión agregada con éxito.");
       setOpen(false);
       setDateStr("");
-      setLink("");
     } catch (e) {
       toast.error(error?.message ?? "Error al agregar la reunión");
       console.error(e);
@@ -69,7 +75,7 @@ export default function ClientDateModalPicker() {
 
             <Input
               type="url"
-              placeholder="Link de la reunión"
+              placeholder={"Link de la reunión"}
               value={link}
               onChange={(e) => setLink(e.target.value)}
             />

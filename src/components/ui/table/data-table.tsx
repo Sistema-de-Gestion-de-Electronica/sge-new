@@ -176,7 +176,7 @@ export function DataTable<T>({
                   const alignment = getAlignment(meta?.header?.align);
                   const headerValue = flexRender(column.columnDef.header, header.getContext());
                   return (
-                    <TableHead key={header.id} className={cn("px-1", alignment)}>
+                    <TableHead key={header.id} className={cn("px-1", alignment,meta?.header?.className)}>
                       {index === 0 && table.getCanSomeRowsExpand() && (
                         <Button
                           variant={"default"}

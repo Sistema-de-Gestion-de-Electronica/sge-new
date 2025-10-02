@@ -41,7 +41,7 @@ export const HoraDia = ({
           if (esHoyDia1) {
             if (esHoyDia1 && hora >= horaInicio1 && hora < finClase1) {
               return (
-                <div key={hora} className="flex h-5 w-5  justify-center bg-primary/20">
+                <div key={hora} className="flex h-5 w-5  justify-center bg-[#dbeafe]">
                   {hora}
                 </div>
               );
@@ -50,7 +50,7 @@ export const HoraDia = ({
 
           if (esHoyDia2 && hora >= horaInicio2 && hora < finClase2) {
             return (
-              <div key={`hora2-${hora}`} className="flex h-5 w-5 justify-center bg-primary/20">
+              <div key={`hora2-${hora}`} className="flex h-5 w-5 justify-center bg-[#dbeafe]">
                 {hora}
               </div>
             );

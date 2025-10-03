@@ -1,0 +1,79 @@
+networks:
+  traefik:
+    name: traefik-net
+    external: true
+
+
+services:
+  db-sge:
+    container_name: db-sge
+    image: postgres:17.4-alpine3.21
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 2s
+      timeout: 15s
+      retries: 5
+      start_period: 3s
+    expose: ["5432"]
+    environment:
+      POSTGRES_USER: ${SGE_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${SGE_POSTGRES_PASSWORD}
+      POSTGRES_DB: ${SGE_POSTGRES_DB}
+    volumes:
+      - data:/var/lib/postgresql/data
+      - ./db/dump.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - traefik
+
+  app-sge:
+    build:
+      context: ..
+      dockerfile: ./docker/Dockerfile.dev
+    image: registry.frba.utn.edu.ar/ext/sge3
+    container_name: app-sge
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.sge-frontend.rule=Host(`sge-tst.frba.utn.edu.ar`)"
+    expose:
+      - 3000
+    environment:
+      PORT: 3000
+
+      POSTGRES_PASSWORD: ${SGE_POSTGRES_PASSWORD}
+      POSTGRES_USER: ${SGE_POSTGRES_USER}
+      POSTGRES_DB: ${SGE_POSTGRES_DB}
+
+      DATABASE_URL: ${SGE_DATABASE_URL}
+      NEXTAUTH_SECRET: ${SGE_TST_NEXTAUTH_SECRET}
+      NEXTAUTH_URL: https://sge-tst.frba.utn.edu.ar
+      NODE_TLS_REJECT_UNAUTHORIZED: 0
+
+      KEYCLOAK_CLIENT_ID: ${SGE_TST_KEYCLOAK_ID}
+      KEYCLOAK_CLIENT_SECRET: ${SGE_TST_KEYCLOAK_SECRET}
+      KEYCLOAK_ISSUER: ${SGE_TST_KEYCLOAK_ISSUER}
+
+      SMTP_MAIL_EMISOR: sge-new@frba.utn.edu.ar
+      SMTP_HOST: smtp.frba.utn.edu.ar
+      SMTP_PORT: 587
+      SMTP_SECURE: false
+
+      # SMTP_TESTING: false
+      # SMTP_TESTING_EMAIL_RECEPTOR: 
+      # SMTP_TESTING_EMAIL_USER: testutn@gmail.com
+      # SMTP_TESTING_EMAIL_PASSWORD: 
+
+    restart: unless-stopped
+    depends_on:
+      db-sge:
+        condition: service_healthy
+    networks:
+      - traefik
+    volumes:
+      - ../:/app
+      - /app/node_modules
+
+
+volumes:
+  data:
+  postgresql_data:
+    driver: local

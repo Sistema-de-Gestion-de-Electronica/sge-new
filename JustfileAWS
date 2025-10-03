@@ -1,0 +1,60 @@
+docker := if os() == "windows" {"docker"} else if `groups` =~ "docker" {"docker"} else {"sudo docker"}
+ENV_FILE := ".env.aws"
+COMPOSE_FILE := "docker/docker-compose.aws.yaml"
+compose := "{{docker}} compose --env-file {{ENV_FILE}} -f {{COMPOSE_FILE}}"
+
+_default:
+    @just --list --unsorted
+
+pull:
+    {{compose}} pull
+
+build:
+    {{compose}} build
+
+up:
+    {{compose}} up -d
+
+down:
+    {{compose}} down
+
+restart:
+    {{compose}} down
+    {{compose}} up -d
+
+ps:
+    {{compose}} ps
+
+logs service="traefik":
+    {{compose}} logs -f {{service}}
+
+shell service="app-sge":
+    {{docker}} exec -it {{service}} sh
+
+db-backup-sge:
+    {{docker}} exec db-sge pg_dump -U $$(grep ^POSTGRES_USER {{ENV_FILE}} | cut -d= -f2) \
+      $$(grep ^POSTGRES_DB {{ENV_FILE}} | cut -d= -f2) > ./docker/db/dump_sge_`date +%F_%H%M%S`.sql
+
+db-restore-sge file:
+    cat {{file}} | {{docker}} exec -i db-sge psql -U $$(grep ^POSTGRES_USER {{ENV_FILE}} | cut -d= -f2) \
+      -d $$(grep ^POSTGRES_DB {{ENV_FILE}} | cut -d= -f2)
+
+db-backup-keycloak:
+    {{docker}} exec keycloak-db pg_dump -U $$(grep ^KC_DB_USER {{ENV_FILE}} | cut -d= -f2) \
+      $$(grep ^KC_DB_NAME {{ENV_FILE}} | cut -d= -f2) > ./docker/db/dump_keycloak_`date +%F_%H%M%S`.sql
+
+db-restore-keycloak file:
+    cat {{file}} | {{docker}} exec -i keycloak-db psql -U $$(grep ^KC_DB_USER {{ENV_FILE}} | cut -d= -f2) \
+      -d $$(grep ^KC_DB_NAME {{ENV_FILE}} | cut -d= -f2)
+
+prisma-generate:
+    {{docker}} exec app-sge sh -lc 'npx prisma generate'
+
+prisma-migrate-deploy:
+    {{docker}} exec app-sge sh -lc 'npx prisma migrate deploy'
+
+prisma-studio:
+    {{docker}} exec -it app-sge sh -lc 'npx prisma studio'
+
+prune:
+    {{docker}} system prune -f

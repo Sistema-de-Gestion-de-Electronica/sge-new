@@ -1,0 +1,16 @@
+http:
+  middlewares:
+    dashboard-auth:
+      basicAuth:
+        usersFile: /user-credentials
+    redirect-to-https:
+      redirectScheme:
+        scheme: https
+        permanent: true
+
+  routers:
+    redirect:
+      rule: "HostRegexp(`{any:.+}`)"
+      entryPoints: ["web"]
+      service: noop@internal
+      middlewares: ["redirect-to-https"]

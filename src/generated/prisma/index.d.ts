@@ -509,7 +509,7 @@ export const LaboratorioAbiertoTipo: typeof $Enums.LaboratorioAbiertoTipo
  */
 export class PrismaClient<
   ClientOptions extends Prisma.PrismaClientOptions = Prisma.PrismaClientOptions,
-  const U = 'log' extends keyof ClientOptions ? ClientOptions['log'] extends Array<Prisma.LogLevel | Prisma.LogDefinition> ? Prisma.GetEvents<ClientOptions['log']> : never : never,
+  U = 'log' extends keyof ClientOptions ? ClientOptions['log'] extends Array<Prisma.LogLevel | Prisma.LogDefinition> ? Prisma.GetEvents<ClientOptions['log']> : never : never,
   ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs
 > {
   [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['other'] }
@@ -541,6 +541,13 @@ export class PrismaClient<
    * Disconnect from the database
    */
   $disconnect(): $Utils.JsPromise<void>;
+
+  /**
+   * Add a middleware
+   * @deprecated since 4.16.0. For new code, prefer client extensions instead.
+   * @see https://pris.ly/d/extensions
+   */
+  $use(cb: Prisma.Middleware): void
 
 /**
    * Executes a prepared raw query and returns the number of affected rows.
@@ -1128,8 +1135,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.15.0
-   * Query Engine version: 85179d7826409ee107a6ba334b5e305ae3fba9fb
+   * Prisma Client JS version: 6.6.0
+   * Query Engine version: f676762280b54cd07c770017ed3711ddde35f37a
    */
   export type PrismaVersion = {
     client: string
@@ -1574,7 +1581,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "acta" | "voto" | "reunion" | "libro" | "libroMateria" | "libroAutor" | "libroIdioma" | "libroEditorial" | "curso" | "cursoAyudante" | "division" | "equipo" | "equipoMarca" | "equipoTipo" | "equipoEstado" | "laboratorio" | "armario" | "estante" | "software" | "softwareLaboratorio" | "mails" | "materia" | "materiaJefeTp" | "materiaCorrelativa" | "reserva" | "reservaEquipo" | "reservaLibro" | "reservaLaboratorioCerrado" | "reservaLaboratorioCerradoEquipo" | "reservaLaboratorioAbierto" | "reservaLaboratorioAbiertoEquipo" | "pantalla" | "account" | "session" | "verificationToken" | "sede" | "user" | "tutor" | "usuarioRol" | "rol" | "rolPermiso" | "permiso" | "provincia" | "pais" | "documentoTipo"
+      modelProps: "acta" | "voto" | "reunion" | "libro" | "libroMateria" | "libroAutor" | "libroIdioma" | "libroEditorial" | "curso" | "cursoAyudante" | "division" | "equipo" | "equipoMarca" | "equipoTipo" | "equipoEstado" | "inscripcionEspecial" | "laboratorio" | "armario" | "estante" | "software" | "softwareLaboratorio" | "mails" | "materia" | "materiaJefeTp" | "materiaCorrelativa" | "reserva" | "reservaEquipo" | "reservaLibro" | "reservaLaboratorioCerrado" | "reservaLaboratorioCerradoEquipo" | "reservaLaboratorioAbierto" | "reservaLaboratorioAbiertoEquipo" | "pantalla" | "account" | "session" | "verificationToken" | "sede" | "user" | "tutor" | "usuarioRol" | "rol" | "rolPermiso" | "permiso" | "provincia" | "pais" | "documentoTipo"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -5025,24 +5032,16 @@ export namespace Prisma {
     /**
      * @example
      * ```
-     * // Shorthand for `emit: 'stdout'`
+     * // Defaults to stdout
      * log: ['query', 'info', 'warn', 'error']
      * 
-     * // Emit as events only
+     * // Emit as events
      * log: [
-     *   { emit: 'event', level: 'query' },
-     *   { emit: 'event', level: 'info' },
-     *   { emit: 'event', level: 'warn' }
-     *   { emit: 'event', level: 'error' }
+     *   { emit: 'stdout', level: 'query' },
+     *   { emit: 'stdout', level: 'info' },
+     *   { emit: 'stdout', level: 'warn' }
+     *   { emit: 'stdout', level: 'error' }
      * ]
-     * 
-     * / Emit as events and log to stdout
-     * og: [
-     *  { emit: 'stdout', level: 'query' },
-     *  { emit: 'stdout', level: 'info' },
-     *  { emit: 'stdout', level: 'warn' }
-     *  { emit: 'stdout', level: 'error' }
-     * 
      * ```
      * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/logging#the-log-option).
      */
@@ -5129,15 +5128,10 @@ export namespace Prisma {
     emit: 'stdout' | 'event'
   }
 
-  export type CheckIsLogLevel<T> = T extends LogLevel ? T : never;
-
-  export type GetLogType<T> = CheckIsLogLevel<
-    T extends LogDefinition ? T['level'] : T
-  >;
-
-  export type GetEvents<T extends any[]> = T extends Array<LogLevel | LogDefinition>
-    ? GetLogType<T[number]>
-    : never;
+  export type GetLogType<T extends LogLevel | LogDefinition> = T extends LogDefinition ? T['emit'] extends 'event' ? T['level'] : never : never
+  export type GetEvents<T extends any> = T extends Array<LogLevel | LogDefinition> ?
+    GetLogType<T[0]> | GetLogType<T[1]> | GetLogType<T[2]> | GetLogType<T[3]>
+    : never
 
   export type QueryEvent = {
     timestamp: Date
@@ -5177,6 +5171,25 @@ export namespace Prisma {
     | 'runCommandRaw'
     | 'findRaw'
     | 'groupBy'
+
+  /**
+   * These options are being passed into the middleware as "params"
+   */
+  export type MiddlewareParams = {
+    model?: ModelName
+    action: PrismaAction
+    args: any
+    dataPath: string[]
+    runInTransaction: boolean
+  }
+
+  /**
+   * The `T` type makes sure, that the `return proceed` is not forgotten in the middleware implementation
+   */
+  export type Middleware<T = any> = (
+    params: MiddlewareParams,
+    next: (params: MiddlewareParams) => $Utils.JsPromise<T>,
+  ) => $Utils.JsPromise<T>
 
   // tested in getLogLevel.test.ts
   export function getLogLevel(log: Array<LogLevel | LogDefinition>): LogLevel | undefined;
@@ -75172,10 +75185,6 @@ export namespace Prisma {
     connect?: VotoWhereUniqueInput | VotoWhereUniqueInput[]
   }
 
-  export type NullableBoolFieldUpdateOperationsInput = {
-    set?: boolean | null
-  }
-
   export type DocumentoTipoUpdateOneWithoutUsuariosNestedInput = {
     create?: XOR<DocumentoTipoCreateWithoutUsuariosInput, DocumentoTipoUncheckedCreateWithoutUsuariosInput>
     connectOrCreate?: DocumentoTipoCreateOrConnectWithoutUsuariosInput
@@ -76627,6 +76636,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
@@ -76673,6 +76683,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
     cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
     cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
     MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
@@ -76763,6 +76774,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
@@ -76809,6 +76821,7 @@ export namespace Prisma {
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
     cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
     cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
     MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
@@ -79543,6 +79556,7 @@ export namespace Prisma {
     materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
+    Voto?: VotoCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutInscripcionesEspecialesInput = {
@@ -79589,6 +79603,7 @@ export namespace Prisma {
     materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
+    Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutInscripcionesEspecialesInput = {
@@ -79651,6 +79666,7 @@ export namespace Prisma {
     materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
+    Voto?: VotoUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutInscripcionesEspecialesInput = {
@@ -79697,6 +79713,7 @@ export namespace Prisma {
     materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
+    Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type SedeCreateWithoutLaboratoriosInput = {

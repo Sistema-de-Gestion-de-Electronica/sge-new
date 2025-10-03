@@ -1,32 +1,32 @@
 docker := if os() == "windows" {"docker"} else if `groups` =~ "docker" {"docker"} else {"sudo docker"}
+
 ENV_FILE := ".env.aws"
 COMPOSE_FILE := "docker/docker-compose.aws.yaml"
-compose := "{{docker}} compose --env-file {{ENV_FILE}} -f {{COMPOSE_FILE}}"
 
 _default:
     @just --list --unsorted
 
 pull:
-    {{compose}} pull
+    {{docker}} compose --env-file {{ENV_FILE}} -f {{COMPOSE_FILE}} pull
 
 build:
-    {{compose}} build
+    {{docker}} compose --env-file {{ENV_FILE}} -f {{COMPOSE_FILE}} build
 
 up:
-    {{compose}} up -d
+    {{docker}} compose --env-file {{ENV_FILE}} -f {{COMPOSE_FILE}} up -d
 
 down:
-    {{compose}} down
+    {{docker}} compose --env-file {{ENV_FILE}} -f {{COMPOSE_FILE}} down
 
 restart:
-    {{compose}} down
-    {{compose}} up -d
+    {{docker}} compose --env-file {{ENV_FILE}} -f {{COMPOSE_FILE}} down
+    {{docker}} compose --env-file {{ENV_FILE}} -f {{COMPOSE_FILE}} up -d
 
 ps:
-    {{compose}} ps
+    {{docker}} compose --env-file {{ENV_FILE}} -f {{COMPOSE_FILE}} ps
 
 logs service="traefik":
-    {{compose}} logs -f {{service}}
+    {{docker}} compose --env-file {{ENV_FILE}} -f {{COMPOSE_FILE}} logs -f {{service}}
 
 shell service="app-sge":
     {{docker}} exec -it {{service}} sh

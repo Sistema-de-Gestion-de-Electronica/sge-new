@@ -65,25 +65,27 @@ services:
       - traefik
 
   keycloak:
-    image: quay.io/keycloak/keycloak:latest
+    image: bitnamilegacy/keycloak:26.3.3-debian-12-r0
     container_name: keycloak
     environment:
-      KC_BOOTSTRAP_ADMIN_USERNAME: ${KEYCLOAK_ADMIN}
-      KC_BOOTSTRAP_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
+      # Admin (Bitnami)
+      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
 
-      KC_DB: postgres
-      KC_DB_USERNAME: ${KC_DB_USER}
-      KC_DB_PASSWORD: ${KC_DB_PASSWORD}
-      KC_DB_URL_HOST: keycloak-db
-      KC_DB_URL_DATABASE: ${KC_DB_NAME}
+      # Base de datos (Bitnami)
+      KEYCLOAK_DATABASE_HOST: keycloak-db
+      KEYCLOAK_DATABASE_PORT: "5432"
+      KEYCLOAK_DATABASE_NAME: ${KC_DB_NAME}
+      KEYCLOAK_DATABASE_USER: ${KC_DB_USER}
+      KEYCLOAK_DATABASE_PASSWORD: ${KC_DB_PASSWORD}
 
+      # Hostname/proxy (Keycloak/Quarkus)
       KC_HOSTNAME: ${AUTH_HOST}
       KC_PROXY: edge
       KC_HOSTNAME_STRICT: "false"
       KC_HOSTNAME_STRICT_HTTPS: "false"
     expose:
       - "8080"
-    command: ["start", "--http-enabled=true", "--optimized"]
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.keycloak.rule=Host(`${AUTH_HOST}`)"

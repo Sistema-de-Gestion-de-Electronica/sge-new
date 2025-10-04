@@ -7,8 +7,7 @@ type VerFallaModalProps = {
   fallaID: number;
 };
 
-const rutaSolicitud =
-  FALLAS_ROUTE.subRutas !== undefined ? FALLAS_ROUTE?.subRutas[0] : undefined;
+const rutaSolicitud = FALLAS_ROUTE.subRutas !== undefined ? FALLAS_ROUTE?.subRutas[2] : undefined;
 
 export const VerFallaModal = (props: VerFallaModalProps) => {
   return (

@@ -1,9 +1,15 @@
 import type { z } from "zod";
 import { Session, type PrismaClient } from "@/generated/prisma";
-import type { inputReportarFallasInstrumento, inputReportarFallasPc } from "@/shared/filters/fallas-filter.schema";
+import type {
+  inputReportarFallasInstrumento,
+  inputReportarFallasPc,
+  inputGetFallaPorId,
+} from "@/shared/filters/fallas-filter.schema";
+import { formatDateToDays, formatDateToSeconds } from "../../utils/dateFormat";
 
 type InputReportarFallasInstrumento = z.infer<typeof inputReportarFallasInstrumento>;
 type InputReportarFallasPc = z.infer<typeof inputReportarFallasPc>;
+type InputGetFallaPorId = z.infer<typeof inputGetFallaPorId>;
 
 export const reportarInstrumento = async (
   ctx: { db: PrismaClient; session: { user: { id: string } } },
@@ -81,6 +87,7 @@ export const getAllFallas = async (ctx: { db: PrismaClient }) => {
     modelo: falla.equipo?.modelo ?? "-",
     reportadoPor: falla.reportadoPor ?? { nombre: "-", apellido: "" },
     asignadoA: falla.asignadoA ?? { nombre: "-", apellido: "" },
+    fechaReporte: falla.fechaReporte ? formatDateToSeconds(new Date(falla.fechaReporte)) : "-",
   }));
 
   return {
@@ -88,5 +95,41 @@ export const getAllFallas = async (ctx: { db: PrismaClient }) => {
     fallas: fallasTransformadas,
     pageIndex: 0,
     pageSize: fallasTransformadas.length,
+  };
+};
+
+export const getFallaPorId = async (ctx: { db: PrismaClient }, input: InputGetFallaPorId) => {
+  const falla = await ctx.db.falla.findUnique({
+    include: {
+      equipo: {
+        include: {
+          laboratorio: true,
+          marca: true,
+          tipo: true,
+          estado: true,
+        },
+      },
+      reportadoPor: true,
+      asignadoA: true,
+    },
+    where: {
+      id: input.id,
+    },
+  });
+
+  if (!falla) return null;
+
+  return {
+    id: falla.id,
+    laboratorio: falla.equipo?.laboratorio?.nombre ?? "-",
+    nroEquipo: falla.equipo?.inventarioId ?? `Equipo ${falla.equipoId}`,
+    marca: falla.equipo?.marca?.nombre ?? "-",
+    modelo: falla.equipo?.modelo ?? "-",
+    fallas: falla.fallas ?? [],
+    descripcionFalla: falla.descripcionFalla ?? "-",
+    reportadoPor: falla.reportadoPor ?? null,
+    asignadoA: falla.asignadoA ?? null,
+    fechaReporte: falla.fechaReporte ? formatDateToSeconds(new Date(falla.fechaReporte)) : "-",
+    estado: falla.equipo?.estado?.nombre ?? "-",
   };
 };

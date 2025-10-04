@@ -2,8 +2,14 @@ import {
   inputGetAllFallas,
   inputReportarFallasInstrumento,
   inputReportarFallasPc,
+  inputGetFallaPorId,
 } from "@/shared/filters/fallas-filter.schema";
-import { reportarInstrumento, reportarPC, getAllFallas } from "../../repositories/fallas/fallas.repository";
+import {
+  reportarInstrumento,
+  reportarPC,
+  getAllFallas,
+  getFallaPorId,
+} from "../../repositories/fallas/fallas.repository";
 import { protectedProcedure } from "../../trpc";
 import { validarInput } from "../helper";
 
@@ -22,4 +28,9 @@ export const reportarPCProcedure = protectedProcedure.input(inputReportarFallasP
 export const getAllFallasProcedure = protectedProcedure.input(inputGetAllFallas).query(async ({ ctx, input }) => {
   validarInput(inputGetAllFallas, input);
   return await getAllFallas(ctx);
+});
+
+export const getFallaPorIdProcedure = protectedProcedure.input(inputGetFallaPorId).query(async ({ ctx, input }) => {
+  validarInput(inputGetFallaPorId, input);
+  return await getFallaPorId(ctx, input);
 });

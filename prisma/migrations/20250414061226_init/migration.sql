@@ -618,6 +618,26 @@ CREATE TABLE "DocumentoTipo" (
     CONSTRAINT "DocumentoTipo_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "Falla" (
+    id SERIAL PRIMARY KEY,
+
+    equipoId INT NULL,
+    tipoFalla TEXT NOT NULL, -- "PC" o "Instrumento"
+
+    fallas TEXT[] NOT NULL DEFAULT '{}', -- solo para PC
+    descripcionEquipo TEXT NULL,         -- solo para Instrumento
+    descripcionFalla TEXT NOT NULL,
+    condicion TEXT NULL,                  -- solo para Instrumento
+
+    fechaReporte TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW() NOT NULL,
+
+    reportadoPorId TEXT NULL,
+    asignadoAId TEXT NULL,
+
+    estado TEXT NOT NULL
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "Libro_inventarioId_key" ON "Libro"("inventarioId");
 

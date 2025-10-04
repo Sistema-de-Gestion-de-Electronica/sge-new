@@ -35,8 +35,8 @@ services:
       - "443:443"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./docker/traefik/traefik.yml:/traefik.yml:ro
-      - ./docker/traefik/dynamic.yml:/configuration/dynamic.yml:ro
+      - ./traefik/traefik.yml:/traefik.yml:ro
+      - ./traefik/dynamic.yml:/configuration/dynamic.yml:ro
       - ./pass:/user-credentials:ro
       - letsencrypt:/letsencrypt
     labels:
@@ -58,7 +58,7 @@ services:
       POSTGRES_USER: ${KC_DB_USER}
       POSTGRES_PASSWORD: ${KC_DB_PASSWORD}
     volumes:
-      - ./docker/db/keycloak_dump.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./db/keycloak_dump.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - traefik-net
     depends_on:
@@ -79,9 +79,11 @@ services:
 
       KC_HOSTNAME: ${AUTH_HOST}
       KC_PROXY: edge
+      KC_HOSTNAME_STRICT: "false"
+      KC_HOSTNAME_STRICT_HTTPS: "false"
     expose:
       - "8080"
-    command: ["start", "--http-enabled=true"]
+    command: ["start", "--http-enabled=true", "--optimized"]
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.keycloak.rule=Host(`${AUTH_HOST}`)"
@@ -92,7 +94,6 @@ services:
       - traefik-net
     depends_on:
       - keycloak-db
-
 
   db-sge:
     image: postgres:17.4-alpine3.21
@@ -111,7 +112,7 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - data:/var/lib/postgresql/data
-      - ./docker/db/dump.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./db/dump.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - traefik-net
     depends_on:
@@ -119,8 +120,8 @@ services:
 
   app-sge:
     build:
-      context: .
-      dockerfile: ./docker/Dockerfile.dev
+      context: ..
+      dockerfile: docker/Dockerfile.dev
     container_name: app-sge
     environment:
       TZ: ${TZ}
@@ -159,6 +160,5 @@ services:
     networks:
       - traefik-net
     volumes:
-      - ./:/app
+      - ../:/app
       - /app/node_modules
-

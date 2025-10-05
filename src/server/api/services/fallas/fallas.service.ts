@@ -59,8 +59,8 @@ export const actualizarCamposProcedure = protectedProcedure
   .input(inputGestionarFallas)
   .mutation(async ({ ctx, input }) => {
     validarInput(inputGestionarFallas, input);
-    const { id, descripcionFalla, asignadoA } = input;
-    return await actualizarCamposRepo(ctx, { id, descripcionFalla, asignadoA });
+    const { id, descripcionFalla, asignadoA, palabraClave } = input;
+    return await actualizarCamposRepo(ctx, { id, descripcionFalla, asignadoA, palabraClave });
   });
 
 export const eliminarFallaProcedure = protectedProcedure.input(inputGetFallaPorId).mutation(async ({ ctx, input }) => {

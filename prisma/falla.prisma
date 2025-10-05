@@ -19,7 +19,8 @@ model Falla {
     asignadoAId String?
     asignadoA   User?   @relation("FallasAsignadas", fields: [asignadoAId], references: [id])
 
-    estado String
+    estado        String
+    palabrasClave String?
 
     @@index([fechaReporte(sort: Desc)])
 }

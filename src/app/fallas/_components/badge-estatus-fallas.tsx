@@ -5,6 +5,7 @@ export enum FallasEstatus {
   FALLADO = "FALLADO",
   EN_REPARACION = "EN_REPARACION",
   REPARADO = "REPARADO",
+  DESCARTADO = "DESCARTADO",
   ELIMINADO = "ELIMINADO",
 }
 
@@ -19,6 +20,8 @@ const getStatusColor = (status: FallasEstatus | "") => {
     case FallasEstatus.REPARADO:
       return "success";
     case FallasEstatus.FALLADO:
+      return "warning";
+    case FallasEstatus.DESCARTADO:
       return "warning";
     case FallasEstatus.ELIMINADO:
       return "danger";
@@ -35,6 +38,8 @@ const getStatusText = (status: FallasEstatus | "") => {
       return "Reparado";
     case FallasEstatus.FALLADO:
       return "Fallado";
+    case FallasEstatus.DESCARTADO:
+      return "Descartado";
     case FallasEstatus.ELIMINADO:
       return "Eliminado";
     default:

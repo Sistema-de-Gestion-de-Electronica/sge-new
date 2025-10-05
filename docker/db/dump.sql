@@ -1502,7 +1502,8 @@ CREATE TABLE public."Falla" (
     "reportadoPorId" TEXT NULL,
     "asignadoAId" TEXT NULL,
 
-    estado TEXT NOT NULL
+    estado TEXT NOT NULL,
+    "palabrasClave" TEXT 
 );
 
 --

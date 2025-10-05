@@ -1,10 +1,10 @@
 import { z } from "zod";
 
 export const inputReportarFallasPc = z.object({
-  laboratorio: z.string().min(1, { message: "Requerido" }),
+  laboratorio: z.string().optional(),
   nroEquipo: z.string().min(1, { message: "Requerido" }),
-  marca: z.string().min(1, { message: "Requerido" }),
-  modelo: z.string().min(1, { message: "Requerido" }),
+  marca: z.string().optional(),
+  modelo: z.string().optional(),
   fallas: z.array(z.string().min(1, { message: "Requerido" })),
   descripcionFalla: z.string().min(1, { message: "Requerido" }),
 });

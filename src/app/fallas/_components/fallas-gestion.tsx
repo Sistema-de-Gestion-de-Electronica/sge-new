@@ -38,7 +38,7 @@ export const FallasGestion = ({ fallaId, onEstados, onCancel }: FallasGestionPro
       id: fallaId,
       descripcionFalla: "",
       asignadoA: fallaData?.asignadoA?.id ?? "",
-      //palabraClave: fallaData?.palabraClave ?? "",
+      palabraClave: fallaData?.palabrasClave ?? "",
     },
   });
 
@@ -53,21 +53,20 @@ export const FallasGestion = ({ fallaId, onEstados, onCancel }: FallasGestionPro
     return "";
   };
 
-  // Prefill de valores actuales cuando se carga la falla
   useEffect(() => {
     if (!fallaData) return;
 
     const descripcionFalla = fallaData?.descripcionFalla ?? "";
-    const palabraClave = (fallaData as any)?.palabraClave ?? "";
+    const palabraClave = fallaData?.palabrasClave ?? "";
 
     const asignado = fallaData?.asignadoA
       ? {
           id: fallaData.asignadoA.id,
           label: getUserLabelNameForSelect({
-            nombre: (fallaData.asignadoA as any)?.nombre ?? null,
-            name: (fallaData.asignadoA as any)?.name ?? "",
-            apellido: (fallaData.asignadoA as any)?.apellido ?? null,
-            legajo: (fallaData.asignadoA as any)?.legajo ?? null,
+            nombre: fallaData.asignadoA?.nombre ?? null,
+            name: fallaData.asignadoA?.name ?? "",
+            apellido: fallaData.asignadoA?.apellido ?? null,
+            legajo: fallaData.asignadoA?.legajo ?? null,
           }),
         }
       : "";

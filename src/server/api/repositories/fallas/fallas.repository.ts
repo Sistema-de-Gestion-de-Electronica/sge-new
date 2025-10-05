@@ -4,12 +4,14 @@ import type {
   inputReportarFallasInstrumento,
   inputReportarFallasPc,
   inputGetFallaPorId,
+  inputGestionarFallas,
 } from "@/shared/filters/fallas-filter.schema";
 import { formatDateToSeconds, formatDateToDays } from "../../utils/dateFormat";
 
 type InputReportarFallasInstrumento = z.infer<typeof inputReportarFallasInstrumento>;
 type InputReportarFallasPc = z.infer<typeof inputReportarFallasPc>;
 type InputGetFallaPorId = z.infer<typeof inputGetFallaPorId>;
+type InputGestionarFallas = z.infer<typeof inputGestionarFallas>;
 
 export const reportarInstrumento = async (
   ctx: { db: PrismaClient; session: { user: { id: string } } },
@@ -42,8 +44,8 @@ export const reportarPC = async (
     throw new Error("Usuario no autenticado");
   }
 
-  const equipo = await ctx.db.equipo.findFirst({
-    where: { numeroSerie: input.nroEquipo },
+  const equipo = await ctx.db.equipo.findUnique({
+    where: { inventarioId: input.nroEquipo },
   });
 
   if (!equipo) {
@@ -136,11 +138,17 @@ export const getFallaPorId = async (ctx: { db: PrismaClient }, input: InputGetFa
     asignadoA: falla.asignadoA ?? null,
     fechaReporte: falla.fechaReporte ? formatDateToSeconds(new Date(falla.fechaReporte)) : "-",
     estado: falla.estado ?? "-",
+    palabrasClave: falla.palabrasClave ?? "-",
   };
 };
 
 type CambiarEstadoInput = { id: number; estado: string; descripcionFalla?: string | null; asignadoA?: string | null };
-type ActualizarCamposInput = { id: number; descripcionFalla?: string | null; asignadoA?: string | null };
+type ActualizarCamposInput = {
+  id: number;
+  descripcionFalla?: string | null;
+  asignadoA?: string | null;
+  palabraClave?: string | null;
+};
 
 export const cambiarEstado = async (
   ctx: { db: PrismaClient; session: { user: { id: string } } },
@@ -180,7 +188,11 @@ export const actualizarCampos = async (
     throw new Error("Usuario no autenticado");
   }
 
-  const updateData: { descripcionFalla?: string; asignadoA?: { connect: { id: string } } | { disconnect: true } } = {};
+  const updateData: {
+    descripcionFalla?: string;
+    palabrasClave?: string;
+    asignadoA?: { connect: { id: string } } | { disconnect: true };
+  } = {};
 
   if (typeof input.descripcionFalla === "string") {
     updateData.descripcionFalla = input.descripcionFalla;
@@ -188,6 +200,10 @@ export const actualizarCampos = async (
 
   if (typeof input.asignadoA === "string") {
     updateData.asignadoA = input.asignadoA ? { connect: { id: input.asignadoA } } : { disconnect: true };
+  }
+
+  if (typeof input.palabraClave === "string") {
+    updateData.palabrasClave = input.palabraClave;
   }
 
   return ctx.db.falla.update({

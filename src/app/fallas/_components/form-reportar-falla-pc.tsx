@@ -62,7 +62,7 @@ export default function FormularioReportarFallaPC() {
       >
         <div className="flex w-full flex-col items-center justify-center">
           <div className="flex w-full flex-col space-y-4 px-0">
-            <div className="flex w-full flex-row lg:flex-row lg:justify-between lg:gap-x-4">
+            {/* <div className="flex w-full flex-row lg:flex-row lg:justify-between lg:gap-x-4">
               <FormSelect
                 name="laboratorio"
                 control={control}
@@ -70,8 +70,8 @@ export default function FormularioReportarFallaPC() {
                 label={"Laboratorio"}
                 className="w-full"
               />
-            </div>
-            <div className="flex w-full flex-col gap-x-4 sm:flex-row">
+            </div> */}
+            {/* <div className="flex w-full flex-col gap-x-4 sm:flex-row">
               <div className="mt-4 w-full">
                 <FormAutocomplete
                   label={"Marca"}
@@ -86,7 +86,7 @@ export default function FormularioReportarFallaPC() {
               <div className="mt-4 w-full">
                 <FormInput label={"Modelo"} control={control} name="modelo" type={"text"} required />
               </div>
-            </div>
+            </div> */}
 
             <div className="flex w-full flex-row lg:flex-row lg:justify-between lg:gap-x-4">
               <div className="mt-4 w-full">

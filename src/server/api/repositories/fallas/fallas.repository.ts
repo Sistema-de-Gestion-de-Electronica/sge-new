@@ -5,7 +5,7 @@ import type {
   inputReportarFallasPc,
   inputGetFallaPorId,
 } from "@/shared/filters/fallas-filter.schema";
-import { formatDateToSeconds } from "../../utils/dateFormat";
+import { formatDateToSeconds, formatDateToDays } from "../../utils/dateFormat";
 
 type InputReportarFallasInstrumento = z.infer<typeof inputReportarFallasInstrumento>;
 type InputReportarFallasPc = z.infer<typeof inputReportarFallasPc>;
@@ -64,6 +64,9 @@ export const reportarPC = async (
 
 export const getAllFallas = async (ctx: { db: PrismaClient }) => {
   const fallas = await ctx.db.falla.findMany({
+    where: {
+      NOT: { estado: "ELIMINADO" },
+    },
     include: {
       equipo: {
         include: {
@@ -89,7 +92,7 @@ export const getAllFallas = async (ctx: { db: PrismaClient }) => {
     modelo: falla.equipo?.modelo ?? "-",
     reportadoPor: falla.reportadoPor ?? { nombre: "-", apellido: "" },
     asignadoA: falla.asignadoA ?? { nombre: "-", apellido: "" },
-    fechaReporte: falla.fechaReporte ? formatDateToSeconds(new Date(falla.fechaReporte)) : "-",
+    fechaReporte: falla.fechaReporte ? formatDateToDays(new Date(falla.fechaReporte)) : "-",
   }));
 
   return {
@@ -132,6 +135,74 @@ export const getFallaPorId = async (ctx: { db: PrismaClient }, input: InputGetFa
     reportadoPor: falla.reportadoPor ?? null,
     asignadoA: falla.asignadoA ?? null,
     fechaReporte: falla.fechaReporte ? formatDateToSeconds(new Date(falla.fechaReporte)) : "-",
-    estado: falla.equipo?.estado?.nombre ?? "-",
+    estado: falla.estado ?? "-",
   };
+};
+
+type CambiarEstadoInput = { id: number; estado: string; descripcionFalla?: string | null; asignadoA?: string | null };
+type ActualizarCamposInput = { id: number; descripcionFalla?: string | null; asignadoA?: string | null };
+
+export const cambiarEstado = async (
+  ctx: { db: PrismaClient; session: { user: { id: string } } },
+  input: CambiarEstadoInput,
+) => {
+  if (!ctx.session?.user?.id) {
+    throw new Error("Usuario no autenticado");
+  }
+
+  const updateData: {
+    estado: string;
+    descripcionFalla?: string;
+    asignadoA?: { connect: { id: string } } | { disconnect: true };
+  } = {
+    estado: input.estado,
+  };
+
+  if (typeof input.descripcionFalla === "string") {
+    updateData.descripcionFalla = input.descripcionFalla;
+  }
+
+  if (typeof input.asignadoA === "string") {
+    updateData.asignadoA = input.asignadoA ? { connect: { id: input.asignadoA } } : { disconnect: true };
+  }
+
+  return ctx.db.falla.update({
+    where: { id: input.id },
+    data: updateData,
+  });
+};
+
+export const actualizarCampos = async (
+  ctx: { db: PrismaClient; session: { user: { id: string } } },
+  input: ActualizarCamposInput,
+) => {
+  if (!ctx.session?.user?.id) {
+    throw new Error("Usuario no autenticado");
+  }
+
+  const updateData: { descripcionFalla?: string; asignadoA?: { connect: { id: string } } | { disconnect: true } } = {};
+
+  if (typeof input.descripcionFalla === "string") {
+    updateData.descripcionFalla = input.descripcionFalla;
+  }
+
+  if (typeof input.asignadoA === "string") {
+    updateData.asignadoA = input.asignadoA ? { connect: { id: input.asignadoA } } : { disconnect: true };
+  }
+
+  return ctx.db.falla.update({
+    where: { id: input.id },
+    data: updateData,
+  });
+};
+
+export const eliminarFalla = async (
+  ctx: { db: PrismaClient; session: { user: { id: string } } },
+  input: { id: number },
+) => {
+  if (!ctx.session?.user?.id) {
+    throw new Error("Usuario no autenticado");
+  }
+
+  return ctx.db.falla.update({ where: { id: input.id }, data: { estado: "ELIMINADO" } });
 };

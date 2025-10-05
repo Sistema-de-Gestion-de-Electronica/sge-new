@@ -1,5 +1,5 @@
 import { api } from "@/trpc/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { type z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, FormProvider, Controller } from "react-hook-form";
@@ -10,7 +10,7 @@ import { FormTextarea } from "@/components/ui/textarea";
 import { inputGestionarFallas } from "@/shared/filters/fallas-filter.schema";
 import { Checkbox } from "@/components/ui/checkbox";
 import ModalDrawer from "@/app/_components/modal/modal-drawer";
-import { SelectUsuarioForm } from "@/app/_components/select-usuario";
+import { SelectUsuarioForm, getUserLabelNameForSelect } from "@/app/_components/select-usuario";
 import { FallasEstatus } from "./badge-estatus-fallas";
 
 type GestionarFallasFormData = z.infer<typeof inputGestionarFallas>;
@@ -38,11 +38,47 @@ export const FallasGestion = ({ fallaId, onEstados, onCancel }: FallasGestionPro
       id: fallaId,
       descripcionFalla: "",
       asignadoA: fallaData?.asignadoA?.id ?? "",
-      palabraClave: fallaData?.palabraClave ?? "",
+      //palabraClave: fallaData?.palabraClave ?? "",
     },
   });
 
   const { handleSubmit, control, getValues } = formHook;
+
+  const getAsignadoId = (value: unknown): string => {
+    if (typeof value === "string") return value;
+    if (value && typeof value === "object" && "id" in (value as Record<string, unknown>)) {
+      const id = (value as { id?: unknown }).id;
+      return typeof id === "string" ? id : "";
+    }
+    return "";
+  };
+
+  // Prefill de valores actuales cuando se carga la falla
+  useEffect(() => {
+    if (!fallaData) return;
+
+    const descripcionFalla = fallaData?.descripcionFalla ?? "";
+    const palabraClave = (fallaData as any)?.palabraClave ?? "";
+
+    const asignado = fallaData?.asignadoA
+      ? {
+          id: fallaData.asignadoA.id,
+          label: getUserLabelNameForSelect({
+            nombre: (fallaData.asignadoA as any)?.nombre ?? null,
+            name: (fallaData.asignadoA as any)?.name ?? "",
+            apellido: (fallaData.asignadoA as any)?.apellido ?? null,
+            legajo: (fallaData.asignadoA as any)?.legajo ?? null,
+          }),
+        }
+      : "";
+
+    formHook.reset({
+      id: fallaId,
+      descripcionFalla,
+      palabraClave,
+      asignadoA: asignado as any,
+    });
+  }, [fallaData, formHook, fallaId]);
 
   // Handler para marcar como "EN_REPARACION"
   const handleEnReparacion = () => {
@@ -52,7 +88,7 @@ export const FallasGestion = ({ fallaId, onEstados, onCancel }: FallasGestionPro
         id: fallaId,
         estado: "EN_REPARACION",
         descripcionFalla: values.descripcionFalla,
-        asignadoA: values.asignadoA,
+        asignadoA: getAsignadoId(values.asignadoA as unknown),
         palabraClave: values.palabraClave,
       },
       {
@@ -120,7 +156,7 @@ export const FallasGestion = ({ fallaId, onEstados, onCancel }: FallasGestionPro
     actualizarCampos(
       {
         id: fallaId,
-        asignadoA: values.asignadoA,
+        asignadoA: getAsignadoId(values.asignadoA as unknown),
         palabraClave: values.palabraClave,
         descripcionFalla: values.descripcionFalla,
       },
@@ -169,7 +205,7 @@ export const FallasGestion = ({ fallaId, onEstados, onCancel }: FallasGestionPro
               />
 
               {/* Campos adicionales para "EN_REPARACION" */}
-              {fallaData?.estado === FallasEstatus.FALLADO || fallaData?.estado === FallasEstatus.EN_REPARACION ? (
+              {fallaData?.estado === "FALLADO" || fallaData?.estado === "EN_REPARACION" ? (
                 <>
                   <SelectUsuarioForm
                     name="asignadoA"
@@ -224,7 +260,7 @@ export const FallasGestion = ({ fallaId, onEstados, onCancel }: FallasGestionPro
           </Button>
 
           {/* Botones condicionales según el estado actual */}
-          {(fallaData?.estado === FallasEstatus.FALLADO || fallaData?.estado === FallasEstatus.EN_REPARACION) && (
+          {fallaData?.estado === "FALLADO" && (
             <Button
               title="Marcar en reparación"
               type="button"
@@ -237,7 +273,7 @@ export const FallasGestion = ({ fallaId, onEstados, onCancel }: FallasGestionPro
             </Button>
           )}
 
-          {fallaData?.estado === FallasEstatus.EN_REPARACION && (
+          {fallaData?.estado === "EN_REPARACION" && (
             <>
               <Button
                 title="Marcar como descartado"

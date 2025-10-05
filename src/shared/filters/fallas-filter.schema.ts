@@ -26,9 +26,9 @@ export const inputGetAllFallas = z.object({
 
 export const inputGestionarFallas = z.object({
   id: z.number(),
-  asignadoA: z.string().min(1, { message: "Requerido" }).optional(),
+  asignadoA: z.string().optional(),
   descripcionFalla: z.string().optional().or(z.literal("")),
-  palabraClave: z.string().min(1, { message: "Requerido" }).optional(),
+  palabraClave: z.string().optional(),
 });
 
 export const inputGetFallaPorId = z.object({

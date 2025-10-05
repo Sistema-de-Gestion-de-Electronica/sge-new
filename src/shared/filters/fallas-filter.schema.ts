@@ -28,3 +28,7 @@ export const inputGestionarFallas = z.object({
   pageIndex: z.number().optional(),
   pageSize: z.number().optional(),
 });
+
+export const inputGetFallaPorId = z.object({
+  id: z.number(),
+});

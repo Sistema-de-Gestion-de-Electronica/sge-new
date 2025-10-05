@@ -27,7 +27,7 @@ export function FallasDetalle({ fallaId, mostrarCompleto }: FallasDetalleProps) 
     isLoading,
     isError,
     refetch: refetchFalla,
-  } = api.fallas.getFallasPorId.useQuery({
+  } = api.fallas.getFallaPorId.useQuery({
     id: Number(fallaId),
   });
 
@@ -65,7 +65,7 @@ export function FallasDetalle({ fallaId, mostrarCompleto }: FallasDetalleProps) 
               {
                 icon: <NotebookIcon className="h-4 w-4" />,
                 label: "Equipo",
-                value: falla?.equipo,
+                value: falla?.nroEquipo,
               },
               {
                 icon: <NotebookIcon className="h-4 w-4" />,
@@ -101,7 +101,7 @@ export function FallasDetalle({ fallaId, mostrarCompleto }: FallasDetalleProps) 
               <div className="flex items-start justify-center">{icon}</div>
               <div className="flex flex-col text-left">
                 <Label className="text-xs font-semibold">{label}</Label>
-                <p className="text-sm">{value}</p>
+                <p className="text-sm">{value instanceof Date ? value.toLocaleDateString() : value}</p>
               </div>
             </div>
           ))}

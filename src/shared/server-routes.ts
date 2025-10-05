@@ -302,7 +302,7 @@ export const REPORTES_ROUTE: AppRoute = {
 
 const PERMISOS_VER_FALLAS = [SgeNombre.ADMIN_VER_PANEL_ADMIN];
 export const FALLAS_ROUTE: AppRoute = {
-  href: "/fallas",
+  href: "/fallas/reportar_instrumento",
   label: "Fallas",
   isPublic: false,
   permisos: PERMISOS_VER_FALLAS,
@@ -324,7 +324,7 @@ export const FALLAS_ROUTE: AppRoute = {
       label: "Administrar",
       isPublic: false,
       permisos: [SgeNombre.ADMIN_VER_PANEL_ADMIN],
-    }
+    },
   ],
 };
 

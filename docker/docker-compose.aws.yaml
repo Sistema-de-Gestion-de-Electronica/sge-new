@@ -26,6 +26,9 @@ services:
       - "--entrypoints.websecure.address=:443"
       - "--log.level=DEBUG"
       - "--ping=true"
+      - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
+
     environment:
       - TZ=${TZ}
     ports:

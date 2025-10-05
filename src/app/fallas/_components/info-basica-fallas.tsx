@@ -1,6 +1,6 @@
 import { api } from "@/trpc/react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CalendarIcon, PersonStandingIcon, TextIcon, NotebookIcon } from "lucide-react";
+import { CalendarIcon, PersonStandingIcon, TextIcon, FlaskConicalIcon, WrenchIcon, BadgeDollarSignIcon, ReceiptTextIcon } from "lucide-react";
 import { Label, Button, toast } from "@/components/ui";
 import { BadgeEstatusFallas, FallasEstatus } from "@/app/fallas/_components/badge-estatus-fallas";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -58,22 +58,22 @@ export function FallasDetalle({ fallaId, mostrarCompleto }: FallasDetalleProps) 
           {[
             ...[
               {
-                icon: <NotebookIcon className="h-4 w-4" />,
+                icon: <FlaskConicalIcon className="h-4 w-4" />,
                 label: "Laboratorio",
                 value: falla?.laboratorio,
               },
               {
-                icon: <NotebookIcon className="h-4 w-4" />,
+                icon: <WrenchIcon className="h-4 w-4" />,
                 label: "Equipo",
                 value: falla?.nroEquipo,
               },
               {
-                icon: <NotebookIcon className="h-4 w-4" />,
+                icon: <BadgeDollarSignIcon className="h-4 w-4" />,
                 label: "Marca",
                 value: falla?.marca,
               },
               {
-                icon: <NotebookIcon className="h-4 w-4" />,
+                icon: <ReceiptTextIcon className="h-4 w-4" />,
                 label: "Modelo",
                 value: falla?.modelo,
               },

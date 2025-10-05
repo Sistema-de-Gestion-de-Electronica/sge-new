@@ -10,6 +10,7 @@ export const inputReportarFallasPc = z.object({
 });
 
 export const inputReportarFallasInstrumento = z.object({
+  esInventariado: z.boolean().default(true),
   tipoInstrumento: z.string().min(1, { message: "Requerido" }),
   instrumento: z.string().min(1, { message: "Requerido" }),
   descripcionEquipo: z.string().min(1, { message: "Requerido" }),
@@ -24,9 +25,10 @@ export const inputGetAllFallas = z.object({
 });
 
 export const inputGestionarFallas = z.object({
-  filterByUserId: z.enum(["true", "false"]).optional(),
-  pageIndex: z.number().optional(),
-  pageSize: z.number().optional(),
+  id: z.number(),
+  asignadoA: z.string().min(1, { message: "Requerido" }).optional(),
+  descripcionFalla: z.string().optional().or(z.literal("")),
+  palabraClave: z.string().min(1, { message: "Requerido" }).optional(),
 });
 
 export const inputGetFallaPorId = z.object({

@@ -11,10 +11,14 @@ export default function DetalleReporte({ id }: { id: string }) {
   const [open, setOpen] = useState(true);
   const utils = api.useUtils();
   const refreshGetAll = () => {
-    utils.fallas.getAll.invalidate().catch((err) => {
+    utils.fallas.getAllFallas.invalidate().catch((err) => {
       console.error(err);
     });
   };
+
+  const { data: fallaData } = api.fallas.getFallaPorId.useQuery({
+    id: Number(id),
+  });
 
   const router = useRouter();
 
@@ -36,7 +40,7 @@ export default function DetalleReporte({ id }: { id: string }) {
 
   return (
     <ModalDrawer
-      titulo="Detalle de Falla"
+      titulo={`Detalle de Falla #${fallaData?.id} - ${fallaData?.nroEquipo} ${fallaData?.marca} ${fallaData?.modelo} - ${fallaData?.estado}`}
       description="Detalles del reporte de fallas."
       open={open}
       onOpenChange={handleOpenChange}

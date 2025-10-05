@@ -10,6 +10,9 @@ import { FormTextarea } from "@/components/ui/textarea";
 import { inputGestionarFallas } from "@/shared/filters/fallas-filter.schema";
 import { Checkbox } from "@/components/ui/checkbox";
 import ModalDrawer from "@/app/_components/modal/modal-drawer";
+import { SelectUsuarioForm } from "@/app/_components/select-usuario";
+import { FallasEstatus } from "./badge-estatus-fallas";
+
 
 type GestionarFallasFormData = z.infer<typeof inputGestionarFallas>;
 
@@ -25,10 +28,10 @@ export const FallasGestion = ({
   onCancel,
 }: FallasGestionProps) => {
   const utils = api.useUtils();
-  const { isPending: estaAprobando, mutate: aprobarSolcitud } =
-    api.inscripcionesEspeciales.aprobarInscripcionEspecial.useMutation();
-  const { isPending: estaRechazando, mutate: rechazarSolicitud } =
-    api.inscripcionesEspeciales.rechazarInscripcionEspecial.useMutation();
+  const { mutate: cambiarEstado } = api.fallas.cambiarEstado.useMutation();
+  const { mutate: eliminarFalla } = api.fallas.eliminarFalla.useMutation();
+  const { mutate: actualizarCampos } = api.fallas.actualizarCampos.useMutation();
+  
   const { data: fallaData } = api.fallas.getFallaPorId.useQuery({
     id: fallaId,
   });
@@ -38,166 +41,160 @@ export const FallasGestion = ({
     resolver: zodResolver(inputGestionarFallas),
     defaultValues: {
       id: fallaId,
-      respuesta: "",
-      alumnoContactado: inscripcionEspecialData?.fueContactado ?? false,
-      alumnoAsistio: inscripcionEspecialData?.vinoPresencialmente ?? false,
+      descripcionFalla: "",
+      asignadoA: fallaData?.asignadoA?.id ?? "",
+      palabraClave: fallaData?.palabraClave ?? "",
     },
   });
 
   const { handleSubmit, control, getValues } = formHook;
 
-  const onSubmit = async (data: GestionarInscripcionEspecialFormData) => {
-    aprobarSolcitud(data, {
-      onSuccess: () => {
-        toast.success("Solicitud de inscripcion especial aprobada con éxito");
-        utils.inscripcionesEspeciales.getInscripcionEspecialPorId
-          .invalidate({ id: inscripcionEspecialId })
-          .catch((err) => {
-            console.error(err);
-          });
-        onAprobar();
-      },
-      onError: (error) => {
-        toast.error("Error al aprobar la reserva");
-        console.error(error);
-      },
-    });
-    console.log("Aprobando con justificacion: ", data.respuesta);
-    onAprobar();
-  };
-
-  const handleRechazo = async () => {
+  // Handler para marcar como "EN_REPARACION"
+  const handleEnReparacion = () => {
     const values = getValues();
-    rechazarSolicitud(
-      { id: inscripcionEspecialId, respuesta: values.respuesta },
+    cambiarEstado(
+      { 
+        id: fallaId, 
+        estado: "EN_REPARACION",
+        descripcionFalla: values.descripcionFalla,
+        asignadoA: values.asignadoA,
+        palabraClave: values.palabraClave
+      },
       {
         onSuccess: () => {
-          toast.success("Solicitud de inscripcion especial rechazada con éxito");
-          utils.inscripcionesEspeciales.getInscripcionEspecialPorId
-            .invalidate({ id: inscripcionEspecialId })
-            .catch((err) => {
-              console.error(err);
-            });
-          onRechazar();
+          toast.success("Falla marcada como en reparación");
+          utils.fallas.getFallaPorId.invalidate({ id: fallaId });
+          onEstados();
         },
         onError: (error) => {
-          toast.error("Error al rechazar la reserva");
+          toast.error("Error al cambiar el estado de la falla");
           console.error(error);
         },
       },
     );
-    console.log("Rechazando con justificacion: ", values.respuesta);
-    onRechazar();
   };
 
-  const { mutate: guardarContacto } = api.inscripcionesEspeciales.actualizarContactoAsistencia.useMutation();
+  // Handler para marcar como "REPARADO"
+  const handleReparado = () => {
+    const values = getValues();
+    cambiarEstado(
+      { 
+        id: fallaId, 
+        estado: "REPARADO",
+        descripcionFalla: values.descripcionFalla
+      },
+      {
+        onSuccess: () => {
+          toast.success("Falla marcada como reparada");
+          utils.fallas.getFallaPorId.invalidate({ id: fallaId });
+          onEstados();
+        },
+        onError: (error) => {
+          toast.error("Error al cambiar el estado de la falla");
+          console.error(error);
+        },
+      },
+    );
+  };
+
+  // Handler para marcar como "DESCARTADO"
+  const handleDescartado = () => {
+    const values = getValues();
+    cambiarEstado(
+      { 
+        id: fallaId, 
+        estado: "DESCARTADO",
+        descripcionFalla: values.descripcionFalla
+      },
+      {
+        onSuccess: () => {
+          toast.success("Equipo marcado como descartado");
+          utils.fallas.getFallaPorId.invalidate({ id: fallaId });
+          onEstados();
+        },
+        onError: (error) => {
+          toast.error("Error al cambiar el estado de la falla");
+          console.error(error);
+        },
+      },
+    );
+  };
+
   const handleGuardar = () => {
     const values = getValues();
-    guardarContacto(
+    actualizarCampos(
       {
-        id: inscripcionEspecialId,
-        alumnoContactado: values.alumnoContactado ?? false,
-        alumnoAsistio: values.alumnoAsistio ?? false,
+        id: fallaId,
+        asignadoA: values.asignadoA,
+        palabraClave: values.palabraClave,
+        descripcionFalla: values.descripcionFalla,
       },
       {
         onSuccess: () => {
           toast.success("Cambios guardados");
-          utils.inscripcionesEspeciales.getInscripcionEspecialPorId.invalidate({ id: inscripcionEspecialId });
+          utils.fallas.getFallaPorId.invalidate({ id: fallaId });
         },
         onError: () => toast.error("No se pudieron guardar los cambios"),
       },
     );
   };
 
-  const [open, setOpen] = useState(false);
-
-  const { mutate: eliminarInscripcionEspecial } = api.inscripcionesEspeciales.eliminarInscripcionEspecial.useMutation()
   const handleEliminar = () => {
-    eliminarInscripcionEspecial(
-      { id: inscripcionEspecialId },
+    eliminarFalla(
+      { id: fallaId },
       {
         onSuccess: () => {
-          toast.success("Inscripción especial eliminada con éxito");
-          utils.inscripcionesEspeciales.getInscripcionEspecialPorId.invalidate({ id: inscripcionEspecialId });
+          toast.success("Falla eliminada");
           setOpen(false);
-          onCancel(); // o la acción que corresponda después de eliminar
+          onCancel();
         },
-        onError: () => {
-          toast.error("No se pudo eliminar la inscripción especial");
-        },
-      }
+        onError: () => toast.error("No se pudo eliminar la falla"),
+      },
     );
-  }
+  };
+
+  const [open, setOpen] = useState(false);
 
   return (
     <FormProvider {...formHook}>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+      <form className="space-y-6">
         <Card className="w-full">
           <CardHeader>
-            <CardTitle>Campos para Aprobacion con condicion o Rechazo</CardTitle>
+            <CardTitle>Gestión de Falla - Estado: {fallaData?.estado}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex w-full flex-col gap-y-4">
               <FormTextarea
-                id="respuesta"
-                name="respuesta"
-                label={"Justificación"}
+                id="descripcionFalla"
+                name="descripcionFalla"
+                label={"Descripción de la/s falla/s / Reparación / Motivo del descarte"}
                 control={control}
                 className="resize-none"
+                placeholder="Describe el problema, reparación realizada, o motivo del descarte..."
               />
+              
+              {/* Campos adicionales para "EN_REPARACION" */}
+              {fallaData?.estado === FallasEstatus.FALLADO || fallaData?.estado === FallasEstatus.EN_REPARACION ? (
+                <>
+                  <SelectUsuarioForm
+                    name="asignadoA"
+                    control={control}
+                    className="mt-2"
+                    label={"Usuario asignado"}
+                    placeholder={"Selecciona un usuario"}
+                  />
+                  <FormTextarea
+                    name="palabraClave"
+                    label={"Palabras clave"}
+                    control={control}
+                    placeholder="Palabras clave para categorizar el problema"
+                  />
+                </>
+              ) : null}
             </div>
           </CardContent>
         </Card>
-        <div className="flex justify-center gap-2">
-          <Controller
-            name="alumnoAsistio"
-            control={control}
-            render={({ field, fieldState }) => (
-              <>
-                <div className="space-y-3 leading-none">
-                  <label
-                    htmlFor="aceptoTerminos"
-                    className="flex items-center space-x-2 text-sm leading-none underline peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                  >
-                    <Checkbox
-                      id="aceptoTerminos"
-                      name="aceptoTerminos"
-                      className="h-8 w-8"
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                    <span>Alumno asistió</span>
-                  </label>
-                  <div className="text-md min-h-4 text-danger">{fieldState.error && fieldState.error.message}</div>
-                </div>
-              </>
-            )}
-          />
-          <Controller
-            name="alumnoContactado"
-            control={control}
-            render={({ field, fieldState }) => (
-              <>
-                <div className="space-y-3 leading-none">
-                  <label
-                    htmlFor="aceptoTerminos"
-                    className="flex items-center space-x-2 text-sm leading-none underline peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                  >
-                    <Checkbox
-                      id="aceptoTerminos"
-                      name="aceptoTerminos"
-                      className="h-8 w-8"
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                    <span>Alumno contactado</span>
-                  </label>
-                  <div className="text-md min-h-4 text-danger">{fieldState.error && fieldState.error.message}</div>
-                </div>
-              </>
-            )}
-          />
-        </div>
+
         <Button
           type="button"
           variant="default"
@@ -219,8 +216,9 @@ export const FallasGestion = ({
           >
             Cancelar
           </Button>
+          
           <Button
-            title="Cancelar"
+            title="Eliminar"
             type="button"
             variant="default"
             color="danger"
@@ -229,29 +227,57 @@ export const FallasGestion = ({
           >
             Eliminar
           </Button>
-          <Button
-            title="Rechazar"
-            type="button"
-            variant="default"
-            color="danger"
-            onClick={handleRechazo}
-            className="w-full"
-          >
-            En reparacion
-          </Button>
-          <Button title="Aprobar" type="submit" variant="default" color="primary" className="w-full">
-            Reparado
-          </Button>
+
+          {/* Botones condicionales según el estado actual */}
+          {(fallaData?.estado === FallasEstatus.FALLADO || fallaData?.estado === FallasEstatus.EN_REPARACION) && (
+            <Button
+              title="Marcar en reparación"
+              type="button"
+              variant="default"
+              color="primary"
+              onClick={handleEnReparacion}
+              className="w-full"
+            >
+              En Reparación
+            </Button>
+          )}
+
+          {fallaData?.estado === FallasEstatus.EN_REPARACION && (
+            <>
+              <Button
+                title="Marcar como descartado"
+                type="button"
+                variant="default"
+                color="danger"
+                onClick={handleDescartado}
+                className="w-full"
+              >
+                Descartar
+              </Button>
+              
+              <Button
+                title="Marcar como reparado"
+                type="button"
+                variant="default"
+                color="primary"
+                onClick={handleReparado}
+                className="w-full"
+              >
+                Reparado
+              </Button>
+            </>
+          )}
         </div>
       </form>
+      
       <ModalDrawer
-        titulo={"Eliminar instrumento/PC"}
-        description={"¿Estás seguro de que deseas eliminar este instrumento/PC?"}
+        titulo={"Eliminar falla"}
+        description={"¿Estás seguro de que deseas eliminar este reporte de falla?"}
         open={open}
         onOpenChange={() => setOpen(false)}
         className={"max-h-[calc(100vh_-_10%)]"}
       >
-        <div className="flex max-h-max w-full flex-row  gap-4">
+        <div className="flex max-h-max w-full flex-row gap-4">
           <Button
             title="Cancelar"
             type="button"
@@ -263,7 +289,7 @@ export const FallasGestion = ({
             Cancelar
           </Button>
           <Button
-            title="Cancelar"
+            title="Eliminar"
             type="button"
             variant="default"
             color="danger"

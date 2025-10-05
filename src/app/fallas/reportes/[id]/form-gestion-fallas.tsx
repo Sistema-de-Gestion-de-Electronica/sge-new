@@ -3,7 +3,7 @@ import { TienePermiso } from "@/app/_components/permisos/tienePermiso";
 import { SgeNombre } from "@/generated/prisma";
 
 import { FallasDetalle } from "@/app/fallas/_components/info-basica-fallas";
-// import { FallasGestion } from "@/app/fallas/_components/falla-gestion";
+import { FallasGestion } from "@/app/fallas/_components/fallas-gestion";
 import { FallasEstatus } from "@/app/fallas/_components/badge-estatus-fallas";
 
 
@@ -27,7 +27,7 @@ export const FallasViewAdmin = ({
   return (
     <div className="container mx-auto space-y-8 p-4">
       <FallasDetalle fallaId={fallaId} />
-      {/* { !esFallaEliminado && (
+      { !esFallaEliminado && (
         <TienePermiso permisos={[SgeNombre.ADMIN_VER_PANEL_ADMIN]}>
           <FallasGestion
             fallaId={fallaId}
@@ -35,7 +35,7 @@ export const FallasViewAdmin = ({
             onCancel={onCancel}
           />
         </TienePermiso>
-      )} */}
+      )}
     </div>
   );
 };

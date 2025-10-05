@@ -1,14 +1,24 @@
 entryPoints:
-  web: { address: ":80" }
-  websecure: { address: ":443" }
-
-api: { dashboard: true }
+  web:
+    address: ":80"
+  websecure:
+    address: ":443"
 
 providers:
   docker:
     exposedByDefault: false
+    network: traefik-net
   file:
-    directory: /configuration/
+    directory: /configuration
     watch: true
 
-log: { level: DEBUG }
+certificatesResolvers:
+  letsencrypt:
+    acme:
+      email: "${ACME_EMAIL}"
+      storage: /letsencrypt/acme.json
+      httpChallenge:
+        entryPoint: web
+
+log:
+  level: DEBUG

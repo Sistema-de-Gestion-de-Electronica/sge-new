@@ -13,7 +13,6 @@ import ModalDrawer from "@/app/_components/modal/modal-drawer";
 import { SelectUsuarioForm } from "@/app/_components/select-usuario";
 import { FallasEstatus } from "./badge-estatus-fallas";
 
-
 type GestionarFallasFormData = z.infer<typeof inputGestionarFallas>;
 
 interface FallasGestionProps {
@@ -22,16 +21,12 @@ interface FallasGestionProps {
   onCancel: () => void;
 }
 
-export const FallasGestion = ({
-  fallaId,
-  onEstados,
-  onCancel,
-}: FallasGestionProps) => {
+export const FallasGestion = ({ fallaId, onEstados, onCancel }: FallasGestionProps) => {
   const utils = api.useUtils();
   const { mutate: cambiarEstado } = api.fallas.cambiarEstado.useMutation();
   const { mutate: eliminarFalla } = api.fallas.eliminarFalla.useMutation();
   const { mutate: actualizarCampos } = api.fallas.actualizarCampos.useMutation();
-  
+
   const { data: fallaData } = api.fallas.getFallaPorId.useQuery({
     id: fallaId,
   });
@@ -53,12 +48,12 @@ export const FallasGestion = ({
   const handleEnReparacion = () => {
     const values = getValues();
     cambiarEstado(
-      { 
-        id: fallaId, 
+      {
+        id: fallaId,
         estado: "EN_REPARACION",
         descripcionFalla: values.descripcionFalla,
         asignadoA: values.asignadoA,
-        palabraClave: values.palabraClave
+        palabraClave: values.palabraClave,
       },
       {
         onSuccess: () => {
@@ -66,7 +61,7 @@ export const FallasGestion = ({
           utils.fallas.getFallaPorId.invalidate({ id: fallaId });
           onEstados();
         },
-        onError: (error) => {
+        onError: (error: any) => {
           toast.error("Error al cambiar el estado de la falla");
           console.error(error);
         },
@@ -78,10 +73,10 @@ export const FallasGestion = ({
   const handleReparado = () => {
     const values = getValues();
     cambiarEstado(
-      { 
-        id: fallaId, 
+      {
+        id: fallaId,
         estado: "REPARADO",
-        descripcionFalla: values.descripcionFalla
+        descripcionFalla: values.descripcionFalla,
       },
       {
         onSuccess: () => {
@@ -89,7 +84,7 @@ export const FallasGestion = ({
           utils.fallas.getFallaPorId.invalidate({ id: fallaId });
           onEstados();
         },
-        onError: (error) => {
+        onError: (error: any) => {
           toast.error("Error al cambiar el estado de la falla");
           console.error(error);
         },
@@ -101,10 +96,10 @@ export const FallasGestion = ({
   const handleDescartado = () => {
     const values = getValues();
     cambiarEstado(
-      { 
-        id: fallaId, 
+      {
+        id: fallaId,
         estado: "DESCARTADO",
-        descripcionFalla: values.descripcionFalla
+        descripcionFalla: values.descripcionFalla,
       },
       {
         onSuccess: () => {
@@ -112,7 +107,7 @@ export const FallasGestion = ({
           utils.fallas.getFallaPorId.invalidate({ id: fallaId });
           onEstados();
         },
-        onError: (error) => {
+        onError: (error: any) => {
           toast.error("Error al cambiar el estado de la falla");
           console.error(error);
         },
@@ -172,7 +167,7 @@ export const FallasGestion = ({
                 className="resize-none"
                 placeholder="Describe el problema, reparación realizada, o motivo del descarte..."
               />
-              
+
               {/* Campos adicionales para "EN_REPARACION" */}
               {fallaData?.estado === FallasEstatus.FALLADO || fallaData?.estado === FallasEstatus.EN_REPARACION ? (
                 <>
@@ -216,7 +211,7 @@ export const FallasGestion = ({
           >
             Cancelar
           </Button>
-          
+
           <Button
             title="Eliminar"
             type="button"
@@ -254,7 +249,7 @@ export const FallasGestion = ({
               >
                 Descartar
               </Button>
-              
+
               <Button
                 title="Marcar como reparado"
                 type="button"
@@ -269,7 +264,7 @@ export const FallasGestion = ({
           )}
         </div>
       </form>
-      
+
       <ModalDrawer
         titulo={"Eliminar falla"}
         description={"¿Estás seguro de que deseas eliminar este reporte de falla?"}

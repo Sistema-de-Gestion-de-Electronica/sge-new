@@ -1,11 +1,11 @@
 import type { z } from "zod";
-import { Session, type PrismaClient } from "@/generated/prisma";
+import { type PrismaClient } from "@/generated/prisma";
 import type {
   inputReportarFallasInstrumento,
   inputReportarFallasPc,
   inputGetFallaPorId,
 } from "@/shared/filters/fallas-filter.schema";
-import { formatDateToDays, formatDateToSeconds } from "../../utils/dateFormat";
+import { formatDateToSeconds } from "../../utils/dateFormat";
 
 type InputReportarFallasInstrumento = z.infer<typeof inputReportarFallasInstrumento>;
 type InputReportarFallasPc = z.infer<typeof inputReportarFallasPc>;
@@ -19,9 +19,11 @@ export const reportarInstrumento = async (
     throw new Error("Usuario no autenticado");
   }
 
+  const equipoId = input.esInventariado && input.instrumento ? Number(input.instrumento) : null;
+
   return ctx.db.falla.create({
     data: {
-      equipoId: Number(input.instrumento),
+      equipoId: equipoId ?? undefined,
       tipoFalla: "Instrumento",
       descripcionEquipo: input.descripcionEquipo,
       descripcionFalla: input.descripcionFalla ?? "No input",
@@ -82,7 +84,7 @@ export const getAllFallas = async (ctx: { db: PrismaClient }) => {
   const fallasTransformadas = fallas.map((falla) => ({
     ...falla,
     laboratorio: falla.equipo?.laboratorio?.nombre ?? "-",
-    equipo: falla.equipo?.inventarioId ?? `Equipo ${falla.equipoId}`,
+    equipo: falla.equipo?.inventarioId ?? (falla.equipoId ? `Equipo ${falla.equipoId}` : "-"),
     marca: falla.equipo?.marca?.nombre ?? "-",
     modelo: falla.equipo?.modelo ?? "-",
     reportadoPor: falla.reportadoPor ?? { nombre: "-", apellido: "" },
@@ -122,7 +124,7 @@ export const getFallaPorId = async (ctx: { db: PrismaClient }, input: InputGetFa
   return {
     id: falla.id,
     laboratorio: falla.equipo?.laboratorio?.nombre ?? "-",
-    nroEquipo: falla.equipo?.inventarioId ?? `Equipo ${falla.equipoId}`,
+    nroEquipo: falla.equipo?.inventarioId ?? (falla.equipoId ? `Equipo ${falla.equipoId}` : "-"),
     marca: falla.equipo?.marca?.nombre ?? "-",
     modelo: falla.equipo?.modelo ?? "-",
     fallas: falla.fallas ?? [],

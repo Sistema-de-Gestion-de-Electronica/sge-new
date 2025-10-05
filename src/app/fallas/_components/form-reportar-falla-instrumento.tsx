@@ -1,6 +1,7 @@
 "use client";
 
 import type { z } from "zod";
+import { useEffect } from "react";
 import { api } from "@/trpc/react";
 import { FormProvider, useForm, Controller } from "react-hook-form";
 import { Button, toast } from "@/components/ui";
@@ -28,12 +29,23 @@ export default function FormularioReportarFallaInstrumento() {
     defaultValues: reporteBase,
   });
 
-  const { handleSubmit, control, watch } = formHook;
+  const { handleSubmit, control, watch, reset } = formHook;
 
   const reportarInstrumentoMutation = api.fallas.reportarInstrumento.useMutation();
 
   const esInventariado = watch("esInventariado");
   const tipoSeleccionado = watch("tipoInstrumento");
+
+  useEffect(() => {
+    reset({
+      esInventariado,
+      tipoInstrumento: "",
+      instrumento: "",
+      descripcionEquipo: "",
+      descripcionFalla: "",
+      condicion: "",
+    });
+  }, [esInventariado, reset]);
 
   const { data: tiposData } = api.equipos.getAllTipos.useQuery({ getAll: true });
 
@@ -87,11 +99,7 @@ export default function FormularioReportarFallaInstrumento() {
                     <Label htmlFor="inventariado" className={!field.value ? "text-muted-foreground" : ""}>
                       No Inventariado
                     </Label>
-                    <Switch
-                      id="inventariado"
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
+                    <Switch id="inventariado" checked={field.value} onCheckedChange={field.onChange} />
                     <Label htmlFor="inventariado" className={field.value ? "" : "text-muted-foreground"}>
                       Inventariado
                     </Label>
@@ -118,7 +126,9 @@ export default function FormularioReportarFallaInstrumento() {
                     control={control}
                     items={(equiposData?.equipos ?? []).map((eq) => ({
                       id: String(eq.id),
-                      label: eq.inventarioId ? `${eq.inventarioId} - ${eq.modelo ?? ""}` : (eq.modelo ?? `Equipo ${eq.id}`),
+                      label: eq.inventarioId
+                        ? `${eq.inventarioId} - ${eq.modelo ?? ""}`
+                        : (eq.modelo ?? `Equipo ${eq.id}`),
                     }))}
                     label={"Instrumento"}
                     className="w-full"
@@ -136,8 +146,8 @@ export default function FormularioReportarFallaInstrumento() {
                   control={control}
                   name="descripcionEquipo"
                   placeholder={
-                    esInventariado 
-                      ? "Información adicional del equipo seleccionado" 
+                    esInventariado
+                      ? "Información adicional del equipo seleccionado"
                       : "Describe el instrumento (marca, modelo, características, ubicación, etc.)"
                   }
                   required

@@ -11,8 +11,8 @@ export const inputReportarFallasPc = z.object({
 
 export const inputReportarFallasInstrumento = z.object({
   esInventariado: z.boolean().default(true),
-  tipoInstrumento: z.string().min(1, { message: "Requerido" }),
-  instrumento: z.string().min(1, { message: "Requerido" }),
+  tipoInstrumento: z.string().optional(),
+  instrumento: z.string().optional(),
   descripcionEquipo: z.string().min(1, { message: "Requerido" }),
   descripcionFalla: z.string().min(1, { message: "Requerido" }).optional().or(z.literal("")),
   condicion: z.string().min(1).optional(),

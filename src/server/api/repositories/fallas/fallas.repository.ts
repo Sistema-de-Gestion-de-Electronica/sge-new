@@ -42,8 +42,8 @@ export const reportarPC = async (
     throw new Error("Usuario no autenticado");
   }
 
-  const equipo = await ctx.db.equipo.findUnique({
-    where: { id: Number(input.nroEquipo) },
+  const equipo = await ctx.db.equipo.findFirst({
+    where: { numeroSerie: input.nroEquipo },
   });
 
   if (!equipo) {

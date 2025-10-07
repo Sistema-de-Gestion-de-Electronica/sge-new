@@ -34,12 +34,9 @@ export const SelectActasForm = <
 
   // 1) setear valor por defecto cuando cambia la lista (p.ej., cambia el año)
   useEffect(() => {
+    if (!items.length) return;
+    
     const fieldName = name as string
-    if (!items.length) {
-      setValue(fieldName, undefined, { shouldValidate: true, shouldDirty: true, shouldTouch: true });
-      onStateChange?.(undefined);
-      return;
-    }
 
     const currentRaw = getValues(fieldName) as unknown
     const currentId =

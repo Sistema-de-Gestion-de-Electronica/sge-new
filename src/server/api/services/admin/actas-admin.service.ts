@@ -24,7 +24,7 @@ export const agregarActaProcedure = protectedProcedure
 
     const acta = await agregarActa(ctx, input);
 
-    await enviarMailNuevaVotacionAbiertaProcedure(ctx, acta);
+    await enviarMailNuevaVotacionAbiertaProcedure(ctx, acta, input.cuerpoMail);
 
     return acta;
   });

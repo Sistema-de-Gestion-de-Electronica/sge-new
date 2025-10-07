@@ -3,6 +3,7 @@ import { z } from "zod";
 export const inputAgregarActa = z.object ({
     fechaReunion: z.date(),
     fileBase64: z.string().optional(),
+    cuerpoMail: z.string(),
 })
 
 export const inputEliminarActa = z.object ({

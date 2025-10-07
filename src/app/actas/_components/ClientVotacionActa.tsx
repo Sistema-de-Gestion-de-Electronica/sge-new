@@ -34,7 +34,7 @@ export function ClientVotacionActa() {
   });
 
   const handleState = (acta: Acta) => {
-    console.log('Información del acta seleccionada:', acta);
+    //console.log('Información del acta seleccionada:', acta);
     setActa(acta);
   }
 

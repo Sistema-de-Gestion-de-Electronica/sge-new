@@ -10,7 +10,7 @@ type VerFallaModalProps = {
 const rutaBaseFallas = FALLAS_ROUTE.href.split("/")[1];
 
 export const VerHistorialFallaModal = (props: VerFallaModalProps) => {
-  const href = `/${rutaBaseFallas}/${props.fallaID}/historial`;
+  const href = `/${rutaBaseFallas}/reportes/${props.fallaID}/historial`;
 
   return (
     <Link key={props.fallaID} href={href} passHref prefetch={false}>

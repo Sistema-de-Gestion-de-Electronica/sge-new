@@ -175,6 +175,7 @@ export const FallasGestion = ({ fallaId, onEstados, onCancel }: FallasGestionPro
       {
         onSuccess: () => {
           toast.success("Falla eliminada");
+          utils.fallas.getAllFallas.invalidate();
           setOpen(false);
           onCancel();
         },

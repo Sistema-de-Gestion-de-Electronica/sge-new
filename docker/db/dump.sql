@@ -1507,6 +1507,25 @@ CREATE TABLE public."Falla" (
 );
 
 --
+-- Name: FallaHistorial; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public."FallaHistorial" (
+    id SERIAL PRIMARY KEY,
+
+    "fallaId" INT NOT NULL,
+    "fallas" TEXT[] NOT NULL,
+    "descripcionEquipo" TEXT,
+    "descripcionFalla" TEXT NOT NULL,
+    "reportadoPorId" TEXT,
+    "asignadoAId" TEXT,
+    "estado" TEXT NOT NULL,
+
+    "fechaReporte" TIMESTAMP NOT NULL,
+    "fechaCambioEstado" TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+--
 -- Name: _prisma_migrations; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -56223,6 +56242,22 @@ ALTER TABLE ONLY public."Falla"
     ADD CONSTRAINT "Falla_asignadoAId_fkey"
     FOREIGN KEY ("asignadoAId") REFERENCES public."User"("id") ON UPDATE CASCADE ON DELETE CASCADE;
 
+
+ALTER TABLE public."FallaHistorial"
+ADD CONSTRAINT "FallaHistorial_fallaId_fkey"
+FOREIGN KEY ("fallaId") REFERENCES public."Falla"(id) ON DELETE CASCADE;
+
+ALTER TABLE public."FallaHistorial"
+ADD CONSTRAINT "FallaHistorial_reportadoPorId_fkey"
+FOREIGN KEY ("reportadoPorId") REFERENCES public."User"(id);
+
+ALTER TABLE public."FallaHistorial"
+ADD CONSTRAINT "FallaHistorial_asignadoAId_fkey"
+FOREIGN KEY ("asignadoAId") REFERENCES public."User"(id);
+
+-- Índice compuesto
+CREATE INDEX "FallaHistorial_fallaId_fechaCambioEstado_idx"
+ON public."FallaHistorial" ("fallaId", "fechaCambioEstado" DESC);
 
 --
 -- Name: Account_provider_providerAccountId_key; Type: INDEX; Schema: public; Owner: -

@@ -34,3 +34,22 @@ export const inputGestionarFallas = z.object({
 export const inputGetFallaPorId = z.object({
   id: z.number(),
 });
+
+export const inputCambiarEstadoFalla = z.object({
+  id: z.number(),
+  estado: z.enum(["FALLADO", "EN_REPARACION", "REPARADO", "DESCARTADO"]),
+  descripcionFalla: z.string().optional().or(z.literal("")),
+  asignadoA: z.string().optional(),
+  palabraClave: z.string().optional(),
+});
+
+export const inputGetHistorialPorFallaId = z.object({
+  fallaId: z.number(),
+});
+
+export const inputEliminarFalla = z.object({
+  id: z.number(),
+});
+
+export const enumEstadoFalla = z.enum(["FALLADO", "EN_REPARACION", "REPARADO", "DESCARTADO", "ELIMINADO"]);
+export const enumTipoFalla = z.enum(["PC", "Instrumento"]);

@@ -4,66 +4,67 @@ import {
   inputReportarFallasPc,
   inputGetFallaPorId,
   inputGestionarFallas,
+  inputCambiarEstadoFalla,
+  inputGetHistorialPorFallaId,
+  inputEliminarFalla,
 } from "@/shared/filters/fallas-filter.schema";
-import { z } from "zod";
 import {
-  reportarInstrumento,
-  reportarPC,
-  getAllFallas,
-  getFallaPorId,
-  cambiarEstado as cambiarEstadoRepo,
-  actualizarCampos as actualizarCamposRepo,
-  eliminarFalla as eliminarFallaRepo,
+  createFallaInstrumento,
+  createFallaPC,
+  findAllFallas,
+  findFallaById,
+  updateEstadoFalla,
+  updateFalla,
+  deleteFalla,
+  findHistorialByFallaId,
 } from "../../repositories/fallas/fallas.repository";
 import { protectedProcedure } from "../../trpc";
 import { validarInput } from "../helper";
 
-export const reportarInstrumentoProcedure = protectedProcedure
+export const createFallaInstrumentoProcedure = protectedProcedure
   .input(inputReportarFallasInstrumento)
   .mutation(async ({ ctx, input }) => {
     validarInput(inputReportarFallasInstrumento, input);
-    return await reportarInstrumento(ctx, input);
+    return await createFallaInstrumento(ctx, input);
   });
 
-export const reportarPCProcedure = protectedProcedure.input(inputReportarFallasPc).mutation(async ({ ctx, input }) => {
-  validarInput(inputReportarFallasPc, input);
-  return await reportarPC(ctx, input);
-});
+export const createFallaPCProcedure = protectedProcedure
+  .input(inputReportarFallasPc)
+  .mutation(async ({ ctx, input }) => {
+    validarInput(inputReportarFallasPc, input);
+    return await createFallaPC(ctx, input);
+  });
 
-export const getAllFallasProcedure = protectedProcedure.input(inputGetAllFallas).query(async ({ ctx, input }) => {
+export const findAllFallasProcedure = protectedProcedure.input(inputGetAllFallas).query(async ({ ctx, input }) => {
   validarInput(inputGetAllFallas, input);
-  return await getAllFallas(ctx);
+  return await findAllFallas(ctx);
 });
 
-export const getFallaPorIdProcedure = protectedProcedure.input(inputGetFallaPorId).query(async ({ ctx, input }) => {
+export const findFallaByIdProcedure = protectedProcedure.input(inputGetFallaPorId).query(async ({ ctx, input }) => {
   validarInput(inputGetFallaPorId, input);
-  return await getFallaPorId(ctx, input);
+  return await findFallaById(ctx, input);
 });
 
-export const cambiarEstadoProcedure = protectedProcedure
-  .input(
-    z.object({
-      id: z.number(),
-      estado: z.enum(["FALLADO", "EN_REPARACION", "REPARADO", "DESCARTADO"]),
-      descripcionFalla: z.string().optional().or(z.literal("")),
-      asignadoA: z.string().optional(),
-      palabraClave: z.string().optional(),
-    }),
-  )
+export const updateEstadoFallaProcedure = protectedProcedure
+  .input(inputCambiarEstadoFalla)
   .mutation(async ({ ctx, input }) => {
-    const { id, estado, descripcionFalla, asignadoA } = input;
-    return await cambiarEstadoRepo(ctx, { id, estado, descripcionFalla, asignadoA });
+    validarInput(inputCambiarEstadoFalla, input);
+    return await updateEstadoFalla(ctx, input);
   });
 
-export const actualizarCamposProcedure = protectedProcedure
-  .input(inputGestionarFallas)
-  .mutation(async ({ ctx, input }) => {
-    validarInput(inputGestionarFallas, input);
-    const { id, descripcionFalla, asignadoA, palabraClave } = input;
-    return await actualizarCamposRepo(ctx, { id, descripcionFalla, asignadoA, palabraClave });
-  });
-
-export const eliminarFallaProcedure = protectedProcedure.input(inputGetFallaPorId).mutation(async ({ ctx, input }) => {
-  validarInput(inputGetFallaPorId, input);
-  return await eliminarFallaRepo(ctx, input);
+export const updateFallaProcedure = protectedProcedure.input(inputGestionarFallas).mutation(async ({ ctx, input }) => {
+  validarInput(inputGestionarFallas, input);
+  return await updateFalla(ctx, input);
 });
+
+export const deleteFallaProcedure = protectedProcedure.input(inputEliminarFalla).mutation(async ({ ctx, input }) => {
+  validarInput(inputEliminarFalla, input);
+  return await deleteFalla(ctx, input);
+});
+
+export const findHistorialByFallaIdProcedure = protectedProcedure
+  .input(inputGetHistorialPorFallaId)
+  .query(async ({ ctx, input }) => {
+    validarInput(inputGetHistorialPorFallaId, input);
+    return await findHistorialByFallaId(ctx, input);
+  });

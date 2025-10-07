@@ -5,6 +5,9 @@ import type {
   inputReportarFallasPc,
   inputGetFallaPorId,
   inputGestionarFallas,
+  inputCambiarEstadoFalla,
+  inputGetHistorialPorFallaId,
+  inputEliminarFalla,
 } from "@/shared/filters/fallas-filter.schema";
 import { formatDateToSeconds, formatDateToDays } from "../../utils/dateFormat";
 
@@ -12,11 +15,61 @@ type InputReportarFallasInstrumento = z.infer<typeof inputReportarFallasInstrume
 type InputReportarFallasPc = z.infer<typeof inputReportarFallasPc>;
 type InputGetFallaPorId = z.infer<typeof inputGetFallaPorId>;
 type InputGestionarFallas = z.infer<typeof inputGestionarFallas>;
+type InputCambiarEstadoFalla = z.infer<typeof inputCambiarEstadoFalla>;
+type InputGetHistorialPorFallaId = z.infer<typeof inputGetHistorialPorFallaId>;
+type InputEliminarFalla = z.infer<typeof inputEliminarFalla>;
 
-export const reportarInstrumento = async (
-  ctx: { db: PrismaClient; session: { user: { id: string } } },
-  input: InputReportarFallasInstrumento,
-) => {
+type Context = { db: PrismaClient; session: { user: { id: string } } };
+type ContextReadOnly = { db: PrismaClient };
+
+const ESTADOS_EQUIPO = {
+  ROTO: "Roto",
+  DESCARTE: "Descarte",
+  NORMAL: "Normal",
+} as const;
+
+const ESTADOS_FALLA = {
+  FALLADO: "FALLADO",
+  EN_REPARACION: "EN_REPARACION",
+  REPARADO: "REPARADO",
+  DESCARTADO: "DESCARTADO",
+  ELIMINADO: "ELIMINADO",
+} as const;
+
+const TIPOS_FALLA = {
+  PC: "PC",
+  INSTRUMENTO: "Instrumento",
+} as const;
+
+type CreateHistorialData = {
+  fallaId: number;
+  fallas: string[];
+  descripcionEquipo: string | null;
+  descripcionFalla: string;
+  reportadoPorId: string | null;
+  asignadoAId: string | null;
+  estado: string;
+  fechaReporte: Date;
+};
+
+const createHistorialEntry = async (tx: any, data: CreateHistorialData) => {
+  return (tx as any).fallaHistorial.create({ data });
+};
+
+const updateEquipoEstado = async (tx: any, equipoId: number, estadoNombre: string) => {
+  const estado = await (tx as any).equipoEstado.findFirst({
+    where: { nombre: estadoNombre },
+    select: { id: true },
+  });
+  if ((estado as any)?.id) {
+    await (tx as any).equipo.update({
+      where: { id: equipoId },
+      data: { estadoId: (estado as any).id },
+    });
+  }
+};
+
+export const createFallaInstrumento = async (ctx: Context, input: InputReportarFallasInstrumento) => {
   if (!ctx.session?.user?.id) {
     throw new Error("Usuario no autenticado");
   }
@@ -27,30 +80,35 @@ export const reportarInstrumento = async (
     const nuevaFalla = await tx.falla.create({
       data: {
         equipoId: equipoId ?? undefined,
-        tipoFalla: "Instrumento",
+        tipoFalla: TIPOS_FALLA.INSTRUMENTO,
         descripcionEquipo: input.descripcionEquipo,
         descripcionFalla: input.descripcionFalla ?? "No input",
         condicion: input.condicion ?? null,
-        estado: "FALLADO",
+        estado: ESTADOS_FALLA.FALLADO,
         reportadoPorId: ctx.session.user.id,
       },
     });
 
+    await createHistorialEntry(tx, {
+      fallaId: nuevaFalla.id,
+      fallas: [],
+      descripcionEquipo: nuevaFalla.descripcionEquipo,
+      descripcionFalla: nuevaFalla.descripcionFalla,
+      reportadoPorId: nuevaFalla.reportadoPorId,
+      asignadoAId: nuevaFalla.asignadoAId,
+      estado: nuevaFalla.estado,
+      fechaReporte: nuevaFalla.fechaReporte,
+    });
+
     if (equipoId) {
-      const estadoRoto = await tx.equipoEstado.findFirst({ where: { nombre: "Roto" }, select: { id: true } });
-      if (estadoRoto?.id) {
-        await tx.equipo.update({ where: { id: equipoId }, data: { estadoId: estadoRoto.id } });
-      }
+      await updateEquipoEstado(tx, equipoId, ESTADOS_EQUIPO.ROTO);
     }
 
     return nuevaFalla;
   });
 };
 
-export const reportarPC = async (
-  ctx: { db: PrismaClient; session: { user: { id: string } } },
-  input: InputReportarFallasPc,
-) => {
+export const createFallaPC = async (ctx: Context, input: InputReportarFallasPc) => {
   if (!ctx.session?.user?.id) {
     throw new Error("Usuario no autenticado");
   }
@@ -67,27 +125,71 @@ export const reportarPC = async (
     const nuevaFalla = await tx.falla.create({
       data: {
         equipoId: equipo.id,
-        tipoFalla: "PC",
+        tipoFalla: TIPOS_FALLA.PC,
         descripcionFalla: input.descripcionFalla,
         fallas: input.fallas,
-        estado: "FALLADO",
+        estado: ESTADOS_FALLA.FALLADO,
         reportadoPorId: ctx.session.user.id,
       },
     });
 
-    const estadoRoto = await tx.equipoEstado.findFirst({ where: { nombre: "Roto" }, select: { id: true } });
-    if (estadoRoto?.id) {
-      await tx.equipo.update({ where: { id: equipo.id }, data: { estadoId: estadoRoto.id } });
-    }
+    await createHistorialEntry(tx, {
+      fallaId: nuevaFalla.id,
+      fallas: nuevaFalla.fallas ?? [],
+      descripcionEquipo: null,
+      descripcionFalla: nuevaFalla.descripcionFalla,
+      reportadoPorId: nuevaFalla.reportadoPorId,
+      asignadoAId: nuevaFalla.asignadoAId,
+      estado: nuevaFalla.estado,
+      fechaReporte: nuevaFalla.fechaReporte,
+    });
+
+    await updateEquipoEstado(tx, equipo.id, ESTADOS_EQUIPO.ROTO);
 
     return nuevaFalla;
   });
 };
 
-export const getAllFallas = async (ctx: { db: PrismaClient }) => {
+type FallaWithRelations = {
+  id: number;
+  equipoId: number | null;
+  tipoFalla: string;
+  fallas: string[];
+  descripcionEquipo: string | null;
+  descripcionFalla: string;
+  condicion: string | null;
+  fechaReporte: Date;
+  reportadoPorId: string | null;
+  asignadoAId: string | null;
+  estado: string;
+  palabrasClave: string | null;
+  equipo: {
+    inventarioId: string;
+    modelo: string;
+    laboratorio: { nombre: string } | null;
+    marca: { nombre: string } | null;
+    tipo: { nombre: string } | null;
+    estado: { nombre: string } | null;
+  } | null;
+  reportadoPor: { nombre: string; apellido: string } | null;
+  asignadoA: { nombre: string; apellido: string } | null;
+};
+
+const transformFallaData = (falla: FallaWithRelations) => ({
+  ...falla,
+  laboratorio: falla.equipo?.laboratorio?.nombre ?? "-",
+  equipo: falla.equipo?.inventarioId ?? (falla.equipoId ? `Equipo ${falla.equipoId}` : "-"),
+  marca: falla.equipo?.marca?.nombre ?? "-",
+  modelo: falla.equipo?.modelo ?? "-",
+  reportadoPor: falla.reportadoPor ?? { nombre: "-", apellido: "" },
+  asignadoA: falla.asignadoA ?? { nombre: "-", apellido: "" },
+  fechaReporte: falla.fechaReporte ? formatDateToDays(new Date(falla.fechaReporte)) : "-",
+});
+
+export const findAllFallas = async (ctx: ContextReadOnly) => {
   const fallas = await ctx.db.falla.findMany({
     where: {
-      NOT: { estado: "ELIMINADO" },
+      NOT: { estado: ESTADOS_FALLA.ELIMINADO },
     },
     include: {
       equipo: {
@@ -106,16 +208,7 @@ export const getAllFallas = async (ctx: { db: PrismaClient }) => {
     },
   });
 
-  const fallasTransformadas = fallas.map((falla) => ({
-    ...falla,
-    laboratorio: falla.equipo?.laboratorio?.nombre ?? "-",
-    equipo: falla.equipo?.inventarioId ?? (falla.equipoId ? `Equipo ${falla.equipoId}` : "-"),
-    marca: falla.equipo?.marca?.nombre ?? "-",
-    modelo: falla.equipo?.modelo ?? "-",
-    reportadoPor: falla.reportadoPor ?? { nombre: "-", apellido: "" },
-    asignadoA: falla.asignadoA ?? { nombre: "-", apellido: "" },
-    fechaReporte: falla.fechaReporte ? formatDateToDays(new Date(falla.fechaReporte)) : "-",
-  }));
+  const fallasTransformadas = fallas.map((falla: any) => transformFallaData(falla));
 
   return {
     count: fallasTransformadas.length,
@@ -125,7 +218,7 @@ export const getAllFallas = async (ctx: { db: PrismaClient }) => {
   };
 };
 
-export const getFallaPorId = async (ctx: { db: PrismaClient }, input: InputGetFallaPorId) => {
+export const findFallaById = async (ctx: ContextReadOnly, input: InputGetFallaPorId) => {
   const falla = await ctx.db.falla.findUnique({
     include: {
       equipo: {
@@ -144,7 +237,9 @@ export const getFallaPorId = async (ctx: { db: PrismaClient }, input: InputGetFa
     },
   });
 
-  if (!falla) return null;
+  if (!falla) {
+    throw new Error(`Falla con ID ${String(input.id)} no encontrada`);
+  }
 
   return {
     id: falla.id,
@@ -162,18 +257,16 @@ export const getFallaPorId = async (ctx: { db: PrismaClient }, input: InputGetFa
   };
 };
 
-type CambiarEstadoInput = { id: number; estado: string; descripcionFalla?: string | null; asignadoA?: string | null };
-type ActualizarCamposInput = {
-  id: number;
-  descripcionFalla?: string | null;
-  asignadoA?: string | null;
-  palabraClave?: string | null;
+const mapEstadoFallaToEquipo = (estadoFalla: string): string | null => {
+  const mapping: Record<string, string> = {
+    [ESTADOS_FALLA.FALLADO]: ESTADOS_EQUIPO.ROTO,
+    [ESTADOS_FALLA.DESCARTADO]: ESTADOS_EQUIPO.DESCARTE,
+    [ESTADOS_FALLA.REPARADO]: ESTADOS_EQUIPO.NORMAL,
+  };
+  return mapping[estadoFalla] ?? null;
 };
 
-export const cambiarEstado = async (
-  ctx: { db: PrismaClient; session: { user: { id: string } } },
-  input: CambiarEstadoInput,
-) => {
+export const updateEstadoFalla = async (ctx: Context, input: InputCambiarEstadoFalla) => {
   if (!ctx.session?.user?.id) {
     throw new Error("Usuario no autenticado");
   }
@@ -194,40 +287,46 @@ export const cambiarEstado = async (
     updateData.asignadoA = input.asignadoA ? { connect: { id: input.asignadoA } } : { disconnect: true };
   }
 
-  const mapEstadoFallaToEquipo = (estadoFalla: string): "Roto" | "Descarte" | "Normal" | null => {
-    if (estadoFalla === "FALLADO") return "Roto";
-    if (estadoFalla === "DESCARTADO") return "Descarte";
-    if (estadoFalla === "REPARADO") return "Normal";
-    return null;
-  };
-
   return ctx.db.$transaction(async (tx) => {
     const fallaActualizada = await tx.falla.update({
       where: { id: input.id },
       data: updateData,
-      select: { id: true, equipoId: true, estado: true },
+      select: {
+        id: true,
+        equipoId: true,
+        estado: true,
+        descripcionFalla: true,
+        reportadoPorId: true,
+        asignadoAId: true,
+        tipoFalla: true,
+        descripcionEquipo: true,
+        fallas: true,
+        fechaReporte: true,
+      },
     });
 
     const nombreEstadoEquipo = mapEstadoFallaToEquipo(fallaActualizada.estado);
 
     if (fallaActualizada.equipoId && nombreEstadoEquipo) {
-      const estadoEquipo = await tx.equipoEstado.findFirst({
-        where: { nombre: nombreEstadoEquipo },
-        select: { id: true },
-      });
-      if (estadoEquipo?.id) {
-        await tx.equipo.update({ where: { id: fallaActualizada.equipoId }, data: { estadoId: estadoEquipo.id } });
-      }
+      await updateEquipoEstado(tx, fallaActualizada.equipoId, nombreEstadoEquipo);
     }
+
+    await createHistorialEntry(tx, {
+      fallaId: fallaActualizada.id,
+      fallas: fallaActualizada.fallas ?? [],
+      descripcionEquipo: fallaActualizada.descripcionEquipo,
+      descripcionFalla: fallaActualizada.descripcionFalla ?? "",
+      reportadoPorId: fallaActualizada.reportadoPorId,
+      asignadoAId: fallaActualizada.asignadoAId,
+      estado: fallaActualizada.estado,
+      fechaReporte: fallaActualizada.fechaReporte,
+    });
 
     return fallaActualizada;
   });
 };
 
-export const actualizarCampos = async (
-  ctx: { db: PrismaClient; session: { user: { id: string } } },
-  input: ActualizarCamposInput,
-) => {
+export const updateFalla = async (ctx: Context, input: InputGestionarFallas) => {
   if (!ctx.session?.user?.id) {
     throw new Error("Usuario no autenticado");
   }
@@ -250,19 +349,104 @@ export const actualizarCampos = async (
     updateData.palabrasClave = input.palabraClave;
   }
 
-  return ctx.db.falla.update({
-    where: { id: input.id },
-    data: updateData,
-  });
+  try {
+    return await ctx.db.falla.update({
+      where: { id: input.id },
+      data: updateData,
+    });
+  } catch (error) {
+    throw new Error(`Error al actualizar falla con ID ${String(input.id)}: ${String(error)}`);
+  }
 };
 
-export const eliminarFalla = async (
-  ctx: { db: PrismaClient; session: { user: { id: string } } },
-  input: { id: number },
-) => {
+export const deleteFalla = async (ctx: Context, input: InputEliminarFalla) => {
   if (!ctx.session?.user?.id) {
     throw new Error("Usuario no autenticado");
   }
 
-  return ctx.db.falla.update({ where: { id: input.id }, data: { estado: "ELIMINADO" } });
+  try {
+    return await ctx.db.falla.update({
+      where: { id: input.id },
+      data: { estado: ESTADOS_FALLA.ELIMINADO },
+    });
+  } catch (error) {
+    throw new Error(`Error al eliminar falla con ID ${String(input.id)}: ${String(error)}`);
+  }
+};
+
+type HistorialWithRelations = {
+  id: number;
+  fallaId: number;
+  fallas: string[];
+  descripcionEquipo: string | null;
+  descripcionFalla: string;
+  reportadoPorId: string | null;
+  asignadoAId: string | null;
+  estado: string;
+  fechaReporte: Date;
+  fechaCambioEstado: Date;
+  falla: {
+    equipoId: number | null;
+    equipo: {
+      inventarioId: string;
+      modelo: string;
+      laboratorio: { nombre: string } | null;
+      marca: { nombre: string } | null;
+      tipo: { nombre: string } | null;
+      estado: { nombre: string } | null;
+    } | null;
+  } | null;
+  reportadoPor: { nombre: string; apellido: string } | null;
+  asignadoA: { nombre: string; apellido: string } | null;
+};
+
+const transformHistorialData = (h: HistorialWithRelations) => ({
+  id: h.id,
+  fallaId: h.fallaId,
+  equipo: h.falla?.equipo?.inventarioId ?? (h.falla?.equipoId ? `Equipo ${h.falla?.equipoId}` : "-"),
+  laboratorio: h.falla?.equipo?.laboratorio?.nombre ?? "-",
+  marca: h.falla?.equipo?.marca?.nombre ?? "-",
+  modelo: h.falla?.equipo?.modelo ?? "-",
+  fallas: h.fallas ?? [],
+  descripcionEquipo: h.descripcionEquipo ?? null,
+  descripcionFalla: h.descripcionFalla ?? "",
+  reportadoPor: h.reportadoPor ?? { nombre: "-", apellido: "" },
+  asignadoA: h.asignadoA ?? { nombre: "-", apellido: "" },
+  estado: h.estado,
+  fechaReporte: formatDateToDays(new Date(h.fechaReporte)),
+  fechaCambioEstado: formatDateToSeconds(new Date(h.fechaCambioEstado)),
+});
+
+export const findHistorialByFallaId = async (ctx: ContextReadOnly, input: InputGetHistorialPorFallaId) => {
+  try {
+    const dbWithHist = ctx.db as unknown as {
+      fallaHistorial: {
+        findMany: (args: {
+          where: { fallaId: number };
+          include: any;
+          orderBy: { fechaCambioEstado: "desc" };
+        }) => Promise<HistorialWithRelations[]>;
+      };
+    };
+
+    const historial = await dbWithHist.fallaHistorial.findMany({
+      where: { fallaId: input.fallaId },
+      include: {
+        falla: {
+          include: {
+            equipo: {
+              include: { laboratorio: true, marca: true, tipo: true, estado: true },
+            },
+          },
+        },
+        reportadoPor: true,
+        asignadoA: true,
+      },
+      orderBy: { fechaCambioEstado: "desc" },
+    });
+
+    return historial.map(transformHistorialData);
+  } catch (error) {
+    throw new Error(`Error al obtener historial de falla ${String(input.fallaId)}: ${String(error)}`);
+  }
 };

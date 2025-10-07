@@ -22,5 +22,29 @@ model Falla {
     estado        String
     palabrasClave String?
 
+    historial FallaHistorial[]
+
     @@index([fechaReporte(sort: Desc)])
+}
+
+model FallaHistorial {
+    id Int @id @default(autoincrement())
+
+    fallaId Int
+    falla   Falla @relation(fields: [fallaId], references: [id], onDelete: Cascade)
+
+    fallas            String[]
+    descripcionEquipo String?
+    descripcionFalla  String
+    reportadoPorId    String?
+    asignadoAId       String?
+    estado            String
+
+    fechaReporte      DateTime
+    fechaCambioEstado DateTime @default(now())
+
+    reportadoPor User? @relation("FallaHistorialReportadoPor", fields: [reportadoPorId], references: [id])
+    asignadoA    User? @relation("FallaHistorialAsignadoA", fields: [asignadoAId], references: [id])
+
+    @@index([fallaId, fechaCambioEstado(sort: Desc)])
 }

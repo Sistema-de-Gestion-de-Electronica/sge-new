@@ -60,7 +60,7 @@ export const FallasTable = ({ data, filters, filterByUser }: FallasTableProps) =
                   <VerFallaModal fallaID={original.id} />
                 </TienePermiso>
                 <TienePermiso permisos={[]}>
-                  <VerHistorialFallaModal fallaID={original.id} />
+                  <VerHistorialFallaModal fallaId={original.id} />
                 </TienePermiso>
               </>
             );

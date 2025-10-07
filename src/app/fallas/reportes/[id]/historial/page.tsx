@@ -4,7 +4,7 @@ type PageProps = {
   params: { id: string };
 };
 
-export default function Page({ params }: PageProps) {
-  const { id } = params;
+export default async function Page({ params }: PageProps) {
+  const { id } = await params;
   return <HistorialFalla fallaId={Number(id)} />;
 }

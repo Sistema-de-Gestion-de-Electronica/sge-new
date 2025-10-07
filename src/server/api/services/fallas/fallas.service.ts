@@ -3,12 +3,17 @@ import {
   inputReportarFallasInstrumento,
   inputReportarFallasPc,
   inputGetFallaPorId,
+  inputGestionarFallas,
 } from "@/shared/filters/fallas-filter.schema";
+import { z } from "zod";
 import {
   reportarInstrumento,
   reportarPC,
   getAllFallas,
   getFallaPorId,
+  cambiarEstado as cambiarEstadoRepo,
+  actualizarCampos as actualizarCamposRepo,
+  eliminarFalla as eliminarFallaRepo,
 } from "../../repositories/fallas/fallas.repository";
 import { protectedProcedure } from "../../trpc";
 import { validarInput } from "../helper";
@@ -33,4 +38,32 @@ export const getAllFallasProcedure = protectedProcedure.input(inputGetAllFallas)
 export const getFallaPorIdProcedure = protectedProcedure.input(inputGetFallaPorId).query(async ({ ctx, input }) => {
   validarInput(inputGetFallaPorId, input);
   return await getFallaPorId(ctx, input);
+});
+
+export const cambiarEstadoProcedure = protectedProcedure
+  .input(
+    z.object({
+      id: z.number(),
+      estado: z.enum(["FALLADO", "EN_REPARACION", "REPARADO", "DESCARTADO"]),
+      descripcionFalla: z.string().optional().or(z.literal("")),
+      asignadoA: z.string().optional(),
+      palabraClave: z.string().optional(),
+    }),
+  )
+  .mutation(async ({ ctx, input }) => {
+    const { id, estado, descripcionFalla, asignadoA } = input;
+    return await cambiarEstadoRepo(ctx, { id, estado, descripcionFalla, asignadoA });
+  });
+
+export const actualizarCamposProcedure = protectedProcedure
+  .input(inputGestionarFallas)
+  .mutation(async ({ ctx, input }) => {
+    validarInput(inputGestionarFallas, input);
+    const { id, descripcionFalla, asignadoA, palabraClave } = input;
+    return await actualizarCamposRepo(ctx, { id, descripcionFalla, asignadoA, palabraClave });
+  });
+
+export const eliminarFallaProcedure = protectedProcedure.input(inputGetFallaPorId).mutation(async ({ ctx, input }) => {
+  validarInput(inputGetFallaPorId, input);
+  return await eliminarFallaRepo(ctx, input);
 });

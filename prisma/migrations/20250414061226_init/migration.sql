@@ -622,20 +622,21 @@ CREATE TABLE "DocumentoTipo" (
 CREATE TABLE "Falla" (
     id SERIAL PRIMARY KEY,
 
-    equipoId INT NULL,
-    tipoFalla TEXT NOT NULL, -- "PC" o "Instrumento"
+    "equipoId" INT NULL,
+    "tipoFalla" TEXT NOT NULL, -- "PC" o "Instrumento"
 
     fallas TEXT[] NOT NULL DEFAULT '{}', -- solo para PC
-    descripcionEquipo TEXT NULL,         -- solo para Instrumento
-    descripcionFalla TEXT NOT NULL,
+    "descripcionEquipo" TEXT NULL,         -- solo para Instrumento
+    "descripcionFalla" TEXT NOT NULL,
     condicion TEXT NULL,                  -- solo para Instrumento
 
-    fechaReporte TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW() NOT NULL,
+    "fechaReporte" TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW() NOT NULL,
 
-    reportadoPorId TEXT NULL,
-    asignadoAId TEXT NULL,
+    "reportadoPorId" TEXT NULL,
+    "asignadoAId" TEXT NULL,
 
-    estado TEXT NOT NULL
+    estado TEXT NOT NULL,
+    "palabrasClave" TEXT NULL
 );
 
 -- CreateIndex

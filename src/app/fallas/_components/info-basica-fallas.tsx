@@ -1,6 +1,14 @@
 import { api } from "@/trpc/react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CalendarIcon, PersonStandingIcon, TextIcon, FlaskConicalIcon, WrenchIcon, BadgeDollarSignIcon, ReceiptTextIcon } from "lucide-react";
+import {
+  CalendarIcon,
+  PersonStandingIcon,
+  TextIcon,
+  FlaskConicalIcon,
+  WrenchIcon,
+  BadgeDollarSignIcon,
+  ReceiptTextIcon,
+} from "lucide-react";
 import { Label, Button, toast } from "@/components/ui";
 import { BadgeEstatusFallas, FallasEstatus } from "@/app/fallas/_components/badge-estatus-fallas";
 import { Skeleton } from "@/components/ui/skeleton";

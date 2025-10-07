@@ -3,7 +3,7 @@
 import { z } from "zod";
 import { api } from "@/trpc/react";
 import { Controller, FieldError, FormProvider, useForm } from "react-hook-form";
-import { Button, FormInput, toast } from "@/components/ui";
+import { Button, FormInput, toast, FormAutocomplete } from "@/components/ui";
 
 import { inputReportarFallasPc } from "@/shared/filters/fallas-filter.schema";
 import { FormSelect } from "@/components/ui/autocomplete";
@@ -21,6 +21,7 @@ export default function FormularioReportarFallaPC() {
   // const {data: session} = useSession();
   // console.log(session)
   const { data: laboratorios } = api.laboratorios.getAll.useQuery({});
+  const { data: marcasData, isLoading: marcasLoading } = api.equipos.getAllMarcas.useQuery();
 
   const reporteBase: FormReportarFallaPC = {
     laboratorio: "",
@@ -61,7 +62,7 @@ export default function FormularioReportarFallaPC() {
       >
         <div className="flex w-full flex-col items-center justify-center">
           <div className="flex w-full flex-col space-y-4 px-0">
-            <div className="flex w-full flex-row lg:flex-row lg:justify-between lg:gap-x-4">
+            {/* <div className="flex w-full flex-row lg:flex-row lg:justify-between lg:gap-x-4">
               <FormSelect
                 name="laboratorio"
                 control={control}
@@ -69,15 +70,23 @@ export default function FormularioReportarFallaPC() {
                 label={"Laboratorio"}
                 className="w-full"
               />
-            </div>
-            <div className="flex w-full flex-col gap-x-4 sm:flex-row">
+            </div> */}
+            {/* <div className="flex w-full flex-col gap-x-4 sm:flex-row">
               <div className="mt-4 w-full">
-                <FormInput label={"Marca"} control={control} name="marca" type={"text"} required />
+                <FormAutocomplete
+                  label={"Marca"}
+                  control={control}
+                  name="marca"
+                  items={(marcasData ?? []).map((m) => m.nombre)}
+                  placeholder="Selecciona o busca una marca"
+                  isLoading={marcasLoading}
+                  clearable
+                />
               </div>
               <div className="mt-4 w-full">
                 <FormInput label={"Modelo"} control={control} name="modelo" type={"text"} required />
               </div>
-            </div>
+            </div> */}
 
             <div className="flex w-full flex-row lg:flex-row lg:justify-between lg:gap-x-4">
               <div className="mt-4 w-full">

@@ -7,12 +7,13 @@ type VerFallaModalProps = {
   fallaID: number;
 };
 
-const rutaSolicitud =
-  FALLAS_ROUTE.subRutas !== undefined ? FALLAS_ROUTE?.subRutas[0] : undefined;
+const rutaBaseFallas = FALLAS_ROUTE.href.split("/")[1];
 
 export const VerHistorialFallaModal = (props: VerFallaModalProps) => {
+  const href = `/${rutaBaseFallas}/${props.fallaID}/historial`;
+
   return (
-    <Link key={props.fallaID} href={`${rutaSolicitud?.href}/${props.fallaID}/historial`} passHref prefetch={false}>
+    <Link key={props.fallaID} href={href} passHref prefetch={false}>
       <Button color={"outline"} className="h-8 w-8 px-1 py-1">
         <HistoryIcon size={16} />
       </Button>

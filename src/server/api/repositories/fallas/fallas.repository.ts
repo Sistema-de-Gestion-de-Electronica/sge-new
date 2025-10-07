@@ -23,16 +23,27 @@ export const reportarInstrumento = async (
 
   const equipoId = input.esInventariado && input.instrumento ? Number(input.instrumento) : null;
 
-  return ctx.db.falla.create({
-    data: {
-      equipoId: equipoId ?? undefined,
-      tipoFalla: "Instrumento",
-      descripcionEquipo: input.descripcionEquipo,
-      descripcionFalla: input.descripcionFalla ?? "No input",
-      condicion: input.condicion ?? null,
-      estado: "FALLADO",
-      reportadoPorId: ctx.session.user.id,
-    },
+  return ctx.db.$transaction(async (tx) => {
+    const nuevaFalla = await tx.falla.create({
+      data: {
+        equipoId: equipoId ?? undefined,
+        tipoFalla: "Instrumento",
+        descripcionEquipo: input.descripcionEquipo,
+        descripcionFalla: input.descripcionFalla ?? "No input",
+        condicion: input.condicion ?? null,
+        estado: "FALLADO",
+        reportadoPorId: ctx.session.user.id,
+      },
+    });
+
+    if (equipoId) {
+      const estadoRoto = await tx.equipoEstado.findFirst({ where: { nombre: "Roto" }, select: { id: true } });
+      if (estadoRoto?.id) {
+        await tx.equipo.update({ where: { id: equipoId }, data: { estadoId: estadoRoto.id } });
+      }
+    }
+
+    return nuevaFalla;
   });
 };
 
@@ -52,15 +63,24 @@ export const reportarPC = async (
     throw new Error("El equipo indicado no existe");
   }
 
-  return ctx.db.falla.create({
-    data: {
-      equipoId: equipo.id,
-      tipoFalla: "PC",
-      descripcionFalla: input.descripcionFalla,
-      fallas: input.fallas,
-      estado: "FALLADO",
-      reportadoPorId: ctx.session.user.id,
-    },
+  return ctx.db.$transaction(async (tx) => {
+    const nuevaFalla = await tx.falla.create({
+      data: {
+        equipoId: equipo.id,
+        tipoFalla: "PC",
+        descripcionFalla: input.descripcionFalla,
+        fallas: input.fallas,
+        estado: "FALLADO",
+        reportadoPorId: ctx.session.user.id,
+      },
+    });
+
+    const estadoRoto = await tx.equipoEstado.findFirst({ where: { nombre: "Roto" }, select: { id: true } });
+    if (estadoRoto?.id) {
+      await tx.equipo.update({ where: { id: equipo.id }, data: { estadoId: estadoRoto.id } });
+    }
+
+    return nuevaFalla;
   });
 };
 
@@ -174,9 +194,33 @@ export const cambiarEstado = async (
     updateData.asignadoA = input.asignadoA ? { connect: { id: input.asignadoA } } : { disconnect: true };
   }
 
-  return ctx.db.falla.update({
-    where: { id: input.id },
-    data: updateData,
+  const mapEstadoFallaToEquipo = (estadoFalla: string): "Roto" | "Descarte" | "Normal" | null => {
+    if (estadoFalla === "FALLADO") return "Roto";
+    if (estadoFalla === "DESCARTADO") return "Descarte";
+    if (estadoFalla === "REPARADO") return "Normal";
+    return null;
+  };
+
+  return ctx.db.$transaction(async (tx) => {
+    const fallaActualizada = await tx.falla.update({
+      where: { id: input.id },
+      data: updateData,
+      select: { id: true, equipoId: true, estado: true },
+    });
+
+    const nombreEstadoEquipo = mapEstadoFallaToEquipo(fallaActualizada.estado);
+
+    if (fallaActualizada.equipoId && nombreEstadoEquipo) {
+      const estadoEquipo = await tx.equipoEstado.findFirst({
+        where: { nombre: nombreEstadoEquipo },
+        select: { id: true },
+      });
+      if (estadoEquipo?.id) {
+        await tx.equipo.update({ where: { id: fallaActualizada.equipoId }, data: { estadoId: estadoEquipo.id } });
+      }
+    }
+
+    return fallaActualizada;
   });
 };
 

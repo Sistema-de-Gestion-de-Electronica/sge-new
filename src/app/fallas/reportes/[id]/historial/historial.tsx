@@ -7,9 +7,8 @@ import { DataTablePaginationStandalone } from "@/components/ui/table/table-pagin
 import { type GroupingState, type SortingState } from "@tanstack/react-table";
 //import { useFallasQueryParam } from "@/app/fallas/_hooks/use-fallas-query-param";
 
-import { getColumnasFallas } from "@/app/fallas/(listado)/columns-fallas";
-import { VerFallaModal } from "@/app/fallas/(listado)/ver-falla";
-import { TienePermiso } from "@/app/_components/permisos/tienePermiso";
+import { getColumnasHistorialFallas } from "@/app/fallas/(listado)/columns-historial-fallas";
+import { FallasDetalle } from "@/app/fallas/_components/info-basica-fallas";
 
 type HistorialFallaProps = {
   fallaId: number;
@@ -24,13 +23,13 @@ export default function HistorialFalla({ fallaId }: HistorialFallaProps) {
   } = api.fallas.getHistorialFallasPorId.useQuery({
     id: Number(fallaId),
   });
-  const [grouping, setGrouping] = useState<GroupingState>([]);
-  const columns = getColumnasFallas({ filterByUser });
+  const [grouping, setGrouping] = useState<GroupingState>(["id"]);
+  const columns = getColumnasHistorialFallas();
 
   return (
     <div className="container mx-auto space-y-8 p-4">
-        <h2 className="text-2xl font-bold">Historial de la Falla #{fallaId}</h2>
-        <h4></h4>
+      <h2 className="text-2xl font-bold">Historial de la Falla #{fallaId}</h2>
+      <FallasDetalle fallaId={fallaId} />
       <DataTable
         grouping={grouping}
         setGrouping={setGrouping}
@@ -44,18 +43,6 @@ export default function HistorialFalla({ fallaId }: HistorialFallaProps) {
         //   onSortingChange: (updaterOrValue: SortingState | ((prevState: SortingState) => SortingState)) =>
         //     onSortingChange(typeof updaterOrValue === "function" ? updaterOrValue([]) : updaterOrValue),
         // }}
-        action={{
-          header: "Acciones",
-          cell({ original }) {
-            return (
-              <>
-                <TienePermiso permisos={[]}>
-                  <VerFallaModal fallaID={original.id} />
-                </TienePermiso>
-              </>
-            );
-          },
-        }}
       />
 
       {/* <DataTablePaginationStandalone
@@ -64,6 +51,6 @@ export default function HistorialFalla({ fallaId }: HistorialFallaProps) {
           rowCount={data.count}
           onChange={onPaginationChange}
         /> */}
-    </>
+    </div>
   );
 }

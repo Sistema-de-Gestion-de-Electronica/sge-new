@@ -89,6 +89,16 @@ export type EquipoTipo = $Result.DefaultSelection<Prisma.$EquipoTipoPayload>
  */
 export type EquipoEstado = $Result.DefaultSelection<Prisma.$EquipoEstadoPayload>
 /**
+ * Model Falla
+ * 
+ */
+export type Falla = $Result.DefaultSelection<Prisma.$FallaPayload>
+/**
+ * Model FallaHistorial
+ * 
+ */
+export type FallaHistorial = $Result.DefaultSelection<Prisma.$FallaHistorialPayload>
+/**
  * Model InscripcionEspecial
  * 
  */
@@ -509,7 +519,7 @@ export const LaboratorioAbiertoTipo: typeof $Enums.LaboratorioAbiertoTipo
  */
 export class PrismaClient<
   ClientOptions extends Prisma.PrismaClientOptions = Prisma.PrismaClientOptions,
-  U = 'log' extends keyof ClientOptions ? ClientOptions['log'] extends Array<Prisma.LogLevel | Prisma.LogDefinition> ? Prisma.GetEvents<ClientOptions['log']> : never : never,
+  const U = 'log' extends keyof ClientOptions ? ClientOptions['log'] extends Array<Prisma.LogLevel | Prisma.LogDefinition> ? Prisma.GetEvents<ClientOptions['log']> : never : never,
   ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs
 > {
   [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['other'] }
@@ -541,13 +551,6 @@ export class PrismaClient<
    * Disconnect from the database
    */
   $disconnect(): $Utils.JsPromise<void>;
-
-  /**
-   * Add a middleware
-   * @deprecated since 4.16.0. For new code, prefer client extensions instead.
-   * @see https://pris.ly/d/extensions
-   */
-  $use(cb: Prisma.Middleware): void
 
 /**
    * Executes a prepared raw query and returns the number of affected rows.
@@ -767,6 +770,26 @@ export class PrismaClient<
     * ```
     */
   get equipoEstado(): Prisma.EquipoEstadoDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.falla`: Exposes CRUD operations for the **Falla** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Fallas
+    * const fallas = await prisma.falla.findMany()
+    * ```
+    */
+  get falla(): Prisma.FallaDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.fallaHistorial`: Exposes CRUD operations for the **FallaHistorial** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more FallaHistorials
+    * const fallaHistorials = await prisma.fallaHistorial.findMany()
+    * ```
+    */
+  get fallaHistorial(): Prisma.FallaHistorialDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.inscripcionEspecial`: Exposes CRUD operations for the **InscripcionEspecial** model.
@@ -1135,8 +1158,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.6.0
-   * Query Engine version: f676762280b54cd07c770017ed3711ddde35f37a
+   * Prisma Client JS version: 6.17.0
+   * Query Engine version: c0aafc03b8ef6cdced8654b9a817999e02457d6a
    */
   export type PrismaVersion = {
     client: string
@@ -1532,6 +1555,8 @@ export namespace Prisma {
     EquipoMarca: 'EquipoMarca',
     EquipoTipo: 'EquipoTipo',
     EquipoEstado: 'EquipoEstado',
+    Falla: 'Falla',
+    FallaHistorial: 'FallaHistorial',
     InscripcionEspecial: 'InscripcionEspecial',
     Laboratorio: 'Laboratorio',
     Armario: 'Armario',
@@ -1581,7 +1606,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "acta" | "voto" | "reunion" | "libro" | "libroMateria" | "libroAutor" | "libroIdioma" | "libroEditorial" | "curso" | "cursoAyudante" | "division" | "equipo" | "equipoMarca" | "equipoTipo" | "equipoEstado" | "inscripcionEspecial" | "laboratorio" | "armario" | "estante" | "software" | "softwareLaboratorio" | "mails" | "materia" | "materiaJefeTp" | "materiaCorrelativa" | "reserva" | "reservaEquipo" | "reservaLibro" | "reservaLaboratorioCerrado" | "reservaLaboratorioCerradoEquipo" | "reservaLaboratorioAbierto" | "reservaLaboratorioAbiertoEquipo" | "pantalla" | "account" | "session" | "verificationToken" | "sede" | "user" | "tutor" | "usuarioRol" | "rol" | "rolPermiso" | "permiso" | "provincia" | "pais" | "documentoTipo"
+      modelProps: "acta" | "voto" | "reunion" | "libro" | "libroMateria" | "libroAutor" | "libroIdioma" | "libroEditorial" | "curso" | "cursoAyudante" | "division" | "equipo" | "equipoMarca" | "equipoTipo" | "equipoEstado" | "falla" | "fallaHistorial" | "inscripcionEspecial" | "laboratorio" | "armario" | "estante" | "software" | "softwareLaboratorio" | "mails" | "materia" | "materiaJefeTp" | "materiaCorrelativa" | "reserva" | "reservaEquipo" | "reservaLibro" | "reservaLaboratorioCerrado" | "reservaLaboratorioCerradoEquipo" | "reservaLaboratorioAbierto" | "reservaLaboratorioAbiertoEquipo" | "pantalla" | "account" | "session" | "verificationToken" | "sede" | "user" | "tutor" | "usuarioRol" | "rol" | "rolPermiso" | "permiso" | "provincia" | "pais" | "documentoTipo"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2692,6 +2717,154 @@ export namespace Prisma {
           count: {
             args: Prisma.EquipoEstadoCountArgs<ExtArgs>
             result: $Utils.Optional<EquipoEstadoCountAggregateOutputType> | number
+          }
+        }
+      }
+      Falla: {
+        payload: Prisma.$FallaPayload<ExtArgs>
+        fields: Prisma.FallaFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.FallaFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FallaPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.FallaFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FallaPayload>
+          }
+          findFirst: {
+            args: Prisma.FallaFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FallaPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.FallaFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FallaPayload>
+          }
+          findMany: {
+            args: Prisma.FallaFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FallaPayload>[]
+          }
+          create: {
+            args: Prisma.FallaCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FallaPayload>
+          }
+          createMany: {
+            args: Prisma.FallaCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.FallaCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FallaPayload>[]
+          }
+          delete: {
+            args: Prisma.FallaDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FallaPayload>
+          }
+          update: {
+            args: Prisma.FallaUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FallaPayload>
+          }
+          deleteMany: {
+            args: Prisma.FallaDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.FallaUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.FallaUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FallaPayload>[]
+          }
+          upsert: {
+            args: Prisma.FallaUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FallaPayload>
+          }
+          aggregate: {
+            args: Prisma.FallaAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateFalla>
+          }
+          groupBy: {
+            args: Prisma.FallaGroupByArgs<ExtArgs>
+            result: $Utils.Optional<FallaGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.FallaCountArgs<ExtArgs>
+            result: $Utils.Optional<FallaCountAggregateOutputType> | number
+          }
+        }
+      }
+      FallaHistorial: {
+        payload: Prisma.$FallaHistorialPayload<ExtArgs>
+        fields: Prisma.FallaHistorialFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.FallaHistorialFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FallaHistorialPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.FallaHistorialFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FallaHistorialPayload>
+          }
+          findFirst: {
+            args: Prisma.FallaHistorialFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FallaHistorialPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.FallaHistorialFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FallaHistorialPayload>
+          }
+          findMany: {
+            args: Prisma.FallaHistorialFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FallaHistorialPayload>[]
+          }
+          create: {
+            args: Prisma.FallaHistorialCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FallaHistorialPayload>
+          }
+          createMany: {
+            args: Prisma.FallaHistorialCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.FallaHistorialCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FallaHistorialPayload>[]
+          }
+          delete: {
+            args: Prisma.FallaHistorialDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FallaHistorialPayload>
+          }
+          update: {
+            args: Prisma.FallaHistorialUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FallaHistorialPayload>
+          }
+          deleteMany: {
+            args: Prisma.FallaHistorialDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.FallaHistorialUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.FallaHistorialUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FallaHistorialPayload>[]
+          }
+          upsert: {
+            args: Prisma.FallaHistorialUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FallaHistorialPayload>
+          }
+          aggregate: {
+            args: Prisma.FallaHistorialAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateFallaHistorial>
+          }
+          groupBy: {
+            args: Prisma.FallaHistorialGroupByArgs<ExtArgs>
+            result: $Utils.Optional<FallaHistorialGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.FallaHistorialCountArgs<ExtArgs>
+            result: $Utils.Optional<FallaHistorialCountAggregateOutputType> | number
           }
         }
       }
@@ -5032,16 +5205,24 @@ export namespace Prisma {
     /**
      * @example
      * ```
-     * // Defaults to stdout
+     * // Shorthand for `emit: 'stdout'`
      * log: ['query', 'info', 'warn', 'error']
      * 
-     * // Emit as events
+     * // Emit as events only
      * log: [
-     *   { emit: 'stdout', level: 'query' },
-     *   { emit: 'stdout', level: 'info' },
-     *   { emit: 'stdout', level: 'warn' }
-     *   { emit: 'stdout', level: 'error' }
+     *   { emit: 'event', level: 'query' },
+     *   { emit: 'event', level: 'info' },
+     *   { emit: 'event', level: 'warn' }
+     *   { emit: 'event', level: 'error' }
      * ]
+     * 
+     * / Emit as events and log to stdout
+     * og: [
+     *  { emit: 'stdout', level: 'query' },
+     *  { emit: 'stdout', level: 'info' },
+     *  { emit: 'stdout', level: 'warn' }
+     *  { emit: 'stdout', level: 'error' }
+     * 
      * ```
      * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/logging#the-log-option).
      */
@@ -5056,6 +5237,10 @@ export namespace Prisma {
       timeout?: number
       isolationLevel?: Prisma.TransactionIsolationLevel
     }
+    /**
+     * Instance of a Driver Adapter, e.g., like one provided by `@prisma/adapter-planetscale`
+     */
+    adapter?: runtime.SqlDriverAdapterFactory | null
     /**
      * Global configuration for omitting model fields by default.
      * 
@@ -5088,6 +5273,8 @@ export namespace Prisma {
     equipoMarca?: EquipoMarcaOmit
     equipoTipo?: EquipoTipoOmit
     equipoEstado?: EquipoEstadoOmit
+    falla?: FallaOmit
+    fallaHistorial?: FallaHistorialOmit
     inscripcionEspecial?: InscripcionEspecialOmit
     laboratorio?: LaboratorioOmit
     armario?: ArmarioOmit
@@ -5128,10 +5315,15 @@ export namespace Prisma {
     emit: 'stdout' | 'event'
   }
 
-  export type GetLogType<T extends LogLevel | LogDefinition> = T extends LogDefinition ? T['emit'] extends 'event' ? T['level'] : never : never
-  export type GetEvents<T extends any> = T extends Array<LogLevel | LogDefinition> ?
-    GetLogType<T[0]> | GetLogType<T[1]> | GetLogType<T[2]> | GetLogType<T[3]>
-    : never
+  export type CheckIsLogLevel<T> = T extends LogLevel ? T : never;
+
+  export type GetLogType<T> = CheckIsLogLevel<
+    T extends LogDefinition ? T['level'] : T
+  >;
+
+  export type GetEvents<T extends any[]> = T extends Array<LogLevel | LogDefinition>
+    ? GetLogType<T[number]>
+    : never;
 
   export type QueryEvent = {
     timestamp: Date
@@ -5171,25 +5363,6 @@ export namespace Prisma {
     | 'runCommandRaw'
     | 'findRaw'
     | 'groupBy'
-
-  /**
-   * These options are being passed into the middleware as "params"
-   */
-  export type MiddlewareParams = {
-    model?: ModelName
-    action: PrismaAction
-    args: any
-    dataPath: string[]
-    runInTransaction: boolean
-  }
-
-  /**
-   * The `T` type makes sure, that the `return proceed` is not forgotten in the middleware implementation
-   */
-  export type Middleware<T = any> = (
-    params: MiddlewareParams,
-    next: (params: MiddlewareParams) => $Utils.JsPromise<T>,
-  ) => $Utils.JsPromise<T>
 
   // tested in getLogLevel.test.ts
   export function getLogLevel(log: Array<LogLevel | LogDefinition>): LogLevel | undefined;
@@ -5449,10 +5622,12 @@ export namespace Prisma {
 
   export type EquipoCountOutputType = {
     reservas: number
+    fallaPc: number
   }
 
   export type EquipoCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     reservas?: boolean | EquipoCountOutputTypeCountReservasArgs
+    fallaPc?: boolean | EquipoCountOutputTypeCountFallaPcArgs
   }
 
   // Custom InputTypes
@@ -5471,6 +5646,13 @@ export namespace Prisma {
    */
   export type EquipoCountOutputTypeCountReservasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ReservaEquipoWhereInput
+  }
+
+  /**
+   * EquipoCountOutputType without action
+   */
+  export type EquipoCountOutputTypeCountFallaPcArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FallaWhereInput
   }
 
 
@@ -5582,6 +5764,37 @@ export namespace Prisma {
    */
   export type EquipoEstadoCountOutputTypeCountEquiposArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: EquipoWhereInput
+  }
+
+
+  /**
+   * Count Type FallaCountOutputType
+   */
+
+  export type FallaCountOutputType = {
+    historial: number
+  }
+
+  export type FallaCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    historial?: boolean | FallaCountOutputTypeCountHistorialArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * FallaCountOutputType without action
+   */
+  export type FallaCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FallaCountOutputType
+     */
+    select?: FallaCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * FallaCountOutputType without action
+   */
+  export type FallaCountOutputTypeCountHistorialArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FallaHistorialWhereInput
   }
 
 
@@ -6025,6 +6238,10 @@ export namespace Prisma {
     materiasDirector: number
     ReservaLaboratorioCerrado: number
     Voto: number
+    fallasReportadas: number
+    fallasAsignadas: number
+    fallasHistReportadas: number
+    fallasHistAsignadas: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6044,6 +6261,10 @@ export namespace Prisma {
     materiasDirector?: boolean | UserCountOutputTypeCountMateriasDirectorArgs
     ReservaLaboratorioCerrado?: boolean | UserCountOutputTypeCountReservaLaboratorioCerradoArgs
     Voto?: boolean | UserCountOutputTypeCountVotoArgs
+    fallasReportadas?: boolean | UserCountOutputTypeCountFallasReportadasArgs
+    fallasAsignadas?: boolean | UserCountOutputTypeCountFallasAsignadasArgs
+    fallasHistReportadas?: boolean | UserCountOutputTypeCountFallasHistReportadasArgs
+    fallasHistAsignadas?: boolean | UserCountOutputTypeCountFallasHistAsignadasArgs
   }
 
   // Custom InputTypes
@@ -6167,6 +6388,34 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountVotoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: VotoWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountFallasReportadasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FallaWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountFallasAsignadasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FallaWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountFallasHistReportadasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FallaHistorialWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountFallasHistAsignadasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FallaHistorialWhereInput
   }
 
 
@@ -19376,6 +19625,7 @@ export namespace Prisma {
     estante?: boolean | Equipo$estanteArgs<ExtArgs>
     estado?: boolean | EquipoEstadoDefaultArgs<ExtArgs>
     reservas?: boolean | Equipo$reservasArgs<ExtArgs>
+    fallaPc?: boolean | Equipo$fallaPcArgs<ExtArgs>
     _count?: boolean | EquipoCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["equipo"]>
 
@@ -19469,6 +19719,7 @@ export namespace Prisma {
     estante?: boolean | Equipo$estanteArgs<ExtArgs>
     estado?: boolean | EquipoEstadoDefaultArgs<ExtArgs>
     reservas?: boolean | Equipo$reservasArgs<ExtArgs>
+    fallaPc?: boolean | Equipo$fallaPcArgs<ExtArgs>
     _count?: boolean | EquipoCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type EquipoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -19501,6 +19752,7 @@ export namespace Prisma {
       estante: Prisma.$EstantePayload<ExtArgs> | null
       estado: Prisma.$EquipoEstadoPayload<ExtArgs>
       reservas: Prisma.$ReservaEquipoPayload<ExtArgs>[]
+      fallaPc: Prisma.$FallaPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -19924,6 +20176,7 @@ export namespace Prisma {
     estante<T extends Equipo$estanteArgs<ExtArgs> = {}>(args?: Subset<T, Equipo$estanteArgs<ExtArgs>>): Prisma__EstanteClient<$Result.GetResult<Prisma.$EstantePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     estado<T extends EquipoEstadoDefaultArgs<ExtArgs> = {}>(args?: Subset<T, EquipoEstadoDefaultArgs<ExtArgs>>): Prisma__EquipoEstadoClient<$Result.GetResult<Prisma.$EquipoEstadoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     reservas<T extends Equipo$reservasArgs<ExtArgs> = {}>(args?: Subset<T, Equipo$reservasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReservaEquipoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    fallaPc<T extends Equipo$fallaPcArgs<ExtArgs> = {}>(args?: Subset<T, Equipo$fallaPcArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FallaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -20427,6 +20680,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ReservaEquipoScalarFieldEnum | ReservaEquipoScalarFieldEnum[]
+  }
+
+  /**
+   * Equipo.fallaPc
+   */
+  export type Equipo$fallaPcArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Falla
+     */
+    select?: FallaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Falla
+     */
+    omit?: FallaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FallaInclude<ExtArgs> | null
+    where?: FallaWhereInput
+    orderBy?: FallaOrderByWithRelationInput | FallaOrderByWithRelationInput[]
+    cursor?: FallaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: FallaScalarFieldEnum | FallaScalarFieldEnum[]
   }
 
   /**
@@ -23787,6 +24064,2503 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: EquipoEstadoInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Falla
+   */
+
+  export type AggregateFalla = {
+    _count: FallaCountAggregateOutputType | null
+    _avg: FallaAvgAggregateOutputType | null
+    _sum: FallaSumAggregateOutputType | null
+    _min: FallaMinAggregateOutputType | null
+    _max: FallaMaxAggregateOutputType | null
+  }
+
+  export type FallaAvgAggregateOutputType = {
+    id: number | null
+    equipoId: number | null
+  }
+
+  export type FallaSumAggregateOutputType = {
+    id: number | null
+    equipoId: number | null
+  }
+
+  export type FallaMinAggregateOutputType = {
+    id: number | null
+    equipoId: number | null
+    tipoFalla: string | null
+    descripcionEquipo: string | null
+    descripcionFalla: string | null
+    condicion: string | null
+    fechaReporte: Date | null
+    reportadoPorId: string | null
+    asignadoAId: string | null
+    estado: string | null
+    palabrasClave: string | null
+  }
+
+  export type FallaMaxAggregateOutputType = {
+    id: number | null
+    equipoId: number | null
+    tipoFalla: string | null
+    descripcionEquipo: string | null
+    descripcionFalla: string | null
+    condicion: string | null
+    fechaReporte: Date | null
+    reportadoPorId: string | null
+    asignadoAId: string | null
+    estado: string | null
+    palabrasClave: string | null
+  }
+
+  export type FallaCountAggregateOutputType = {
+    id: number
+    equipoId: number
+    tipoFalla: number
+    fallas: number
+    descripcionEquipo: number
+    descripcionFalla: number
+    condicion: number
+    fechaReporte: number
+    reportadoPorId: number
+    asignadoAId: number
+    estado: number
+    palabrasClave: number
+    _all: number
+  }
+
+
+  export type FallaAvgAggregateInputType = {
+    id?: true
+    equipoId?: true
+  }
+
+  export type FallaSumAggregateInputType = {
+    id?: true
+    equipoId?: true
+  }
+
+  export type FallaMinAggregateInputType = {
+    id?: true
+    equipoId?: true
+    tipoFalla?: true
+    descripcionEquipo?: true
+    descripcionFalla?: true
+    condicion?: true
+    fechaReporte?: true
+    reportadoPorId?: true
+    asignadoAId?: true
+    estado?: true
+    palabrasClave?: true
+  }
+
+  export type FallaMaxAggregateInputType = {
+    id?: true
+    equipoId?: true
+    tipoFalla?: true
+    descripcionEquipo?: true
+    descripcionFalla?: true
+    condicion?: true
+    fechaReporte?: true
+    reportadoPorId?: true
+    asignadoAId?: true
+    estado?: true
+    palabrasClave?: true
+  }
+
+  export type FallaCountAggregateInputType = {
+    id?: true
+    equipoId?: true
+    tipoFalla?: true
+    fallas?: true
+    descripcionEquipo?: true
+    descripcionFalla?: true
+    condicion?: true
+    fechaReporte?: true
+    reportadoPorId?: true
+    asignadoAId?: true
+    estado?: true
+    palabrasClave?: true
+    _all?: true
+  }
+
+  export type FallaAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Falla to aggregate.
+     */
+    where?: FallaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Fallas to fetch.
+     */
+    orderBy?: FallaOrderByWithRelationInput | FallaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: FallaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Fallas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Fallas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Fallas
+    **/
+    _count?: true | FallaCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: FallaAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: FallaSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: FallaMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: FallaMaxAggregateInputType
+  }
+
+  export type GetFallaAggregateType<T extends FallaAggregateArgs> = {
+        [P in keyof T & keyof AggregateFalla]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateFalla[P]>
+      : GetScalarType<T[P], AggregateFalla[P]>
+  }
+
+
+
+
+  export type FallaGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FallaWhereInput
+    orderBy?: FallaOrderByWithAggregationInput | FallaOrderByWithAggregationInput[]
+    by: FallaScalarFieldEnum[] | FallaScalarFieldEnum
+    having?: FallaScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: FallaCountAggregateInputType | true
+    _avg?: FallaAvgAggregateInputType
+    _sum?: FallaSumAggregateInputType
+    _min?: FallaMinAggregateInputType
+    _max?: FallaMaxAggregateInputType
+  }
+
+  export type FallaGroupByOutputType = {
+    id: number
+    equipoId: number | null
+    tipoFalla: string
+    fallas: string[]
+    descripcionEquipo: string | null
+    descripcionFalla: string
+    condicion: string | null
+    fechaReporte: Date
+    reportadoPorId: string | null
+    asignadoAId: string | null
+    estado: string
+    palabrasClave: string | null
+    _count: FallaCountAggregateOutputType | null
+    _avg: FallaAvgAggregateOutputType | null
+    _sum: FallaSumAggregateOutputType | null
+    _min: FallaMinAggregateOutputType | null
+    _max: FallaMaxAggregateOutputType | null
+  }
+
+  type GetFallaGroupByPayload<T extends FallaGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<FallaGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof FallaGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], FallaGroupByOutputType[P]>
+            : GetScalarType<T[P], FallaGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type FallaSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    equipoId?: boolean
+    tipoFalla?: boolean
+    fallas?: boolean
+    descripcionEquipo?: boolean
+    descripcionFalla?: boolean
+    condicion?: boolean
+    fechaReporte?: boolean
+    reportadoPorId?: boolean
+    asignadoAId?: boolean
+    estado?: boolean
+    palabrasClave?: boolean
+    equipo?: boolean | Falla$equipoArgs<ExtArgs>
+    reportadoPor?: boolean | Falla$reportadoPorArgs<ExtArgs>
+    asignadoA?: boolean | Falla$asignadoAArgs<ExtArgs>
+    historial?: boolean | Falla$historialArgs<ExtArgs>
+    _count?: boolean | FallaCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["falla"]>
+
+  export type FallaSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    equipoId?: boolean
+    tipoFalla?: boolean
+    fallas?: boolean
+    descripcionEquipo?: boolean
+    descripcionFalla?: boolean
+    condicion?: boolean
+    fechaReporte?: boolean
+    reportadoPorId?: boolean
+    asignadoAId?: boolean
+    estado?: boolean
+    palabrasClave?: boolean
+    equipo?: boolean | Falla$equipoArgs<ExtArgs>
+    reportadoPor?: boolean | Falla$reportadoPorArgs<ExtArgs>
+    asignadoA?: boolean | Falla$asignadoAArgs<ExtArgs>
+  }, ExtArgs["result"]["falla"]>
+
+  export type FallaSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    equipoId?: boolean
+    tipoFalla?: boolean
+    fallas?: boolean
+    descripcionEquipo?: boolean
+    descripcionFalla?: boolean
+    condicion?: boolean
+    fechaReporte?: boolean
+    reportadoPorId?: boolean
+    asignadoAId?: boolean
+    estado?: boolean
+    palabrasClave?: boolean
+    equipo?: boolean | Falla$equipoArgs<ExtArgs>
+    reportadoPor?: boolean | Falla$reportadoPorArgs<ExtArgs>
+    asignadoA?: boolean | Falla$asignadoAArgs<ExtArgs>
+  }, ExtArgs["result"]["falla"]>
+
+  export type FallaSelectScalar = {
+    id?: boolean
+    equipoId?: boolean
+    tipoFalla?: boolean
+    fallas?: boolean
+    descripcionEquipo?: boolean
+    descripcionFalla?: boolean
+    condicion?: boolean
+    fechaReporte?: boolean
+    reportadoPorId?: boolean
+    asignadoAId?: boolean
+    estado?: boolean
+    palabrasClave?: boolean
+  }
+
+  export type FallaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "equipoId" | "tipoFalla" | "fallas" | "descripcionEquipo" | "descripcionFalla" | "condicion" | "fechaReporte" | "reportadoPorId" | "asignadoAId" | "estado" | "palabrasClave", ExtArgs["result"]["falla"]>
+  export type FallaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    equipo?: boolean | Falla$equipoArgs<ExtArgs>
+    reportadoPor?: boolean | Falla$reportadoPorArgs<ExtArgs>
+    asignadoA?: boolean | Falla$asignadoAArgs<ExtArgs>
+    historial?: boolean | Falla$historialArgs<ExtArgs>
+    _count?: boolean | FallaCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type FallaIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    equipo?: boolean | Falla$equipoArgs<ExtArgs>
+    reportadoPor?: boolean | Falla$reportadoPorArgs<ExtArgs>
+    asignadoA?: boolean | Falla$asignadoAArgs<ExtArgs>
+  }
+  export type FallaIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    equipo?: boolean | Falla$equipoArgs<ExtArgs>
+    reportadoPor?: boolean | Falla$reportadoPorArgs<ExtArgs>
+    asignadoA?: boolean | Falla$asignadoAArgs<ExtArgs>
+  }
+
+  export type $FallaPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Falla"
+    objects: {
+      equipo: Prisma.$EquipoPayload<ExtArgs> | null
+      reportadoPor: Prisma.$UserPayload<ExtArgs> | null
+      asignadoA: Prisma.$UserPayload<ExtArgs> | null
+      historial: Prisma.$FallaHistorialPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      equipoId: number | null
+      tipoFalla: string
+      fallas: string[]
+      descripcionEquipo: string | null
+      descripcionFalla: string
+      condicion: string | null
+      fechaReporte: Date
+      reportadoPorId: string | null
+      asignadoAId: string | null
+      estado: string
+      palabrasClave: string | null
+    }, ExtArgs["result"]["falla"]>
+    composites: {}
+  }
+
+  type FallaGetPayload<S extends boolean | null | undefined | FallaDefaultArgs> = $Result.GetResult<Prisma.$FallaPayload, S>
+
+  type FallaCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<FallaFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: FallaCountAggregateInputType | true
+    }
+
+  export interface FallaDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Falla'], meta: { name: 'Falla' } }
+    /**
+     * Find zero or one Falla that matches the filter.
+     * @param {FallaFindUniqueArgs} args - Arguments to find a Falla
+     * @example
+     * // Get one Falla
+     * const falla = await prisma.falla.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends FallaFindUniqueArgs>(args: SelectSubset<T, FallaFindUniqueArgs<ExtArgs>>): Prisma__FallaClient<$Result.GetResult<Prisma.$FallaPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Falla that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {FallaFindUniqueOrThrowArgs} args - Arguments to find a Falla
+     * @example
+     * // Get one Falla
+     * const falla = await prisma.falla.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends FallaFindUniqueOrThrowArgs>(args: SelectSubset<T, FallaFindUniqueOrThrowArgs<ExtArgs>>): Prisma__FallaClient<$Result.GetResult<Prisma.$FallaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Falla that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FallaFindFirstArgs} args - Arguments to find a Falla
+     * @example
+     * // Get one Falla
+     * const falla = await prisma.falla.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends FallaFindFirstArgs>(args?: SelectSubset<T, FallaFindFirstArgs<ExtArgs>>): Prisma__FallaClient<$Result.GetResult<Prisma.$FallaPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Falla that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FallaFindFirstOrThrowArgs} args - Arguments to find a Falla
+     * @example
+     * // Get one Falla
+     * const falla = await prisma.falla.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends FallaFindFirstOrThrowArgs>(args?: SelectSubset<T, FallaFindFirstOrThrowArgs<ExtArgs>>): Prisma__FallaClient<$Result.GetResult<Prisma.$FallaPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Fallas that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FallaFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Fallas
+     * const fallas = await prisma.falla.findMany()
+     * 
+     * // Get first 10 Fallas
+     * const fallas = await prisma.falla.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const fallaWithIdOnly = await prisma.falla.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends FallaFindManyArgs>(args?: SelectSubset<T, FallaFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FallaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Falla.
+     * @param {FallaCreateArgs} args - Arguments to create a Falla.
+     * @example
+     * // Create one Falla
+     * const Falla = await prisma.falla.create({
+     *   data: {
+     *     // ... data to create a Falla
+     *   }
+     * })
+     * 
+     */
+    create<T extends FallaCreateArgs>(args: SelectSubset<T, FallaCreateArgs<ExtArgs>>): Prisma__FallaClient<$Result.GetResult<Prisma.$FallaPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Fallas.
+     * @param {FallaCreateManyArgs} args - Arguments to create many Fallas.
+     * @example
+     * // Create many Fallas
+     * const falla = await prisma.falla.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends FallaCreateManyArgs>(args?: SelectSubset<T, FallaCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Fallas and returns the data saved in the database.
+     * @param {FallaCreateManyAndReturnArgs} args - Arguments to create many Fallas.
+     * @example
+     * // Create many Fallas
+     * const falla = await prisma.falla.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Fallas and only return the `id`
+     * const fallaWithIdOnly = await prisma.falla.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends FallaCreateManyAndReturnArgs>(args?: SelectSubset<T, FallaCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FallaPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Falla.
+     * @param {FallaDeleteArgs} args - Arguments to delete one Falla.
+     * @example
+     * // Delete one Falla
+     * const Falla = await prisma.falla.delete({
+     *   where: {
+     *     // ... filter to delete one Falla
+     *   }
+     * })
+     * 
+     */
+    delete<T extends FallaDeleteArgs>(args: SelectSubset<T, FallaDeleteArgs<ExtArgs>>): Prisma__FallaClient<$Result.GetResult<Prisma.$FallaPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Falla.
+     * @param {FallaUpdateArgs} args - Arguments to update one Falla.
+     * @example
+     * // Update one Falla
+     * const falla = await prisma.falla.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends FallaUpdateArgs>(args: SelectSubset<T, FallaUpdateArgs<ExtArgs>>): Prisma__FallaClient<$Result.GetResult<Prisma.$FallaPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Fallas.
+     * @param {FallaDeleteManyArgs} args - Arguments to filter Fallas to delete.
+     * @example
+     * // Delete a few Fallas
+     * const { count } = await prisma.falla.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends FallaDeleteManyArgs>(args?: SelectSubset<T, FallaDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Fallas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FallaUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Fallas
+     * const falla = await prisma.falla.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends FallaUpdateManyArgs>(args: SelectSubset<T, FallaUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Fallas and returns the data updated in the database.
+     * @param {FallaUpdateManyAndReturnArgs} args - Arguments to update many Fallas.
+     * @example
+     * // Update many Fallas
+     * const falla = await prisma.falla.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Fallas and only return the `id`
+     * const fallaWithIdOnly = await prisma.falla.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends FallaUpdateManyAndReturnArgs>(args: SelectSubset<T, FallaUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FallaPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Falla.
+     * @param {FallaUpsertArgs} args - Arguments to update or create a Falla.
+     * @example
+     * // Update or create a Falla
+     * const falla = await prisma.falla.upsert({
+     *   create: {
+     *     // ... data to create a Falla
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Falla we want to update
+     *   }
+     * })
+     */
+    upsert<T extends FallaUpsertArgs>(args: SelectSubset<T, FallaUpsertArgs<ExtArgs>>): Prisma__FallaClient<$Result.GetResult<Prisma.$FallaPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Fallas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FallaCountArgs} args - Arguments to filter Fallas to count.
+     * @example
+     * // Count the number of Fallas
+     * const count = await prisma.falla.count({
+     *   where: {
+     *     // ... the filter for the Fallas we want to count
+     *   }
+     * })
+    **/
+    count<T extends FallaCountArgs>(
+      args?: Subset<T, FallaCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], FallaCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Falla.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FallaAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends FallaAggregateArgs>(args: Subset<T, FallaAggregateArgs>): Prisma.PrismaPromise<GetFallaAggregateType<T>>
+
+    /**
+     * Group by Falla.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FallaGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends FallaGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: FallaGroupByArgs['orderBy'] }
+        : { orderBy?: FallaGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, FallaGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetFallaGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Falla model
+   */
+  readonly fields: FallaFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Falla.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__FallaClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    equipo<T extends Falla$equipoArgs<ExtArgs> = {}>(args?: Subset<T, Falla$equipoArgs<ExtArgs>>): Prisma__EquipoClient<$Result.GetResult<Prisma.$EquipoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    reportadoPor<T extends Falla$reportadoPorArgs<ExtArgs> = {}>(args?: Subset<T, Falla$reportadoPorArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    asignadoA<T extends Falla$asignadoAArgs<ExtArgs> = {}>(args?: Subset<T, Falla$asignadoAArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    historial<T extends Falla$historialArgs<ExtArgs> = {}>(args?: Subset<T, Falla$historialArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FallaHistorialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Falla model
+   */
+  interface FallaFieldRefs {
+    readonly id: FieldRef<"Falla", 'Int'>
+    readonly equipoId: FieldRef<"Falla", 'Int'>
+    readonly tipoFalla: FieldRef<"Falla", 'String'>
+    readonly fallas: FieldRef<"Falla", 'String[]'>
+    readonly descripcionEquipo: FieldRef<"Falla", 'String'>
+    readonly descripcionFalla: FieldRef<"Falla", 'String'>
+    readonly condicion: FieldRef<"Falla", 'String'>
+    readonly fechaReporte: FieldRef<"Falla", 'DateTime'>
+    readonly reportadoPorId: FieldRef<"Falla", 'String'>
+    readonly asignadoAId: FieldRef<"Falla", 'String'>
+    readonly estado: FieldRef<"Falla", 'String'>
+    readonly palabrasClave: FieldRef<"Falla", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Falla findUnique
+   */
+  export type FallaFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Falla
+     */
+    select?: FallaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Falla
+     */
+    omit?: FallaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FallaInclude<ExtArgs> | null
+    /**
+     * Filter, which Falla to fetch.
+     */
+    where: FallaWhereUniqueInput
+  }
+
+  /**
+   * Falla findUniqueOrThrow
+   */
+  export type FallaFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Falla
+     */
+    select?: FallaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Falla
+     */
+    omit?: FallaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FallaInclude<ExtArgs> | null
+    /**
+     * Filter, which Falla to fetch.
+     */
+    where: FallaWhereUniqueInput
+  }
+
+  /**
+   * Falla findFirst
+   */
+  export type FallaFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Falla
+     */
+    select?: FallaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Falla
+     */
+    omit?: FallaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FallaInclude<ExtArgs> | null
+    /**
+     * Filter, which Falla to fetch.
+     */
+    where?: FallaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Fallas to fetch.
+     */
+    orderBy?: FallaOrderByWithRelationInput | FallaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Fallas.
+     */
+    cursor?: FallaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Fallas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Fallas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Fallas.
+     */
+    distinct?: FallaScalarFieldEnum | FallaScalarFieldEnum[]
+  }
+
+  /**
+   * Falla findFirstOrThrow
+   */
+  export type FallaFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Falla
+     */
+    select?: FallaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Falla
+     */
+    omit?: FallaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FallaInclude<ExtArgs> | null
+    /**
+     * Filter, which Falla to fetch.
+     */
+    where?: FallaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Fallas to fetch.
+     */
+    orderBy?: FallaOrderByWithRelationInput | FallaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Fallas.
+     */
+    cursor?: FallaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Fallas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Fallas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Fallas.
+     */
+    distinct?: FallaScalarFieldEnum | FallaScalarFieldEnum[]
+  }
+
+  /**
+   * Falla findMany
+   */
+  export type FallaFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Falla
+     */
+    select?: FallaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Falla
+     */
+    omit?: FallaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FallaInclude<ExtArgs> | null
+    /**
+     * Filter, which Fallas to fetch.
+     */
+    where?: FallaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Fallas to fetch.
+     */
+    orderBy?: FallaOrderByWithRelationInput | FallaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Fallas.
+     */
+    cursor?: FallaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Fallas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Fallas.
+     */
+    skip?: number
+    distinct?: FallaScalarFieldEnum | FallaScalarFieldEnum[]
+  }
+
+  /**
+   * Falla create
+   */
+  export type FallaCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Falla
+     */
+    select?: FallaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Falla
+     */
+    omit?: FallaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FallaInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Falla.
+     */
+    data: XOR<FallaCreateInput, FallaUncheckedCreateInput>
+  }
+
+  /**
+   * Falla createMany
+   */
+  export type FallaCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Fallas.
+     */
+    data: FallaCreateManyInput | FallaCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Falla createManyAndReturn
+   */
+  export type FallaCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Falla
+     */
+    select?: FallaSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Falla
+     */
+    omit?: FallaOmit<ExtArgs> | null
+    /**
+     * The data used to create many Fallas.
+     */
+    data: FallaCreateManyInput | FallaCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FallaIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Falla update
+   */
+  export type FallaUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Falla
+     */
+    select?: FallaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Falla
+     */
+    omit?: FallaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FallaInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Falla.
+     */
+    data: XOR<FallaUpdateInput, FallaUncheckedUpdateInput>
+    /**
+     * Choose, which Falla to update.
+     */
+    where: FallaWhereUniqueInput
+  }
+
+  /**
+   * Falla updateMany
+   */
+  export type FallaUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Fallas.
+     */
+    data: XOR<FallaUpdateManyMutationInput, FallaUncheckedUpdateManyInput>
+    /**
+     * Filter which Fallas to update
+     */
+    where?: FallaWhereInput
+    /**
+     * Limit how many Fallas to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Falla updateManyAndReturn
+   */
+  export type FallaUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Falla
+     */
+    select?: FallaSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Falla
+     */
+    omit?: FallaOmit<ExtArgs> | null
+    /**
+     * The data used to update Fallas.
+     */
+    data: XOR<FallaUpdateManyMutationInput, FallaUncheckedUpdateManyInput>
+    /**
+     * Filter which Fallas to update
+     */
+    where?: FallaWhereInput
+    /**
+     * Limit how many Fallas to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FallaIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Falla upsert
+   */
+  export type FallaUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Falla
+     */
+    select?: FallaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Falla
+     */
+    omit?: FallaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FallaInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Falla to update in case it exists.
+     */
+    where: FallaWhereUniqueInput
+    /**
+     * In case the Falla found by the `where` argument doesn't exist, create a new Falla with this data.
+     */
+    create: XOR<FallaCreateInput, FallaUncheckedCreateInput>
+    /**
+     * In case the Falla was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<FallaUpdateInput, FallaUncheckedUpdateInput>
+  }
+
+  /**
+   * Falla delete
+   */
+  export type FallaDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Falla
+     */
+    select?: FallaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Falla
+     */
+    omit?: FallaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FallaInclude<ExtArgs> | null
+    /**
+     * Filter which Falla to delete.
+     */
+    where: FallaWhereUniqueInput
+  }
+
+  /**
+   * Falla deleteMany
+   */
+  export type FallaDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Fallas to delete
+     */
+    where?: FallaWhereInput
+    /**
+     * Limit how many Fallas to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Falla.equipo
+   */
+  export type Falla$equipoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Equipo
+     */
+    select?: EquipoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Equipo
+     */
+    omit?: EquipoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EquipoInclude<ExtArgs> | null
+    where?: EquipoWhereInput
+  }
+
+  /**
+   * Falla.reportadoPor
+   */
+  export type Falla$reportadoPorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * Falla.asignadoA
+   */
+  export type Falla$asignadoAArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * Falla.historial
+   */
+  export type Falla$historialArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FallaHistorial
+     */
+    select?: FallaHistorialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FallaHistorial
+     */
+    omit?: FallaHistorialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FallaHistorialInclude<ExtArgs> | null
+    where?: FallaHistorialWhereInput
+    orderBy?: FallaHistorialOrderByWithRelationInput | FallaHistorialOrderByWithRelationInput[]
+    cursor?: FallaHistorialWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: FallaHistorialScalarFieldEnum | FallaHistorialScalarFieldEnum[]
+  }
+
+  /**
+   * Falla without action
+   */
+  export type FallaDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Falla
+     */
+    select?: FallaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Falla
+     */
+    omit?: FallaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FallaInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model FallaHistorial
+   */
+
+  export type AggregateFallaHistorial = {
+    _count: FallaHistorialCountAggregateOutputType | null
+    _avg: FallaHistorialAvgAggregateOutputType | null
+    _sum: FallaHistorialSumAggregateOutputType | null
+    _min: FallaHistorialMinAggregateOutputType | null
+    _max: FallaHistorialMaxAggregateOutputType | null
+  }
+
+  export type FallaHistorialAvgAggregateOutputType = {
+    id: number | null
+    fallaId: number | null
+  }
+
+  export type FallaHistorialSumAggregateOutputType = {
+    id: number | null
+    fallaId: number | null
+  }
+
+  export type FallaHistorialMinAggregateOutputType = {
+    id: number | null
+    fallaId: number | null
+    descripcionEquipo: string | null
+    descripcionFalla: string | null
+    reportadoPorId: string | null
+    asignadoAId: string | null
+    estado: string | null
+    fechaReporte: Date | null
+    fechaCambioEstado: Date | null
+  }
+
+  export type FallaHistorialMaxAggregateOutputType = {
+    id: number | null
+    fallaId: number | null
+    descripcionEquipo: string | null
+    descripcionFalla: string | null
+    reportadoPorId: string | null
+    asignadoAId: string | null
+    estado: string | null
+    fechaReporte: Date | null
+    fechaCambioEstado: Date | null
+  }
+
+  export type FallaHistorialCountAggregateOutputType = {
+    id: number
+    fallaId: number
+    fallas: number
+    descripcionEquipo: number
+    descripcionFalla: number
+    reportadoPorId: number
+    asignadoAId: number
+    estado: number
+    fechaReporte: number
+    fechaCambioEstado: number
+    _all: number
+  }
+
+
+  export type FallaHistorialAvgAggregateInputType = {
+    id?: true
+    fallaId?: true
+  }
+
+  export type FallaHistorialSumAggregateInputType = {
+    id?: true
+    fallaId?: true
+  }
+
+  export type FallaHistorialMinAggregateInputType = {
+    id?: true
+    fallaId?: true
+    descripcionEquipo?: true
+    descripcionFalla?: true
+    reportadoPorId?: true
+    asignadoAId?: true
+    estado?: true
+    fechaReporte?: true
+    fechaCambioEstado?: true
+  }
+
+  export type FallaHistorialMaxAggregateInputType = {
+    id?: true
+    fallaId?: true
+    descripcionEquipo?: true
+    descripcionFalla?: true
+    reportadoPorId?: true
+    asignadoAId?: true
+    estado?: true
+    fechaReporte?: true
+    fechaCambioEstado?: true
+  }
+
+  export type FallaHistorialCountAggregateInputType = {
+    id?: true
+    fallaId?: true
+    fallas?: true
+    descripcionEquipo?: true
+    descripcionFalla?: true
+    reportadoPorId?: true
+    asignadoAId?: true
+    estado?: true
+    fechaReporte?: true
+    fechaCambioEstado?: true
+    _all?: true
+  }
+
+  export type FallaHistorialAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which FallaHistorial to aggregate.
+     */
+    where?: FallaHistorialWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FallaHistorials to fetch.
+     */
+    orderBy?: FallaHistorialOrderByWithRelationInput | FallaHistorialOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: FallaHistorialWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FallaHistorials from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FallaHistorials.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned FallaHistorials
+    **/
+    _count?: true | FallaHistorialCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: FallaHistorialAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: FallaHistorialSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: FallaHistorialMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: FallaHistorialMaxAggregateInputType
+  }
+
+  export type GetFallaHistorialAggregateType<T extends FallaHistorialAggregateArgs> = {
+        [P in keyof T & keyof AggregateFallaHistorial]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateFallaHistorial[P]>
+      : GetScalarType<T[P], AggregateFallaHistorial[P]>
+  }
+
+
+
+
+  export type FallaHistorialGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FallaHistorialWhereInput
+    orderBy?: FallaHistorialOrderByWithAggregationInput | FallaHistorialOrderByWithAggregationInput[]
+    by: FallaHistorialScalarFieldEnum[] | FallaHistorialScalarFieldEnum
+    having?: FallaHistorialScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: FallaHistorialCountAggregateInputType | true
+    _avg?: FallaHistorialAvgAggregateInputType
+    _sum?: FallaHistorialSumAggregateInputType
+    _min?: FallaHistorialMinAggregateInputType
+    _max?: FallaHistorialMaxAggregateInputType
+  }
+
+  export type FallaHistorialGroupByOutputType = {
+    id: number
+    fallaId: number
+    fallas: string[]
+    descripcionEquipo: string | null
+    descripcionFalla: string
+    reportadoPorId: string | null
+    asignadoAId: string | null
+    estado: string
+    fechaReporte: Date
+    fechaCambioEstado: Date
+    _count: FallaHistorialCountAggregateOutputType | null
+    _avg: FallaHistorialAvgAggregateOutputType | null
+    _sum: FallaHistorialSumAggregateOutputType | null
+    _min: FallaHistorialMinAggregateOutputType | null
+    _max: FallaHistorialMaxAggregateOutputType | null
+  }
+
+  type GetFallaHistorialGroupByPayload<T extends FallaHistorialGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<FallaHistorialGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof FallaHistorialGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], FallaHistorialGroupByOutputType[P]>
+            : GetScalarType<T[P], FallaHistorialGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type FallaHistorialSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    fallaId?: boolean
+    fallas?: boolean
+    descripcionEquipo?: boolean
+    descripcionFalla?: boolean
+    reportadoPorId?: boolean
+    asignadoAId?: boolean
+    estado?: boolean
+    fechaReporte?: boolean
+    fechaCambioEstado?: boolean
+    falla?: boolean | FallaDefaultArgs<ExtArgs>
+    reportadoPor?: boolean | FallaHistorial$reportadoPorArgs<ExtArgs>
+    asignadoA?: boolean | FallaHistorial$asignadoAArgs<ExtArgs>
+  }, ExtArgs["result"]["fallaHistorial"]>
+
+  export type FallaHistorialSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    fallaId?: boolean
+    fallas?: boolean
+    descripcionEquipo?: boolean
+    descripcionFalla?: boolean
+    reportadoPorId?: boolean
+    asignadoAId?: boolean
+    estado?: boolean
+    fechaReporte?: boolean
+    fechaCambioEstado?: boolean
+    falla?: boolean | FallaDefaultArgs<ExtArgs>
+    reportadoPor?: boolean | FallaHistorial$reportadoPorArgs<ExtArgs>
+    asignadoA?: boolean | FallaHistorial$asignadoAArgs<ExtArgs>
+  }, ExtArgs["result"]["fallaHistorial"]>
+
+  export type FallaHistorialSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    fallaId?: boolean
+    fallas?: boolean
+    descripcionEquipo?: boolean
+    descripcionFalla?: boolean
+    reportadoPorId?: boolean
+    asignadoAId?: boolean
+    estado?: boolean
+    fechaReporte?: boolean
+    fechaCambioEstado?: boolean
+    falla?: boolean | FallaDefaultArgs<ExtArgs>
+    reportadoPor?: boolean | FallaHistorial$reportadoPorArgs<ExtArgs>
+    asignadoA?: boolean | FallaHistorial$asignadoAArgs<ExtArgs>
+  }, ExtArgs["result"]["fallaHistorial"]>
+
+  export type FallaHistorialSelectScalar = {
+    id?: boolean
+    fallaId?: boolean
+    fallas?: boolean
+    descripcionEquipo?: boolean
+    descripcionFalla?: boolean
+    reportadoPorId?: boolean
+    asignadoAId?: boolean
+    estado?: boolean
+    fechaReporte?: boolean
+    fechaCambioEstado?: boolean
+  }
+
+  export type FallaHistorialOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "fallaId" | "fallas" | "descripcionEquipo" | "descripcionFalla" | "reportadoPorId" | "asignadoAId" | "estado" | "fechaReporte" | "fechaCambioEstado", ExtArgs["result"]["fallaHistorial"]>
+  export type FallaHistorialInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    falla?: boolean | FallaDefaultArgs<ExtArgs>
+    reportadoPor?: boolean | FallaHistorial$reportadoPorArgs<ExtArgs>
+    asignadoA?: boolean | FallaHistorial$asignadoAArgs<ExtArgs>
+  }
+  export type FallaHistorialIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    falla?: boolean | FallaDefaultArgs<ExtArgs>
+    reportadoPor?: boolean | FallaHistorial$reportadoPorArgs<ExtArgs>
+    asignadoA?: boolean | FallaHistorial$asignadoAArgs<ExtArgs>
+  }
+  export type FallaHistorialIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    falla?: boolean | FallaDefaultArgs<ExtArgs>
+    reportadoPor?: boolean | FallaHistorial$reportadoPorArgs<ExtArgs>
+    asignadoA?: boolean | FallaHistorial$asignadoAArgs<ExtArgs>
+  }
+
+  export type $FallaHistorialPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "FallaHistorial"
+    objects: {
+      falla: Prisma.$FallaPayload<ExtArgs>
+      reportadoPor: Prisma.$UserPayload<ExtArgs> | null
+      asignadoA: Prisma.$UserPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      fallaId: number
+      fallas: string[]
+      descripcionEquipo: string | null
+      descripcionFalla: string
+      reportadoPorId: string | null
+      asignadoAId: string | null
+      estado: string
+      fechaReporte: Date
+      fechaCambioEstado: Date
+    }, ExtArgs["result"]["fallaHistorial"]>
+    composites: {}
+  }
+
+  type FallaHistorialGetPayload<S extends boolean | null | undefined | FallaHistorialDefaultArgs> = $Result.GetResult<Prisma.$FallaHistorialPayload, S>
+
+  type FallaHistorialCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<FallaHistorialFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: FallaHistorialCountAggregateInputType | true
+    }
+
+  export interface FallaHistorialDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['FallaHistorial'], meta: { name: 'FallaHistorial' } }
+    /**
+     * Find zero or one FallaHistorial that matches the filter.
+     * @param {FallaHistorialFindUniqueArgs} args - Arguments to find a FallaHistorial
+     * @example
+     * // Get one FallaHistorial
+     * const fallaHistorial = await prisma.fallaHistorial.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends FallaHistorialFindUniqueArgs>(args: SelectSubset<T, FallaHistorialFindUniqueArgs<ExtArgs>>): Prisma__FallaHistorialClient<$Result.GetResult<Prisma.$FallaHistorialPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one FallaHistorial that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {FallaHistorialFindUniqueOrThrowArgs} args - Arguments to find a FallaHistorial
+     * @example
+     * // Get one FallaHistorial
+     * const fallaHistorial = await prisma.fallaHistorial.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends FallaHistorialFindUniqueOrThrowArgs>(args: SelectSubset<T, FallaHistorialFindUniqueOrThrowArgs<ExtArgs>>): Prisma__FallaHistorialClient<$Result.GetResult<Prisma.$FallaHistorialPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first FallaHistorial that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FallaHistorialFindFirstArgs} args - Arguments to find a FallaHistorial
+     * @example
+     * // Get one FallaHistorial
+     * const fallaHistorial = await prisma.fallaHistorial.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends FallaHistorialFindFirstArgs>(args?: SelectSubset<T, FallaHistorialFindFirstArgs<ExtArgs>>): Prisma__FallaHistorialClient<$Result.GetResult<Prisma.$FallaHistorialPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first FallaHistorial that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FallaHistorialFindFirstOrThrowArgs} args - Arguments to find a FallaHistorial
+     * @example
+     * // Get one FallaHistorial
+     * const fallaHistorial = await prisma.fallaHistorial.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends FallaHistorialFindFirstOrThrowArgs>(args?: SelectSubset<T, FallaHistorialFindFirstOrThrowArgs<ExtArgs>>): Prisma__FallaHistorialClient<$Result.GetResult<Prisma.$FallaHistorialPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more FallaHistorials that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FallaHistorialFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all FallaHistorials
+     * const fallaHistorials = await prisma.fallaHistorial.findMany()
+     * 
+     * // Get first 10 FallaHistorials
+     * const fallaHistorials = await prisma.fallaHistorial.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const fallaHistorialWithIdOnly = await prisma.fallaHistorial.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends FallaHistorialFindManyArgs>(args?: SelectSubset<T, FallaHistorialFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FallaHistorialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a FallaHistorial.
+     * @param {FallaHistorialCreateArgs} args - Arguments to create a FallaHistorial.
+     * @example
+     * // Create one FallaHistorial
+     * const FallaHistorial = await prisma.fallaHistorial.create({
+     *   data: {
+     *     // ... data to create a FallaHistorial
+     *   }
+     * })
+     * 
+     */
+    create<T extends FallaHistorialCreateArgs>(args: SelectSubset<T, FallaHistorialCreateArgs<ExtArgs>>): Prisma__FallaHistorialClient<$Result.GetResult<Prisma.$FallaHistorialPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many FallaHistorials.
+     * @param {FallaHistorialCreateManyArgs} args - Arguments to create many FallaHistorials.
+     * @example
+     * // Create many FallaHistorials
+     * const fallaHistorial = await prisma.fallaHistorial.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends FallaHistorialCreateManyArgs>(args?: SelectSubset<T, FallaHistorialCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many FallaHistorials and returns the data saved in the database.
+     * @param {FallaHistorialCreateManyAndReturnArgs} args - Arguments to create many FallaHistorials.
+     * @example
+     * // Create many FallaHistorials
+     * const fallaHistorial = await prisma.fallaHistorial.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many FallaHistorials and only return the `id`
+     * const fallaHistorialWithIdOnly = await prisma.fallaHistorial.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends FallaHistorialCreateManyAndReturnArgs>(args?: SelectSubset<T, FallaHistorialCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FallaHistorialPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a FallaHistorial.
+     * @param {FallaHistorialDeleteArgs} args - Arguments to delete one FallaHistorial.
+     * @example
+     * // Delete one FallaHistorial
+     * const FallaHistorial = await prisma.fallaHistorial.delete({
+     *   where: {
+     *     // ... filter to delete one FallaHistorial
+     *   }
+     * })
+     * 
+     */
+    delete<T extends FallaHistorialDeleteArgs>(args: SelectSubset<T, FallaHistorialDeleteArgs<ExtArgs>>): Prisma__FallaHistorialClient<$Result.GetResult<Prisma.$FallaHistorialPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one FallaHistorial.
+     * @param {FallaHistorialUpdateArgs} args - Arguments to update one FallaHistorial.
+     * @example
+     * // Update one FallaHistorial
+     * const fallaHistorial = await prisma.fallaHistorial.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends FallaHistorialUpdateArgs>(args: SelectSubset<T, FallaHistorialUpdateArgs<ExtArgs>>): Prisma__FallaHistorialClient<$Result.GetResult<Prisma.$FallaHistorialPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more FallaHistorials.
+     * @param {FallaHistorialDeleteManyArgs} args - Arguments to filter FallaHistorials to delete.
+     * @example
+     * // Delete a few FallaHistorials
+     * const { count } = await prisma.fallaHistorial.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends FallaHistorialDeleteManyArgs>(args?: SelectSubset<T, FallaHistorialDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more FallaHistorials.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FallaHistorialUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many FallaHistorials
+     * const fallaHistorial = await prisma.fallaHistorial.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends FallaHistorialUpdateManyArgs>(args: SelectSubset<T, FallaHistorialUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more FallaHistorials and returns the data updated in the database.
+     * @param {FallaHistorialUpdateManyAndReturnArgs} args - Arguments to update many FallaHistorials.
+     * @example
+     * // Update many FallaHistorials
+     * const fallaHistorial = await prisma.fallaHistorial.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more FallaHistorials and only return the `id`
+     * const fallaHistorialWithIdOnly = await prisma.fallaHistorial.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends FallaHistorialUpdateManyAndReturnArgs>(args: SelectSubset<T, FallaHistorialUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FallaHistorialPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one FallaHistorial.
+     * @param {FallaHistorialUpsertArgs} args - Arguments to update or create a FallaHistorial.
+     * @example
+     * // Update or create a FallaHistorial
+     * const fallaHistorial = await prisma.fallaHistorial.upsert({
+     *   create: {
+     *     // ... data to create a FallaHistorial
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the FallaHistorial we want to update
+     *   }
+     * })
+     */
+    upsert<T extends FallaHistorialUpsertArgs>(args: SelectSubset<T, FallaHistorialUpsertArgs<ExtArgs>>): Prisma__FallaHistorialClient<$Result.GetResult<Prisma.$FallaHistorialPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of FallaHistorials.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FallaHistorialCountArgs} args - Arguments to filter FallaHistorials to count.
+     * @example
+     * // Count the number of FallaHistorials
+     * const count = await prisma.fallaHistorial.count({
+     *   where: {
+     *     // ... the filter for the FallaHistorials we want to count
+     *   }
+     * })
+    **/
+    count<T extends FallaHistorialCountArgs>(
+      args?: Subset<T, FallaHistorialCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], FallaHistorialCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a FallaHistorial.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FallaHistorialAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends FallaHistorialAggregateArgs>(args: Subset<T, FallaHistorialAggregateArgs>): Prisma.PrismaPromise<GetFallaHistorialAggregateType<T>>
+
+    /**
+     * Group by FallaHistorial.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FallaHistorialGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends FallaHistorialGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: FallaHistorialGroupByArgs['orderBy'] }
+        : { orderBy?: FallaHistorialGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, FallaHistorialGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetFallaHistorialGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the FallaHistorial model
+   */
+  readonly fields: FallaHistorialFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for FallaHistorial.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__FallaHistorialClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    falla<T extends FallaDefaultArgs<ExtArgs> = {}>(args?: Subset<T, FallaDefaultArgs<ExtArgs>>): Prisma__FallaClient<$Result.GetResult<Prisma.$FallaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    reportadoPor<T extends FallaHistorial$reportadoPorArgs<ExtArgs> = {}>(args?: Subset<T, FallaHistorial$reportadoPorArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    asignadoA<T extends FallaHistorial$asignadoAArgs<ExtArgs> = {}>(args?: Subset<T, FallaHistorial$asignadoAArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the FallaHistorial model
+   */
+  interface FallaHistorialFieldRefs {
+    readonly id: FieldRef<"FallaHistorial", 'Int'>
+    readonly fallaId: FieldRef<"FallaHistorial", 'Int'>
+    readonly fallas: FieldRef<"FallaHistorial", 'String[]'>
+    readonly descripcionEquipo: FieldRef<"FallaHistorial", 'String'>
+    readonly descripcionFalla: FieldRef<"FallaHistorial", 'String'>
+    readonly reportadoPorId: FieldRef<"FallaHistorial", 'String'>
+    readonly asignadoAId: FieldRef<"FallaHistorial", 'String'>
+    readonly estado: FieldRef<"FallaHistorial", 'String'>
+    readonly fechaReporte: FieldRef<"FallaHistorial", 'DateTime'>
+    readonly fechaCambioEstado: FieldRef<"FallaHistorial", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * FallaHistorial findUnique
+   */
+  export type FallaHistorialFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FallaHistorial
+     */
+    select?: FallaHistorialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FallaHistorial
+     */
+    omit?: FallaHistorialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FallaHistorialInclude<ExtArgs> | null
+    /**
+     * Filter, which FallaHistorial to fetch.
+     */
+    where: FallaHistorialWhereUniqueInput
+  }
+
+  /**
+   * FallaHistorial findUniqueOrThrow
+   */
+  export type FallaHistorialFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FallaHistorial
+     */
+    select?: FallaHistorialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FallaHistorial
+     */
+    omit?: FallaHistorialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FallaHistorialInclude<ExtArgs> | null
+    /**
+     * Filter, which FallaHistorial to fetch.
+     */
+    where: FallaHistorialWhereUniqueInput
+  }
+
+  /**
+   * FallaHistorial findFirst
+   */
+  export type FallaHistorialFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FallaHistorial
+     */
+    select?: FallaHistorialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FallaHistorial
+     */
+    omit?: FallaHistorialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FallaHistorialInclude<ExtArgs> | null
+    /**
+     * Filter, which FallaHistorial to fetch.
+     */
+    where?: FallaHistorialWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FallaHistorials to fetch.
+     */
+    orderBy?: FallaHistorialOrderByWithRelationInput | FallaHistorialOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for FallaHistorials.
+     */
+    cursor?: FallaHistorialWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FallaHistorials from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FallaHistorials.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of FallaHistorials.
+     */
+    distinct?: FallaHistorialScalarFieldEnum | FallaHistorialScalarFieldEnum[]
+  }
+
+  /**
+   * FallaHistorial findFirstOrThrow
+   */
+  export type FallaHistorialFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FallaHistorial
+     */
+    select?: FallaHistorialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FallaHistorial
+     */
+    omit?: FallaHistorialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FallaHistorialInclude<ExtArgs> | null
+    /**
+     * Filter, which FallaHistorial to fetch.
+     */
+    where?: FallaHistorialWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FallaHistorials to fetch.
+     */
+    orderBy?: FallaHistorialOrderByWithRelationInput | FallaHistorialOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for FallaHistorials.
+     */
+    cursor?: FallaHistorialWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FallaHistorials from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FallaHistorials.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of FallaHistorials.
+     */
+    distinct?: FallaHistorialScalarFieldEnum | FallaHistorialScalarFieldEnum[]
+  }
+
+  /**
+   * FallaHistorial findMany
+   */
+  export type FallaHistorialFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FallaHistorial
+     */
+    select?: FallaHistorialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FallaHistorial
+     */
+    omit?: FallaHistorialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FallaHistorialInclude<ExtArgs> | null
+    /**
+     * Filter, which FallaHistorials to fetch.
+     */
+    where?: FallaHistorialWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FallaHistorials to fetch.
+     */
+    orderBy?: FallaHistorialOrderByWithRelationInput | FallaHistorialOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing FallaHistorials.
+     */
+    cursor?: FallaHistorialWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FallaHistorials from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FallaHistorials.
+     */
+    skip?: number
+    distinct?: FallaHistorialScalarFieldEnum | FallaHistorialScalarFieldEnum[]
+  }
+
+  /**
+   * FallaHistorial create
+   */
+  export type FallaHistorialCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FallaHistorial
+     */
+    select?: FallaHistorialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FallaHistorial
+     */
+    omit?: FallaHistorialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FallaHistorialInclude<ExtArgs> | null
+    /**
+     * The data needed to create a FallaHistorial.
+     */
+    data: XOR<FallaHistorialCreateInput, FallaHistorialUncheckedCreateInput>
+  }
+
+  /**
+   * FallaHistorial createMany
+   */
+  export type FallaHistorialCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many FallaHistorials.
+     */
+    data: FallaHistorialCreateManyInput | FallaHistorialCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * FallaHistorial createManyAndReturn
+   */
+  export type FallaHistorialCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FallaHistorial
+     */
+    select?: FallaHistorialSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the FallaHistorial
+     */
+    omit?: FallaHistorialOmit<ExtArgs> | null
+    /**
+     * The data used to create many FallaHistorials.
+     */
+    data: FallaHistorialCreateManyInput | FallaHistorialCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FallaHistorialIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * FallaHistorial update
+   */
+  export type FallaHistorialUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FallaHistorial
+     */
+    select?: FallaHistorialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FallaHistorial
+     */
+    omit?: FallaHistorialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FallaHistorialInclude<ExtArgs> | null
+    /**
+     * The data needed to update a FallaHistorial.
+     */
+    data: XOR<FallaHistorialUpdateInput, FallaHistorialUncheckedUpdateInput>
+    /**
+     * Choose, which FallaHistorial to update.
+     */
+    where: FallaHistorialWhereUniqueInput
+  }
+
+  /**
+   * FallaHistorial updateMany
+   */
+  export type FallaHistorialUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update FallaHistorials.
+     */
+    data: XOR<FallaHistorialUpdateManyMutationInput, FallaHistorialUncheckedUpdateManyInput>
+    /**
+     * Filter which FallaHistorials to update
+     */
+    where?: FallaHistorialWhereInput
+    /**
+     * Limit how many FallaHistorials to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * FallaHistorial updateManyAndReturn
+   */
+  export type FallaHistorialUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FallaHistorial
+     */
+    select?: FallaHistorialSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the FallaHistorial
+     */
+    omit?: FallaHistorialOmit<ExtArgs> | null
+    /**
+     * The data used to update FallaHistorials.
+     */
+    data: XOR<FallaHistorialUpdateManyMutationInput, FallaHistorialUncheckedUpdateManyInput>
+    /**
+     * Filter which FallaHistorials to update
+     */
+    where?: FallaHistorialWhereInput
+    /**
+     * Limit how many FallaHistorials to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FallaHistorialIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * FallaHistorial upsert
+   */
+  export type FallaHistorialUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FallaHistorial
+     */
+    select?: FallaHistorialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FallaHistorial
+     */
+    omit?: FallaHistorialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FallaHistorialInclude<ExtArgs> | null
+    /**
+     * The filter to search for the FallaHistorial to update in case it exists.
+     */
+    where: FallaHistorialWhereUniqueInput
+    /**
+     * In case the FallaHistorial found by the `where` argument doesn't exist, create a new FallaHistorial with this data.
+     */
+    create: XOR<FallaHistorialCreateInput, FallaHistorialUncheckedCreateInput>
+    /**
+     * In case the FallaHistorial was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<FallaHistorialUpdateInput, FallaHistorialUncheckedUpdateInput>
+  }
+
+  /**
+   * FallaHistorial delete
+   */
+  export type FallaHistorialDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FallaHistorial
+     */
+    select?: FallaHistorialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FallaHistorial
+     */
+    omit?: FallaHistorialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FallaHistorialInclude<ExtArgs> | null
+    /**
+     * Filter which FallaHistorial to delete.
+     */
+    where: FallaHistorialWhereUniqueInput
+  }
+
+  /**
+   * FallaHistorial deleteMany
+   */
+  export type FallaHistorialDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which FallaHistorials to delete
+     */
+    where?: FallaHistorialWhereInput
+    /**
+     * Limit how many FallaHistorials to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * FallaHistorial.reportadoPor
+   */
+  export type FallaHistorial$reportadoPorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * FallaHistorial.asignadoA
+   */
+  export type FallaHistorial$asignadoAArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * FallaHistorial without action
+   */
+  export type FallaHistorialDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FallaHistorial
+     */
+    select?: FallaHistorialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FallaHistorial
+     */
+    omit?: FallaHistorialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FallaHistorialInclude<ExtArgs> | null
   }
 
 
@@ -50415,6 +53189,10 @@ export namespace Prisma {
     tutor?: boolean | User$tutorArgs<ExtArgs>
     ReservaLaboratorioCerrado?: boolean | User$ReservaLaboratorioCerradoArgs<ExtArgs>
     Voto?: boolean | User$VotoArgs<ExtArgs>
+    fallasReportadas?: boolean | User$fallasReportadasArgs<ExtArgs>
+    fallasAsignadas?: boolean | User$fallasAsignadasArgs<ExtArgs>
+    fallasHistReportadas?: boolean | User$fallasHistReportadasArgs<ExtArgs>
+    fallasHistAsignadas?: boolean | User$fallasHistAsignadasArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -50539,6 +53317,10 @@ export namespace Prisma {
     tutor?: boolean | User$tutorArgs<ExtArgs>
     ReservaLaboratorioCerrado?: boolean | User$ReservaLaboratorioCerradoArgs<ExtArgs>
     Voto?: boolean | User$VotoArgs<ExtArgs>
+    fallasReportadas?: boolean | User$fallasReportadasArgs<ExtArgs>
+    fallasAsignadas?: boolean | User$fallasAsignadasArgs<ExtArgs>
+    fallasHistReportadas?: boolean | User$fallasHistReportadasArgs<ExtArgs>
+    fallasHistAsignadas?: boolean | User$fallasHistAsignadasArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -50575,6 +53357,10 @@ export namespace Prisma {
       tutor: Prisma.$TutorPayload<ExtArgs> | null
       ReservaLaboratorioCerrado: Prisma.$ReservaLaboratorioCerradoPayload<ExtArgs>[]
       Voto: Prisma.$VotoPayload<ExtArgs>[]
+      fallasReportadas: Prisma.$FallaPayload<ExtArgs>[]
+      fallasAsignadas: Prisma.$FallaPayload<ExtArgs>[]
+      fallasHistReportadas: Prisma.$FallaHistorialPayload<ExtArgs>[]
+      fallasHistAsignadas: Prisma.$FallaHistorialPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -51019,6 +53805,10 @@ export namespace Prisma {
     tutor<T extends User$tutorArgs<ExtArgs> = {}>(args?: Subset<T, User$tutorArgs<ExtArgs>>): Prisma__TutorClient<$Result.GetResult<Prisma.$TutorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     ReservaLaboratorioCerrado<T extends User$ReservaLaboratorioCerradoArgs<ExtArgs> = {}>(args?: Subset<T, User$ReservaLaboratorioCerradoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReservaLaboratorioCerradoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     Voto<T extends User$VotoArgs<ExtArgs> = {}>(args?: Subset<T, User$VotoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VotoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    fallasReportadas<T extends User$fallasReportadasArgs<ExtArgs> = {}>(args?: Subset<T, User$fallasReportadasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FallaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    fallasAsignadas<T extends User$fallasAsignadasArgs<ExtArgs> = {}>(args?: Subset<T, User$fallasAsignadasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FallaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    fallasHistReportadas<T extends User$fallasHistReportadasArgs<ExtArgs> = {}>(args?: Subset<T, User$fallasHistReportadasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FallaHistorialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    fallasHistAsignadas<T extends User$fallasHistAsignadasArgs<ExtArgs> = {}>(args?: Subset<T, User$fallasHistAsignadasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FallaHistorialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -51929,6 +54719,102 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: VotoScalarFieldEnum | VotoScalarFieldEnum[]
+  }
+
+  /**
+   * User.fallasReportadas
+   */
+  export type User$fallasReportadasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Falla
+     */
+    select?: FallaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Falla
+     */
+    omit?: FallaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FallaInclude<ExtArgs> | null
+    where?: FallaWhereInput
+    orderBy?: FallaOrderByWithRelationInput | FallaOrderByWithRelationInput[]
+    cursor?: FallaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: FallaScalarFieldEnum | FallaScalarFieldEnum[]
+  }
+
+  /**
+   * User.fallasAsignadas
+   */
+  export type User$fallasAsignadasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Falla
+     */
+    select?: FallaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Falla
+     */
+    omit?: FallaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FallaInclude<ExtArgs> | null
+    where?: FallaWhereInput
+    orderBy?: FallaOrderByWithRelationInput | FallaOrderByWithRelationInput[]
+    cursor?: FallaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: FallaScalarFieldEnum | FallaScalarFieldEnum[]
+  }
+
+  /**
+   * User.fallasHistReportadas
+   */
+  export type User$fallasHistReportadasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FallaHistorial
+     */
+    select?: FallaHistorialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FallaHistorial
+     */
+    omit?: FallaHistorialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FallaHistorialInclude<ExtArgs> | null
+    where?: FallaHistorialWhereInput
+    orderBy?: FallaHistorialOrderByWithRelationInput | FallaHistorialOrderByWithRelationInput[]
+    cursor?: FallaHistorialWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: FallaHistorialScalarFieldEnum | FallaHistorialScalarFieldEnum[]
+  }
+
+  /**
+   * User.fallasHistAsignadas
+   */
+  export type User$fallasHistAsignadasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FallaHistorial
+     */
+    select?: FallaHistorialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FallaHistorial
+     */
+    omit?: FallaHistorialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FallaHistorialInclude<ExtArgs> | null
+    where?: FallaHistorialWhereInput
+    orderBy?: FallaHistorialOrderByWithRelationInput | FallaHistorialOrderByWithRelationInput[]
+    cursor?: FallaHistorialWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: FallaHistorialScalarFieldEnum | FallaHistorialScalarFieldEnum[]
   }
 
   /**
@@ -60978,6 +63864,40 @@ export namespace Prisma {
   export type EquipoEstadoScalarFieldEnum = (typeof EquipoEstadoScalarFieldEnum)[keyof typeof EquipoEstadoScalarFieldEnum]
 
 
+  export const FallaScalarFieldEnum: {
+    id: 'id',
+    equipoId: 'equipoId',
+    tipoFalla: 'tipoFalla',
+    fallas: 'fallas',
+    descripcionEquipo: 'descripcionEquipo',
+    descripcionFalla: 'descripcionFalla',
+    condicion: 'condicion',
+    fechaReporte: 'fechaReporte',
+    reportadoPorId: 'reportadoPorId',
+    asignadoAId: 'asignadoAId',
+    estado: 'estado',
+    palabrasClave: 'palabrasClave'
+  };
+
+  export type FallaScalarFieldEnum = (typeof FallaScalarFieldEnum)[keyof typeof FallaScalarFieldEnum]
+
+
+  export const FallaHistorialScalarFieldEnum: {
+    id: 'id',
+    fallaId: 'fallaId',
+    fallas: 'fallas',
+    descripcionEquipo: 'descripcionEquipo',
+    descripcionFalla: 'descripcionFalla',
+    reportadoPorId: 'reportadoPorId',
+    asignadoAId: 'asignadoAId',
+    estado: 'estado',
+    fechaReporte: 'fechaReporte',
+    fechaCambioEstado: 'fechaCambioEstado'
+  };
+
+  export type FallaHistorialScalarFieldEnum = (typeof FallaHistorialScalarFieldEnum)[keyof typeof FallaHistorialScalarFieldEnum]
+
+
   export const InscripcionEspecialScalarFieldEnum: {
     id: 'id',
     solicitanteId: 'solicitanteId',
@@ -62563,6 +65483,7 @@ export namespace Prisma {
     estante?: XOR<EstanteNullableScalarRelationFilter, EstanteWhereInput> | null
     estado?: XOR<EquipoEstadoScalarRelationFilter, EquipoEstadoWhereInput>
     reservas?: ReservaEquipoListRelationFilter
+    fallaPc?: FallaListRelationFilter
   }
 
   export type EquipoOrderByWithRelationInput = {
@@ -62593,6 +65514,7 @@ export namespace Prisma {
     estante?: EstanteOrderByWithRelationInput
     estado?: EquipoEstadoOrderByWithRelationInput
     reservas?: ReservaEquipoOrderByRelationAggregateInput
+    fallaPc?: FallaOrderByRelationAggregateInput
   }
 
   export type EquipoWhereUniqueInput = Prisma.AtLeast<{
@@ -62626,6 +65548,7 @@ export namespace Prisma {
     estante?: XOR<EstanteNullableScalarRelationFilter, EstanteWhereInput> | null
     estado?: XOR<EquipoEstadoScalarRelationFilter, EquipoEstadoWhereInput>
     reservas?: ReservaEquipoListRelationFilter
+    fallaPc?: FallaListRelationFilter
   }, "id" | "inventarioId">
 
   export type EquipoOrderByWithAggregationInput = {
@@ -62845,6 +65768,195 @@ export namespace Prisma {
     nombre?: StringWithAggregatesFilter<"EquipoEstado"> | string
     fechaCreacion?: DateTimeWithAggregatesFilter<"EquipoEstado"> | Date | string
     usuarioCreadorId?: StringWithAggregatesFilter<"EquipoEstado"> | string
+  }
+
+  export type FallaWhereInput = {
+    AND?: FallaWhereInput | FallaWhereInput[]
+    OR?: FallaWhereInput[]
+    NOT?: FallaWhereInput | FallaWhereInput[]
+    id?: IntFilter<"Falla"> | number
+    equipoId?: IntNullableFilter<"Falla"> | number | null
+    tipoFalla?: StringFilter<"Falla"> | string
+    fallas?: StringNullableListFilter<"Falla">
+    descripcionEquipo?: StringNullableFilter<"Falla"> | string | null
+    descripcionFalla?: StringFilter<"Falla"> | string
+    condicion?: StringNullableFilter<"Falla"> | string | null
+    fechaReporte?: DateTimeFilter<"Falla"> | Date | string
+    reportadoPorId?: StringNullableFilter<"Falla"> | string | null
+    asignadoAId?: StringNullableFilter<"Falla"> | string | null
+    estado?: StringFilter<"Falla"> | string
+    palabrasClave?: StringNullableFilter<"Falla"> | string | null
+    equipo?: XOR<EquipoNullableScalarRelationFilter, EquipoWhereInput> | null
+    reportadoPor?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    asignadoA?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    historial?: FallaHistorialListRelationFilter
+  }
+
+  export type FallaOrderByWithRelationInput = {
+    id?: SortOrder
+    equipoId?: SortOrderInput | SortOrder
+    tipoFalla?: SortOrder
+    fallas?: SortOrder
+    descripcionEquipo?: SortOrderInput | SortOrder
+    descripcionFalla?: SortOrder
+    condicion?: SortOrderInput | SortOrder
+    fechaReporte?: SortOrder
+    reportadoPorId?: SortOrderInput | SortOrder
+    asignadoAId?: SortOrderInput | SortOrder
+    estado?: SortOrder
+    palabrasClave?: SortOrderInput | SortOrder
+    equipo?: EquipoOrderByWithRelationInput
+    reportadoPor?: UserOrderByWithRelationInput
+    asignadoA?: UserOrderByWithRelationInput
+    historial?: FallaHistorialOrderByRelationAggregateInput
+  }
+
+  export type FallaWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: FallaWhereInput | FallaWhereInput[]
+    OR?: FallaWhereInput[]
+    NOT?: FallaWhereInput | FallaWhereInput[]
+    equipoId?: IntNullableFilter<"Falla"> | number | null
+    tipoFalla?: StringFilter<"Falla"> | string
+    fallas?: StringNullableListFilter<"Falla">
+    descripcionEquipo?: StringNullableFilter<"Falla"> | string | null
+    descripcionFalla?: StringFilter<"Falla"> | string
+    condicion?: StringNullableFilter<"Falla"> | string | null
+    fechaReporte?: DateTimeFilter<"Falla"> | Date | string
+    reportadoPorId?: StringNullableFilter<"Falla"> | string | null
+    asignadoAId?: StringNullableFilter<"Falla"> | string | null
+    estado?: StringFilter<"Falla"> | string
+    palabrasClave?: StringNullableFilter<"Falla"> | string | null
+    equipo?: XOR<EquipoNullableScalarRelationFilter, EquipoWhereInput> | null
+    reportadoPor?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    asignadoA?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    historial?: FallaHistorialListRelationFilter
+  }, "id">
+
+  export type FallaOrderByWithAggregationInput = {
+    id?: SortOrder
+    equipoId?: SortOrderInput | SortOrder
+    tipoFalla?: SortOrder
+    fallas?: SortOrder
+    descripcionEquipo?: SortOrderInput | SortOrder
+    descripcionFalla?: SortOrder
+    condicion?: SortOrderInput | SortOrder
+    fechaReporte?: SortOrder
+    reportadoPorId?: SortOrderInput | SortOrder
+    asignadoAId?: SortOrderInput | SortOrder
+    estado?: SortOrder
+    palabrasClave?: SortOrderInput | SortOrder
+    _count?: FallaCountOrderByAggregateInput
+    _avg?: FallaAvgOrderByAggregateInput
+    _max?: FallaMaxOrderByAggregateInput
+    _min?: FallaMinOrderByAggregateInput
+    _sum?: FallaSumOrderByAggregateInput
+  }
+
+  export type FallaScalarWhereWithAggregatesInput = {
+    AND?: FallaScalarWhereWithAggregatesInput | FallaScalarWhereWithAggregatesInput[]
+    OR?: FallaScalarWhereWithAggregatesInput[]
+    NOT?: FallaScalarWhereWithAggregatesInput | FallaScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Falla"> | number
+    equipoId?: IntNullableWithAggregatesFilter<"Falla"> | number | null
+    tipoFalla?: StringWithAggregatesFilter<"Falla"> | string
+    fallas?: StringNullableListFilter<"Falla">
+    descripcionEquipo?: StringNullableWithAggregatesFilter<"Falla"> | string | null
+    descripcionFalla?: StringWithAggregatesFilter<"Falla"> | string
+    condicion?: StringNullableWithAggregatesFilter<"Falla"> | string | null
+    fechaReporte?: DateTimeWithAggregatesFilter<"Falla"> | Date | string
+    reportadoPorId?: StringNullableWithAggregatesFilter<"Falla"> | string | null
+    asignadoAId?: StringNullableWithAggregatesFilter<"Falla"> | string | null
+    estado?: StringWithAggregatesFilter<"Falla"> | string
+    palabrasClave?: StringNullableWithAggregatesFilter<"Falla"> | string | null
+  }
+
+  export type FallaHistorialWhereInput = {
+    AND?: FallaHistorialWhereInput | FallaHistorialWhereInput[]
+    OR?: FallaHistorialWhereInput[]
+    NOT?: FallaHistorialWhereInput | FallaHistorialWhereInput[]
+    id?: IntFilter<"FallaHistorial"> | number
+    fallaId?: IntFilter<"FallaHistorial"> | number
+    fallas?: StringNullableListFilter<"FallaHistorial">
+    descripcionEquipo?: StringNullableFilter<"FallaHistorial"> | string | null
+    descripcionFalla?: StringFilter<"FallaHistorial"> | string
+    reportadoPorId?: StringNullableFilter<"FallaHistorial"> | string | null
+    asignadoAId?: StringNullableFilter<"FallaHistorial"> | string | null
+    estado?: StringFilter<"FallaHistorial"> | string
+    fechaReporte?: DateTimeFilter<"FallaHistorial"> | Date | string
+    fechaCambioEstado?: DateTimeFilter<"FallaHistorial"> | Date | string
+    falla?: XOR<FallaScalarRelationFilter, FallaWhereInput>
+    reportadoPor?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    asignadoA?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }
+
+  export type FallaHistorialOrderByWithRelationInput = {
+    id?: SortOrder
+    fallaId?: SortOrder
+    fallas?: SortOrder
+    descripcionEquipo?: SortOrderInput | SortOrder
+    descripcionFalla?: SortOrder
+    reportadoPorId?: SortOrderInput | SortOrder
+    asignadoAId?: SortOrderInput | SortOrder
+    estado?: SortOrder
+    fechaReporte?: SortOrder
+    fechaCambioEstado?: SortOrder
+    falla?: FallaOrderByWithRelationInput
+    reportadoPor?: UserOrderByWithRelationInput
+    asignadoA?: UserOrderByWithRelationInput
+  }
+
+  export type FallaHistorialWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: FallaHistorialWhereInput | FallaHistorialWhereInput[]
+    OR?: FallaHistorialWhereInput[]
+    NOT?: FallaHistorialWhereInput | FallaHistorialWhereInput[]
+    fallaId?: IntFilter<"FallaHistorial"> | number
+    fallas?: StringNullableListFilter<"FallaHistorial">
+    descripcionEquipo?: StringNullableFilter<"FallaHistorial"> | string | null
+    descripcionFalla?: StringFilter<"FallaHistorial"> | string
+    reportadoPorId?: StringNullableFilter<"FallaHistorial"> | string | null
+    asignadoAId?: StringNullableFilter<"FallaHistorial"> | string | null
+    estado?: StringFilter<"FallaHistorial"> | string
+    fechaReporte?: DateTimeFilter<"FallaHistorial"> | Date | string
+    fechaCambioEstado?: DateTimeFilter<"FallaHistorial"> | Date | string
+    falla?: XOR<FallaScalarRelationFilter, FallaWhereInput>
+    reportadoPor?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    asignadoA?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }, "id">
+
+  export type FallaHistorialOrderByWithAggregationInput = {
+    id?: SortOrder
+    fallaId?: SortOrder
+    fallas?: SortOrder
+    descripcionEquipo?: SortOrderInput | SortOrder
+    descripcionFalla?: SortOrder
+    reportadoPorId?: SortOrderInput | SortOrder
+    asignadoAId?: SortOrderInput | SortOrder
+    estado?: SortOrder
+    fechaReporte?: SortOrder
+    fechaCambioEstado?: SortOrder
+    _count?: FallaHistorialCountOrderByAggregateInput
+    _avg?: FallaHistorialAvgOrderByAggregateInput
+    _max?: FallaHistorialMaxOrderByAggregateInput
+    _min?: FallaHistorialMinOrderByAggregateInput
+    _sum?: FallaHistorialSumOrderByAggregateInput
+  }
+
+  export type FallaHistorialScalarWhereWithAggregatesInput = {
+    AND?: FallaHistorialScalarWhereWithAggregatesInput | FallaHistorialScalarWhereWithAggregatesInput[]
+    OR?: FallaHistorialScalarWhereWithAggregatesInput[]
+    NOT?: FallaHistorialScalarWhereWithAggregatesInput | FallaHistorialScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"FallaHistorial"> | number
+    fallaId?: IntWithAggregatesFilter<"FallaHistorial"> | number
+    fallas?: StringNullableListFilter<"FallaHistorial">
+    descripcionEquipo?: StringNullableWithAggregatesFilter<"FallaHistorial"> | string | null
+    descripcionFalla?: StringWithAggregatesFilter<"FallaHistorial"> | string
+    reportadoPorId?: StringNullableWithAggregatesFilter<"FallaHistorial"> | string | null
+    asignadoAId?: StringNullableWithAggregatesFilter<"FallaHistorial"> | string | null
+    estado?: StringWithAggregatesFilter<"FallaHistorial"> | string
+    fechaReporte?: DateTimeWithAggregatesFilter<"FallaHistorial"> | Date | string
+    fechaCambioEstado?: DateTimeWithAggregatesFilter<"FallaHistorial"> | Date | string
   }
 
   export type InscripcionEspecialWhereInput = {
@@ -64712,6 +67824,10 @@ export namespace Prisma {
     tutor?: XOR<TutorNullableScalarRelationFilter, TutorWhereInput> | null
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoListRelationFilter
     Voto?: VotoListRelationFilter
+    fallasReportadas?: FallaListRelationFilter
+    fallasAsignadas?: FallaListRelationFilter
+    fallasHistReportadas?: FallaHistorialListRelationFilter
+    fallasHistAsignadas?: FallaHistorialListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -64763,6 +67879,10 @@ export namespace Prisma {
     tutor?: TutorOrderByWithRelationInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoOrderByRelationAggregateInput
     Voto?: VotoOrderByRelationAggregateInput
+    fallasReportadas?: FallaOrderByRelationAggregateInput
+    fallasAsignadas?: FallaOrderByRelationAggregateInput
+    fallasHistReportadas?: FallaHistorialOrderByRelationAggregateInput
+    fallasHistAsignadas?: FallaHistorialOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -64817,6 +67937,10 @@ export namespace Prisma {
     tutor?: XOR<TutorNullableScalarRelationFilter, TutorWhereInput> | null
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoListRelationFilter
     Voto?: VotoListRelationFilter
+    fallasReportadas?: FallaListRelationFilter
+    fallasAsignadas?: FallaListRelationFilter
+    fallasHistReportadas?: FallaHistorialListRelationFilter
+    fallasHistAsignadas?: FallaHistorialListRelationFilter
   }, "id" | "name" | "email" | "legajo">
 
   export type UserOrderByWithAggregationInput = {
@@ -66179,6 +69303,7 @@ export namespace Prisma {
     estante?: EstanteCreateNestedOneWithoutEquiposInput
     estado: EquipoEstadoCreateNestedOneWithoutEquiposInput
     reservas?: ReservaEquipoCreateNestedManyWithoutEquipoInput
+    fallaPc?: FallaCreateNestedManyWithoutEquipoInput
   }
 
   export type EquipoUncheckedCreateInput = {
@@ -66202,6 +69327,7 @@ export namespace Prisma {
     usuarioCreadorId: string
     usuarioModificadorId: string
     reservas?: ReservaEquipoUncheckedCreateNestedManyWithoutEquipoInput
+    fallaPc?: FallaUncheckedCreateNestedManyWithoutEquipoInput
   }
 
   export type EquipoUpdateInput = {
@@ -66224,6 +69350,7 @@ export namespace Prisma {
     estante?: EstanteUpdateOneWithoutEquiposNestedInput
     estado?: EquipoEstadoUpdateOneRequiredWithoutEquiposNestedInput
     reservas?: ReservaEquipoUpdateManyWithoutEquipoNestedInput
+    fallaPc?: FallaUpdateManyWithoutEquipoNestedInput
   }
 
   export type EquipoUncheckedUpdateInput = {
@@ -66247,6 +69374,7 @@ export namespace Prisma {
     usuarioCreadorId?: StringFieldUpdateOperationsInput | string
     usuarioModificadorId?: StringFieldUpdateOperationsInput | string
     reservas?: ReservaEquipoUncheckedUpdateManyWithoutEquipoNestedInput
+    fallaPc?: FallaUncheckedUpdateManyWithoutEquipoNestedInput
   }
 
   export type EquipoCreateManyInput = {
@@ -66470,6 +69598,194 @@ export namespace Prisma {
     nombre?: StringFieldUpdateOperationsInput | string
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
     usuarioCreadorId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type FallaCreateInput = {
+    tipoFalla: string
+    fallas?: FallaCreatefallasInput | string[]
+    descripcionEquipo?: string | null
+    descripcionFalla: string
+    condicion?: string | null
+    fechaReporte?: Date | string
+    estado: string
+    palabrasClave?: string | null
+    equipo?: EquipoCreateNestedOneWithoutFallaPcInput
+    reportadoPor?: UserCreateNestedOneWithoutFallasReportadasInput
+    asignadoA?: UserCreateNestedOneWithoutFallasAsignadasInput
+    historial?: FallaHistorialCreateNestedManyWithoutFallaInput
+  }
+
+  export type FallaUncheckedCreateInput = {
+    id?: number
+    equipoId?: number | null
+    tipoFalla: string
+    fallas?: FallaCreatefallasInput | string[]
+    descripcionEquipo?: string | null
+    descripcionFalla: string
+    condicion?: string | null
+    fechaReporte?: Date | string
+    reportadoPorId?: string | null
+    asignadoAId?: string | null
+    estado: string
+    palabrasClave?: string | null
+    historial?: FallaHistorialUncheckedCreateNestedManyWithoutFallaInput
+  }
+
+  export type FallaUpdateInput = {
+    tipoFalla?: StringFieldUpdateOperationsInput | string
+    fallas?: FallaUpdatefallasInput | string[]
+    descripcionEquipo?: NullableStringFieldUpdateOperationsInput | string | null
+    descripcionFalla?: StringFieldUpdateOperationsInput | string
+    condicion?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaReporte?: DateTimeFieldUpdateOperationsInput | Date | string
+    estado?: StringFieldUpdateOperationsInput | string
+    palabrasClave?: NullableStringFieldUpdateOperationsInput | string | null
+    equipo?: EquipoUpdateOneWithoutFallaPcNestedInput
+    reportadoPor?: UserUpdateOneWithoutFallasReportadasNestedInput
+    asignadoA?: UserUpdateOneWithoutFallasAsignadasNestedInput
+    historial?: FallaHistorialUpdateManyWithoutFallaNestedInput
+  }
+
+  export type FallaUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    equipoId?: NullableIntFieldUpdateOperationsInput | number | null
+    tipoFalla?: StringFieldUpdateOperationsInput | string
+    fallas?: FallaUpdatefallasInput | string[]
+    descripcionEquipo?: NullableStringFieldUpdateOperationsInput | string | null
+    descripcionFalla?: StringFieldUpdateOperationsInput | string
+    condicion?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaReporte?: DateTimeFieldUpdateOperationsInput | Date | string
+    reportadoPorId?: NullableStringFieldUpdateOperationsInput | string | null
+    asignadoAId?: NullableStringFieldUpdateOperationsInput | string | null
+    estado?: StringFieldUpdateOperationsInput | string
+    palabrasClave?: NullableStringFieldUpdateOperationsInput | string | null
+    historial?: FallaHistorialUncheckedUpdateManyWithoutFallaNestedInput
+  }
+
+  export type FallaCreateManyInput = {
+    id?: number
+    equipoId?: number | null
+    tipoFalla: string
+    fallas?: FallaCreatefallasInput | string[]
+    descripcionEquipo?: string | null
+    descripcionFalla: string
+    condicion?: string | null
+    fechaReporte?: Date | string
+    reportadoPorId?: string | null
+    asignadoAId?: string | null
+    estado: string
+    palabrasClave?: string | null
+  }
+
+  export type FallaUpdateManyMutationInput = {
+    tipoFalla?: StringFieldUpdateOperationsInput | string
+    fallas?: FallaUpdatefallasInput | string[]
+    descripcionEquipo?: NullableStringFieldUpdateOperationsInput | string | null
+    descripcionFalla?: StringFieldUpdateOperationsInput | string
+    condicion?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaReporte?: DateTimeFieldUpdateOperationsInput | Date | string
+    estado?: StringFieldUpdateOperationsInput | string
+    palabrasClave?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type FallaUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    equipoId?: NullableIntFieldUpdateOperationsInput | number | null
+    tipoFalla?: StringFieldUpdateOperationsInput | string
+    fallas?: FallaUpdatefallasInput | string[]
+    descripcionEquipo?: NullableStringFieldUpdateOperationsInput | string | null
+    descripcionFalla?: StringFieldUpdateOperationsInput | string
+    condicion?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaReporte?: DateTimeFieldUpdateOperationsInput | Date | string
+    reportadoPorId?: NullableStringFieldUpdateOperationsInput | string | null
+    asignadoAId?: NullableStringFieldUpdateOperationsInput | string | null
+    estado?: StringFieldUpdateOperationsInput | string
+    palabrasClave?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type FallaHistorialCreateInput = {
+    fallas?: FallaHistorialCreatefallasInput | string[]
+    descripcionEquipo?: string | null
+    descripcionFalla: string
+    estado: string
+    fechaReporte: Date | string
+    fechaCambioEstado?: Date | string
+    falla: FallaCreateNestedOneWithoutHistorialInput
+    reportadoPor?: UserCreateNestedOneWithoutFallasHistReportadasInput
+    asignadoA?: UserCreateNestedOneWithoutFallasHistAsignadasInput
+  }
+
+  export type FallaHistorialUncheckedCreateInput = {
+    id?: number
+    fallaId: number
+    fallas?: FallaHistorialCreatefallasInput | string[]
+    descripcionEquipo?: string | null
+    descripcionFalla: string
+    reportadoPorId?: string | null
+    asignadoAId?: string | null
+    estado: string
+    fechaReporte: Date | string
+    fechaCambioEstado?: Date | string
+  }
+
+  export type FallaHistorialUpdateInput = {
+    fallas?: FallaHistorialUpdatefallasInput | string[]
+    descripcionEquipo?: NullableStringFieldUpdateOperationsInput | string | null
+    descripcionFalla?: StringFieldUpdateOperationsInput | string
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaReporte?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaCambioEstado?: DateTimeFieldUpdateOperationsInput | Date | string
+    falla?: FallaUpdateOneRequiredWithoutHistorialNestedInput
+    reportadoPor?: UserUpdateOneWithoutFallasHistReportadasNestedInput
+    asignadoA?: UserUpdateOneWithoutFallasHistAsignadasNestedInput
+  }
+
+  export type FallaHistorialUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    fallaId?: IntFieldUpdateOperationsInput | number
+    fallas?: FallaHistorialUpdatefallasInput | string[]
+    descripcionEquipo?: NullableStringFieldUpdateOperationsInput | string | null
+    descripcionFalla?: StringFieldUpdateOperationsInput | string
+    reportadoPorId?: NullableStringFieldUpdateOperationsInput | string | null
+    asignadoAId?: NullableStringFieldUpdateOperationsInput | string | null
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaReporte?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaCambioEstado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FallaHistorialCreateManyInput = {
+    id?: number
+    fallaId: number
+    fallas?: FallaHistorialCreatefallasInput | string[]
+    descripcionEquipo?: string | null
+    descripcionFalla: string
+    reportadoPorId?: string | null
+    asignadoAId?: string | null
+    estado: string
+    fechaReporte: Date | string
+    fechaCambioEstado?: Date | string
+  }
+
+  export type FallaHistorialUpdateManyMutationInput = {
+    fallas?: FallaHistorialUpdatefallasInput | string[]
+    descripcionEquipo?: NullableStringFieldUpdateOperationsInput | string | null
+    descripcionFalla?: StringFieldUpdateOperationsInput | string
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaReporte?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaCambioEstado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FallaHistorialUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    fallaId?: IntFieldUpdateOperationsInput | number
+    fallas?: FallaHistorialUpdatefallasInput | string[]
+    descripcionEquipo?: NullableStringFieldUpdateOperationsInput | string | null
+    descripcionFalla?: StringFieldUpdateOperationsInput | string
+    reportadoPorId?: NullableStringFieldUpdateOperationsInput | string | null
+    asignadoAId?: NullableStringFieldUpdateOperationsInput | string | null
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaReporte?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaCambioEstado?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type InscripcionEspecialCreateInput = {
@@ -68379,6 +71695,10 @@ export namespace Prisma {
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -68427,6 +71747,10 @@ export namespace Prisma {
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserUpdateInput = {
@@ -68475,6 +71799,10 @@ export namespace Prisma {
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -68523,6 +71851,10 @@ export namespace Prisma {
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserCreateManyInput = {
@@ -69966,7 +73298,17 @@ export namespace Prisma {
     none?: ReservaEquipoWhereInput
   }
 
+  export type FallaListRelationFilter = {
+    every?: FallaWhereInput
+    some?: FallaWhereInput
+    none?: FallaWhereInput
+  }
+
   export type ReservaEquipoOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type FallaOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -70176,6 +73518,139 @@ export namespace Prisma {
 
   export type EquipoEstadoSumOrderByAggregateInput = {
     id?: SortOrder
+  }
+
+  export type StringNullableListFilter<$PrismaModel = never> = {
+    equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    has?: string | StringFieldRefInput<$PrismaModel> | null
+    hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
+    hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
+  }
+
+  export type EquipoNullableScalarRelationFilter = {
+    is?: EquipoWhereInput | null
+    isNot?: EquipoWhereInput | null
+  }
+
+  export type UserNullableScalarRelationFilter = {
+    is?: UserWhereInput | null
+    isNot?: UserWhereInput | null
+  }
+
+  export type FallaHistorialListRelationFilter = {
+    every?: FallaHistorialWhereInput
+    some?: FallaHistorialWhereInput
+    none?: FallaHistorialWhereInput
+  }
+
+  export type FallaHistorialOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type FallaCountOrderByAggregateInput = {
+    id?: SortOrder
+    equipoId?: SortOrder
+    tipoFalla?: SortOrder
+    fallas?: SortOrder
+    descripcionEquipo?: SortOrder
+    descripcionFalla?: SortOrder
+    condicion?: SortOrder
+    fechaReporte?: SortOrder
+    reportadoPorId?: SortOrder
+    asignadoAId?: SortOrder
+    estado?: SortOrder
+    palabrasClave?: SortOrder
+  }
+
+  export type FallaAvgOrderByAggregateInput = {
+    id?: SortOrder
+    equipoId?: SortOrder
+  }
+
+  export type FallaMaxOrderByAggregateInput = {
+    id?: SortOrder
+    equipoId?: SortOrder
+    tipoFalla?: SortOrder
+    descripcionEquipo?: SortOrder
+    descripcionFalla?: SortOrder
+    condicion?: SortOrder
+    fechaReporte?: SortOrder
+    reportadoPorId?: SortOrder
+    asignadoAId?: SortOrder
+    estado?: SortOrder
+    palabrasClave?: SortOrder
+  }
+
+  export type FallaMinOrderByAggregateInput = {
+    id?: SortOrder
+    equipoId?: SortOrder
+    tipoFalla?: SortOrder
+    descripcionEquipo?: SortOrder
+    descripcionFalla?: SortOrder
+    condicion?: SortOrder
+    fechaReporte?: SortOrder
+    reportadoPorId?: SortOrder
+    asignadoAId?: SortOrder
+    estado?: SortOrder
+    palabrasClave?: SortOrder
+  }
+
+  export type FallaSumOrderByAggregateInput = {
+    id?: SortOrder
+    equipoId?: SortOrder
+  }
+
+  export type FallaScalarRelationFilter = {
+    is?: FallaWhereInput
+    isNot?: FallaWhereInput
+  }
+
+  export type FallaHistorialCountOrderByAggregateInput = {
+    id?: SortOrder
+    fallaId?: SortOrder
+    fallas?: SortOrder
+    descripcionEquipo?: SortOrder
+    descripcionFalla?: SortOrder
+    reportadoPorId?: SortOrder
+    asignadoAId?: SortOrder
+    estado?: SortOrder
+    fechaReporte?: SortOrder
+    fechaCambioEstado?: SortOrder
+  }
+
+  export type FallaHistorialAvgOrderByAggregateInput = {
+    id?: SortOrder
+    fallaId?: SortOrder
+  }
+
+  export type FallaHistorialMaxOrderByAggregateInput = {
+    id?: SortOrder
+    fallaId?: SortOrder
+    descripcionEquipo?: SortOrder
+    descripcionFalla?: SortOrder
+    reportadoPorId?: SortOrder
+    asignadoAId?: SortOrder
+    estado?: SortOrder
+    fechaReporte?: SortOrder
+    fechaCambioEstado?: SortOrder
+  }
+
+  export type FallaHistorialMinOrderByAggregateInput = {
+    id?: SortOrder
+    fallaId?: SortOrder
+    descripcionEquipo?: SortOrder
+    descripcionFalla?: SortOrder
+    reportadoPorId?: SortOrder
+    asignadoAId?: SortOrder
+    estado?: SortOrder
+    fechaReporte?: SortOrder
+    fechaCambioEstado?: SortOrder
+  }
+
+  export type FallaHistorialSumOrderByAggregateInput = {
+    id?: SortOrder
+    fallaId?: SortOrder
   }
 
   export type IntNullableListFilter<$PrismaModel = never> = {
@@ -70645,11 +74120,6 @@ export namespace Prisma {
     in?: $Enums.MateriaTipo[] | ListEnumMateriaTipoFieldRefInput<$PrismaModel>
     notIn?: $Enums.MateriaTipo[] | ListEnumMateriaTipoFieldRefInput<$PrismaModel>
     not?: NestedEnumMateriaTipoFilter<$PrismaModel> | $Enums.MateriaTipo
-  }
-
-  export type UserNullableScalarRelationFilter = {
-    is?: UserWhereInput | null
-    isNot?: UserWhereInput | null
   }
 
   export type MateriaJefeTpListRelationFilter = {
@@ -72774,11 +76244,25 @@ export namespace Prisma {
     connect?: ReservaEquipoWhereUniqueInput | ReservaEquipoWhereUniqueInput[]
   }
 
+  export type FallaCreateNestedManyWithoutEquipoInput = {
+    create?: XOR<FallaCreateWithoutEquipoInput, FallaUncheckedCreateWithoutEquipoInput> | FallaCreateWithoutEquipoInput[] | FallaUncheckedCreateWithoutEquipoInput[]
+    connectOrCreate?: FallaCreateOrConnectWithoutEquipoInput | FallaCreateOrConnectWithoutEquipoInput[]
+    createMany?: FallaCreateManyEquipoInputEnvelope
+    connect?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
+  }
+
   export type ReservaEquipoUncheckedCreateNestedManyWithoutEquipoInput = {
     create?: XOR<ReservaEquipoCreateWithoutEquipoInput, ReservaEquipoUncheckedCreateWithoutEquipoInput> | ReservaEquipoCreateWithoutEquipoInput[] | ReservaEquipoUncheckedCreateWithoutEquipoInput[]
     connectOrCreate?: ReservaEquipoCreateOrConnectWithoutEquipoInput | ReservaEquipoCreateOrConnectWithoutEquipoInput[]
     createMany?: ReservaEquipoCreateManyEquipoInputEnvelope
     connect?: ReservaEquipoWhereUniqueInput | ReservaEquipoWhereUniqueInput[]
+  }
+
+  export type FallaUncheckedCreateNestedManyWithoutEquipoInput = {
+    create?: XOR<FallaCreateWithoutEquipoInput, FallaUncheckedCreateWithoutEquipoInput> | FallaCreateWithoutEquipoInput[] | FallaUncheckedCreateWithoutEquipoInput[]
+    connectOrCreate?: FallaCreateOrConnectWithoutEquipoInput | FallaCreateOrConnectWithoutEquipoInput[]
+    createMany?: FallaCreateManyEquipoInputEnvelope
+    connect?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
   }
 
   export type EquipoTipoUpdateOneRequiredWithoutEquiposNestedInput = {
@@ -72855,6 +76339,20 @@ export namespace Prisma {
     deleteMany?: ReservaEquipoScalarWhereInput | ReservaEquipoScalarWhereInput[]
   }
 
+  export type FallaUpdateManyWithoutEquipoNestedInput = {
+    create?: XOR<FallaCreateWithoutEquipoInput, FallaUncheckedCreateWithoutEquipoInput> | FallaCreateWithoutEquipoInput[] | FallaUncheckedCreateWithoutEquipoInput[]
+    connectOrCreate?: FallaCreateOrConnectWithoutEquipoInput | FallaCreateOrConnectWithoutEquipoInput[]
+    upsert?: FallaUpsertWithWhereUniqueWithoutEquipoInput | FallaUpsertWithWhereUniqueWithoutEquipoInput[]
+    createMany?: FallaCreateManyEquipoInputEnvelope
+    set?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
+    disconnect?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
+    delete?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
+    connect?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
+    update?: FallaUpdateWithWhereUniqueWithoutEquipoInput | FallaUpdateWithWhereUniqueWithoutEquipoInput[]
+    updateMany?: FallaUpdateManyWithWhereWithoutEquipoInput | FallaUpdateManyWithWhereWithoutEquipoInput[]
+    deleteMany?: FallaScalarWhereInput | FallaScalarWhereInput[]
+  }
+
   export type ReservaEquipoUncheckedUpdateManyWithoutEquipoNestedInput = {
     create?: XOR<ReservaEquipoCreateWithoutEquipoInput, ReservaEquipoUncheckedCreateWithoutEquipoInput> | ReservaEquipoCreateWithoutEquipoInput[] | ReservaEquipoUncheckedCreateWithoutEquipoInput[]
     connectOrCreate?: ReservaEquipoCreateOrConnectWithoutEquipoInput | ReservaEquipoCreateOrConnectWithoutEquipoInput[]
@@ -72867,6 +76365,20 @@ export namespace Prisma {
     update?: ReservaEquipoUpdateWithWhereUniqueWithoutEquipoInput | ReservaEquipoUpdateWithWhereUniqueWithoutEquipoInput[]
     updateMany?: ReservaEquipoUpdateManyWithWhereWithoutEquipoInput | ReservaEquipoUpdateManyWithWhereWithoutEquipoInput[]
     deleteMany?: ReservaEquipoScalarWhereInput | ReservaEquipoScalarWhereInput[]
+  }
+
+  export type FallaUncheckedUpdateManyWithoutEquipoNestedInput = {
+    create?: XOR<FallaCreateWithoutEquipoInput, FallaUncheckedCreateWithoutEquipoInput> | FallaCreateWithoutEquipoInput[] | FallaUncheckedCreateWithoutEquipoInput[]
+    connectOrCreate?: FallaCreateOrConnectWithoutEquipoInput | FallaCreateOrConnectWithoutEquipoInput[]
+    upsert?: FallaUpsertWithWhereUniqueWithoutEquipoInput | FallaUpsertWithWhereUniqueWithoutEquipoInput[]
+    createMany?: FallaCreateManyEquipoInputEnvelope
+    set?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
+    disconnect?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
+    delete?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
+    connect?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
+    update?: FallaUpdateWithWhereUniqueWithoutEquipoInput | FallaUpdateWithWhereUniqueWithoutEquipoInput[]
+    updateMany?: FallaUpdateManyWithWhereWithoutEquipoInput | FallaUpdateManyWithWhereWithoutEquipoInput[]
+    deleteMany?: FallaScalarWhereInput | FallaScalarWhereInput[]
   }
 
   export type EquipoCreateNestedManyWithoutMarcaInput = {
@@ -73077,6 +76589,160 @@ export namespace Prisma {
     update?: EquipoUpdateWithWhereUniqueWithoutEstadoInput | EquipoUpdateWithWhereUniqueWithoutEstadoInput[]
     updateMany?: EquipoUpdateManyWithWhereWithoutEstadoInput | EquipoUpdateManyWithWhereWithoutEstadoInput[]
     deleteMany?: EquipoScalarWhereInput | EquipoScalarWhereInput[]
+  }
+
+  export type FallaCreatefallasInput = {
+    set: string[]
+  }
+
+  export type EquipoCreateNestedOneWithoutFallaPcInput = {
+    create?: XOR<EquipoCreateWithoutFallaPcInput, EquipoUncheckedCreateWithoutFallaPcInput>
+    connectOrCreate?: EquipoCreateOrConnectWithoutFallaPcInput
+    connect?: EquipoWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutFallasReportadasInput = {
+    create?: XOR<UserCreateWithoutFallasReportadasInput, UserUncheckedCreateWithoutFallasReportadasInput>
+    connectOrCreate?: UserCreateOrConnectWithoutFallasReportadasInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutFallasAsignadasInput = {
+    create?: XOR<UserCreateWithoutFallasAsignadasInput, UserUncheckedCreateWithoutFallasAsignadasInput>
+    connectOrCreate?: UserCreateOrConnectWithoutFallasAsignadasInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type FallaHistorialCreateNestedManyWithoutFallaInput = {
+    create?: XOR<FallaHistorialCreateWithoutFallaInput, FallaHistorialUncheckedCreateWithoutFallaInput> | FallaHistorialCreateWithoutFallaInput[] | FallaHistorialUncheckedCreateWithoutFallaInput[]
+    connectOrCreate?: FallaHistorialCreateOrConnectWithoutFallaInput | FallaHistorialCreateOrConnectWithoutFallaInput[]
+    createMany?: FallaHistorialCreateManyFallaInputEnvelope
+    connect?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
+  }
+
+  export type FallaHistorialUncheckedCreateNestedManyWithoutFallaInput = {
+    create?: XOR<FallaHistorialCreateWithoutFallaInput, FallaHistorialUncheckedCreateWithoutFallaInput> | FallaHistorialCreateWithoutFallaInput[] | FallaHistorialUncheckedCreateWithoutFallaInput[]
+    connectOrCreate?: FallaHistorialCreateOrConnectWithoutFallaInput | FallaHistorialCreateOrConnectWithoutFallaInput[]
+    createMany?: FallaHistorialCreateManyFallaInputEnvelope
+    connect?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
+  }
+
+  export type FallaUpdatefallasInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type EquipoUpdateOneWithoutFallaPcNestedInput = {
+    create?: XOR<EquipoCreateWithoutFallaPcInput, EquipoUncheckedCreateWithoutFallaPcInput>
+    connectOrCreate?: EquipoCreateOrConnectWithoutFallaPcInput
+    upsert?: EquipoUpsertWithoutFallaPcInput
+    disconnect?: EquipoWhereInput | boolean
+    delete?: EquipoWhereInput | boolean
+    connect?: EquipoWhereUniqueInput
+    update?: XOR<XOR<EquipoUpdateToOneWithWhereWithoutFallaPcInput, EquipoUpdateWithoutFallaPcInput>, EquipoUncheckedUpdateWithoutFallaPcInput>
+  }
+
+  export type UserUpdateOneWithoutFallasReportadasNestedInput = {
+    create?: XOR<UserCreateWithoutFallasReportadasInput, UserUncheckedCreateWithoutFallasReportadasInput>
+    connectOrCreate?: UserCreateOrConnectWithoutFallasReportadasInput
+    upsert?: UserUpsertWithoutFallasReportadasInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutFallasReportadasInput, UserUpdateWithoutFallasReportadasInput>, UserUncheckedUpdateWithoutFallasReportadasInput>
+  }
+
+  export type UserUpdateOneWithoutFallasAsignadasNestedInput = {
+    create?: XOR<UserCreateWithoutFallasAsignadasInput, UserUncheckedCreateWithoutFallasAsignadasInput>
+    connectOrCreate?: UserCreateOrConnectWithoutFallasAsignadasInput
+    upsert?: UserUpsertWithoutFallasAsignadasInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutFallasAsignadasInput, UserUpdateWithoutFallasAsignadasInput>, UserUncheckedUpdateWithoutFallasAsignadasInput>
+  }
+
+  export type FallaHistorialUpdateManyWithoutFallaNestedInput = {
+    create?: XOR<FallaHistorialCreateWithoutFallaInput, FallaHistorialUncheckedCreateWithoutFallaInput> | FallaHistorialCreateWithoutFallaInput[] | FallaHistorialUncheckedCreateWithoutFallaInput[]
+    connectOrCreate?: FallaHistorialCreateOrConnectWithoutFallaInput | FallaHistorialCreateOrConnectWithoutFallaInput[]
+    upsert?: FallaHistorialUpsertWithWhereUniqueWithoutFallaInput | FallaHistorialUpsertWithWhereUniqueWithoutFallaInput[]
+    createMany?: FallaHistorialCreateManyFallaInputEnvelope
+    set?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
+    disconnect?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
+    delete?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
+    connect?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
+    update?: FallaHistorialUpdateWithWhereUniqueWithoutFallaInput | FallaHistorialUpdateWithWhereUniqueWithoutFallaInput[]
+    updateMany?: FallaHistorialUpdateManyWithWhereWithoutFallaInput | FallaHistorialUpdateManyWithWhereWithoutFallaInput[]
+    deleteMany?: FallaHistorialScalarWhereInput | FallaHistorialScalarWhereInput[]
+  }
+
+  export type FallaHistorialUncheckedUpdateManyWithoutFallaNestedInput = {
+    create?: XOR<FallaHistorialCreateWithoutFallaInput, FallaHistorialUncheckedCreateWithoutFallaInput> | FallaHistorialCreateWithoutFallaInput[] | FallaHistorialUncheckedCreateWithoutFallaInput[]
+    connectOrCreate?: FallaHistorialCreateOrConnectWithoutFallaInput | FallaHistorialCreateOrConnectWithoutFallaInput[]
+    upsert?: FallaHistorialUpsertWithWhereUniqueWithoutFallaInput | FallaHistorialUpsertWithWhereUniqueWithoutFallaInput[]
+    createMany?: FallaHistorialCreateManyFallaInputEnvelope
+    set?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
+    disconnect?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
+    delete?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
+    connect?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
+    update?: FallaHistorialUpdateWithWhereUniqueWithoutFallaInput | FallaHistorialUpdateWithWhereUniqueWithoutFallaInput[]
+    updateMany?: FallaHistorialUpdateManyWithWhereWithoutFallaInput | FallaHistorialUpdateManyWithWhereWithoutFallaInput[]
+    deleteMany?: FallaHistorialScalarWhereInput | FallaHistorialScalarWhereInput[]
+  }
+
+  export type FallaHistorialCreatefallasInput = {
+    set: string[]
+  }
+
+  export type FallaCreateNestedOneWithoutHistorialInput = {
+    create?: XOR<FallaCreateWithoutHistorialInput, FallaUncheckedCreateWithoutHistorialInput>
+    connectOrCreate?: FallaCreateOrConnectWithoutHistorialInput
+    connect?: FallaWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutFallasHistReportadasInput = {
+    create?: XOR<UserCreateWithoutFallasHistReportadasInput, UserUncheckedCreateWithoutFallasHistReportadasInput>
+    connectOrCreate?: UserCreateOrConnectWithoutFallasHistReportadasInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutFallasHistAsignadasInput = {
+    create?: XOR<UserCreateWithoutFallasHistAsignadasInput, UserUncheckedCreateWithoutFallasHistAsignadasInput>
+    connectOrCreate?: UserCreateOrConnectWithoutFallasHistAsignadasInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type FallaHistorialUpdatefallasInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type FallaUpdateOneRequiredWithoutHistorialNestedInput = {
+    create?: XOR<FallaCreateWithoutHistorialInput, FallaUncheckedCreateWithoutHistorialInput>
+    connectOrCreate?: FallaCreateOrConnectWithoutHistorialInput
+    upsert?: FallaUpsertWithoutHistorialInput
+    connect?: FallaWhereUniqueInput
+    update?: XOR<XOR<FallaUpdateToOneWithWhereWithoutHistorialInput, FallaUpdateWithoutHistorialInput>, FallaUncheckedUpdateWithoutHistorialInput>
+  }
+
+  export type UserUpdateOneWithoutFallasHistReportadasNestedInput = {
+    create?: XOR<UserCreateWithoutFallasHistReportadasInput, UserUncheckedCreateWithoutFallasHistReportadasInput>
+    connectOrCreate?: UserCreateOrConnectWithoutFallasHistReportadasInput
+    upsert?: UserUpsertWithoutFallasHistReportadasInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutFallasHistReportadasInput, UserUpdateWithoutFallasHistReportadasInput>, UserUncheckedUpdateWithoutFallasHistReportadasInput>
+  }
+
+  export type UserUpdateOneWithoutFallasHistAsignadasNestedInput = {
+    create?: XOR<UserCreateWithoutFallasHistAsignadasInput, UserUncheckedCreateWithoutFallasHistAsignadasInput>
+    connectOrCreate?: UserCreateOrConnectWithoutFallasHistAsignadasInput
+    upsert?: UserUpsertWithoutFallasHistAsignadasInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutFallasHistAsignadasInput, UserUpdateWithoutFallasHistAsignadasInput>, UserUncheckedUpdateWithoutFallasHistAsignadasInput>
   }
 
   export type InscripcionEspecialCreatemateriasInput = {
@@ -75067,6 +78733,34 @@ export namespace Prisma {
     connect?: VotoWhereUniqueInput | VotoWhereUniqueInput[]
   }
 
+  export type FallaCreateNestedManyWithoutReportadoPorInput = {
+    create?: XOR<FallaCreateWithoutReportadoPorInput, FallaUncheckedCreateWithoutReportadoPorInput> | FallaCreateWithoutReportadoPorInput[] | FallaUncheckedCreateWithoutReportadoPorInput[]
+    connectOrCreate?: FallaCreateOrConnectWithoutReportadoPorInput | FallaCreateOrConnectWithoutReportadoPorInput[]
+    createMany?: FallaCreateManyReportadoPorInputEnvelope
+    connect?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
+  }
+
+  export type FallaCreateNestedManyWithoutAsignadoAInput = {
+    create?: XOR<FallaCreateWithoutAsignadoAInput, FallaUncheckedCreateWithoutAsignadoAInput> | FallaCreateWithoutAsignadoAInput[] | FallaUncheckedCreateWithoutAsignadoAInput[]
+    connectOrCreate?: FallaCreateOrConnectWithoutAsignadoAInput | FallaCreateOrConnectWithoutAsignadoAInput[]
+    createMany?: FallaCreateManyAsignadoAInputEnvelope
+    connect?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
+  }
+
+  export type FallaHistorialCreateNestedManyWithoutReportadoPorInput = {
+    create?: XOR<FallaHistorialCreateWithoutReportadoPorInput, FallaHistorialUncheckedCreateWithoutReportadoPorInput> | FallaHistorialCreateWithoutReportadoPorInput[] | FallaHistorialUncheckedCreateWithoutReportadoPorInput[]
+    connectOrCreate?: FallaHistorialCreateOrConnectWithoutReportadoPorInput | FallaHistorialCreateOrConnectWithoutReportadoPorInput[]
+    createMany?: FallaHistorialCreateManyReportadoPorInputEnvelope
+    connect?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
+  }
+
+  export type FallaHistorialCreateNestedManyWithoutAsignadoAInput = {
+    create?: XOR<FallaHistorialCreateWithoutAsignadoAInput, FallaHistorialUncheckedCreateWithoutAsignadoAInput> | FallaHistorialCreateWithoutAsignadoAInput[] | FallaHistorialUncheckedCreateWithoutAsignadoAInput[]
+    connectOrCreate?: FallaHistorialCreateOrConnectWithoutAsignadoAInput | FallaHistorialCreateOrConnectWithoutAsignadoAInput[]
+    createMany?: FallaHistorialCreateManyAsignadoAInputEnvelope
+    connect?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
+  }
+
   export type AccountUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -75183,6 +78877,34 @@ export namespace Prisma {
     connectOrCreate?: VotoCreateOrConnectWithoutUserInput | VotoCreateOrConnectWithoutUserInput[]
     createMany?: VotoCreateManyUserInputEnvelope
     connect?: VotoWhereUniqueInput | VotoWhereUniqueInput[]
+  }
+
+  export type FallaUncheckedCreateNestedManyWithoutReportadoPorInput = {
+    create?: XOR<FallaCreateWithoutReportadoPorInput, FallaUncheckedCreateWithoutReportadoPorInput> | FallaCreateWithoutReportadoPorInput[] | FallaUncheckedCreateWithoutReportadoPorInput[]
+    connectOrCreate?: FallaCreateOrConnectWithoutReportadoPorInput | FallaCreateOrConnectWithoutReportadoPorInput[]
+    createMany?: FallaCreateManyReportadoPorInputEnvelope
+    connect?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
+  }
+
+  export type FallaUncheckedCreateNestedManyWithoutAsignadoAInput = {
+    create?: XOR<FallaCreateWithoutAsignadoAInput, FallaUncheckedCreateWithoutAsignadoAInput> | FallaCreateWithoutAsignadoAInput[] | FallaUncheckedCreateWithoutAsignadoAInput[]
+    connectOrCreate?: FallaCreateOrConnectWithoutAsignadoAInput | FallaCreateOrConnectWithoutAsignadoAInput[]
+    createMany?: FallaCreateManyAsignadoAInputEnvelope
+    connect?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
+  }
+
+  export type FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput = {
+    create?: XOR<FallaHistorialCreateWithoutReportadoPorInput, FallaHistorialUncheckedCreateWithoutReportadoPorInput> | FallaHistorialCreateWithoutReportadoPorInput[] | FallaHistorialUncheckedCreateWithoutReportadoPorInput[]
+    connectOrCreate?: FallaHistorialCreateOrConnectWithoutReportadoPorInput | FallaHistorialCreateOrConnectWithoutReportadoPorInput[]
+    createMany?: FallaHistorialCreateManyReportadoPorInputEnvelope
+    connect?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
+  }
+
+  export type FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput = {
+    create?: XOR<FallaHistorialCreateWithoutAsignadoAInput, FallaHistorialUncheckedCreateWithoutAsignadoAInput> | FallaHistorialCreateWithoutAsignadoAInput[] | FallaHistorialUncheckedCreateWithoutAsignadoAInput[]
+    connectOrCreate?: FallaHistorialCreateOrConnectWithoutAsignadoAInput | FallaHistorialCreateOrConnectWithoutAsignadoAInput[]
+    createMany?: FallaHistorialCreateManyAsignadoAInputEnvelope
+    connect?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
   }
 
   export type DocumentoTipoUpdateOneWithoutUsuariosNestedInput = {
@@ -75449,6 +79171,62 @@ export namespace Prisma {
     deleteMany?: VotoScalarWhereInput | VotoScalarWhereInput[]
   }
 
+  export type FallaUpdateManyWithoutReportadoPorNestedInput = {
+    create?: XOR<FallaCreateWithoutReportadoPorInput, FallaUncheckedCreateWithoutReportadoPorInput> | FallaCreateWithoutReportadoPorInput[] | FallaUncheckedCreateWithoutReportadoPorInput[]
+    connectOrCreate?: FallaCreateOrConnectWithoutReportadoPorInput | FallaCreateOrConnectWithoutReportadoPorInput[]
+    upsert?: FallaUpsertWithWhereUniqueWithoutReportadoPorInput | FallaUpsertWithWhereUniqueWithoutReportadoPorInput[]
+    createMany?: FallaCreateManyReportadoPorInputEnvelope
+    set?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
+    disconnect?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
+    delete?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
+    connect?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
+    update?: FallaUpdateWithWhereUniqueWithoutReportadoPorInput | FallaUpdateWithWhereUniqueWithoutReportadoPorInput[]
+    updateMany?: FallaUpdateManyWithWhereWithoutReportadoPorInput | FallaUpdateManyWithWhereWithoutReportadoPorInput[]
+    deleteMany?: FallaScalarWhereInput | FallaScalarWhereInput[]
+  }
+
+  export type FallaUpdateManyWithoutAsignadoANestedInput = {
+    create?: XOR<FallaCreateWithoutAsignadoAInput, FallaUncheckedCreateWithoutAsignadoAInput> | FallaCreateWithoutAsignadoAInput[] | FallaUncheckedCreateWithoutAsignadoAInput[]
+    connectOrCreate?: FallaCreateOrConnectWithoutAsignadoAInput | FallaCreateOrConnectWithoutAsignadoAInput[]
+    upsert?: FallaUpsertWithWhereUniqueWithoutAsignadoAInput | FallaUpsertWithWhereUniqueWithoutAsignadoAInput[]
+    createMany?: FallaCreateManyAsignadoAInputEnvelope
+    set?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
+    disconnect?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
+    delete?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
+    connect?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
+    update?: FallaUpdateWithWhereUniqueWithoutAsignadoAInput | FallaUpdateWithWhereUniqueWithoutAsignadoAInput[]
+    updateMany?: FallaUpdateManyWithWhereWithoutAsignadoAInput | FallaUpdateManyWithWhereWithoutAsignadoAInput[]
+    deleteMany?: FallaScalarWhereInput | FallaScalarWhereInput[]
+  }
+
+  export type FallaHistorialUpdateManyWithoutReportadoPorNestedInput = {
+    create?: XOR<FallaHistorialCreateWithoutReportadoPorInput, FallaHistorialUncheckedCreateWithoutReportadoPorInput> | FallaHistorialCreateWithoutReportadoPorInput[] | FallaHistorialUncheckedCreateWithoutReportadoPorInput[]
+    connectOrCreate?: FallaHistorialCreateOrConnectWithoutReportadoPorInput | FallaHistorialCreateOrConnectWithoutReportadoPorInput[]
+    upsert?: FallaHistorialUpsertWithWhereUniqueWithoutReportadoPorInput | FallaHistorialUpsertWithWhereUniqueWithoutReportadoPorInput[]
+    createMany?: FallaHistorialCreateManyReportadoPorInputEnvelope
+    set?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
+    disconnect?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
+    delete?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
+    connect?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
+    update?: FallaHistorialUpdateWithWhereUniqueWithoutReportadoPorInput | FallaHistorialUpdateWithWhereUniqueWithoutReportadoPorInput[]
+    updateMany?: FallaHistorialUpdateManyWithWhereWithoutReportadoPorInput | FallaHistorialUpdateManyWithWhereWithoutReportadoPorInput[]
+    deleteMany?: FallaHistorialScalarWhereInput | FallaHistorialScalarWhereInput[]
+  }
+
+  export type FallaHistorialUpdateManyWithoutAsignadoANestedInput = {
+    create?: XOR<FallaHistorialCreateWithoutAsignadoAInput, FallaHistorialUncheckedCreateWithoutAsignadoAInput> | FallaHistorialCreateWithoutAsignadoAInput[] | FallaHistorialUncheckedCreateWithoutAsignadoAInput[]
+    connectOrCreate?: FallaHistorialCreateOrConnectWithoutAsignadoAInput | FallaHistorialCreateOrConnectWithoutAsignadoAInput[]
+    upsert?: FallaHistorialUpsertWithWhereUniqueWithoutAsignadoAInput | FallaHistorialUpsertWithWhereUniqueWithoutAsignadoAInput[]
+    createMany?: FallaHistorialCreateManyAsignadoAInputEnvelope
+    set?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
+    disconnect?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
+    delete?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
+    connect?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
+    update?: FallaHistorialUpdateWithWhereUniqueWithoutAsignadoAInput | FallaHistorialUpdateWithWhereUniqueWithoutAsignadoAInput[]
+    updateMany?: FallaHistorialUpdateManyWithWhereWithoutAsignadoAInput | FallaHistorialUpdateManyWithWhereWithoutAsignadoAInput[]
+    deleteMany?: FallaHistorialScalarWhereInput | FallaHistorialScalarWhereInput[]
+  }
+
   export type AccountUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -75681,6 +79459,62 @@ export namespace Prisma {
     update?: VotoUpdateWithWhereUniqueWithoutUserInput | VotoUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: VotoUpdateManyWithWhereWithoutUserInput | VotoUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: VotoScalarWhereInput | VotoScalarWhereInput[]
+  }
+
+  export type FallaUncheckedUpdateManyWithoutReportadoPorNestedInput = {
+    create?: XOR<FallaCreateWithoutReportadoPorInput, FallaUncheckedCreateWithoutReportadoPorInput> | FallaCreateWithoutReportadoPorInput[] | FallaUncheckedCreateWithoutReportadoPorInput[]
+    connectOrCreate?: FallaCreateOrConnectWithoutReportadoPorInput | FallaCreateOrConnectWithoutReportadoPorInput[]
+    upsert?: FallaUpsertWithWhereUniqueWithoutReportadoPorInput | FallaUpsertWithWhereUniqueWithoutReportadoPorInput[]
+    createMany?: FallaCreateManyReportadoPorInputEnvelope
+    set?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
+    disconnect?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
+    delete?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
+    connect?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
+    update?: FallaUpdateWithWhereUniqueWithoutReportadoPorInput | FallaUpdateWithWhereUniqueWithoutReportadoPorInput[]
+    updateMany?: FallaUpdateManyWithWhereWithoutReportadoPorInput | FallaUpdateManyWithWhereWithoutReportadoPorInput[]
+    deleteMany?: FallaScalarWhereInput | FallaScalarWhereInput[]
+  }
+
+  export type FallaUncheckedUpdateManyWithoutAsignadoANestedInput = {
+    create?: XOR<FallaCreateWithoutAsignadoAInput, FallaUncheckedCreateWithoutAsignadoAInput> | FallaCreateWithoutAsignadoAInput[] | FallaUncheckedCreateWithoutAsignadoAInput[]
+    connectOrCreate?: FallaCreateOrConnectWithoutAsignadoAInput | FallaCreateOrConnectWithoutAsignadoAInput[]
+    upsert?: FallaUpsertWithWhereUniqueWithoutAsignadoAInput | FallaUpsertWithWhereUniqueWithoutAsignadoAInput[]
+    createMany?: FallaCreateManyAsignadoAInputEnvelope
+    set?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
+    disconnect?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
+    delete?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
+    connect?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
+    update?: FallaUpdateWithWhereUniqueWithoutAsignadoAInput | FallaUpdateWithWhereUniqueWithoutAsignadoAInput[]
+    updateMany?: FallaUpdateManyWithWhereWithoutAsignadoAInput | FallaUpdateManyWithWhereWithoutAsignadoAInput[]
+    deleteMany?: FallaScalarWhereInput | FallaScalarWhereInput[]
+  }
+
+  export type FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput = {
+    create?: XOR<FallaHistorialCreateWithoutReportadoPorInput, FallaHistorialUncheckedCreateWithoutReportadoPorInput> | FallaHistorialCreateWithoutReportadoPorInput[] | FallaHistorialUncheckedCreateWithoutReportadoPorInput[]
+    connectOrCreate?: FallaHistorialCreateOrConnectWithoutReportadoPorInput | FallaHistorialCreateOrConnectWithoutReportadoPorInput[]
+    upsert?: FallaHistorialUpsertWithWhereUniqueWithoutReportadoPorInput | FallaHistorialUpsertWithWhereUniqueWithoutReportadoPorInput[]
+    createMany?: FallaHistorialCreateManyReportadoPorInputEnvelope
+    set?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
+    disconnect?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
+    delete?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
+    connect?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
+    update?: FallaHistorialUpdateWithWhereUniqueWithoutReportadoPorInput | FallaHistorialUpdateWithWhereUniqueWithoutReportadoPorInput[]
+    updateMany?: FallaHistorialUpdateManyWithWhereWithoutReportadoPorInput | FallaHistorialUpdateManyWithWhereWithoutReportadoPorInput[]
+    deleteMany?: FallaHistorialScalarWhereInput | FallaHistorialScalarWhereInput[]
+  }
+
+  export type FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput = {
+    create?: XOR<FallaHistorialCreateWithoutAsignadoAInput, FallaHistorialUncheckedCreateWithoutAsignadoAInput> | FallaHistorialCreateWithoutAsignadoAInput[] | FallaHistorialUncheckedCreateWithoutAsignadoAInput[]
+    connectOrCreate?: FallaHistorialCreateOrConnectWithoutAsignadoAInput | FallaHistorialCreateOrConnectWithoutAsignadoAInput[]
+    upsert?: FallaHistorialUpsertWithWhereUniqueWithoutAsignadoAInput | FallaHistorialUpsertWithWhereUniqueWithoutAsignadoAInput[]
+    createMany?: FallaHistorialCreateManyAsignadoAInputEnvelope
+    set?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
+    disconnect?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
+    delete?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
+    connect?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
+    update?: FallaHistorialUpdateWithWhereUniqueWithoutAsignadoAInput | FallaHistorialUpdateWithWhereUniqueWithoutAsignadoAInput[]
+    updateMany?: FallaHistorialUpdateManyWithWhereWithoutAsignadoAInput | FallaHistorialUpdateManyWithWhereWithoutAsignadoAInput[]
+    deleteMany?: FallaHistorialScalarWhereInput | FallaHistorialScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutTutorInput = {
@@ -76643,6 +80477,10 @@ export namespace Prisma {
     materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
+    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserUncheckedCreateWithoutVotoInput = {
@@ -76690,6 +80528,10 @@ export namespace Prisma {
     materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
+    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserCreateOrConnectWithoutVotoInput = {
@@ -76781,6 +80623,10 @@ export namespace Prisma {
     materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
+    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUncheckedUpdateWithoutVotoInput = {
@@ -76828,6 +80674,10 @@ export namespace Prisma {
     materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
+    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
   }
 
   export type LibroMateriaCreateWithoutLibroInput = {
@@ -77821,6 +81671,10 @@ export namespace Prisma {
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserUncheckedCreateWithoutCursosComoProfesorInput = {
@@ -77868,6 +81722,10 @@ export namespace Prisma {
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserCreateOrConnectWithoutCursosComoProfesorInput = {
@@ -78098,6 +81956,10 @@ export namespace Prisma {
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUncheckedUpdateWithoutCursosComoProfesorInput = {
@@ -78145,6 +82007,10 @@ export namespace Prisma {
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
   }
 
   export type SedeUpsertWithoutCursosInput = {
@@ -78390,6 +82256,10 @@ export namespace Prisma {
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserUncheckedCreateWithoutCursosComoAyudanteInput = {
@@ -78437,6 +82307,10 @@ export namespace Prisma {
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserCreateOrConnectWithoutCursosComoAyudanteInput = {
@@ -78556,6 +82430,10 @@ export namespace Prisma {
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUncheckedUpdateWithoutCursosComoAyudanteInput = {
@@ -78603,6 +82481,10 @@ export namespace Prisma {
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
   }
 
   export type CursoCreateWithoutDivisionInput = {
@@ -78910,6 +82792,45 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type FallaCreateWithoutEquipoInput = {
+    tipoFalla: string
+    fallas?: FallaCreatefallasInput | string[]
+    descripcionEquipo?: string | null
+    descripcionFalla: string
+    condicion?: string | null
+    fechaReporte?: Date | string
+    estado: string
+    palabrasClave?: string | null
+    reportadoPor?: UserCreateNestedOneWithoutFallasReportadasInput
+    asignadoA?: UserCreateNestedOneWithoutFallasAsignadasInput
+    historial?: FallaHistorialCreateNestedManyWithoutFallaInput
+  }
+
+  export type FallaUncheckedCreateWithoutEquipoInput = {
+    id?: number
+    tipoFalla: string
+    fallas?: FallaCreatefallasInput | string[]
+    descripcionEquipo?: string | null
+    descripcionFalla: string
+    condicion?: string | null
+    fechaReporte?: Date | string
+    reportadoPorId?: string | null
+    asignadoAId?: string | null
+    estado: string
+    palabrasClave?: string | null
+    historial?: FallaHistorialUncheckedCreateNestedManyWithoutFallaInput
+  }
+
+  export type FallaCreateOrConnectWithoutEquipoInput = {
+    where: FallaWhereUniqueInput
+    create: XOR<FallaCreateWithoutEquipoInput, FallaUncheckedCreateWithoutEquipoInput>
+  }
+
+  export type FallaCreateManyEquipoInputEnvelope = {
+    data: FallaCreateManyEquipoInput | FallaCreateManyEquipoInput[]
+    skipDuplicates?: boolean
+  }
+
   export type EquipoTipoUpsertWithoutEquiposInput = {
     update: XOR<EquipoTipoUpdateWithoutEquiposInput, EquipoTipoUncheckedUpdateWithoutEquiposInput>
     create: XOR<EquipoTipoCreateWithoutEquiposInput, EquipoTipoUncheckedCreateWithoutEquiposInput>
@@ -79162,6 +83083,40 @@ export namespace Prisma {
     usuarioModificadorId?: StringFilter<"ReservaEquipo"> | string
   }
 
+  export type FallaUpsertWithWhereUniqueWithoutEquipoInput = {
+    where: FallaWhereUniqueInput
+    update: XOR<FallaUpdateWithoutEquipoInput, FallaUncheckedUpdateWithoutEquipoInput>
+    create: XOR<FallaCreateWithoutEquipoInput, FallaUncheckedCreateWithoutEquipoInput>
+  }
+
+  export type FallaUpdateWithWhereUniqueWithoutEquipoInput = {
+    where: FallaWhereUniqueInput
+    data: XOR<FallaUpdateWithoutEquipoInput, FallaUncheckedUpdateWithoutEquipoInput>
+  }
+
+  export type FallaUpdateManyWithWhereWithoutEquipoInput = {
+    where: FallaScalarWhereInput
+    data: XOR<FallaUpdateManyMutationInput, FallaUncheckedUpdateManyWithoutEquipoInput>
+  }
+
+  export type FallaScalarWhereInput = {
+    AND?: FallaScalarWhereInput | FallaScalarWhereInput[]
+    OR?: FallaScalarWhereInput[]
+    NOT?: FallaScalarWhereInput | FallaScalarWhereInput[]
+    id?: IntFilter<"Falla"> | number
+    equipoId?: IntNullableFilter<"Falla"> | number | null
+    tipoFalla?: StringFilter<"Falla"> | string
+    fallas?: StringNullableListFilter<"Falla">
+    descripcionEquipo?: StringNullableFilter<"Falla"> | string | null
+    descripcionFalla?: StringFilter<"Falla"> | string
+    condicion?: StringNullableFilter<"Falla"> | string | null
+    fechaReporte?: DateTimeFilter<"Falla"> | Date | string
+    reportadoPorId?: StringNullableFilter<"Falla"> | string | null
+    asignadoAId?: StringNullableFilter<"Falla"> | string | null
+    estado?: StringFilter<"Falla"> | string
+    palabrasClave?: StringNullableFilter<"Falla"> | string | null
+  }
+
   export type EquipoCreateWithoutMarcaInput = {
     inventarioId: string
     modelo?: string | null
@@ -79181,6 +83136,7 @@ export namespace Prisma {
     estante?: EstanteCreateNestedOneWithoutEquiposInput
     estado: EquipoEstadoCreateNestedOneWithoutEquiposInput
     reservas?: ReservaEquipoCreateNestedManyWithoutEquipoInput
+    fallaPc?: FallaCreateNestedManyWithoutEquipoInput
   }
 
   export type EquipoUncheckedCreateWithoutMarcaInput = {
@@ -79203,6 +83159,7 @@ export namespace Prisma {
     usuarioCreadorId: string
     usuarioModificadorId: string
     reservas?: ReservaEquipoUncheckedCreateNestedManyWithoutEquipoInput
+    fallaPc?: FallaUncheckedCreateNestedManyWithoutEquipoInput
   }
 
   export type EquipoCreateOrConnectWithoutMarcaInput = {
@@ -79275,6 +83232,7 @@ export namespace Prisma {
     estante?: EstanteCreateNestedOneWithoutEquiposInput
     estado: EquipoEstadoCreateNestedOneWithoutEquiposInput
     reservas?: ReservaEquipoCreateNestedManyWithoutEquipoInput
+    fallaPc?: FallaCreateNestedManyWithoutEquipoInput
   }
 
   export type EquipoUncheckedCreateWithoutTipoInput = {
@@ -79297,6 +83255,7 @@ export namespace Prisma {
     usuarioCreadorId: string
     usuarioModificadorId: string
     reservas?: ReservaEquipoUncheckedCreateNestedManyWithoutEquipoInput
+    fallaPc?: FallaUncheckedCreateNestedManyWithoutEquipoInput
   }
 
   export type EquipoCreateOrConnectWithoutTipoInput = {
@@ -79462,6 +83421,7 @@ export namespace Prisma {
     armario?: ArmarioCreateNestedOneWithoutEquiposInput
     estante?: EstanteCreateNestedOneWithoutEquiposInput
     reservas?: ReservaEquipoCreateNestedManyWithoutEquipoInput
+    fallaPc?: FallaCreateNestedManyWithoutEquipoInput
   }
 
   export type EquipoUncheckedCreateWithoutEstadoInput = {
@@ -79484,6 +83444,7 @@ export namespace Prisma {
     usuarioCreadorId: string
     usuarioModificadorId: string
     reservas?: ReservaEquipoUncheckedCreateNestedManyWithoutEquipoInput
+    fallaPc?: FallaUncheckedCreateNestedManyWithoutEquipoInput
   }
 
   export type EquipoCreateOrConnectWithoutEstadoInput = {
@@ -79510,6 +83471,1131 @@ export namespace Prisma {
   export type EquipoUpdateManyWithWhereWithoutEstadoInput = {
     where: EquipoScalarWhereInput
     data: XOR<EquipoUpdateManyMutationInput, EquipoUncheckedUpdateManyWithoutEstadoInput>
+  }
+
+  export type EquipoCreateWithoutFallaPcInput = {
+    inventarioId: string
+    modelo?: string | null
+    numeroSerie?: string | null
+    observaciones?: string | null
+    palabrasClave?: string | null
+    imagen?: string | null
+    disponible?: boolean
+    fechaCreacion?: Date | string
+    fechaModificacion?: Date | string
+    usuarioCreadorId: string
+    usuarioModificadorId: string
+    tipo: EquipoTipoCreateNestedOneWithoutEquiposInput
+    marca: EquipoMarcaCreateNestedOneWithoutEquiposInput
+    sede: SedeCreateNestedOneWithoutEquiposInput
+    laboratorio: LaboratorioCreateNestedOneWithoutEquiposInput
+    armario?: ArmarioCreateNestedOneWithoutEquiposInput
+    estante?: EstanteCreateNestedOneWithoutEquiposInput
+    estado: EquipoEstadoCreateNestedOneWithoutEquiposInput
+    reservas?: ReservaEquipoCreateNestedManyWithoutEquipoInput
+  }
+
+  export type EquipoUncheckedCreateWithoutFallaPcInput = {
+    id?: number
+    inventarioId: string
+    modelo?: string | null
+    numeroSerie?: string | null
+    observaciones?: string | null
+    palabrasClave?: string | null
+    imagen?: string | null
+    tipoId: number
+    marcaId: number
+    sedeId: number
+    laboratorioId: number
+    armarioId?: number | null
+    estanteId?: number | null
+    estadoId: number
+    disponible?: boolean
+    fechaCreacion?: Date | string
+    fechaModificacion?: Date | string
+    usuarioCreadorId: string
+    usuarioModificadorId: string
+    reservas?: ReservaEquipoUncheckedCreateNestedManyWithoutEquipoInput
+  }
+
+  export type EquipoCreateOrConnectWithoutFallaPcInput = {
+    where: EquipoWhereUniqueInput
+    create: XOR<EquipoCreateWithoutFallaPcInput, EquipoUncheckedCreateWithoutFallaPcInput>
+  }
+
+  export type UserCreateWithoutFallasReportadasInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified?: boolean | null
+    image?: string
+    nombre?: string | null
+    apellido?: string | null
+    fechaNacimiento?: Date | string | null
+    direccion?: string | null
+    piso?: string | null
+    departamento?: string | null
+    ciudad?: string | null
+    codigoPostal?: string | null
+    telefonoCasa?: string | null
+    telefonoCelular?: string | null
+    telefonoLaboral?: string | null
+    documentoNumero?: string | null
+    legajo?: string | null
+    gitlab?: string | null
+    penalizaciones?: number
+    esDocente?: boolean
+    esTutor?: boolean
+    fechaRegistro?: Date | string
+    fechaUltimoAcceso?: Date | string
+    fechaUltimaActualizacion?: Date | string
+    documentoTipo?: DocumentoTipoCreateNestedOneWithoutUsuariosInput
+    provincia?: ProvinciaCreateNestedOneWithoutUsuariosInput
+    pais?: PaisCreateNestedOneWithoutUsuariosInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
+    reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
+    reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
+    reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
+    cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
+    tutor?: TutorCreateNestedOneWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
+    Voto?: VotoCreateNestedManyWithoutUserInput
+    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
+  }
+
+  export type UserUncheckedCreateWithoutFallasReportadasInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified?: boolean | null
+    image?: string
+    nombre?: string | null
+    apellido?: string | null
+    fechaNacimiento?: Date | string | null
+    direccion?: string | null
+    piso?: string | null
+    departamento?: string | null
+    ciudad?: string | null
+    codigoPostal?: string | null
+    telefonoCasa?: string | null
+    telefonoCelular?: string | null
+    telefonoLaboral?: string | null
+    documentoNumero?: string | null
+    legajo?: string | null
+    gitlab?: string | null
+    penalizaciones?: number
+    esDocente?: boolean
+    esTutor?: boolean
+    fechaRegistro?: Date | string
+    fechaUltimoAcceso?: Date | string
+    fechaUltimaActualizacion?: Date | string
+    documentoTipoId?: number | null
+    provinciaIso?: string | null
+    paisIso?: string | null
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolUncheckedCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
+    reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
+    reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
+    reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
+    cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
+    tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
+    Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
+    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
+  }
+
+  export type UserCreateOrConnectWithoutFallasReportadasInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutFallasReportadasInput, UserUncheckedCreateWithoutFallasReportadasInput>
+  }
+
+  export type UserCreateWithoutFallasAsignadasInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified?: boolean | null
+    image?: string
+    nombre?: string | null
+    apellido?: string | null
+    fechaNacimiento?: Date | string | null
+    direccion?: string | null
+    piso?: string | null
+    departamento?: string | null
+    ciudad?: string | null
+    codigoPostal?: string | null
+    telefonoCasa?: string | null
+    telefonoCelular?: string | null
+    telefonoLaboral?: string | null
+    documentoNumero?: string | null
+    legajo?: string | null
+    gitlab?: string | null
+    penalizaciones?: number
+    esDocente?: boolean
+    esTutor?: boolean
+    fechaRegistro?: Date | string
+    fechaUltimoAcceso?: Date | string
+    fechaUltimaActualizacion?: Date | string
+    documentoTipo?: DocumentoTipoCreateNestedOneWithoutUsuariosInput
+    provincia?: ProvinciaCreateNestedOneWithoutUsuariosInput
+    pais?: PaisCreateNestedOneWithoutUsuariosInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
+    reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
+    reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
+    reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
+    cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
+    tutor?: TutorCreateNestedOneWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
+    Voto?: VotoCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
+    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
+  }
+
+  export type UserUncheckedCreateWithoutFallasAsignadasInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified?: boolean | null
+    image?: string
+    nombre?: string | null
+    apellido?: string | null
+    fechaNacimiento?: Date | string | null
+    direccion?: string | null
+    piso?: string | null
+    departamento?: string | null
+    ciudad?: string | null
+    codigoPostal?: string | null
+    telefonoCasa?: string | null
+    telefonoCelular?: string | null
+    telefonoLaboral?: string | null
+    documentoNumero?: string | null
+    legajo?: string | null
+    gitlab?: string | null
+    penalizaciones?: number
+    esDocente?: boolean
+    esTutor?: boolean
+    fechaRegistro?: Date | string
+    fechaUltimoAcceso?: Date | string
+    fechaUltimaActualizacion?: Date | string
+    documentoTipoId?: number | null
+    provinciaIso?: string | null
+    paisIso?: string | null
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolUncheckedCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
+    reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
+    reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
+    reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
+    cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
+    tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
+    Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
+  }
+
+  export type UserCreateOrConnectWithoutFallasAsignadasInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutFallasAsignadasInput, UserUncheckedCreateWithoutFallasAsignadasInput>
+  }
+
+  export type FallaHistorialCreateWithoutFallaInput = {
+    fallas?: FallaHistorialCreatefallasInput | string[]
+    descripcionEquipo?: string | null
+    descripcionFalla: string
+    estado: string
+    fechaReporte: Date | string
+    fechaCambioEstado?: Date | string
+    reportadoPor?: UserCreateNestedOneWithoutFallasHistReportadasInput
+    asignadoA?: UserCreateNestedOneWithoutFallasHistAsignadasInput
+  }
+
+  export type FallaHistorialUncheckedCreateWithoutFallaInput = {
+    id?: number
+    fallas?: FallaHistorialCreatefallasInput | string[]
+    descripcionEquipo?: string | null
+    descripcionFalla: string
+    reportadoPorId?: string | null
+    asignadoAId?: string | null
+    estado: string
+    fechaReporte: Date | string
+    fechaCambioEstado?: Date | string
+  }
+
+  export type FallaHistorialCreateOrConnectWithoutFallaInput = {
+    where: FallaHistorialWhereUniqueInput
+    create: XOR<FallaHistorialCreateWithoutFallaInput, FallaHistorialUncheckedCreateWithoutFallaInput>
+  }
+
+  export type FallaHistorialCreateManyFallaInputEnvelope = {
+    data: FallaHistorialCreateManyFallaInput | FallaHistorialCreateManyFallaInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type EquipoUpsertWithoutFallaPcInput = {
+    update: XOR<EquipoUpdateWithoutFallaPcInput, EquipoUncheckedUpdateWithoutFallaPcInput>
+    create: XOR<EquipoCreateWithoutFallaPcInput, EquipoUncheckedCreateWithoutFallaPcInput>
+    where?: EquipoWhereInput
+  }
+
+  export type EquipoUpdateToOneWithWhereWithoutFallaPcInput = {
+    where?: EquipoWhereInput
+    data: XOR<EquipoUpdateWithoutFallaPcInput, EquipoUncheckedUpdateWithoutFallaPcInput>
+  }
+
+  export type EquipoUpdateWithoutFallaPcInput = {
+    inventarioId?: StringFieldUpdateOperationsInput | string
+    modelo?: NullableStringFieldUpdateOperationsInput | string | null
+    numeroSerie?: NullableStringFieldUpdateOperationsInput | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    palabrasClave?: NullableStringFieldUpdateOperationsInput | string | null
+    imagen?: NullableStringFieldUpdateOperationsInput | string | null
+    disponible?: BoolFieldUpdateOperationsInput | boolean
+    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaModificacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    usuarioCreadorId?: StringFieldUpdateOperationsInput | string
+    usuarioModificadorId?: StringFieldUpdateOperationsInput | string
+    tipo?: EquipoTipoUpdateOneRequiredWithoutEquiposNestedInput
+    marca?: EquipoMarcaUpdateOneRequiredWithoutEquiposNestedInput
+    sede?: SedeUpdateOneRequiredWithoutEquiposNestedInput
+    laboratorio?: LaboratorioUpdateOneRequiredWithoutEquiposNestedInput
+    armario?: ArmarioUpdateOneWithoutEquiposNestedInput
+    estante?: EstanteUpdateOneWithoutEquiposNestedInput
+    estado?: EquipoEstadoUpdateOneRequiredWithoutEquiposNestedInput
+    reservas?: ReservaEquipoUpdateManyWithoutEquipoNestedInput
+  }
+
+  export type EquipoUncheckedUpdateWithoutFallaPcInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    inventarioId?: StringFieldUpdateOperationsInput | string
+    modelo?: NullableStringFieldUpdateOperationsInput | string | null
+    numeroSerie?: NullableStringFieldUpdateOperationsInput | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    palabrasClave?: NullableStringFieldUpdateOperationsInput | string | null
+    imagen?: NullableStringFieldUpdateOperationsInput | string | null
+    tipoId?: IntFieldUpdateOperationsInput | number
+    marcaId?: IntFieldUpdateOperationsInput | number
+    sedeId?: IntFieldUpdateOperationsInput | number
+    laboratorioId?: IntFieldUpdateOperationsInput | number
+    armarioId?: NullableIntFieldUpdateOperationsInput | number | null
+    estanteId?: NullableIntFieldUpdateOperationsInput | number | null
+    estadoId?: IntFieldUpdateOperationsInput | number
+    disponible?: BoolFieldUpdateOperationsInput | boolean
+    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaModificacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    usuarioCreadorId?: StringFieldUpdateOperationsInput | string
+    usuarioModificadorId?: StringFieldUpdateOperationsInput | string
+    reservas?: ReservaEquipoUncheckedUpdateManyWithoutEquipoNestedInput
+  }
+
+  export type UserUpsertWithoutFallasReportadasInput = {
+    update: XOR<UserUpdateWithoutFallasReportadasInput, UserUncheckedUpdateWithoutFallasReportadasInput>
+    create: XOR<UserCreateWithoutFallasReportadasInput, UserUncheckedCreateWithoutFallasReportadasInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutFallasReportadasInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutFallasReportadasInput, UserUncheckedUpdateWithoutFallasReportadasInput>
+  }
+
+  export type UserUpdateWithoutFallasReportadasInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    image?: StringFieldUpdateOperationsInput | string
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
+    apellido?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    direccion?: NullableStringFieldUpdateOperationsInput | string | null
+    piso?: NullableStringFieldUpdateOperationsInput | string | null
+    departamento?: NullableStringFieldUpdateOperationsInput | string | null
+    ciudad?: NullableStringFieldUpdateOperationsInput | string | null
+    codigoPostal?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoCasa?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoCelular?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoLaboral?: NullableStringFieldUpdateOperationsInput | string | null
+    documentoNumero?: NullableStringFieldUpdateOperationsInput | string | null
+    legajo?: NullableStringFieldUpdateOperationsInput | string | null
+    gitlab?: NullableStringFieldUpdateOperationsInput | string | null
+    penalizaciones?: IntFieldUpdateOperationsInput | number
+    esDocente?: BoolFieldUpdateOperationsInput | boolean
+    esTutor?: BoolFieldUpdateOperationsInput | boolean
+    fechaRegistro?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaUltimoAcceso?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaUltimaActualizacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    documentoTipo?: DocumentoTipoUpdateOneWithoutUsuariosNestedInput
+    provincia?: ProvinciaUpdateOneWithoutUsuariosNestedInput
+    pais?: PaisUpdateOneWithoutUsuariosNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
+    reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
+    reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
+    reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
+    cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
+    tutor?: TutorUpdateOneWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
+    Voto?: VotoUpdateManyWithoutUserNestedInput
+    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutFallasReportadasInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    image?: StringFieldUpdateOperationsInput | string
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
+    apellido?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    direccion?: NullableStringFieldUpdateOperationsInput | string | null
+    piso?: NullableStringFieldUpdateOperationsInput | string | null
+    departamento?: NullableStringFieldUpdateOperationsInput | string | null
+    ciudad?: NullableStringFieldUpdateOperationsInput | string | null
+    codigoPostal?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoCasa?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoCelular?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoLaboral?: NullableStringFieldUpdateOperationsInput | string | null
+    documentoNumero?: NullableStringFieldUpdateOperationsInput | string | null
+    legajo?: NullableStringFieldUpdateOperationsInput | string | null
+    gitlab?: NullableStringFieldUpdateOperationsInput | string | null
+    penalizaciones?: IntFieldUpdateOperationsInput | number
+    esDocente?: BoolFieldUpdateOperationsInput | boolean
+    esTutor?: BoolFieldUpdateOperationsInput | boolean
+    fechaRegistro?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaUltimoAcceso?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaUltimaActualizacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    documentoTipoId?: NullableIntFieldUpdateOperationsInput | number | null
+    provinciaIso?: NullableStringFieldUpdateOperationsInput | string | null
+    paisIso?: NullableStringFieldUpdateOperationsInput | string | null
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUncheckedUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUncheckedUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUncheckedUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
+    reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
+    reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
+    reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
+    cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
+    tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
+    Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
+    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
+  }
+
+  export type UserUpsertWithoutFallasAsignadasInput = {
+    update: XOR<UserUpdateWithoutFallasAsignadasInput, UserUncheckedUpdateWithoutFallasAsignadasInput>
+    create: XOR<UserCreateWithoutFallasAsignadasInput, UserUncheckedCreateWithoutFallasAsignadasInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutFallasAsignadasInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutFallasAsignadasInput, UserUncheckedUpdateWithoutFallasAsignadasInput>
+  }
+
+  export type UserUpdateWithoutFallasAsignadasInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    image?: StringFieldUpdateOperationsInput | string
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
+    apellido?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    direccion?: NullableStringFieldUpdateOperationsInput | string | null
+    piso?: NullableStringFieldUpdateOperationsInput | string | null
+    departamento?: NullableStringFieldUpdateOperationsInput | string | null
+    ciudad?: NullableStringFieldUpdateOperationsInput | string | null
+    codigoPostal?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoCasa?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoCelular?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoLaboral?: NullableStringFieldUpdateOperationsInput | string | null
+    documentoNumero?: NullableStringFieldUpdateOperationsInput | string | null
+    legajo?: NullableStringFieldUpdateOperationsInput | string | null
+    gitlab?: NullableStringFieldUpdateOperationsInput | string | null
+    penalizaciones?: IntFieldUpdateOperationsInput | number
+    esDocente?: BoolFieldUpdateOperationsInput | boolean
+    esTutor?: BoolFieldUpdateOperationsInput | boolean
+    fechaRegistro?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaUltimoAcceso?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaUltimaActualizacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    documentoTipo?: DocumentoTipoUpdateOneWithoutUsuariosNestedInput
+    provincia?: ProvinciaUpdateOneWithoutUsuariosNestedInput
+    pais?: PaisUpdateOneWithoutUsuariosNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
+    reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
+    reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
+    reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
+    cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
+    tutor?: TutorUpdateOneWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
+    Voto?: VotoUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
+    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutFallasAsignadasInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    image?: StringFieldUpdateOperationsInput | string
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
+    apellido?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    direccion?: NullableStringFieldUpdateOperationsInput | string | null
+    piso?: NullableStringFieldUpdateOperationsInput | string | null
+    departamento?: NullableStringFieldUpdateOperationsInput | string | null
+    ciudad?: NullableStringFieldUpdateOperationsInput | string | null
+    codigoPostal?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoCasa?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoCelular?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoLaboral?: NullableStringFieldUpdateOperationsInput | string | null
+    documentoNumero?: NullableStringFieldUpdateOperationsInput | string | null
+    legajo?: NullableStringFieldUpdateOperationsInput | string | null
+    gitlab?: NullableStringFieldUpdateOperationsInput | string | null
+    penalizaciones?: IntFieldUpdateOperationsInput | number
+    esDocente?: BoolFieldUpdateOperationsInput | boolean
+    esTutor?: BoolFieldUpdateOperationsInput | boolean
+    fechaRegistro?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaUltimoAcceso?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaUltimaActualizacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    documentoTipoId?: NullableIntFieldUpdateOperationsInput | number | null
+    provinciaIso?: NullableStringFieldUpdateOperationsInput | string | null
+    paisIso?: NullableStringFieldUpdateOperationsInput | string | null
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUncheckedUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUncheckedUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUncheckedUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
+    reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
+    reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
+    reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
+    cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
+    tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
+    Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
+  }
+
+  export type FallaHistorialUpsertWithWhereUniqueWithoutFallaInput = {
+    where: FallaHistorialWhereUniqueInput
+    update: XOR<FallaHistorialUpdateWithoutFallaInput, FallaHistorialUncheckedUpdateWithoutFallaInput>
+    create: XOR<FallaHistorialCreateWithoutFallaInput, FallaHistorialUncheckedCreateWithoutFallaInput>
+  }
+
+  export type FallaHistorialUpdateWithWhereUniqueWithoutFallaInput = {
+    where: FallaHistorialWhereUniqueInput
+    data: XOR<FallaHistorialUpdateWithoutFallaInput, FallaHistorialUncheckedUpdateWithoutFallaInput>
+  }
+
+  export type FallaHistorialUpdateManyWithWhereWithoutFallaInput = {
+    where: FallaHistorialScalarWhereInput
+    data: XOR<FallaHistorialUpdateManyMutationInput, FallaHistorialUncheckedUpdateManyWithoutFallaInput>
+  }
+
+  export type FallaHistorialScalarWhereInput = {
+    AND?: FallaHistorialScalarWhereInput | FallaHistorialScalarWhereInput[]
+    OR?: FallaHistorialScalarWhereInput[]
+    NOT?: FallaHistorialScalarWhereInput | FallaHistorialScalarWhereInput[]
+    id?: IntFilter<"FallaHistorial"> | number
+    fallaId?: IntFilter<"FallaHistorial"> | number
+    fallas?: StringNullableListFilter<"FallaHistorial">
+    descripcionEquipo?: StringNullableFilter<"FallaHistorial"> | string | null
+    descripcionFalla?: StringFilter<"FallaHistorial"> | string
+    reportadoPorId?: StringNullableFilter<"FallaHistorial"> | string | null
+    asignadoAId?: StringNullableFilter<"FallaHistorial"> | string | null
+    estado?: StringFilter<"FallaHistorial"> | string
+    fechaReporte?: DateTimeFilter<"FallaHistorial"> | Date | string
+    fechaCambioEstado?: DateTimeFilter<"FallaHistorial"> | Date | string
+  }
+
+  export type FallaCreateWithoutHistorialInput = {
+    tipoFalla: string
+    fallas?: FallaCreatefallasInput | string[]
+    descripcionEquipo?: string | null
+    descripcionFalla: string
+    condicion?: string | null
+    fechaReporte?: Date | string
+    estado: string
+    palabrasClave?: string | null
+    equipo?: EquipoCreateNestedOneWithoutFallaPcInput
+    reportadoPor?: UserCreateNestedOneWithoutFallasReportadasInput
+    asignadoA?: UserCreateNestedOneWithoutFallasAsignadasInput
+  }
+
+  export type FallaUncheckedCreateWithoutHistorialInput = {
+    id?: number
+    equipoId?: number | null
+    tipoFalla: string
+    fallas?: FallaCreatefallasInput | string[]
+    descripcionEquipo?: string | null
+    descripcionFalla: string
+    condicion?: string | null
+    fechaReporte?: Date | string
+    reportadoPorId?: string | null
+    asignadoAId?: string | null
+    estado: string
+    palabrasClave?: string | null
+  }
+
+  export type FallaCreateOrConnectWithoutHistorialInput = {
+    where: FallaWhereUniqueInput
+    create: XOR<FallaCreateWithoutHistorialInput, FallaUncheckedCreateWithoutHistorialInput>
+  }
+
+  export type UserCreateWithoutFallasHistReportadasInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified?: boolean | null
+    image?: string
+    nombre?: string | null
+    apellido?: string | null
+    fechaNacimiento?: Date | string | null
+    direccion?: string | null
+    piso?: string | null
+    departamento?: string | null
+    ciudad?: string | null
+    codigoPostal?: string | null
+    telefonoCasa?: string | null
+    telefonoCelular?: string | null
+    telefonoLaboral?: string | null
+    documentoNumero?: string | null
+    legajo?: string | null
+    gitlab?: string | null
+    penalizaciones?: number
+    esDocente?: boolean
+    esTutor?: boolean
+    fechaRegistro?: Date | string
+    fechaUltimoAcceso?: Date | string
+    fechaUltimaActualizacion?: Date | string
+    documentoTipo?: DocumentoTipoCreateNestedOneWithoutUsuariosInput
+    provincia?: ProvinciaCreateNestedOneWithoutUsuariosInput
+    pais?: PaisCreateNestedOneWithoutUsuariosInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
+    reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
+    reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
+    reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
+    cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
+    tutor?: TutorCreateNestedOneWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
+    Voto?: VotoCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
+    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
+  }
+
+  export type UserUncheckedCreateWithoutFallasHistReportadasInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified?: boolean | null
+    image?: string
+    nombre?: string | null
+    apellido?: string | null
+    fechaNacimiento?: Date | string | null
+    direccion?: string | null
+    piso?: string | null
+    departamento?: string | null
+    ciudad?: string | null
+    codigoPostal?: string | null
+    telefonoCasa?: string | null
+    telefonoCelular?: string | null
+    telefonoLaboral?: string | null
+    documentoNumero?: string | null
+    legajo?: string | null
+    gitlab?: string | null
+    penalizaciones?: number
+    esDocente?: boolean
+    esTutor?: boolean
+    fechaRegistro?: Date | string
+    fechaUltimoAcceso?: Date | string
+    fechaUltimaActualizacion?: Date | string
+    documentoTipoId?: number | null
+    provinciaIso?: string | null
+    paisIso?: string | null
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolUncheckedCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
+    reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
+    reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
+    reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
+    cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
+    tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
+    Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
+    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
+  }
+
+  export type UserCreateOrConnectWithoutFallasHistReportadasInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutFallasHistReportadasInput, UserUncheckedCreateWithoutFallasHistReportadasInput>
+  }
+
+  export type UserCreateWithoutFallasHistAsignadasInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified?: boolean | null
+    image?: string
+    nombre?: string | null
+    apellido?: string | null
+    fechaNacimiento?: Date | string | null
+    direccion?: string | null
+    piso?: string | null
+    departamento?: string | null
+    ciudad?: string | null
+    codigoPostal?: string | null
+    telefonoCasa?: string | null
+    telefonoCelular?: string | null
+    telefonoLaboral?: string | null
+    documentoNumero?: string | null
+    legajo?: string | null
+    gitlab?: string | null
+    penalizaciones?: number
+    esDocente?: boolean
+    esTutor?: boolean
+    fechaRegistro?: Date | string
+    fechaUltimoAcceso?: Date | string
+    fechaUltimaActualizacion?: Date | string
+    documentoTipo?: DocumentoTipoCreateNestedOneWithoutUsuariosInput
+    provincia?: ProvinciaCreateNestedOneWithoutUsuariosInput
+    pais?: PaisCreateNestedOneWithoutUsuariosInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
+    reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
+    reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
+    reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
+    cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
+    tutor?: TutorCreateNestedOneWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
+    Voto?: VotoCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
+  }
+
+  export type UserUncheckedCreateWithoutFallasHistAsignadasInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified?: boolean | null
+    image?: string
+    nombre?: string | null
+    apellido?: string | null
+    fechaNacimiento?: Date | string | null
+    direccion?: string | null
+    piso?: string | null
+    departamento?: string | null
+    ciudad?: string | null
+    codigoPostal?: string | null
+    telefonoCasa?: string | null
+    telefonoCelular?: string | null
+    telefonoLaboral?: string | null
+    documentoNumero?: string | null
+    legajo?: string | null
+    gitlab?: string | null
+    penalizaciones?: number
+    esDocente?: boolean
+    esTutor?: boolean
+    fechaRegistro?: Date | string
+    fechaUltimoAcceso?: Date | string
+    fechaUltimaActualizacion?: Date | string
+    documentoTipoId?: number | null
+    provinciaIso?: string | null
+    paisIso?: string | null
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolUncheckedCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
+    reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
+    reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
+    reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
+    cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
+    tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
+    Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
+  }
+
+  export type UserCreateOrConnectWithoutFallasHistAsignadasInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutFallasHistAsignadasInput, UserUncheckedCreateWithoutFallasHistAsignadasInput>
+  }
+
+  export type FallaUpsertWithoutHistorialInput = {
+    update: XOR<FallaUpdateWithoutHistorialInput, FallaUncheckedUpdateWithoutHistorialInput>
+    create: XOR<FallaCreateWithoutHistorialInput, FallaUncheckedCreateWithoutHistorialInput>
+    where?: FallaWhereInput
+  }
+
+  export type FallaUpdateToOneWithWhereWithoutHistorialInput = {
+    where?: FallaWhereInput
+    data: XOR<FallaUpdateWithoutHistorialInput, FallaUncheckedUpdateWithoutHistorialInput>
+  }
+
+  export type FallaUpdateWithoutHistorialInput = {
+    tipoFalla?: StringFieldUpdateOperationsInput | string
+    fallas?: FallaUpdatefallasInput | string[]
+    descripcionEquipo?: NullableStringFieldUpdateOperationsInput | string | null
+    descripcionFalla?: StringFieldUpdateOperationsInput | string
+    condicion?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaReporte?: DateTimeFieldUpdateOperationsInput | Date | string
+    estado?: StringFieldUpdateOperationsInput | string
+    palabrasClave?: NullableStringFieldUpdateOperationsInput | string | null
+    equipo?: EquipoUpdateOneWithoutFallaPcNestedInput
+    reportadoPor?: UserUpdateOneWithoutFallasReportadasNestedInput
+    asignadoA?: UserUpdateOneWithoutFallasAsignadasNestedInput
+  }
+
+  export type FallaUncheckedUpdateWithoutHistorialInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    equipoId?: NullableIntFieldUpdateOperationsInput | number | null
+    tipoFalla?: StringFieldUpdateOperationsInput | string
+    fallas?: FallaUpdatefallasInput | string[]
+    descripcionEquipo?: NullableStringFieldUpdateOperationsInput | string | null
+    descripcionFalla?: StringFieldUpdateOperationsInput | string
+    condicion?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaReporte?: DateTimeFieldUpdateOperationsInput | Date | string
+    reportadoPorId?: NullableStringFieldUpdateOperationsInput | string | null
+    asignadoAId?: NullableStringFieldUpdateOperationsInput | string | null
+    estado?: StringFieldUpdateOperationsInput | string
+    palabrasClave?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type UserUpsertWithoutFallasHistReportadasInput = {
+    update: XOR<UserUpdateWithoutFallasHistReportadasInput, UserUncheckedUpdateWithoutFallasHistReportadasInput>
+    create: XOR<UserCreateWithoutFallasHistReportadasInput, UserUncheckedCreateWithoutFallasHistReportadasInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutFallasHistReportadasInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutFallasHistReportadasInput, UserUncheckedUpdateWithoutFallasHistReportadasInput>
+  }
+
+  export type UserUpdateWithoutFallasHistReportadasInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    image?: StringFieldUpdateOperationsInput | string
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
+    apellido?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    direccion?: NullableStringFieldUpdateOperationsInput | string | null
+    piso?: NullableStringFieldUpdateOperationsInput | string | null
+    departamento?: NullableStringFieldUpdateOperationsInput | string | null
+    ciudad?: NullableStringFieldUpdateOperationsInput | string | null
+    codigoPostal?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoCasa?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoCelular?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoLaboral?: NullableStringFieldUpdateOperationsInput | string | null
+    documentoNumero?: NullableStringFieldUpdateOperationsInput | string | null
+    legajo?: NullableStringFieldUpdateOperationsInput | string | null
+    gitlab?: NullableStringFieldUpdateOperationsInput | string | null
+    penalizaciones?: IntFieldUpdateOperationsInput | number
+    esDocente?: BoolFieldUpdateOperationsInput | boolean
+    esTutor?: BoolFieldUpdateOperationsInput | boolean
+    fechaRegistro?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaUltimoAcceso?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaUltimaActualizacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    documentoTipo?: DocumentoTipoUpdateOneWithoutUsuariosNestedInput
+    provincia?: ProvinciaUpdateOneWithoutUsuariosNestedInput
+    pais?: PaisUpdateOneWithoutUsuariosNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
+    reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
+    reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
+    reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
+    cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
+    tutor?: TutorUpdateOneWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
+    Voto?: VotoUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
+    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutFallasHistReportadasInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    image?: StringFieldUpdateOperationsInput | string
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
+    apellido?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    direccion?: NullableStringFieldUpdateOperationsInput | string | null
+    piso?: NullableStringFieldUpdateOperationsInput | string | null
+    departamento?: NullableStringFieldUpdateOperationsInput | string | null
+    ciudad?: NullableStringFieldUpdateOperationsInput | string | null
+    codigoPostal?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoCasa?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoCelular?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoLaboral?: NullableStringFieldUpdateOperationsInput | string | null
+    documentoNumero?: NullableStringFieldUpdateOperationsInput | string | null
+    legajo?: NullableStringFieldUpdateOperationsInput | string | null
+    gitlab?: NullableStringFieldUpdateOperationsInput | string | null
+    penalizaciones?: IntFieldUpdateOperationsInput | number
+    esDocente?: BoolFieldUpdateOperationsInput | boolean
+    esTutor?: BoolFieldUpdateOperationsInput | boolean
+    fechaRegistro?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaUltimoAcceso?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaUltimaActualizacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    documentoTipoId?: NullableIntFieldUpdateOperationsInput | number | null
+    provinciaIso?: NullableStringFieldUpdateOperationsInput | string | null
+    paisIso?: NullableStringFieldUpdateOperationsInput | string | null
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUncheckedUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUncheckedUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUncheckedUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
+    reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
+    reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
+    reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
+    cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
+    tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
+    Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
+    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
+  }
+
+  export type UserUpsertWithoutFallasHistAsignadasInput = {
+    update: XOR<UserUpdateWithoutFallasHistAsignadasInput, UserUncheckedUpdateWithoutFallasHistAsignadasInput>
+    create: XOR<UserCreateWithoutFallasHistAsignadasInput, UserUncheckedCreateWithoutFallasHistAsignadasInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutFallasHistAsignadasInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutFallasHistAsignadasInput, UserUncheckedUpdateWithoutFallasHistAsignadasInput>
+  }
+
+  export type UserUpdateWithoutFallasHistAsignadasInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    image?: StringFieldUpdateOperationsInput | string
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
+    apellido?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    direccion?: NullableStringFieldUpdateOperationsInput | string | null
+    piso?: NullableStringFieldUpdateOperationsInput | string | null
+    departamento?: NullableStringFieldUpdateOperationsInput | string | null
+    ciudad?: NullableStringFieldUpdateOperationsInput | string | null
+    codigoPostal?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoCasa?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoCelular?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoLaboral?: NullableStringFieldUpdateOperationsInput | string | null
+    documentoNumero?: NullableStringFieldUpdateOperationsInput | string | null
+    legajo?: NullableStringFieldUpdateOperationsInput | string | null
+    gitlab?: NullableStringFieldUpdateOperationsInput | string | null
+    penalizaciones?: IntFieldUpdateOperationsInput | number
+    esDocente?: BoolFieldUpdateOperationsInput | boolean
+    esTutor?: BoolFieldUpdateOperationsInput | boolean
+    fechaRegistro?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaUltimoAcceso?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaUltimaActualizacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    documentoTipo?: DocumentoTipoUpdateOneWithoutUsuariosNestedInput
+    provincia?: ProvinciaUpdateOneWithoutUsuariosNestedInput
+    pais?: PaisUpdateOneWithoutUsuariosNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
+    reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
+    reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
+    reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
+    cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
+    tutor?: TutorUpdateOneWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
+    Voto?: VotoUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutFallasHistAsignadasInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    image?: StringFieldUpdateOperationsInput | string
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
+    apellido?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    direccion?: NullableStringFieldUpdateOperationsInput | string | null
+    piso?: NullableStringFieldUpdateOperationsInput | string | null
+    departamento?: NullableStringFieldUpdateOperationsInput | string | null
+    ciudad?: NullableStringFieldUpdateOperationsInput | string | null
+    codigoPostal?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoCasa?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoCelular?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoLaboral?: NullableStringFieldUpdateOperationsInput | string | null
+    documentoNumero?: NullableStringFieldUpdateOperationsInput | string | null
+    legajo?: NullableStringFieldUpdateOperationsInput | string | null
+    gitlab?: NullableStringFieldUpdateOperationsInput | string | null
+    penalizaciones?: IntFieldUpdateOperationsInput | number
+    esDocente?: BoolFieldUpdateOperationsInput | boolean
+    esTutor?: BoolFieldUpdateOperationsInput | boolean
+    fechaRegistro?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaUltimoAcceso?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaUltimaActualizacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    documentoTipoId?: NullableIntFieldUpdateOperationsInput | number | null
+    provinciaIso?: NullableStringFieldUpdateOperationsInput | string | null
+    paisIso?: NullableStringFieldUpdateOperationsInput | string | null
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUncheckedUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUncheckedUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUncheckedUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
+    reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
+    reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
+    reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
+    cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
+    tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
+    Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
   }
 
   export type UserCreateWithoutInscripcionesEspecialesInput = {
@@ -79557,6 +84643,10 @@ export namespace Prisma {
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserUncheckedCreateWithoutInscripcionesEspecialesInput = {
@@ -79604,6 +84694,10 @@ export namespace Prisma {
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserCreateOrConnectWithoutInscripcionesEspecialesInput = {
@@ -79667,6 +84761,10 @@ export namespace Prisma {
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUncheckedUpdateWithoutInscripcionesEspecialesInput = {
@@ -79714,6 +84812,10 @@ export namespace Prisma {
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
   }
 
   export type SedeCreateWithoutLaboratoriosInput = {
@@ -79816,6 +84918,7 @@ export namespace Prisma {
     estante?: EstanteCreateNestedOneWithoutEquiposInput
     estado: EquipoEstadoCreateNestedOneWithoutEquiposInput
     reservas?: ReservaEquipoCreateNestedManyWithoutEquipoInput
+    fallaPc?: FallaCreateNestedManyWithoutEquipoInput
   }
 
   export type EquipoUncheckedCreateWithoutLaboratorioInput = {
@@ -79838,6 +84941,7 @@ export namespace Prisma {
     usuarioCreadorId: string
     usuarioModificadorId: string
     reservas?: ReservaEquipoUncheckedCreateNestedManyWithoutEquipoInput
+    fallaPc?: FallaUncheckedCreateNestedManyWithoutEquipoInput
   }
 
   export type EquipoCreateOrConnectWithoutLaboratorioInput = {
@@ -80248,6 +85352,7 @@ export namespace Prisma {
     estante?: EstanteCreateNestedOneWithoutEquiposInput
     estado: EquipoEstadoCreateNestedOneWithoutEquiposInput
     reservas?: ReservaEquipoCreateNestedManyWithoutEquipoInput
+    fallaPc?: FallaCreateNestedManyWithoutEquipoInput
   }
 
   export type EquipoUncheckedCreateWithoutArmarioInput = {
@@ -80270,6 +85375,7 @@ export namespace Prisma {
     usuarioCreadorId: string
     usuarioModificadorId: string
     reservas?: ReservaEquipoUncheckedCreateNestedManyWithoutEquipoInput
+    fallaPc?: FallaUncheckedCreateNestedManyWithoutEquipoInput
   }
 
   export type EquipoCreateOrConnectWithoutArmarioInput = {
@@ -80489,6 +85595,7 @@ export namespace Prisma {
     armario?: ArmarioCreateNestedOneWithoutEquiposInput
     estado: EquipoEstadoCreateNestedOneWithoutEquiposInput
     reservas?: ReservaEquipoCreateNestedManyWithoutEquipoInput
+    fallaPc?: FallaCreateNestedManyWithoutEquipoInput
   }
 
   export type EquipoUncheckedCreateWithoutEstanteInput = {
@@ -80511,6 +85618,7 @@ export namespace Prisma {
     usuarioCreadorId: string
     usuarioModificadorId: string
     reservas?: ReservaEquipoUncheckedCreateNestedManyWithoutEquipoInput
+    fallaPc?: FallaUncheckedCreateNestedManyWithoutEquipoInput
   }
 
   export type EquipoCreateOrConnectWithoutEstanteInput = {
@@ -80877,6 +85985,10 @@ export namespace Prisma {
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserUncheckedCreateWithoutMateriasDirectorInput = {
@@ -80924,6 +86036,10 @@ export namespace Prisma {
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserCreateOrConnectWithoutMateriasDirectorInput = {
@@ -81185,6 +86301,10 @@ export namespace Prisma {
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUncheckedUpdateWithoutMateriasDirectorInput = {
@@ -81232,6 +86352,10 @@ export namespace Prisma {
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
   }
 
   export type MateriaJefeTpUpsertWithWhereUniqueWithoutMateriaInput = {
@@ -81438,6 +86562,10 @@ export namespace Prisma {
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserUncheckedCreateWithoutMateriaJefeTpInput = {
@@ -81485,6 +86613,10 @@ export namespace Prisma {
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserCreateOrConnectWithoutMateriaJefeTpInput = {
@@ -81596,6 +86728,10 @@ export namespace Prisma {
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUncheckedUpdateWithoutMateriaJefeTpInput = {
@@ -81643,6 +86779,10 @@ export namespace Prisma {
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
   }
 
   export type MateriaCreateWithoutMateriaPrerequisitoInput = {
@@ -81870,6 +87010,10 @@ export namespace Prisma {
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserUncheckedCreateWithoutReservasSolicitadasInput = {
@@ -81917,6 +87061,10 @@ export namespace Prisma {
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserCreateOrConnectWithoutReservasSolicitadasInput = {
@@ -81969,6 +87117,10 @@ export namespace Prisma {
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserUncheckedCreateWithoutReservasAprobadasInput = {
@@ -82016,6 +87168,10 @@ export namespace Prisma {
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserCreateOrConnectWithoutReservasAprobadasInput = {
@@ -82068,6 +87224,10 @@ export namespace Prisma {
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserUncheckedCreateWithoutReservasRechazadasInput = {
@@ -82115,6 +87275,10 @@ export namespace Prisma {
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserCreateOrConnectWithoutReservasRechazadasInput = {
@@ -82167,6 +87331,10 @@ export namespace Prisma {
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserUncheckedCreateWithoutReservasRenovadasInput = {
@@ -82214,6 +87382,10 @@ export namespace Prisma {
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserCreateOrConnectWithoutReservasRenovadasInput = {
@@ -82266,6 +87438,10 @@ export namespace Prisma {
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserUncheckedCreateWithoutReservasRecibidasInput = {
@@ -82313,6 +87489,10 @@ export namespace Prisma {
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserCreateOrConnectWithoutReservasRecibidasInput = {
@@ -82365,6 +87545,10 @@ export namespace Prisma {
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserUncheckedCreateWithoutReservasComoTutorInput = {
@@ -82412,6 +87596,10 @@ export namespace Prisma {
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserCreateOrConnectWithoutReservasComoTutorInput = {
@@ -82599,6 +87787,10 @@ export namespace Prisma {
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUncheckedUpdateWithoutReservasSolicitadasInput = {
@@ -82646,6 +87838,10 @@ export namespace Prisma {
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUpsertWithoutReservasAprobadasInput = {
@@ -82704,6 +87900,10 @@ export namespace Prisma {
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUncheckedUpdateWithoutReservasAprobadasInput = {
@@ -82751,6 +87951,10 @@ export namespace Prisma {
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUpsertWithoutReservasRechazadasInput = {
@@ -82809,6 +88013,10 @@ export namespace Prisma {
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUncheckedUpdateWithoutReservasRechazadasInput = {
@@ -82856,6 +88064,10 @@ export namespace Prisma {
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUpsertWithoutReservasRenovadasInput = {
@@ -82914,6 +88126,10 @@ export namespace Prisma {
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUncheckedUpdateWithoutReservasRenovadasInput = {
@@ -82961,6 +88177,10 @@ export namespace Prisma {
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUpsertWithoutReservasRecibidasInput = {
@@ -83019,6 +88239,10 @@ export namespace Prisma {
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUncheckedUpdateWithoutReservasRecibidasInput = {
@@ -83066,6 +88290,10 @@ export namespace Prisma {
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUpsertWithoutReservasComoTutorInput = {
@@ -83124,6 +88352,10 @@ export namespace Prisma {
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUncheckedUpdateWithoutReservasComoTutorInput = {
@@ -83171,6 +88403,10 @@ export namespace Prisma {
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
   }
 
   export type ReservaEquipoUpsertWithoutReservaInput = {
@@ -83400,6 +88636,7 @@ export namespace Prisma {
     armario?: ArmarioCreateNestedOneWithoutEquiposInput
     estante?: EstanteCreateNestedOneWithoutEquiposInput
     estado: EquipoEstadoCreateNestedOneWithoutEquiposInput
+    fallaPc?: FallaCreateNestedManyWithoutEquipoInput
   }
 
   export type EquipoUncheckedCreateWithoutReservasInput = {
@@ -83422,6 +88659,7 @@ export namespace Prisma {
     fechaModificacion?: Date | string
     usuarioCreadorId: string
     usuarioModificadorId: string
+    fallaPc?: FallaUncheckedCreateNestedManyWithoutEquipoInput
   }
 
   export type EquipoCreateOrConnectWithoutReservasInput = {
@@ -83525,6 +88763,7 @@ export namespace Prisma {
     armario?: ArmarioUpdateOneWithoutEquiposNestedInput
     estante?: EstanteUpdateOneWithoutEquiposNestedInput
     estado?: EquipoEstadoUpdateOneRequiredWithoutEquiposNestedInput
+    fallaPc?: FallaUpdateManyWithoutEquipoNestedInput
   }
 
   export type EquipoUncheckedUpdateWithoutReservasInput = {
@@ -83547,6 +88786,7 @@ export namespace Prisma {
     fechaModificacion?: DateTimeFieldUpdateOperationsInput | Date | string
     usuarioCreadorId?: StringFieldUpdateOperationsInput | string
     usuarioModificadorId?: StringFieldUpdateOperationsInput | string
+    fallaPc?: FallaUncheckedUpdateManyWithoutEquipoNestedInput
   }
 
   export type ReservaCreateWithoutReservaLibroInput = {
@@ -84040,6 +89280,10 @@ export namespace Prisma {
     materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
     Voto?: VotoCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserUncheckedCreateWithoutReservaLaboratorioCerradoInput = {
@@ -84087,6 +89331,10 @@ export namespace Prisma {
     materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
     Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserCreateOrConnectWithoutReservaLaboratorioCerradoInput = {
@@ -84427,6 +89675,10 @@ export namespace Prisma {
     materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
     Voto?: VotoUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUncheckedUpdateWithoutReservaLaboratorioCerradoInput = {
@@ -84474,6 +89726,10 @@ export namespace Prisma {
     materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
     Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
   }
 
   export type ReservaLaboratorioCerradoEquipoUpsertWithWhereUniqueWithoutReservaLaboratorioCerradoInput = {
@@ -85182,6 +90438,10 @@ export namespace Prisma {
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -85229,6 +90489,10 @@ export namespace Prisma {
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -85292,6 +90556,10 @@ export namespace Prisma {
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -85339,6 +90607,10 @@ export namespace Prisma {
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserCreateWithoutSessionsInput = {
@@ -85386,6 +90658,10 @@ export namespace Prisma {
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -85433,6 +90709,10 @@ export namespace Prisma {
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -85496,6 +90776,10 @@ export namespace Prisma {
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -85543,6 +90827,10 @@ export namespace Prisma {
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
   }
 
   export type CursoCreateWithoutSedeInput = {
@@ -85619,6 +90907,7 @@ export namespace Prisma {
     estante?: EstanteCreateNestedOneWithoutEquiposInput
     estado: EquipoEstadoCreateNestedOneWithoutEquiposInput
     reservas?: ReservaEquipoCreateNestedManyWithoutEquipoInput
+    fallaPc?: FallaCreateNestedManyWithoutEquipoInput
   }
 
   export type EquipoUncheckedCreateWithoutSedeInput = {
@@ -85641,6 +90930,7 @@ export namespace Prisma {
     usuarioCreadorId: string
     usuarioModificadorId: string
     reservas?: ReservaEquipoUncheckedCreateNestedManyWithoutEquipoInput
+    fallaPc?: FallaUncheckedCreateNestedManyWithoutEquipoInput
   }
 
   export type EquipoCreateOrConnectWithoutSedeInput = {
@@ -86821,6 +92111,150 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type FallaCreateWithoutReportadoPorInput = {
+    tipoFalla: string
+    fallas?: FallaCreatefallasInput | string[]
+    descripcionEquipo?: string | null
+    descripcionFalla: string
+    condicion?: string | null
+    fechaReporte?: Date | string
+    estado: string
+    palabrasClave?: string | null
+    equipo?: EquipoCreateNestedOneWithoutFallaPcInput
+    asignadoA?: UserCreateNestedOneWithoutFallasAsignadasInput
+    historial?: FallaHistorialCreateNestedManyWithoutFallaInput
+  }
+
+  export type FallaUncheckedCreateWithoutReportadoPorInput = {
+    id?: number
+    equipoId?: number | null
+    tipoFalla: string
+    fallas?: FallaCreatefallasInput | string[]
+    descripcionEquipo?: string | null
+    descripcionFalla: string
+    condicion?: string | null
+    fechaReporte?: Date | string
+    asignadoAId?: string | null
+    estado: string
+    palabrasClave?: string | null
+    historial?: FallaHistorialUncheckedCreateNestedManyWithoutFallaInput
+  }
+
+  export type FallaCreateOrConnectWithoutReportadoPorInput = {
+    where: FallaWhereUniqueInput
+    create: XOR<FallaCreateWithoutReportadoPorInput, FallaUncheckedCreateWithoutReportadoPorInput>
+  }
+
+  export type FallaCreateManyReportadoPorInputEnvelope = {
+    data: FallaCreateManyReportadoPorInput | FallaCreateManyReportadoPorInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type FallaCreateWithoutAsignadoAInput = {
+    tipoFalla: string
+    fallas?: FallaCreatefallasInput | string[]
+    descripcionEquipo?: string | null
+    descripcionFalla: string
+    condicion?: string | null
+    fechaReporte?: Date | string
+    estado: string
+    palabrasClave?: string | null
+    equipo?: EquipoCreateNestedOneWithoutFallaPcInput
+    reportadoPor?: UserCreateNestedOneWithoutFallasReportadasInput
+    historial?: FallaHistorialCreateNestedManyWithoutFallaInput
+  }
+
+  export type FallaUncheckedCreateWithoutAsignadoAInput = {
+    id?: number
+    equipoId?: number | null
+    tipoFalla: string
+    fallas?: FallaCreatefallasInput | string[]
+    descripcionEquipo?: string | null
+    descripcionFalla: string
+    condicion?: string | null
+    fechaReporte?: Date | string
+    reportadoPorId?: string | null
+    estado: string
+    palabrasClave?: string | null
+    historial?: FallaHistorialUncheckedCreateNestedManyWithoutFallaInput
+  }
+
+  export type FallaCreateOrConnectWithoutAsignadoAInput = {
+    where: FallaWhereUniqueInput
+    create: XOR<FallaCreateWithoutAsignadoAInput, FallaUncheckedCreateWithoutAsignadoAInput>
+  }
+
+  export type FallaCreateManyAsignadoAInputEnvelope = {
+    data: FallaCreateManyAsignadoAInput | FallaCreateManyAsignadoAInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type FallaHistorialCreateWithoutReportadoPorInput = {
+    fallas?: FallaHistorialCreatefallasInput | string[]
+    descripcionEquipo?: string | null
+    descripcionFalla: string
+    estado: string
+    fechaReporte: Date | string
+    fechaCambioEstado?: Date | string
+    falla: FallaCreateNestedOneWithoutHistorialInput
+    asignadoA?: UserCreateNestedOneWithoutFallasHistAsignadasInput
+  }
+
+  export type FallaHistorialUncheckedCreateWithoutReportadoPorInput = {
+    id?: number
+    fallaId: number
+    fallas?: FallaHistorialCreatefallasInput | string[]
+    descripcionEquipo?: string | null
+    descripcionFalla: string
+    asignadoAId?: string | null
+    estado: string
+    fechaReporte: Date | string
+    fechaCambioEstado?: Date | string
+  }
+
+  export type FallaHistorialCreateOrConnectWithoutReportadoPorInput = {
+    where: FallaHistorialWhereUniqueInput
+    create: XOR<FallaHistorialCreateWithoutReportadoPorInput, FallaHistorialUncheckedCreateWithoutReportadoPorInput>
+  }
+
+  export type FallaHistorialCreateManyReportadoPorInputEnvelope = {
+    data: FallaHistorialCreateManyReportadoPorInput | FallaHistorialCreateManyReportadoPorInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type FallaHistorialCreateWithoutAsignadoAInput = {
+    fallas?: FallaHistorialCreatefallasInput | string[]
+    descripcionEquipo?: string | null
+    descripcionFalla: string
+    estado: string
+    fechaReporte: Date | string
+    fechaCambioEstado?: Date | string
+    falla: FallaCreateNestedOneWithoutHistorialInput
+    reportadoPor?: UserCreateNestedOneWithoutFallasHistReportadasInput
+  }
+
+  export type FallaHistorialUncheckedCreateWithoutAsignadoAInput = {
+    id?: number
+    fallaId: number
+    fallas?: FallaHistorialCreatefallasInput | string[]
+    descripcionEquipo?: string | null
+    descripcionFalla: string
+    reportadoPorId?: string | null
+    estado: string
+    fechaReporte: Date | string
+    fechaCambioEstado?: Date | string
+  }
+
+  export type FallaHistorialCreateOrConnectWithoutAsignadoAInput = {
+    where: FallaHistorialWhereUniqueInput
+    create: XOR<FallaHistorialCreateWithoutAsignadoAInput, FallaHistorialUncheckedCreateWithoutAsignadoAInput>
+  }
+
+  export type FallaHistorialCreateManyAsignadoAInputEnvelope = {
+    data: FallaHistorialCreateManyAsignadoAInput | FallaHistorialCreateManyAsignadoAInput[]
+    skipDuplicates?: boolean
+  }
+
   export type DocumentoTipoUpsertWithoutUsuariosInput = {
     update: XOR<DocumentoTipoUpdateWithoutUsuariosInput, DocumentoTipoUncheckedUpdateWithoutUsuariosInput>
     create: XOR<DocumentoTipoCreateWithoutUsuariosInput, DocumentoTipoUncheckedCreateWithoutUsuariosInput>
@@ -87281,6 +92715,70 @@ export namespace Prisma {
     data: XOR<VotoUpdateManyMutationInput, VotoUncheckedUpdateManyWithoutUserInput>
   }
 
+  export type FallaUpsertWithWhereUniqueWithoutReportadoPorInput = {
+    where: FallaWhereUniqueInput
+    update: XOR<FallaUpdateWithoutReportadoPorInput, FallaUncheckedUpdateWithoutReportadoPorInput>
+    create: XOR<FallaCreateWithoutReportadoPorInput, FallaUncheckedCreateWithoutReportadoPorInput>
+  }
+
+  export type FallaUpdateWithWhereUniqueWithoutReportadoPorInput = {
+    where: FallaWhereUniqueInput
+    data: XOR<FallaUpdateWithoutReportadoPorInput, FallaUncheckedUpdateWithoutReportadoPorInput>
+  }
+
+  export type FallaUpdateManyWithWhereWithoutReportadoPorInput = {
+    where: FallaScalarWhereInput
+    data: XOR<FallaUpdateManyMutationInput, FallaUncheckedUpdateManyWithoutReportadoPorInput>
+  }
+
+  export type FallaUpsertWithWhereUniqueWithoutAsignadoAInput = {
+    where: FallaWhereUniqueInput
+    update: XOR<FallaUpdateWithoutAsignadoAInput, FallaUncheckedUpdateWithoutAsignadoAInput>
+    create: XOR<FallaCreateWithoutAsignadoAInput, FallaUncheckedCreateWithoutAsignadoAInput>
+  }
+
+  export type FallaUpdateWithWhereUniqueWithoutAsignadoAInput = {
+    where: FallaWhereUniqueInput
+    data: XOR<FallaUpdateWithoutAsignadoAInput, FallaUncheckedUpdateWithoutAsignadoAInput>
+  }
+
+  export type FallaUpdateManyWithWhereWithoutAsignadoAInput = {
+    where: FallaScalarWhereInput
+    data: XOR<FallaUpdateManyMutationInput, FallaUncheckedUpdateManyWithoutAsignadoAInput>
+  }
+
+  export type FallaHistorialUpsertWithWhereUniqueWithoutReportadoPorInput = {
+    where: FallaHistorialWhereUniqueInput
+    update: XOR<FallaHistorialUpdateWithoutReportadoPorInput, FallaHistorialUncheckedUpdateWithoutReportadoPorInput>
+    create: XOR<FallaHistorialCreateWithoutReportadoPorInput, FallaHistorialUncheckedCreateWithoutReportadoPorInput>
+  }
+
+  export type FallaHistorialUpdateWithWhereUniqueWithoutReportadoPorInput = {
+    where: FallaHistorialWhereUniqueInput
+    data: XOR<FallaHistorialUpdateWithoutReportadoPorInput, FallaHistorialUncheckedUpdateWithoutReportadoPorInput>
+  }
+
+  export type FallaHistorialUpdateManyWithWhereWithoutReportadoPorInput = {
+    where: FallaHistorialScalarWhereInput
+    data: XOR<FallaHistorialUpdateManyMutationInput, FallaHistorialUncheckedUpdateManyWithoutReportadoPorInput>
+  }
+
+  export type FallaHistorialUpsertWithWhereUniqueWithoutAsignadoAInput = {
+    where: FallaHistorialWhereUniqueInput
+    update: XOR<FallaHistorialUpdateWithoutAsignadoAInput, FallaHistorialUncheckedUpdateWithoutAsignadoAInput>
+    create: XOR<FallaHistorialCreateWithoutAsignadoAInput, FallaHistorialUncheckedCreateWithoutAsignadoAInput>
+  }
+
+  export type FallaHistorialUpdateWithWhereUniqueWithoutAsignadoAInput = {
+    where: FallaHistorialWhereUniqueInput
+    data: XOR<FallaHistorialUpdateWithoutAsignadoAInput, FallaHistorialUncheckedUpdateWithoutAsignadoAInput>
+  }
+
+  export type FallaHistorialUpdateManyWithWhereWithoutAsignadoAInput = {
+    where: FallaHistorialScalarWhereInput
+    data: XOR<FallaHistorialUpdateManyMutationInput, FallaHistorialUncheckedUpdateManyWithoutAsignadoAInput>
+  }
+
   export type UserCreateWithoutTutorInput = {
     id?: string
     name: string
@@ -87326,6 +92824,10 @@ export namespace Prisma {
     materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserUncheckedCreateWithoutTutorInput = {
@@ -87373,6 +92875,10 @@ export namespace Prisma {
     materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserCreateOrConnectWithoutTutorInput = {
@@ -87436,6 +92942,10 @@ export namespace Prisma {
     materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUncheckedUpdateWithoutTutorInput = {
@@ -87483,6 +92993,10 @@ export namespace Prisma {
     materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserCreateWithoutUsuarioRolInput = {
@@ -87530,6 +93044,10 @@ export namespace Prisma {
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserUncheckedCreateWithoutUsuarioRolInput = {
@@ -87577,6 +93095,10 @@ export namespace Prisma {
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserCreateOrConnectWithoutUsuarioRolInput = {
@@ -87664,6 +93186,10 @@ export namespace Prisma {
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUncheckedUpdateWithoutUsuarioRolInput = {
@@ -87711,6 +93237,10 @@ export namespace Prisma {
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
   }
 
   export type RolUpsertWithoutUsuariosInput = {
@@ -88051,6 +93581,10 @@ export namespace Prisma {
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserUncheckedCreateWithoutProvinciaInput = {
@@ -88097,6 +93631,10 @@ export namespace Prisma {
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserCreateOrConnectWithoutProvinciaInput = {
@@ -88233,6 +93771,10 @@ export namespace Prisma {
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserUncheckedCreateWithoutPaisInput = {
@@ -88280,6 +93822,10 @@ export namespace Prisma {
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserCreateOrConnectWithoutPaisInput = {
@@ -88400,6 +93946,10 @@ export namespace Prisma {
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserUncheckedCreateWithoutDocumentoTipoInput = {
@@ -88447,6 +93997,10 @@ export namespace Prisma {
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserCreateOrConnectWithoutDocumentoTipoInput = {
@@ -89020,6 +94574,20 @@ export namespace Prisma {
     usuarioModificadorId: string
   }
 
+  export type FallaCreateManyEquipoInput = {
+    id?: number
+    tipoFalla: string
+    fallas?: FallaCreatefallasInput | string[]
+    descripcionEquipo?: string | null
+    descripcionFalla: string
+    condicion?: string | null
+    fechaReporte?: Date | string
+    reportadoPorId?: string | null
+    asignadoAId?: string | null
+    estado: string
+    palabrasClave?: string | null
+  }
+
   export type ReservaEquipoUpdateWithoutEquipoInput = {
     fechaEntregado?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -89047,6 +94615,49 @@ export namespace Prisma {
     fechaModificacion?: DateTimeFieldUpdateOperationsInput | Date | string
     usuarioCreadorId?: StringFieldUpdateOperationsInput | string
     usuarioModificadorId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type FallaUpdateWithoutEquipoInput = {
+    tipoFalla?: StringFieldUpdateOperationsInput | string
+    fallas?: FallaUpdatefallasInput | string[]
+    descripcionEquipo?: NullableStringFieldUpdateOperationsInput | string | null
+    descripcionFalla?: StringFieldUpdateOperationsInput | string
+    condicion?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaReporte?: DateTimeFieldUpdateOperationsInput | Date | string
+    estado?: StringFieldUpdateOperationsInput | string
+    palabrasClave?: NullableStringFieldUpdateOperationsInput | string | null
+    reportadoPor?: UserUpdateOneWithoutFallasReportadasNestedInput
+    asignadoA?: UserUpdateOneWithoutFallasAsignadasNestedInput
+    historial?: FallaHistorialUpdateManyWithoutFallaNestedInput
+  }
+
+  export type FallaUncheckedUpdateWithoutEquipoInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    tipoFalla?: StringFieldUpdateOperationsInput | string
+    fallas?: FallaUpdatefallasInput | string[]
+    descripcionEquipo?: NullableStringFieldUpdateOperationsInput | string | null
+    descripcionFalla?: StringFieldUpdateOperationsInput | string
+    condicion?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaReporte?: DateTimeFieldUpdateOperationsInput | Date | string
+    reportadoPorId?: NullableStringFieldUpdateOperationsInput | string | null
+    asignadoAId?: NullableStringFieldUpdateOperationsInput | string | null
+    estado?: StringFieldUpdateOperationsInput | string
+    palabrasClave?: NullableStringFieldUpdateOperationsInput | string | null
+    historial?: FallaHistorialUncheckedUpdateManyWithoutFallaNestedInput
+  }
+
+  export type FallaUncheckedUpdateManyWithoutEquipoInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    tipoFalla?: StringFieldUpdateOperationsInput | string
+    fallas?: FallaUpdatefallasInput | string[]
+    descripcionEquipo?: NullableStringFieldUpdateOperationsInput | string | null
+    descripcionFalla?: StringFieldUpdateOperationsInput | string
+    condicion?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaReporte?: DateTimeFieldUpdateOperationsInput | Date | string
+    reportadoPorId?: NullableStringFieldUpdateOperationsInput | string | null
+    asignadoAId?: NullableStringFieldUpdateOperationsInput | string | null
+    estado?: StringFieldUpdateOperationsInput | string
+    palabrasClave?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type EquipoCreateManyMarcaInput = {
@@ -89089,6 +94700,7 @@ export namespace Prisma {
     estante?: EstanteUpdateOneWithoutEquiposNestedInput
     estado?: EquipoEstadoUpdateOneRequiredWithoutEquiposNestedInput
     reservas?: ReservaEquipoUpdateManyWithoutEquipoNestedInput
+    fallaPc?: FallaUpdateManyWithoutEquipoNestedInput
   }
 
   export type EquipoUncheckedUpdateWithoutMarcaInput = {
@@ -89111,6 +94723,7 @@ export namespace Prisma {
     usuarioCreadorId?: StringFieldUpdateOperationsInput | string
     usuarioModificadorId?: StringFieldUpdateOperationsInput | string
     reservas?: ReservaEquipoUncheckedUpdateManyWithoutEquipoNestedInput
+    fallaPc?: FallaUncheckedUpdateManyWithoutEquipoNestedInput
   }
 
   export type EquipoUncheckedUpdateManyWithoutMarcaInput = {
@@ -89194,6 +94807,7 @@ export namespace Prisma {
     estante?: EstanteUpdateOneWithoutEquiposNestedInput
     estado?: EquipoEstadoUpdateOneRequiredWithoutEquiposNestedInput
     reservas?: ReservaEquipoUpdateManyWithoutEquipoNestedInput
+    fallaPc?: FallaUpdateManyWithoutEquipoNestedInput
   }
 
   export type EquipoUncheckedUpdateWithoutTipoInput = {
@@ -89216,6 +94830,7 @@ export namespace Prisma {
     usuarioCreadorId?: StringFieldUpdateOperationsInput | string
     usuarioModificadorId?: StringFieldUpdateOperationsInput | string
     reservas?: ReservaEquipoUncheckedUpdateManyWithoutEquipoNestedInput
+    fallaPc?: FallaUncheckedUpdateManyWithoutEquipoNestedInput
   }
 
   export type EquipoUncheckedUpdateManyWithoutTipoInput = {
@@ -89337,6 +94952,7 @@ export namespace Prisma {
     armario?: ArmarioUpdateOneWithoutEquiposNestedInput
     estante?: EstanteUpdateOneWithoutEquiposNestedInput
     reservas?: ReservaEquipoUpdateManyWithoutEquipoNestedInput
+    fallaPc?: FallaUpdateManyWithoutEquipoNestedInput
   }
 
   export type EquipoUncheckedUpdateWithoutEstadoInput = {
@@ -89359,6 +94975,7 @@ export namespace Prisma {
     usuarioCreadorId?: StringFieldUpdateOperationsInput | string
     usuarioModificadorId?: StringFieldUpdateOperationsInput | string
     reservas?: ReservaEquipoUncheckedUpdateManyWithoutEquipoNestedInput
+    fallaPc?: FallaUncheckedUpdateManyWithoutEquipoNestedInput
   }
 
   export type EquipoUncheckedUpdateManyWithoutEstadoInput = {
@@ -89380,6 +94997,53 @@ export namespace Prisma {
     fechaModificacion?: DateTimeFieldUpdateOperationsInput | Date | string
     usuarioCreadorId?: StringFieldUpdateOperationsInput | string
     usuarioModificadorId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type FallaHistorialCreateManyFallaInput = {
+    id?: number
+    fallas?: FallaHistorialCreatefallasInput | string[]
+    descripcionEquipo?: string | null
+    descripcionFalla: string
+    reportadoPorId?: string | null
+    asignadoAId?: string | null
+    estado: string
+    fechaReporte: Date | string
+    fechaCambioEstado?: Date | string
+  }
+
+  export type FallaHistorialUpdateWithoutFallaInput = {
+    fallas?: FallaHistorialUpdatefallasInput | string[]
+    descripcionEquipo?: NullableStringFieldUpdateOperationsInput | string | null
+    descripcionFalla?: StringFieldUpdateOperationsInput | string
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaReporte?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaCambioEstado?: DateTimeFieldUpdateOperationsInput | Date | string
+    reportadoPor?: UserUpdateOneWithoutFallasHistReportadasNestedInput
+    asignadoA?: UserUpdateOneWithoutFallasHistAsignadasNestedInput
+  }
+
+  export type FallaHistorialUncheckedUpdateWithoutFallaInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    fallas?: FallaHistorialUpdatefallasInput | string[]
+    descripcionEquipo?: NullableStringFieldUpdateOperationsInput | string | null
+    descripcionFalla?: StringFieldUpdateOperationsInput | string
+    reportadoPorId?: NullableStringFieldUpdateOperationsInput | string | null
+    asignadoAId?: NullableStringFieldUpdateOperationsInput | string | null
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaReporte?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaCambioEstado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FallaHistorialUncheckedUpdateManyWithoutFallaInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    fallas?: FallaHistorialUpdatefallasInput | string[]
+    descripcionEquipo?: NullableStringFieldUpdateOperationsInput | string | null
+    descripcionFalla?: StringFieldUpdateOperationsInput | string
+    reportadoPorId?: NullableStringFieldUpdateOperationsInput | string | null
+    asignadoAId?: NullableStringFieldUpdateOperationsInput | string | null
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaReporte?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaCambioEstado?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type SoftwareLaboratorioCreateManyLaboratorioInput = {
@@ -89539,6 +95203,7 @@ export namespace Prisma {
     estante?: EstanteUpdateOneWithoutEquiposNestedInput
     estado?: EquipoEstadoUpdateOneRequiredWithoutEquiposNestedInput
     reservas?: ReservaEquipoUpdateManyWithoutEquipoNestedInput
+    fallaPc?: FallaUpdateManyWithoutEquipoNestedInput
   }
 
   export type EquipoUncheckedUpdateWithoutLaboratorioInput = {
@@ -89561,6 +95226,7 @@ export namespace Prisma {
     usuarioCreadorId?: StringFieldUpdateOperationsInput | string
     usuarioModificadorId?: StringFieldUpdateOperationsInput | string
     reservas?: ReservaEquipoUncheckedUpdateManyWithoutEquipoNestedInput
+    fallaPc?: FallaUncheckedUpdateManyWithoutEquipoNestedInput
   }
 
   export type EquipoUncheckedUpdateManyWithoutLaboratorioInput = {
@@ -89844,6 +95510,7 @@ export namespace Prisma {
     estante?: EstanteUpdateOneWithoutEquiposNestedInput
     estado?: EquipoEstadoUpdateOneRequiredWithoutEquiposNestedInput
     reservas?: ReservaEquipoUpdateManyWithoutEquipoNestedInput
+    fallaPc?: FallaUpdateManyWithoutEquipoNestedInput
   }
 
   export type EquipoUncheckedUpdateWithoutArmarioInput = {
@@ -89866,6 +95533,7 @@ export namespace Prisma {
     usuarioCreadorId?: StringFieldUpdateOperationsInput | string
     usuarioModificadorId?: StringFieldUpdateOperationsInput | string
     reservas?: ReservaEquipoUncheckedUpdateManyWithoutEquipoNestedInput
+    fallaPc?: FallaUncheckedUpdateManyWithoutEquipoNestedInput
   }
 
   export type EquipoUncheckedUpdateManyWithoutArmarioInput = {
@@ -90012,6 +95680,7 @@ export namespace Prisma {
     armario?: ArmarioUpdateOneWithoutEquiposNestedInput
     estado?: EquipoEstadoUpdateOneRequiredWithoutEquiposNestedInput
     reservas?: ReservaEquipoUpdateManyWithoutEquipoNestedInput
+    fallaPc?: FallaUpdateManyWithoutEquipoNestedInput
   }
 
   export type EquipoUncheckedUpdateWithoutEstanteInput = {
@@ -90034,6 +95703,7 @@ export namespace Prisma {
     usuarioCreadorId?: StringFieldUpdateOperationsInput | string
     usuarioModificadorId?: StringFieldUpdateOperationsInput | string
     reservas?: ReservaEquipoUncheckedUpdateManyWithoutEquipoNestedInput
+    fallaPc?: FallaUncheckedUpdateManyWithoutEquipoNestedInput
   }
 
   export type EquipoUncheckedUpdateManyWithoutEstanteInput = {
@@ -90696,6 +96366,7 @@ export namespace Prisma {
     estante?: EstanteUpdateOneWithoutEquiposNestedInput
     estado?: EquipoEstadoUpdateOneRequiredWithoutEquiposNestedInput
     reservas?: ReservaEquipoUpdateManyWithoutEquipoNestedInput
+    fallaPc?: FallaUpdateManyWithoutEquipoNestedInput
   }
 
   export type EquipoUncheckedUpdateWithoutSedeInput = {
@@ -90718,6 +96389,7 @@ export namespace Prisma {
     usuarioCreadorId?: StringFieldUpdateOperationsInput | string
     usuarioModificadorId?: StringFieldUpdateOperationsInput | string
     reservas?: ReservaEquipoUncheckedUpdateManyWithoutEquipoNestedInput
+    fallaPc?: FallaUncheckedUpdateManyWithoutEquipoNestedInput
   }
 
   export type EquipoUncheckedUpdateManyWithoutSedeInput = {
@@ -91239,6 +96911,58 @@ export namespace Prisma {
     posicion: $Enums.Posicion
     comentario?: string | null
     fechaEmision?: Date | string
+  }
+
+  export type FallaCreateManyReportadoPorInput = {
+    id?: number
+    equipoId?: number | null
+    tipoFalla: string
+    fallas?: FallaCreatefallasInput | string[]
+    descripcionEquipo?: string | null
+    descripcionFalla: string
+    condicion?: string | null
+    fechaReporte?: Date | string
+    asignadoAId?: string | null
+    estado: string
+    palabrasClave?: string | null
+  }
+
+  export type FallaCreateManyAsignadoAInput = {
+    id?: number
+    equipoId?: number | null
+    tipoFalla: string
+    fallas?: FallaCreatefallasInput | string[]
+    descripcionEquipo?: string | null
+    descripcionFalla: string
+    condicion?: string | null
+    fechaReporte?: Date | string
+    reportadoPorId?: string | null
+    estado: string
+    palabrasClave?: string | null
+  }
+
+  export type FallaHistorialCreateManyReportadoPorInput = {
+    id?: number
+    fallaId: number
+    fallas?: FallaHistorialCreatefallasInput | string[]
+    descripcionEquipo?: string | null
+    descripcionFalla: string
+    asignadoAId?: string | null
+    estado: string
+    fechaReporte: Date | string
+    fechaCambioEstado?: Date | string
+  }
+
+  export type FallaHistorialCreateManyAsignadoAInput = {
+    id?: number
+    fallaId: number
+    fallas?: FallaHistorialCreatefallasInput | string[]
+    descripcionEquipo?: string | null
+    descripcionFalla: string
+    reportadoPorId?: string | null
+    estado: string
+    fechaReporte: Date | string
+    fechaCambioEstado?: Date | string
   }
 
   export type AccountUpdateWithoutUserInput = {
@@ -92076,6 +97800,162 @@ export namespace Prisma {
     fechaEmision?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type FallaUpdateWithoutReportadoPorInput = {
+    tipoFalla?: StringFieldUpdateOperationsInput | string
+    fallas?: FallaUpdatefallasInput | string[]
+    descripcionEquipo?: NullableStringFieldUpdateOperationsInput | string | null
+    descripcionFalla?: StringFieldUpdateOperationsInput | string
+    condicion?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaReporte?: DateTimeFieldUpdateOperationsInput | Date | string
+    estado?: StringFieldUpdateOperationsInput | string
+    palabrasClave?: NullableStringFieldUpdateOperationsInput | string | null
+    equipo?: EquipoUpdateOneWithoutFallaPcNestedInput
+    asignadoA?: UserUpdateOneWithoutFallasAsignadasNestedInput
+    historial?: FallaHistorialUpdateManyWithoutFallaNestedInput
+  }
+
+  export type FallaUncheckedUpdateWithoutReportadoPorInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    equipoId?: NullableIntFieldUpdateOperationsInput | number | null
+    tipoFalla?: StringFieldUpdateOperationsInput | string
+    fallas?: FallaUpdatefallasInput | string[]
+    descripcionEquipo?: NullableStringFieldUpdateOperationsInput | string | null
+    descripcionFalla?: StringFieldUpdateOperationsInput | string
+    condicion?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaReporte?: DateTimeFieldUpdateOperationsInput | Date | string
+    asignadoAId?: NullableStringFieldUpdateOperationsInput | string | null
+    estado?: StringFieldUpdateOperationsInput | string
+    palabrasClave?: NullableStringFieldUpdateOperationsInput | string | null
+    historial?: FallaHistorialUncheckedUpdateManyWithoutFallaNestedInput
+  }
+
+  export type FallaUncheckedUpdateManyWithoutReportadoPorInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    equipoId?: NullableIntFieldUpdateOperationsInput | number | null
+    tipoFalla?: StringFieldUpdateOperationsInput | string
+    fallas?: FallaUpdatefallasInput | string[]
+    descripcionEquipo?: NullableStringFieldUpdateOperationsInput | string | null
+    descripcionFalla?: StringFieldUpdateOperationsInput | string
+    condicion?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaReporte?: DateTimeFieldUpdateOperationsInput | Date | string
+    asignadoAId?: NullableStringFieldUpdateOperationsInput | string | null
+    estado?: StringFieldUpdateOperationsInput | string
+    palabrasClave?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type FallaUpdateWithoutAsignadoAInput = {
+    tipoFalla?: StringFieldUpdateOperationsInput | string
+    fallas?: FallaUpdatefallasInput | string[]
+    descripcionEquipo?: NullableStringFieldUpdateOperationsInput | string | null
+    descripcionFalla?: StringFieldUpdateOperationsInput | string
+    condicion?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaReporte?: DateTimeFieldUpdateOperationsInput | Date | string
+    estado?: StringFieldUpdateOperationsInput | string
+    palabrasClave?: NullableStringFieldUpdateOperationsInput | string | null
+    equipo?: EquipoUpdateOneWithoutFallaPcNestedInput
+    reportadoPor?: UserUpdateOneWithoutFallasReportadasNestedInput
+    historial?: FallaHistorialUpdateManyWithoutFallaNestedInput
+  }
+
+  export type FallaUncheckedUpdateWithoutAsignadoAInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    equipoId?: NullableIntFieldUpdateOperationsInput | number | null
+    tipoFalla?: StringFieldUpdateOperationsInput | string
+    fallas?: FallaUpdatefallasInput | string[]
+    descripcionEquipo?: NullableStringFieldUpdateOperationsInput | string | null
+    descripcionFalla?: StringFieldUpdateOperationsInput | string
+    condicion?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaReporte?: DateTimeFieldUpdateOperationsInput | Date | string
+    reportadoPorId?: NullableStringFieldUpdateOperationsInput | string | null
+    estado?: StringFieldUpdateOperationsInput | string
+    palabrasClave?: NullableStringFieldUpdateOperationsInput | string | null
+    historial?: FallaHistorialUncheckedUpdateManyWithoutFallaNestedInput
+  }
+
+  export type FallaUncheckedUpdateManyWithoutAsignadoAInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    equipoId?: NullableIntFieldUpdateOperationsInput | number | null
+    tipoFalla?: StringFieldUpdateOperationsInput | string
+    fallas?: FallaUpdatefallasInput | string[]
+    descripcionEquipo?: NullableStringFieldUpdateOperationsInput | string | null
+    descripcionFalla?: StringFieldUpdateOperationsInput | string
+    condicion?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaReporte?: DateTimeFieldUpdateOperationsInput | Date | string
+    reportadoPorId?: NullableStringFieldUpdateOperationsInput | string | null
+    estado?: StringFieldUpdateOperationsInput | string
+    palabrasClave?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type FallaHistorialUpdateWithoutReportadoPorInput = {
+    fallas?: FallaHistorialUpdatefallasInput | string[]
+    descripcionEquipo?: NullableStringFieldUpdateOperationsInput | string | null
+    descripcionFalla?: StringFieldUpdateOperationsInput | string
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaReporte?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaCambioEstado?: DateTimeFieldUpdateOperationsInput | Date | string
+    falla?: FallaUpdateOneRequiredWithoutHistorialNestedInput
+    asignadoA?: UserUpdateOneWithoutFallasHistAsignadasNestedInput
+  }
+
+  export type FallaHistorialUncheckedUpdateWithoutReportadoPorInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    fallaId?: IntFieldUpdateOperationsInput | number
+    fallas?: FallaHistorialUpdatefallasInput | string[]
+    descripcionEquipo?: NullableStringFieldUpdateOperationsInput | string | null
+    descripcionFalla?: StringFieldUpdateOperationsInput | string
+    asignadoAId?: NullableStringFieldUpdateOperationsInput | string | null
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaReporte?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaCambioEstado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FallaHistorialUncheckedUpdateManyWithoutReportadoPorInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    fallaId?: IntFieldUpdateOperationsInput | number
+    fallas?: FallaHistorialUpdatefallasInput | string[]
+    descripcionEquipo?: NullableStringFieldUpdateOperationsInput | string | null
+    descripcionFalla?: StringFieldUpdateOperationsInput | string
+    asignadoAId?: NullableStringFieldUpdateOperationsInput | string | null
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaReporte?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaCambioEstado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FallaHistorialUpdateWithoutAsignadoAInput = {
+    fallas?: FallaHistorialUpdatefallasInput | string[]
+    descripcionEquipo?: NullableStringFieldUpdateOperationsInput | string | null
+    descripcionFalla?: StringFieldUpdateOperationsInput | string
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaReporte?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaCambioEstado?: DateTimeFieldUpdateOperationsInput | Date | string
+    falla?: FallaUpdateOneRequiredWithoutHistorialNestedInput
+    reportadoPor?: UserUpdateOneWithoutFallasHistReportadasNestedInput
+  }
+
+  export type FallaHistorialUncheckedUpdateWithoutAsignadoAInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    fallaId?: IntFieldUpdateOperationsInput | number
+    fallas?: FallaHistorialUpdatefallasInput | string[]
+    descripcionEquipo?: NullableStringFieldUpdateOperationsInput | string | null
+    descripcionFalla?: StringFieldUpdateOperationsInput | string
+    reportadoPorId?: NullableStringFieldUpdateOperationsInput | string | null
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaReporte?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaCambioEstado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FallaHistorialUncheckedUpdateManyWithoutAsignadoAInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    fallaId?: IntFieldUpdateOperationsInput | number
+    fallas?: FallaHistorialUpdatefallasInput | string[]
+    descripcionEquipo?: NullableStringFieldUpdateOperationsInput | string | null
+    descripcionFalla?: StringFieldUpdateOperationsInput | string
+    reportadoPorId?: NullableStringFieldUpdateOperationsInput | string | null
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaReporte?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaCambioEstado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type UsuarioRolCreateManyRolInput = {
     userId: string
     fechaCreacion?: Date | string
@@ -92222,6 +98102,10 @@ export namespace Prisma {
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUncheckedUpdateWithoutProvinciaInput = {
@@ -92268,6 +98152,10 @@ export namespace Prisma {
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutProvinciaInput = {
@@ -92379,6 +98267,10 @@ export namespace Prisma {
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUncheckedUpdateWithoutPaisInput = {
@@ -92426,6 +98318,10 @@ export namespace Prisma {
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutPaisInput = {
@@ -92550,6 +98446,10 @@ export namespace Prisma {
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUncheckedUpdateWithoutDocumentoTipoInput = {
@@ -92597,6 +98497,10 @@ export namespace Prisma {
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutDocumentoTipoInput = {

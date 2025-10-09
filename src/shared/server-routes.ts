@@ -260,12 +260,6 @@ export const ADMIN_ROUTE: AppRoute = {
       isPublic: false,
       permisos: [SgeNombre.ADMIN_VER_PANEL_ADMIN],
     },
-    {
-      href: "/admin/actas",
-      label: "Actas",
-      isPublic: false,
-      permisos: [SgeNombre.ADMIN_VER_PANEL_ADMIN, SgeNombre.ADMIN_ACTUALIZAR_ACTA_CONSEJEROS],
-    },
   ],
 };
 
@@ -312,6 +306,20 @@ export const ACTAS_ROUTE: AppRoute = {
   label: "Actas",
   isPublic: false,
   permisos: [],
+  subRutas: [
+    {
+      href: "/actas",
+      label: "Historial",
+      isPublic: false,
+      permisos: [],
+    },
+    {
+      href: "/actas/administrar",
+      label: "Administrar",
+      isPublic: false,
+      permisos: [SgeNombre.ADMIN_ACTUALIZAR_ACTA_CONSEJEROS],
+    },
+  ],
 };
 
 

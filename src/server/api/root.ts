@@ -10,6 +10,7 @@ import { softwareRouter } from "./routers/software";
 import { notificacionRouter } from "./routers/notificaciones";
 import { usuarioPermiso } from "./routers/permisos";
 import { laboratoriosRouter } from "./routers/laboratorios";
+import { fallasRouter } from "./routers/fallas";
 import { applicationRouter } from "./routers/application";
 import { actasRouter } from "./routers/actas";
 import { votosRouter } from "./routers/votos";
@@ -33,6 +34,7 @@ export const appRouter = createTRPCRouter({
   division: divisionRouter,
   software: softwareRouter,
   notificacion: notificacionRouter,
+  fallas: fallasRouter,
   permisos: usuarioPermiso,
   actas: actasRouter,
   reunion: reunionRouter,

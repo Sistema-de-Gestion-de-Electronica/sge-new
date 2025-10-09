@@ -716,6 +716,30 @@ CREATE SEQUENCE public."Laboratorio_id_seq"
 
 ALTER SEQUENCE public."Laboratorio_id_seq" OWNED BY public."Laboratorio".id;
 
+--
+-- Name: InscripcionEspecial; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public."InscripcionEspecial" (
+    "id" SERIAL NOT NULL,
+    "solicitanteId" TEXT NOT NULL, 
+
+    "caso" TEXT NOT NULL,
+    "justificacion" TEXT NOT NULL,
+    "turnoAlternativa1" TEXT,
+    "turnoAlternativa2" TEXT,
+    "materias" INTEGER[] NOT NULL,
+    "materiasAdeudadas" INTEGER[] NOT NULL,
+
+    "estado" TEXT NOT NULL,
+    "respuesta" TEXT,
+
+    "fueContactado" boolean,
+    "vinoPresencialmente" boolean,
+
+    "fechaSolicitud" TIMESTAMP(3) without time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "fechaRespuesta" TIMESTAMP(3)
+);
 
 --
 -- Name: Libro; Type: TABLE; Schema: public; Owner: -
@@ -1590,6 +1614,48 @@ CREATE TABLE public."VerificationToken" (
     expires timestamp(3) without time zone NOT NULL
 );
 
+--
+-- Name: Falla; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public."Falla" (
+    id SERIAL PRIMARY KEY,
+
+    "equipoId" INT NULL,
+    "tipoFalla" TEXT NOT NULL, -- "PC" o "Instrumento"
+
+    fallas TEXT[] NOT NULL DEFAULT '{}', -- solo para PC
+    "descripcionEquipo" TEXT NULL,         -- solo para Instrumento
+    "descripcionFalla" TEXT NOT NULL,
+    condicion TEXT NULL,                  -- solo para Instrumento
+
+    "fechaReporte" TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW() NOT NULL,
+
+    "reportadoPorId" TEXT NULL,
+    "asignadoAId" TEXT NULL,
+
+    estado TEXT NOT NULL,
+    "palabrasClave" TEXT 
+);
+
+--
+-- Name: FallaHistorial; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public."FallaHistorial" (
+    id SERIAL PRIMARY KEY,
+
+    "fallaId" INT NOT NULL,
+    "fallas" TEXT[] NOT NULL,
+    "descripcionEquipo" TEXT,
+    "descripcionFalla" TEXT NOT NULL,
+    "reportadoPorId" TEXT,
+    "asignadoAId" TEXT,
+    "estado" TEXT NOT NULL,
+
+    "fechaReporte" TIMESTAMP NOT NULL,
+    "fechaCambioEstado" TIMESTAMP NOT NULL DEFAULT NOW()
+);
 
 --
 -- Name: Voto; Type: TABLE; Schema: public; Owner: -
@@ -52269,6 +52335,19 @@ COPY public."Rol" (id, nombre, "fechaCreacion", "fechaModificacion", "usuarioCre
 --
 
 COPY public."RolPermiso" ("rolId", "permisoId", "fechaCreacion", "usuarioCreadorId") FROM stdin;
+1	18	2025-04-14 06:14:20.865	cm9goht79004qdrqpdif3osjy
+1	13	2025-04-14 06:14:20.865	cm9goht79004qdrqpdif3osjy
+1	17	2025-04-14 06:14:20.865	cm9goht79004qdrqpdif3osjy
+1	16	2025-04-14 06:14:20.865	cm9goht79004qdrqpdif3osjy
+1	12	2025-04-14 06:14:20.865	cm9goht79004qdrqpdif3osjy
+1	6	2025-04-14 06:14:20.865	cm9goht79004qdrqpdif3osjy
+1	5	2025-04-14 06:14:20.865	cm9goht79004qdrqpdif3osjy
+1	4	2025-04-14 06:14:20.865	cm9goht79004qdrqpdif3osjy
+1	3	2025-04-14 06:14:20.865	cm9goht79004qdrqpdif3osjy
+1	2	2025-04-14 06:14:20.865	cm9goht79004qdrqpdif3osjy
+1	85	2025-04-14 06:14:20.865	cm9goht79004qdrqpdif3osjy
+1	86	2025-04-14 06:14:20.865	cm9goht79004qdrqpdif3osjy
+1	87	2025-04-14 06:14:20.865	cm9goht79004qdrqpdif3osjy
 2	77	2025-04-14 06:14:20.875	cm9goht79004qdrqpdif3osjy
 2	68	2025-04-14 06:14:20.875	cm9goht79004qdrqpdif3osjy
 2	64	2025-04-14 06:14:20.875	cm9goht79004qdrqpdif3osjy
@@ -56457,6 +56536,46 @@ ALTER TABLE ONLY public."Voto"
 ALTER TABLE ONLY public._prisma_migrations
     ADD CONSTRAINT _prisma_migrations_pkey PRIMARY KEY (id);
 
+--
+-- Name: Falla_equipoId_fkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public."Falla"
+    ADD CONSTRAINT "Falla_equipoId_fkey"
+    FOREIGN KEY ("equipoId") REFERENCES public."Equipo"("id") ON DELETE CASCADE;
+
+--
+-- Name: Falla_reportadoPorId_fkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public."Falla"
+    ADD CONSTRAINT "Falla_reportadoPorId_fkey"
+    FOREIGN KEY ("reportadoPorId") REFERENCES public."User"("id") ON UPDATE CASCADE ON DELETE CASCADE;
+
+--
+-- Name: Falla_asignadoAId_fkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public."Falla"
+    ADD CONSTRAINT "Falla_asignadoAId_fkey"
+    FOREIGN KEY ("asignadoAId") REFERENCES public."User"("id") ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+ALTER TABLE public."FallaHistorial"
+ADD CONSTRAINT "FallaHistorial_fallaId_fkey"
+FOREIGN KEY ("fallaId") REFERENCES public."Falla"(id) ON DELETE CASCADE;
+
+ALTER TABLE public."FallaHistorial"
+ADD CONSTRAINT "FallaHistorial_reportadoPorId_fkey"
+FOREIGN KEY ("reportadoPorId") REFERENCES public."User"(id);
+
+ALTER TABLE public."FallaHistorial"
+ADD CONSTRAINT "FallaHistorial_asignadoAId_fkey"
+FOREIGN KEY ("asignadoAId") REFERENCES public."User"(id);
+
+-- Índice compuesto
+CREATE INDEX "FallaHistorial_fallaId_fechaCambioEstado_idx"
+ON public."FallaHistorial" ("fallaId", "fechaCambioEstado" DESC);
 
 --
 -- Name: Account_provider_providerAccountId_key; Type: INDEX; Schema: public; Owner: -

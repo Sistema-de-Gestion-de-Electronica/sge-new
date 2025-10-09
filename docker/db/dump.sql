@@ -720,7 +720,7 @@ ALTER SEQUENCE public."Laboratorio_id_seq" OWNED BY public."Laboratorio".id;
 -- Name: InscripcionEspecial; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE public."InscripcionEspecial" (
+/*CREATE TABLE public."InscripcionEspecial" (
     "id" SERIAL NOT NULL,
     "solicitanteId" TEXT NOT NULL, 
 
@@ -739,7 +739,7 @@ CREATE TABLE public."InscripcionEspecial" (
 
     "fechaSolicitud" TIMESTAMP(3) without time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "fechaRespuesta" TIMESTAMP(3)
-);
+);*/
 
 --
 -- Name: Libro; Type: TABLE; Schema: public; Owner: -
@@ -52462,16 +52462,6 @@ COPY public."RolPermiso" ("rolId", "permisoId", "fechaCreacion", "usuarioCreador
 13	63	2025-04-14 06:14:20.932	cm9goht79004qdrqpdif3osjy
 13	62	2025-04-14 06:14:20.932	cm9goht79004qdrqpdif3osjy
 14	84	2025-08-29 20:50:50.527	cm9goht79004qdrqpdif3osjy
-1	18	2025-08-29 21:05:26.918	cm9goht79004qdrqpdif3osjy
-1	13	2025-08-29 21:05:26.918	cm9goht79004qdrqpdif3osjy
-1	17	2025-08-29 21:05:26.918	cm9goht79004qdrqpdif3osjy
-1	16	2025-08-29 21:05:26.918	cm9goht79004qdrqpdif3osjy
-1	12	2025-08-29 21:05:26.918	cm9goht79004qdrqpdif3osjy
-1	6	2025-08-29 21:05:26.918	cm9goht79004qdrqpdif3osjy
-1	5	2025-08-29 21:05:26.918	cm9goht79004qdrqpdif3osjy
-1	4	2025-08-29 21:05:26.918	cm9goht79004qdrqpdif3osjy
-1	3	2025-08-29 21:05:26.918	cm9goht79004qdrqpdif3osjy
-1	2	2025-08-29 21:05:26.918	cm9goht79004qdrqpdif3osjy
 1	14	2025-08-29 21:05:26.918	cm9goht79004qdrqpdif3osjy
 \.
 

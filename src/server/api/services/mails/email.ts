@@ -13,7 +13,11 @@ const auth = isTestingEmail
       user: process.env.SMTP_TESTING_EMAIL_USER,
       pass: process.env.SMTP_TESTING_EMAIL_PASSWORD,
     }
-  : undefined;
+  : {
+      user: process.env.SMTP_MAIL_USER,
+      pass: process.env.SMTP_EMAIL_PASSWORD,
+    };
+
 const emisor = process.env.SMTP_MAIL_EMISOR;
 const baseRuta = process.env.NEXTAUTH_URL;
 

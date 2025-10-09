@@ -1,6 +1,6 @@
 // page.tsx
 import PageLayout from "@/components/ui/template/page-template";
-import { ADMIN_ROUTE } from "@/shared/server-routes";
+import { ACTAS_ROUTE } from "@/shared/server-routes";
 import { Suspense } from "react";
 import { AdminConsejeros } from "./_components/AdminConsejeros";
 import { TienePermiso } from "@/app/_components/permisos/tienePermiso";
@@ -12,7 +12,7 @@ import OcultarEliminarActasModal from "./_components/ModalHistoricosActas";
 export default function Page() {
   return (
     <PageLayout 
-      route={ADMIN_ROUTE}
+      route={ACTAS_ROUTE}
       buttons={
         <TienePermiso permisos={[]}>
           {/* TODO: no se cual seria el permiso que va??*/}

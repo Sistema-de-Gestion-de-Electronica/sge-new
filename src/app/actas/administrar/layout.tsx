@@ -8,7 +8,7 @@ type LayoutProps = {
 };
 
 export default async function Layout({ children }: LayoutProps) {
-  const puedeVer = await estaLogueadoYConPermiso([SgeNombre.ADMIN_VER_PANEL_ADMIN]);
+  const puedeVer = await estaLogueadoYConPermiso([SgeNombre.ADMIN_ACTUALIZAR_ACTA_CONSEJEROS]);
   if (!puedeVer) {
     redirect(INICIO_ROUTE.href);
   }

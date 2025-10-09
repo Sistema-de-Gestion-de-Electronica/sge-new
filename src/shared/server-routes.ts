@@ -348,14 +348,14 @@ export const INSCRIPCIONES_ESPECIALES_ROUTE: AppRoute = {
       permisos: [],
     },
   ],
-}
+};
 
-const PERMISOS_VER_FALLAS = [SgeNombre.ADMIN_VER_PANEL_ADMIN];
+//const PERMISOS_VER_FALLAS = [SgeNombre.ADMIN_VER_PANEL_ADMIN];
 export const FALLAS_ROUTE: AppRoute = {
   href: "/fallas/reportar_instrumento",
   label: "Fallas",
   isPublic: false,
-  permisos: PERMISOS_VER_FALLAS,
+  permisos: [], //PERMISOS_VER_FALLAS,
   subRutas: [
     {
       href: "/fallas/reportar_pc",

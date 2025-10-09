@@ -57,6 +57,7 @@ export const InscripcionEspecialGestion = ({
           .catch((err) => {
             console.error(err);
           });
+        utils.inscripcionesEspeciales.getAllInscripcionesEspeciales.invalidate();
         onAprobar();
       },
       onError: (error) => {
@@ -80,6 +81,7 @@ export const InscripcionEspecialGestion = ({
             .catch((err) => {
               console.error(err);
             });
+          utils.inscripcionesEspeciales.getAllInscripcionesEspeciales.invalidate();
           onRechazar();
         },
         onError: (error) => {
@@ -105,6 +107,7 @@ export const InscripcionEspecialGestion = ({
         onSuccess: () => {
           toast.success("Cambios guardados");
           utils.inscripcionesEspeciales.getInscripcionEspecialPorId.invalidate({ id: inscripcionEspecialId });
+          utils.inscripcionesEspeciales.getAllInscripcionesEspeciales.invalidate();
         },
         onError: () => toast.error("No se pudieron guardar los cambios"),
       },
@@ -113,7 +116,7 @@ export const InscripcionEspecialGestion = ({
 
   const [open, setOpen] = useState(false);
 
-  const { mutate: eliminarInscripcionEspecial } = api.inscripcionesEspeciales.eliminarInscripcionEspecial.useMutation()
+  const { mutate: eliminarInscripcionEspecial } = api.inscripcionesEspeciales.eliminarInscripcionEspecial.useMutation();
   const handleEliminar = () => {
     eliminarInscripcionEspecial(
       { id: inscripcionEspecialId },
@@ -121,15 +124,16 @@ export const InscripcionEspecialGestion = ({
         onSuccess: () => {
           toast.success("Inscripción especial eliminada con éxito");
           utils.inscripcionesEspeciales.getInscripcionEspecialPorId.invalidate({ id: inscripcionEspecialId });
+          utils.inscripcionesEspeciales.getAllInscripcionesEspeciales.invalidate();
           setOpen(false);
           onCancel(); // o la acción que corresponda después de eliminar
         },
         onError: () => {
           toast.error("No se pudo eliminar la inscripción especial");
         },
-      }
+      },
     );
-  }
+  };
 
   return (
     <FormProvider {...formHook}>

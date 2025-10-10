@@ -9,7 +9,7 @@ export const enviarMailNuevaVotacionAbiertaProcedure = async (ctx: { db: PrismaC
   (await consejeros).forEach(async consejero => {
       if(!consejero.email) return;
       await sendEmail(ctx, {
-        asunto: `Acta del ${acta.fechaReunion} disponible para votación`,
+        asunto: `Acta del ${formatearFecha(acta.fechaReunion)} disponible para votación`,
         to: consejero.email,
         usuario: {
           nombre: consejero.nombre ?? "Usuario",
@@ -22,3 +22,16 @@ export const enviarMailNuevaVotacionAbiertaProcedure = async (ctx: { db: PrismaC
       });
   });
 };
+
+export const formatearFecha = (date: Date): String => {
+  // Validar que la fecha sea válida
+  if (isNaN(date.getTime())) {
+    throw new Error("Fecha inválida");
+  }
+
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0"); // getMonth() devuelve 0-11
+  const year = date.getFullYear();
+
+  return `${day}/${month}/${year}`;
+}

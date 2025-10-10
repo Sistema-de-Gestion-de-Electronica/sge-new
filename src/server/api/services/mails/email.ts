@@ -44,6 +44,7 @@ export type EmailParams = {
   };
   textoMail: string;
   hipervinculo: string;
+  detalle?: string;
 };
 
 export const sendEmail = async (ctx: { db: PrismaClient }, props: EmailParams) => {
@@ -59,6 +60,7 @@ export const sendEmail = async (ctx: { db: PrismaClient }, props: EmailParams) =
       usuario,
       hipervinculo: `${baseRuta}${hiperVinculo}`,
       textoMail: props.textoMail,
+      detalle: props.detalle,
     }),
   };
 

@@ -18,6 +18,7 @@ export const enviarMailNuevaVotacionAbiertaProcedure = async (ctx: { db: PrismaC
         textoMail: `<p style="text-align: center;"><strong>${cuerpoMail}</p>`,
         hipervinculo:
           ACTAS_ROUTE.href !== undefined ? String(ACTAS_ROUTE?.href) : "",
+        detalle: "Ir a votar"
       });
   });
 };

@@ -93,7 +93,7 @@ export default function FormularioReportarFallaPC() {
               <div className="mt-4 w-full">
                 <FormTextarea
                   className="resize-none"
-                  label={"Descripcion"}
+                  label={"Descripcion de la Falla y forma de replicarla"}
                   control={control}
                   name="descripcionFalla"
                   required

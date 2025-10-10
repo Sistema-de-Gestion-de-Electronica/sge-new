@@ -160,7 +160,7 @@ export default function FormularioReportarFallaInstrumento() {
               <div className="mt-4 w-full">
                 <FormTextarea
                   className="resize-none"
-                  label={"Descripción de la Falla"}
+                  label={"Descripcion de la Falla y forma de replicarla"}
                   control={control}
                   name="descripcionFalla"
                   placeholder="Describe el problema o falla detectada"

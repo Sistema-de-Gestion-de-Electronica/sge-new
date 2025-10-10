@@ -6,9 +6,9 @@ import { Controller, FieldError, FormProvider, useForm } from "react-hook-form";
 import { Button, FormInput, toast, FormAutocomplete } from "@/components/ui";
 
 import { inputReportarFallasPc } from "@/shared/filters/fallas-filter.schema";
-import { FormSelect } from "@/components/ui/autocomplete";
 import { MultiSelectFormField } from "@/components/ui/multi-select";
 import { FormTextarea } from "@/components/ui/textarea";
+import { SelectEquipoForm } from "./select-equipo";
 
 type FormReportarFallaPC = z.infer<typeof inputReportarFallasPc>;
 
@@ -17,12 +17,6 @@ const fallas = ["Monitor", "CPU", "Teclado", "Mouse", "Software", "Red", "CD-ROM
 );
 
 export default function FormularioReportarFallaPC() {
-  // const solicitarInscripcioneEspecial = api.inscripcionesEspeciales.solicitar.useMutation();
-  // const {data: session} = useSession();
-  // console.log(session)
-  const { data: laboratorios } = api.laboratorios.getAll.useQuery({});
-  const { data: marcasData, isLoading: marcasLoading } = api.equipos.getAllMarcas.useQuery();
-
   const reporteBase: FormReportarFallaPC = {
     laboratorio: "",
     nroEquipo: "",
@@ -43,6 +37,10 @@ export default function FormularioReportarFallaPC() {
 
   const onFormSubmit = (formData: FormReportarFallaPC) => {
     console.log("Form Data:", formData);
+    formData = {
+      ...formData,
+      nroEquipo: formData.nroEquipo.id
+    }
 
     reportarPCMutation.mutate(formData, {
       onSuccess: () => {
@@ -62,35 +60,10 @@ export default function FormularioReportarFallaPC() {
       >
         <div className="flex w-full flex-col items-center justify-center">
           <div className="flex w-full flex-col space-y-4 px-0">
-            {/* <div className="flex w-full flex-row lg:flex-row lg:justify-between lg:gap-x-4">
-              <FormSelect
-                name="laboratorio"
-                control={control}
-                items={laboratorios?.map((lab) => lab.nombre) ?? []}
-                label={"Laboratorio"}
-                className="w-full"
-              />
-            </div> */}
-            {/* <div className="flex w-full flex-col gap-x-4 sm:flex-row">
-              <div className="mt-4 w-full">
-                <FormAutocomplete
-                  label={"Marca"}
-                  control={control}
-                  name="marca"
-                  items={(marcasData ?? []).map((m) => m.nombre)}
-                  placeholder="Selecciona o busca una marca"
-                  isLoading={marcasLoading}
-                  clearable
-                />
-              </div>
-              <div className="mt-4 w-full">
-                <FormInput label={"Modelo"} control={control} name="modelo" type={"text"} required />
-              </div>
-            </div> */}
 
             <div className="flex w-full flex-row lg:flex-row lg:justify-between lg:gap-x-4">
               <div className="mt-4 w-full">
-                <FormInput label={"Nro de Equipo"} control={control} name="nroEquipo" type={"text"} required />
+                <SelectEquipoForm label={"Nro de Equipo"} control={control} name="nroEquipo" />
               </div>
             </div>
 

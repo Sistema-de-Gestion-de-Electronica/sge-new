@@ -2,13 +2,12 @@ import { api } from "@/trpc/react";
 import { useEffect, useState } from "react";
 import { type z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, FormProvider, Controller } from "react-hook-form";
+import { useForm, FormProvider } from "react-hook-form";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui";
 import { FormTextarea } from "@/components/ui/textarea";
 import { inputGestionarFallas } from "@/shared/filters/fallas-filter.schema";
-import { Checkbox } from "@/components/ui/checkbox";
 import ModalDrawer from "@/app/_components/modal/modal-drawer";
 import { SelectUsuarioForm, getUserLabelNameForSelect } from "@/app/_components/select-usuario";
 import { FallasEstatus } from "./badge-estatus-fallas";
@@ -42,7 +41,7 @@ export const FallasGestion = ({ fallaId, onEstados, onCancel }: FallasGestionPro
     },
   });
 
-  const { handleSubmit, control, getValues } = formHook;
+  const { control, getValues } = formHook;
 
   const getAsignadoId = (value: unknown): string => {
     if (typeof value === "string") return value;
@@ -189,52 +188,54 @@ export const FallasGestion = ({ fallaId, onEstados, onCancel }: FallasGestionPro
   return (
     <FormProvider {...formHook}>
       <form className="space-y-6">
-        <Card className="w-full">
-          <CardHeader>
-            <CardTitle>Gestión de Falla - Estado: {fallaData?.estado}</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex w-full flex-col gap-y-4">
-              <FormTextarea
-                id="descripcionFalla"
-                name="descripcionFalla"
-                label={"Descripción de la/s falla/s / Reparación / Motivo del descarte"}
-                control={control}
-                className="resize-none"
-                placeholder="Describe el problema, reparación realizada, o motivo del descarte..."
-              />
-
-              {/* Campos adicionales para "EN_REPARACION" */}
-              {fallaData?.estado === "FALLADO" || fallaData?.estado === "EN_REPARACION" ? (
-                <>
-                  <SelectUsuarioForm
-                    name="asignadoA"
-                    control={control}
-                    className="mt-2"
-                    label={"Usuario asignado"}
-                    placeholder={"Selecciona un usuario"}
-                  />
+        {(fallaData?.estado === FallasEstatus.FALLADO || fallaData?.estado === FallasEstatus.EN_REPARACION) && (
+          <>
+            <Card className="w-full">
+              <CardHeader>
+                <CardTitle>Gestión de Falla - Estado: {fallaData?.estado}</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex w-full flex-col gap-y-4">
                   <FormTextarea
-                    name="palabraClave"
-                    label={"Palabras clave"}
+                    id="descripcionFalla"
+                    name="descripcionFalla"
+                    label={"Descripción de la/s falla/s / Reparación / Motivo del descarte"}
                     control={control}
-                    placeholder="Palabras clave para categorizar el problema"
+                    className="resize-none"
+                    placeholder="Describe el problema, reparación realizada, o motivo del descarte..."
                   />
-                </>
-              ) : null}
-            </div>
-          </CardContent>
-        </Card>
 
-        <Button
-          type="button"
-          variant="default"
-          color="secondary"
-          onClick={handleGuardar}
-          className="w-full border border-gray-300 bg-transparent text-gray-700 hover:bg-gray-100"
-        >
-          Guardar cambios
-        </Button>
+                  {/* Campos adicionales para "EN_REPARACION" */}
+                  <>
+                    <SelectUsuarioForm
+                      name="asignadoA"
+                      control={control}
+                      className="mt-2"
+                      label={"Usuario asignado"}
+                      placeholder={"Selecciona un usuario"}
+                    />
+                    <FormTextarea
+                      name="palabraClave"
+                      label={"Palabras clave"}
+                      control={control}
+                      placeholder="Palabras clave para categorizar el problema"
+                    />
+                  </>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Button
+              type="button"
+              variant="default"
+              color="secondary"
+              onClick={handleGuardar}
+              className="w-full border border-gray-300 bg-transparent text-gray-700 hover:bg-gray-100"
+            >
+              Guardar cambios
+            </Button>
+          </>
+        )}
 
         <div className="sticky bottom-0 flex w-full flex-row items-end justify-end space-x-4 bg-white p-2 pb-2">
           <Button
@@ -260,7 +261,7 @@ export const FallasGestion = ({ fallaId, onEstados, onCancel }: FallasGestionPro
           </Button>
 
           {/* Botones condicionales según el estado actual */}
-          {fallaData?.estado === "FALLADO" && (
+          {fallaData?.estado === FallasEstatus.FALLADO && (
             <Button
               title="Marcar en reparación"
               type="button"
@@ -273,7 +274,7 @@ export const FallasGestion = ({ fallaId, onEstados, onCancel }: FallasGestionPro
             </Button>
           )}
 
-          {fallaData?.estado === "EN_REPARACION" && (
+          {fallaData?.estado === FallasEstatus.EN_REPARACION && (
             <>
               <Button
                 title="Marcar como descartado"

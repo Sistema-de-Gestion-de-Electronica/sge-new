@@ -85,7 +85,10 @@ export const getAllEquipos = async (ctx: { db: PrismaClient }, input: InputGetAl
     ...(tipo
       ? {
           tipo: {
-            id: parseInt(tipo),
+            nombre: {
+              equals: tipo,
+              mode: "insensitive", // ← Agregar esto
+            },
           },
         }
       : {}),

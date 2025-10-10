@@ -130,7 +130,7 @@ export default function UploadActa() {
             className="rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-primary focus:ring-primary w-full h-48"
             defaultValue={`¡Nueva votación disponible!
 
-              Le informamos que se encuentra disponible el Acta con fecha **Ingresar fecha** en el sistema de gestión académica SGE.
+              Le informamos que se encuentra disponible el acta referenciada en el sistema de gestión académica SGE.
 
               Por favor, ingrese al sistema para revisarla y emitir su voto correspondiente.
 

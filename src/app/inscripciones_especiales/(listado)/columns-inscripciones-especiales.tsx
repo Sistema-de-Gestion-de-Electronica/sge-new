@@ -5,8 +5,9 @@ import {
   type InscripcionEspecialEstatus,
 } from "@/app/_components/badge-estatus-inscripcion-especial";
 
-type InscripcionesEspecialesData =
-  RouterOutputs["inscripcionesEspeciales"]["getAllInscripcionesEspeciales"]["solicitudes"][number];
+type InscripcionesEspecialesData = NonNullable<
+  RouterOutputs["inscripcionesEspeciales"]["getAllInscripcionesEspeciales"]
+>["solicitudes"][number];
 
 export const getColumnasInscripcionesEspeciales = ({ filterByUser }: { filterByUser?: boolean }) => {
   const colHelper = createColumnHelper<InscripcionesEspecialesData>();
@@ -83,7 +84,7 @@ export const getColumnasInscripcionesEspeciales = ({ filterByUser }: { filterByU
             cell: ({ row }) => {
               return row.original.fueContactado ? (
                 <div className="max-w-xs">
-                  <div className="font-semibold border-t bg-green-100 p-2 text-center">✔</div>
+                  <div className="border-t bg-green-100 p-2 text-center font-semibold">✔</div>
                 </div>
               ) : (
                 <div className="max-w-xs">
@@ -106,7 +107,7 @@ export const getColumnasInscripcionesEspeciales = ({ filterByUser }: { filterByU
             cell: ({ row }) => {
               return row.original.vinoPresencialmente ? (
                 <div className="max-w-xs">
-                  <div className="font-semibold border-t bg-green-100 p-2 text-center">✔</div>
+                  <div className="border-t bg-green-100 p-2 text-center font-semibold">✔</div>
                 </div>
               ) : (
                 <div className="max-w-xs">

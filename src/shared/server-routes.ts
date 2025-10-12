@@ -322,30 +322,33 @@ export const ACTAS_ROUTE: AppRoute = {
   ],
 };
 
-const PERMISOS_VER_INSCRIPCIONES_ESPECIALES: SgeNombre[] = [];
 export const INSCRIPCIONES_ESPECIALES_ROUTE: AppRoute = {
   href: "/inscripciones_especiales",
   label: "Inscripciones especiales",
   isPublic: false,
-  permisos: PERMISOS_VER_INSCRIPCIONES_ESPECIALES,
+  permisos: [
+    SgeNombre.INSCRIPCIONES_ESPECIALES_SOLICITAR,
+    SgeNombre.INSCRIPCIONES_ESPECIALES_VER_LISTADO,
+    SgeNombre.INSCRIPCIONES_ESPECIALES_ADMIN,
+  ],
   subRutas: [
     {
       href: "/inscripciones_especiales/solicitudes",
       label: "Administrar Solicitudes",
       isPublic: false,
-      permisos: [SgeNombre.ADMIN_VER_PANEL_ADMIN],
+      permisos: [SgeNombre.INSCRIPCIONES_ESPECIALES_VER_LISTADO],
     },
     {
       href: "/inscripciones_especiales/solicitar",
       label: "Solicitar",
       isPublic: false,
-      permisos: [],
+      permisos: [SgeNombre.INSCRIPCIONES_ESPECIALES_SOLICITAR],
     },
     {
       href: "/inscripciones_especiales/mis_solicitudes",
       label: "Mis solicitudes",
       isPublic: false,
-      permisos: [],
+      permisos: [SgeNombre.INSCRIPCIONES_ESPECIALES_SOLICITAR],
     },
   ],
 };
@@ -355,25 +358,25 @@ export const FALLAS_ROUTE: AppRoute = {
   href: "/fallas/reportar_instrumento",
   label: "Fallas",
   isPublic: false,
-  permisos: [], //PERMISOS_VER_FALLAS,
+  permisos: [SgeNombre.REP_FALLAS_REPORTAR_FALLAS], //PERMISOS_VER_FALLAS,
   subRutas: [
     {
       href: "/fallas/reportar_pc",
       label: "Reportar PC",
       isPublic: false,
-      permisos: [],
+      permisos: [SgeNombre.REP_FALLAS_REPORTAR_FALLAS],
     },
     {
       href: "/fallas/reportar_instrumento",
       label: "Reportar Instrumento",
       isPublic: false,
-      permisos: [],
+      permisos: [SgeNombre.REP_FALLAS_REPORTAR_FALLAS],
     },
     {
       href: "/fallas/reportes",
       label: "Administrar",
       isPublic: false,
-      permisos: [SgeNombre.ADMIN_VER_PANEL_ADMIN],
+      permisos: [SgeNombre.REP_FALLAS_BUSCAR_REP_FALLAS],
     },
   ],
 };

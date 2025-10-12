@@ -2,8 +2,8 @@
 
 import { z } from "zod";
 import { api } from "@/trpc/react";
-import { Controller, FieldError, FormProvider, useForm } from "react-hook-form";
-import { Button, FormInput, toast, FormAutocomplete } from "@/components/ui";
+import { Controller, FormProvider, useForm } from "react-hook-form";
+import { Button, toast } from "@/components/ui";
 
 import { inputReportarFallasPc } from "@/shared/filters/fallas-filter.schema";
 import { MultiSelectFormField } from "@/components/ui/multi-select";
@@ -36,10 +36,9 @@ export default function FormularioReportarFallaPC() {
   const reportarPCMutation = api.fallas.reportarPC.useMutation();
 
   const onFormSubmit = (formData: FormReportarFallaPC) => {
-    console.log("Form Data:", formData);
     formData = {
       ...formData,
-      nroEquipo: formData.nroEquipo.id
+      nroEquipo: formData.nroEquipo
     }
 
     reportarPCMutation.mutate(formData, {

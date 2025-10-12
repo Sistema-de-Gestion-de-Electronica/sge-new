@@ -18,11 +18,15 @@ export const FallasViewAdmin = ({
   onCancel,
   onEstados,
 }: FallasViewAdminProps) => {
-  const { data: fallasData } = api.fallas.getFallaPorId.useQuery({
+  const { data: fallasData, isLoading, error } = api.fallas.getFallaPorId.useQuery({
     id: Number(fallaId),
   });
 
   const esFallaEliminado = fallasData?.estado === FallasEstatus.ELIMINADO;
+
+  if (isLoading) return <div>Cargando...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+  if (!fallasData) return <div>No se encontró la falla</div>;
 
   return (
     <div className="container mx-auto space-y-8 p-4">

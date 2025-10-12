@@ -4,10 +4,6 @@ import { api } from "@/trpc/react";
 import { type FormSelectProps } from "@/components/ui/autocomplete";
 import { FormAutocomplete, Select, SelectTrigger, SelectValue } from "@/components/ui";
 
-const getItemLabelNameForSelect = (item: { nombre: string; marca: string; modelo: string; inventarioId: string }) => {
-  return `${item.nombre} - ${item.marca} - ${item.modelo} - ${item.inventarioId}`;
-};
-
 export const SelectEquipoForm = <T extends FieldValues, TType extends string>({
   name,
   control,

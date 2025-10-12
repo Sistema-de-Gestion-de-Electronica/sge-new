@@ -13,11 +13,15 @@ type HistorialFallaProps = {
 };
 
 export default function HistorialFalla({ fallaId }: HistorialFallaProps) {
-  const { data: fallas } = api.fallas.getHistorialPorFallaId.useQuery({
+  const { data: fallas, isLoading, error } = api.fallas.getHistorialPorFallaId.useQuery({
     fallaId: Number(fallaId),
   });
   const [grouping, setGrouping] = useState<GroupingState>([]);
   const columns = getColumnasHistorialFallas();
+
+  if (isLoading) return <div>Cargando...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+  if (!fallas || fallas.length === 0) return <div>No hay datos disponibles</div>;
 
   return (
     <div className="container mx-auto space-y-8 p-4">

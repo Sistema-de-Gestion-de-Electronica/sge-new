@@ -9,10 +9,9 @@ type PageProps = {
 };
 
 export default async function Page({ params }: PageProps) {
-  const puedeVer = await estaLogueadoYConPermiso([
-    SgeNombre.INSCRIPCIONES_ESPECIALES_VER_LISTADO,
-    SgeNombre.INSCRIPCIONES_ESPECIALES_ADMIN,
-  ]);
+  const puedeVer =
+    (await estaLogueadoYConPermiso([SgeNombre.INSCRIPCIONES_ESPECIALES_VER_LISTADO])) ||
+    (await estaLogueadoYConPermiso([SgeNombre.INSCRIPCIONES_ESPECIALES_ADMIN]));
   if (!puedeVer) {
     if (await estaLogueadoYConPermiso([SgeNombre.INSCRIPCIONES_ESPECIALES_SOLICITAR])) {
       redirect("/inscripciones_especiales/solicitar");

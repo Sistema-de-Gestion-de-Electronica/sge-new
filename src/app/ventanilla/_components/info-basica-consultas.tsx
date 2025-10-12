@@ -8,6 +8,8 @@ import {
   WrenchIcon,
   BadgeDollarSignIcon,
   ReceiptTextIcon,
+  FilesIcon,
+  MailIcon,
 } from "lucide-react";
 import { Label, Button, toast } from "@/components/ui";
 import { BadgeEstatusConsulta, ConsultaEstatus } from "@/app/ventanilla/_components/badge-estatus-consulta";
@@ -66,22 +68,22 @@ export function ConsultasDetalle({ consultaId, mostrarCompleto }: ConsultasDetal
           {[
             ...[
               {
-                icon: <FlaskConicalIcon className="h-4 w-4" />,
+                icon: <PersonStandingIcon className="h-4 w-4" />,
                 label: "Nombre",
                 value: consulta?.nombre,
               },
               {
-                icon: <WrenchIcon className="h-4 w-4" />,
+                icon: <PersonStandingIcon className="h-4 w-4" />,
                 label: "Apellido",
                 value: consulta?.apellido,
               },
               {
-                icon: <BadgeDollarSignIcon className="h-4 w-4" />,
+                icon: <FilesIcon className="h-4 w-4" />,
                 label: "Legajo",
                 value: consulta?.legajo,
               },
               {
-                icon: <ReceiptTextIcon className="h-4 w-4" />,
+                icon: <MailIcon className="h-4 w-4" />,
                 label: "Email",
                 value: consulta?.email,
               },

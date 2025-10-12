@@ -1,4 +1,6 @@
 import DetalleConsulta from "@/app/ventanilla/consultas/[id]/detalle";
+import { SgeNombre } from "@/generated/prisma";
+import { estaLogueadoYConPermiso } from "@/server/permisos";
 
 type PageProps = {
   params: Promise<{ id: string }>;
@@ -6,5 +8,6 @@ type PageProps = {
 
 export default async function Page({ params }: PageProps) {
   const { id } = await params;
-  return <DetalleConsulta id={id} />;
+
+  return <DetalleConsulta id={id}  />;
 }

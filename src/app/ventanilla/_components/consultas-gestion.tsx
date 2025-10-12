@@ -11,6 +11,8 @@ import { inputGestionarConsultas } from "@/shared/filters/ventanilla-filter.sche
 import { Checkbox } from "@/components/ui/checkbox";
 import ModalDrawer from "@/app/_components/modal/modal-drawer";
 import { ConsultaEstatus } from "./badge-estatus-consulta";
+import { SgeNombre } from "@/generated/prisma";
+import { estaLogueadoYConPermiso } from "@/server/permisos";
 
 type GestionarConsultaFormData = z.infer<typeof inputGestionarConsultas>;
 
@@ -37,9 +39,9 @@ export const ConsultasGestion = ({ consultaId, onEstados, onCancel }: ConsultasG
       respuesta: "",
     },
   });
-
+  
   const { handleSubmit, control, getValues } = formHook;
-
+  
   useEffect(() => {
     if (!consultaData) return;
 
@@ -131,7 +133,7 @@ export const ConsultasGestion = ({ consultaId, onEstados, onCancel }: ConsultasG
             </div>
           </CardContent>
         </Card>
-        {(consultaData?.estado === "NUEVA" || consultaData?.estado === "PENDIENTE")&& (
+        {(consultaData?.estado === "NUEVA" || consultaData?.estado === "PENDIENTE") && (
           <Button
             type="button"
             variant="default"
@@ -167,7 +169,7 @@ export const ConsultasGestion = ({ consultaId, onEstados, onCancel }: ConsultasG
           )}
 
           {/* Botones condicionales según el estado actual */}
-          {consultaData?.estado === "NUEVA" && (
+          {(consultaData?.estado === "NUEVA") && (
             <Button
               title="Marcar como pendiente"
               type="button"

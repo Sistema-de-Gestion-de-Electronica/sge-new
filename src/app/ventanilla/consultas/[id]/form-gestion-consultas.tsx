@@ -25,7 +25,7 @@ export const ConsultasViewAdmin = ({
   return (
     <div className="container mx-auto space-y-8 p-4">
       <ConsultasDetalle consultaId={consultaId} />
-        <TienePermiso permisos={[SgeNombre.ADMIN_VER_PANEL_ADMIN]}>
+        <TienePermiso permisos={[SgeNombre.VENTANILLA_RESPONDER_CONSULTAS]}>
           <ConsultasGestion
             consultaId={consultaId}
             onEstados={onEstados}

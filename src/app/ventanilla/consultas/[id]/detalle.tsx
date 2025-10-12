@@ -4,7 +4,11 @@ import { api } from "@/trpc/react";
 import { useRouter } from "next/navigation";
 import { ConsultasViewAdmin } from "@/app/ventanilla/consultas/[id]/form-gestion-consultas";
 
-export default function DetalleConsulta({ id }: { id: string }) {
+export default function DetalleConsulta({
+  id,
+}: {
+  id: string;
+}) {
   const router = useRouter();
   const utils = api.useUtils();
   const refreshGetAll = () => {

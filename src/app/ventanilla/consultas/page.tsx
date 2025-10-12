@@ -14,12 +14,6 @@ type PageProps = {
 };
 
 export default async function Page({ searchParams }: PageProps) {
-  // Verificar que el usuario tenga permisos de administrador
-  const puedeVer = await estaLogueadoYConPermiso([SgeNombre.ADMIN_VER_PANEL_ADMIN]);
-  if (!puedeVer) {
-    redirect(INICIO_ROUTE.href);
-  }
-
   const filters = inputGetAllConsultas.parse(await searchParams);
 
   const filter_as_key = JSON.stringify(filters);

@@ -392,9 +392,9 @@ export const VENTANILLA_ROUTE: AppRoute = {
     },
     {
       href: "/ventanilla/consultas",
-      label: "Responder consultas",
+      label: "Ver consultas",
       isPublic: false,
-      permisos: [SgeNombre.ADMIN_VER_PANEL_ADMIN],
+      permisos: [SgeNombre.VENTANILLA_VER_CONSULTAS],
     },
   ],
 };

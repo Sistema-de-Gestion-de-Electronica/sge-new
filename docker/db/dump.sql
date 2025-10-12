@@ -212,7 +212,9 @@ CREATE TYPE public."SgeNombre" AS ENUM (
     'CONSEJERO_VOTACION_ACTA',
     'INSCRIPCIONES_ESPECIALES_VER_LISTADO',
     'INSCRIPCIONES_ESPECIALES_ADMIN',
-    'INSCRIPCIONES_ESPECIALES_SOLICITAR'
+    'INSCRIPCIONES_ESPECIALES_SOLICITAR',
+    'VENTANILLA_VER_CONSULTAS',
+    'VENTANILLA_RESPONDER_CONSULTAS'
 );
 
 
@@ -7399,6 +7401,8 @@ COPY public."Permiso" (id, "sgeNombre", nombre, rubro, incluido, "fechaCreacion"
 85	INSCRIPCIONES_ESPECIALES_VER_LISTADO	Ver inscripciones	Ver inscripciones	f	2025-08-28 22:47:37.105	2025-08-28 22:47:37.105	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
 86	INSCRIPCIONES_ESPECIALES_ADMIN	Ver inscripciones admin	Ver inscripciones admin	f	2025-08-28 22:47:37.105	2025-08-28 22:47:37.105	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
 87	INSCRIPCIONES_ESPECIALES_SOLICITAR	Solicitar una inscripcion especial	Solicitar una inscripcion especial	f	2025-08-28 22:47:37.105	2025-08-28 22:47:37.105	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
+88	VENTANILLA_VER_CONSULTAS	Ver consultas	Ventanilla	f	2025-08-28 22:47:37.105	2025-08-28 22:47:37.105	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
+89	VENTANILLA_RESPONDER_CONSULTAS	Responder consultas	Ventanilla	f	2025-08-28 22:47:37.105	2025-08-28 22:47:37.105	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
 \.
 
 

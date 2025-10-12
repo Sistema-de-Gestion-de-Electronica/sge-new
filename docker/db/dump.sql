@@ -1658,6 +1658,23 @@ CREATE TABLE public."FallaHistorial" (
 );
 
 --
+-- Name: Consulta; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public."Consulta" (
+    id SERIAL PRIMARY KEY,
+    nombre         TEXT NOT NULL,
+    apellido       TEXT NOT NULL,
+    legajo         TEXT NULL,
+    email          TEXT NOT NULL,
+    consulta       TEXT NOT NULL,
+    "fechaConsulta"  TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW(),
+    respuesta      TEXT NULL,
+    "fechaRespuesta" TIMESTAMP WITHOUT TIME ZONE NULL,
+    estado         TEXT
+);
+
+--
 -- Name: Voto; Type: TABLE; Schema: public; Owner: -
 --
 

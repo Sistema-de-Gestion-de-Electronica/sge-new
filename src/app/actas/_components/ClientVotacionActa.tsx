@@ -38,10 +38,9 @@ export function ClientVotacionActa() {
     setActa(acta);
   }
 
-const pdfUrl = acta?.label
-  ? `https://${process.env.NEXT_PUBLIC_APP_HOST}/actas/${acta.label}.pdf`
-  : undefined;
-
+  const pdfUrl =
+    (acta as any)?.pdfUrl ??
+    (acta?.label ? `https://sge-dev.frba.utn.edu.ar/actas/${acta.label}.pdf` : undefined);
 
   if(!existenActas){
     return <EmptyStateNoActa/>

@@ -1,7 +1,7 @@
 "use client";
 
 import type { z } from "zod";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { api } from "@/trpc/react";
 import { FormProvider, useForm, Controller } from "react-hook-form";
 import { Button, toast } from "@/components/ui";
@@ -15,6 +15,8 @@ import { FormTextarea } from "@/components/ui/textarea";
 type FormReportarFallaInstrumento = z.infer<typeof inputReportarFallasInstrumento>;
 
 export default function FormularioReportarFallaInstrumento() {
+  const [resetKey, setResetKey] = useState(0);
+
   const reporteBase: FormReportarFallaInstrumento = {
     esInventariado: true,
     tipoInstrumento: "",
@@ -29,7 +31,14 @@ export default function FormularioReportarFallaInstrumento() {
     defaultValues: reporteBase,
   });
 
-  const { handleSubmit, control, watch, reset } = formHook;
+  const {
+    handleSubmit,
+    control,
+    watch,
+    reset,
+    setError,
+    formState: { errors },
+  } = formHook;
 
   const reportarInstrumentoMutation = api.fallas.reportarInstrumento.useMutation();
 
@@ -45,6 +54,9 @@ export default function FormularioReportarFallaInstrumento() {
       descripcionFalla: "",
       condicion: "",
     });
+    formHook.setValue("tipoInstrumento", "");
+    formHook.setValue("instrumento", "");
+    formHook.clearErrors(["tipoInstrumento", "instrumento"]);
   }, [esInventariado, reset]);
 
   const { data: tiposData } = api.equipos.getAllTipos.useQuery({ getAll: true });
@@ -65,20 +77,36 @@ export default function FormularioReportarFallaInstrumento() {
   );
 
   const onFormSubmit = (formData: FormReportarFallaInstrumento) => {
-    if (formData.esInventariado && (!formData.tipoInstrumento || !formData.instrumento)) {
-      toast.error("Para instrumentos inventariados, debe seleccionar el tipo e instrumento.");
-      return;
+    if (formData.esInventariado) {
+      let hasError = false;
+      if (!formData.tipoInstrumento) {
+        setError("tipoInstrumento", { type: "required", message: "Debe seleccionar un tipo de instrumento" });
+        hasError = true;
+      }
+      if (!formData.instrumento) {
+        setError("instrumento", { type: "required", message: "Debe seleccionar un instrumento" });
+        hasError = true;
+      }
+      if (hasError) {
+        toast.error("Completa los campos requeridos para instrumentos inventariados.");
+        return;
+      }
     }
+    
 
     reportarInstrumentoMutation.mutate(formData, {
       onSuccess: () => {
         toast.success("Tu reporte ha sido enviado correctamente.");
+        reset(reporteBase);
+        setResetKey((k) => k + 1);
       },
       onError: () => {
         toast.error("Hubo un problema al enviar tu reporte. Por favor, intenta nuevamente.");
       },
     });
   };
+
+
 
   return (
     <FormProvider {...formHook}>
@@ -118,6 +146,7 @@ export default function FormularioReportarFallaInstrumento() {
                     items={(tiposData?.tipos ?? []).map((tipo) => ({ id: String(tipo.id), label: tipo.nombre }))}
                     label={"Tipo de Instrumento"}
                     className="w-full"
+                    key={`tipo-${resetKey}`}
                   />
                 </div>
                 <div className="flex w-full flex-row lg:flex-row lg:justify-between lg:gap-x-4">

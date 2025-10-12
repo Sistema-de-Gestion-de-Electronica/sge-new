@@ -316,10 +316,7 @@ export const FormAutocomplete = <
           {...props}
           value={field.value as PathValue<T, Path<T>>}
           onChange={(value) => {
-            const normalized =
-              value && typeof value === "object" && "value" in (value as any) ? (value as any).value : value;
-
-            field.onChange(normalized as PathValue<T, Path<T>>);
+            field.onChange(value as PathValue<T, Path<T>>);
 
             if (props?.callback) {
               props?.callback();

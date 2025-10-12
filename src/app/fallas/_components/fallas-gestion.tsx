@@ -8,12 +8,15 @@ import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui";
 import { FormTextarea } from "@/components/ui/textarea";
 import { inputGestionarFallas } from "@/shared/filters/fallas-filter.schema";
-import { Checkbox } from "@/components/ui/checkbox";
 import ModalDrawer from "@/app/_components/modal/modal-drawer";
 import { SelectUsuarioForm, getUserLabelNameForSelect } from "@/app/_components/select-usuario";
 import { FallasEstatus } from "./badge-estatus-fallas";
 
-type GestionarFallasFormData = z.infer<typeof inputGestionarFallas>;
+type FormHelperType = {
+  asignadoAObject: { id: string; label: string };
+};
+
+type GestionarFallasFormData = z.infer<typeof inputGestionarFallas> & FormHelperType;
 
 interface FallasGestionProps {
   fallaId: number;
@@ -27,7 +30,11 @@ export const FallasGestion = ({ fallaId, onEstados, onCancel }: FallasGestionPro
   const { mutate: eliminarFalla } = api.fallas.eliminarFalla.useMutation();
   const { mutate: actualizarCampos } = api.fallas.actualizarCampos.useMutation();
 
-  const { data: fallaData } = api.fallas.getFallaPorId.useQuery({
+  const {
+    data: fallaData,
+    isLoading,
+    error,
+  } = api.fallas.getFallaPorId.useQuery({
     id: fallaId,
   });
 
@@ -36,48 +43,23 @@ export const FallasGestion = ({ fallaId, onEstados, onCancel }: FallasGestionPro
     resolver: zodResolver(inputGestionarFallas),
     defaultValues: {
       id: fallaId,
-      descripcionFalla: "",
+      descripcionFalla: fallaData?.descripcionFalla ?? "",
       asignadoA: fallaData?.asignadoA?.id ?? "",
+      asignadoAObject: fallaData?.asignadoA
+        ? {
+            id: fallaData.asignadoA.id,
+            label: getUserLabelNameForSelect(fallaData.asignadoA),
+          }
+        : undefined,
       palabraClave: fallaData?.palabrasClave ?? "",
     },
   });
 
-  const { handleSubmit, control, getValues } = formHook;
+  const { control, getValues, watch } = formHook;
 
-  const getAsignadoId = (value: unknown): string => {
-    if (typeof value === "string") return value;
-    if (value && typeof value === "object" && "id" in (value as Record<string, unknown>)) {
-      const id = (value as { id?: unknown }).id;
-      return typeof id === "string" ? id : "";
-    }
-    return "";
-  };
+  const asignadoAObject = watch("asignadoAObject");
 
-  useEffect(() => {
-    if (!fallaData) return;
-
-    const descripcionFalla = fallaData?.descripcionFalla ?? "";
-    const palabraClave = fallaData?.palabrasClave ?? "";
-
-    const asignado = fallaData?.asignadoA
-      ? {
-          id: fallaData.asignadoA.id,
-          label: getUserLabelNameForSelect({
-            nombre: fallaData.asignadoA?.nombre ?? null,
-            name: fallaData.asignadoA?.name ?? "",
-            apellido: fallaData.asignadoA?.apellido ?? null,
-            legajo: fallaData.asignadoA?.legajo ?? null,
-          }),
-        }
-      : "";
-
-    formHook.reset({
-      id: fallaId,
-      descripcionFalla,
-      palabraClave,
-      asignadoA: asignado as any,
-    });
-  }, [fallaData, formHook, fallaId]);
+  useEffect(() => formHook.setValue("asignadoA", asignadoAObject?.id), [formHook, asignadoAObject]);
 
   // Handler para marcar como "EN_REPARACION"
   const handleEnReparacion = () => {
@@ -87,13 +69,13 @@ export const FallasGestion = ({ fallaId, onEstados, onCancel }: FallasGestionPro
         id: fallaId,
         estado: "EN_REPARACION",
         descripcionFalla: values.descripcionFalla,
-        asignadoA: getAsignadoId(values.asignadoA as unknown),
+        asignadoA: values.asignadoA,
         palabraClave: values.palabraClave,
       },
       {
         onSuccess: () => {
           toast.success("Falla marcada como en reparación");
-          utils.fallas.getFallaPorId.invalidate({ id: fallaId });
+          void utils.fallas.getFallaPorId.invalidate({ id: fallaId });
           onEstados();
         },
         onError: (error: any) => {
@@ -116,7 +98,7 @@ export const FallasGestion = ({ fallaId, onEstados, onCancel }: FallasGestionPro
       {
         onSuccess: () => {
           toast.success("Falla marcada como reparada");
-          utils.fallas.getFallaPorId.invalidate({ id: fallaId });
+          void utils.fallas.getFallaPorId.invalidate({ id: fallaId });
           onEstados();
         },
         onError: (error: any) => {
@@ -139,7 +121,7 @@ export const FallasGestion = ({ fallaId, onEstados, onCancel }: FallasGestionPro
       {
         onSuccess: () => {
           toast.success("Equipo marcado como descartado");
-          utils.fallas.getFallaPorId.invalidate({ id: fallaId });
+          void utils.fallas.getFallaPorId.invalidate({ id: fallaId });
           onEstados();
         },
         onError: (error: any) => {
@@ -155,14 +137,14 @@ export const FallasGestion = ({ fallaId, onEstados, onCancel }: FallasGestionPro
     actualizarCampos(
       {
         id: fallaId,
-        asignadoA: getAsignadoId(values.asignadoA as unknown),
+        asignadoA: values.asignadoA,
         palabraClave: values.palabraClave,
         descripcionFalla: values.descripcionFalla,
       },
       {
         onSuccess: () => {
           toast.success("Cambios guardados");
-          utils.fallas.getFallaPorId.invalidate({ id: fallaId });
+          void utils.fallas.getFallaPorId.invalidate({ id: fallaId });
         },
         onError: () => toast.error("No se pudieron guardar los cambios"),
       },
@@ -175,7 +157,7 @@ export const FallasGestion = ({ fallaId, onEstados, onCancel }: FallasGestionPro
       {
         onSuccess: () => {
           toast.success("Falla eliminada");
-          utils.fallas.getAllFallas.invalidate();
+          void utils.fallas.getAllFallas.invalidate();
           setOpen(false);
           onCancel();
         },
@@ -186,29 +168,33 @@ export const FallasGestion = ({ fallaId, onEstados, onCancel }: FallasGestionPro
 
   const [open, setOpen] = useState(false);
 
+  if (isLoading) return <div>Cargando...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+  if (!fallaData) return <div>No se encontró la falla</div>;
+
   return (
     <FormProvider {...formHook}>
       <form className="space-y-6">
-        <Card className="w-full">
-          <CardHeader>
-            <CardTitle>Gestión de Falla - Estado: {fallaData?.estado}</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex w-full flex-col gap-y-4">
-              <FormTextarea
-                id="descripcionFalla"
-                name="descripcionFalla"
-                label={"Descripción de la/s falla/s / Reparación / Motivo del descarte"}
-                control={control}
-                className="resize-none"
-                placeholder="Describe el problema, reparación realizada, o motivo del descarte..."
-              />
+        {(fallaData?.estado === FallasEstatus.FALLADO || fallaData?.estado === FallasEstatus.EN_REPARACION) && (
+          <>
+            <Card className="w-full">
+              <CardHeader>
+                <CardTitle>Gestión de Falla - Estado: {fallaData?.estado}</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex w-full flex-col gap-y-4">
+                  <FormTextarea
+                    id="descripcionFalla"
+                    name="descripcionFalla"
+                    label={"Descripción de la/s falla/s / Reparación / Motivo del descarte"}
+                    control={control}
+                    className="resize-none"
+                    placeholder="Describe el problema, reparación realizada, o motivo del descarte..."
+                  />
 
-              {/* Campos adicionales para "EN_REPARACION" */}
-              {fallaData?.estado === "FALLADO" || fallaData?.estado === "EN_REPARACION" ? (
-                <>
                   <SelectUsuarioForm
-                    name="asignadoA"
+                    name="asignadoAObject"
+                    realNameId="asignadoA"
                     control={control}
                     className="mt-2"
                     label={"Usuario asignado"}
@@ -220,21 +206,21 @@ export const FallasGestion = ({ fallaId, onEstados, onCancel }: FallasGestionPro
                     control={control}
                     placeholder="Palabras clave para categorizar el problema"
                   />
-                </>
-              ) : null}
-            </div>
-          </CardContent>
-        </Card>
+                </div>
+              </CardContent>
+            </Card>
 
-        <Button
-          type="button"
-          variant="default"
-          color="secondary"
-          onClick={handleGuardar}
-          className="w-full border border-gray-300 bg-transparent text-gray-700 hover:bg-gray-100"
-        >
-          Guardar cambios
-        </Button>
+            <Button
+              type="button"
+              variant="default"
+              color="secondary"
+              onClick={handleGuardar}
+              className="w-full border border-gray-300 bg-transparent text-gray-700 hover:bg-gray-100"
+            >
+              Guardar cambios
+            </Button>
+          </>
+        )}
 
         <div className="sticky bottom-0 flex w-full flex-row items-end justify-end space-x-4 bg-white p-2 pb-2">
           <Button
@@ -260,7 +246,7 @@ export const FallasGestion = ({ fallaId, onEstados, onCancel }: FallasGestionPro
           </Button>
 
           {/* Botones condicionales según el estado actual */}
-          {fallaData?.estado === "FALLADO" && (
+          {fallaData?.estado === FallasEstatus.FALLADO && (
             <Button
               title="Marcar en reparación"
               type="button"
@@ -273,7 +259,7 @@ export const FallasGestion = ({ fallaId, onEstados, onCancel }: FallasGestionPro
             </Button>
           )}
 
-          {fallaData?.estado === "EN_REPARACION" && (
+          {fallaData?.estado === FallasEstatus.EN_REPARACION && (
             <>
               <Button
                 title="Marcar como descartado"

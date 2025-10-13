@@ -52327,6 +52327,7 @@ COPY public."Rol" (id, nombre, "fechaCreacion", "fechaModificacion", "usuarioCre
 13	Préstamo de libros	2025-04-14 06:14:20.932	2025-04-14 06:14:20.932	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
 14	Consejero	2025-08-29 20:50:19.869	2025-08-29 20:50:19.869	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
 1	Administración	2025-04-14 06:14:20.865	2025-08-29 21:05:26.918	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
+15	Administración de inscripciones especiales	2025-04-14 06:14:20.865	2025-08-29 21:05:26.918	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
 \.
 
 
@@ -52463,6 +52464,9 @@ COPY public."RolPermiso" ("rolId", "permisoId", "fechaCreacion", "usuarioCreador
 13	62	2025-04-14 06:14:20.932	cm9goht79004qdrqpdif3osjy
 14	84	2025-08-29 20:50:50.527	cm9goht79004qdrqpdif3osjy
 1	14	2025-08-29 21:05:26.918	cm9goht79004qdrqpdif3osjy
+15	85	2025-08-29 20:50:50.527	cm9goht79004qdrqpdif3osjy
+15	86	2025-08-29 20:50:50.527	cm9goht79004qdrqpdif3osjy
+15	87	2025-08-29 20:50:50.527	cm9goht79004qdrqpdif3osjy
 \.
 
 

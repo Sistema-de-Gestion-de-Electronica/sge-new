@@ -641,6 +641,40 @@ CREATE TABLE "InscripcionEspecial" (
 
     CONSTRAINT "InscripcionEspecial_pkey" PRIMARY KEY ("id"),
     CONSTRAINT "InscripcionEspecial_solicitante_fkey" FOREIGN KEY ("solicitanteId") REFERENCES "User"("id") ON DELETE CASCADE
+CREATE TABLE "Falla" (
+    id SERIAL PRIMARY KEY,
+
+    "equipoId" INT NULL,
+    "tipoFalla" TEXT NOT NULL, -- "PC" o "Instrumento"
+
+    fallas TEXT[] NOT NULL DEFAULT '{}', -- solo para PC
+    "descripcionEquipo" TEXT NULL,         -- solo para Instrumento
+    "descripcionFalla" TEXT NOT NULL,
+    condicion TEXT NULL,                  -- solo para Instrumento
+
+    "fechaReporte" TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW() NOT NULL,
+
+    "reportadoPorId" TEXT NULL,
+    "asignadoAId" TEXT NULL,
+
+    estado TEXT NOT NULL,
+    "palabrasClave" TEXT NULL
+);
+
+-- CreateTable
+CREATE TABLE public."FallaHistorial" (
+    id SERIAL PRIMARY KEY,
+
+    "fallaId" INT NOT NULL,
+    "fallas" TEXT[] NOT NULL,
+    "descripcionEquipo" TEXT,
+    "descripcionFalla" TEXT NOT NULL,
+    "reportadoPorId" TEXT,
+    "asignadoAId" TEXT,
+    "estado" TEXT NOT NULL,
+
+    "fechaReporte" TIMESTAMP NOT NULL,
+    "fechaCambioEstado" TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
 -- CreateIndex
@@ -1047,3 +1081,15 @@ ALTER TABLE "RolPermiso" ADD CONSTRAINT "RolPermiso_permisoId_fkey" FOREIGN KEY 
 
 -- AddForeignKey
 ALTER TABLE "Provincia" ADD CONSTRAINT "Provincia_paisIso_fkey" FOREIGN KEY ("paisIso") REFERENCES "Pais"("iso") ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE public."FallaHistorial"
+ADD CONSTRAINT "FallaHistorial_fallaId_fkey"
+FOREIGN KEY ("fallaId") REFERENCES public."Falla"(id) ON DELETE CASCADE;
+
+ALTER TABLE public."FallaHistorial"
+ADD CONSTRAINT "FallaHistorial_reportadoPorId_fkey"
+FOREIGN KEY ("reportadoPorId") REFERENCES public."User"(id);
+
+ALTER TABLE public."FallaHistorial"
+ADD CONSTRAINT "FallaHistorial_asignadoAId_fkey"
+FOREIGN KEY ("asignadoAId") REFERENCES public."User"(id);

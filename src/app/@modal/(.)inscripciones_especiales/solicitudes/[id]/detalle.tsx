@@ -11,7 +11,7 @@ export default function DetalleSolicitud({ id }: { id: string }) {
   const [open, setOpen] = useState(true);
   const utils = api.useUtils();
   const refreshGetAll = () => {
-    utils.reservas.reservaLaboratorioAbierto.getAll.invalidate().catch((err) => {
+    utils.inscripcionesEspeciales.getAllInscripcionesEspeciales.invalidate().catch((err) => {
       console.error(err);
     });
   };
@@ -41,7 +41,7 @@ export default function DetalleSolicitud({ id }: { id: string }) {
 
   return (
     <ModalDrawer
-      titulo="Detalle de Reserva"
+      titulo="Detalle de la Solicitud"
       description="Detalles de la solicitud de inscripción."
       open={open}
       onOpenChange={handleOpenChange}

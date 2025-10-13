@@ -15,8 +15,9 @@ type PageProps = {
 };
 
 export default async function Page({ searchParams }: PageProps) {
-  // Verificar que el usuario tenga permisos de administrador
-  const puedeVer = await estaLogueadoYConPermiso([SgeNombre.ADMIN_VER_PANEL_ADMIN]);
+  const puedeVer =
+    (await estaLogueadoYConPermiso([SgeNombre.INSCRIPCIONES_ESPECIALES_VER_LISTADO])) ||
+    (await estaLogueadoYConPermiso([SgeNombre.INSCRIPCIONES_ESPECIALES_ADMIN]));
   if (!puedeVer) {
     redirect(INICIO_ROUTE.href);
   }

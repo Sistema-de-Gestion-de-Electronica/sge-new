@@ -300,42 +300,92 @@ export const REPORTES_ROUTE: AppRoute = {
   ],
 };
 
-const PERMISOS_VER_INSCRIPCIONES_ESPECIALES: SgeNombre[] = [];
+//const PERMISOS_ACTA_CONSEJEROS =  [SgeNombre.ADMIN_ACTUALIZAR_ACTA_CONSEJEROS];
+export const ACTAS_ROUTE: AppRoute = {
+  href: "/actas",
+  label: "Actas",
+  isPublic: false,
+  permisos: [],
+  subRutas: [
+    {
+      href: "/actas",
+      label: "Historial",
+      isPublic: false,
+      permisos: [],
+    },
+    {
+      href: "/actas/administrar",
+      label: "Administrar",
+      isPublic: false,
+      permisos: [SgeNombre.ADMIN_ACTUALIZAR_ACTA_CONSEJEROS],
+    },
+  ],
+};
+
 export const INSCRIPCIONES_ESPECIALES_ROUTE: AppRoute = {
   href: "/inscripciones_especiales",
   label: "Inscripciones especiales",
   isPublic: false,
-  permisos: PERMISOS_VER_INSCRIPCIONES_ESPECIALES,
+  permisos: [
+    SgeNombre.INSCRIPCIONES_ESPECIALES_SOLICITAR,
+    SgeNombre.INSCRIPCIONES_ESPECIALES_VER_LISTADO,
+    SgeNombre.INSCRIPCIONES_ESPECIALES_ADMIN,
+  ],
   subRutas: [
     {
       href: "/inscripciones_especiales/solicitudes",
       label: "Administrar Solicitudes",
       isPublic: false,
-      permisos: [SgeNombre.ADMIN_VER_PANEL_ADMIN],
+      permisos: [SgeNombre.INSCRIPCIONES_ESPECIALES_VER_LISTADO],
     },
     {
       href: "/inscripciones_especiales/solicitar",
       label: "Solicitar",
       isPublic: false,
-      permisos: [],
+      permisos: [SgeNombre.INSCRIPCIONES_ESPECIALES_SOLICITAR],
     },
     {
       href: "/inscripciones_especiales/mis_solicitudes",
       label: "Mis solicitudes",
       isPublic: false,
-      permisos: [],
+      permisos: [SgeNombre.INSCRIPCIONES_ESPECIALES_SOLICITAR],
+    },
+  ],
+};
+
+//const PERMISOS_VER_FALLAS = [SgeNombre.ADMIN_VER_PANEL_ADMIN];
+export const FALLAS_ROUTE: AppRoute = {
+  href: "/fallas",
+  label: "Fallas",
+  isPublic: false,
+  permisos: [
+    SgeNombre.REP_FALLAS_REPORTAR_FALLAS,
+    SgeNombre.REP_FALLAS_ADMIN_REP_FALLAS,
+    SgeNombre.REP_FALLAS_BUSCAR_REP_FALLAS,
+  ],
+  subRutas: [
+    {
+      href: "/fallas/reportar_pc",
+      label: "Reportar PC",
+      isPublic: false,
+      permisos: [SgeNombre.REP_FALLAS_REPORTAR_FALLAS],
+    },
+    {
+      href: "/fallas/reportar_instrumento",
+      label: "Reportar Instrumento",
+      isPublic: false,
+      permisos: [SgeNombre.REP_FALLAS_REPORTAR_FALLAS],
+    },
+    {
+      href: "/fallas/reportes",
+      label: "Administrar",
+      isPublic: false,
+      permisos: [SgeNombre.REP_FALLAS_BUSCAR_REP_FALLAS, SgeNombre.REP_FALLAS_ADMIN_REP_FALLAS],
     },
   ],
 };
 
 export const SGE_1_ROUTE: AppRoute[] = [
-  {
-    href: "https://sge.frba.utn.edu.ar/sge2/fallasreporte/falla_pc.php",
-    label: "Fallas",
-    esExterna: true,
-    isPublic: false,
-    permisos: [SgeNombre.REP_FALLAS_REPORTAR_FALLAS],
-  },
   {
     href: "https://sge.frba.utn.edu.ar/sge2/ventanilla/ventanilla.php",
     label: "Ventanilla",
@@ -343,13 +393,27 @@ export const SGE_1_ROUTE: AppRoute[] = [
     isPublic: false,
     permisos: [],
   },
-  {
-    href: "https://sge.frba.utn.edu.ar/sge2/consejeros/index.php",
-    label: "Consejeros",
-    esExterna: true,
-    isPublic: false,
-    permisos: [SgeNombre.ADMIN_ACTUALIZAR_ACTA_CONSEJEROS],
-  },
+
+  // {
+  //   href: "https://sge.frba.utn.edu.ar/sge2/consejeros/index.php",
+  //   label: "Consejeros",
+  //   esExterna: true,
+  //   isPublic: false,
+  //   permisos: [SgeNombre.ADMIN_ACTUALIZAR_ACTA_CONSEJEROS],
+  // },
+  //{
+  //  href: "https://sge.frba.utn.edu.ar/sge2/inscripciones_especiales/index.php",
+  //  label: "Inscripciones especiales",
+  //  esExterna: true,
+  //  isPublic: false,
+  //  permisos: [SgeNombre.ADMIN_OFERTAS_LABORALES_ABM],
+  //{
+  //  href: "https://sge.frba.utn.edu.ar/sge2/consejeros/index.php",
+  //  label: "Consejeros",
+  //  esExterna: true,
+  //  isPublic: false,
+  //  permisos: [SgeNombre.ADMIN_ACTUALIZAR_ACTA_CONSEJEROS],
+  //},
 ];
 
 export const APP_ROUTES: AppRoute[] = [
@@ -362,7 +426,9 @@ export const APP_ROUTES: AppRoute[] = [
   BIBLIOTECA_ROUTE,
   ADMIN_ROUTE,
   REPORTES_ROUTE,
+  ACTAS_ROUTE,
   INSCRIPCIONES_ESPECIALES_ROUTE,
+  FALLAS_ROUTE,
   ...SGE_1_ROUTE,
 ];
 

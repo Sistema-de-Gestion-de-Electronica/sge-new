@@ -44,7 +44,7 @@ export const InscripcionesEspecialesSolicitudesTable = ({
       <DataTable
         grouping={grouping}
         setGrouping={setGrouping}
-        data={data.solicitudes ?? []}
+        data={data?.solicitudes ?? []}
         columns={columns}
         manualSorting
         // pageSize={pagination.pageSize}

@@ -41,7 +41,7 @@ export default function DetalleSolicitud({ id }: { id: string }) {
 
   return (
     <ModalDrawer
-      titulo="Detalle de Reserva"
+      titulo="Detalle de la Solicitud"
       description="Detalles de la solicitud de inscripción."
       open={open}
       onOpenChange={handleOpenChange}

@@ -7379,9 +7379,9 @@ COPY public."Permiso" (id, "sgeNombre", nombre, rubro, incluido, "fechaCreacion"
 82	ACTIVIDADES_ABIERTAS_PUBLICAR_ADMIN	Publicar y Administrar	Actividades abiertas	f	2025-04-14 06:14:20.858	2025-04-14 06:14:20.858	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
 83	ACTIVIDADES_ABIERTAS_VER_PUBLICACIONES	Ver publicaciones	Actividades abiertas	f	2025-04-14 06:14:20.858	2025-04-14 06:14:20.858	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
 84	CONSEJERO_VOTACION_ACTA	Votar acta en curso	Consejeros	t	2025-08-28 22:47:37.105	2025-08-28 22:47:37.105	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
-85	INSCRIPCIONES_ESPECIALES_VER_LISTADO	Ver inscripciones	Ver inscripciones	f	2025-08-28 22:47:37.105	2025-08-28 22:47:37.105	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
-86	INSCRIPCIONES_ESPECIALES_ADMIN	Ver inscripciones admin	Ver inscripciones admin	f	2025-08-28 22:47:37.105	2025-08-28 22:47:37.105	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
-87	INSCRIPCIONES_ESPECIALES_SOLICITAR	Solicitar una inscripcion especial	Solicitar una inscripcion especial	f	2025-08-28 22:47:37.105	2025-08-28 22:47:37.105	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
+85	INSCRIPCIONES_ESPECIALES_VER_LISTADO	Ver solicitudes	Inscripciones especiales	f	2025-08-28 22:47:37.105	2025-08-28 22:47:37.105	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
+86	INSCRIPCIONES_ESPECIALES_ADMIN	Administrar solicitudes	Ver Inscripciones especiales	f	2025-08-28 22:47:37.105	2025-08-28 22:47:37.105	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
+87	INSCRIPCIONES_ESPECIALES_SOLICITAR	Solicitar una inscripcion especial	Inscripciones especiales	f	2025-08-28 22:47:37.105	2025-08-28 22:47:37.105	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
 \.
 
 

@@ -26,7 +26,7 @@ export default function FormularioSolicitudInscripcionEspecial() {
     { enabled: !!session?.user?.id },
   );
 
-  const { tienePermisos } = useTienePermisos([SgeNombre.ADMIN_VER_PANEL_ADMIN]);
+  const { tienePermisos } = useTienePermisos([SgeNombre.INSCRIPCIONES_ESPECIALES_ADMIN]);
 
   const solicitudBase = useMemo<FormSolicitarInscripcionEspecial>(
     () => ({

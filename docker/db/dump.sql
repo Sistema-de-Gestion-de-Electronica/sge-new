@@ -195,7 +195,8 @@ CREATE TYPE public."SgeNombre" AS ENUM (
     'ACTIVIDADES_USUARIO_SGE_PUBLICAR_ADMIN',
     'ACTIVIDADES_USUARIO_SGE_VER_PUBLICACIONES',
     'ACTIVIDADES_ABIERTAS_PUBLICAR_ADMIN',
-    'ACTIVIDADES_ABIERTAS_VER_PUBLICACIONES'
+    'ACTIVIDADES_ABIERTAS_VER_PUBLICACIONES',
+    'CONSEJERO_VOTACION_ACTA'
 );
 
 
@@ -7091,7 +7092,7 @@ COPY public."Permiso" (id, "sgeNombre", nombre, rubro, incluido, "fechaCreacion"
 81	ACTIVIDADES_USUARIO_SGE_VER_PUBLICACIONES	Ver publicaciones	Actividades para usuario del SGE	f	2025-04-14 06:14:20.858	2025-04-14 06:14:20.858	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
 82	ACTIVIDADES_ABIERTAS_PUBLICAR_ADMIN	Publicar y Administrar	Actividades abiertas	f	2025-04-14 06:14:20.858	2025-04-14 06:14:20.858	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
 83	ACTIVIDADES_ABIERTAS_VER_PUBLICACIONES	Ver publicaciones	Actividades abiertas	f	2025-04-14 06:14:20.858	2025-04-14 06:14:20.858	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
-84  CONSEJERO_VOTACION_ACTA Votar acta en curso Consejeros t 2025-08-28 22:47:37.105 2025-08-28 22:47:37.105 cm9goht79004qdrqpdif3osjy cm9goht79004qdrqpdif3osjy
+84	CONSEJERO_VOTACION_ACTA	Votar acta en curso	Consejeros	t	2025-04-14 06:14:20.858	2025-04-14 06:14:20.858	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
 \.
 
 
@@ -52020,7 +52021,7 @@ COPY public."Rol" (id, nombre, "fechaCreacion", "fechaModificacion", "usuarioCre
 11	Préstamo de equipos	2025-04-14 06:14:20.923	2025-04-14 06:14:20.923	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
 12	Biblioteca	2025-04-14 06:14:20.928	2025-04-14 06:14:20.928	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
 13	Préstamo de libros	2025-04-14 06:14:20.932	2025-04-14 06:14:20.932	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
-14  Consejero  2025-08-29 20:50:19.869  2025-08-29 20:50:19.869  cm9goht79004qdrqpdif3osjy  cm9goht79004qdrqpdif3osjy
+14	Consejero	2025-04-14 06:14:20.932	2025-04-14 06:14:20.932	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
 \.
 
 

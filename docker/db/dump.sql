@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 17.2
--- Dumped by pg_dump version 17.4 (Homebrew)
+-- Dumped from database version 17.4
+-- Dumped by pg_dump version 17.4
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -17,14 +17,6 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
-
---
--- Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: -
---
-
-COMMENT ON SCHEMA public IS 'standard public schema';
-
-
 --
 -- Name: CursoDia; Type: TYPE; Schema: public; Owner: -
 --
@@ -37,6 +29,16 @@ CREATE TYPE public."CursoDia" AS ENUM (
     'VIERNES',
     'SABADO',
     'DOMINGO'
+);
+
+
+--
+-- Name: Estado; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public."Estado" AS ENUM (
+    'ABIERTA',
+    'CERRADA'
 );
 
 
@@ -81,6 +83,17 @@ CREATE TYPE public."MateriaTipo" AS ENUM (
     'INTEGRADORA',
     'OBLIGATORIA',
     'ELECTIVA'
+);
+
+
+--
+-- Name: Posicion; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public."Posicion" AS ENUM (
+    'ACUERDO',
+    'DESACUERDO',
+    'ACUERDO_PARCIAL'
 );
 
 
@@ -211,6 +224,16 @@ CREATE TYPE public."TurnoCurso" AS ENUM (
 );
 
 
+--
+-- Name: Visibilidad; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public."Visibilidad" AS ENUM (
+    'VISIBLE',
+    'OCULTA'
+);
+
+
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
@@ -235,6 +258,40 @@ CREATE TABLE public."Account" (
     session_state text,
     refresh_token_expires_in integer
 );
+
+
+--
+-- Name: Acta; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public."Acta" (
+    id integer NOT NULL,
+    "nombreActa" text NOT NULL,
+    "fechaReunion" timestamp(3) without time zone NOT NULL,
+    estado public."Estado" DEFAULT 'ABIERTA'::public."Estado" NOT NULL,
+    visibilidad public."Visibilidad" DEFAULT 'VISIBLE'::public."Visibilidad" NOT NULL,
+    "createdAt" timestamp(3) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: Acta_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public."Acta_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: Acta_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public."Acta_id_seq" OWNED BY public."Acta".id;
 
 
 --
@@ -578,6 +635,48 @@ ALTER SEQUENCE public."Estante_id_seq" OWNED BY public."Estante".id;
 
 
 --
+-- Name: InscripcionEspecial; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public."InscripcionEspecial" (
+    id integer NOT NULL,
+    "solicitanteId" text NOT NULL,
+    caso text NOT NULL,
+    justificacion text NOT NULL,
+    "turnoAlternativa1" text,
+    "turnoAlternativa2" text,
+    materias integer[] NOT NULL,
+    "materiasAdeudadas" integer[] NOT NULL,
+    estado text NOT NULL,
+    respuesta text,
+    "fueContactado" boolean,
+    "vinoPresencialmente" boolean,
+    "fechaSolicitud" timestamp(3) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    "fechaRespuesta" timestamp(3) without time zone
+);
+
+
+--
+-- Name: InscripcionEspecial_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public."InscripcionEspecial_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: InscripcionEspecial_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public."InscripcionEspecial_id_seq" OWNED BY public."InscripcionEspecial".id;
+
+
+--
 -- Name: Laboratorio; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -614,6 +713,30 @@ CREATE SEQUENCE public."Laboratorio_id_seq"
 
 ALTER SEQUENCE public."Laboratorio_id_seq" OWNED BY public."Laboratorio".id;
 
+--
+-- Name: InscripcionEspecial; Type: TABLE; Schema: public; Owner: -
+--
+
+/*CREATE TABLE public."InscripcionEspecial" (
+    "id" SERIAL NOT NULL,
+    "solicitanteId" TEXT NOT NULL, 
+
+    "caso" TEXT NOT NULL,
+    "justificacion" TEXT NOT NULL,
+    "turnoAlternativa1" TEXT,
+    "turnoAlternativa2" TEXT,
+    "materias" INTEGER[] NOT NULL,
+    "materiasAdeudadas" INTEGER[] NOT NULL,
+
+    "estado" TEXT NOT NULL,
+    "respuesta" TEXT,
+
+    "fueContactado" boolean,
+    "vinoPresencialmente" boolean,
+
+    "fechaSolicitud" TIMESTAMP(3) without time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "fechaRespuesta" TIMESTAMP(3)
+);*/
 
 --
 -- Name: Libro; Type: TABLE; Schema: public; Owner: -
@@ -1246,6 +1369,39 @@ ALTER SEQUENCE public."Reserva_id_seq" OWNED BY public."Reserva".id;
 
 
 --
+-- Name: Reunion; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public."Reunion" (
+    id integer NOT NULL,
+    fecha timestamp(3) without time zone NOT NULL,
+    "fechaNormalizada" text NOT NULL,
+    link text NOT NULL,
+    "createdAt" timestamp(3) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: Reunion_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public."Reunion_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: Reunion_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public."Reunion_id_seq" OWNED BY public."Reunion".id;
+
+
+--
 -- Name: Rol; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1455,6 +1611,82 @@ CREATE TABLE public."VerificationToken" (
     expires timestamp(3) without time zone NOT NULL
 );
 
+--
+-- Name: Falla; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public."Falla" (
+    id SERIAL PRIMARY KEY,
+
+    "equipoId" INT NULL,
+    "tipoFalla" TEXT NOT NULL, -- "PC" o "Instrumento"
+
+    fallas TEXT[] NOT NULL DEFAULT '{}', -- solo para PC
+    "descripcionEquipo" TEXT NULL,         -- solo para Instrumento
+    "descripcionFalla" TEXT NOT NULL,
+    condicion TEXT NULL,                  -- solo para Instrumento
+
+    "fechaReporte" TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW() NOT NULL,
+
+    "reportadoPorId" TEXT NULL,
+    "asignadoAId" TEXT NULL,
+
+    estado TEXT NOT NULL,
+    "palabrasClave" TEXT 
+);
+
+--
+-- Name: FallaHistorial; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public."FallaHistorial" (
+    id SERIAL PRIMARY KEY,
+
+    "fallaId" INT NOT NULL,
+    "fallas" TEXT[] NOT NULL,
+    "descripcionEquipo" TEXT,
+    "descripcionFalla" TEXT NOT NULL,
+    "reportadoPorId" TEXT,
+    "asignadoAId" TEXT,
+    "estado" TEXT NOT NULL,
+
+    "fechaReporte" TIMESTAMP NOT NULL,
+    "fechaCambioEstado" TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+--
+-- Name: Voto; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public."Voto" (
+    id integer NOT NULL,
+    "actaId" integer NOT NULL,
+    "consejeroId" text NOT NULL,
+    posicion public."Posicion" NOT NULL,
+    comentario text,
+    "fechaEmision" timestamp(3) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: Voto_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public."Voto_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: Voto_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public."Voto_id_seq" OWNED BY public."Voto".id;
+
 
 --
 -- Name: _prisma_migrations; Type: TABLE; Schema: public; Owner: -
@@ -1470,6 +1702,13 @@ CREATE TABLE public._prisma_migrations (
     started_at timestamp with time zone DEFAULT now() NOT NULL,
     applied_steps_count integer DEFAULT 0 NOT NULL
 );
+
+
+--
+-- Name: Acta id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public."Acta" ALTER COLUMN id SET DEFAULT nextval('public."Acta_id_seq"'::regclass);
 
 
 --
@@ -1533,6 +1772,13 @@ ALTER TABLE ONLY public."EquipoTipo" ALTER COLUMN id SET DEFAULT nextval('public
 --
 
 ALTER TABLE ONLY public."Estante" ALTER COLUMN id SET DEFAULT nextval('public."Estante_id_seq"'::regclass);
+
+
+--
+-- Name: InscripcionEspecial id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public."InscripcionEspecial" ALTER COLUMN id SET DEFAULT nextval('public."InscripcionEspecial_id_seq"'::regclass);
 
 
 --
@@ -1648,6 +1894,13 @@ ALTER TABLE ONLY public."ReservaLibro" ALTER COLUMN id SET DEFAULT nextval('publ
 
 
 --
+-- Name: Reunion id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public."Reunion" ALTER COLUMN id SET DEFAULT nextval('public."Reunion_id_seq"'::regclass);
+
+
+--
 -- Name: Rol id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1669,10 +1922,31 @@ ALTER TABLE ONLY public."Software" ALTER COLUMN id SET DEFAULT nextval('public."
 
 
 --
+-- Name: Voto id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public."Voto" ALTER COLUMN id SET DEFAULT nextval('public."Voto_id_seq"'::regclass);
+
+
+--
 -- Data for Name: Account; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public."Account" (id, "userId", type, provider, "providerAccountId", refresh_token, access_token, expires_at, refresh_expires_in, token_type, scope, id_token, session_state, refresh_token_expires_in) FROM stdin;
+\.
+
+
+--
+-- Data for Name: Acta; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public."Acta" (id, "nombreActa", "fechaReunion", estado, visibilidad, "createdAt") FROM stdin;
+31	20-09-2025	2025-09-20 03:00:00	CERRADA	OCULTA	2025-09-20 14:47:04.691
+33	10-10-2023	2023-10-10 03:00:00	CERRADA	VISIBLE	2025-09-25 14:18:48.361
+34	12-01-2024	2024-01-12 03:00:00	CERRADA	VISIBLE	2025-09-25 14:19:05.993
+32	21-09-2025	2025-09-21 03:00:00	CERRADA	VISIBLE	2025-09-20 14:47:43.704
+37	12-12-2025	2025-12-12 03:00:00	ABIERTA	VISIBLE	2025-10-02 23:08:43.379
+36	22-11-2025	2025-11-22 03:00:00	CERRADA	OCULTA	2025-09-25 14:19:50.778
 \.
 
 
@@ -4952,6 +5226,15 @@ COPY public."Estante" (id, nombre, "armarioId", "fechaCreacion", "fechaModificac
 
 
 --
+-- Data for Name: InscripcionEspecial; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public."InscripcionEspecial" (id, "solicitanteId", caso, justificacion, "turnoAlternativa1", "turnoAlternativa2", materias, "materiasAdeudadas", estado, respuesta, "fueContactado", "vinoPresencialmente", "fechaSolicitud", "fechaRespuesta") FROM stdin;
+1	cm9goht7j00lldrqponw9nq09	Excepcion de correlativas	Quiero cursar fisca 2	Martes: Tarde	Martes: Noche	{30}	{29}	RECHAZADA		t	t	2025-10-02 21:21:19.021	\N
+\.
+
+
+--
 -- Data for Name: Laboratorio; Type: TABLE DATA; Schema: public; Owner: -
 --
 
@@ -7092,7 +7375,7 @@ COPY public."Permiso" (id, "sgeNombre", nombre, rubro, incluido, "fechaCreacion"
 81	ACTIVIDADES_USUARIO_SGE_VER_PUBLICACIONES	Ver publicaciones	Actividades para usuario del SGE	f	2025-04-14 06:14:20.858	2025-04-14 06:14:20.858	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
 82	ACTIVIDADES_ABIERTAS_PUBLICAR_ADMIN	Publicar y Administrar	Actividades abiertas	f	2025-04-14 06:14:20.858	2025-04-14 06:14:20.858	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
 83	ACTIVIDADES_ABIERTAS_VER_PUBLICACIONES	Ver publicaciones	Actividades abiertas	f	2025-04-14 06:14:20.858	2025-04-14 06:14:20.858	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
-84	CONSEJERO_VOTACION_ACTA	Votar acta en curso	Consejeros	t	2025-04-14 06:14:20.858	2025-04-14 06:14:20.858	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
+84	CONSEJERO_VOTACION_ACTA	Votar acta en curso	Consejeros	t	2025-08-28 22:47:37.105	2025-08-28 22:47:37.105	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
 \.
 
 
@@ -37440,6 +37723,7 @@ COPY public."ReservaLaboratorioAbierto" (id, especialidad, descripcion, concurre
 6824		MediciÃ³n y pruebas del proyecto integrador de electrÃ³nica de potencia:\r\n convertidor flyback\r\nInverter\r\n	4	LA	19286	4	15	2025-04-14 06:14:19.071	2025-04-14 06:14:19.071	cm9goht7d00agdrqpg1rijsei	cm9goht7d00agdrqpg1rijsei
 6839		Vamos a finalizar TP2 de ME1\r\nCalibraciÃ³n de un par de Resistencias.	2	LA	19299	4	14	2025-04-14 06:14:19.074	2025-04-14 06:14:19.074	cm9goht7u015ndrqpt6zow1mk	cm9goht7u015ndrqpt6zow1mk
 6853		Realizacion y prueba de PCB para TC II	1	LA	19317	4	15	2025-04-14 06:14:19.077	2025-04-14 06:14:19.077	cm9goht7h00hmdrqpdxpddsni	cm9goht7h00hmdrqpdxpddsni
+6117		Proyecto informatica	1	LA	18646	4	15	2025-04-14 06:14:18.961	2025-04-14 06:14:18.961	cm9goht7h00gtdrqpc29rp8rb	cm9goht7h00gtdrqpc29rp8rb
 6077		Realizar codigo para la materia de Infromatica 2.	2	LA	18576	4	15	2025-04-14 06:14:18.953	2025-04-14 06:14:18.953	cm9goht7d009wdrqppw0vpbz9	cm9goht7d009wdrqppw0vpbz9
 6095		Proyecto TD3	1	LA	18612	4	15	2025-04-14 06:14:18.956	2025-04-14 06:14:18.956	cm9goht7f00eidrqp2wubg2d2	cm9goht7f00eidrqp2wubg2d2
 6110		Medicion rf	1	LA	18647	4	14	2025-04-14 06:14:18.96	2025-04-14 06:14:18.96	cm9goht7s0126drqpnrwmxr1o	cm9goht7s0126drqpnrwmxr1o
@@ -37635,7 +37919,6 @@ COPY public."ReservaLaboratorioAbierto" (id, especialidad, descripcion, concurre
 6927			1	LA	19381	4	15	2025-04-14 06:14:19.089	2025-04-14 06:14:19.089	cm9goht7v016ddrqpc8rzrcml	cm9goht7v016ddrqpc8rzrcml
 6955			3	LA	19401	4	14	2025-04-14 06:14:19.091	2025-04-14 06:14:19.091	cm9goht790047drqpnuikrp30	cm9goht790047drqpnuikrp30
 6967		Simulacion de circuito de Electronica Aplicada 2	4	LA	19417	4	14	2025-04-14 06:14:19.095	2025-04-14 06:14:19.095	cm9goht7l00ohdrqpwstm3swt	cm9goht7l00ohdrqpwstm3swt
-6117		Proyecto informatica	1	LA	18646	4	15	2025-04-14 06:14:18.961	2025-04-14 06:14:18.961	cm9goht7h00gtdrqpc29rp8rb	cm9goht7h00gtdrqpc29rp8rb
 6134		Proyecto de potencia	4	LA	18559	4	15	2025-04-14 06:14:18.967	2025-04-14 06:14:18.967	cm9goht7s0114drqpmwhjfusx	cm9goht7s0114drqpmwhjfusx
 6155		Soldadura SMD	1	LA	18582	4	14	2025-04-14 06:14:18.97	2025-04-14 06:14:18.97	cm9goht7l00otdrqpd2538512	cm9goht7l00otdrqpd2538512
 6165		realizacion de tp	1	LA	18547	4	15	2025-04-14 06:14:18.972	2025-04-14 06:14:18.972	cm9goht79004bdrqpw0nzcfh9	cm9goht79004bdrqpw0nzcfh9
@@ -45784,6 +46067,7 @@ COPY public."ReservaLaboratorioCerrado" (id, descripcion, "requierePC", "requier
 7062		t	f	7063	3	6	7	f		\N	\N	2025-04-14 06:14:14.55	2025-04-14 06:14:14.55	cm9goht7n00t2drqp459eaek1	cm9goht7n00t2drqp459eaek1
 7076	Se requiere Lab 110	t	f	7074	4	18	93	f		\N	\N	2025-04-14 06:14:14.553	2025-04-14 06:14:14.553	cm9goht7b0073drqpiz6ymnhw	cm9goht7b0073drqpiz6ymnhw
 7127		f	f	7124	4	17	35	f		\N	\N	2025-04-14 06:14:14.563	2025-04-14 06:14:14.563	cm9goht7j00khdrqpm154t9nb	cm9goht7j00khdrqpm154t9nb
+9352	Se requirere LAB 109	f	f	9342	4	\N	81	f		\N	\N	2025-04-14 06:14:15.021	2025-04-14 06:14:15.021	cm9goht7b0073drqpiz6ymnhw	cm9goht7b0073drqpiz6ymnhw
 6309	2 (dos) servomecanismos Feedback\r\n2 (dos) osciloscopios de 4 trazos con sus puntas\r\n4 (cuatro) multímetros \r\n2 (dos) generadores de señal con sus cables\r\n	f	f	6343	4	16	69	f		\N	\N	2025-04-14 06:14:14.41	2025-04-14 06:14:14.41	cm9goht7m00qpdrqpr3rymun3	cm9goht7m00qpdrqpr3rymun3
 6328	Altium	t	f	6367	4	17	17	f		\N	\N	2025-04-14 06:14:14.412	2025-04-14 06:14:14.412	cm9goht7h00icdrqpdbz6p0na	cm9goht7h00icdrqpdbz6p0na
 6345	Preferentemente laboratorio 110.	t	f	6349	4	18	34	f		\N	\N	2025-04-14 06:14:14.412	2025-04-14 06:14:14.412	cm9goht7q00ykdrqpya5bpnbz	cm9goht7q00ykdrqpya5bpnbz
@@ -48077,6 +48361,7 @@ COPY public."ReservaLaboratorioCerrado" (id, descripcion, "requierePC", "requier
 9254		t	f	9252	3	6	16	f		\N	\N	2025-04-14 06:14:15.005	2025-04-14 06:14:15.005	cm9goht7u015xdrqprixkzrjf	cm9goht7u015xdrqprixkzrjf
 9279	Se requiere aplicaciones Quartus II + ModelSim + ISE	t	f	9275	4	18	51	f		\N	\N	2025-04-14 06:14:15.007	2025-04-14 06:14:15.007	cm9goht7d00asdrqptqy7zsrf	cm9goht7d00asdrqptqy7zsrf
 8479		f	f	8482	4	16	77	f		\N	\N	2025-04-14 06:14:14.854	2025-04-14 06:14:14.854	cm9goht7f00dgdrqp31kwhwyx	cm9goht7f00dgdrqp31kwhwyx
+9359	Se requirere LAB 109	f	f	9365	4	\N	81	f		\N	\N	2025-04-14 06:14:15.024	2025-04-14 06:14:15.024	cm9goht7b0073drqpiz6ymnhw	cm9goht7b0073drqpiz6ymnhw
 8500	Lab 104 equipado con 5 bancos de trabajo que cada una tenga:\r\n\r\n* 2 fuentes de alimentaciÃ³n\r\n* 1 generador de seÃ±ales\r\n* 1 osciloscopio\r\n* puntas de mediciÃ³n y cables.\r\n\r\nGracias\r\nMariano.	f	f	8512	4	12	60	f		\N	\N	2025-04-14 06:14:14.858	2025-04-14 06:14:14.858	cm9goht780029drqpbpxan08g	cm9goht780029drqpbpxan08g
 8511		f	f	8509	4	2	10	f		\N	\N	2025-04-14 06:14:14.86	2025-04-14 06:14:14.86	cm9goht7k00m3drqpazf6gxdm	cm9goht7k00m3drqpazf6gxdm
 8528		f	f	8530	4	\N	49	f		\N	\N	2025-04-14 06:14:14.864	2025-04-14 06:14:14.864	cm9goht7j00khdrqpm154t9nb	cm9goht7j00khdrqpm154t9nb
@@ -48125,6 +48410,7 @@ COPY public."ReservaLaboratorioCerrado" (id, descripcion, "requierePC", "requier
 9276	Laboratorio 105. Gracias	t	f	9277	3	17	82	f		\N	\N	2025-04-14 06:14:15.008	2025-04-14 06:14:15.008	cm9goht7p00wldrqp43s36pkn	cm9goht7p00wldrqp43s36pkn
 9295		f	f	9292	4	\N	92	f		\N	\N	2025-04-14 06:14:15.011	2025-04-14 06:14:15.011	cm9goht7k00mpdrqp6iame6q1	cm9goht7k00mpdrqp6iame6q1
 9317		t	f	9319	2	13	13	f		\N	\N	2025-04-14 06:14:15.015	2025-04-14 06:14:15.015	cm9goht7i00jxdrqpwx3npg50	cm9goht7i00jxdrqpwx3npg50
+9389	Preferentemente laboratorio 110. En su defecto, laboratorio 109.	t	f	9375	4	\N	4	f		\N	\N	2025-04-14 06:14:15.028	2025-04-14 06:14:15.028	cm9goht7j00kxdrqpnzqdigck	cm9goht7j00kxdrqpnzqdigck
 8654	TP derivador e Intefrador\r\n5 mesas \r\n-Oscolscopio de dos canales\r\n-Multimetro Digital\r\n-Generador de señales\r\n-Fuente de alimentacion partida\r\n-Cables de interconeccion	f	f	8651	4	12	88	f		\N	\N	2025-04-14 06:14:14.888	2025-04-14 06:14:14.888	cm9goht7t0140drqpiji677g1	cm9goht7t0140drqpiji677g1
 8669		f	f	8675	4	12	86	f		\N	\N	2025-04-14 06:14:14.892	2025-04-14 06:14:14.892	cm9goht7k00mzdrqpremrgs04	cm9goht7k00mzdrqpremrgs04
 8685	Kits InformÃ¡tica II con fuentes. Laboratorio 110 de ser posible	t	f	8684	4	18	98	f		\N	\N	2025-04-14 06:14:14.897	2025-04-14 06:14:14.897	cm9goht770011drqplp0fy6hf	cm9goht770011drqplp0fy6hf
@@ -48901,9 +49187,6 @@ COPY public."ReservaLaboratorioCerrado" (id, descripcion, "requierePC", "requier
 10107	Se requiere Lab 110.	f	f	10111	4	\N	81	f		\N	\N	2025-04-14 06:14:15.171	2025-04-14 06:14:15.171	cm9goht7b0073drqpiz6ymnhw	cm9goht7b0073drqpiz6ymnhw
 10127	Se requiere Lab 110.	f	f	10116	4	18	81	f		\N	\N	2025-04-14 06:14:15.172	2025-04-14 06:14:15.172	cm9goht7b0073drqpiz6ymnhw	cm9goht7b0073drqpiz6ymnhw
 10148	Lab 104 porfa.	f	f	10150	4	12	37	f		\N	\N	2025-04-14 06:14:15.179	2025-04-14 06:14:15.179	cm9goht780029drqpbpxan08g	cm9goht780029drqpbpxan08g
-9352	Se requirere LAB 109	f	f	9342	4	\N	81	f		\N	\N	2025-04-14 06:14:15.021	2025-04-14 06:14:15.021	cm9goht7b0073drqpiz6ymnhw	cm9goht7b0073drqpiz6ymnhw
-9359	Se requirere LAB 109	f	f	9365	4	\N	81	f		\N	\N	2025-04-14 06:14:15.024	2025-04-14 06:14:15.024	cm9goht7b0073drqpiz6ymnhw	cm9goht7b0073drqpiz6ymnhw
-9389	Preferentemente laboratorio 110. En su defecto, laboratorio 109.	t	f	9375	4	\N	4	f		\N	\N	2025-04-14 06:14:15.028	2025-04-14 06:14:15.028	cm9goht7j00kxdrqpnzqdigck	cm9goht7j00kxdrqpnzqdigck
 9406	Realizacion TP mÃ©todos de medicion\r\n5 osciloscopios \r\n5 multimetrs\r\n5 fuentes de alimentacion	f	f	9413	4	12	30	f		\N	\N	2025-04-14 06:14:15.033	2025-04-14 06:14:15.033	cm9goht7u016adrqpasd6a2nb	cm9goht7u016adrqpasd6a2nb
 9422	Lab 108.	t	f	9421	4	16	37	f		\N	\N	2025-04-14 06:14:15.037	2025-04-14 06:14:15.037	cm9goht780029drqpbpxan08g	cm9goht780029drqpbpxan08g
 9448	Preferentemente Lab. 105	t	f	9442	4	13	14	f		\N	\N	2025-04-14 06:14:15.04	2025-04-14 06:14:15.04	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
@@ -52004,6 +52287,22 @@ COPY public."ReservaLibro" (id, "fechaEntregado", "reservaId", "libroId", "fecha
 
 
 --
+-- Data for Name: Reunion; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public."Reunion" (id, fecha, "fechaNormalizada", link, "createdAt") FROM stdin;
+1	2025-09-26 03:00:00	2025-09-26	https://www.linkedin.com/	2025-09-03 12:03:23.869
+2	2025-09-17 00:00:00	2025-09-17	https://www.linkedin.com/in/franco-marsico-290759200/	2025-09-03 12:18:24.854
+3	2025-10-02 00:00:00	2025-10-02	https://github.com/MartinLingeri/sge-new.git	2025-09-03 20:22:45.749
+4	2025-10-10 00:00:00	2025-10-10	https://github.com/MartinLingeri/sge-new.git	2025-09-03 20:23:12.969
+5	2025-12-16 00:00:00	2025-12-16	https://www.google.com/?hl=es	2025-09-04 23:22:34.478
+6	2025-12-12 00:00:00	2025-12-12	https://www.google.com/?hl=es	2025-09-24 23:17:04.225
+7	2025-12-15 00:00:00	2025-12-15	https://www.zoom.com/es	2025-09-24 23:17:13.702
+8	2025-09-25 00:00:00	2025-09-25	https://www.google.com/?hl=es	2025-09-24 23:24:10.088
+\.
+
+
+--
 -- Data for Name: Rol; Type: TABLE DATA; Schema: public; Owner: -
 --
 
@@ -52021,7 +52320,7 @@ COPY public."Rol" (id, nombre, "fechaCreacion", "fechaModificacion", "usuarioCre
 11	Préstamo de equipos	2025-04-14 06:14:20.923	2025-04-14 06:14:20.923	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
 12	Biblioteca	2025-04-14 06:14:20.928	2025-04-14 06:14:20.928	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
 13	Préstamo de libros	2025-04-14 06:14:20.932	2025-04-14 06:14:20.932	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
-14	Consejero	2025-04-14 06:14:20.932	2025-04-14 06:14:20.932	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
+14	Consejero	2025-08-29 20:50:19.869	2025-08-29 20:50:19.869	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
 \.
 
 
@@ -52153,7 +52452,8 @@ COPY public."RolPermiso" ("rolId", "permisoId", "fechaCreacion", "usuarioCreador
 13	64	2025-04-14 06:14:20.932	cm9goht79004qdrqpdif3osjy
 13	63	2025-04-14 06:14:20.932	cm9goht79004qdrqpdif3osjy
 13	62	2025-04-14 06:14:20.932	cm9goht79004qdrqpdif3osjy
-14  84  2025-08-29 20:50:50.527 cm9goht79004qdrqpdif3osjy
+14	84	2025-08-29 20:50:50.527	cm9goht79004qdrqpdif3osjy
+1	14	2025-08-29 21:05:26.918	cm9goht79004qdrqpdif3osjy
 \.
 
 
@@ -52435,6 +52735,7 @@ cm9goht7h00gxdrqpp5cz83bg	ncampitelli	ncampitelli@frba.utn.edu.ar	\N	/default-av
 cm9goht7o00tjdrqpj86211gy	mcantaluppi	mcantaluppi@frba.utn.edu.ar	\N	/default-avatar.svg	Mariano	Cantaluppi	1981-04-11	Agrelo 3008	6	40	Capital federal	1221	 	15-5567-6345	4106-8400	28799988	2490853	\N	0	f	f	2009-03-31 00:00:00	2021-02-19 00:00:00	2014-10-07 00:00:00	2	C	AR
 cm9goht7i00jhdrqpjkykiubw	ecardozo	ecardozo@frba.utn.edu.ar	\N	/default-avatar.svg	Ezequiel Damián	Cardozo	1983-07-03	Pasteur 3468	- -	- -	San fernando	1644	47450991	1562696628		30394185	1155672	\N	0	f	f	2008-05-22 00:00:00	2021-04-26 00:00:00	2015-10-13 00:00:00	2	B	AR
 cm9goht7l00pcdrqpx1umyn1x	juliocastro	juliocastro@frba.utn.edu.ar	\N	/default-avatar.svg	Julio	Castro	1967-01-14	Soldado de la frontera 5283 pi	- -	- -	Capital federal	1439	46059802			18137711	589854	\N	0	f	f	2008-10-24 00:00:00	2024-08-20 00:00:00	2011-10-21 00:00:00	2	C	AR
+cm9goht77001fdrqp1szh8f2b	fborello	fborello@frba.utn.edu.ar	\N	/default-avatar.svg	Federico	Borello	\N										1765814	yes	0	f	f	2022-10-11 00:00:00	2025-02-21 00:00:00	2022-10-11 00:00:00	2	B	AR
 cm9goht7q00yodrqpdyn0xnok	jcecconi	jcecconi@frba.utn.edu.ar	\N	/default-avatar.svg	Juan Alfredo	Cecconi	1979-08-15	Charlone 555	10	8	CABA	1427	6009-0142	154-492-7215	4521-6743	27537325	58790	\N	0	t	f	2008-07-28 00:00:00	2024-09-08 00:00:00	2017-02-07 00:00:00	2	C	AR
 cm9goht7m00qpdrqpr3rymun3	cerallo	cerallo@hotmail.com	\N	/default-avatar.svg	Pablo Damian	Cerallo	1964-06-20	Pichincha 79	- -	- -	Capital federal	1082	49542249	1544031343	1544031343	17031889	25124	\N	0	t	f	2008-06-10 00:00:00	2017-10-03 00:00:00	2016-09-26 00:00:00	2	C	AR
 cm9goht7b007zdrqpwh476fdf	achaparro	achaparro@frba.utn.edu.ar	\N	/default-avatar.svg	Andrés Emiliano	Chaparro	1987-08-30	Padre carranza 1403	- -	3	Villa bosch	1682	47589706	1538386312		33241724	121657	\N	0	f	f	2009-06-30 00:00:00	2022-02-25 00:00:00	2011-04-04 00:00:00	2	B	AR
@@ -52523,6 +52824,7 @@ cm9goht7s011ddrqpadz9hjcq	gmonasterios	gmonasterios@frba.utn.edu.ar	\N	/default-
 cm9goht7j00kedrqpb0y22uv0	pablomontalti	pablomontalti@frba.utn.edu.ar	\N	/default-avatar.svg	Pablo	Montalti	1985-12-12	33 Orientales 734	PB	1	Capital federal	1236	49570146	1554056376		31963569	1196091	\N	0	f	f	2008-03-28 00:00:00	2015-04-03 00:00:00	2015-04-03 00:00:00	2	B	AR
 cm9goht780032drqpdqz98wia	jmontenegro	jmontenegro@frba.utn.edu.ar	\N	/default-avatar.svg	Juan Andres	Montenegro	1971-03-08	Charcas 3438	- -	- -	Lomas del Mirador	1752	4655-4018	15-6708-5658	4333-7783	22125925	35198	\N	0	t	f	2008-04-02 00:00:00	2023-09-07 00:00:00	2017-03-23 00:00:00	2	B	AR
 cm9goht7s010qdrqp356d16hn	maximorales	maximorales@frba.utn.edu.ar	\N	/default-avatar.svg	Maximiliano Cristian	Morales	1990-06-23	Avda. eva perón 6378	- -	- -	Mataderos	1439	1553453034	1531404120		35268284	\N	yes	0	f	f	2009-03-20 00:00:00	2025-03-07 00:00:00	2015-09-08 00:00:00	2	C	AR
+cm9goht7d00aydrqpz0i51j3d	fedlopez	fedlopez@frba.utn.edu.ar	\N	/default-avatar.svg	Federico Ricardo	Lopez	\N										1676295	yes	0	f	f	2022-10-11 00:00:00	2022-10-11 00:00:00	2022-10-11 00:00:00	2	B	AR
 cm9goht7u014tdrqpr31b46b2	cmoro	cmoro@frba.utn.edu.ar	\N	/default-avatar.svg	Carlos Patricio	Moro	1977-12-04	Virrey olaguer y feliú 3325 dt	- -	- -	Cap. fed.	1426	4555-0845	5429-6502	5429-6502	26440053	1063996	\N	0	f	f	2008-06-27 00:00:00	2021-06-06 00:00:00	2014-02-16 00:00:00	2	C	AR
 cm9goht7c0097drqppghktv76	emoroni	emoroni@frba.utn.edu.ar	\N	/default-avatar.svg	Emanuel	Moroni	1990-06-12	Paraguay 3462 8	8	h	Palermo	C1425BRT	3487476436	(03487)15588848		35665600	1340300	\N	0	f	f	2008-04-19 00:00:00	2024-02-27 00:00:00	2016-11-04 00:00:00	2	C	AR
 cm9goht7l00nsdrqpeyx4z366	fnarvaja	fnarvaja@frba.utn.edu.ar	\N	/default-avatar.svg	Carlos Flavio	Narvaja	1967-11-08	Nuñez 5840	- -	- -		1431				18420821	45884	\N	0	t	f	2008-04-04 00:00:00	2025-02-26 00:00:00	2017-03-06 00:00:00	2	C	AR
@@ -52853,6 +53155,7 @@ cm9goht7n00smdrqp59g3c6po	bottinelli	bottinelli@frba.utn.edu.ar	\N	/default-avat
 cm9goht7g00fgdrqph2a6lava	lsaraco	lsaraco@frba.utn.edu.ar	\N	/default-avatar.svg	Leandro Agustin	Saraco	1995-09-18	José Ingenieros 2945	- -	- -	CABA	1416	45843354	1165939794	1165939794	39211075	1521329	\N	0	f	f	2014-03-30 00:00:00	2022-11-09 00:00:00	2016-10-05 00:00:00	2	C	AR
 cm9goht7g00g3drqpmpok1vc0	gomolina	gomolina@frba.utn.edu.ar	\N	/default-avatar.svg	Gonzalo Ignacio	Molina	1985-12-15	Espinosa 44	4	E	Buenos Aires	1405	44326247	1540690077	52994400-4775	31838795	1536497	\N	0	f	f	2014-03-30 00:00:00	2021-06-27 00:00:00	2016-09-29 00:00:00	2	C	AR
 cm9goht7a005cdrqpf96ajepw	ribot	ribot@frba.utn.edu.ar	\N	/default-avatar.svg	Santiago	Ribot	1995-05-10	Salvador Poerio 1916	- -	- -	3 de Febrero	1702		1544300555		39641715	152321	\N	0	f	f	2014-03-30 00:00:00	2024-12-12 00:00:00	2016-02-22 00:00:00	2	B	AR
+cm9goht7h00hrdrqpxev0g88m	anahum	anahum@frba.utn.edu.ar	\N	/default-avatar.svg	Axel Nathanel	Nahum	\N										1756795	yes	0	f	f	2022-10-11 00:00:00	2022-10-11 00:00:00	2022-10-11 00:00:00	2	B	AR
 cm9goht7k00ncdrqp790p1bzm	fcostanza	fcostanza@frba.utn.edu.ar	\N	/default-avatar.svg	Francisco	Costanza	1994-08-27	Republica de Indonesia 77	1	D	Capital Federal	1424	4901-2892	11-3103-6636		38536307	1400359	yes	0	f	f	2014-03-31 00:00:00	2024-12-16 00:00:00	2016-03-09 00:00:00	2	C	AR
 cm9goht7s0128drqp5j2ft49e	felixmb	felixmb@frba.utn.edu.ar	\N	/default-avatar.svg	Felix	Bocco	1985-08-30	1111	- -	- -	Cap. Fed.	1428			1111	11111	1445595	yes	0	f	f	2014-03-31 00:00:00	2021-04-09 00:00:00	2015-04-05 00:00:00	2	C	AR
 cm9goht7g00fedrqpkrduku7j	rojas	rojas@frba.utn.edu.ar	\N	/default-avatar.svg	Claudia	Paz Rojas	1992-07-22		- -	- -		1178		1534663162		93893841	1535791	\N	0	f	f	2014-03-31 00:00:00	2023-03-06 00:00:00	2016-07-18 00:00:00	2	\N	PE
@@ -53040,7 +53343,6 @@ cm9goht7j00lfdrqpu3pt0p9v	dvecchietti	dvecchietti@frba.utn.edu.ar	\N	/default-av
 cm9goht7v017edrqpv2u02dh7	jghiglieri	jghiglieri@frba.utn.edu.ar	\N	/default-avatar.svg	Julian	Ghiglieri	1990-01-18	Palmero 2880	- -	- -	Castelar	1712	01167295514	01167295514	1167295514	34584713	1445753	\N	0	f	f	2017-02-14 00:00:00	2021-03-04 00:00:00	2017-02-14 00:00:00	2	B	AR
 cm9goht7m00r3drqp8fnxy0nx	izanabriavillarroel	izanabriavillarroel@frba.utn.edu.ar	\N	/default-avatar.svg	Ivan Edwin	Zanabria Villarroel	1984-01-22	Juan Pablo I 41	- -	- -	La Matanza	1772	44624668	1568065479	49237000	92678082	1210555	\N	0	f	f	2017-03-14 00:00:00	2021-05-25 00:00:00	2017-03-14 00:00:00	2	\N	BO
 cm9goht7e00ckdrqpar9ruibr	fabian3117	fabian3117@frba.utn.edu.ar	\N	/default-avatar.svg	Federico	Gonzalez	1996-10-10	Las margaritas 979	- -	- -	Merlo	1722	02204985631	1130055251		39870460	1648408	\N	0	f	f	2017-03-26 00:00:00	2025-02-28 00:00:00	2025-04-14 06:14:11.843	2	B	AR
-cm9goht79004qdrqpdif3osjy	hspataro	hspataro@frba.utn.edu.ar	\N	/default-avatar.svg	Hector	Spataro	1970-02-23	Juan B. Alberdi 1016	- -	- -	-	1424	4433-6215	-	-	21484610	\N	\N	0	t	f	2017-03-29 00:00:00	2025-03-07 00:00:00	2025-04-14 06:14:11.843	2	B	AR
 cm9goht7a0053drqp3dd0l86h	abernardez	abernardez@frba.utn.edu.ar	\N	/default-avatar.svg	Andrea	Bernardez	1978-06-15	-	- -	- -	-	-	-	-	-	-	\N	\N	0	f	f	2017-03-30 00:00:00	2017-10-26 00:00:00	2025-04-14 06:14:11.843	2	C	AR
 cm9goht7v016gdrqpm7sfr2dr	fmacen	fmacen@frba.utn.edu.ar	\N	/default-avatar.svg	Franco Tomas	Macen	\N	Claudio Castro 859	- -	- -	Ciudad de Buenos Aires	1682	48420741	1559524770		39592443	1645330	\N	0	f	f	2017-04-02 00:00:00	2021-07-24 00:00:00	2025-04-14 06:14:11.843	2	B	AR
 cm9goht7s011gdrqphxg2dmpc	dnonino	dnonino@frba.utn.edu.ar	\N	/default-avatar.svg	Dario Augusto	Nonino	\N										1518770	\N	0	f	f	2017-05-02 00:00:00	2024-03-11 00:00:00	2017-05-02 00:00:00	2	B	AR
@@ -53589,9 +53891,6 @@ cm9goht7h00hodrqprimkyt56	igomezpugliese	igomezpugliese@frba.utn.edu.ar	\N	/defa
 cm9goht7f00eqdrqpd9klolls	plauckner	plauckner@frba.utn.edu.ar	\N	/default-avatar.svg		Lauckner	\N										1715070	yes	0	f	f	2022-10-06 00:00:00	2023-10-27 00:00:00	2022-10-06 00:00:00	2	B	AR
 cm9goht7k00mkdrqpnwuphs05	SebasZarat	SebasZarat@frba.utn.edu.ar	\N	/default-avatar.svg	Sebastián Andrés	Zárate Schoenfeld	\N										1689873	yes	0	f	f	2022-10-11 00:00:00	2024-09-02 00:00:00	2022-10-11 00:00:00	2	B	AR
 cm9goht7o00u7drqpgvacm0wy	cdeuriarte	cdeuriarte@frba.utn.edu.ar	\N	/default-avatar.svg	Camila Maria	De Uriarte	\N										1768323	yes	0	f	f	2022-10-11 00:00:00	2024-04-16 00:00:00	2022-10-11 00:00:00	2	B	AR
-cm9goht77001fdrqp1szh8f2b	fborello	fborello@frba.utn.edu.ar	\N	/default-avatar.svg	Federico	Borello	\N										1765814	yes	0	f	f	2022-10-11 00:00:00	2025-02-21 00:00:00	2022-10-11 00:00:00	2	B	AR
-cm9goht7d00aydrqpz0i51j3d	fedlopez	fedlopez@frba.utn.edu.ar	\N	/default-avatar.svg	Federico Ricardo	Lopez	\N										1676295	yes	0	f	f	2022-10-11 00:00:00	2022-10-11 00:00:00	2022-10-11 00:00:00	2	B	AR
-cm9goht7h00hrdrqpxev0g88m	anahum	anahum@frba.utn.edu.ar	\N	/default-avatar.svg	Axel Nathanel	Nahum	\N										1756795	yes	0	f	f	2022-10-11 00:00:00	2022-10-11 00:00:00	2022-10-11 00:00:00	2	B	AR
 cm9goht78002jdrqprq12ld6x	mlinzabala	mlinzabala@frba.utn.edu.ar	\N	/default-avatar.svg	Mateo	Lin Zabala	\N										1757192	yes	0	f	f	2022-10-13 00:00:00	2022-10-19 00:00:00	2022-10-13 00:00:00	2	B	AR
 cm9goht7t0133drqpqis3is57	fbarzola	fbarzola@frba.utn.edu.ar	\N	/default-avatar.svg	Francisco Manuel	Barzola	\N										2084612	yes	0	f	f	2022-10-13 00:00:00	2022-10-15 00:00:00	2022-10-13 00:00:00	2	B	AR
 cm9goht7n00s4drqprepdq5y1	jscat	jscat@frba.utn.edu.ar	\N	/default-avatar.svg	Juan Sebastián	Catá	\N										1756977	yes	0	f	f	2022-10-13 00:00:00	2024-03-11 00:00:00	2022-10-13 00:00:00	2	B	AR
@@ -53993,6 +54292,7 @@ cm9goht7f00etdrqphf4vu33m	amallon	amallon@frba.utn.edu.ar	\N	/default-avatar.svg
 cm9goht7t013ldrqp7drtliij	aramirezchino	aramirezchino@frba.utn.edu.ar	\N	/default-avatar.svg	Angela Paola	Ramirez Chino	\N										1677093	yes	0	f	f	2025-02-26 00:00:00	2025-02-26 00:00:00	2025-02-26 00:00:00	2	B	AR
 cm9goht7q00y4drqpziblmif2	ramurrio	ramurrio@frba.utn.edu.ar	\N	/default-avatar.svg	Rodrigo	Amurrio Garcia	\N										2032211	yes	0	f	f	2025-02-27 00:00:00	2025-02-28 00:00:00	2025-02-27 00:00:00	2	B	AR
 cm9goht77000adrqpgr2354l3	mruano	mruano@frba.utn.edu.ar	\N	/default-avatar.svg	Matheo	Ruano	\N										2145327	yes	0	f	f	2025-03-02 00:00:00	2025-03-02 00:00:00	2025-03-02 00:00:00	2	B	AR
+cm9goht79004qdrqpdif3osjy	hspataro	hspataro@frba.utn.edu.ar	\N	/default-avatar.svg	Hector	Spataro	1970-02-23	Juan B. Alberdi 1016	- -	- -	-	1424	4433-6215	-	-	21484610	\N	\N	0	t	f	2017-03-29 00:00:00	2025-03-07 00:00:00	2025-08-29 20:58:21.481	2	B	AR
 \.
 
 
@@ -54001,19 +54301,6 @@ cm9goht77000adrqpgr2354l3	mruano	mruano@frba.utn.edu.ar	\N	/default-avatar.svg	M
 --
 
 COPY public."UsuarioRol" ("userId", "rolId", "fechaCreacion", "usuarioCreadorId") FROM stdin;
-cm9goht79004qdrqpdif3osjy	1	2025-04-14 06:14:20.865	cm9goht79004qdrqpdif3osjy
-cm9goht79004qdrqpdif3osjy	2	2025-04-14 06:14:20.875	cm9goht79004qdrqpdif3osjy
-cm9goht79004qdrqpdif3osjy	3	2025-04-14 06:14:20.884	cm9goht79004qdrqpdif3osjy
-cm9goht79004qdrqpdif3osjy	4	2025-04-14 06:14:20.893	cm9goht79004qdrqpdif3osjy
-cm9goht79004qdrqpdif3osjy	5	2025-04-14 06:14:20.897	cm9goht79004qdrqpdif3osjy
-cm9goht79004qdrqpdif3osjy	6	2025-04-14 06:14:20.904	cm9goht79004qdrqpdif3osjy
-cm9goht79004qdrqpdif3osjy	7	2025-04-14 06:14:20.906	cm9goht79004qdrqpdif3osjy
-cm9goht79004qdrqpdif3osjy	8	2025-04-14 06:14:20.909	cm9goht79004qdrqpdif3osjy
-cm9goht79004qdrqpdif3osjy	9	2025-04-14 06:14:20.912	cm9goht79004qdrqpdif3osjy
-cm9goht79004qdrqpdif3osjy	10	2025-04-14 06:14:20.917	cm9goht79004qdrqpdif3osjy
-cm9goht79004qdrqpdif3osjy	11	2025-04-14 06:14:20.923	cm9goht79004qdrqpdif3osjy
-cm9goht79004qdrqpdif3osjy	12	2025-04-14 06:14:20.928	cm9goht79004qdrqpdif3osjy
-cm9goht79004qdrqpdif3osjy	13	2025-04-14 06:14:20.932	cm9goht79004qdrqpdif3osjy
 cm9goht7e00cmdrqpdonda9jp	2	2025-04-14 06:14:20.936	cm9goht79004qdrqpdif3osjy
 cm9goht7o00u6drqpfitc73uk	2	2025-04-14 06:14:20.936	cm9goht79004qdrqpdif3osjy
 cm9goht7g00f0drqpgb5sbn9j	2	2025-04-14 06:14:20.936	cm9goht79004qdrqpdif3osjy
@@ -55600,6 +55887,20 @@ cm9goht7f00etdrqphf4vu33m	5	2025-04-14 06:14:20.936	cm9goht79004qdrqpdif3osjy
 cm9goht7t013ldrqp7drtliij	5	2025-04-14 06:14:20.936	cm9goht79004qdrqpdif3osjy
 cm9goht7q00y4drqpziblmif2	5	2025-04-14 06:14:20.936	cm9goht79004qdrqpdif3osjy
 cm9goht77000adrqpgr2354l3	5	2025-04-14 06:14:20.936	cm9goht79004qdrqpdif3osjy
+cm9goht79004qdrqpdif3osjy	1	2025-08-29 20:58:21.481	cm9goht79004qdrqpdif3osjy
+cm9goht79004qdrqpdif3osjy	2	2025-08-29 20:58:21.481	cm9goht79004qdrqpdif3osjy
+cm9goht79004qdrqpdif3osjy	3	2025-08-29 20:58:21.481	cm9goht79004qdrqpdif3osjy
+cm9goht79004qdrqpdif3osjy	4	2025-08-29 20:58:21.481	cm9goht79004qdrqpdif3osjy
+cm9goht79004qdrqpdif3osjy	5	2025-08-29 20:58:21.481	cm9goht79004qdrqpdif3osjy
+cm9goht79004qdrqpdif3osjy	6	2025-08-29 20:58:21.481	cm9goht79004qdrqpdif3osjy
+cm9goht79004qdrqpdif3osjy	7	2025-08-29 20:58:21.481	cm9goht79004qdrqpdif3osjy
+cm9goht79004qdrqpdif3osjy	8	2025-08-29 20:58:21.481	cm9goht79004qdrqpdif3osjy
+cm9goht79004qdrqpdif3osjy	9	2025-08-29 20:58:21.481	cm9goht79004qdrqpdif3osjy
+cm9goht79004qdrqpdif3osjy	10	2025-08-29 20:58:21.481	cm9goht79004qdrqpdif3osjy
+cm9goht79004qdrqpdif3osjy	11	2025-08-29 20:58:21.481	cm9goht79004qdrqpdif3osjy
+cm9goht79004qdrqpdif3osjy	12	2025-08-29 20:58:21.481	cm9goht79004qdrqpdif3osjy
+cm9goht79004qdrqpdif3osjy	13	2025-08-29 20:58:21.481	cm9goht79004qdrqpdif3osjy
+cm9goht79004qdrqpdif3osjy	14	2025-08-29 20:58:21.481	cm9goht79004qdrqpdif3osjy
 \.
 
 
@@ -55612,12 +55913,32 @@ COPY public."VerificationToken" (identifier, token, expires) FROM stdin;
 
 
 --
+-- Data for Name: Voto; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public."Voto" (id, "actaId", "consejeroId", posicion, comentario, "fechaEmision") FROM stdin;
+10	37	cm9goht79004qdrqpdif3osjy	DESACUERDO	Creo que hay que revisar el punto 3	2025-10-02 23:11:36.899
+\.
+
+
+--
 -- Data for Name: _prisma_migrations; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public._prisma_migrations (id, checksum, finished_at, migration_name, logs, rolled_back_at, started_at, applied_steps_count) FROM stdin;
 adcd79fe-656c-4d2a-8cca-953a94d5add0	c95ef3be689b140a52501772a167a7855b6987d7d0843235d15205ecf5cd1c0f	2025-04-14 06:12:39.994864+00	20250414061226_init	\N	\N	2025-04-14 06:12:39.899807+00	1
+d07f8eb0-33ad-4c9e-9961-d979897899b4	1e96fc1979ac3d944bf7e805d8f885f139629048a4e0a1b2675f3b26aed7df81	2025-08-17 23:29:25.537415+00	20250817232924_actas_y_votos	\N	\N	2025-08-17 23:29:25.432563+00	1
+3982e357-3a77-4d66-abe6-4318582198f3	9b03d08151255e5ee2aeb396f1f71179cf94b9ad9754e9812a8429bb61ef0486	2025-08-28 21:54:02.174874+00	20250819235611_agrego_defaults	\N	\N	2025-08-28 21:54:02.1442+00	1
+f8cdb841-e5bc-4aa3-9529-81011f6cfa9e	744b6a18eeae842cc5684f824f30b0f865b5804d81a97348aa80b4db16fcbaac	2025-08-28 21:54:04.359688+00	20250828215403_permiso_consejero	\N	\N	2025-08-28 21:54:04.343337+00	1
+446e0f84-31e9-4860-aa89-dc84ef10bc0d	0d58d88eca7ca018a8f235ad3440423873714c005ec43ef059a0af4baa62c256	2025-09-02 02:13:58.526714+00	20250902021357_reunion	\N	\N	2025-09-02 02:13:58.431114+00	1
 \.
+
+
+--
+-- Name: Acta_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public."Acta_id_seq"', 37, true);
 
 
 --
@@ -55684,6 +56005,13 @@ SELECT pg_catalog.setval('public."Estante_id_seq"', 182, true);
 
 
 --
+-- Name: InscripcionEspecial_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public."InscripcionEspecial_id_seq"', 1, true);
+
+
+--
 -- Name: Laboratorio_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
@@ -55743,7 +56071,7 @@ SELECT pg_catalog.setval('public."Pantalla_id_seq"', 1, false);
 -- Name: Permiso_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."Permiso_id_seq"', 83, true);
+SELECT pg_catalog.setval('public."Permiso_id_seq"', 84, true);
 
 
 --
@@ -55796,10 +56124,17 @@ SELECT pg_catalog.setval('public."Reserva_id_seq"', 21879, true);
 
 
 --
+-- Name: Reunion_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public."Reunion_id_seq"', 8, true);
+
+
+--
 -- Name: Rol_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."Rol_id_seq"', 13, true);
+SELECT pg_catalog.setval('public."Rol_id_seq"', 14, true);
 
 
 --
@@ -55817,11 +56152,26 @@ SELECT pg_catalog.setval('public."Software_id_seq"', 28, true);
 
 
 --
+-- Name: Voto_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public."Voto_id_seq"', 10, true);
+
+
+--
 -- Name: Account Account_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."Account"
     ADD CONSTRAINT "Account_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: Acta Acta_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public."Acta"
+    ADD CONSTRAINT "Acta_pkey" PRIMARY KEY (id);
 
 
 --
@@ -55902,6 +56252,14 @@ ALTER TABLE ONLY public."Equipo"
 
 ALTER TABLE ONLY public."Estante"
     ADD CONSTRAINT "Estante_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: InscripcionEspecial InscripcionEspecial_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public."InscripcionEspecial"
+    ADD CONSTRAINT "InscripcionEspecial_pkey" PRIMARY KEY (id);
 
 
 --
@@ -56065,6 +56423,14 @@ ALTER TABLE ONLY public."Reserva"
 
 
 --
+-- Name: Reunion Reunion_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public."Reunion"
+    ADD CONSTRAINT "Reunion_pkey" PRIMARY KEY (id);
+
+
+--
 -- Name: RolPermiso RolPermiso_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -56137,18 +56503,87 @@ ALTER TABLE ONLY public."UsuarioRol"
 
 
 --
+-- Name: Voto Voto_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public."Voto"
+    ADD CONSTRAINT "Voto_pkey" PRIMARY KEY (id);
+
+
+--
 -- Name: _prisma_migrations _prisma_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public._prisma_migrations
     ADD CONSTRAINT _prisma_migrations_pkey PRIMARY KEY (id);
 
+--
+-- Name: Falla_equipoId_fkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public."Falla"
+    ADD CONSTRAINT "Falla_equipoId_fkey"
+    FOREIGN KEY ("equipoId") REFERENCES public."Equipo"("id") ON DELETE CASCADE;
+
+--
+-- Name: Falla_reportadoPorId_fkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public."Falla"
+    ADD CONSTRAINT "Falla_reportadoPorId_fkey"
+    FOREIGN KEY ("reportadoPorId") REFERENCES public."User"("id") ON UPDATE CASCADE ON DELETE CASCADE;
+
+--
+-- Name: Falla_asignadoAId_fkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public."Falla"
+    ADD CONSTRAINT "Falla_asignadoAId_fkey"
+    FOREIGN KEY ("asignadoAId") REFERENCES public."User"("id") ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+ALTER TABLE public."FallaHistorial"
+ADD CONSTRAINT "FallaHistorial_fallaId_fkey"
+FOREIGN KEY ("fallaId") REFERENCES public."Falla"(id) ON DELETE CASCADE;
+
+ALTER TABLE public."FallaHistorial"
+ADD CONSTRAINT "FallaHistorial_reportadoPorId_fkey"
+FOREIGN KEY ("reportadoPorId") REFERENCES public."User"(id);
+
+ALTER TABLE public."FallaHistorial"
+ADD CONSTRAINT "FallaHistorial_asignadoAId_fkey"
+FOREIGN KEY ("asignadoAId") REFERENCES public."User"(id);
+
+-- Índice compuesto
+CREATE INDEX "FallaHistorial_fallaId_fechaCambioEstado_idx"
+ON public."FallaHistorial" ("fallaId", "fechaCambioEstado" DESC);
 
 --
 -- Name: Account_provider_providerAccountId_key; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX "Account_provider_providerAccountId_key" ON public."Account" USING btree (provider, "providerAccountId");
+
+
+--
+-- Name: Acta_estado_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX "Acta_estado_idx" ON public."Acta" USING btree (estado);
+
+
+--
+-- Name: Acta_fechaReunion_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX "Acta_fechaReunion_idx" ON public."Acta" USING btree ("fechaReunion");
+
+
+--
+-- Name: Acta_visibilidad_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX "Acta_visibilidad_idx" ON public."Acta" USING btree (visibilidad);
 
 
 --
@@ -56607,6 +57042,20 @@ CREATE UNIQUE INDEX "VerificationToken_token_key" ON public."VerificationToken" 
 
 
 --
+-- Name: Voto_actaId_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX "Voto_actaId_idx" ON public."Voto" USING btree ("actaId");
+
+
+--
+-- Name: Voto_consejeroId_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX "Voto_consejeroId_idx" ON public."Voto" USING btree ("consejeroId");
+
+
+--
 -- Name: usuario_legajo_asc_idx; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -56746,6 +57195,14 @@ ALTER TABLE ONLY public."Equipo"
 
 ALTER TABLE ONLY public."Estante"
     ADD CONSTRAINT "Estante_armarioId_fkey" FOREIGN KEY ("armarioId") REFERENCES public."Armario"(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: InscripcionEspecial InscripcionEspecial_solicitante_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public."InscripcionEspecial"
+    ADD CONSTRAINT "InscripcionEspecial_solicitante_fkey" FOREIGN KEY ("solicitanteId") REFERENCES public."User"(id) ON DELETE CASCADE;
 
 
 --
@@ -57154,6 +57611,22 @@ ALTER TABLE ONLY public."UsuarioRol"
 
 ALTER TABLE ONLY public."UsuarioRol"
     ADD CONSTRAINT "UsuarioRol_userId_fkey" FOREIGN KEY ("userId") REFERENCES public."User"(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: Voto Voto_actaId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public."Voto"
+    ADD CONSTRAINT "Voto_actaId_fkey" FOREIGN KEY ("actaId") REFERENCES public."Acta"(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: Voto Voto_consejeroId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public."Voto"
+    ADD CONSTRAINT "Voto_consejeroId_fkey" FOREIGN KEY ("consejeroId") REFERENCES public."User"(id) ON UPDATE CASCADE ON DELETE RESTRICT;
 
 
 --

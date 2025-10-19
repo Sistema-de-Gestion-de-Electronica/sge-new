@@ -43,12 +43,13 @@ model User {
   sessions   Session[]
   usuarioRol UsuarioRol[]
 
-  reservasSolicitadas Reserva[] @relation(name: "reservasSolicitadas")
-  reservasRenovadas   Reserva[] @relation(name: "reservasRenovadas")
-  reservasComoTutor   Reserva[] @relation(name: "reservaTutor")
-  reservasAprobadas   Reserva[] @relation(name: "reservasAprobadas")
-  reservasRechazadas  Reserva[] @relation(name: "reservasRechazadas")
-  reservasRecibidas   Reserva[] @relation(name: "reservasRecibidas")
+  reservasSolicitadas     Reserva[]             @relation(name: "reservasSolicitadas")
+  reservasRenovadas       Reserva[]             @relation(name: "reservasRenovadas")
+  reservasComoTutor       Reserva[]             @relation(name: "reservaTutor")
+  reservasAprobadas       Reserva[]             @relation(name: "reservasAprobadas")
+  reservasRechazadas      Reserva[]             @relation(name: "reservasRechazadas")
+  reservasRecibidas       Reserva[]             @relation(name: "reservasRecibidas")
+  inscripcionesEspeciales InscripcionEspecial[] @relation(name: "inscripcionesEspeciales")
 
   cursosComoAyudante CursoAyudante[]
   cursosComoProfesor Curso[]
@@ -59,11 +60,17 @@ model User {
   ReservaLaboratorioCerrado ReservaLaboratorioCerrado[] @relation(name: "reservasLaboratorioCerrado")
   Voto                      Voto[]
 
-  @@unique([legajo(sort: Asc)], map: "usuario_legajo_asc_idx")
-  @@index([name(sort: Asc)])
-  @@index([apellido(sort: Asc)])
-  @@index([email(sort: Asc)])
-  @@index([legajo], type: Hash, map: "usuario_legajo_hash_idx")
+    fallasReportadas Falla[] @relation(name: "FallasReportadas")
+    fallasAsignadas  Falla[] @relation(name: "FallasAsignadas")
+
+    fallasHistReportadas FallaHistorial[] @relation(name: "FallaHistorialReportadoPor")
+    fallasHistAsignadas  FallaHistorial[] @relation(name: "FallaHistorialAsignadoA")
+
+    @@unique([legajo(sort: Asc)], map: "usuario_legajo_asc_idx")
+    @@index([name(sort: Asc)])
+    @@index([apellido(sort: Asc)])
+    @@index([email(sort: Asc)])
+    @@index([legajo], type: Hash, map: "usuario_legajo_hash_idx")
 }
 
 model Tutor {

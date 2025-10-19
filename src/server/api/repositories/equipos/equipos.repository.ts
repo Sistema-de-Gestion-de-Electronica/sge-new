@@ -84,9 +84,17 @@ export const getAllEquipos = async (ctx: { db: PrismaClient }, input: InputGetAl
       : {}),
     ...(tipo
       ? {
-          tipo: {
-            id: parseInt(tipo),
-          },
+          tipo:
+            // Si es numerico filtro por id
+            /^\d+$/.test(tipo)
+              ? { id: parseInt(tipo) }
+              : // Si es string filtro por nombre
+                {
+                  nombre: {
+                    equals: tipo,
+                    mode: "insensitive",
+                  },
+                },
         }
       : {}),
     ...(armario

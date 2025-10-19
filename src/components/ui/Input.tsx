@@ -1,6 +1,6 @@
 "use client";
 
-import { forwardRef, memo, useId, type InputHTMLAttributes, type ReactElement, type ReactNode } from "react";
+import { forwardRef, memo, useId, type InputHTMLAttributes, type TextareaHTMLAttributes, type ReactElement, type ReactNode } from "react";
 import { get } from "lodash";
 import { useFormContext, type Control, type FieldError, type FieldValues, type Path } from "react-hook-form";
 
@@ -9,18 +9,35 @@ import { Calendar, Clock } from "lucide-react";
 
 import "./input.css";
 
+export interface TextareaProps extends Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, "placeholder"> {
+  label?: string | null;
+  placeholder?: string | null;
+  unit?: string | ReactNode;
+  error?: string;
+  isDirty?: boolean;
+  rows?: number;
+  type: "textarea";
+}
+
 export interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "placeholder"> {
   label?: string | null;
   placeholder?: string | null;
   unit?: string | ReactNode;
   error?: string;
   isDirty?: boolean;
+  type?: Exclude<string, "textarea">;
 }
 
 export const inputBaseStyle = cn(
   "shadow-none outline-none focus:!ring-0 transition-colors min-w-[90px] w-auto min-h-[41px] max-h-[41px]",
   "px-4 py-[9px] bg-input focus:border-input-active border border-input rounded-md focus:rounded-md hover:border-input-hover placeholder:text-sm",
   "disabled:bg-neutral-400 disabled:border-gray-400 disabled:text-gray-300 disabled:cursor-text",
+);
+
+export const textareaBaseStyle = cn(
+  "shadow-none outline-none focus:!ring-0 transition-colors min-w-[90px] w-auto min-h-[80px] resize-y",
+  "px-4 py-[9px] bg-input focus:border-input-active border border-input rounded-md focus:rounded-md hover:border-input-hover placeholder:text-sm",
+  "disabled:bg-neutral-400 disabled:border-gray-400 disabled:text-gray-300 disabled:cursor-text resize-none",
 );
 
 const calendarIconStyle = cn("h-5 absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer");
@@ -32,6 +49,8 @@ export const Input = memo(
       const isDate = ["date", "datetime-local", "week", "month"].includes(props.type ?? "text");
       const isTime = props.type === "time";
       const hasRightIcon = !!unit || isDate || isTime;
+
+      const isTextArea = props.type === "textarea";
 
       const focusInput = (): void => {
         const input = document.getElementById(id);
@@ -57,26 +76,44 @@ export const Input = memo(
               "!text-disabled": disabled,
             })}
           >
-            {props.prefix ? (
+            {props.prefix && !isTextArea ? (
               <div className={cn("absolute left-3 top-1/2 min-h-5 -translate-y-1/2")}>{props.prefix}</div>
             ) : null}
-            <input
-              {...props}
-              placeholder={placeholder ?? undefined}
-              ref={ref}
-              id={id}
-              disabled={disabled}
-              className={cn(inputBaseStyle, "!w-full", {
-                "!pr-10": hasRightIcon,
-                "!pl-8": props.prefix,
-              })}
-            />
-            {unit ? (
-              <div className={cn("absolute right-3 top-1/2 min-h-5 -translate-y-1/2")}>{unit}</div>
+            
+            {isTextArea ? (
+              <textarea
+                {...(props as TextareaProps)}
+                placeholder={placeholder ?? undefined}
+                ref={ref as React.Ref<HTMLTextAreaElement>}
+                id={id}
+                disabled={disabled}
+                rows={(props as TextareaProps).rows ?? 6}
+                className={cn(textareaBaseStyle, "!w-full")}
+              />
             ) : (
+              <input
+                {...(props as InputProps)}
+                placeholder={placeholder ?? undefined}
+                ref={ref as React.Ref<HTMLInputElement>}
+                id={id}
+                disabled={disabled}
+                className={cn(inputBaseStyle, "!w-full", {
+                  "!pr-10": hasRightIcon,
+                  "!pl-8": props.prefix,
+                })}
+              />
+            )}
+
+            {!isTextArea && (
               <>
-                {isDate && <Calendar onClick={focusInput} className={cn(calendarIconStyle)} />}
-                {isTime && <Clock onClick={focusInput} className={cn(calendarIconStyle)} />}
+                {unit ? (
+                  <div className={cn("absolute right-3 top-1/2 min-h-5 -translate-y-1/2")}>{unit}</div>
+                ) : (
+                  <>
+                    {isDate && <Calendar onClick={focusInput} className={cn(calendarIconStyle)} />}
+                    {isTime && <Clock onClick={focusInput} className={cn(calendarIconStyle)} />}
+                  </>
+                )}
               </>
             )}
           </div>

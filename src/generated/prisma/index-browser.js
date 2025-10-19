@@ -277,6 +277,23 @@ exports.Prisma.EquipoEstadoScalarFieldEnum = {
   usuarioCreadorId: 'usuarioCreadorId'
 };
 
+exports.Prisma.InscripcionEspecialScalarFieldEnum = {
+  id: 'id',
+  solicitanteId: 'solicitanteId',
+  caso: 'caso',
+  justificacion: 'justificacion',
+  turnoAlternativa1: 'turnoAlternativa1',
+  turnoAlternativa2: 'turnoAlternativa2',
+  materias: 'materias',
+  materiasAdeudadas: 'materiasAdeudadas',
+  estado: 'estado',
+  respuesta: 'respuesta',
+  fueContactado: 'fueContactado',
+  vinoPresencialmente: 'vinoPresencialmente',
+  fechaSolicitud: 'fechaSolicitud',
+  fechaRespuesta: 'fechaRespuesta'
+};
+
 exports.Prisma.LaboratorioScalarFieldEnum = {
   id: 'id',
   nombre: 'nombre',
@@ -792,7 +809,10 @@ exports.SgeNombre = exports.$Enums.SgeNombre = {
   ACTIVIDADES_USUARIO_SGE_VER_PUBLICACIONES: 'ACTIVIDADES_USUARIO_SGE_VER_PUBLICACIONES',
   ACTIVIDADES_ABIERTAS_PUBLICAR_ADMIN: 'ACTIVIDADES_ABIERTAS_PUBLICAR_ADMIN',
   ACTIVIDADES_ABIERTAS_VER_PUBLICACIONES: 'ACTIVIDADES_ABIERTAS_VER_PUBLICACIONES',
-  CONSEJERO_VOTACION_ACTA: 'CONSEJERO_VOTACION_ACTA'
+  CONSEJERO_VOTACION_ACTA: 'CONSEJERO_VOTACION_ACTA',
+  INSCRIPCIONES_ESPECIALES_VER_LISTADO: 'INSCRIPCIONES_ESPECIALES_VER_LISTADO',
+  INSCRIPCIONES_ESPECIALES_ADMIN: 'INSCRIPCIONES_ESPECIALES_ADMIN',
+  INSCRIPCIONES_ESPECIALES_SOLICITAR: 'INSCRIPCIONES_ESPECIALES_SOLICITAR'
 };
 
 exports.Prisma.ModelName = {
@@ -811,6 +831,7 @@ exports.Prisma.ModelName = {
   EquipoMarca: 'EquipoMarca',
   EquipoTipo: 'EquipoTipo',
   EquipoEstado: 'EquipoEstado',
+  InscripcionEspecial: 'InscripcionEspecial',
   Laboratorio: 'Laboratorio',
   Armario: 'Armario',
   Estante: 'Estante',

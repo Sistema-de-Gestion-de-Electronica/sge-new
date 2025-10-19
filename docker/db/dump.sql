@@ -652,8 +652,8 @@ CREATE TABLE public."InscripcionEspecial" (
     "materiasAdeudadas" integer[] NOT NULL,
     estado text NOT NULL,
     respuesta text,
-    "fueContactado" boolean,
-    "vinoPresencialmente" boolean,
+    "fueContactado" boolean default FALSE,
+    "vinoPresencialmente" boolean default FALSE,
     "fechaSolicitud" timestamp(3) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     "fechaRespuesta" timestamp(3) without time zone
 );
@@ -5233,9 +5233,38 @@ COPY public."Estante" (id, nombre, "armarioId", "fechaCreacion", "fechaModificac
 --
 
 COPY public."InscripcionEspecial" (id, "solicitanteId", caso, justificacion, "turnoAlternativa1", "turnoAlternativa2", materias, "materiasAdeudadas", estado, respuesta, "fueContactado", "vinoPresencialmente", "fechaSolicitud", "fechaRespuesta") FROM stdin;
-1	cm9goht7j00lldrqponw9nq09	Excepcion de correlativas	Quiero cursar fisca 2	Martes: Tarde	Martes: Noche	{30}	{29}	RECHAZADA		t	t	2025-10-02 21:21:19.021	\N
+1	cm9goht7j00lldrqponw9nq09	Excepcion de correlativas	Quiero cursar Fisica 2	Martes: Tarde	Martes: Noche	{30}	{29}	RECHAZADA		t	t	2025-10-02 21:21:19.021	\N
+2	cm9goht7j00lldrqponw9nq09	Excepcion de correlativas	Prueba paginado 2	Martes: Tarde	Martes: Noche	{30}	{29}	PENDIENTE		\N	\N	2025-10-03 10:00:00.000	\N
+3	cm9goht7j00lldrqponw9nq09	Excepcion de correlativas	Prueba paginado 3	Martes: Tarde	Martes: Noche	{30}	{29}	PENDIENTE		\N	\N	2025-10-03 10:01:00.000	\N
+4	cm9goht7j00lldrqponw9nq09	Excepcion de correlativas	Prueba paginado 4	Martes: Tarde	Martes: Noche	{30}	{29}	RECHAZADA		\N	t	2025-10-03 10:02:00.000	\N
+5	cm9goht7j00lldrqponw9nq09	Excepcion de correlativas	Prueba paginado 5	Martes: Tarde	Martes: Noche	{30}	{29}	ACEPTADA		t	t	2025-10-03 10:03:00.000	2025-10-05 11:00:00.000
+6	cm9goht7j00lldrqponw9nq09	Excepcion de correlativas	Prueba paginado 6	Martes: Tarde	Martes: Noche	{30}	{29}	PENDIENTE		\N	\N	2025-10-03 10:04:00.000	\N
+7	cm9goht7j00lldrqponw9nq09	Excepcion de correlativas	Prueba paginado 7	Martes: Tarde	Martes: Noche	{30}	{29}	RECHAZADA		\N	t	2025-10-03 10:05:00.000	\N
+8	cm9goht7j00lldrqponw9nq09	Excepcion de correlativas	Prueba paginado 8	Martes: Tarde	Martes: Noche	{30}	{29}	PENDIENTE		\N	\N	2025-10-03 10:06:00.000	\N
+9	cm9goht7j00lldrqponw9nq09	Excepcion de correlativas	Prueba paginado 9	Martes: Tarde	Martes: Noche	{30}	{29}	ACEPTADA		t	t	2025-10-03 10:07:00.000	2025-10-06 09:00:00.000
+10	cm9goht7j00lldrqponw9nq09	Excepcion de correlativas	Prueba paginado 10	Martes: Tarde	Martes: Noche	{30}	{29}	RECHAZADA		\N	t	2025-10-03 10:08:00.000	\N
+11	cm9goht7j00lldrqponw9nq09	Excepcion de correlativas	Prueba paginado 11	Martes: Tarde	Martes: Noche	{30}	{29}	PENDIENTE		\N	\N	2025-10-03 10:09:00.000	\N
+12	cm9goht7j00lldrqponw9nq09	Excepcion de correlativas	Prueba paginado 12	Martes: Tarde	Martes: Noche	{30}	{29}	ACEPTADA		t	t	2025-10-03 10:10:00.000	2025-10-06 10:00:00.000
+13	cm9goht7j00lldrqponw9nq09	Excepcion de correlativas	Prueba paginado 13	Martes: Tarde	Martes: Noche	{30}	{29}	RECHAZADA		\N	t	2025-10-03 10:11:00.000	\N
+14	cm9goht7j00lldrqponw9nq09	Excepcion de correlativas	Prueba paginado 14	Martes: Tarde	Martes: Noche	{30}	{29}	PENDIENTE		\N	\N	2025-10-03 10:12:00.000	\N
+15	cm9goht7j00lldrqponw9nq09	Excepcion de correlativas	Prueba paginado 15	Martes: Tarde	Martes: Noche	{30}	{29}	ACEPTADA		t	t	2025-10-03 10:13:00.000	2025-10-06 10:30:00.000
+16	cm9goht7j00lldrqponw9nq09	Excepcion de correlativas	Prueba paginado 16	Martes: Tarde	Martes: Noche	{30}	{29}	RECHAZADA		\N	t	2025-10-03 10:14:00.000	\N
+17	cm9goht7j00lldrqponw9nq09	Excepcion de correlativas	Prueba paginado 17	Martes: Tarde	Martes: Noche	{30}	{29}	PENDIENTE		\N	\N	2025-10-03 10:15:00.000	\N
+18	cm9goht7j00lldrqponw9nq09	Excepcion de correlativas	Prueba paginado 18	Martes: Tarde	Martes: Noche	{30}	{29}	ACEPTADA		t	t	2025-10-03 10:16:00.000	2025-10-06 11:00:00.000
+19	cm9goht7j00lldrqponw9nq09	Excepcion de correlativas	Prueba paginado 19	Martes: Tarde	Martes: Noche	{30}	{29}	RECHAZADA		\N	t	2025-10-03 10:17:00.000	\N
+20	cm9goht7j00lldrqponw9nq09	Excepcion de correlativas	Prueba paginado 20	Martes: Tarde	Martes: Noche	{30}	{29}	PENDIENTE		\N	\N	2025-10-03 10:18:00.000	\N
+21	cm9goht7j00lldrqponw9nq09	Excepcion de correlativas	Prueba paginado 21	Martes: Tarde	Martes: Noche	{30}	{29}	ACEPTADA		t	t	2025-10-03 10:19:00.000	2025-10-06 11:30:00.000
+22	cm9goht7j00lldrqponw9nq09	Excepcion de correlativas	Prueba paginado 22	Martes: Tarde	Martes: Noche	{30}	{29}	RECHAZADA		\N	t	2025-10-03 10:20:00.000	\N
+23	cm9goht7j00lldrqponw9nq09	Excepcion de correlativas	Prueba paginado 23	Martes: Tarde	Martes: Noche	{30}	{29}	PENDIENTE		\N	\N	2025-10-03 10:21:00.000	\N
+24	cm9goht7j00lldrqponw9nq09	Excepcion de correlativas	Prueba paginado 24	Martes: Tarde	Martes: Noche	{30}	{29}	ACEPTADA		t	t	2025-10-03 10:22:00.000	2025-10-06 12:00:00.000
+25	cm9goht7j00lldrqponw9nq09	Excepcion de correlativas	Prueba paginado 25	Martes: Tarde	Martes: Noche	{30}	{29}	RECHAZADA		\N	t	2025-10-03 10:23:00.000	\N
+26	cm9goht7j00lldrqponw9nq09	Excepcion de correlativas	Prueba paginado 26	Martes: Tarde	Martes: Noche	{30}	{29}	PENDIENTE		\N	\N	2025-10-03 10:24:00.000	\N
+27	cm9goht7j00lldrqponw9nq09	Excepcion de correlativas	Prueba paginado 27	Martes: Tarde	Martes: Noche	{30}	{29}	ACEPTADA		t	t	2025-10-03 10:25:00.000	2025-10-06 12:30:00.000
+28	cm9goht7j00lldrqponw9nq09	Excepcion de correlativas	Prueba paginado 28	Martes: Tarde	Martes: Noche	{30}	{29}	RECHAZADA		\N	t	2025-10-03 10:26:00.000	\N
+29	cm9goht7j00lldrqponw9nq09	Excepcion de correlativas	Prueba paginado 29	Martes: Tarde	Martes: Noche	{30}	{29}	PENDIENTE		\N	\N	2025-10-03 10:27:00.000	\N
+30	cm9goht7j00lldrqponw9nq09	Excepcion de correlativas	Prueba paginado 30	Martes: Tarde	Martes: Noche	{30}	{29}	ACEPTADA		t	t	2025-10-03 10:28:00.000	2025-10-06 13:00:00.000
+31	cm9goht7j00lldrqponw9nq09	Excepcion de correlativas	Prueba paginado 31	Martes: Tarde	Martes: Noche	{30}	{29}	PENDIENTE		\N	\N	2025-10-03 10:29:00.000	\N
 \.
-
 
 --
 -- Data for Name: Laboratorio; Type: TABLE DATA; Schema: public; Owner: -

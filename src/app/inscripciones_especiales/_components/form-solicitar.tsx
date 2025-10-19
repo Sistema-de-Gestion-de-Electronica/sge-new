@@ -58,16 +58,22 @@ export default function FormularioSolicitudInscripcionEspecial() {
     isFetching,
   } = api.admin.usuarios.getUsuarioPorLegajo.useQuery(
     { legajo: legajoBuscado ?? "" },
-    { enabled: !!legajoBuscado, retry: false }
+    { enabled: !!legajoBuscado, retry: false },
   );
 
   useEffect(() => {
     if (usuario && !tienePermisos) {
-      setValue("legajo", usuario.legajo ?? "");
-      setNombre(usuario.nombre ?? "");
-      setApellido(usuario.apellido ?? "");
+      if (getValues("legajo") !== usuario.legajo) {
+        setValue("legajo", usuario.legajo ?? "");
+      }
+      if (nombre !== usuario.nombre) {
+        setNombre(usuario.nombre ?? "");
+      }
+      if (apellido !== usuario.apellido) {
+        setApellido(usuario.apellido ?? "");
+      }
     }
-  }, [usuario, setValue, tienePermisos]);
+  }, [usuario, setValue, tienePermisos, getValues, nombre, apellido]);
 
   const handleVerificarLegajo = async () => {
     if (!tienePermisos) return;
@@ -111,7 +117,7 @@ export default function FormularioSolicitudInscripcionEspecial() {
   };
 
   return (
-<FormProvider {...formHook}>
+    <FormProvider {...formHook}>
       <form
         onSubmit={handleSubmit(onFormSubmit)}
         className="relative flex w-full flex-col gap-y-4 rounded-md border p-2"
@@ -145,13 +151,13 @@ export default function FormularioSolicitudInscripcionEspecial() {
                 </Button>
               )}
             </div>
-            
+
             <div className="flex w-full flex-col gap-x-4 sm:flex-row">
               <div className="mt-4 w-full">
                 <Input label="Nombre" type="text" value={nombre} disabled />
               </div>
               <div className="mt-4 w-full">
-                <Input label="Apellido" type="text"value={apellido} disabled />
+                <Input label="Apellido" type="text" value={apellido} disabled />
               </div>
             </div>
             <div className="flex w-full flex-row lg:flex-row lg:justify-between lg:gap-x-4">

@@ -19,8 +19,15 @@ export const inputGestionarInscripcionEspecial = z.object({
 
 export const inputGetAllInscripcionesEspeciales = z.object({
   filterByUserId: z.enum(["true", "false"]).optional(),
-  pageIndex: z.number().optional(),
-  pageSize: z.number().optional(),
+  pageIndex: z.coerce.number().optional(),
+  pageSize: z.coerce.number().optional(),
+  searchText: z.string().optional(),
+  caso: z.string().optional(),
+  estado: z.string().optional(),
+  vinoPresencialmente: z.enum(["true", "false"]).optional(),
+  fueContactado: z.enum(["true", "false"]).optional(),
+  orderBy: z.string().optional(),
+  orderDirection: z.enum(["asc", "desc"]).optional(),
 });
 
 export const inputGetInscripcionEspecialById = z.object({

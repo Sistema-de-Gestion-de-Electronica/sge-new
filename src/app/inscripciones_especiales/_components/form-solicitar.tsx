@@ -50,7 +50,9 @@ export default function FormularioSolicitudInscripcionEspecial() {
     defaultValues: solicitudBase,
   });
 
-  const { handleSubmit, control, getValues, setValue } = formHook;
+  const { handleSubmit, control, getValues, setValue, watch } = formHook;
+
+  const casoSeleccionado = watch("caso");
 
   const {
     data: usuarioPorLegajo,
@@ -74,6 +76,12 @@ export default function FormularioSolicitudInscripcionEspecial() {
       }
     }
   }, [usuario, setValue, tienePermisos, getValues, nombre, apellido]);
+
+  useEffect(() => {
+    if (casoSeleccionado !== "Excepcion de correlativas") {
+      setValue("materiasAdeudadas", []);
+    }
+  }, [casoSeleccionado, setValue]);
 
   const handleVerificarLegajo = async () => {
     if (!tienePermisos) return;
@@ -104,7 +112,11 @@ export default function FormularioSolicitudInscripcionEspecial() {
   };
 
   const onFormSubmit = async (formData: FormSolicitarInscripcionEspecial) => {
-    const payload = { ...formData, legajo: String(formData.legajo ?? "") };
+    const payload = {
+      ...formData,
+      legajo: String(formData.legajo ?? ""),
+      materiasAdeudadas: formData.caso === "Excepcion de correlativas" ? formData.materiasAdeudadas : [],
+    };
     solicitarInscripcionEspecial.mutate(payload, {
       onSuccess: () => {
         toast.success("Tu solicitud de inscripción especial ha sido enviada correctamente.");
@@ -162,19 +174,21 @@ export default function FormularioSolicitudInscripcionEspecial() {
             </div>
             <div className="flex w-full flex-row lg:flex-row lg:justify-between lg:gap-x-4">
               <div className="mt-4 w-full">
-                <SelectMateriasMultiple
-                  control={control}
-                  name="materiasAdeudadas"
-                  label={"Materias Adeudadas"}
-                  max={6}
-                />
-              </div>
-            </div>
-            <div className="flex w-full flex-row lg:flex-row lg:justify-between lg:gap-x-4">
-              <div className="mt-4 w-full">
                 <SelectMateriasMultiple control={control} name="materias" />
               </div>
             </div>
+            {casoSeleccionado === "Excepcion de correlativas" && (
+              <div className="flex w-full flex-row lg:flex-row lg:justify-between lg:gap-x-4">
+                <div className="mt-4 w-full">
+                  <SelectMateriasMultiple
+                    control={control}
+                    name="materiasAdeudadas"
+                    label={"Materias Adeudadas"}
+                    max={6}
+                  />
+                </div>
+              </div>
+            )}
             <div className="flex w-full flex-row lg:flex-row lg:justify-between lg:gap-x-4">
               <div className="mt-4 w-full">
                 <FormInput label={"Justificacion"} control={control} name="justificacion" type={"textarea"} required />

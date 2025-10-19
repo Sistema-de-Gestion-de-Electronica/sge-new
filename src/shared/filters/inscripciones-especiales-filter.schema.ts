@@ -6,7 +6,7 @@ export const inputAgregarInscripcion = z.object({
   justificacion: z.string().min(1, { message: "Requerido" }).max(500, { message: "No debe superar 500 caracteres" }),
   turnoAlternativa1: z.string().optional(),
   turnoAlternativa2: z.string().optional(),
-  materiasAdeudadas: z.array(z.coerce.number()).min(1, { message: "Debe seleccionar al menos una materia" }),
+  materiasAdeudadas: z.array(z.coerce.number()),
   materias: z.array(z.coerce.number()).min(1, { message: "Debe seleccionar al menos una materia" }),
 });
 

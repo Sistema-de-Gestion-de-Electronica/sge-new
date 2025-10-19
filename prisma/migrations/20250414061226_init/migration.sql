@@ -641,6 +641,7 @@ CREATE TABLE "InscripcionEspecial" (
 
     CONSTRAINT "InscripcionEspecial_pkey" PRIMARY KEY ("id"),
     CONSTRAINT "InscripcionEspecial_solicitante_fkey" FOREIGN KEY ("solicitanteId") REFERENCES "User"("id") ON DELETE CASCADE
+);
 CREATE TABLE "Falla" (
     id SERIAL PRIMARY KEY,
 

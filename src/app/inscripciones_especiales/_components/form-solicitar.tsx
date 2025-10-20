@@ -7,7 +7,6 @@ import type { z } from "zod";
 import { api } from "@/trpc/react";
 import { SgeNombre } from "@/generated/prisma";
 import { Button, FormInput, Input, toast } from "@/components/ui";
-import { useEffect, useMemo } from "react";
 
 import { useTienePermisos } from "@/app/_hooks/use-tiene-permisos";
 import { usePermisos } from "@/app/_hooks/use-context-tiene-permisos";

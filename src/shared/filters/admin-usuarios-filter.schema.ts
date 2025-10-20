@@ -49,3 +49,5 @@ export const inputEditarTutor = z.object({
 export const inputUserId = z.object({
   userId: z.string().min(1, { message: "Requerido" }),
 });
+
+export const inputGetUsuarioPorLegajo = z.object({ legajo: z.string() });

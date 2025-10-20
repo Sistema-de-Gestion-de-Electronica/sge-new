@@ -16,12 +16,6 @@ type PageProps = {
 export default async function Page({ searchParams }: PageProps) {
   const puedeVer = await estaLogueadoYConPermiso([SgeNombre.INSCRIPCIONES_ESPECIALES_SOLICITAR]);
   if (!puedeVer) {
-    if (
-      (await estaLogueadoYConPermiso([SgeNombre.INSCRIPCIONES_ESPECIALES_ADMIN])) ||
-      (await estaLogueadoYConPermiso([SgeNombre.INSCRIPCIONES_ESPECIALES_VER_LISTADO]))
-    ) {
-      redirect("/inscripciones_especiales/solicitudes");
-    }
     redirect(INICIO_ROUTE.href);
   }
 

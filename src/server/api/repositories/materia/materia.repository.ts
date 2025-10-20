@@ -233,3 +233,32 @@ const construirCorrelativas = (
 
   return [...materiasRegularizadas, ...materiasAprobadasParaCursar, ...materiasAprobadasParaRendir];
 };
+
+export const getMateriasCorrelativas = async (ctx: { db: PrismaClient }, materiaIds: number[]) => {
+  if (materiaIds.length === 0) return [];
+
+  const correlativas = await ctx.db.materiaCorrelativa.findMany({
+    where: {
+      correlativaId: {
+        in: materiaIds,
+      },
+    },
+    select: {
+      materiaPrerequisitoId: true,
+      materiaPrerequisito: {
+        select: {
+          id: true,
+          nombre: true,
+          codigo: true,
+        },
+      },
+    },
+  });
+
+  const correlativasUnicas = new Map();
+  correlativas.forEach((correlativa) => {
+    correlativasUnicas.set(correlativa.materiaPrerequisitoId, correlativa.materiaPrerequisito);
+  });
+
+  return Array.from(correlativasUnicas.values());
+};

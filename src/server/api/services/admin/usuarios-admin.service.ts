@@ -10,6 +10,7 @@ import {
   inputGetUsuariosPorIds,
   inputCambiarAsistio,
   inputUserId,
+  inputGetUsuarioPorLegajo,
 } from "@/shared/filters/admin-usuarios-filter.schema";
 import {
   editarUsuario,
@@ -25,6 +26,7 @@ import {
   getReservasHechasEsteAnno,
   getNumeroReservasQueNoAsistioEsteAnno,
   cambiarAsistioReserva,
+  getUsuarioPorLegajo,
 } from "../../repositories/admin/usuarios-admin.repository";
 import { SgeNombre } from "@/generated/prisma";
 
@@ -146,4 +148,14 @@ export const cambiarAsistioReservaProcedure = protectedProcedure
     const reserva = await cambiarAsistioReserva(ctx, input);
 
     return reserva;
+  });
+
+export const getUsuarioPorLegajoProcedure = protectedProcedure
+  .input(inputGetUsuarioPorLegajo)
+  .query(async ({ ctx, input }) => {
+    validarInput(inputGetUsuarioPorLegajo, input);
+
+    const usuario = await getUsuarioPorLegajo(ctx, input);
+
+    return usuario;
   });

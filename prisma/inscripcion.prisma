@@ -14,8 +14,8 @@ model InscripcionEspecial {
     estado    String
     respuesta String?
 
-    fueContactado       Boolean?
-    vinoPresencialmente Boolean?
+    fueContactado       Boolean @default(false)
+    vinoPresencialmente Boolean @default(false)
 
     fechaSolicitud DateTime  @default(now())
     fechaRespuesta DateTime?

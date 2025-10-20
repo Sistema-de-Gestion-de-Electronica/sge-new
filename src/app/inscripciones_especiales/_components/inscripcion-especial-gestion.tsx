@@ -46,18 +46,14 @@ export const InscripcionEspecialGestion = ({
     },
   });
 
-  const { handleSubmit, control, getValues } = formHook;
+  const { handleSubmit, control, getValues, watch } = formHook;
 
-  const onSubmit = async (data: GestionarInscripcionEspecialFormData) => {
+  const onSubmit = (data: GestionarInscripcionEspecialFormData) => {
     aprobarSolcitud(data, {
       onSuccess: () => {
         toast.success("Solicitud de inscripcion especial aprobada con éxito");
-        utils.inscripcionesEspeciales.getInscripcionEspecialPorId
-          .invalidate({ id: inscripcionEspecialId })
-          .catch((err) => {
-            console.error(err);
-          });
-        utils.inscripcionesEspeciales.getAllInscripcionesEspeciales.invalidate();
+        void utils.inscripcionesEspeciales.getInscripcionEspecialPorId.invalidate({ id: inscripcionEspecialId });
+        void utils.inscripcionesEspeciales.getAllInscripcionesEspeciales.invalidate();
         onAprobar();
       },
       onError: (error) => {
@@ -65,23 +61,23 @@ export const InscripcionEspecialGestion = ({
         console.error(error);
       },
     });
-    console.log("Aprobando con justificacion: ", data.respuesta);
-    onAprobar();
   };
 
-  const handleRechazo = async () => {
+  const handleRechazo = () => {
     const values = getValues();
+    const respuesta = values.respuesta ?? "";
+    if (respuesta.trim() === "") {
+      toast.error("La justificación es obligatoria para rechazar la inscripción especial.");
+      formHook.setError("respuesta", { type: "manual", message: "La justificación es obligatoria para rechazar la inscripción especial." });
+      return;
+    }
     rechazarSolicitud(
-      { id: inscripcionEspecialId, respuesta: values.respuesta },
+      { id: inscripcionEspecialId, respuesta },
       {
         onSuccess: () => {
           toast.success("Solicitud de inscripcion especial rechazada con éxito");
-          utils.inscripcionesEspeciales.getInscripcionEspecialPorId
-            .invalidate({ id: inscripcionEspecialId })
-            .catch((err) => {
-              console.error(err);
-            });
-          utils.inscripcionesEspeciales.getAllInscripcionesEspeciales.invalidate();
+          void utils.inscripcionesEspeciales.getInscripcionEspecialPorId.invalidate({ id: inscripcionEspecialId });
+          void utils.inscripcionesEspeciales.getAllInscripcionesEspeciales.invalidate();
           onRechazar();
         },
         onError: (error) => {
@@ -90,8 +86,6 @@ export const InscripcionEspecialGestion = ({
         },
       },
     );
-    console.log("Rechazando con justificacion: ", values.respuesta);
-    onRechazar();
   };
 
   const { mutate: guardarContacto } = api.inscripcionesEspeciales.actualizarContactoAsistencia.useMutation();
@@ -106,8 +100,8 @@ export const InscripcionEspecialGestion = ({
       {
         onSuccess: () => {
           toast.success("Cambios guardados");
-          utils.inscripcionesEspeciales.getInscripcionEspecialPorId.invalidate({ id: inscripcionEspecialId });
-          utils.inscripcionesEspeciales.getAllInscripcionesEspeciales.invalidate();
+          void utils.inscripcionesEspeciales.getInscripcionEspecialPorId.invalidate({ id: inscripcionEspecialId });
+          void utils.inscripcionesEspeciales.getAllInscripcionesEspeciales.invalidate();
         },
         onError: () => toast.error("No se pudieron guardar los cambios"),
       },
@@ -123,10 +117,10 @@ export const InscripcionEspecialGestion = ({
       {
         onSuccess: () => {
           toast.success("Inscripción especial eliminada con éxito");
-          utils.inscripcionesEspeciales.getInscripcionEspecialPorId.invalidate({ id: inscripcionEspecialId });
-          utils.inscripcionesEspeciales.getAllInscripcionesEspeciales.invalidate();
+          void utils.inscripcionesEspeciales.getInscripcionEspecialPorId.invalidate({ id: inscripcionEspecialId });
+          void utils.inscripcionesEspeciales.getAllInscripcionesEspeciales.invalidate();
           setOpen(false);
-          onCancel(); // o la acción que corresponda después de eliminar
+          onCancel();
         },
         onError: () => {
           toast.error("No se pudo eliminar la inscripción especial");
@@ -134,6 +128,9 @@ export const InscripcionEspecialGestion = ({
       },
     );
   };
+
+  const respuesta = watch("respuesta");
+  const aprobarLabel = respuesta?.trim() ? "Aprobar con condición" : "Aprobar";
 
   return (
     <FormProvider {...formHook}>
@@ -246,7 +243,7 @@ export const InscripcionEspecialGestion = ({
             Rechazar
           </Button>
           <Button title="Aprobar" type="submit" variant="default" color="primary" className="w-full">
-            Aprobar
+            {aprobarLabel}
           </Button>
         </div>
       </form>

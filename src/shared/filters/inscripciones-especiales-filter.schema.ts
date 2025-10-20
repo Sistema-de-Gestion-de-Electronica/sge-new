@@ -6,7 +6,7 @@ export const inputAgregarInscripcion = z.object({
   justificacion: z.string().min(1, { message: "Requerido" }).max(500, { message: "No debe superar 500 caracteres" }),
   turnoAlternativa1: z.string().optional(),
   turnoAlternativa2: z.string().optional(),
-  materiasAdeudadas: z.array(z.coerce.number()).min(1, { message: "Debe seleccionar al menos una materia" }),
+  materiasAdeudadas: z.array(z.coerce.number()),
   materias: z.array(z.coerce.number()).min(1, { message: "Debe seleccionar al menos una materia" }),
 });
 
@@ -19,8 +19,15 @@ export const inputGestionarInscripcionEspecial = z.object({
 
 export const inputGetAllInscripcionesEspeciales = z.object({
   filterByUserId: z.enum(["true", "false"]).optional(),
-  pageIndex: z.number().optional(),
-  pageSize: z.number().optional(),
+  pageIndex: z.coerce.number().optional(),
+  pageSize: z.coerce.number().optional(),
+  searchText: z.string().optional(),
+  caso: z.string().optional(),
+  estado: z.string().optional(),
+  vinoPresencialmente: z.enum(["true", "false"]).optional(),
+  fueContactado: z.enum(["true", "false"]).optional(),
+  orderBy: z.string().optional(),
+  orderDirection: z.enum(["asc", "desc"]).optional(),
 });
 
 export const inputGetInscripcionEspecialById = z.object({

@@ -652,8 +652,8 @@ CREATE TABLE public."InscripcionEspecial" (
     "materiasAdeudadas" integer[] NOT NULL,
     estado text NOT NULL,
     respuesta text,
-    "fueContactado" boolean,
-    "vinoPresencialmente" boolean,
+    "fueContactado" boolean default FALSE,
+    "vinoPresencialmente" boolean default FALSE,
     "fechaSolicitud" timestamp(3) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     "fechaRespuesta" timestamp(3) without time zone
 );
@@ -5227,16 +5227,6 @@ COPY public."Estante" (id, nombre, "armarioId", "fechaCreacion", "fechaModificac
 182	Estante 00	24	2025-04-14 06:14:12.144	2025-04-14 06:14:12.144	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
 \.
 
-
---
--- Data for Name: InscripcionEspecial; Type: TABLE DATA; Schema: public; Owner: -
---
-
-COPY public."InscripcionEspecial" (id, "solicitanteId", caso, justificacion, "turnoAlternativa1", "turnoAlternativa2", materias, "materiasAdeudadas", estado, respuesta, "fueContactado", "vinoPresencialmente", "fechaSolicitud", "fechaRespuesta") FROM stdin;
-1	cm9goht7j00lldrqponw9nq09	Excepcion de correlativas	Quiero cursar fisca 2	Martes: Tarde	Martes: Noche	{30}	{29}	RECHAZADA		t	t	2025-10-02 21:21:19.021	\N
-\.
-
-
 --
 -- Data for Name: Laboratorio; Type: TABLE DATA; Schema: public; Owner: -
 --
@@ -7371,8 +7361,8 @@ COPY public."Permiso" (id, "sgeNombre", nombre, rubro, incluido, "fechaCreacion"
 74	CONV_MAYER_VER_MIS_PEDIDOS	Ver "Mis pedidos actuales y pasados"	Convenio Mayer	f	2025-04-14 06:14:20.858	2025-04-14 06:14:20.858	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
 75	CONV_MAYER_ENVIAR_RESUMEN	Enviar resumen a Mayer	Convenio Mayer	f	2025-04-14 06:14:20.858	2025-04-14 06:14:20.858	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
 76	CONV_MAYER_ADMIN_PEDIDOS	Administrar pedidos para Mayer	Convenio Mayer	f	2025-04-14 06:14:20.858	2025-04-14 06:14:20.858	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
-77	REP_FALLAS_BUSCAR_REP_FALLAS	Reportar Fallas de Pc/s e Instrumental	Reporte de fallas	t	2025-04-14 06:14:20.858	2025-04-14 06:14:20.858	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
-78	REP_FALLAS_REPORTAR_FALLAS	Buscar Reportes de Fallas	Reporte de fallas	t	2025-04-14 06:14:20.858	2025-04-14 06:14:20.858	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
+77	REP_FALLAS_BUSCAR_REP_FALLAS	Buscar Reportes de Fallas	Reporte de fallas	t	2025-04-14 06:14:20.858	2025-04-14 06:14:20.858	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
+78	REP_FALLAS_REPORTAR_FALLAS	Reportar Fallas de Pc/s e Instrumental	Reporte de fallas	t	2025-04-14 06:14:20.858	2025-04-14 06:14:20.858	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
 79	REP_FALLAS_ADMIN_REP_FALLAS	Administrar Reportes de Fallas	Reporte de fallas	t	2025-04-14 06:14:20.858	2025-04-14 06:14:20.858	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
 80	ACTIVIDADES_USUARIO_SGE_PUBLICAR_ADMIN	Publicar y Administrar	Actividades para usuario del SGE	f	2025-04-14 06:14:20.858	2025-04-14 06:14:20.858	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
 81	ACTIVIDADES_USUARIO_SGE_VER_PUBLICACIONES	Ver publicaciones	Actividades para usuario del SGE	f	2025-04-14 06:14:20.858	2025-04-14 06:14:20.858	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
@@ -7380,7 +7370,7 @@ COPY public."Permiso" (id, "sgeNombre", nombre, rubro, incluido, "fechaCreacion"
 83	ACTIVIDADES_ABIERTAS_VER_PUBLICACIONES	Ver publicaciones	Actividades abiertas	f	2025-04-14 06:14:20.858	2025-04-14 06:14:20.858	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
 84	CONSEJERO_VOTACION_ACTA	Votar acta en curso	Consejeros	t	2025-08-28 22:47:37.105	2025-08-28 22:47:37.105	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
 85	INSCRIPCIONES_ESPECIALES_VER_LISTADO	Ver solicitudes	Inscripciones especiales	f	2025-08-28 22:47:37.105	2025-08-28 22:47:37.105	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
-86	INSCRIPCIONES_ESPECIALES_ADMIN	Administrar solicitudes	Ver Inscripciones especiales	f	2025-08-28 22:47:37.105	2025-08-28 22:47:37.105	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
+86	INSCRIPCIONES_ESPECIALES_ADMIN	Administrar solicitudes	Inscripciones especiales	f	2025-08-28 22:47:37.105	2025-08-28 22:47:37.105	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
 87	INSCRIPCIONES_ESPECIALES_SOLICITAR	Solicitar una inscripcion especial	Inscripciones especiales	f	2025-08-28 22:47:37.105	2025-08-28 22:47:37.105	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
 \.
 
@@ -52327,6 +52317,7 @@ COPY public."Rol" (id, nombre, "fechaCreacion", "fechaModificacion", "usuarioCre
 13	Préstamo de libros	2025-04-14 06:14:20.932	2025-04-14 06:14:20.932	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
 14	Consejero	2025-08-29 20:50:19.869	2025-08-29 20:50:19.869	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
 1	Administración	2025-04-14 06:14:20.865	2025-08-29 21:05:26.918	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
+15	Administración de inscripciones especiales	2025-04-14 06:14:20.865	2025-08-29 21:05:26.918	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
 \.
 
 
@@ -52463,6 +52454,9 @@ COPY public."RolPermiso" ("rolId", "permisoId", "fechaCreacion", "usuarioCreador
 13	62	2025-04-14 06:14:20.932	cm9goht79004qdrqpdif3osjy
 14	84	2025-08-29 20:50:50.527	cm9goht79004qdrqpdif3osjy
 1	14	2025-08-29 21:05:26.918	cm9goht79004qdrqpdif3osjy
+15	85	2025-08-29 20:50:50.527	cm9goht79004qdrqpdif3osjy
+15	86	2025-08-29 20:50:50.527	cm9goht79004qdrqpdif3osjy
+15	87	2025-08-29 20:50:50.527	cm9goht79004qdrqpdif3osjy
 \.
 
 

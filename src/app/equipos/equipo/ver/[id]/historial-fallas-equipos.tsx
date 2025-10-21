@@ -19,10 +19,7 @@ export default function HistorialFallaEquipo({ equipoId }: HistorialFallaProps) 
     data: fallas,
     isLoading,
     error,
-  } = api.fallas.getHistorialPorEquipoId.useQuery(
-    { equipoId: Number(equipoId) },
-    { enabled: loadHistorial },
-  );
+  } = api.fallas.getHistorialPorEquipoId.useQuery({ equipoId: Number(equipoId) }, { enabled: loadHistorial });
 
   if (!loadHistorial) {
     return (
@@ -82,10 +79,12 @@ const FallaDeEquipo = ({ falla }: { falla: FallaEquipo }) => {
     <tr>
       <td className="border-t border-slate-200 px-4 py-2">{falla.id}</td>
       <td className="border-t border-slate-200 px-4 py-2">{falla.fallas.length > 0 ? falla.fallas.join(", ") : "-"}</td>
-      <td className="border-t border-slate-200 px-4 py-2">{falla.descripcionEquipo ?? "-"}</td>
+      <td className="border-t border-slate-200 px-4 py-2">{falla.descripcionFalla ?? "-"}</td>
       <td className="border-t border-slate-200 px-4 py-2">{falla.fechaReporte ?? "-"}</td>
       <td className="border-t border-slate-200 px-4 py-2">{falla.descripcionFalla ?? "-"}</td>
-      <td className="border-t border-slate-200 px-4 py-2">{<BadgeEstatusFallas estatus={falla.estado as FallasEstatus | ""} />}</td>
+      <td className="border-t border-slate-200 px-4 py-2">
+        {<BadgeEstatusFallas estatus={falla.estado as FallasEstatus | ""} />}
+      </td>
       <td className="border-t border-slate-200 px-4 py-2">{falla.fechaCambioEstado ?? "-"}</td>
     </tr>
   );

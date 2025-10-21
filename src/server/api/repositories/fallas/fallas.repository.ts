@@ -247,6 +247,7 @@ export const findAllFallas = async (ctx: ContextReadOnly, input: any) => {
     whereClause.OR = [
       { descripcionFalla: { contains: searchText, mode: "insensitive" } },
       { palabrasClave: { contains: searchText, mode: "insensitive" } },
+      { equipo: { numeroSerie: { contains: searchText, mode: "insensitive" } } },
       /*{ equipo: { inventarioId: { contains: searchText, mode: "insensitive" } } },
       { equipo: { numeroSerie: { contains: searchText, mode: "insensitive" } } },
       { equipo: { laboratorio: { nombre: { contains: searchText, mode: "insensitive" } } } },

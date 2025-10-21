@@ -7,6 +7,7 @@ import type {
   inputGestionarFallas,
   inputCambiarEstadoFalla,
   inputGetHistorialPorFallaId,
+  inputGetHistorialPorEquipoId,
   inputEliminarFalla,
 } from "@/shared/filters/fallas-filter.schema";
 import { formatDateToSeconds, formatDateToDays } from "../../utils/dateFormat";
@@ -18,6 +19,7 @@ type InputGestionarFallas = z.infer<typeof inputGestionarFallas>;
 type InputCambiarEstadoFalla = z.infer<typeof inputCambiarEstadoFalla>;
 type InputGetHistorialPorFallaId = z.infer<typeof inputGetHistorialPorFallaId>;
 type InputEliminarFalla = z.infer<typeof inputEliminarFalla>;
+type InputGetHistorialPorEquipoId = z.infer<typeof inputGetHistorialPorEquipoId>;
 
 type Context = { db: PrismaClient; session: { user: { id: string } } };
 type ContextReadOnly = { db: PrismaClient };
@@ -448,5 +450,34 @@ export const findHistorialByFallaId = async (ctx: ContextReadOnly, input: InputG
     return historial.map(transformHistorialData);
   } catch (error) {
     throw new Error(`Error al obtener historial de falla ${String(input.fallaId)}: ${String(error)}`);
+  }
+};
+
+
+export const findHistorialByEquipoId = async (ctx: ContextReadOnly, input: InputGetHistorialPorEquipoId) => {
+  try {
+    const historial = await ctx.db.fallaHistorial.findMany({
+      where: {
+        falla: {
+          equipoId: input.equipoId,
+        },
+      },
+      include: {
+        falla: {
+          include: {
+            equipo: {
+              include: { laboratorio: true, marca: true, tipo: true, estado: true },
+            },
+          },
+        },
+        reportadoPor: true,
+        asignadoA: true,
+      },
+      orderBy: { fechaCambioEstado: "desc" },
+    });
+
+    return historial.map(transformHistorialData);
+  } catch (error) {
+    throw new Error(`Error al obtener historial de falla del equipo ${String(input.equipoId)}: ${String(error)}`);
   }
 };

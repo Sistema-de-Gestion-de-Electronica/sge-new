@@ -6,6 +6,7 @@ import {
   inputGestionarFallas,
   inputCambiarEstadoFalla,
   inputGetHistorialPorFallaId,
+  inputGetHistorialPorEquipoId,
   inputEliminarFalla,
 } from "@/shared/filters/fallas-filter.schema";
 import {
@@ -17,6 +18,7 @@ import {
   updateFalla,
   deleteFalla,
   findHistorialByFallaId,
+  findHistorialByEquipoId
 } from "../../repositories/fallas/fallas.repository";
 import { protectedProcedure } from "../../trpc";
 import { validarInput } from "../helper";
@@ -67,4 +69,11 @@ export const findHistorialByFallaIdProcedure = protectedProcedure
   .query(async ({ ctx, input }) => {
     validarInput(inputGetHistorialPorFallaId, input);
     return await findHistorialByFallaId(ctx, input);
+  });
+
+export const findHistorialByEquipoIdProcedure = protectedProcedure
+  .input(inputGetHistorialPorEquipoId)
+  .query(async ({ ctx, input }) => {
+    validarInput(inputGetHistorialPorEquipoId, input);
+    return await findHistorialByEquipoId(ctx, input);
   });

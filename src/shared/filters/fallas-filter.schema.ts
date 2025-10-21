@@ -68,6 +68,10 @@ export const inputGetHistorialPorFallaId = z.object({
   fallaId: z.number(),
 });
 
+export const inputGetHistorialPorEquipoId = z.object({
+  equipoId: z.number(),
+});
+
 export const inputEliminarFalla = z.object({
   id: z.number(),
 });

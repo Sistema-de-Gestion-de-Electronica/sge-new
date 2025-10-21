@@ -7,6 +7,7 @@ import {
   updateFallaProcedure,
   deleteFallaProcedure,
   findHistorialByFallaIdProcedure,
+  findHistorialByEquipoIdProcedure
 } from "../services/fallas/fallas.service";
 
 import { createTRPCRouter } from "@/server/api/trpc";
@@ -39,4 +40,5 @@ export const fallasRouter = createTRPCRouter({
   actualizarCampos: updateFallaProcedure,
   eliminarFalla: deleteFallaProcedure,
   getHistorialPorFallaId: findHistorialByFallaIdProcedure,
+  getHistorialPorEquipoId: findHistorialByEquipoIdProcedure,
 });

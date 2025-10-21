@@ -18,7 +18,7 @@ import {
   updateFalla,
   deleteFalla,
   findHistorialByFallaId,
-  findHistorialByEquipoId
+  findHistorialByEquipoId,
 } from "../../repositories/fallas/fallas.repository";
 import { protectedProcedure } from "../../trpc";
 import { validarInput } from "../helper";
@@ -39,7 +39,7 @@ export const createFallaPCProcedure = protectedProcedure
 
 export const findAllFallasProcedure = protectedProcedure.input(inputGetAllFallas).query(async ({ ctx, input }) => {
   validarInput(inputGetAllFallas, input);
-  return await findAllFallas(ctx);
+  return await findAllFallas(ctx, input);
 });
 
 export const findFallaByIdProcedure = protectedProcedure.input(inputGetFallaPorId).query(async ({ ctx, input }) => {

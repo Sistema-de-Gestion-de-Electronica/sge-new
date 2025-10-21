@@ -28,22 +28,22 @@ export const SelectUsuarioForm = <T extends FieldValues, TType extends string>({
   ...props
 }: Omit<FormSelectProps<T, TType>, "items"> & { realNameId?: Path<T> }): ReactElement => {
   const [query, setQuery] = useState("");
-  const { data, isLoading, isError } = api.admin.usuarios.getAll.useQuery({
-    searchText: query,
-  });
+  const { data, isLoading, isError } = api.usuariosFallas.getUsuariosConPermisoResolverFallas.useQuery();
 
   const usuarios = useMemo(() => {
-    if (!data || data.usuarios.length === 0) return [];
+    if (!data || data.length === 0) return [];
 
-    return data.usuarios.map((usuario) => {
-      const { id, nombre, name, apellido, legajo } = usuario;
+    return data
+      .map((usuario) => {
+        const { id, nombre, apellido, email } = usuario;
 
-      return {
-        label: getUserLabelNameForSelect({ nombre, name, apellido, legajo }),
-        id,
-      };
-    });
-  }, [data]);
+        return {
+          label: `${nombre} ${apellido} (${email})`,
+          id,
+        };
+      })
+      .filter((item) => !query || estaDentroDe(query, item.label));
+  }, [data, query]);
 
   if (isError) {
     return (

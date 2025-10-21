@@ -16,9 +16,8 @@ export const inputReportarFallasInstrumento = z
     esInventariado: z.boolean().default(true),
     tipoInstrumento: z.string().optional(),
     instrumento: z.string().optional(),
-    descripcionEquipo: z.string().min(1).optional(),
+    descripcionEquipo: z.string().optional(),
     descripcionFalla: z.string().min(1, { message: "Requerido" }),
-    condicion: z.string().min(1).optional(),
   })
   .superRefine((data, ctx) => {
     if (data.esInventariado) {
@@ -36,13 +35,47 @@ export const inputReportarFallasInstrumento = z
           message: "Requerido",
         });
       }
+    } else {
+      if (!data.descripcionEquipo || data.descripcionEquipo.trim().length === 0) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["descripcionEquipo"],
+          message: "Requerido",
+        });
+      }
     }
   });
 
 export const inputGetAllFallas = z.object({
   filterByUserId: z.enum(["true", "false"]).optional(),
-  pageIndex: z.number().optional(),
-  pageSize: z.number().optional(),
+  pageSize: z.enum(["10", "20", "30", "40", "50"]).default("20").catch("20"),
+  pageIndex: z
+    .string()
+    .default("0")
+    .refine((value) => parseInt(value) >= 0, { message: "Debe ser mayor o igual a 0" })
+    .catch("0"),
+  orderBy: z
+    .enum([
+      "id",
+      "fechaReporte",
+      "estado",
+      "tipo",
+      "laboratorio_nombre",
+      "equipo_nroEquipo",
+      "marca_nombre",
+      "modelo_nombre",
+      "reportadoPor_nombre",
+      "asignadoA_nombre",
+    ])
+    .default("fechaReporte")
+    .catch("fechaReporte"),
+  orderDirection: z.enum(["asc", "desc"]).default("desc").catch("desc"),
+  searchText: z.string().default(""),
+  laboratorio: z.string().default(""),
+  marca: z.string().default(""),
+  modelo: z.string().default(""),
+  reportadoPor: z.string().default(""),
+  asignadoA: z.string().default(""),
 });
 
 export const inputGestionarFallas = z.object({

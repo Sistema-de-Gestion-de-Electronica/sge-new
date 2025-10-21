@@ -11,6 +11,7 @@ import { notificacionRouter } from "./routers/notificaciones";
 import { usuarioPermiso } from "./routers/permisos";
 import { laboratoriosRouter } from "./routers/laboratorios";
 import { fallasRouter } from "./routers/fallas";
+import { usuariosFallasRouter } from "./routers/usuarios-fallas";
 import { applicationRouter } from "./routers/application";
 
 /**
@@ -31,6 +32,7 @@ export const appRouter = createTRPCRouter({
   software: softwareRouter,
   notificacion: notificacionRouter,
   fallas: fallasRouter,
+  usuariosFallas: usuariosFallasRouter,
   permisos: usuarioPermiso,
 });
 

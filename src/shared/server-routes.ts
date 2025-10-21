@@ -300,30 +300,33 @@ export const REPORTES_ROUTE: AppRoute = {
   ],
 };
 
-const PERMISOS_VER_FALLAS = [SgeNombre.ADMIN_VER_PANEL_ADMIN];
 export const FALLAS_ROUTE: AppRoute = {
-  href: "/fallas/reportar_instrumento",
+  href: "/fallas",
   label: "Fallas",
   isPublic: false,
-  permisos: PERMISOS_VER_FALLAS,
+  permisos: [
+    SgeNombre.REP_FALLAS_REPORTAR_FALLAS,
+    SgeNombre.REP_FALLAS_ADMIN_REP_FALLAS,
+    SgeNombre.REP_FALLAS_BUSCAR_REP_FALLAS,
+  ],
   subRutas: [
     {
       href: "/fallas/reportar_pc",
       label: "Reportar PC",
       isPublic: false,
-      permisos: [],
+      permisos: [SgeNombre.REP_FALLAS_REPORTAR_FALLAS],
     },
     {
       href: "/fallas/reportar_instrumento",
       label: "Reportar Instrumento",
       isPublic: false,
-      permisos: [],
+      permisos: [SgeNombre.REP_FALLAS_REPORTAR_FALLAS],
     },
     {
       href: "/fallas/reportes",
       label: "Administrar",
       isPublic: false,
-      permisos: [SgeNombre.ADMIN_VER_PANEL_ADMIN],
+      permisos: [SgeNombre.REP_FALLAS_BUSCAR_REP_FALLAS, SgeNombre.REP_FALLAS_ADMIN_REP_FALLAS],
     },
   ],
 };

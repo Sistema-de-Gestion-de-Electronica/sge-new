@@ -1,7 +1,7 @@
 import { type ReadonlyURLSearchParams } from "next/navigation";
 import { Suspense } from "react";
 import PageLayout from "@/components/ui/template/page-template";
-// import { ActionButtons } from "@/app/inscripciones_especiales/_actions/action-buttons";
+import { ActionButtons } from "@/app/fallas/(listado)/action-buttons";
 import { INICIO_ROUTE, FALLAS_ROUTE } from "@/shared/server-routes";
 import FallasTableContainer from "@/app/fallas/_components/fallas-table-container";
 import LoadingFallasTable from "@/app/fallas/(listado)/loading-fallas";
@@ -16,7 +16,9 @@ type PageProps = {
 
 export default async function Page({ searchParams }: PageProps) {
   // Verificar que el usuario tenga permisos de administrador
-  const puedeVer = await estaLogueadoYConPermiso([SgeNombre.ADMIN_VER_PANEL_ADMIN]);
+  const puedeVer =
+    (await estaLogueadoYConPermiso([SgeNombre.REP_FALLAS_BUSCAR_REP_FALLAS])) ||
+    (await estaLogueadoYConPermiso([SgeNombre.REP_FALLAS_ADMIN_REP_FALLAS]));
   if (!puedeVer) {
     redirect(INICIO_ROUTE.href);
   }
@@ -27,7 +29,7 @@ export default async function Page({ searchParams }: PageProps) {
 
   return (
     <PageLayout route={FALLAS_ROUTE}>
-      {/* <ActionButtons filters={filters} /> */}
+      <ActionButtons filters={filters} />
       <Suspense key={filter_as_key} fallback={<LoadingFallasTable />}>
         <FallasTableContainer filters={filters} />
       </Suspense>

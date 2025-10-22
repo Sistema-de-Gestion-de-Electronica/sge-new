@@ -6,19 +6,18 @@ import { FallasDetalle } from "@/app/fallas/_components/info-basica-fallas";
 import { FallasGestion } from "@/app/fallas/_components/fallas-gestion";
 import { FallasEstatus } from "@/app/fallas/_components/badge-estatus-fallas";
 
-
 interface FallasViewAdminProps {
   fallaId: number;
   onEstados: () => void;
   onCancel: () => void;
 }
 
-export const FallasViewAdmin = ({
-  fallaId,
-  onCancel,
-  onEstados,
-}: FallasViewAdminProps) => {
-  const { data: fallasData, isLoading, error } = api.fallas.getFallaPorId.useQuery({
+export const FallasViewAdmin = ({ fallaId, onCancel, onEstados }: FallasViewAdminProps) => {
+  const {
+    data: fallasData,
+    isLoading,
+    error,
+  } = api.fallas.getFallaPorId.useQuery({
     id: Number(fallaId),
   });
 
@@ -31,13 +30,9 @@ export const FallasViewAdmin = ({
   return (
     <div className="container mx-auto space-y-8 p-4">
       <FallasDetalle fallaId={fallaId} />
-      { !esFallaEliminado && (
-        <TienePermiso permisos={[SgeNombre.ADMIN_VER_PANEL_ADMIN]}>
-          <FallasGestion
-            fallaId={fallaId}
-            onEstados={onEstados}
-            onCancel={onCancel}
-          />
+      {!esFallaEliminado && (
+        <TienePermiso permisos={[SgeNombre.REP_FALLAS_ADMIN_REP_FALLAS]}>
+          <FallasGestion fallaId={fallaId} onEstados={onEstados} onCancel={onCancel} />
         </TienePermiso>
       )}
     </div>

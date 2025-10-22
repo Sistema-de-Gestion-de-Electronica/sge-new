@@ -13,6 +13,7 @@ import { VerFallaModal } from "@/app/fallas/(listado)/ver-falla";
 import { VerHistorialFallaModal } from "@/app/fallas/(listado)/ver-historial";
 import { type inputGetAllFallas } from "@/shared/filters/fallas-filter.schema";
 import { TienePermiso } from "@/app/_components/permisos/tienePermiso";
+import { useFallasQueryParam } from "@/app/fallas/_hooks/use-fallas-query-param";
 
 type RespuestaFallas = RouterOutputs["fallas"]["getAllFallas"];
 type fallasFilters = z.infer<typeof inputGetAllFallas>;
@@ -24,7 +25,7 @@ type FallasTableProps = {
 };
 
 export const FallasTable = ({ data, filters, filterByUser }: FallasTableProps) => {
-  //   const { pagination, sorting, onSortingChange, onPaginationChange } = useFallasQueryParam(filters);
+  const { pagination, sorting, onSortingChange, onPaginationChange } = useFallasQueryParam(filters);
 
   const [grouping, setGrouping] = useState<GroupingState>([]);
   const columns = getColumnasFallas({ filterByUser });
@@ -44,13 +45,13 @@ export const FallasTable = ({ data, filters, filterByUser }: FallasTableProps) =
         data={data.fallas ?? []}
         columns={columns}
         manualSorting
-        // pageSize={pagination.pageSize}
-        // pageIndex={pagination.pageIndex}
-        // config={{
-        //   sorting,
-        //   onSortingChange: (updaterOrValue: SortingState | ((prevState: SortingState) => SortingState)) =>
-        //     onSortingChange(typeof updaterOrValue === "function" ? updaterOrValue([]) : updaterOrValue),
-        // }}
+        pageSize={pagination.pageSize}
+        pageIndex={pagination.pageIndex}
+        config={{
+          sorting,
+          onSortingChange: (updaterOrValue: SortingState | ((prevState: SortingState) => SortingState)) =>
+            onSortingChange(typeof updaterOrValue === "function" ? updaterOrValue([]) : updaterOrValue),
+        }}
         action={{
           header: "Acciones",
           cell({ original }) {
@@ -68,12 +69,12 @@ export const FallasTable = ({ data, filters, filterByUser }: FallasTableProps) =
         }}
       />
 
-      {/* <DataTablePaginationStandalone
+      <DataTablePaginationStandalone
         pageIndex={pagination.pageIndex}
         pageSize={pagination.pageSize}
         rowCount={data.count}
         onChange={onPaginationChange}
-      /> */}
+      />
     </>
   );
 };

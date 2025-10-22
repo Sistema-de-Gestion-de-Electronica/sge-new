@@ -4,6 +4,7 @@ import { UsuarioCreador } from "../../_components/usuario-creador-equipo";
 import { EquipoInformacionBasica } from "../../_components/info-basica-equipo";
 import { EquipoInformacionUbicacion } from "../../_components/info-ubicacion-equipo";
 import { EquipoInformacionPrestamos } from "../../_components/info-prestamos-equipo";
+import HistorialFallaEquipo from "@/app/equipos/equipo/ver/[id]/historial-fallas-equipos";
 
 type Props = {
   id?: string;
@@ -38,6 +39,12 @@ export const EquipoView = ({ id, onCancel }: Props) => {
 
         <div className="my-8 flex w-full flex-col items-center justify-center">
           <UsuarioCreador equipoId={equipoId} />
+        </div>
+
+        <Separator className="my-2 border-2" />
+
+        <div className="my-8 flex w-full flex-col items-center justify-center">
+          <HistorialFallaEquipo equipoId={equipoId} />
         </div>
       </ScrollArea>
 

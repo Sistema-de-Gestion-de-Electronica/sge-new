@@ -7,6 +7,7 @@ import type {
   inputGestionarFallas,
   inputCambiarEstadoFalla,
   inputGetHistorialPorFallaId,
+  inputGetHistorialPorEquipoId,
   inputEliminarFalla,
 } from "@/shared/filters/fallas-filter.schema";
 import { formatDateToSeconds, formatDateToDays } from "../../utils/dateFormat";
@@ -18,9 +19,10 @@ type InputGestionarFallas = z.infer<typeof inputGestionarFallas>;
 type InputCambiarEstadoFalla = z.infer<typeof inputCambiarEstadoFalla>;
 type InputGetHistorialPorFallaId = z.infer<typeof inputGetHistorialPorFallaId>;
 type InputEliminarFalla = z.infer<typeof inputEliminarFalla>;
+type InputGetHistorialPorEquipoId = z.infer<typeof inputGetHistorialPorEquipoId>;
 
 type Context = { db: PrismaClient; session: { user: { id: string } } };
-type ContextReadOnly = { db: PrismaClient };
+type ContextReadOnly = { db: PrismaClient; session?: { user: { id: string } } };
 
 const ESTADOS_EQUIPO = {
   ROTO: "Roto",
@@ -83,7 +85,6 @@ export const createFallaInstrumento = async (ctx: Context, input: InputReportarF
         tipoFalla: TIPOS_FALLA.INSTRUMENTO,
         descripcionEquipo: input.descripcionEquipo,
         descripcionFalla: input.descripcionFalla ?? "No input",
-        condicion: input.condicion ?? null,
         estado: ESTADOS_FALLA.FALLADO,
         reportadoPorId: ctx.session.user.id,
       },
@@ -186,35 +187,132 @@ const transformFallaData = (falla: FallaWithRelations) => ({
   fechaReporte: falla.fechaReporte ? formatDateToDays(new Date(falla.fechaReporte)) : "-",
 });
 
-export const findAllFallas = async (ctx: ContextReadOnly) => {
-  const fallas = await ctx.db.falla.findMany({
-    where: {
-      NOT: { estado: ESTADOS_FALLA.ELIMINADO },
-    },
-    include: {
-      equipo: {
-        include: {
-          laboratorio: true,
-          marca: true,
-          tipo: true,
-          estado: true,
+export const findAllFallas = async (ctx: ContextReadOnly, input: any) => {
+  const {
+    pageSize = "20",
+    pageIndex = "0",
+    orderBy = "fechaReporte",
+    orderDirection = "desc",
+    searchText = "",
+    laboratorio = "",
+    marca = "",
+    modelo = "",
+    reportadoPor = "",
+    asignadoA = "",
+    estado = "",
+    filterByUserId = "false",
+  } = input;
+
+  const pageSizeNum = parseInt(pageSize);
+  const pageIndexNum = parseInt(pageIndex);
+  const skip = pageIndexNum * pageSizeNum;
+
+  const whereClause: any = {
+    NOT: { estado: ESTADOS_FALLA.ELIMINADO },
+  };
+
+  if (filterByUserId === "true") {
+    whereClause.reportadoPorId = ctx.session?.user?.id;
+  }
+
+  if (laboratorio) {
+    whereClause.equipo = {
+      ...whereClause.equipo,
+      laboratorioId: parseInt(laboratorio),
+    };
+  }
+
+  if (marca) {
+    whereClause.equipo = {
+      ...whereClause.equipo,
+      marcaId: parseInt(marca),
+    };
+  }
+
+  if (modelo) {
+    whereClause.equipo = {
+      ...whereClause.equipo,
+      modelo: { contains: modelo, mode: "insensitive" },
+    };
+  }
+
+  if (reportadoPor) {
+    whereClause.reportadoPorId = reportadoPor;
+  }
+
+  if (asignadoA) {
+    whereClause.asignadoAId = asignadoA;
+  }
+
+  if(estado){
+    whereClause.estado = estado;
+  }
+
+  if (searchText) {
+    whereClause.OR = [
+      { descripcionFalla: { contains: searchText, mode: "insensitive" } },
+      { palabrasClave: { contains: searchText, mode: "insensitive" } },
+      { equipo: { numeroSerie: { contains: searchText, mode: "insensitive" } } },
+      /*{ equipo: { inventarioId: { contains: searchText, mode: "insensitive" } } },
+      { equipo: { numeroSerie: { contains: searchText, mode: "insensitive" } } },
+      { equipo: { laboratorio: { nombre: { contains: searchText, mode: "insensitive" } } } },
+      { equipo: { marca: { nombre: { contains: searchText, mode: "insensitive" } } } },
+      { equipo: { modelo: { contains: searchText, mode: "insensitive" } } },
+      { reportadoPor: { nombre: { contains: searchText, mode: "insensitive" } } },
+      { reportadoPor: { apellido: { contains: searchText, mode: "insensitive" } } },
+      { asignadoA: { nombre: { contains: searchText, mode: "insensitive" } } },
+      { asignadoA: { apellido: { contains: searchText, mode: "insensitive" } } },*/
+    ];
+  }
+
+  const orderByClause: any = {};
+  if (orderBy === "laboratorio_nombre") {
+    orderByClause.equipo = { laboratorio: { nombre: orderDirection } };
+  } else if (orderBy === "equipo_nroEquipo") {
+    orderByClause.equipo = { inventarioId: orderDirection };
+  } else if (orderBy === "marca_nombre") {
+    orderByClause.equipo = { marca: { nombre: orderDirection } };
+  } else if (orderBy === "modelo_nombre") {
+    orderByClause.equipo = { modelo: orderDirection };
+  } else if (orderBy === "reportadoPor_nombre") {
+    orderByClause.reportadoPor = { nombre: orderDirection };
+  } else if (orderBy === "asignadoA_nombre") {
+    orderByClause.asignadoA = { nombre: orderDirection };
+  } else {
+    orderByClause[orderBy] = orderDirection;
+  }
+
+  const [fallas, totalCount] = await Promise.all([
+    ctx.db.falla.findMany({
+      where: whereClause,
+      include: {
+        equipo: {
+          include: {
+            laboratorio: true,
+            marca: true,
+            tipo: true,
+            estado: true,
+          },
         },
+        reportadoPor: true,
+        asignadoA: true,
       },
-      reportadoPor: true,
-      asignadoA: true,
-    },
-    orderBy: {
-      fechaReporte: "desc",
-    },
-  });
+      orderBy: orderByClause,
+      skip,
+      take: pageSizeNum,
+    }),
+    ctx.db.falla.count({
+      where: whereClause,
+    }),
+  ]);
 
   const fallasTransformadas = fallas.map((falla: any) => transformFallaData(falla));
 
   return {
-    count: fallasTransformadas.length,
+    count: totalCount,
     fallas: fallasTransformadas,
-    pageIndex: 0,
-    pageSize: fallasTransformadas.length,
+    pageIndex: pageIndexNum,
+    pageSize: pageSizeNum,
   };
 };
 
@@ -262,6 +360,7 @@ const mapEstadoFallaToEquipo = (estadoFalla: string): string | null => {
     [ESTADOS_FALLA.FALLADO]: ESTADOS_EQUIPO.ROTO,
     [ESTADOS_FALLA.DESCARTADO]: ESTADOS_EQUIPO.DESCARTE,
     [ESTADOS_FALLA.REPARADO]: ESTADOS_EQUIPO.NORMAL,
+    [ESTADOS_FALLA.ELIMINADO]: ESTADOS_EQUIPO.NORMAL,
   };
   return mapping[estadoFalla] ?? null;
 };
@@ -365,9 +464,19 @@ export const deleteFalla = async (ctx: Context, input: InputEliminarFalla) => {
   }
 
   try {
-    return await ctx.db.falla.update({
-      where: { id: input.id },
-      data: { estado: ESTADOS_FALLA.ELIMINADO },
+    return await ctx.db.$transaction(async (tx) => {
+      const falla = await tx.falla.findUnique({
+        where: { id: input.id },
+        select: { equipoId: true },
+      });
+      const fallaEliminada = await tx.falla.update({
+        where: { id: input.id },
+        data: { estado: ESTADOS_FALLA.ELIMINADO },
+      });
+      if (falla?.equipoId) {
+        await updateEquipoEstado(tx, falla.equipoId, ESTADOS_EQUIPO.NORMAL);
+      }
+      return fallaEliminada;
     });
   } catch (error) {
     throw new Error(`Error al eliminar falla con ID ${String(input.id)}: ${String(error)}`);
@@ -400,7 +509,7 @@ type HistorialWithRelations = {
   asignadoA: { nombre: string; apellido: string } | null;
 };
 
-const transformHistorialData = (h: HistorialWithRelations) => ({
+const transformHistorialData = (h: any) => ({
   id: h.id,
   fallaId: h.fallaId,
   equipo: h.falla?.equipo?.inventarioId ?? (h.falla?.equipoId ? `Equipo ${h.falla?.equipoId}` : "-"),
@@ -448,5 +557,33 @@ export const findHistorialByFallaId = async (ctx: ContextReadOnly, input: InputG
     return historial.map(transformHistorialData);
   } catch (error) {
     throw new Error(`Error al obtener historial de falla ${String(input.fallaId)}: ${String(error)}`);
+  }
+};
+
+export const findHistorialByEquipoId = async (ctx: ContextReadOnly, input: InputGetHistorialPorEquipoId) => {
+  try {
+    const historial = await ctx.db.fallaHistorial.findMany({
+      where: {
+        falla: {
+          equipoId: input.equipoId,
+        },
+      },
+      include: {
+        falla: {
+          include: {
+            equipo: {
+              include: { laboratorio: true, marca: true, tipo: true, estado: true },
+            },
+          },
+        },
+        reportadoPor: true,
+        asignadoA: true,
+      },
+      orderBy: { fechaCambioEstado: "desc" },
+    });
+
+    return historial.map(transformHistorialData);
+  } catch (error) {
+    throw new Error(`Error al obtener historial de falla del equipo ${String(input.equipoId)}: ${String(error)}`);
   }
 };

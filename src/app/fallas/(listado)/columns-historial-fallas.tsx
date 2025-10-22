@@ -8,9 +8,6 @@ export const getColumnasHistorialFallas = () => {
   const colHelper = createColumnHelper<HistorialFallasData>();
 
   const columnasBasicas = [
-    colHelper.accessor("id", {
-      header: "#",
-    }),
     colHelper.accessor("fallas", {
       header: "Fallas",
       cell: ({ row }) => {

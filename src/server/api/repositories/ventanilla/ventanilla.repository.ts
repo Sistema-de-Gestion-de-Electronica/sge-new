@@ -7,8 +7,7 @@ type InputConsulta = z.infer<typeof inputConsulta>;
 type InputGetAllConsultas = z.infer<typeof inputGetAllConsultas>;
 
 export const consultar = async (ctx: { db: PrismaClient }, input: InputConsulta) => {
-    const consulta = await ctx.db.$transaction(async (tx) => {
-
+  const consulta = await ctx.db.$transaction(async (tx) => {
     const consulta = await tx.consulta.create({
       data: {
         nombre: input.nombre,
@@ -20,19 +19,94 @@ export const consultar = async (ctx: { db: PrismaClient }, input: InputConsulta)
       },
     });
     return consulta;
-    })
+  });
 
-    return consulta;
-}
+  return consulta;
+};
 
 export const getAllConsultas = async (ctx: { db: PrismaClient }, input: InputGetAllConsultas) => {
+  const {
+    pageIndex,
+    pageSize,
+    orderBy,
+    orderDirection,
+    searchText,
+    nombre,
+    apellido,
+    legajo,
+    email,
+    estado,
+    filterByUserId,
+  } = input;
+
+  const where: Prisma.ConsultaWhereInput = {
+    NOT: { estado: "ELIMINADA" },
+  };
+
+  if (nombre) {
+    where.nombre = { contains: nombre, mode: "insensitive" };
+  }
+
+  if (apellido) {
+    where.apellido = { contains: apellido, mode: "insensitive" };
+  }
+
+  if (legajo) {
+    where.legajo = { contains: legajo, mode: "insensitive" };
+  }
+
+  if (email) {
+    where.email = { contains: email, mode: "insensitive" };
+  }
+
+  if (estado) {
+    where.estado = estado;
+  }
+
+  if (searchText) {
+    where.OR = [
+      { nombre: { contains: searchText, mode: "insensitive" } },
+      { apellido: { contains: searchText, mode: "insensitive" } },
+      { legajo: { contains: searchText, mode: "insensitive" } },
+      { email: { contains: searchText, mode: "insensitive" } },
+      { consulta: { contains: searchText, mode: "insensitive" } },
+    ];
+  }
+
+  const orderByConfig: Prisma.ConsultaOrderByWithRelationInput = {};
+  switch (orderBy) {
+    case "nombre":
+      orderByConfig.nombre = orderDirection;
+      break;
+    case "apellido":
+      orderByConfig.apellido = orderDirection;
+      break;
+    case "legajo":
+      orderByConfig.legajo = orderDirection;
+      break;
+    case "email":
+      orderByConfig.email = orderDirection;
+      break;
+    case "fechaConsulta":
+      orderByConfig.fechaConsulta = orderDirection;
+      break;
+    case "estado":
+      orderByConfig.estado = orderDirection;
+      break;
+    default:
+      orderByConfig.id = orderDirection;
+  }
+
+  const skip = parseInt(pageIndex) * parseInt(pageSize);
+  const take = parseInt(pageSize);
+
+  const totalCount = await ctx.db.consulta.count({ where });
+
   const consultas = await ctx.db.consulta.findMany({
-    where: {
-      NOT: { estado: "ELIMINADA" },
-    },
-    orderBy: {
-      fechaConsulta: "desc",
-    },
+    where,
+    orderBy: orderByConfig,
+    skip,
+    take,
   });
 
   const consultasFormateadas = consultas.map((c) => ({
@@ -41,13 +115,12 @@ export const getAllConsultas = async (ctx: { db: PrismaClient }, input: InputGet
   }));
 
   return {
-    count: consultas.length,
+    count: totalCount,
     consultas: consultasFormateadas,
-    pageIndex: 0,
-    pageSize: consultas.length,
+    pageIndex: parseInt(pageIndex),
+    pageSize: parseInt(pageSize),
   };
 };
-
 
 export const getConsultaById = async (ctx: { db: PrismaClient }, input: { id: number }) => {
   const consulta = await ctx.db.consulta.findUnique({
@@ -62,15 +135,11 @@ export const getConsultaById = async (ctx: { db: PrismaClient }, input: { id: nu
   };
 };
 
-
 export const gestionarConsulta = async (
   ctx: { db: PrismaClient },
-  input: { id: number; estado?: string; respuesta?: string }
+  input: { id: number; estado?: string; respuesta?: string },
 ) => {
-  const fechaRespuesta =
-    input.respuesta && input.respuesta.trim().length > 0
-      ? new Date()
-      : null;
+  const fechaRespuesta = input.respuesta && input.respuesta.trim().length > 0 ? new Date() : null;
 
   const consulta = await ctx.db.consulta.update({
     where: { id: input.id },

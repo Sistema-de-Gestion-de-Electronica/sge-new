@@ -110,17 +110,6 @@ export function ConsultasDetalle({ consultaId, mostrarCompleto }: ConsultasDetal
               </div>
             </div>
           ))}
-          <div className="col-span-2 md:col-span-1">
-            <div className="flex flex-row space-x-2">
-              <div className="flex items-start justify-center">
-                <TextIcon className="h-4 w-4" />
-              </div>
-              <div className="flex flex-col text-left">
-                <Label className="text-xs font-semibold">Consulta</Label>
-                <p className="text-sm">{consulta?.consulta}</p>
-              </div>
-            </div>
-          </div>
         </div>
       </CardContent>
     </Card>

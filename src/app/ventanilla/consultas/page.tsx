@@ -14,6 +14,12 @@ type PageProps = {
 };
 
 export default async function Page({ searchParams }: PageProps) {
+  const puedeVer =
+    (await estaLogueadoYConPermiso([SgeNombre.VENTANILLA_VER_CONSULTAS])) ||
+    (await estaLogueadoYConPermiso([SgeNombre.VENTANILLA_RESPONDER_CONSULTAS]));
+  if (!puedeVer) {
+    redirect(INICIO_ROUTE.href);
+  }
   const filters = inputGetAllConsultas.parse(await searchParams);
 
   const filter_as_key = JSON.stringify(filters);

@@ -4,6 +4,7 @@ import { z } from "zod";
 import { api } from "@/trpc/react";
 import { Controller, FieldError, FormProvider, useForm } from "react-hook-form";
 import { Button, FormInput, toast, FormAutocomplete } from "@/components/ui";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 import { inputConsulta } from "@/shared/filters/ventanilla-filter.schema";
 import { FormSelect } from "@/components/ui/autocomplete";
@@ -24,6 +25,7 @@ export default function FormularioConsultar() {
   const formHook = useForm<FormConsultar>({
     mode: "onChange",
     defaultValues: consultaBase,
+    resolver: zodResolver(inputConsulta),
   });
 
   const { handleSubmit, control, reset } = formHook;
@@ -38,8 +40,9 @@ export default function FormularioConsultar() {
         toast.success("Tu consulta ha sido enviada correctamente.");
         reset(consultaBase);
       },
-      onError: () => {
-        toast.error("Hubo un problema al enviar tu consulta. Por favor, intenta nuevamente.");
+      onError: (error) => {
+        const errorMessage = "Hubo un problema al enviar tu consulta. Por favor, intenta nuevamente.";
+        toast.error(errorMessage);
       },
     });
   };
@@ -59,11 +62,17 @@ export default function FormularioConsultar() {
             name="legajo"
             control={control}
             type="text"
+            placeholder="Solo números"
+            onKeyDown={(e) => {
+              if (!/[0-9]/.test(e.key) && !["Backspace", "Delete", "Tab", "Escape", "Enter"].includes(e.key)) {
+                e.preventDefault();
+              }
+            }}
           />
           <FormTextarea<FormConsultar> label="Consulta" name="consulta" control={control} required />
         </div>
 
-        <div className="flex justify-end mt-6">
+        <div className="mt-6 flex justify-end">
           <Button type="submit" variant="default" color="primary" className="w-full md:w-auto">
             Enviar Consulta
           </Button>

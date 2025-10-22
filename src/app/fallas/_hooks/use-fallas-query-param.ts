@@ -101,6 +101,14 @@ const changeAsignadoA = (filters: FallasFilters, asignadoA: string): FallasFilte
   };
 };
 
+const changeEstado = (filters: FallasFilters, estado: FallasFilters["estado"]): FallasFilters => {
+  return {
+    ...filters,
+    estado,
+    pageIndex: "0",
+  };
+}
+
 export const useFallasQueryParam = (filters: FallasFilters) => {
   const pathname = usePathname();
   const router = useRouter();
@@ -113,6 +121,7 @@ export const useFallasQueryParam = (filters: FallasFilters) => {
   const modelo = filters.modelo;
   const reportadoPor = filters.reportadoPor;
   const asignadoA = filters.asignadoA;
+  const estado = filters.estado;
 
   const changeQueryParams = useCallback(
     (filters: FallasFilters) => {
@@ -185,6 +194,14 @@ export const useFallasQueryParam = (filters: FallasFilters) => {
     [filters, changeQueryParams],
   );
 
+  const onEstadoChange = useCallback(
+    (estado: FallasFilters["estado"]) => {
+      const newFilters = changeEstado(filters, estado);
+      changeQueryParams({ ...newFilters });
+    },
+    [filters, changeQueryParams],
+  );
+
   return {
     sorting,
     pagination,
@@ -194,6 +211,7 @@ export const useFallasQueryParam = (filters: FallasFilters) => {
     modelo,
     reportadoPor,
     asignadoA,
+    estado,
     onSortingChange,
     onPaginationChange,
     onSearchTextChange,
@@ -202,5 +220,6 @@ export const useFallasQueryParam = (filters: FallasFilters) => {
     onModeloChange,
     onReportadoPorChange,
     onAsignadoAChange,
+    onEstadoChange
   };
 };

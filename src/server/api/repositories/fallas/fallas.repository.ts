@@ -199,6 +199,7 @@ export const findAllFallas = async (ctx: ContextReadOnly, input: any) => {
     modelo = "",
     reportadoPor = "",
     asignadoA = "",
+    estado = "",
     filterByUserId = "false",
   } = input;
 
@@ -241,6 +242,10 @@ export const findAllFallas = async (ctx: ContextReadOnly, input: any) => {
 
   if (asignadoA) {
     whereClause.asignadoAId = asignadoA;
+  }
+
+  if(estado){
+    whereClause.estado = estado;
   }
 
   if (searchText) {

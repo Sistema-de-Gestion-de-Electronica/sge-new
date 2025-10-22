@@ -76,6 +76,7 @@ export const inputGetAllFallas = z.object({
   modelo: z.string().default(""),
   reportadoPor: z.string().default(""),
   asignadoA: z.string().default(""),
+  estado: z.enum(["", "FALLADO", "EN_REPARACION", "REPARADO", "DESCARTADO", "ELIMINADO"]).default(""),
 });
 
 export const inputGestionarFallas = z.object({

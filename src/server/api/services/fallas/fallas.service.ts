@@ -22,6 +22,7 @@ import {
 } from "../../repositories/fallas/fallas.repository";
 import { protectedProcedure } from "../../trpc";
 import { validarInput } from "../helper";
+import { FallasEstatus } from "@/app/fallas/_components/badge-estatus-fallas";
 
 export const createFallaInstrumentoProcedure = protectedProcedure
   .input(inputReportarFallasInstrumento)
@@ -77,3 +78,7 @@ export const findHistorialByEquipoIdProcedure = protectedProcedure
     validarInput(inputGetHistorialPorEquipoId, input);
     return await findHistorialByEquipoId(ctx, input);
   });
+
+export const getAllEstadosProcedure = protectedProcedure.query(async () => {
+  return Object.values(FallasEstatus).map((nombre) => ({ nombre }));
+});

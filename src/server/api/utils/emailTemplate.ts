@@ -8,10 +8,12 @@ export const emailTemplate = ({
   usuario,
   textoMail,
   hipervinculo,
+  detalle,
 }: {
   usuario: string;
   hipervinculo: string;
   textoMail: string;
+  detalle?: string;
 }) => {
   return `
     <!doctype html>
@@ -51,7 +53,7 @@ export const emailTemplate = ({
                     ${textoMail}
                     <p>Gracias por usar nuestros sistemas.</p>
                     <p style="text-align: center; margin-top: 30px;">
-                        <a href="${hipervinculo}" class="cta-button">Ver más detalles</a>
+                        <a href="${hipervinculo}" class="cta-button">${detalle ? detalle : "Ver más detalles"}</a>
                     </p>
                 </td>
             </tr>

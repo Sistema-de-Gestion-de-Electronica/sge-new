@@ -317,7 +317,7 @@ export const ACTAS_ROUTE: AppRoute = {
       href: "/actas/administrar",
       label: "Administrar",
       isPublic: false,
-      permisos: [SgeNombre.ADMIN_ACTUALIZAR_ACTA_CONSEJEROS],
+      permisos: [SgeNombre.ACTA_GESTIONAR, SgeNombre.ACTA_CREAR, SgeNombre.ACTA_CREAR_REUNION, SgeNombre.ACTA_VER_VOTACION],
     },
   ],
 };

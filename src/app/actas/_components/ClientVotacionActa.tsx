@@ -9,6 +9,8 @@ import { api } from "@/trpc/react"
 import { useState } from 'react'
 import { Acta } from './TypeActa'
 import GraciasPorVotar from './thankYouDiv'
+import { SgeNombre } from '@/generated/prisma'
+import { TienePermiso } from '@/app/_components/permisos/tienePermiso'
 
 function EmptyStateNoActa() {
   return (
@@ -58,16 +60,12 @@ export function ClientVotacionActa() {
               <SelectActasForm name="acta" control={methods.control} onStateChange={handleState} />
             </div>
           </div>
-          {isLoading ? (
-            <div className="h-10 w-48 animate-pulse rounded bg-gray-200" />
-          ) : esConsejero ? (
+          <TienePermiso permisos={[SgeNombre.ACTA_VOTAR]}>
             <div className="flex flex-col items-center">
               <p>Próxima reunión: {reunion?.fechaNormalizada || "Aun no hay fecha establecida"}</p>
               <a href={reunion?.link} target="_blank" className="text-blue-600">Conectarse a la reunión</a>
             </div>
-          ) : (
-          <div className="flex flex-col items-center"></div>
-          )}
+          </TienePermiso>
         </div>
              
         {/* Header acta */}
@@ -85,7 +83,7 @@ export function ClientVotacionActa() {
               </p>
             </>
           ) : acta ? (
-            <h1 className="text-xl font-semibold text-gray-900">Acta-{acta.label}</h1>
+            <h1 className="text-xl text-center font-semibold text-gray-900">Acta del {acta.label}</h1>
           ) : (
             <div className="h-6 w-48 animate-pulse rounded bg-gray-200" />
           )}
@@ -95,11 +93,13 @@ export function ClientVotacionActa() {
           <PdfIframeViewer file={pdfUrl} onLoadingChange={setPdfLoading} />
         </div>
 
-        {esConsejero && acta?.estado === "ABIERTA"? (
-          !yaVoto
-            ? <VotacionActa />
-            : <GraciasPorVotar />
-        ) : <></>}
+        <TienePermiso permisos={[SgeNombre.ACTA_VOTAR]}>
+          {acta?.estado === "ABIERTA"? (
+            !yaVoto
+              ? <VotacionActa />
+              : <GraciasPorVotar />
+          ) : <></>}  
+        </TienePermiso>  
       </form>
     </FormProvider>
   )

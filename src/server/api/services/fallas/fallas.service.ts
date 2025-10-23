@@ -80,5 +80,7 @@ export const findHistorialByEquipoIdProcedure = protectedProcedure
   });
 
 export const getAllEstadosProcedure = protectedProcedure.query(async () => {
-  return Object.values(FallasEstatus).map((nombre) => ({ nombre }));
+  return Object.values(FallasEstatus)
+    .filter((nombre) => nombre !== "ELIMINADO")
+    .map((nombre) => ({ nombre }));
 });

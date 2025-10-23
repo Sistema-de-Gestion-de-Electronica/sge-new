@@ -385,14 +385,35 @@ export const FALLAS_ROUTE: AppRoute = {
   ],
 };
 
+export const VENTANILLA_ROUTE: AppRoute = {
+  href: "/ventanilla/consultar",
+  label: "Ventanilla",
+  isPublic: true,
+  permisos: [],
+  subRutas: [
+    {
+      href: "/ventanilla/consultar",
+      label: "Consultar",
+      isPublic: true,
+      permisos: [],
+    },
+    {
+      href: "/ventanilla/consultas",
+      label: "Ver consultas",
+      isPublic: false,
+      permisos: [SgeNombre.VENTANILLA_VER_CONSULTAS],
+    },
+  ],
+};
+
 export const SGE_1_ROUTE: AppRoute[] = [
-  {
+  /*{
     href: "https://sge.frba.utn.edu.ar/sge2/ventanilla/ventanilla.php",
     label: "Ventanilla",
     esExterna: true,
     isPublic: false,
     permisos: [],
-  },
+  },*/
 
   // {
   //   href: "https://sge.frba.utn.edu.ar/sge2/consejeros/index.php",
@@ -429,6 +450,7 @@ export const APP_ROUTES: AppRoute[] = [
   ACTAS_ROUTE,
   INSCRIPCIONES_ESPECIALES_ROUTE,
   FALLAS_ROUTE,
+  VENTANILLA_ROUTE,
   ...SGE_1_ROUTE,
 ];
 

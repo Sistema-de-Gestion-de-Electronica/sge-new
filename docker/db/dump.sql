@@ -213,7 +213,9 @@ CREATE TYPE public."SgeNombre" AS ENUM (
     'INSCRIPCIONES_ESPECIALES_VER_LISTADO',
     'INSCRIPCIONES_ESPECIALES_ADMIN',
     'INSCRIPCIONES_ESPECIALES_SOLICITAR',
-    'REP_FALLAS_RESOLVER_FALLAS'
+    'REP_FALLAS_RESOLVER_FALLAS',
+    'VENTANILLA_VER_CONSULTAS',
+    'VENTANILLA_RESPONDER_CONSULTAS'
 );
 
 
@@ -1656,6 +1658,23 @@ CREATE TABLE public."FallaHistorial" (
 
     "fechaReporte" TIMESTAMP NOT NULL,
     "fechaCambioEstado" TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+--
+-- Name: Consulta; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public."Consulta" (
+    id SERIAL PRIMARY KEY,
+    nombre         TEXT NOT NULL,
+    apellido       TEXT NOT NULL,
+    legajo         TEXT NULL,
+    email          TEXT NOT NULL,
+    consulta       TEXT NOT NULL,
+    "fechaConsulta"  TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW(),
+    respuesta      TEXT NULL,
+    "fechaRespuesta" TIMESTAMP WITHOUT TIME ZONE NULL,
+    estado         TEXT
 );
 
 --
@@ -7383,6 +7402,8 @@ COPY public."Permiso" (id, "sgeNombre", nombre, rubro, incluido, "fechaCreacion"
 86	INSCRIPCIONES_ESPECIALES_ADMIN	Administrar solicitudes	Inscripciones especiales	f	2025-08-28 22:47:37.105	2025-08-28 22:47:37.105	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
 87	INSCRIPCIONES_ESPECIALES_SOLICITAR	Solicitar una inscripcion especial	Inscripciones especiales	f	2025-08-28 22:47:37.105	2025-08-28 22:47:37.105	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
 88	REP_FALLAS_RESOLVER_FALLAS	Ser asignado para resolver fallas	Reporte de fallas	t	2025-04-14 06:14:20.858	2025-04-14 06:14:20.858	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
+89	VENTANILLA_VER_CONSULTAS	Ver consultas	Ventanilla	f	2025-08-28 22:47:37.105	2025-08-28 22:47:37.105	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
+90	VENTANILLA_RESPONDER_CONSULTAS	Responder consultas	Ventanilla	f	2025-08-28 22:47:37.105	2025-08-28 22:47:37.105	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
 \.
 
 
@@ -52473,6 +52494,8 @@ COPY public."RolPermiso" ("rolId", "permisoId", "fechaCreacion", "usuarioCreador
 16	78	2025-08-29 21:05:26.918	cm9goht79004qdrqpdif3osjy
 16	79	2025-08-29 21:05:26.918	cm9goht79004qdrqpdif3osjy
 16	88	2025-08-29 21:05:26.918	cm9goht79004qdrqpdif3osjy
+1	89	2025-08-29 21:05:26.918	cm9goht79004qdrqpdif3osjy
+1	90	2025-08-29 21:05:26.918	cm9goht79004qdrqpdif3osjy
 \.
 
 
@@ -55920,6 +55943,8 @@ cm9goht79004qdrqpdif3osjy	11	2025-08-29 20:58:21.481	cm9goht79004qdrqpdif3osjy
 cm9goht79004qdrqpdif3osjy	12	2025-08-29 20:58:21.481	cm9goht79004qdrqpdif3osjy
 cm9goht79004qdrqpdif3osjy	13	2025-08-29 20:58:21.481	cm9goht79004qdrqpdif3osjy
 cm9goht79004qdrqpdif3osjy	14	2025-08-29 20:58:21.481	cm9goht79004qdrqpdif3osjy
+cm9goht79004qdrqpdif3osjy	15	2025-08-29 20:58:21.481	cm9goht79004qdrqpdif3osjy
+cm9goht79004qdrqpdif3osjy	16	2025-08-29 20:58:21.481	cm9goht79004qdrqpdif3osjy
 \.
 
 

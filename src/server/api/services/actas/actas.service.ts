@@ -41,12 +41,6 @@ export const getAllActasProcedure = publicProcedure
     return anios;
   });
 
-  // export const tieneRolConsejero = publicProcedure
-  //   .query(async ({ ctx }) => {
-  //   const consejero = await esRol(ctx, "CONSEJERO");
-  //   return consejero;
-  // });
-
 async function esRol(ctx: any, rol: string) {
     const userId = ctx.session?.user?.id;
   if (!userId) return false;

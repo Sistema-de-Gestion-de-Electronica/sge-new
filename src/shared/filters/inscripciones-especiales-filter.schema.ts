@@ -43,3 +43,28 @@ export const inputActualizarContactoAsistencia = z.object({
 export const inputEliminarInscripcionEspecial = z.object({
   id: z.number(),
 });
+
+export const inputCrearPeriodoInscripcionEspecial = z
+  .object({
+    fechaInicio: z.date(),
+    fechaFin: z.date(),
+  })
+  .refine((data) => data.fechaFin > data.fechaInicio, {
+    message: "La fecha de fin debe ser posterior a la fecha de inicio",
+    path: ["fechaFin"],
+  });
+
+export const inputActualizarPeriodoInscripcionEspecial = z
+  .object({
+    id: z.number(),
+    fechaInicio: z.date(),
+    fechaFin: z.date(),
+  })
+  .refine((data) => data.fechaFin > data.fechaInicio, {
+    message: "La fecha de fin debe ser posterior a la fecha de inicio",
+    path: ["fechaFin"],
+  });
+
+export const inputGetPeriodoInscripcionEspecialActual = z.object({});
+
+export const inputGetUltimoPeriodoInscripcionEspecial = z.object({});

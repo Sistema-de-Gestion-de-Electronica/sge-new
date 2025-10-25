@@ -20,3 +20,11 @@ model InscripcionEspecial {
     fechaSolicitud DateTime  @default(now())
     fechaRespuesta DateTime?
 }
+
+model InscripcionEspecialPeriodo {
+    id               Int      @id @default(autoincrement())
+    fechaInicio      DateTime
+    fechaFin         DateTime
+    usuarioCreadorId String
+    usuarioCreador   User     @relation(name: "inscripcionEspecialPeriodosCreados", fields: [usuarioCreadorId], references: [id], onDelete: Cascade)
+}

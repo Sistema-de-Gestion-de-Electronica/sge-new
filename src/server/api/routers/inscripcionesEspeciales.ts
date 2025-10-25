@@ -8,6 +8,14 @@ import {
   eliminarInscripcionEspecialProcedure,
 } from "../services/inscripcionesEspeciales/inscripcionesEspeciales.service";
 
+import {
+  crearPeriodoInscripcionEspecialProcedure,
+  actualizarPeriodoInscripcionEspecialProcedure,
+  getPeriodoInscripcionEspecialActualProcedure,
+  getUltimoPeriodoInscripcionEspecialProcedure,
+  verificarPeriodoActivoProcedure,
+} from "../services/inscripcionesEspeciales/periodosInscripcionEspecial.service";
+
 import { createTRPCRouter } from "@/server/api/trpc";
 
 export const inscripcionesEspecialesRouter = createTRPCRouter({
@@ -18,4 +26,9 @@ export const inscripcionesEspecialesRouter = createTRPCRouter({
   getInscripcionEspecialPorId: getInscripcionEspecialByIdProcedure,
   actualizarContactoAsistencia: actualizarContactoAsistenciaProcedure,
   eliminarInscripcionEspecial: eliminarInscripcionEspecialProcedure,
+  crearPeriodoInscripcionEspecial: crearPeriodoInscripcionEspecialProcedure,
+  actualizarPeriodoInscripcionEspecial: actualizarPeriodoInscripcionEspecialProcedure,
+  getPeriodoInscripcionEspecialActual: getPeriodoInscripcionEspecialActualProcedure,
+  getUltimoPeriodoInscripcionEspecial: getUltimoPeriodoInscripcionEspecialProcedure,
+  verificarPeriodoActivo: verificarPeriodoActivoProcedure,
 });

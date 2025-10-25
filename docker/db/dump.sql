@@ -681,6 +681,17 @@ CREATE SEQUENCE public."InscripcionEspecial_id_seq"
 
 ALTER SEQUENCE public."InscripcionEspecial_id_seq" OWNED BY public."InscripcionEspecial".id;
 
+--
+-- Name: InscripcionEspecialPeriodo; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public."InscripcionEspecialPeriodo" (
+    "id" SERIAL PRIMARY KEY,
+    "fechaInicio" TIMESTAMP NOT NULL,
+    "fechaFin" TIMESTAMP NOT NULL,
+    "usuarioCreadorId" text NOT NULL
+);
+
 
 --
 -- Name: Laboratorio; Type: TABLE; Schema: public; Owner: -
@@ -56597,6 +56608,14 @@ FOREIGN KEY ("reportadoPorId") REFERENCES public."User"(id);
 ALTER TABLE public."FallaHistorial"
 ADD CONSTRAINT "FallaHistorial_asignadoAId_fkey"
 FOREIGN KEY ("asignadoAId") REFERENCES public."User"(id);
+
+
+ALTER TABLE public."InscripcionEspecialPeriodo"
+ADD CONSTRAINT fk_usuarioCreador
+FOREIGN KEY ("usuarioCreadorId")
+REFERENCES public."User"("id")
+ON DELETE CASCADE;
+
 
 -- Índice compuesto
 CREATE INDEX "FallaHistorial_fallaId_fechaCambioEstado_idx"

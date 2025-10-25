@@ -336,7 +336,7 @@ export const INSCRIPCIONES_ESPECIALES_ROUTE: AppRoute = {
       href: "/inscripciones_especiales/solicitudes",
       label: "Administrar Solicitudes",
       isPublic: false,
-      permisos: [SgeNombre.INSCRIPCIONES_ESPECIALES_VER_LISTADO],
+      permisos: [SgeNombre.INSCRIPCIONES_ESPECIALES_VER_LISTADO, SgeNombre.INSCRIPCIONES_ESPECIALES_ADMIN],
     },
     {
       href: "/inscripciones_especiales/solicitar",
@@ -349,6 +349,12 @@ export const INSCRIPCIONES_ESPECIALES_ROUTE: AppRoute = {
       label: "Mis solicitudes",
       isPublic: false,
       permisos: [SgeNombre.INSCRIPCIONES_ESPECIALES_SOLICITAR],
+    },
+    {
+      href: "/inscripciones_especiales/periodos",
+      label: "Periodos de inscripción",
+      isPublic: false,
+      permisos: [SgeNombre.INSCRIPCIONES_ESPECIALES_ADMIN],
     },
   ],
 };
@@ -414,7 +420,6 @@ export const SGE_1_ROUTE: AppRoute[] = [
     isPublic: false,
     permisos: [],
   },*/
-
   // {
   //   href: "https://sge.frba.utn.edu.ar/sge2/consejeros/index.php",
   //   label: "Consejeros",

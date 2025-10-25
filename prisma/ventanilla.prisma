@@ -5,6 +5,7 @@ model Consulta {
     apellido       String
     legajo         String?
     email          String
+    asunto         String
     consulta       String
     fechaConsulta  DateTime  @default(now())
     respuesta      String?

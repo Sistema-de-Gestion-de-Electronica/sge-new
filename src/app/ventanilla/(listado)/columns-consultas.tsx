@@ -23,12 +23,12 @@ export const getColumnasConsultas = ({ filterByUser }: { filterByUser?: boolean 
     colHelper.accessor("email", {
       header: "Email",
     }),
-    colHelper.accessor("consulta", {
-      header: "Consulta",
+    colHelper.accessor("asunto", {
+      header: "Asunto",
       cell: ({ row }) => {
-        const consulta = row.original.consulta ?? "-";
-        if (consulta === "-") return "-";
-        return consulta.length > 100 ? `${consulta.substring(0, 100)}...` : consulta;
+        const asunto = row.original.asunto ?? "-";
+        if (asunto === "-") return "-";
+        return asunto.length > 50 ? `${asunto.substring(0, 50)}...` : asunto;
       },
     }),
     colHelper.accessor("fechaConsulta", {
@@ -48,5 +48,5 @@ export const getColumnasConsultas = ({ filterByUser }: { filterByUser?: boolean 
 };
 
 export const getColumnasConsultasNames = () => {
-  return ["Nombre", "Apellido", "Legajo", "Email", "Consulta", "Fecha Consulta", "Estado"];
+  return ["Nombre", "Apellido", "Legajo", "Email", "Asunto", "Fecha Consulta", "Estado"];
 };

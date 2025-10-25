@@ -19,6 +19,7 @@ export default function FormularioConsultar() {
     apellido: "",
     email: "",
     legajo: "",
+    asunto: "",
     consulta: "",
   };
 
@@ -68,6 +69,15 @@ export default function FormularioConsultar() {
                 e.preventDefault();
               }
             }}
+          />
+          <FormInput<FormConsultar>
+            label="Asunto"
+            name="asunto"
+            control={control}
+            type="text"
+            placeholder="Resumen breve de tu consulta"
+            maxLength={100}
+            required
           />
           <FormTextarea<FormConsultar> label="Consulta" name="consulta" control={control} required />
         </div>

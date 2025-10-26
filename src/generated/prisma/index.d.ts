@@ -104,6 +104,11 @@ export type FallaHistorial = $Result.DefaultSelection<Prisma.$FallaHistorialPayl
  */
 export type InscripcionEspecial = $Result.DefaultSelection<Prisma.$InscripcionEspecialPayload>
 /**
+ * Model InscripcionEspecialPeriodo
+ * 
+ */
+export type InscripcionEspecialPeriodo = $Result.DefaultSelection<Prisma.$InscripcionEspecialPeriodoPayload>
+/**
  * Model Laboratorio
  * 
  */
@@ -253,6 +258,11 @@ export type Pais = $Result.DefaultSelection<Prisma.$PaisPayload>
  * 
  */
 export type DocumentoTipo = $Result.DefaultSelection<Prisma.$DocumentoTipoPayload>
+/**
+ * Model Consulta
+ * 
+ */
+export type Consulta = $Result.DefaultSelection<Prisma.$ConsultaPayload>
 
 /**
  * Enums
@@ -412,6 +422,7 @@ export const SgeNombre: {
   REP_FALLAS_BUSCAR_REP_FALLAS: 'REP_FALLAS_BUSCAR_REP_FALLAS',
   REP_FALLAS_REPORTAR_FALLAS: 'REP_FALLAS_REPORTAR_FALLAS',
   REP_FALLAS_ADMIN_REP_FALLAS: 'REP_FALLAS_ADMIN_REP_FALLAS',
+  REP_FALLAS_RESOLVER_FALLAS: 'REP_FALLAS_RESOLVER_FALLAS',
   ACTIVIDADES_USUARIO_SGE_PUBLICAR_ADMIN: 'ACTIVIDADES_USUARIO_SGE_PUBLICAR_ADMIN',
   ACTIVIDADES_USUARIO_SGE_VER_PUBLICACIONES: 'ACTIVIDADES_USUARIO_SGE_VER_PUBLICACIONES',
   ACTIVIDADES_ABIERTAS_PUBLICAR_ADMIN: 'ACTIVIDADES_ABIERTAS_PUBLICAR_ADMIN',
@@ -420,6 +431,8 @@ export const SgeNombre: {
   INSCRIPCIONES_ESPECIALES_VER_LISTADO: 'INSCRIPCIONES_ESPECIALES_VER_LISTADO',
   INSCRIPCIONES_ESPECIALES_ADMIN: 'INSCRIPCIONES_ESPECIALES_ADMIN',
   INSCRIPCIONES_ESPECIALES_SOLICITAR: 'INSCRIPCIONES_ESPECIALES_SOLICITAR',
+  VENTANILLA_VER_CONSULTAS: 'VENTANILLA_VER_CONSULTAS',
+  VENTANILLA_RESPONDER_CONSULTAS: 'VENTANILLA_RESPONDER_CONSULTAS',
   ACTA_VOTAR: 'ACTA_VOTAR',
   ACTA_CREAR: 'ACTA_CREAR',
   ACTA_GESTIONAR: 'ACTA_GESTIONAR',
@@ -807,6 +820,16 @@ export class PrismaClient<
   get inscripcionEspecial(): Prisma.InscripcionEspecialDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.inscripcionEspecialPeriodo`: Exposes CRUD operations for the **InscripcionEspecialPeriodo** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more InscripcionEspecialPeriodos
+    * const inscripcionEspecialPeriodos = await prisma.inscripcionEspecialPeriodo.findMany()
+    * ```
+    */
+  get inscripcionEspecialPeriodo(): Prisma.InscripcionEspecialPeriodoDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.laboratorio`: Exposes CRUD operations for the **Laboratorio** model.
     * Example usage:
     * ```ts
@@ -1105,6 +1128,16 @@ export class PrismaClient<
     * ```
     */
   get documentoTipo(): Prisma.DocumentoTipoDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.consulta`: Exposes CRUD operations for the **Consulta** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Consultas
+    * const consultas = await prisma.consulta.findMany()
+    * ```
+    */
+  get consulta(): Prisma.ConsultaDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1563,6 +1596,7 @@ export namespace Prisma {
     Falla: 'Falla',
     FallaHistorial: 'FallaHistorial',
     InscripcionEspecial: 'InscripcionEspecial',
+    InscripcionEspecialPeriodo: 'InscripcionEspecialPeriodo',
     Laboratorio: 'Laboratorio',
     Armario: 'Armario',
     Estante: 'Estante',
@@ -1592,7 +1626,8 @@ export namespace Prisma {
     Permiso: 'Permiso',
     Provincia: 'Provincia',
     Pais: 'Pais',
-    DocumentoTipo: 'DocumentoTipo'
+    DocumentoTipo: 'DocumentoTipo',
+    Consulta: 'Consulta'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1611,7 +1646,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "acta" | "voto" | "reunion" | "libro" | "libroMateria" | "libroAutor" | "libroIdioma" | "libroEditorial" | "curso" | "cursoAyudante" | "division" | "equipo" | "equipoMarca" | "equipoTipo" | "equipoEstado" | "falla" | "fallaHistorial" | "inscripcionEspecial" | "laboratorio" | "armario" | "estante" | "software" | "softwareLaboratorio" | "mails" | "materia" | "materiaJefeTp" | "materiaCorrelativa" | "reserva" | "reservaEquipo" | "reservaLibro" | "reservaLaboratorioCerrado" | "reservaLaboratorioCerradoEquipo" | "reservaLaboratorioAbierto" | "reservaLaboratorioAbiertoEquipo" | "pantalla" | "account" | "session" | "verificationToken" | "sede" | "user" | "tutor" | "usuarioRol" | "rol" | "rolPermiso" | "permiso" | "provincia" | "pais" | "documentoTipo"
+      modelProps: "acta" | "voto" | "reunion" | "libro" | "libroMateria" | "libroAutor" | "libroIdioma" | "libroEditorial" | "curso" | "cursoAyudante" | "division" | "equipo" | "equipoMarca" | "equipoTipo" | "equipoEstado" | "falla" | "fallaHistorial" | "inscripcionEspecial" | "inscripcionEspecialPeriodo" | "laboratorio" | "armario" | "estante" | "software" | "softwareLaboratorio" | "mails" | "materia" | "materiaJefeTp" | "materiaCorrelativa" | "reserva" | "reservaEquipo" | "reservaLibro" | "reservaLaboratorioCerrado" | "reservaLaboratorioCerradoEquipo" | "reservaLaboratorioAbierto" | "reservaLaboratorioAbiertoEquipo" | "pantalla" | "account" | "session" | "verificationToken" | "sede" | "user" | "tutor" | "usuarioRol" | "rol" | "rolPermiso" | "permiso" | "provincia" | "pais" | "documentoTipo" | "consulta"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2944,6 +2979,80 @@ export namespace Prisma {
           count: {
             args: Prisma.InscripcionEspecialCountArgs<ExtArgs>
             result: $Utils.Optional<InscripcionEspecialCountAggregateOutputType> | number
+          }
+        }
+      }
+      InscripcionEspecialPeriodo: {
+        payload: Prisma.$InscripcionEspecialPeriodoPayload<ExtArgs>
+        fields: Prisma.InscripcionEspecialPeriodoFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.InscripcionEspecialPeriodoFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InscripcionEspecialPeriodoPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.InscripcionEspecialPeriodoFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InscripcionEspecialPeriodoPayload>
+          }
+          findFirst: {
+            args: Prisma.InscripcionEspecialPeriodoFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InscripcionEspecialPeriodoPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.InscripcionEspecialPeriodoFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InscripcionEspecialPeriodoPayload>
+          }
+          findMany: {
+            args: Prisma.InscripcionEspecialPeriodoFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InscripcionEspecialPeriodoPayload>[]
+          }
+          create: {
+            args: Prisma.InscripcionEspecialPeriodoCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InscripcionEspecialPeriodoPayload>
+          }
+          createMany: {
+            args: Prisma.InscripcionEspecialPeriodoCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.InscripcionEspecialPeriodoCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InscripcionEspecialPeriodoPayload>[]
+          }
+          delete: {
+            args: Prisma.InscripcionEspecialPeriodoDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InscripcionEspecialPeriodoPayload>
+          }
+          update: {
+            args: Prisma.InscripcionEspecialPeriodoUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InscripcionEspecialPeriodoPayload>
+          }
+          deleteMany: {
+            args: Prisma.InscripcionEspecialPeriodoDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.InscripcionEspecialPeriodoUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.InscripcionEspecialPeriodoUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InscripcionEspecialPeriodoPayload>[]
+          }
+          upsert: {
+            args: Prisma.InscripcionEspecialPeriodoUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InscripcionEspecialPeriodoPayload>
+          }
+          aggregate: {
+            args: Prisma.InscripcionEspecialPeriodoAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateInscripcionEspecialPeriodo>
+          }
+          groupBy: {
+            args: Prisma.InscripcionEspecialPeriodoGroupByArgs<ExtArgs>
+            result: $Utils.Optional<InscripcionEspecialPeriodoGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.InscripcionEspecialPeriodoCountArgs<ExtArgs>
+            result: $Utils.Optional<InscripcionEspecialPeriodoCountAggregateOutputType> | number
           }
         }
       }
@@ -5167,6 +5276,80 @@ export namespace Prisma {
           }
         }
       }
+      Consulta: {
+        payload: Prisma.$ConsultaPayload<ExtArgs>
+        fields: Prisma.ConsultaFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ConsultaFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConsultaPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ConsultaFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConsultaPayload>
+          }
+          findFirst: {
+            args: Prisma.ConsultaFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConsultaPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ConsultaFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConsultaPayload>
+          }
+          findMany: {
+            args: Prisma.ConsultaFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConsultaPayload>[]
+          }
+          create: {
+            args: Prisma.ConsultaCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConsultaPayload>
+          }
+          createMany: {
+            args: Prisma.ConsultaCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ConsultaCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConsultaPayload>[]
+          }
+          delete: {
+            args: Prisma.ConsultaDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConsultaPayload>
+          }
+          update: {
+            args: Prisma.ConsultaUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConsultaPayload>
+          }
+          deleteMany: {
+            args: Prisma.ConsultaDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ConsultaUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ConsultaUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConsultaPayload>[]
+          }
+          upsert: {
+            args: Prisma.ConsultaUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConsultaPayload>
+          }
+          aggregate: {
+            args: Prisma.ConsultaAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateConsulta>
+          }
+          groupBy: {
+            args: Prisma.ConsultaGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ConsultaGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ConsultaCountArgs<ExtArgs>
+            result: $Utils.Optional<ConsultaCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -5281,6 +5464,7 @@ export namespace Prisma {
     falla?: FallaOmit
     fallaHistorial?: FallaHistorialOmit
     inscripcionEspecial?: InscripcionEspecialOmit
+    inscripcionEspecialPeriodo?: InscripcionEspecialPeriodoOmit
     laboratorio?: LaboratorioOmit
     armario?: ArmarioOmit
     estante?: EstanteOmit
@@ -5311,6 +5495,7 @@ export namespace Prisma {
     provincia?: ProvinciaOmit
     pais?: PaisOmit
     documentoTipo?: DocumentoTipoOmit
+    consulta?: ConsultaOmit
   }
 
   /* Types for Logging */
@@ -6228,48 +6413,50 @@ export namespace Prisma {
 
   export type UserCountOutputType = {
     accounts: number
-    cursosComoProfesor: number
-    cursosComoAyudante: number
-    fallasAsignadas: number
-    fallasReportadas: number
-    fallasHistAsignadas: number
-    fallasHistReportadas: number
-    inscripcionesEspeciales: number
-    materiasDirector: number
-    MateriaJefeTp: number
+    sessions: number
+    usuarioRol: number
+    reservasSolicitadas: number
+    reservasRenovadas: number
+    reservasComoTutor: number
     reservasAprobadas: number
     reservasRechazadas: number
     reservasRecibidas: number
-    reservasRenovadas: number
-    reservasSolicitadas: number
-    reservasComoTutor: number
+    inscripcionesEspeciales: number
+    inscripcionEspecialPeriodosCreados: number
+    cursosComoAyudante: number
+    cursosComoProfesor: number
+    MateriaJefeTp: number
+    materiasDirector: number
     ReservaLaboratorioCerrado: number
-    sessions: number
-    usuarioRol: number
     Voto: number
+    fallasReportadas: number
+    fallasAsignadas: number
+    fallasHistReportadas: number
+    fallasHistAsignadas: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     accounts?: boolean | UserCountOutputTypeCountAccountsArgs
-    cursosComoProfesor?: boolean | UserCountOutputTypeCountCursosComoProfesorArgs
-    cursosComoAyudante?: boolean | UserCountOutputTypeCountCursosComoAyudanteArgs
-    fallasAsignadas?: boolean | UserCountOutputTypeCountFallasAsignadasArgs
-    fallasReportadas?: boolean | UserCountOutputTypeCountFallasReportadasArgs
-    fallasHistAsignadas?: boolean | UserCountOutputTypeCountFallasHistAsignadasArgs
-    fallasHistReportadas?: boolean | UserCountOutputTypeCountFallasHistReportadasArgs
-    inscripcionesEspeciales?: boolean | UserCountOutputTypeCountInscripcionesEspecialesArgs
-    materiasDirector?: boolean | UserCountOutputTypeCountMateriasDirectorArgs
-    MateriaJefeTp?: boolean | UserCountOutputTypeCountMateriaJefeTpArgs
+    sessions?: boolean | UserCountOutputTypeCountSessionsArgs
+    usuarioRol?: boolean | UserCountOutputTypeCountUsuarioRolArgs
+    reservasSolicitadas?: boolean | UserCountOutputTypeCountReservasSolicitadasArgs
+    reservasRenovadas?: boolean | UserCountOutputTypeCountReservasRenovadasArgs
+    reservasComoTutor?: boolean | UserCountOutputTypeCountReservasComoTutorArgs
     reservasAprobadas?: boolean | UserCountOutputTypeCountReservasAprobadasArgs
     reservasRechazadas?: boolean | UserCountOutputTypeCountReservasRechazadasArgs
     reservasRecibidas?: boolean | UserCountOutputTypeCountReservasRecibidasArgs
-    reservasRenovadas?: boolean | UserCountOutputTypeCountReservasRenovadasArgs
-    reservasSolicitadas?: boolean | UserCountOutputTypeCountReservasSolicitadasArgs
-    reservasComoTutor?: boolean | UserCountOutputTypeCountReservasComoTutorArgs
+    inscripcionesEspeciales?: boolean | UserCountOutputTypeCountInscripcionesEspecialesArgs
+    inscripcionEspecialPeriodosCreados?: boolean | UserCountOutputTypeCountInscripcionEspecialPeriodosCreadosArgs
+    cursosComoAyudante?: boolean | UserCountOutputTypeCountCursosComoAyudanteArgs
+    cursosComoProfesor?: boolean | UserCountOutputTypeCountCursosComoProfesorArgs
+    MateriaJefeTp?: boolean | UserCountOutputTypeCountMateriaJefeTpArgs
+    materiasDirector?: boolean | UserCountOutputTypeCountMateriasDirectorArgs
     ReservaLaboratorioCerrado?: boolean | UserCountOutputTypeCountReservaLaboratorioCerradoArgs
-    sessions?: boolean | UserCountOutputTypeCountSessionsArgs
-    usuarioRol?: boolean | UserCountOutputTypeCountUsuarioRolArgs
     Voto?: boolean | UserCountOutputTypeCountVotoArgs
+    fallasReportadas?: boolean | UserCountOutputTypeCountFallasReportadasArgs
+    fallasAsignadas?: boolean | UserCountOutputTypeCountFallasAsignadasArgs
+    fallasHistReportadas?: boolean | UserCountOutputTypeCountFallasHistReportadasArgs
+    fallasHistAsignadas?: boolean | UserCountOutputTypeCountFallasHistAsignadasArgs
   }
 
   // Custom InputTypes
@@ -6293,64 +6480,36 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountCursosComoProfesorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: CursoWhereInput
+  export type UserCountOutputTypeCountSessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SessionWhereInput
   }
 
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountCursosComoAyudanteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: CursoAyudanteWhereInput
+  export type UserCountOutputTypeCountUsuarioRolArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UsuarioRolWhereInput
   }
 
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountFallasAsignadasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: FallaWhereInput
+  export type UserCountOutputTypeCountReservasSolicitadasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReservaWhereInput
   }
 
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountFallasReportadasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: FallaWhereInput
+  export type UserCountOutputTypeCountReservasRenovadasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReservaWhereInput
   }
 
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountFallasHistAsignadasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: FallaHistorialWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountFallasHistReportadasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: FallaHistorialWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountInscripcionesEspecialesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: InscripcionEspecialWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountMateriasDirectorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: MateriaWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountMateriaJefeTpArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: MateriaJefeTpWhereInput
+  export type UserCountOutputTypeCountReservasComoTutorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReservaWhereInput
   }
 
   /**
@@ -6377,22 +6536,43 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountReservasRenovadasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ReservaWhereInput
+  export type UserCountOutputTypeCountInscripcionesEspecialesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InscripcionEspecialWhereInput
   }
 
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountReservasSolicitadasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ReservaWhereInput
+  export type UserCountOutputTypeCountInscripcionEspecialPeriodosCreadosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InscripcionEspecialPeriodoWhereInput
   }
 
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountReservasComoTutorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ReservaWhereInput
+  export type UserCountOutputTypeCountCursosComoAyudanteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CursoAyudanteWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountCursosComoProfesorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CursoWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountMateriaJefeTpArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MateriaJefeTpWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountMateriasDirectorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MateriaWhereInput
   }
 
   /**
@@ -6405,22 +6585,36 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountSessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: SessionWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountUsuarioRolArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: UsuarioRolWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
   export type UserCountOutputTypeCountVotoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: VotoWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountFallasReportadasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FallaWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountFallasAsignadasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FallaWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountFallasHistReportadasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FallaHistorialWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountFallasHistAsignadasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FallaHistorialWhereInput
   }
 
 
@@ -26799,8 +26993,8 @@ export namespace Prisma {
     materiasAdeudadas: number[]
     estado: string
     respuesta: string | null
-    fueContactado: boolean | null
-    vinoPresencialmente: boolean | null
+    fueContactado: boolean
+    vinoPresencialmente: boolean
     fechaSolicitud: Date
     fechaRespuesta: Date | null
     _count: InscripcionEspecialCountAggregateOutputType | null
@@ -26922,8 +27116,8 @@ export namespace Prisma {
       materiasAdeudadas: number[]
       estado: string
       respuesta: string | null
-      fueContactado: boolean | null
-      vinoPresencialmente: boolean | null
+      fueContactado: boolean
+      vinoPresencialmente: boolean
       fechaSolicitud: Date
       fechaRespuesta: Date | null
     }, ExtArgs["result"]["inscripcionEspecial"]>
@@ -27775,6 +27969,1085 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: InscripcionEspecialInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model InscripcionEspecialPeriodo
+   */
+
+  export type AggregateInscripcionEspecialPeriodo = {
+    _count: InscripcionEspecialPeriodoCountAggregateOutputType | null
+    _avg: InscripcionEspecialPeriodoAvgAggregateOutputType | null
+    _sum: InscripcionEspecialPeriodoSumAggregateOutputType | null
+    _min: InscripcionEspecialPeriodoMinAggregateOutputType | null
+    _max: InscripcionEspecialPeriodoMaxAggregateOutputType | null
+  }
+
+  export type InscripcionEspecialPeriodoAvgAggregateOutputType = {
+    id: number | null
+  }
+
+  export type InscripcionEspecialPeriodoSumAggregateOutputType = {
+    id: number | null
+  }
+
+  export type InscripcionEspecialPeriodoMinAggregateOutputType = {
+    id: number | null
+    fechaInicio: Date | null
+    fechaFin: Date | null
+    usuarioCreadorId: string | null
+  }
+
+  export type InscripcionEspecialPeriodoMaxAggregateOutputType = {
+    id: number | null
+    fechaInicio: Date | null
+    fechaFin: Date | null
+    usuarioCreadorId: string | null
+  }
+
+  export type InscripcionEspecialPeriodoCountAggregateOutputType = {
+    id: number
+    fechaInicio: number
+    fechaFin: number
+    usuarioCreadorId: number
+    _all: number
+  }
+
+
+  export type InscripcionEspecialPeriodoAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type InscripcionEspecialPeriodoSumAggregateInputType = {
+    id?: true
+  }
+
+  export type InscripcionEspecialPeriodoMinAggregateInputType = {
+    id?: true
+    fechaInicio?: true
+    fechaFin?: true
+    usuarioCreadorId?: true
+  }
+
+  export type InscripcionEspecialPeriodoMaxAggregateInputType = {
+    id?: true
+    fechaInicio?: true
+    fechaFin?: true
+    usuarioCreadorId?: true
+  }
+
+  export type InscripcionEspecialPeriodoCountAggregateInputType = {
+    id?: true
+    fechaInicio?: true
+    fechaFin?: true
+    usuarioCreadorId?: true
+    _all?: true
+  }
+
+  export type InscripcionEspecialPeriodoAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which InscripcionEspecialPeriodo to aggregate.
+     */
+    where?: InscripcionEspecialPeriodoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InscripcionEspecialPeriodos to fetch.
+     */
+    orderBy?: InscripcionEspecialPeriodoOrderByWithRelationInput | InscripcionEspecialPeriodoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: InscripcionEspecialPeriodoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InscripcionEspecialPeriodos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InscripcionEspecialPeriodos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned InscripcionEspecialPeriodos
+    **/
+    _count?: true | InscripcionEspecialPeriodoCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: InscripcionEspecialPeriodoAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: InscripcionEspecialPeriodoSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: InscripcionEspecialPeriodoMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: InscripcionEspecialPeriodoMaxAggregateInputType
+  }
+
+  export type GetInscripcionEspecialPeriodoAggregateType<T extends InscripcionEspecialPeriodoAggregateArgs> = {
+        [P in keyof T & keyof AggregateInscripcionEspecialPeriodo]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateInscripcionEspecialPeriodo[P]>
+      : GetScalarType<T[P], AggregateInscripcionEspecialPeriodo[P]>
+  }
+
+
+
+
+  export type InscripcionEspecialPeriodoGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InscripcionEspecialPeriodoWhereInput
+    orderBy?: InscripcionEspecialPeriodoOrderByWithAggregationInput | InscripcionEspecialPeriodoOrderByWithAggregationInput[]
+    by: InscripcionEspecialPeriodoScalarFieldEnum[] | InscripcionEspecialPeriodoScalarFieldEnum
+    having?: InscripcionEspecialPeriodoScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: InscripcionEspecialPeriodoCountAggregateInputType | true
+    _avg?: InscripcionEspecialPeriodoAvgAggregateInputType
+    _sum?: InscripcionEspecialPeriodoSumAggregateInputType
+    _min?: InscripcionEspecialPeriodoMinAggregateInputType
+    _max?: InscripcionEspecialPeriodoMaxAggregateInputType
+  }
+
+  export type InscripcionEspecialPeriodoGroupByOutputType = {
+    id: number
+    fechaInicio: Date
+    fechaFin: Date
+    usuarioCreadorId: string
+    _count: InscripcionEspecialPeriodoCountAggregateOutputType | null
+    _avg: InscripcionEspecialPeriodoAvgAggregateOutputType | null
+    _sum: InscripcionEspecialPeriodoSumAggregateOutputType | null
+    _min: InscripcionEspecialPeriodoMinAggregateOutputType | null
+    _max: InscripcionEspecialPeriodoMaxAggregateOutputType | null
+  }
+
+  type GetInscripcionEspecialPeriodoGroupByPayload<T extends InscripcionEspecialPeriodoGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<InscripcionEspecialPeriodoGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof InscripcionEspecialPeriodoGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], InscripcionEspecialPeriodoGroupByOutputType[P]>
+            : GetScalarType<T[P], InscripcionEspecialPeriodoGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type InscripcionEspecialPeriodoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    fechaInicio?: boolean
+    fechaFin?: boolean
+    usuarioCreadorId?: boolean
+    usuarioCreador?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["inscripcionEspecialPeriodo"]>
+
+  export type InscripcionEspecialPeriodoSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    fechaInicio?: boolean
+    fechaFin?: boolean
+    usuarioCreadorId?: boolean
+    usuarioCreador?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["inscripcionEspecialPeriodo"]>
+
+  export type InscripcionEspecialPeriodoSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    fechaInicio?: boolean
+    fechaFin?: boolean
+    usuarioCreadorId?: boolean
+    usuarioCreador?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["inscripcionEspecialPeriodo"]>
+
+  export type InscripcionEspecialPeriodoSelectScalar = {
+    id?: boolean
+    fechaInicio?: boolean
+    fechaFin?: boolean
+    usuarioCreadorId?: boolean
+  }
+
+  export type InscripcionEspecialPeriodoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "fechaInicio" | "fechaFin" | "usuarioCreadorId", ExtArgs["result"]["inscripcionEspecialPeriodo"]>
+  export type InscripcionEspecialPeriodoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    usuarioCreador?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type InscripcionEspecialPeriodoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    usuarioCreador?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type InscripcionEspecialPeriodoIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    usuarioCreador?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $InscripcionEspecialPeriodoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "InscripcionEspecialPeriodo"
+    objects: {
+      usuarioCreador: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      fechaInicio: Date
+      fechaFin: Date
+      usuarioCreadorId: string
+    }, ExtArgs["result"]["inscripcionEspecialPeriodo"]>
+    composites: {}
+  }
+
+  type InscripcionEspecialPeriodoGetPayload<S extends boolean | null | undefined | InscripcionEspecialPeriodoDefaultArgs> = $Result.GetResult<Prisma.$InscripcionEspecialPeriodoPayload, S>
+
+  type InscripcionEspecialPeriodoCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<InscripcionEspecialPeriodoFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: InscripcionEspecialPeriodoCountAggregateInputType | true
+    }
+
+  export interface InscripcionEspecialPeriodoDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['InscripcionEspecialPeriodo'], meta: { name: 'InscripcionEspecialPeriodo' } }
+    /**
+     * Find zero or one InscripcionEspecialPeriodo that matches the filter.
+     * @param {InscripcionEspecialPeriodoFindUniqueArgs} args - Arguments to find a InscripcionEspecialPeriodo
+     * @example
+     * // Get one InscripcionEspecialPeriodo
+     * const inscripcionEspecialPeriodo = await prisma.inscripcionEspecialPeriodo.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends InscripcionEspecialPeriodoFindUniqueArgs>(args: SelectSubset<T, InscripcionEspecialPeriodoFindUniqueArgs<ExtArgs>>): Prisma__InscripcionEspecialPeriodoClient<$Result.GetResult<Prisma.$InscripcionEspecialPeriodoPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one InscripcionEspecialPeriodo that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {InscripcionEspecialPeriodoFindUniqueOrThrowArgs} args - Arguments to find a InscripcionEspecialPeriodo
+     * @example
+     * // Get one InscripcionEspecialPeriodo
+     * const inscripcionEspecialPeriodo = await prisma.inscripcionEspecialPeriodo.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends InscripcionEspecialPeriodoFindUniqueOrThrowArgs>(args: SelectSubset<T, InscripcionEspecialPeriodoFindUniqueOrThrowArgs<ExtArgs>>): Prisma__InscripcionEspecialPeriodoClient<$Result.GetResult<Prisma.$InscripcionEspecialPeriodoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first InscripcionEspecialPeriodo that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InscripcionEspecialPeriodoFindFirstArgs} args - Arguments to find a InscripcionEspecialPeriodo
+     * @example
+     * // Get one InscripcionEspecialPeriodo
+     * const inscripcionEspecialPeriodo = await prisma.inscripcionEspecialPeriodo.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends InscripcionEspecialPeriodoFindFirstArgs>(args?: SelectSubset<T, InscripcionEspecialPeriodoFindFirstArgs<ExtArgs>>): Prisma__InscripcionEspecialPeriodoClient<$Result.GetResult<Prisma.$InscripcionEspecialPeriodoPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first InscripcionEspecialPeriodo that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InscripcionEspecialPeriodoFindFirstOrThrowArgs} args - Arguments to find a InscripcionEspecialPeriodo
+     * @example
+     * // Get one InscripcionEspecialPeriodo
+     * const inscripcionEspecialPeriodo = await prisma.inscripcionEspecialPeriodo.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends InscripcionEspecialPeriodoFindFirstOrThrowArgs>(args?: SelectSubset<T, InscripcionEspecialPeriodoFindFirstOrThrowArgs<ExtArgs>>): Prisma__InscripcionEspecialPeriodoClient<$Result.GetResult<Prisma.$InscripcionEspecialPeriodoPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more InscripcionEspecialPeriodos that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InscripcionEspecialPeriodoFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all InscripcionEspecialPeriodos
+     * const inscripcionEspecialPeriodos = await prisma.inscripcionEspecialPeriodo.findMany()
+     * 
+     * // Get first 10 InscripcionEspecialPeriodos
+     * const inscripcionEspecialPeriodos = await prisma.inscripcionEspecialPeriodo.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const inscripcionEspecialPeriodoWithIdOnly = await prisma.inscripcionEspecialPeriodo.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends InscripcionEspecialPeriodoFindManyArgs>(args?: SelectSubset<T, InscripcionEspecialPeriodoFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InscripcionEspecialPeriodoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a InscripcionEspecialPeriodo.
+     * @param {InscripcionEspecialPeriodoCreateArgs} args - Arguments to create a InscripcionEspecialPeriodo.
+     * @example
+     * // Create one InscripcionEspecialPeriodo
+     * const InscripcionEspecialPeriodo = await prisma.inscripcionEspecialPeriodo.create({
+     *   data: {
+     *     // ... data to create a InscripcionEspecialPeriodo
+     *   }
+     * })
+     * 
+     */
+    create<T extends InscripcionEspecialPeriodoCreateArgs>(args: SelectSubset<T, InscripcionEspecialPeriodoCreateArgs<ExtArgs>>): Prisma__InscripcionEspecialPeriodoClient<$Result.GetResult<Prisma.$InscripcionEspecialPeriodoPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many InscripcionEspecialPeriodos.
+     * @param {InscripcionEspecialPeriodoCreateManyArgs} args - Arguments to create many InscripcionEspecialPeriodos.
+     * @example
+     * // Create many InscripcionEspecialPeriodos
+     * const inscripcionEspecialPeriodo = await prisma.inscripcionEspecialPeriodo.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends InscripcionEspecialPeriodoCreateManyArgs>(args?: SelectSubset<T, InscripcionEspecialPeriodoCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many InscripcionEspecialPeriodos and returns the data saved in the database.
+     * @param {InscripcionEspecialPeriodoCreateManyAndReturnArgs} args - Arguments to create many InscripcionEspecialPeriodos.
+     * @example
+     * // Create many InscripcionEspecialPeriodos
+     * const inscripcionEspecialPeriodo = await prisma.inscripcionEspecialPeriodo.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many InscripcionEspecialPeriodos and only return the `id`
+     * const inscripcionEspecialPeriodoWithIdOnly = await prisma.inscripcionEspecialPeriodo.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends InscripcionEspecialPeriodoCreateManyAndReturnArgs>(args?: SelectSubset<T, InscripcionEspecialPeriodoCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InscripcionEspecialPeriodoPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a InscripcionEspecialPeriodo.
+     * @param {InscripcionEspecialPeriodoDeleteArgs} args - Arguments to delete one InscripcionEspecialPeriodo.
+     * @example
+     * // Delete one InscripcionEspecialPeriodo
+     * const InscripcionEspecialPeriodo = await prisma.inscripcionEspecialPeriodo.delete({
+     *   where: {
+     *     // ... filter to delete one InscripcionEspecialPeriodo
+     *   }
+     * })
+     * 
+     */
+    delete<T extends InscripcionEspecialPeriodoDeleteArgs>(args: SelectSubset<T, InscripcionEspecialPeriodoDeleteArgs<ExtArgs>>): Prisma__InscripcionEspecialPeriodoClient<$Result.GetResult<Prisma.$InscripcionEspecialPeriodoPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one InscripcionEspecialPeriodo.
+     * @param {InscripcionEspecialPeriodoUpdateArgs} args - Arguments to update one InscripcionEspecialPeriodo.
+     * @example
+     * // Update one InscripcionEspecialPeriodo
+     * const inscripcionEspecialPeriodo = await prisma.inscripcionEspecialPeriodo.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends InscripcionEspecialPeriodoUpdateArgs>(args: SelectSubset<T, InscripcionEspecialPeriodoUpdateArgs<ExtArgs>>): Prisma__InscripcionEspecialPeriodoClient<$Result.GetResult<Prisma.$InscripcionEspecialPeriodoPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more InscripcionEspecialPeriodos.
+     * @param {InscripcionEspecialPeriodoDeleteManyArgs} args - Arguments to filter InscripcionEspecialPeriodos to delete.
+     * @example
+     * // Delete a few InscripcionEspecialPeriodos
+     * const { count } = await prisma.inscripcionEspecialPeriodo.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends InscripcionEspecialPeriodoDeleteManyArgs>(args?: SelectSubset<T, InscripcionEspecialPeriodoDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more InscripcionEspecialPeriodos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InscripcionEspecialPeriodoUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many InscripcionEspecialPeriodos
+     * const inscripcionEspecialPeriodo = await prisma.inscripcionEspecialPeriodo.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends InscripcionEspecialPeriodoUpdateManyArgs>(args: SelectSubset<T, InscripcionEspecialPeriodoUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more InscripcionEspecialPeriodos and returns the data updated in the database.
+     * @param {InscripcionEspecialPeriodoUpdateManyAndReturnArgs} args - Arguments to update many InscripcionEspecialPeriodos.
+     * @example
+     * // Update many InscripcionEspecialPeriodos
+     * const inscripcionEspecialPeriodo = await prisma.inscripcionEspecialPeriodo.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more InscripcionEspecialPeriodos and only return the `id`
+     * const inscripcionEspecialPeriodoWithIdOnly = await prisma.inscripcionEspecialPeriodo.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends InscripcionEspecialPeriodoUpdateManyAndReturnArgs>(args: SelectSubset<T, InscripcionEspecialPeriodoUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InscripcionEspecialPeriodoPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one InscripcionEspecialPeriodo.
+     * @param {InscripcionEspecialPeriodoUpsertArgs} args - Arguments to update or create a InscripcionEspecialPeriodo.
+     * @example
+     * // Update or create a InscripcionEspecialPeriodo
+     * const inscripcionEspecialPeriodo = await prisma.inscripcionEspecialPeriodo.upsert({
+     *   create: {
+     *     // ... data to create a InscripcionEspecialPeriodo
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the InscripcionEspecialPeriodo we want to update
+     *   }
+     * })
+     */
+    upsert<T extends InscripcionEspecialPeriodoUpsertArgs>(args: SelectSubset<T, InscripcionEspecialPeriodoUpsertArgs<ExtArgs>>): Prisma__InscripcionEspecialPeriodoClient<$Result.GetResult<Prisma.$InscripcionEspecialPeriodoPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of InscripcionEspecialPeriodos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InscripcionEspecialPeriodoCountArgs} args - Arguments to filter InscripcionEspecialPeriodos to count.
+     * @example
+     * // Count the number of InscripcionEspecialPeriodos
+     * const count = await prisma.inscripcionEspecialPeriodo.count({
+     *   where: {
+     *     // ... the filter for the InscripcionEspecialPeriodos we want to count
+     *   }
+     * })
+    **/
+    count<T extends InscripcionEspecialPeriodoCountArgs>(
+      args?: Subset<T, InscripcionEspecialPeriodoCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], InscripcionEspecialPeriodoCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a InscripcionEspecialPeriodo.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InscripcionEspecialPeriodoAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends InscripcionEspecialPeriodoAggregateArgs>(args: Subset<T, InscripcionEspecialPeriodoAggregateArgs>): Prisma.PrismaPromise<GetInscripcionEspecialPeriodoAggregateType<T>>
+
+    /**
+     * Group by InscripcionEspecialPeriodo.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InscripcionEspecialPeriodoGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends InscripcionEspecialPeriodoGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: InscripcionEspecialPeriodoGroupByArgs['orderBy'] }
+        : { orderBy?: InscripcionEspecialPeriodoGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, InscripcionEspecialPeriodoGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetInscripcionEspecialPeriodoGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the InscripcionEspecialPeriodo model
+   */
+  readonly fields: InscripcionEspecialPeriodoFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for InscripcionEspecialPeriodo.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__InscripcionEspecialPeriodoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    usuarioCreador<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the InscripcionEspecialPeriodo model
+   */
+  interface InscripcionEspecialPeriodoFieldRefs {
+    readonly id: FieldRef<"InscripcionEspecialPeriodo", 'Int'>
+    readonly fechaInicio: FieldRef<"InscripcionEspecialPeriodo", 'DateTime'>
+    readonly fechaFin: FieldRef<"InscripcionEspecialPeriodo", 'DateTime'>
+    readonly usuarioCreadorId: FieldRef<"InscripcionEspecialPeriodo", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * InscripcionEspecialPeriodo findUnique
+   */
+  export type InscripcionEspecialPeriodoFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InscripcionEspecialPeriodo
+     */
+    select?: InscripcionEspecialPeriodoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InscripcionEspecialPeriodo
+     */
+    omit?: InscripcionEspecialPeriodoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InscripcionEspecialPeriodoInclude<ExtArgs> | null
+    /**
+     * Filter, which InscripcionEspecialPeriodo to fetch.
+     */
+    where: InscripcionEspecialPeriodoWhereUniqueInput
+  }
+
+  /**
+   * InscripcionEspecialPeriodo findUniqueOrThrow
+   */
+  export type InscripcionEspecialPeriodoFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InscripcionEspecialPeriodo
+     */
+    select?: InscripcionEspecialPeriodoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InscripcionEspecialPeriodo
+     */
+    omit?: InscripcionEspecialPeriodoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InscripcionEspecialPeriodoInclude<ExtArgs> | null
+    /**
+     * Filter, which InscripcionEspecialPeriodo to fetch.
+     */
+    where: InscripcionEspecialPeriodoWhereUniqueInput
+  }
+
+  /**
+   * InscripcionEspecialPeriodo findFirst
+   */
+  export type InscripcionEspecialPeriodoFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InscripcionEspecialPeriodo
+     */
+    select?: InscripcionEspecialPeriodoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InscripcionEspecialPeriodo
+     */
+    omit?: InscripcionEspecialPeriodoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InscripcionEspecialPeriodoInclude<ExtArgs> | null
+    /**
+     * Filter, which InscripcionEspecialPeriodo to fetch.
+     */
+    where?: InscripcionEspecialPeriodoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InscripcionEspecialPeriodos to fetch.
+     */
+    orderBy?: InscripcionEspecialPeriodoOrderByWithRelationInput | InscripcionEspecialPeriodoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for InscripcionEspecialPeriodos.
+     */
+    cursor?: InscripcionEspecialPeriodoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InscripcionEspecialPeriodos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InscripcionEspecialPeriodos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of InscripcionEspecialPeriodos.
+     */
+    distinct?: InscripcionEspecialPeriodoScalarFieldEnum | InscripcionEspecialPeriodoScalarFieldEnum[]
+  }
+
+  /**
+   * InscripcionEspecialPeriodo findFirstOrThrow
+   */
+  export type InscripcionEspecialPeriodoFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InscripcionEspecialPeriodo
+     */
+    select?: InscripcionEspecialPeriodoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InscripcionEspecialPeriodo
+     */
+    omit?: InscripcionEspecialPeriodoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InscripcionEspecialPeriodoInclude<ExtArgs> | null
+    /**
+     * Filter, which InscripcionEspecialPeriodo to fetch.
+     */
+    where?: InscripcionEspecialPeriodoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InscripcionEspecialPeriodos to fetch.
+     */
+    orderBy?: InscripcionEspecialPeriodoOrderByWithRelationInput | InscripcionEspecialPeriodoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for InscripcionEspecialPeriodos.
+     */
+    cursor?: InscripcionEspecialPeriodoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InscripcionEspecialPeriodos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InscripcionEspecialPeriodos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of InscripcionEspecialPeriodos.
+     */
+    distinct?: InscripcionEspecialPeriodoScalarFieldEnum | InscripcionEspecialPeriodoScalarFieldEnum[]
+  }
+
+  /**
+   * InscripcionEspecialPeriodo findMany
+   */
+  export type InscripcionEspecialPeriodoFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InscripcionEspecialPeriodo
+     */
+    select?: InscripcionEspecialPeriodoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InscripcionEspecialPeriodo
+     */
+    omit?: InscripcionEspecialPeriodoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InscripcionEspecialPeriodoInclude<ExtArgs> | null
+    /**
+     * Filter, which InscripcionEspecialPeriodos to fetch.
+     */
+    where?: InscripcionEspecialPeriodoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InscripcionEspecialPeriodos to fetch.
+     */
+    orderBy?: InscripcionEspecialPeriodoOrderByWithRelationInput | InscripcionEspecialPeriodoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing InscripcionEspecialPeriodos.
+     */
+    cursor?: InscripcionEspecialPeriodoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InscripcionEspecialPeriodos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InscripcionEspecialPeriodos.
+     */
+    skip?: number
+    distinct?: InscripcionEspecialPeriodoScalarFieldEnum | InscripcionEspecialPeriodoScalarFieldEnum[]
+  }
+
+  /**
+   * InscripcionEspecialPeriodo create
+   */
+  export type InscripcionEspecialPeriodoCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InscripcionEspecialPeriodo
+     */
+    select?: InscripcionEspecialPeriodoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InscripcionEspecialPeriodo
+     */
+    omit?: InscripcionEspecialPeriodoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InscripcionEspecialPeriodoInclude<ExtArgs> | null
+    /**
+     * The data needed to create a InscripcionEspecialPeriodo.
+     */
+    data: XOR<InscripcionEspecialPeriodoCreateInput, InscripcionEspecialPeriodoUncheckedCreateInput>
+  }
+
+  /**
+   * InscripcionEspecialPeriodo createMany
+   */
+  export type InscripcionEspecialPeriodoCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many InscripcionEspecialPeriodos.
+     */
+    data: InscripcionEspecialPeriodoCreateManyInput | InscripcionEspecialPeriodoCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * InscripcionEspecialPeriodo createManyAndReturn
+   */
+  export type InscripcionEspecialPeriodoCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InscripcionEspecialPeriodo
+     */
+    select?: InscripcionEspecialPeriodoSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the InscripcionEspecialPeriodo
+     */
+    omit?: InscripcionEspecialPeriodoOmit<ExtArgs> | null
+    /**
+     * The data used to create many InscripcionEspecialPeriodos.
+     */
+    data: InscripcionEspecialPeriodoCreateManyInput | InscripcionEspecialPeriodoCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InscripcionEspecialPeriodoIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * InscripcionEspecialPeriodo update
+   */
+  export type InscripcionEspecialPeriodoUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InscripcionEspecialPeriodo
+     */
+    select?: InscripcionEspecialPeriodoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InscripcionEspecialPeriodo
+     */
+    omit?: InscripcionEspecialPeriodoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InscripcionEspecialPeriodoInclude<ExtArgs> | null
+    /**
+     * The data needed to update a InscripcionEspecialPeriodo.
+     */
+    data: XOR<InscripcionEspecialPeriodoUpdateInput, InscripcionEspecialPeriodoUncheckedUpdateInput>
+    /**
+     * Choose, which InscripcionEspecialPeriodo to update.
+     */
+    where: InscripcionEspecialPeriodoWhereUniqueInput
+  }
+
+  /**
+   * InscripcionEspecialPeriodo updateMany
+   */
+  export type InscripcionEspecialPeriodoUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update InscripcionEspecialPeriodos.
+     */
+    data: XOR<InscripcionEspecialPeriodoUpdateManyMutationInput, InscripcionEspecialPeriodoUncheckedUpdateManyInput>
+    /**
+     * Filter which InscripcionEspecialPeriodos to update
+     */
+    where?: InscripcionEspecialPeriodoWhereInput
+    /**
+     * Limit how many InscripcionEspecialPeriodos to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * InscripcionEspecialPeriodo updateManyAndReturn
+   */
+  export type InscripcionEspecialPeriodoUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InscripcionEspecialPeriodo
+     */
+    select?: InscripcionEspecialPeriodoSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the InscripcionEspecialPeriodo
+     */
+    omit?: InscripcionEspecialPeriodoOmit<ExtArgs> | null
+    /**
+     * The data used to update InscripcionEspecialPeriodos.
+     */
+    data: XOR<InscripcionEspecialPeriodoUpdateManyMutationInput, InscripcionEspecialPeriodoUncheckedUpdateManyInput>
+    /**
+     * Filter which InscripcionEspecialPeriodos to update
+     */
+    where?: InscripcionEspecialPeriodoWhereInput
+    /**
+     * Limit how many InscripcionEspecialPeriodos to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InscripcionEspecialPeriodoIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * InscripcionEspecialPeriodo upsert
+   */
+  export type InscripcionEspecialPeriodoUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InscripcionEspecialPeriodo
+     */
+    select?: InscripcionEspecialPeriodoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InscripcionEspecialPeriodo
+     */
+    omit?: InscripcionEspecialPeriodoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InscripcionEspecialPeriodoInclude<ExtArgs> | null
+    /**
+     * The filter to search for the InscripcionEspecialPeriodo to update in case it exists.
+     */
+    where: InscripcionEspecialPeriodoWhereUniqueInput
+    /**
+     * In case the InscripcionEspecialPeriodo found by the `where` argument doesn't exist, create a new InscripcionEspecialPeriodo with this data.
+     */
+    create: XOR<InscripcionEspecialPeriodoCreateInput, InscripcionEspecialPeriodoUncheckedCreateInput>
+    /**
+     * In case the InscripcionEspecialPeriodo was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<InscripcionEspecialPeriodoUpdateInput, InscripcionEspecialPeriodoUncheckedUpdateInput>
+  }
+
+  /**
+   * InscripcionEspecialPeriodo delete
+   */
+  export type InscripcionEspecialPeriodoDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InscripcionEspecialPeriodo
+     */
+    select?: InscripcionEspecialPeriodoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InscripcionEspecialPeriodo
+     */
+    omit?: InscripcionEspecialPeriodoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InscripcionEspecialPeriodoInclude<ExtArgs> | null
+    /**
+     * Filter which InscripcionEspecialPeriodo to delete.
+     */
+    where: InscripcionEspecialPeriodoWhereUniqueInput
+  }
+
+  /**
+   * InscripcionEspecialPeriodo deleteMany
+   */
+  export type InscripcionEspecialPeriodoDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which InscripcionEspecialPeriodos to delete
+     */
+    where?: InscripcionEspecialPeriodoWhereInput
+    /**
+     * Limit how many InscripcionEspecialPeriodos to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * InscripcionEspecialPeriodo without action
+   */
+  export type InscripcionEspecialPeriodoDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InscripcionEspecialPeriodo
+     */
+    select?: InscripcionEspecialPeriodoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InscripcionEspecialPeriodo
+     */
+    omit?: InscripcionEspecialPeriodoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InscripcionEspecialPeriodoInclude<ExtArgs> | null
   }
 
 
@@ -53174,30 +54447,31 @@ export namespace Prisma {
     documentoTipoId?: boolean
     provinciaIso?: boolean
     paisIso?: boolean
+    documentoTipo?: boolean | User$documentoTipoArgs<ExtArgs>
+    provincia?: boolean | User$provinciaArgs<ExtArgs>
+    pais?: boolean | User$paisArgs<ExtArgs>
     accounts?: boolean | User$accountsArgs<ExtArgs>
-    cursosComoProfesor?: boolean | User$cursosComoProfesorArgs<ExtArgs>
-    cursosComoAyudante?: boolean | User$cursosComoAyudanteArgs<ExtArgs>
-    fallasAsignadas?: boolean | User$fallasAsignadasArgs<ExtArgs>
-    fallasReportadas?: boolean | User$fallasReportadasArgs<ExtArgs>
-    fallasHistAsignadas?: boolean | User$fallasHistAsignadasArgs<ExtArgs>
-    fallasHistReportadas?: boolean | User$fallasHistReportadasArgs<ExtArgs>
-    inscripcionesEspeciales?: boolean | User$inscripcionesEspecialesArgs<ExtArgs>
-    materiasDirector?: boolean | User$materiasDirectorArgs<ExtArgs>
-    MateriaJefeTp?: boolean | User$MateriaJefeTpArgs<ExtArgs>
+    sessions?: boolean | User$sessionsArgs<ExtArgs>
+    usuarioRol?: boolean | User$usuarioRolArgs<ExtArgs>
+    reservasSolicitadas?: boolean | User$reservasSolicitadasArgs<ExtArgs>
+    reservasRenovadas?: boolean | User$reservasRenovadasArgs<ExtArgs>
+    reservasComoTutor?: boolean | User$reservasComoTutorArgs<ExtArgs>
     reservasAprobadas?: boolean | User$reservasAprobadasArgs<ExtArgs>
     reservasRechazadas?: boolean | User$reservasRechazadasArgs<ExtArgs>
     reservasRecibidas?: boolean | User$reservasRecibidasArgs<ExtArgs>
-    reservasRenovadas?: boolean | User$reservasRenovadasArgs<ExtArgs>
-    reservasSolicitadas?: boolean | User$reservasSolicitadasArgs<ExtArgs>
-    reservasComoTutor?: boolean | User$reservasComoTutorArgs<ExtArgs>
-    ReservaLaboratorioCerrado?: boolean | User$ReservaLaboratorioCerradoArgs<ExtArgs>
-    sessions?: boolean | User$sessionsArgs<ExtArgs>
+    inscripcionesEspeciales?: boolean | User$inscripcionesEspecialesArgs<ExtArgs>
+    inscripcionEspecialPeriodosCreados?: boolean | User$inscripcionEspecialPeriodosCreadosArgs<ExtArgs>
+    cursosComoAyudante?: boolean | User$cursosComoAyudanteArgs<ExtArgs>
+    cursosComoProfesor?: boolean | User$cursosComoProfesorArgs<ExtArgs>
+    MateriaJefeTp?: boolean | User$MateriaJefeTpArgs<ExtArgs>
+    materiasDirector?: boolean | User$materiasDirectorArgs<ExtArgs>
     tutor?: boolean | User$tutorArgs<ExtArgs>
-    documentoTipo?: boolean | User$documentoTipoArgs<ExtArgs>
-    pais?: boolean | User$paisArgs<ExtArgs>
-    provincia?: boolean | User$provinciaArgs<ExtArgs>
-    usuarioRol?: boolean | User$usuarioRolArgs<ExtArgs>
+    ReservaLaboratorioCerrado?: boolean | User$ReservaLaboratorioCerradoArgs<ExtArgs>
     Voto?: boolean | User$VotoArgs<ExtArgs>
+    fallasReportadas?: boolean | User$fallasReportadasArgs<ExtArgs>
+    fallasAsignadas?: boolean | User$fallasAsignadasArgs<ExtArgs>
+    fallasHistReportadas?: boolean | User$fallasHistReportadasArgs<ExtArgs>
+    fallasHistAsignadas?: boolean | User$fallasHistAsignadasArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -53231,8 +54505,8 @@ export namespace Prisma {
     provinciaIso?: boolean
     paisIso?: boolean
     documentoTipo?: boolean | User$documentoTipoArgs<ExtArgs>
-    pais?: boolean | User$paisArgs<ExtArgs>
     provincia?: boolean | User$provinciaArgs<ExtArgs>
+    pais?: boolean | User$paisArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -53265,8 +54539,8 @@ export namespace Prisma {
     provinciaIso?: boolean
     paisIso?: boolean
     documentoTipo?: boolean | User$documentoTipoArgs<ExtArgs>
-    pais?: boolean | User$paisArgs<ExtArgs>
     provincia?: boolean | User$provinciaArgs<ExtArgs>
+    pais?: boolean | User$paisArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -53302,70 +54576,72 @@ export namespace Prisma {
 
   export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "nombre" | "apellido" | "fechaNacimiento" | "direccion" | "piso" | "departamento" | "ciudad" | "codigoPostal" | "telefonoCasa" | "telefonoCelular" | "telefonoLaboral" | "documentoNumero" | "legajo" | "gitlab" | "penalizaciones" | "esDocente" | "esTutor" | "fechaRegistro" | "fechaUltimoAcceso" | "fechaUltimaActualizacion" | "documentoTipoId" | "provinciaIso" | "paisIso", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    documentoTipo?: boolean | User$documentoTipoArgs<ExtArgs>
+    provincia?: boolean | User$provinciaArgs<ExtArgs>
+    pais?: boolean | User$paisArgs<ExtArgs>
     accounts?: boolean | User$accountsArgs<ExtArgs>
-    cursosComoProfesor?: boolean | User$cursosComoProfesorArgs<ExtArgs>
-    cursosComoAyudante?: boolean | User$cursosComoAyudanteArgs<ExtArgs>
-    fallasAsignadas?: boolean | User$fallasAsignadasArgs<ExtArgs>
-    fallasReportadas?: boolean | User$fallasReportadasArgs<ExtArgs>
-    fallasHistAsignadas?: boolean | User$fallasHistAsignadasArgs<ExtArgs>
-    fallasHistReportadas?: boolean | User$fallasHistReportadasArgs<ExtArgs>
-    inscripcionesEspeciales?: boolean | User$inscripcionesEspecialesArgs<ExtArgs>
-    materiasDirector?: boolean | User$materiasDirectorArgs<ExtArgs>
-    MateriaJefeTp?: boolean | User$MateriaJefeTpArgs<ExtArgs>
+    sessions?: boolean | User$sessionsArgs<ExtArgs>
+    usuarioRol?: boolean | User$usuarioRolArgs<ExtArgs>
+    reservasSolicitadas?: boolean | User$reservasSolicitadasArgs<ExtArgs>
+    reservasRenovadas?: boolean | User$reservasRenovadasArgs<ExtArgs>
+    reservasComoTutor?: boolean | User$reservasComoTutorArgs<ExtArgs>
     reservasAprobadas?: boolean | User$reservasAprobadasArgs<ExtArgs>
     reservasRechazadas?: boolean | User$reservasRechazadasArgs<ExtArgs>
     reservasRecibidas?: boolean | User$reservasRecibidasArgs<ExtArgs>
-    reservasRenovadas?: boolean | User$reservasRenovadasArgs<ExtArgs>
-    reservasSolicitadas?: boolean | User$reservasSolicitadasArgs<ExtArgs>
-    reservasComoTutor?: boolean | User$reservasComoTutorArgs<ExtArgs>
-    ReservaLaboratorioCerrado?: boolean | User$ReservaLaboratorioCerradoArgs<ExtArgs>
-    sessions?: boolean | User$sessionsArgs<ExtArgs>
+    inscripcionesEspeciales?: boolean | User$inscripcionesEspecialesArgs<ExtArgs>
+    inscripcionEspecialPeriodosCreados?: boolean | User$inscripcionEspecialPeriodosCreadosArgs<ExtArgs>
+    cursosComoAyudante?: boolean | User$cursosComoAyudanteArgs<ExtArgs>
+    cursosComoProfesor?: boolean | User$cursosComoProfesorArgs<ExtArgs>
+    MateriaJefeTp?: boolean | User$MateriaJefeTpArgs<ExtArgs>
+    materiasDirector?: boolean | User$materiasDirectorArgs<ExtArgs>
     tutor?: boolean | User$tutorArgs<ExtArgs>
-    documentoTipo?: boolean | User$documentoTipoArgs<ExtArgs>
-    pais?: boolean | User$paisArgs<ExtArgs>
-    provincia?: boolean | User$provinciaArgs<ExtArgs>
-    usuarioRol?: boolean | User$usuarioRolArgs<ExtArgs>
+    ReservaLaboratorioCerrado?: boolean | User$ReservaLaboratorioCerradoArgs<ExtArgs>
     Voto?: boolean | User$VotoArgs<ExtArgs>
+    fallasReportadas?: boolean | User$fallasReportadasArgs<ExtArgs>
+    fallasAsignadas?: boolean | User$fallasAsignadasArgs<ExtArgs>
+    fallasHistReportadas?: boolean | User$fallasHistReportadasArgs<ExtArgs>
+    fallasHistAsignadas?: boolean | User$fallasHistAsignadasArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     documentoTipo?: boolean | User$documentoTipoArgs<ExtArgs>
-    pais?: boolean | User$paisArgs<ExtArgs>
     provincia?: boolean | User$provinciaArgs<ExtArgs>
+    pais?: boolean | User$paisArgs<ExtArgs>
   }
   export type UserIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     documentoTipo?: boolean | User$documentoTipoArgs<ExtArgs>
-    pais?: boolean | User$paisArgs<ExtArgs>
     provincia?: boolean | User$provinciaArgs<ExtArgs>
+    pais?: boolean | User$paisArgs<ExtArgs>
   }
 
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
     objects: {
+      documentoTipo: Prisma.$DocumentoTipoPayload<ExtArgs> | null
+      provincia: Prisma.$ProvinciaPayload<ExtArgs> | null
+      pais: Prisma.$PaisPayload<ExtArgs> | null
       accounts: Prisma.$AccountPayload<ExtArgs>[]
-      cursosComoProfesor: Prisma.$CursoPayload<ExtArgs>[]
-      cursosComoAyudante: Prisma.$CursoAyudantePayload<ExtArgs>[]
-      fallasAsignadas: Prisma.$FallaPayload<ExtArgs>[]
-      fallasReportadas: Prisma.$FallaPayload<ExtArgs>[]
-      fallasHistAsignadas: Prisma.$FallaHistorialPayload<ExtArgs>[]
-      fallasHistReportadas: Prisma.$FallaHistorialPayload<ExtArgs>[]
-      inscripcionesEspeciales: Prisma.$InscripcionEspecialPayload<ExtArgs>[]
-      materiasDirector: Prisma.$MateriaPayload<ExtArgs>[]
-      MateriaJefeTp: Prisma.$MateriaJefeTpPayload<ExtArgs>[]
+      sessions: Prisma.$SessionPayload<ExtArgs>[]
+      usuarioRol: Prisma.$UsuarioRolPayload<ExtArgs>[]
+      reservasSolicitadas: Prisma.$ReservaPayload<ExtArgs>[]
+      reservasRenovadas: Prisma.$ReservaPayload<ExtArgs>[]
+      reservasComoTutor: Prisma.$ReservaPayload<ExtArgs>[]
       reservasAprobadas: Prisma.$ReservaPayload<ExtArgs>[]
       reservasRechazadas: Prisma.$ReservaPayload<ExtArgs>[]
       reservasRecibidas: Prisma.$ReservaPayload<ExtArgs>[]
-      reservasRenovadas: Prisma.$ReservaPayload<ExtArgs>[]
-      reservasSolicitadas: Prisma.$ReservaPayload<ExtArgs>[]
-      reservasComoTutor: Prisma.$ReservaPayload<ExtArgs>[]
-      ReservaLaboratorioCerrado: Prisma.$ReservaLaboratorioCerradoPayload<ExtArgs>[]
-      sessions: Prisma.$SessionPayload<ExtArgs>[]
+      inscripcionesEspeciales: Prisma.$InscripcionEspecialPayload<ExtArgs>[]
+      inscripcionEspecialPeriodosCreados: Prisma.$InscripcionEspecialPeriodoPayload<ExtArgs>[]
+      cursosComoAyudante: Prisma.$CursoAyudantePayload<ExtArgs>[]
+      cursosComoProfesor: Prisma.$CursoPayload<ExtArgs>[]
+      MateriaJefeTp: Prisma.$MateriaJefeTpPayload<ExtArgs>[]
+      materiasDirector: Prisma.$MateriaPayload<ExtArgs>[]
       tutor: Prisma.$TutorPayload<ExtArgs> | null
-      documentoTipo: Prisma.$DocumentoTipoPayload<ExtArgs> | null
-      pais: Prisma.$PaisPayload<ExtArgs> | null
-      provincia: Prisma.$ProvinciaPayload<ExtArgs> | null
-      usuarioRol: Prisma.$UsuarioRolPayload<ExtArgs>[]
+      ReservaLaboratorioCerrado: Prisma.$ReservaLaboratorioCerradoPayload<ExtArgs>[]
       Voto: Prisma.$VotoPayload<ExtArgs>[]
+      fallasReportadas: Prisma.$FallaPayload<ExtArgs>[]
+      fallasAsignadas: Prisma.$FallaPayload<ExtArgs>[]
+      fallasHistReportadas: Prisma.$FallaHistorialPayload<ExtArgs>[]
+      fallasHistAsignadas: Prisma.$FallaHistorialPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -53790,30 +55066,31 @@ export namespace Prisma {
    */
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    documentoTipo<T extends User$documentoTipoArgs<ExtArgs> = {}>(args?: Subset<T, User$documentoTipoArgs<ExtArgs>>): Prisma__DocumentoTipoClient<$Result.GetResult<Prisma.$DocumentoTipoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    provincia<T extends User$provinciaArgs<ExtArgs> = {}>(args?: Subset<T, User$provinciaArgs<ExtArgs>>): Prisma__ProvinciaClient<$Result.GetResult<Prisma.$ProvinciaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    pais<T extends User$paisArgs<ExtArgs> = {}>(args?: Subset<T, User$paisArgs<ExtArgs>>): Prisma__PaisClient<$Result.GetResult<Prisma.$PaisPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     accounts<T extends User$accountsArgs<ExtArgs> = {}>(args?: Subset<T, User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    cursosComoProfesor<T extends User$cursosComoProfesorArgs<ExtArgs> = {}>(args?: Subset<T, User$cursosComoProfesorArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CursoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    cursosComoAyudante<T extends User$cursosComoAyudanteArgs<ExtArgs> = {}>(args?: Subset<T, User$cursosComoAyudanteArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CursoAyudantePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    fallasAsignadas<T extends User$fallasAsignadasArgs<ExtArgs> = {}>(args?: Subset<T, User$fallasAsignadasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FallaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    fallasReportadas<T extends User$fallasReportadasArgs<ExtArgs> = {}>(args?: Subset<T, User$fallasReportadasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FallaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    fallasHistAsignadas<T extends User$fallasHistAsignadasArgs<ExtArgs> = {}>(args?: Subset<T, User$fallasHistAsignadasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FallaHistorialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    fallasHistReportadas<T extends User$fallasHistReportadasArgs<ExtArgs> = {}>(args?: Subset<T, User$fallasHistReportadasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FallaHistorialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    inscripcionesEspeciales<T extends User$inscripcionesEspecialesArgs<ExtArgs> = {}>(args?: Subset<T, User$inscripcionesEspecialesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InscripcionEspecialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    materiasDirector<T extends User$materiasDirectorArgs<ExtArgs> = {}>(args?: Subset<T, User$materiasDirectorArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MateriaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    MateriaJefeTp<T extends User$MateriaJefeTpArgs<ExtArgs> = {}>(args?: Subset<T, User$MateriaJefeTpArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MateriaJefeTpPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    sessions<T extends User$sessionsArgs<ExtArgs> = {}>(args?: Subset<T, User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    usuarioRol<T extends User$usuarioRolArgs<ExtArgs> = {}>(args?: Subset<T, User$usuarioRolArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UsuarioRolPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    reservasSolicitadas<T extends User$reservasSolicitadasArgs<ExtArgs> = {}>(args?: Subset<T, User$reservasSolicitadasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReservaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    reservasRenovadas<T extends User$reservasRenovadasArgs<ExtArgs> = {}>(args?: Subset<T, User$reservasRenovadasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReservaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    reservasComoTutor<T extends User$reservasComoTutorArgs<ExtArgs> = {}>(args?: Subset<T, User$reservasComoTutorArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReservaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     reservasAprobadas<T extends User$reservasAprobadasArgs<ExtArgs> = {}>(args?: Subset<T, User$reservasAprobadasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReservaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     reservasRechazadas<T extends User$reservasRechazadasArgs<ExtArgs> = {}>(args?: Subset<T, User$reservasRechazadasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReservaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     reservasRecibidas<T extends User$reservasRecibidasArgs<ExtArgs> = {}>(args?: Subset<T, User$reservasRecibidasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReservaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    reservasRenovadas<T extends User$reservasRenovadasArgs<ExtArgs> = {}>(args?: Subset<T, User$reservasRenovadasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReservaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    reservasSolicitadas<T extends User$reservasSolicitadasArgs<ExtArgs> = {}>(args?: Subset<T, User$reservasSolicitadasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReservaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    reservasComoTutor<T extends User$reservasComoTutorArgs<ExtArgs> = {}>(args?: Subset<T, User$reservasComoTutorArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReservaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    ReservaLaboratorioCerrado<T extends User$ReservaLaboratorioCerradoArgs<ExtArgs> = {}>(args?: Subset<T, User$ReservaLaboratorioCerradoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReservaLaboratorioCerradoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    sessions<T extends User$sessionsArgs<ExtArgs> = {}>(args?: Subset<T, User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    inscripcionesEspeciales<T extends User$inscripcionesEspecialesArgs<ExtArgs> = {}>(args?: Subset<T, User$inscripcionesEspecialesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InscripcionEspecialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    inscripcionEspecialPeriodosCreados<T extends User$inscripcionEspecialPeriodosCreadosArgs<ExtArgs> = {}>(args?: Subset<T, User$inscripcionEspecialPeriodosCreadosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InscripcionEspecialPeriodoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    cursosComoAyudante<T extends User$cursosComoAyudanteArgs<ExtArgs> = {}>(args?: Subset<T, User$cursosComoAyudanteArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CursoAyudantePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    cursosComoProfesor<T extends User$cursosComoProfesorArgs<ExtArgs> = {}>(args?: Subset<T, User$cursosComoProfesorArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CursoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    MateriaJefeTp<T extends User$MateriaJefeTpArgs<ExtArgs> = {}>(args?: Subset<T, User$MateriaJefeTpArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MateriaJefeTpPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    materiasDirector<T extends User$materiasDirectorArgs<ExtArgs> = {}>(args?: Subset<T, User$materiasDirectorArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MateriaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     tutor<T extends User$tutorArgs<ExtArgs> = {}>(args?: Subset<T, User$tutorArgs<ExtArgs>>): Prisma__TutorClient<$Result.GetResult<Prisma.$TutorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    documentoTipo<T extends User$documentoTipoArgs<ExtArgs> = {}>(args?: Subset<T, User$documentoTipoArgs<ExtArgs>>): Prisma__DocumentoTipoClient<$Result.GetResult<Prisma.$DocumentoTipoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    pais<T extends User$paisArgs<ExtArgs> = {}>(args?: Subset<T, User$paisArgs<ExtArgs>>): Prisma__PaisClient<$Result.GetResult<Prisma.$PaisPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    provincia<T extends User$provinciaArgs<ExtArgs> = {}>(args?: Subset<T, User$provinciaArgs<ExtArgs>>): Prisma__ProvinciaClient<$Result.GetResult<Prisma.$ProvinciaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    usuarioRol<T extends User$usuarioRolArgs<ExtArgs> = {}>(args?: Subset<T, User$usuarioRolArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UsuarioRolPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    ReservaLaboratorioCerrado<T extends User$ReservaLaboratorioCerradoArgs<ExtArgs> = {}>(args?: Subset<T, User$ReservaLaboratorioCerradoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReservaLaboratorioCerradoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     Voto<T extends User$VotoArgs<ExtArgs> = {}>(args?: Subset<T, User$VotoArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VotoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    fallasReportadas<T extends User$fallasReportadasArgs<ExtArgs> = {}>(args?: Subset<T, User$fallasReportadasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FallaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    fallasAsignadas<T extends User$fallasAsignadasArgs<ExtArgs> = {}>(args?: Subset<T, User$fallasAsignadasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FallaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    fallasHistReportadas<T extends User$fallasHistReportadasArgs<ExtArgs> = {}>(args?: Subset<T, User$fallasHistReportadasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FallaHistorialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    fallasHistAsignadas<T extends User$fallasHistAsignadasArgs<ExtArgs> = {}>(args?: Subset<T, User$fallasHistAsignadasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FallaHistorialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -54267,6 +55544,63 @@ export namespace Prisma {
   }
 
   /**
+   * User.documentoTipo
+   */
+  export type User$documentoTipoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentoTipo
+     */
+    select?: DocumentoTipoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentoTipo
+     */
+    omit?: DocumentoTipoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentoTipoInclude<ExtArgs> | null
+    where?: DocumentoTipoWhereInput
+  }
+
+  /**
+   * User.provincia
+   */
+  export type User$provinciaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Provincia
+     */
+    select?: ProvinciaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Provincia
+     */
+    omit?: ProvinciaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProvinciaInclude<ExtArgs> | null
+    where?: ProvinciaWhereInput
+  }
+
+  /**
+   * User.pais
+   */
+  export type User$paisArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pais
+     */
+    select?: PaisSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pais
+     */
+    omit?: PaisOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaisInclude<ExtArgs> | null
+    where?: PaisWhereInput
+  }
+
+  /**
    * User.accounts
    */
   export type User$accountsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -54291,219 +55625,123 @@ export namespace Prisma {
   }
 
   /**
-   * User.cursosComoProfesor
+   * User.sessions
    */
-  export type User$cursosComoProfesorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$sessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Curso
+     * Select specific fields to fetch from the Session
      */
-    select?: CursoSelect<ExtArgs> | null
+    select?: SessionSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Curso
+     * Omit specific fields from the Session
      */
-    omit?: CursoOmit<ExtArgs> | null
+    omit?: SessionOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: CursoInclude<ExtArgs> | null
-    where?: CursoWhereInput
-    orderBy?: CursoOrderByWithRelationInput | CursoOrderByWithRelationInput[]
-    cursor?: CursoWhereUniqueInput
+    include?: SessionInclude<ExtArgs> | null
+    where?: SessionWhereInput
+    orderBy?: SessionOrderByWithRelationInput | SessionOrderByWithRelationInput[]
+    cursor?: SessionWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: CursoScalarFieldEnum | CursoScalarFieldEnum[]
+    distinct?: SessionScalarFieldEnum | SessionScalarFieldEnum[]
   }
 
   /**
-   * User.cursosComoAyudante
+   * User.usuarioRol
    */
-  export type User$cursosComoAyudanteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$usuarioRolArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the CursoAyudante
+     * Select specific fields to fetch from the UsuarioRol
      */
-    select?: CursoAyudanteSelect<ExtArgs> | null
+    select?: UsuarioRolSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the CursoAyudante
+     * Omit specific fields from the UsuarioRol
      */
-    omit?: CursoAyudanteOmit<ExtArgs> | null
+    omit?: UsuarioRolOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: CursoAyudanteInclude<ExtArgs> | null
-    where?: CursoAyudanteWhereInput
-    orderBy?: CursoAyudanteOrderByWithRelationInput | CursoAyudanteOrderByWithRelationInput[]
-    cursor?: CursoAyudanteWhereUniqueInput
+    include?: UsuarioRolInclude<ExtArgs> | null
+    where?: UsuarioRolWhereInput
+    orderBy?: UsuarioRolOrderByWithRelationInput | UsuarioRolOrderByWithRelationInput[]
+    cursor?: UsuarioRolWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: CursoAyudanteScalarFieldEnum | CursoAyudanteScalarFieldEnum[]
+    distinct?: UsuarioRolScalarFieldEnum | UsuarioRolScalarFieldEnum[]
   }
 
   /**
-   * User.fallasAsignadas
+   * User.reservasSolicitadas
    */
-  export type User$fallasAsignadasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$reservasSolicitadasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Falla
+     * Select specific fields to fetch from the Reserva
      */
-    select?: FallaSelect<ExtArgs> | null
+    select?: ReservaSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Falla
+     * Omit specific fields from the Reserva
      */
-    omit?: FallaOmit<ExtArgs> | null
+    omit?: ReservaOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: FallaInclude<ExtArgs> | null
-    where?: FallaWhereInput
-    orderBy?: FallaOrderByWithRelationInput | FallaOrderByWithRelationInput[]
-    cursor?: FallaWhereUniqueInput
+    include?: ReservaInclude<ExtArgs> | null
+    where?: ReservaWhereInput
+    orderBy?: ReservaOrderByWithRelationInput | ReservaOrderByWithRelationInput[]
+    cursor?: ReservaWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: FallaScalarFieldEnum | FallaScalarFieldEnum[]
+    distinct?: ReservaScalarFieldEnum | ReservaScalarFieldEnum[]
   }
 
   /**
-   * User.fallasReportadas
+   * User.reservasRenovadas
    */
-  export type User$fallasReportadasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$reservasRenovadasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Falla
+     * Select specific fields to fetch from the Reserva
      */
-    select?: FallaSelect<ExtArgs> | null
+    select?: ReservaSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Falla
+     * Omit specific fields from the Reserva
      */
-    omit?: FallaOmit<ExtArgs> | null
+    omit?: ReservaOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: FallaInclude<ExtArgs> | null
-    where?: FallaWhereInput
-    orderBy?: FallaOrderByWithRelationInput | FallaOrderByWithRelationInput[]
-    cursor?: FallaWhereUniqueInput
+    include?: ReservaInclude<ExtArgs> | null
+    where?: ReservaWhereInput
+    orderBy?: ReservaOrderByWithRelationInput | ReservaOrderByWithRelationInput[]
+    cursor?: ReservaWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: FallaScalarFieldEnum | FallaScalarFieldEnum[]
+    distinct?: ReservaScalarFieldEnum | ReservaScalarFieldEnum[]
   }
 
   /**
-   * User.fallasHistAsignadas
+   * User.reservasComoTutor
    */
-  export type User$fallasHistAsignadasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$reservasComoTutorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the FallaHistorial
+     * Select specific fields to fetch from the Reserva
      */
-    select?: FallaHistorialSelect<ExtArgs> | null
+    select?: ReservaSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the FallaHistorial
+     * Omit specific fields from the Reserva
      */
-    omit?: FallaHistorialOmit<ExtArgs> | null
+    omit?: ReservaOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: FallaHistorialInclude<ExtArgs> | null
-    where?: FallaHistorialWhereInput
-    orderBy?: FallaHistorialOrderByWithRelationInput | FallaHistorialOrderByWithRelationInput[]
-    cursor?: FallaHistorialWhereUniqueInput
+    include?: ReservaInclude<ExtArgs> | null
+    where?: ReservaWhereInput
+    orderBy?: ReservaOrderByWithRelationInput | ReservaOrderByWithRelationInput[]
+    cursor?: ReservaWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: FallaHistorialScalarFieldEnum | FallaHistorialScalarFieldEnum[]
-  }
-
-  /**
-   * User.fallasHistReportadas
-   */
-  export type User$fallasHistReportadasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the FallaHistorial
-     */
-    select?: FallaHistorialSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the FallaHistorial
-     */
-    omit?: FallaHistorialOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: FallaHistorialInclude<ExtArgs> | null
-    where?: FallaHistorialWhereInput
-    orderBy?: FallaHistorialOrderByWithRelationInput | FallaHistorialOrderByWithRelationInput[]
-    cursor?: FallaHistorialWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: FallaHistorialScalarFieldEnum | FallaHistorialScalarFieldEnum[]
-  }
-
-  /**
-   * User.inscripcionesEspeciales
-   */
-  export type User$inscripcionesEspecialesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the InscripcionEspecial
-     */
-    select?: InscripcionEspecialSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the InscripcionEspecial
-     */
-    omit?: InscripcionEspecialOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: InscripcionEspecialInclude<ExtArgs> | null
-    where?: InscripcionEspecialWhereInput
-    orderBy?: InscripcionEspecialOrderByWithRelationInput | InscripcionEspecialOrderByWithRelationInput[]
-    cursor?: InscripcionEspecialWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: InscripcionEspecialScalarFieldEnum | InscripcionEspecialScalarFieldEnum[]
-  }
-
-  /**
-   * User.materiasDirector
-   */
-  export type User$materiasDirectorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Materia
-     */
-    select?: MateriaSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Materia
-     */
-    omit?: MateriaOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: MateriaInclude<ExtArgs> | null
-    where?: MateriaWhereInput
-    orderBy?: MateriaOrderByWithRelationInput | MateriaOrderByWithRelationInput[]
-    cursor?: MateriaWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: MateriaScalarFieldEnum | MateriaScalarFieldEnum[]
-  }
-
-  /**
-   * User.MateriaJefeTp
-   */
-  export type User$MateriaJefeTpArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the MateriaJefeTp
-     */
-    select?: MateriaJefeTpSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the MateriaJefeTp
-     */
-    omit?: MateriaJefeTpOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: MateriaJefeTpInclude<ExtArgs> | null
-    where?: MateriaJefeTpWhereInput
-    orderBy?: MateriaJefeTpOrderByWithRelationInput | MateriaJefeTpOrderByWithRelationInput[]
-    cursor?: MateriaJefeTpWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: MateriaJefeTpScalarFieldEnum | MateriaJefeTpScalarFieldEnum[]
+    distinct?: ReservaScalarFieldEnum | ReservaScalarFieldEnum[]
   }
 
   /**
@@ -54579,75 +55817,166 @@ export namespace Prisma {
   }
 
   /**
-   * User.reservasRenovadas
+   * User.inscripcionesEspeciales
    */
-  export type User$reservasRenovadasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$inscripcionesEspecialesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Reserva
+     * Select specific fields to fetch from the InscripcionEspecial
      */
-    select?: ReservaSelect<ExtArgs> | null
+    select?: InscripcionEspecialSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Reserva
+     * Omit specific fields from the InscripcionEspecial
      */
-    omit?: ReservaOmit<ExtArgs> | null
+    omit?: InscripcionEspecialOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ReservaInclude<ExtArgs> | null
-    where?: ReservaWhereInput
-    orderBy?: ReservaOrderByWithRelationInput | ReservaOrderByWithRelationInput[]
-    cursor?: ReservaWhereUniqueInput
+    include?: InscripcionEspecialInclude<ExtArgs> | null
+    where?: InscripcionEspecialWhereInput
+    orderBy?: InscripcionEspecialOrderByWithRelationInput | InscripcionEspecialOrderByWithRelationInput[]
+    cursor?: InscripcionEspecialWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: ReservaScalarFieldEnum | ReservaScalarFieldEnum[]
+    distinct?: InscripcionEspecialScalarFieldEnum | InscripcionEspecialScalarFieldEnum[]
   }
 
   /**
-   * User.reservasSolicitadas
+   * User.inscripcionEspecialPeriodosCreados
    */
-  export type User$reservasSolicitadasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$inscripcionEspecialPeriodosCreadosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Reserva
+     * Select specific fields to fetch from the InscripcionEspecialPeriodo
      */
-    select?: ReservaSelect<ExtArgs> | null
+    select?: InscripcionEspecialPeriodoSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Reserva
+     * Omit specific fields from the InscripcionEspecialPeriodo
      */
-    omit?: ReservaOmit<ExtArgs> | null
+    omit?: InscripcionEspecialPeriodoOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ReservaInclude<ExtArgs> | null
-    where?: ReservaWhereInput
-    orderBy?: ReservaOrderByWithRelationInput | ReservaOrderByWithRelationInput[]
-    cursor?: ReservaWhereUniqueInput
+    include?: InscripcionEspecialPeriodoInclude<ExtArgs> | null
+    where?: InscripcionEspecialPeriodoWhereInput
+    orderBy?: InscripcionEspecialPeriodoOrderByWithRelationInput | InscripcionEspecialPeriodoOrderByWithRelationInput[]
+    cursor?: InscripcionEspecialPeriodoWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: ReservaScalarFieldEnum | ReservaScalarFieldEnum[]
+    distinct?: InscripcionEspecialPeriodoScalarFieldEnum | InscripcionEspecialPeriodoScalarFieldEnum[]
   }
 
   /**
-   * User.reservasComoTutor
+   * User.cursosComoAyudante
    */
-  export type User$reservasComoTutorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$cursosComoAyudanteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Reserva
+     * Select specific fields to fetch from the CursoAyudante
      */
-    select?: ReservaSelect<ExtArgs> | null
+    select?: CursoAyudanteSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Reserva
+     * Omit specific fields from the CursoAyudante
      */
-    omit?: ReservaOmit<ExtArgs> | null
+    omit?: CursoAyudanteOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ReservaInclude<ExtArgs> | null
-    where?: ReservaWhereInput
-    orderBy?: ReservaOrderByWithRelationInput | ReservaOrderByWithRelationInput[]
-    cursor?: ReservaWhereUniqueInput
+    include?: CursoAyudanteInclude<ExtArgs> | null
+    where?: CursoAyudanteWhereInput
+    orderBy?: CursoAyudanteOrderByWithRelationInput | CursoAyudanteOrderByWithRelationInput[]
+    cursor?: CursoAyudanteWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: ReservaScalarFieldEnum | ReservaScalarFieldEnum[]
+    distinct?: CursoAyudanteScalarFieldEnum | CursoAyudanteScalarFieldEnum[]
+  }
+
+  /**
+   * User.cursosComoProfesor
+   */
+  export type User$cursosComoProfesorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Curso
+     */
+    select?: CursoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Curso
+     */
+    omit?: CursoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CursoInclude<ExtArgs> | null
+    where?: CursoWhereInput
+    orderBy?: CursoOrderByWithRelationInput | CursoOrderByWithRelationInput[]
+    cursor?: CursoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CursoScalarFieldEnum | CursoScalarFieldEnum[]
+  }
+
+  /**
+   * User.MateriaJefeTp
+   */
+  export type User$MateriaJefeTpArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MateriaJefeTp
+     */
+    select?: MateriaJefeTpSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MateriaJefeTp
+     */
+    omit?: MateriaJefeTpOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MateriaJefeTpInclude<ExtArgs> | null
+    where?: MateriaJefeTpWhereInput
+    orderBy?: MateriaJefeTpOrderByWithRelationInput | MateriaJefeTpOrderByWithRelationInput[]
+    cursor?: MateriaJefeTpWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MateriaJefeTpScalarFieldEnum | MateriaJefeTpScalarFieldEnum[]
+  }
+
+  /**
+   * User.materiasDirector
+   */
+  export type User$materiasDirectorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Materia
+     */
+    select?: MateriaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Materia
+     */
+    omit?: MateriaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MateriaInclude<ExtArgs> | null
+    where?: MateriaWhereInput
+    orderBy?: MateriaOrderByWithRelationInput | MateriaOrderByWithRelationInput[]
+    cursor?: MateriaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MateriaScalarFieldEnum | MateriaScalarFieldEnum[]
+  }
+
+  /**
+   * User.tutor
+   */
+  export type User$tutorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tutor
+     */
+    select?: TutorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Tutor
+     */
+    omit?: TutorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TutorInclude<ExtArgs> | null
+    where?: TutorWhereInput
   }
 
   /**
@@ -54675,130 +56004,6 @@ export namespace Prisma {
   }
 
   /**
-   * User.sessions
-   */
-  export type User$sessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Session
-     */
-    select?: SessionSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Session
-     */
-    omit?: SessionOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SessionInclude<ExtArgs> | null
-    where?: SessionWhereInput
-    orderBy?: SessionOrderByWithRelationInput | SessionOrderByWithRelationInput[]
-    cursor?: SessionWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: SessionScalarFieldEnum | SessionScalarFieldEnum[]
-  }
-
-  /**
-   * User.tutor
-   */
-  export type User$tutorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Tutor
-     */
-    select?: TutorSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Tutor
-     */
-    omit?: TutorOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: TutorInclude<ExtArgs> | null
-    where?: TutorWhereInput
-  }
-
-  /**
-   * User.documentoTipo
-   */
-  export type User$documentoTipoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the DocumentoTipo
-     */
-    select?: DocumentoTipoSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the DocumentoTipo
-     */
-    omit?: DocumentoTipoOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: DocumentoTipoInclude<ExtArgs> | null
-    where?: DocumentoTipoWhereInput
-  }
-
-  /**
-   * User.pais
-   */
-  export type User$paisArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Pais
-     */
-    select?: PaisSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Pais
-     */
-    omit?: PaisOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PaisInclude<ExtArgs> | null
-    where?: PaisWhereInput
-  }
-
-  /**
-   * User.provincia
-   */
-  export type User$provinciaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Provincia
-     */
-    select?: ProvinciaSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Provincia
-     */
-    omit?: ProvinciaOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProvinciaInclude<ExtArgs> | null
-    where?: ProvinciaWhereInput
-  }
-
-  /**
-   * User.usuarioRol
-   */
-  export type User$usuarioRolArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the UsuarioRol
-     */
-    select?: UsuarioRolSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the UsuarioRol
-     */
-    omit?: UsuarioRolOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UsuarioRolInclude<ExtArgs> | null
-    where?: UsuarioRolWhereInput
-    orderBy?: UsuarioRolOrderByWithRelationInput | UsuarioRolOrderByWithRelationInput[]
-    cursor?: UsuarioRolWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: UsuarioRolScalarFieldEnum | UsuarioRolScalarFieldEnum[]
-  }
-
-  /**
    * User.Voto
    */
   export type User$VotoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -54820,6 +56025,102 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: VotoScalarFieldEnum | VotoScalarFieldEnum[]
+  }
+
+  /**
+   * User.fallasReportadas
+   */
+  export type User$fallasReportadasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Falla
+     */
+    select?: FallaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Falla
+     */
+    omit?: FallaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FallaInclude<ExtArgs> | null
+    where?: FallaWhereInput
+    orderBy?: FallaOrderByWithRelationInput | FallaOrderByWithRelationInput[]
+    cursor?: FallaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: FallaScalarFieldEnum | FallaScalarFieldEnum[]
+  }
+
+  /**
+   * User.fallasAsignadas
+   */
+  export type User$fallasAsignadasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Falla
+     */
+    select?: FallaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Falla
+     */
+    omit?: FallaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FallaInclude<ExtArgs> | null
+    where?: FallaWhereInput
+    orderBy?: FallaOrderByWithRelationInput | FallaOrderByWithRelationInput[]
+    cursor?: FallaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: FallaScalarFieldEnum | FallaScalarFieldEnum[]
+  }
+
+  /**
+   * User.fallasHistReportadas
+   */
+  export type User$fallasHistReportadasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FallaHistorial
+     */
+    select?: FallaHistorialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FallaHistorial
+     */
+    omit?: FallaHistorialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FallaHistorialInclude<ExtArgs> | null
+    where?: FallaHistorialWhereInput
+    orderBy?: FallaHistorialOrderByWithRelationInput | FallaHistorialOrderByWithRelationInput[]
+    cursor?: FallaHistorialWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: FallaHistorialScalarFieldEnum | FallaHistorialScalarFieldEnum[]
+  }
+
+  /**
+   * User.fallasHistAsignadas
+   */
+  export type User$fallasHistAsignadasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FallaHistorial
+     */
+    select?: FallaHistorialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FallaHistorial
+     */
+    omit?: FallaHistorialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FallaHistorialInclude<ExtArgs> | null
+    where?: FallaHistorialWhereInput
+    orderBy?: FallaHistorialOrderByWithRelationInput | FallaHistorialOrderByWithRelationInput[]
+    cursor?: FallaHistorialWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: FallaHistorialScalarFieldEnum | FallaHistorialScalarFieldEnum[]
   }
 
   /**
@@ -63651,6 +64952,1113 @@ export namespace Prisma {
 
 
   /**
+   * Model Consulta
+   */
+
+  export type AggregateConsulta = {
+    _count: ConsultaCountAggregateOutputType | null
+    _avg: ConsultaAvgAggregateOutputType | null
+    _sum: ConsultaSumAggregateOutputType | null
+    _min: ConsultaMinAggregateOutputType | null
+    _max: ConsultaMaxAggregateOutputType | null
+  }
+
+  export type ConsultaAvgAggregateOutputType = {
+    id: number | null
+  }
+
+  export type ConsultaSumAggregateOutputType = {
+    id: number | null
+  }
+
+  export type ConsultaMinAggregateOutputType = {
+    id: number | null
+    nombre: string | null
+    apellido: string | null
+    legajo: string | null
+    email: string | null
+    asunto: string | null
+    consulta: string | null
+    fechaConsulta: Date | null
+    respuesta: string | null
+    fechaRespuesta: Date | null
+    estado: string | null
+  }
+
+  export type ConsultaMaxAggregateOutputType = {
+    id: number | null
+    nombre: string | null
+    apellido: string | null
+    legajo: string | null
+    email: string | null
+    asunto: string | null
+    consulta: string | null
+    fechaConsulta: Date | null
+    respuesta: string | null
+    fechaRespuesta: Date | null
+    estado: string | null
+  }
+
+  export type ConsultaCountAggregateOutputType = {
+    id: number
+    nombre: number
+    apellido: number
+    legajo: number
+    email: number
+    asunto: number
+    consulta: number
+    fechaConsulta: number
+    respuesta: number
+    fechaRespuesta: number
+    estado: number
+    _all: number
+  }
+
+
+  export type ConsultaAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type ConsultaSumAggregateInputType = {
+    id?: true
+  }
+
+  export type ConsultaMinAggregateInputType = {
+    id?: true
+    nombre?: true
+    apellido?: true
+    legajo?: true
+    email?: true
+    asunto?: true
+    consulta?: true
+    fechaConsulta?: true
+    respuesta?: true
+    fechaRespuesta?: true
+    estado?: true
+  }
+
+  export type ConsultaMaxAggregateInputType = {
+    id?: true
+    nombre?: true
+    apellido?: true
+    legajo?: true
+    email?: true
+    asunto?: true
+    consulta?: true
+    fechaConsulta?: true
+    respuesta?: true
+    fechaRespuesta?: true
+    estado?: true
+  }
+
+  export type ConsultaCountAggregateInputType = {
+    id?: true
+    nombre?: true
+    apellido?: true
+    legajo?: true
+    email?: true
+    asunto?: true
+    consulta?: true
+    fechaConsulta?: true
+    respuesta?: true
+    fechaRespuesta?: true
+    estado?: true
+    _all?: true
+  }
+
+  export type ConsultaAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Consulta to aggregate.
+     */
+    where?: ConsultaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Consultas to fetch.
+     */
+    orderBy?: ConsultaOrderByWithRelationInput | ConsultaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ConsultaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Consultas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Consultas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Consultas
+    **/
+    _count?: true | ConsultaCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ConsultaAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ConsultaSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ConsultaMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ConsultaMaxAggregateInputType
+  }
+
+  export type GetConsultaAggregateType<T extends ConsultaAggregateArgs> = {
+        [P in keyof T & keyof AggregateConsulta]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateConsulta[P]>
+      : GetScalarType<T[P], AggregateConsulta[P]>
+  }
+
+
+
+
+  export type ConsultaGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ConsultaWhereInput
+    orderBy?: ConsultaOrderByWithAggregationInput | ConsultaOrderByWithAggregationInput[]
+    by: ConsultaScalarFieldEnum[] | ConsultaScalarFieldEnum
+    having?: ConsultaScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ConsultaCountAggregateInputType | true
+    _avg?: ConsultaAvgAggregateInputType
+    _sum?: ConsultaSumAggregateInputType
+    _min?: ConsultaMinAggregateInputType
+    _max?: ConsultaMaxAggregateInputType
+  }
+
+  export type ConsultaGroupByOutputType = {
+    id: number
+    nombre: string
+    apellido: string
+    legajo: string | null
+    email: string
+    asunto: string
+    consulta: string
+    fechaConsulta: Date
+    respuesta: string | null
+    fechaRespuesta: Date | null
+    estado: string
+    _count: ConsultaCountAggregateOutputType | null
+    _avg: ConsultaAvgAggregateOutputType | null
+    _sum: ConsultaSumAggregateOutputType | null
+    _min: ConsultaMinAggregateOutputType | null
+    _max: ConsultaMaxAggregateOutputType | null
+  }
+
+  type GetConsultaGroupByPayload<T extends ConsultaGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ConsultaGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ConsultaGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ConsultaGroupByOutputType[P]>
+            : GetScalarType<T[P], ConsultaGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ConsultaSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    nombre?: boolean
+    apellido?: boolean
+    legajo?: boolean
+    email?: boolean
+    asunto?: boolean
+    consulta?: boolean
+    fechaConsulta?: boolean
+    respuesta?: boolean
+    fechaRespuesta?: boolean
+    estado?: boolean
+  }, ExtArgs["result"]["consulta"]>
+
+  export type ConsultaSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    nombre?: boolean
+    apellido?: boolean
+    legajo?: boolean
+    email?: boolean
+    asunto?: boolean
+    consulta?: boolean
+    fechaConsulta?: boolean
+    respuesta?: boolean
+    fechaRespuesta?: boolean
+    estado?: boolean
+  }, ExtArgs["result"]["consulta"]>
+
+  export type ConsultaSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    nombre?: boolean
+    apellido?: boolean
+    legajo?: boolean
+    email?: boolean
+    asunto?: boolean
+    consulta?: boolean
+    fechaConsulta?: boolean
+    respuesta?: boolean
+    fechaRespuesta?: boolean
+    estado?: boolean
+  }, ExtArgs["result"]["consulta"]>
+
+  export type ConsultaSelectScalar = {
+    id?: boolean
+    nombre?: boolean
+    apellido?: boolean
+    legajo?: boolean
+    email?: boolean
+    asunto?: boolean
+    consulta?: boolean
+    fechaConsulta?: boolean
+    respuesta?: boolean
+    fechaRespuesta?: boolean
+    estado?: boolean
+  }
+
+  export type ConsultaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nombre" | "apellido" | "legajo" | "email" | "asunto" | "consulta" | "fechaConsulta" | "respuesta" | "fechaRespuesta" | "estado", ExtArgs["result"]["consulta"]>
+
+  export type $ConsultaPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Consulta"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      nombre: string
+      apellido: string
+      legajo: string | null
+      email: string
+      asunto: string
+      consulta: string
+      fechaConsulta: Date
+      respuesta: string | null
+      fechaRespuesta: Date | null
+      estado: string
+    }, ExtArgs["result"]["consulta"]>
+    composites: {}
+  }
+
+  type ConsultaGetPayload<S extends boolean | null | undefined | ConsultaDefaultArgs> = $Result.GetResult<Prisma.$ConsultaPayload, S>
+
+  type ConsultaCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ConsultaFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ConsultaCountAggregateInputType | true
+    }
+
+  export interface ConsultaDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Consulta'], meta: { name: 'Consulta' } }
+    /**
+     * Find zero or one Consulta that matches the filter.
+     * @param {ConsultaFindUniqueArgs} args - Arguments to find a Consulta
+     * @example
+     * // Get one Consulta
+     * const consulta = await prisma.consulta.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ConsultaFindUniqueArgs>(args: SelectSubset<T, ConsultaFindUniqueArgs<ExtArgs>>): Prisma__ConsultaClient<$Result.GetResult<Prisma.$ConsultaPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Consulta that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ConsultaFindUniqueOrThrowArgs} args - Arguments to find a Consulta
+     * @example
+     * // Get one Consulta
+     * const consulta = await prisma.consulta.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ConsultaFindUniqueOrThrowArgs>(args: SelectSubset<T, ConsultaFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ConsultaClient<$Result.GetResult<Prisma.$ConsultaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Consulta that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConsultaFindFirstArgs} args - Arguments to find a Consulta
+     * @example
+     * // Get one Consulta
+     * const consulta = await prisma.consulta.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ConsultaFindFirstArgs>(args?: SelectSubset<T, ConsultaFindFirstArgs<ExtArgs>>): Prisma__ConsultaClient<$Result.GetResult<Prisma.$ConsultaPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Consulta that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConsultaFindFirstOrThrowArgs} args - Arguments to find a Consulta
+     * @example
+     * // Get one Consulta
+     * const consulta = await prisma.consulta.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ConsultaFindFirstOrThrowArgs>(args?: SelectSubset<T, ConsultaFindFirstOrThrowArgs<ExtArgs>>): Prisma__ConsultaClient<$Result.GetResult<Prisma.$ConsultaPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Consultas that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConsultaFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Consultas
+     * const consultas = await prisma.consulta.findMany()
+     * 
+     * // Get first 10 Consultas
+     * const consultas = await prisma.consulta.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const consultaWithIdOnly = await prisma.consulta.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ConsultaFindManyArgs>(args?: SelectSubset<T, ConsultaFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConsultaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Consulta.
+     * @param {ConsultaCreateArgs} args - Arguments to create a Consulta.
+     * @example
+     * // Create one Consulta
+     * const Consulta = await prisma.consulta.create({
+     *   data: {
+     *     // ... data to create a Consulta
+     *   }
+     * })
+     * 
+     */
+    create<T extends ConsultaCreateArgs>(args: SelectSubset<T, ConsultaCreateArgs<ExtArgs>>): Prisma__ConsultaClient<$Result.GetResult<Prisma.$ConsultaPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Consultas.
+     * @param {ConsultaCreateManyArgs} args - Arguments to create many Consultas.
+     * @example
+     * // Create many Consultas
+     * const consulta = await prisma.consulta.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ConsultaCreateManyArgs>(args?: SelectSubset<T, ConsultaCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Consultas and returns the data saved in the database.
+     * @param {ConsultaCreateManyAndReturnArgs} args - Arguments to create many Consultas.
+     * @example
+     * // Create many Consultas
+     * const consulta = await prisma.consulta.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Consultas and only return the `id`
+     * const consultaWithIdOnly = await prisma.consulta.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ConsultaCreateManyAndReturnArgs>(args?: SelectSubset<T, ConsultaCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConsultaPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Consulta.
+     * @param {ConsultaDeleteArgs} args - Arguments to delete one Consulta.
+     * @example
+     * // Delete one Consulta
+     * const Consulta = await prisma.consulta.delete({
+     *   where: {
+     *     // ... filter to delete one Consulta
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ConsultaDeleteArgs>(args: SelectSubset<T, ConsultaDeleteArgs<ExtArgs>>): Prisma__ConsultaClient<$Result.GetResult<Prisma.$ConsultaPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Consulta.
+     * @param {ConsultaUpdateArgs} args - Arguments to update one Consulta.
+     * @example
+     * // Update one Consulta
+     * const consulta = await prisma.consulta.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ConsultaUpdateArgs>(args: SelectSubset<T, ConsultaUpdateArgs<ExtArgs>>): Prisma__ConsultaClient<$Result.GetResult<Prisma.$ConsultaPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Consultas.
+     * @param {ConsultaDeleteManyArgs} args - Arguments to filter Consultas to delete.
+     * @example
+     * // Delete a few Consultas
+     * const { count } = await prisma.consulta.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ConsultaDeleteManyArgs>(args?: SelectSubset<T, ConsultaDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Consultas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConsultaUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Consultas
+     * const consulta = await prisma.consulta.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ConsultaUpdateManyArgs>(args: SelectSubset<T, ConsultaUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Consultas and returns the data updated in the database.
+     * @param {ConsultaUpdateManyAndReturnArgs} args - Arguments to update many Consultas.
+     * @example
+     * // Update many Consultas
+     * const consulta = await prisma.consulta.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Consultas and only return the `id`
+     * const consultaWithIdOnly = await prisma.consulta.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ConsultaUpdateManyAndReturnArgs>(args: SelectSubset<T, ConsultaUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConsultaPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Consulta.
+     * @param {ConsultaUpsertArgs} args - Arguments to update or create a Consulta.
+     * @example
+     * // Update or create a Consulta
+     * const consulta = await prisma.consulta.upsert({
+     *   create: {
+     *     // ... data to create a Consulta
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Consulta we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ConsultaUpsertArgs>(args: SelectSubset<T, ConsultaUpsertArgs<ExtArgs>>): Prisma__ConsultaClient<$Result.GetResult<Prisma.$ConsultaPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Consultas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConsultaCountArgs} args - Arguments to filter Consultas to count.
+     * @example
+     * // Count the number of Consultas
+     * const count = await prisma.consulta.count({
+     *   where: {
+     *     // ... the filter for the Consultas we want to count
+     *   }
+     * })
+    **/
+    count<T extends ConsultaCountArgs>(
+      args?: Subset<T, ConsultaCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ConsultaCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Consulta.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConsultaAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ConsultaAggregateArgs>(args: Subset<T, ConsultaAggregateArgs>): Prisma.PrismaPromise<GetConsultaAggregateType<T>>
+
+    /**
+     * Group by Consulta.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConsultaGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ConsultaGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ConsultaGroupByArgs['orderBy'] }
+        : { orderBy?: ConsultaGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ConsultaGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetConsultaGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Consulta model
+   */
+  readonly fields: ConsultaFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Consulta.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ConsultaClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Consulta model
+   */
+  interface ConsultaFieldRefs {
+    readonly id: FieldRef<"Consulta", 'Int'>
+    readonly nombre: FieldRef<"Consulta", 'String'>
+    readonly apellido: FieldRef<"Consulta", 'String'>
+    readonly legajo: FieldRef<"Consulta", 'String'>
+    readonly email: FieldRef<"Consulta", 'String'>
+    readonly asunto: FieldRef<"Consulta", 'String'>
+    readonly consulta: FieldRef<"Consulta", 'String'>
+    readonly fechaConsulta: FieldRef<"Consulta", 'DateTime'>
+    readonly respuesta: FieldRef<"Consulta", 'String'>
+    readonly fechaRespuesta: FieldRef<"Consulta", 'DateTime'>
+    readonly estado: FieldRef<"Consulta", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Consulta findUnique
+   */
+  export type ConsultaFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Consulta
+     */
+    select?: ConsultaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Consulta
+     */
+    omit?: ConsultaOmit<ExtArgs> | null
+    /**
+     * Filter, which Consulta to fetch.
+     */
+    where: ConsultaWhereUniqueInput
+  }
+
+  /**
+   * Consulta findUniqueOrThrow
+   */
+  export type ConsultaFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Consulta
+     */
+    select?: ConsultaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Consulta
+     */
+    omit?: ConsultaOmit<ExtArgs> | null
+    /**
+     * Filter, which Consulta to fetch.
+     */
+    where: ConsultaWhereUniqueInput
+  }
+
+  /**
+   * Consulta findFirst
+   */
+  export type ConsultaFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Consulta
+     */
+    select?: ConsultaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Consulta
+     */
+    omit?: ConsultaOmit<ExtArgs> | null
+    /**
+     * Filter, which Consulta to fetch.
+     */
+    where?: ConsultaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Consultas to fetch.
+     */
+    orderBy?: ConsultaOrderByWithRelationInput | ConsultaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Consultas.
+     */
+    cursor?: ConsultaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Consultas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Consultas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Consultas.
+     */
+    distinct?: ConsultaScalarFieldEnum | ConsultaScalarFieldEnum[]
+  }
+
+  /**
+   * Consulta findFirstOrThrow
+   */
+  export type ConsultaFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Consulta
+     */
+    select?: ConsultaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Consulta
+     */
+    omit?: ConsultaOmit<ExtArgs> | null
+    /**
+     * Filter, which Consulta to fetch.
+     */
+    where?: ConsultaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Consultas to fetch.
+     */
+    orderBy?: ConsultaOrderByWithRelationInput | ConsultaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Consultas.
+     */
+    cursor?: ConsultaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Consultas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Consultas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Consultas.
+     */
+    distinct?: ConsultaScalarFieldEnum | ConsultaScalarFieldEnum[]
+  }
+
+  /**
+   * Consulta findMany
+   */
+  export type ConsultaFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Consulta
+     */
+    select?: ConsultaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Consulta
+     */
+    omit?: ConsultaOmit<ExtArgs> | null
+    /**
+     * Filter, which Consultas to fetch.
+     */
+    where?: ConsultaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Consultas to fetch.
+     */
+    orderBy?: ConsultaOrderByWithRelationInput | ConsultaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Consultas.
+     */
+    cursor?: ConsultaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Consultas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Consultas.
+     */
+    skip?: number
+    distinct?: ConsultaScalarFieldEnum | ConsultaScalarFieldEnum[]
+  }
+
+  /**
+   * Consulta create
+   */
+  export type ConsultaCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Consulta
+     */
+    select?: ConsultaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Consulta
+     */
+    omit?: ConsultaOmit<ExtArgs> | null
+    /**
+     * The data needed to create a Consulta.
+     */
+    data: XOR<ConsultaCreateInput, ConsultaUncheckedCreateInput>
+  }
+
+  /**
+   * Consulta createMany
+   */
+  export type ConsultaCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Consultas.
+     */
+    data: ConsultaCreateManyInput | ConsultaCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Consulta createManyAndReturn
+   */
+  export type ConsultaCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Consulta
+     */
+    select?: ConsultaSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Consulta
+     */
+    omit?: ConsultaOmit<ExtArgs> | null
+    /**
+     * The data used to create many Consultas.
+     */
+    data: ConsultaCreateManyInput | ConsultaCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Consulta update
+   */
+  export type ConsultaUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Consulta
+     */
+    select?: ConsultaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Consulta
+     */
+    omit?: ConsultaOmit<ExtArgs> | null
+    /**
+     * The data needed to update a Consulta.
+     */
+    data: XOR<ConsultaUpdateInput, ConsultaUncheckedUpdateInput>
+    /**
+     * Choose, which Consulta to update.
+     */
+    where: ConsultaWhereUniqueInput
+  }
+
+  /**
+   * Consulta updateMany
+   */
+  export type ConsultaUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Consultas.
+     */
+    data: XOR<ConsultaUpdateManyMutationInput, ConsultaUncheckedUpdateManyInput>
+    /**
+     * Filter which Consultas to update
+     */
+    where?: ConsultaWhereInput
+    /**
+     * Limit how many Consultas to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Consulta updateManyAndReturn
+   */
+  export type ConsultaUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Consulta
+     */
+    select?: ConsultaSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Consulta
+     */
+    omit?: ConsultaOmit<ExtArgs> | null
+    /**
+     * The data used to update Consultas.
+     */
+    data: XOR<ConsultaUpdateManyMutationInput, ConsultaUncheckedUpdateManyInput>
+    /**
+     * Filter which Consultas to update
+     */
+    where?: ConsultaWhereInput
+    /**
+     * Limit how many Consultas to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Consulta upsert
+   */
+  export type ConsultaUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Consulta
+     */
+    select?: ConsultaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Consulta
+     */
+    omit?: ConsultaOmit<ExtArgs> | null
+    /**
+     * The filter to search for the Consulta to update in case it exists.
+     */
+    where: ConsultaWhereUniqueInput
+    /**
+     * In case the Consulta found by the `where` argument doesn't exist, create a new Consulta with this data.
+     */
+    create: XOR<ConsultaCreateInput, ConsultaUncheckedCreateInput>
+    /**
+     * In case the Consulta was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ConsultaUpdateInput, ConsultaUncheckedUpdateInput>
+  }
+
+  /**
+   * Consulta delete
+   */
+  export type ConsultaDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Consulta
+     */
+    select?: ConsultaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Consulta
+     */
+    omit?: ConsultaOmit<ExtArgs> | null
+    /**
+     * Filter which Consulta to delete.
+     */
+    where: ConsultaWhereUniqueInput
+  }
+
+  /**
+   * Consulta deleteMany
+   */
+  export type ConsultaDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Consultas to delete
+     */
+    where?: ConsultaWhereInput
+    /**
+     * Limit how many Consultas to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Consulta without action
+   */
+  export type ConsultaDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Consulta
+     */
+    select?: ConsultaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Consulta
+     */
+    omit?: ConsultaOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -63921,6 +66329,16 @@ export namespace Prisma {
   };
 
   export type InscripcionEspecialScalarFieldEnum = (typeof InscripcionEspecialScalarFieldEnum)[keyof typeof InscripcionEspecialScalarFieldEnum]
+
+
+  export const InscripcionEspecialPeriodoScalarFieldEnum: {
+    id: 'id',
+    fechaInicio: 'fechaInicio',
+    fechaFin: 'fechaFin',
+    usuarioCreadorId: 'usuarioCreadorId'
+  };
+
+  export type InscripcionEspecialPeriodoScalarFieldEnum = (typeof InscripcionEspecialPeriodoScalarFieldEnum)[keyof typeof InscripcionEspecialPeriodoScalarFieldEnum]
 
 
   export const LaboratorioScalarFieldEnum: {
@@ -64348,6 +66766,23 @@ export namespace Prisma {
   };
 
   export type DocumentoTipoScalarFieldEnum = (typeof DocumentoTipoScalarFieldEnum)[keyof typeof DocumentoTipoScalarFieldEnum]
+
+
+  export const ConsultaScalarFieldEnum: {
+    id: 'id',
+    nombre: 'nombre',
+    apellido: 'apellido',
+    legajo: 'legajo',
+    email: 'email',
+    asunto: 'asunto',
+    consulta: 'consulta',
+    fechaConsulta: 'fechaConsulta',
+    respuesta: 'respuesta',
+    fechaRespuesta: 'fechaRespuesta',
+    estado: 'estado'
+  };
+
+  export type ConsultaScalarFieldEnum = (typeof ConsultaScalarFieldEnum)[keyof typeof ConsultaScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -65978,8 +68413,8 @@ export namespace Prisma {
     materiasAdeudadas?: IntNullableListFilter<"InscripcionEspecial">
     estado?: StringFilter<"InscripcionEspecial"> | string
     respuesta?: StringNullableFilter<"InscripcionEspecial"> | string | null
-    fueContactado?: BoolNullableFilter<"InscripcionEspecial"> | boolean | null
-    vinoPresencialmente?: BoolNullableFilter<"InscripcionEspecial"> | boolean | null
+    fueContactado?: BoolFilter<"InscripcionEspecial"> | boolean
+    vinoPresencialmente?: BoolFilter<"InscripcionEspecial"> | boolean
     fechaSolicitud?: DateTimeFilter<"InscripcionEspecial"> | Date | string
     fechaRespuesta?: DateTimeNullableFilter<"InscripcionEspecial"> | Date | string | null
     solicitante?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -65996,8 +68431,8 @@ export namespace Prisma {
     materiasAdeudadas?: SortOrder
     estado?: SortOrder
     respuesta?: SortOrderInput | SortOrder
-    fueContactado?: SortOrderInput | SortOrder
-    vinoPresencialmente?: SortOrderInput | SortOrder
+    fueContactado?: SortOrder
+    vinoPresencialmente?: SortOrder
     fechaSolicitud?: SortOrder
     fechaRespuesta?: SortOrderInput | SortOrder
     solicitante?: UserOrderByWithRelationInput
@@ -66017,8 +68452,8 @@ export namespace Prisma {
     materiasAdeudadas?: IntNullableListFilter<"InscripcionEspecial">
     estado?: StringFilter<"InscripcionEspecial"> | string
     respuesta?: StringNullableFilter<"InscripcionEspecial"> | string | null
-    fueContactado?: BoolNullableFilter<"InscripcionEspecial"> | boolean | null
-    vinoPresencialmente?: BoolNullableFilter<"InscripcionEspecial"> | boolean | null
+    fueContactado?: BoolFilter<"InscripcionEspecial"> | boolean
+    vinoPresencialmente?: BoolFilter<"InscripcionEspecial"> | boolean
     fechaSolicitud?: DateTimeFilter<"InscripcionEspecial"> | Date | string
     fechaRespuesta?: DateTimeNullableFilter<"InscripcionEspecial"> | Date | string | null
     solicitante?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -66035,8 +68470,8 @@ export namespace Prisma {
     materiasAdeudadas?: SortOrder
     estado?: SortOrder
     respuesta?: SortOrderInput | SortOrder
-    fueContactado?: SortOrderInput | SortOrder
-    vinoPresencialmente?: SortOrderInput | SortOrder
+    fueContactado?: SortOrder
+    vinoPresencialmente?: SortOrder
     fechaSolicitud?: SortOrder
     fechaRespuesta?: SortOrderInput | SortOrder
     _count?: InscripcionEspecialCountOrderByAggregateInput
@@ -66060,10 +68495,62 @@ export namespace Prisma {
     materiasAdeudadas?: IntNullableListFilter<"InscripcionEspecial">
     estado?: StringWithAggregatesFilter<"InscripcionEspecial"> | string
     respuesta?: StringNullableWithAggregatesFilter<"InscripcionEspecial"> | string | null
-    fueContactado?: BoolNullableWithAggregatesFilter<"InscripcionEspecial"> | boolean | null
-    vinoPresencialmente?: BoolNullableWithAggregatesFilter<"InscripcionEspecial"> | boolean | null
+    fueContactado?: BoolWithAggregatesFilter<"InscripcionEspecial"> | boolean
+    vinoPresencialmente?: BoolWithAggregatesFilter<"InscripcionEspecial"> | boolean
     fechaSolicitud?: DateTimeWithAggregatesFilter<"InscripcionEspecial"> | Date | string
     fechaRespuesta?: DateTimeNullableWithAggregatesFilter<"InscripcionEspecial"> | Date | string | null
+  }
+
+  export type InscripcionEspecialPeriodoWhereInput = {
+    AND?: InscripcionEspecialPeriodoWhereInput | InscripcionEspecialPeriodoWhereInput[]
+    OR?: InscripcionEspecialPeriodoWhereInput[]
+    NOT?: InscripcionEspecialPeriodoWhereInput | InscripcionEspecialPeriodoWhereInput[]
+    id?: IntFilter<"InscripcionEspecialPeriodo"> | number
+    fechaInicio?: DateTimeFilter<"InscripcionEspecialPeriodo"> | Date | string
+    fechaFin?: DateTimeFilter<"InscripcionEspecialPeriodo"> | Date | string
+    usuarioCreadorId?: StringFilter<"InscripcionEspecialPeriodo"> | string
+    usuarioCreador?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type InscripcionEspecialPeriodoOrderByWithRelationInput = {
+    id?: SortOrder
+    fechaInicio?: SortOrder
+    fechaFin?: SortOrder
+    usuarioCreadorId?: SortOrder
+    usuarioCreador?: UserOrderByWithRelationInput
+  }
+
+  export type InscripcionEspecialPeriodoWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: InscripcionEspecialPeriodoWhereInput | InscripcionEspecialPeriodoWhereInput[]
+    OR?: InscripcionEspecialPeriodoWhereInput[]
+    NOT?: InscripcionEspecialPeriodoWhereInput | InscripcionEspecialPeriodoWhereInput[]
+    fechaInicio?: DateTimeFilter<"InscripcionEspecialPeriodo"> | Date | string
+    fechaFin?: DateTimeFilter<"InscripcionEspecialPeriodo"> | Date | string
+    usuarioCreadorId?: StringFilter<"InscripcionEspecialPeriodo"> | string
+    usuarioCreador?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type InscripcionEspecialPeriodoOrderByWithAggregationInput = {
+    id?: SortOrder
+    fechaInicio?: SortOrder
+    fechaFin?: SortOrder
+    usuarioCreadorId?: SortOrder
+    _count?: InscripcionEspecialPeriodoCountOrderByAggregateInput
+    _avg?: InscripcionEspecialPeriodoAvgOrderByAggregateInput
+    _max?: InscripcionEspecialPeriodoMaxOrderByAggregateInput
+    _min?: InscripcionEspecialPeriodoMinOrderByAggregateInput
+    _sum?: InscripcionEspecialPeriodoSumOrderByAggregateInput
+  }
+
+  export type InscripcionEspecialPeriodoScalarWhereWithAggregatesInput = {
+    AND?: InscripcionEspecialPeriodoScalarWhereWithAggregatesInput | InscripcionEspecialPeriodoScalarWhereWithAggregatesInput[]
+    OR?: InscripcionEspecialPeriodoScalarWhereWithAggregatesInput[]
+    NOT?: InscripcionEspecialPeriodoScalarWhereWithAggregatesInput | InscripcionEspecialPeriodoScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"InscripcionEspecialPeriodo"> | number
+    fechaInicio?: DateTimeWithAggregatesFilter<"InscripcionEspecialPeriodo"> | Date | string
+    fechaFin?: DateTimeWithAggregatesFilter<"InscripcionEspecialPeriodo"> | Date | string
+    usuarioCreadorId?: StringWithAggregatesFilter<"InscripcionEspecialPeriodo"> | string
   }
 
   export type LaboratorioWhereInput = {
@@ -67809,30 +70296,31 @@ export namespace Prisma {
     documentoTipoId?: IntNullableFilter<"User"> | number | null
     provinciaIso?: StringNullableFilter<"User"> | string | null
     paisIso?: StringNullableFilter<"User"> | string | null
+    documentoTipo?: XOR<DocumentoTipoNullableScalarRelationFilter, DocumentoTipoWhereInput> | null
+    provincia?: XOR<ProvinciaNullableScalarRelationFilter, ProvinciaWhereInput> | null
+    pais?: XOR<PaisNullableScalarRelationFilter, PaisWhereInput> | null
     accounts?: AccountListRelationFilter
-    cursosComoProfesor?: CursoListRelationFilter
-    cursosComoAyudante?: CursoAyudanteListRelationFilter
-    fallasAsignadas?: FallaListRelationFilter
-    fallasReportadas?: FallaListRelationFilter
-    fallasHistAsignadas?: FallaHistorialListRelationFilter
-    fallasHistReportadas?: FallaHistorialListRelationFilter
-    inscripcionesEspeciales?: InscripcionEspecialListRelationFilter
-    materiasDirector?: MateriaListRelationFilter
-    MateriaJefeTp?: MateriaJefeTpListRelationFilter
+    sessions?: SessionListRelationFilter
+    usuarioRol?: UsuarioRolListRelationFilter
+    reservasSolicitadas?: ReservaListRelationFilter
+    reservasRenovadas?: ReservaListRelationFilter
+    reservasComoTutor?: ReservaListRelationFilter
     reservasAprobadas?: ReservaListRelationFilter
     reservasRechazadas?: ReservaListRelationFilter
     reservasRecibidas?: ReservaListRelationFilter
-    reservasRenovadas?: ReservaListRelationFilter
-    reservasSolicitadas?: ReservaListRelationFilter
-    reservasComoTutor?: ReservaListRelationFilter
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoListRelationFilter
-    sessions?: SessionListRelationFilter
+    inscripcionesEspeciales?: InscripcionEspecialListRelationFilter
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoListRelationFilter
+    cursosComoAyudante?: CursoAyudanteListRelationFilter
+    cursosComoProfesor?: CursoListRelationFilter
+    MateriaJefeTp?: MateriaJefeTpListRelationFilter
+    materiasDirector?: MateriaListRelationFilter
     tutor?: XOR<TutorNullableScalarRelationFilter, TutorWhereInput> | null
-    documentoTipo?: XOR<DocumentoTipoNullableScalarRelationFilter, DocumentoTipoWhereInput> | null
-    pais?: XOR<PaisNullableScalarRelationFilter, PaisWhereInput> | null
-    provincia?: XOR<ProvinciaNullableScalarRelationFilter, ProvinciaWhereInput> | null
-    usuarioRol?: UsuarioRolListRelationFilter
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoListRelationFilter
     Voto?: VotoListRelationFilter
+    fallasReportadas?: FallaListRelationFilter
+    fallasAsignadas?: FallaListRelationFilter
+    fallasHistReportadas?: FallaHistorialListRelationFilter
+    fallasHistAsignadas?: FallaHistorialListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -67864,30 +70352,31 @@ export namespace Prisma {
     documentoTipoId?: SortOrderInput | SortOrder
     provinciaIso?: SortOrderInput | SortOrder
     paisIso?: SortOrderInput | SortOrder
+    documentoTipo?: DocumentoTipoOrderByWithRelationInput
+    provincia?: ProvinciaOrderByWithRelationInput
+    pais?: PaisOrderByWithRelationInput
     accounts?: AccountOrderByRelationAggregateInput
-    cursosComoProfesor?: CursoOrderByRelationAggregateInput
-    cursosComoAyudante?: CursoAyudanteOrderByRelationAggregateInput
-    fallasAsignadas?: FallaOrderByRelationAggregateInput
-    fallasReportadas?: FallaOrderByRelationAggregateInput
-    fallasHistAsignadas?: FallaHistorialOrderByRelationAggregateInput
-    fallasHistReportadas?: FallaHistorialOrderByRelationAggregateInput
-    inscripcionesEspeciales?: InscripcionEspecialOrderByRelationAggregateInput
-    materiasDirector?: MateriaOrderByRelationAggregateInput
-    MateriaJefeTp?: MateriaJefeTpOrderByRelationAggregateInput
+    sessions?: SessionOrderByRelationAggregateInput
+    usuarioRol?: UsuarioRolOrderByRelationAggregateInput
+    reservasSolicitadas?: ReservaOrderByRelationAggregateInput
+    reservasRenovadas?: ReservaOrderByRelationAggregateInput
+    reservasComoTutor?: ReservaOrderByRelationAggregateInput
     reservasAprobadas?: ReservaOrderByRelationAggregateInput
     reservasRechazadas?: ReservaOrderByRelationAggregateInput
     reservasRecibidas?: ReservaOrderByRelationAggregateInput
-    reservasRenovadas?: ReservaOrderByRelationAggregateInput
-    reservasSolicitadas?: ReservaOrderByRelationAggregateInput
-    reservasComoTutor?: ReservaOrderByRelationAggregateInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoOrderByRelationAggregateInput
-    sessions?: SessionOrderByRelationAggregateInput
+    inscripcionesEspeciales?: InscripcionEspecialOrderByRelationAggregateInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoOrderByRelationAggregateInput
+    cursosComoAyudante?: CursoAyudanteOrderByRelationAggregateInput
+    cursosComoProfesor?: CursoOrderByRelationAggregateInput
+    MateriaJefeTp?: MateriaJefeTpOrderByRelationAggregateInput
+    materiasDirector?: MateriaOrderByRelationAggregateInput
     tutor?: TutorOrderByWithRelationInput
-    documentoTipo?: DocumentoTipoOrderByWithRelationInput
-    pais?: PaisOrderByWithRelationInput
-    provincia?: ProvinciaOrderByWithRelationInput
-    usuarioRol?: UsuarioRolOrderByRelationAggregateInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoOrderByRelationAggregateInput
     Voto?: VotoOrderByRelationAggregateInput
+    fallasReportadas?: FallaOrderByRelationAggregateInput
+    fallasAsignadas?: FallaOrderByRelationAggregateInput
+    fallasHistReportadas?: FallaHistorialOrderByRelationAggregateInput
+    fallasHistAsignadas?: FallaHistorialOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -67922,30 +70411,31 @@ export namespace Prisma {
     documentoTipoId?: IntNullableFilter<"User"> | number | null
     provinciaIso?: StringNullableFilter<"User"> | string | null
     paisIso?: StringNullableFilter<"User"> | string | null
+    documentoTipo?: XOR<DocumentoTipoNullableScalarRelationFilter, DocumentoTipoWhereInput> | null
+    provincia?: XOR<ProvinciaNullableScalarRelationFilter, ProvinciaWhereInput> | null
+    pais?: XOR<PaisNullableScalarRelationFilter, PaisWhereInput> | null
     accounts?: AccountListRelationFilter
-    cursosComoProfesor?: CursoListRelationFilter
-    cursosComoAyudante?: CursoAyudanteListRelationFilter
-    fallasAsignadas?: FallaListRelationFilter
-    fallasReportadas?: FallaListRelationFilter
-    fallasHistAsignadas?: FallaHistorialListRelationFilter
-    fallasHistReportadas?: FallaHistorialListRelationFilter
-    inscripcionesEspeciales?: InscripcionEspecialListRelationFilter
-    materiasDirector?: MateriaListRelationFilter
-    MateriaJefeTp?: MateriaJefeTpListRelationFilter
+    sessions?: SessionListRelationFilter
+    usuarioRol?: UsuarioRolListRelationFilter
+    reservasSolicitadas?: ReservaListRelationFilter
+    reservasRenovadas?: ReservaListRelationFilter
+    reservasComoTutor?: ReservaListRelationFilter
     reservasAprobadas?: ReservaListRelationFilter
     reservasRechazadas?: ReservaListRelationFilter
     reservasRecibidas?: ReservaListRelationFilter
-    reservasRenovadas?: ReservaListRelationFilter
-    reservasSolicitadas?: ReservaListRelationFilter
-    reservasComoTutor?: ReservaListRelationFilter
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoListRelationFilter
-    sessions?: SessionListRelationFilter
+    inscripcionesEspeciales?: InscripcionEspecialListRelationFilter
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoListRelationFilter
+    cursosComoAyudante?: CursoAyudanteListRelationFilter
+    cursosComoProfesor?: CursoListRelationFilter
+    MateriaJefeTp?: MateriaJefeTpListRelationFilter
+    materiasDirector?: MateriaListRelationFilter
     tutor?: XOR<TutorNullableScalarRelationFilter, TutorWhereInput> | null
-    documentoTipo?: XOR<DocumentoTipoNullableScalarRelationFilter, DocumentoTipoWhereInput> | null
-    pais?: XOR<PaisNullableScalarRelationFilter, PaisWhereInput> | null
-    provincia?: XOR<ProvinciaNullableScalarRelationFilter, ProvinciaWhereInput> | null
-    usuarioRol?: UsuarioRolListRelationFilter
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoListRelationFilter
     Voto?: VotoListRelationFilter
+    fallasReportadas?: FallaListRelationFilter
+    fallasAsignadas?: FallaListRelationFilter
+    fallasHistReportadas?: FallaHistorialListRelationFilter
+    fallasHistAsignadas?: FallaHistorialListRelationFilter
   }, "id" | "name" | "email" | "legajo">
 
   export type UserOrderByWithAggregationInput = {
@@ -68482,6 +70972,90 @@ export namespace Prisma {
     NOT?: DocumentoTipoScalarWhereWithAggregatesInput | DocumentoTipoScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"DocumentoTipo"> | number
     nombre?: StringWithAggregatesFilter<"DocumentoTipo"> | string
+  }
+
+  export type ConsultaWhereInput = {
+    AND?: ConsultaWhereInput | ConsultaWhereInput[]
+    OR?: ConsultaWhereInput[]
+    NOT?: ConsultaWhereInput | ConsultaWhereInput[]
+    id?: IntFilter<"Consulta"> | number
+    nombre?: StringFilter<"Consulta"> | string
+    apellido?: StringFilter<"Consulta"> | string
+    legajo?: StringNullableFilter<"Consulta"> | string | null
+    email?: StringFilter<"Consulta"> | string
+    asunto?: StringFilter<"Consulta"> | string
+    consulta?: StringFilter<"Consulta"> | string
+    fechaConsulta?: DateTimeFilter<"Consulta"> | Date | string
+    respuesta?: StringNullableFilter<"Consulta"> | string | null
+    fechaRespuesta?: DateTimeNullableFilter<"Consulta"> | Date | string | null
+    estado?: StringFilter<"Consulta"> | string
+  }
+
+  export type ConsultaOrderByWithRelationInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    apellido?: SortOrder
+    legajo?: SortOrderInput | SortOrder
+    email?: SortOrder
+    asunto?: SortOrder
+    consulta?: SortOrder
+    fechaConsulta?: SortOrder
+    respuesta?: SortOrderInput | SortOrder
+    fechaRespuesta?: SortOrderInput | SortOrder
+    estado?: SortOrder
+  }
+
+  export type ConsultaWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: ConsultaWhereInput | ConsultaWhereInput[]
+    OR?: ConsultaWhereInput[]
+    NOT?: ConsultaWhereInput | ConsultaWhereInput[]
+    nombre?: StringFilter<"Consulta"> | string
+    apellido?: StringFilter<"Consulta"> | string
+    legajo?: StringNullableFilter<"Consulta"> | string | null
+    email?: StringFilter<"Consulta"> | string
+    asunto?: StringFilter<"Consulta"> | string
+    consulta?: StringFilter<"Consulta"> | string
+    fechaConsulta?: DateTimeFilter<"Consulta"> | Date | string
+    respuesta?: StringNullableFilter<"Consulta"> | string | null
+    fechaRespuesta?: DateTimeNullableFilter<"Consulta"> | Date | string | null
+    estado?: StringFilter<"Consulta"> | string
+  }, "id">
+
+  export type ConsultaOrderByWithAggregationInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    apellido?: SortOrder
+    legajo?: SortOrderInput | SortOrder
+    email?: SortOrder
+    asunto?: SortOrder
+    consulta?: SortOrder
+    fechaConsulta?: SortOrder
+    respuesta?: SortOrderInput | SortOrder
+    fechaRespuesta?: SortOrderInput | SortOrder
+    estado?: SortOrder
+    _count?: ConsultaCountOrderByAggregateInput
+    _avg?: ConsultaAvgOrderByAggregateInput
+    _max?: ConsultaMaxOrderByAggregateInput
+    _min?: ConsultaMinOrderByAggregateInput
+    _sum?: ConsultaSumOrderByAggregateInput
+  }
+
+  export type ConsultaScalarWhereWithAggregatesInput = {
+    AND?: ConsultaScalarWhereWithAggregatesInput | ConsultaScalarWhereWithAggregatesInput[]
+    OR?: ConsultaScalarWhereWithAggregatesInput[]
+    NOT?: ConsultaScalarWhereWithAggregatesInput | ConsultaScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Consulta"> | number
+    nombre?: StringWithAggregatesFilter<"Consulta"> | string
+    apellido?: StringWithAggregatesFilter<"Consulta"> | string
+    legajo?: StringNullableWithAggregatesFilter<"Consulta"> | string | null
+    email?: StringWithAggregatesFilter<"Consulta"> | string
+    asunto?: StringWithAggregatesFilter<"Consulta"> | string
+    consulta?: StringWithAggregatesFilter<"Consulta"> | string
+    fechaConsulta?: DateTimeWithAggregatesFilter<"Consulta"> | Date | string
+    respuesta?: StringNullableWithAggregatesFilter<"Consulta"> | string | null
+    fechaRespuesta?: DateTimeNullableWithAggregatesFilter<"Consulta"> | Date | string | null
+    estado?: StringWithAggregatesFilter<"Consulta"> | string
   }
 
   export type ActaCreateInput = {
@@ -69802,8 +72376,8 @@ export namespace Prisma {
     materiasAdeudadas?: InscripcionEspecialCreatemateriasAdeudadasInput | number[]
     estado: string
     respuesta?: string | null
-    fueContactado?: boolean | null
-    vinoPresencialmente?: boolean | null
+    fueContactado?: boolean
+    vinoPresencialmente?: boolean
     fechaSolicitud?: Date | string
     fechaRespuesta?: Date | string | null
     solicitante: UserCreateNestedOneWithoutInscripcionesEspecialesInput
@@ -69820,8 +72394,8 @@ export namespace Prisma {
     materiasAdeudadas?: InscripcionEspecialCreatemateriasAdeudadasInput | number[]
     estado: string
     respuesta?: string | null
-    fueContactado?: boolean | null
-    vinoPresencialmente?: boolean | null
+    fueContactado?: boolean
+    vinoPresencialmente?: boolean
     fechaSolicitud?: Date | string
     fechaRespuesta?: Date | string | null
   }
@@ -69835,8 +72409,8 @@ export namespace Prisma {
     materiasAdeudadas?: InscripcionEspecialUpdatemateriasAdeudadasInput | number[]
     estado?: StringFieldUpdateOperationsInput | string
     respuesta?: NullableStringFieldUpdateOperationsInput | string | null
-    fueContactado?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    vinoPresencialmente?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    fueContactado?: BoolFieldUpdateOperationsInput | boolean
+    vinoPresencialmente?: BoolFieldUpdateOperationsInput | boolean
     fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaRespuesta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     solicitante?: UserUpdateOneRequiredWithoutInscripcionesEspecialesNestedInput
@@ -69853,8 +72427,8 @@ export namespace Prisma {
     materiasAdeudadas?: InscripcionEspecialUpdatemateriasAdeudadasInput | number[]
     estado?: StringFieldUpdateOperationsInput | string
     respuesta?: NullableStringFieldUpdateOperationsInput | string | null
-    fueContactado?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    vinoPresencialmente?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    fueContactado?: BoolFieldUpdateOperationsInput | boolean
+    vinoPresencialmente?: BoolFieldUpdateOperationsInput | boolean
     fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaRespuesta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -69870,8 +72444,8 @@ export namespace Prisma {
     materiasAdeudadas?: InscripcionEspecialCreatemateriasAdeudadasInput | number[]
     estado: string
     respuesta?: string | null
-    fueContactado?: boolean | null
-    vinoPresencialmente?: boolean | null
+    fueContactado?: boolean
+    vinoPresencialmente?: boolean
     fechaSolicitud?: Date | string
     fechaRespuesta?: Date | string | null
   }
@@ -69885,8 +72459,8 @@ export namespace Prisma {
     materiasAdeudadas?: InscripcionEspecialUpdatemateriasAdeudadasInput | number[]
     estado?: StringFieldUpdateOperationsInput | string
     respuesta?: NullableStringFieldUpdateOperationsInput | string | null
-    fueContactado?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    vinoPresencialmente?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    fueContactado?: BoolFieldUpdateOperationsInput | boolean
+    vinoPresencialmente?: BoolFieldUpdateOperationsInput | boolean
     fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaRespuesta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -69902,10 +72476,55 @@ export namespace Prisma {
     materiasAdeudadas?: InscripcionEspecialUpdatemateriasAdeudadasInput | number[]
     estado?: StringFieldUpdateOperationsInput | string
     respuesta?: NullableStringFieldUpdateOperationsInput | string | null
-    fueContactado?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    vinoPresencialmente?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    fueContactado?: BoolFieldUpdateOperationsInput | boolean
+    vinoPresencialmente?: BoolFieldUpdateOperationsInput | boolean
     fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaRespuesta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type InscripcionEspecialPeriodoCreateInput = {
+    fechaInicio: Date | string
+    fechaFin: Date | string
+    usuarioCreador: UserCreateNestedOneWithoutInscripcionEspecialPeriodosCreadosInput
+  }
+
+  export type InscripcionEspecialPeriodoUncheckedCreateInput = {
+    id?: number
+    fechaInicio: Date | string
+    fechaFin: Date | string
+    usuarioCreadorId: string
+  }
+
+  export type InscripcionEspecialPeriodoUpdateInput = {
+    fechaInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaFin?: DateTimeFieldUpdateOperationsInput | Date | string
+    usuarioCreador?: UserUpdateOneRequiredWithoutInscripcionEspecialPeriodosCreadosNestedInput
+  }
+
+  export type InscripcionEspecialPeriodoUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    fechaInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaFin?: DateTimeFieldUpdateOperationsInput | Date | string
+    usuarioCreadorId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type InscripcionEspecialPeriodoCreateManyInput = {
+    id?: number
+    fechaInicio: Date | string
+    fechaFin: Date | string
+    usuarioCreadorId: string
+  }
+
+  export type InscripcionEspecialPeriodoUpdateManyMutationInput = {
+    fechaInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaFin?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InscripcionEspecialPeriodoUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    fechaInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaFin?: DateTimeFieldUpdateOperationsInput | Date | string
+    usuarioCreadorId?: StringFieldUpdateOperationsInput | string
   }
 
   export type LaboratorioCreateInput = {
@@ -71680,30 +74299,31 @@ export namespace Prisma {
     fechaRegistro?: Date | string
     fechaUltimoAcceso?: Date | string
     fechaUltimaActualizacion?: Date | string
+    documentoTipo?: DocumentoTipoCreateNestedOneWithoutUsuariosInput
+    provincia?: ProvinciaCreateNestedOneWithoutUsuariosInput
+    pais?: PaisCreateNestedOneWithoutUsuariosInput
     accounts?: AccountCreateNestedManyWithoutUserInput
-    cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
-    cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
-    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
-    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
-    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
-    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
-    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
-    materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
-    MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
-    reservasRenovadas?: ReservaCreateNestedManyWithoutUsuarioRenovoInput
-    reservasSolicitadas?: ReservaCreateNestedManyWithoutUsuarioSolicitoInput
-    reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
-    sessions?: SessionCreateNestedManyWithoutUserInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoCreateNestedManyWithoutUsuarioCreadorInput
+    cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
-    documentoTipo?: DocumentoTipoCreateNestedOneWithoutUsuariosInput
-    pais?: PaisCreateNestedOneWithoutUsuariosInput
-    provincia?: ProvinciaCreateNestedOneWithoutUsuariosInput
-    usuarioRol?: UsuarioRolCreateNestedManyWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -71736,26 +74356,27 @@ export namespace Prisma {
     provinciaIso?: string | null
     paisIso?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
-    cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
-    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
-    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
-    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
-    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
-    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
-    materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
-    MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolUncheckedCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
-    reservasRenovadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRenovoInput
-    reservasSolicitadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioSolicitoInput
-    reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUncheckedCreateNestedManyWithoutUsuarioCreadorInput
+    cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
-    usuarioRol?: UsuarioRolUncheckedCreateNestedManyWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserUpdateInput = {
@@ -71784,30 +74405,31 @@ export namespace Prisma {
     fechaRegistro?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaUltimoAcceso?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaUltimaActualizacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    documentoTipo?: DocumentoTipoUpdateOneWithoutUsuariosNestedInput
+    provincia?: ProvinciaUpdateOneWithoutUsuariosNestedInput
+    pais?: PaisUpdateOneWithoutUsuariosNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
-    cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
-    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
-    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
-    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
-    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
-    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
-    materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
-    MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
-    reservasRenovadas?: ReservaUpdateManyWithoutUsuarioRenovoNestedInput
-    reservasSolicitadas?: ReservaUpdateManyWithoutUsuarioSolicitoNestedInput
-    reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
-    sessions?: SessionUpdateManyWithoutUserNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUpdateManyWithoutUsuarioCreadorNestedInput
+    cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
-    documentoTipo?: DocumentoTipoUpdateOneWithoutUsuariosNestedInput
-    pais?: PaisUpdateOneWithoutUsuariosNestedInput
-    provincia?: ProvinciaUpdateOneWithoutUsuariosNestedInput
-    usuarioRol?: UsuarioRolUpdateManyWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -71840,26 +74462,27 @@ export namespace Prisma {
     provinciaIso?: NullableStringFieldUpdateOperationsInput | string | null
     paisIso?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
-    cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
-    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
-    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
-    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
-    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
-    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
-    materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
-    MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUncheckedUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUncheckedUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUncheckedUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
-    reservasRenovadas?: ReservaUncheckedUpdateManyWithoutUsuarioRenovoNestedInput
-    reservasSolicitadas?: ReservaUncheckedUpdateManyWithoutUsuarioSolicitoNestedInput
-    reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUncheckedUpdateManyWithoutUsuarioCreadorNestedInput
+    cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
-    usuarioRol?: UsuarioRolUncheckedUpdateManyWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserCreateManyInput = {
@@ -72404,6 +75027,102 @@ export namespace Prisma {
   export type DocumentoTipoUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     nombre?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ConsultaCreateInput = {
+    id?: number
+    nombre: string
+    apellido: string
+    legajo?: string | null
+    email: string
+    asunto: string
+    consulta: string
+    fechaConsulta?: Date | string
+    respuesta?: string | null
+    fechaRespuesta?: Date | string | null
+    estado?: string
+  }
+
+  export type ConsultaUncheckedCreateInput = {
+    id?: number
+    nombre: string
+    apellido: string
+    legajo?: string | null
+    email: string
+    asunto: string
+    consulta: string
+    fechaConsulta?: Date | string
+    respuesta?: string | null
+    fechaRespuesta?: Date | string | null
+    estado?: string
+  }
+
+  export type ConsultaUpdateInput = {
+    nombre?: StringFieldUpdateOperationsInput | string
+    apellido?: StringFieldUpdateOperationsInput | string
+    legajo?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    asunto?: StringFieldUpdateOperationsInput | string
+    consulta?: StringFieldUpdateOperationsInput | string
+    fechaConsulta?: DateTimeFieldUpdateOperationsInput | Date | string
+    respuesta?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaRespuesta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    estado?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ConsultaUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nombre?: StringFieldUpdateOperationsInput | string
+    apellido?: StringFieldUpdateOperationsInput | string
+    legajo?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    asunto?: StringFieldUpdateOperationsInput | string
+    consulta?: StringFieldUpdateOperationsInput | string
+    fechaConsulta?: DateTimeFieldUpdateOperationsInput | Date | string
+    respuesta?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaRespuesta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    estado?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ConsultaCreateManyInput = {
+    id?: number
+    nombre: string
+    apellido: string
+    legajo?: string | null
+    email: string
+    asunto: string
+    consulta: string
+    fechaConsulta?: Date | string
+    respuesta?: string | null
+    fechaRespuesta?: Date | string | null
+    estado?: string
+  }
+
+  export type ConsultaUpdateManyMutationInput = {
+    nombre?: StringFieldUpdateOperationsInput | string
+    apellido?: StringFieldUpdateOperationsInput | string
+    legajo?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    asunto?: StringFieldUpdateOperationsInput | string
+    consulta?: StringFieldUpdateOperationsInput | string
+    fechaConsulta?: DateTimeFieldUpdateOperationsInput | Date | string
+    respuesta?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaRespuesta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    estado?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ConsultaUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nombre?: StringFieldUpdateOperationsInput | string
+    apellido?: StringFieldUpdateOperationsInput | string
+    legajo?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    asunto?: StringFieldUpdateOperationsInput | string
+    consulta?: StringFieldUpdateOperationsInput | string
+    fechaConsulta?: DateTimeFieldUpdateOperationsInput | Date | string
+    respuesta?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaRespuesta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    estado?: StringFieldUpdateOperationsInput | string
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -73666,11 +76385,6 @@ export namespace Prisma {
     isEmpty?: boolean
   }
 
-  export type BoolNullableFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
-    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
-  }
-
   export type DateTimeNullableFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -73741,14 +76455,6 @@ export namespace Prisma {
     materiasAdeudadas?: SortOrder
   }
 
-  export type BoolNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
-    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedBoolNullableFilter<$PrismaModel>
-    _max?: NestedBoolNullableFilter<$PrismaModel>
-  }
-
   export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -73761,6 +76467,35 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type InscripcionEspecialPeriodoCountOrderByAggregateInput = {
+    id?: SortOrder
+    fechaInicio?: SortOrder
+    fechaFin?: SortOrder
+    usuarioCreadorId?: SortOrder
+  }
+
+  export type InscripcionEspecialPeriodoAvgOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type InscripcionEspecialPeriodoMaxOrderByAggregateInput = {
+    id?: SortOrder
+    fechaInicio?: SortOrder
+    fechaFin?: SortOrder
+    usuarioCreadorId?: SortOrder
+  }
+
+  export type InscripcionEspecialPeriodoMinOrderByAggregateInput = {
+    id?: SortOrder
+    fechaInicio?: SortOrder
+    fechaFin?: SortOrder
+    usuarioCreadorId?: SortOrder
+  }
+
+  export type InscripcionEspecialPeriodoSumOrderByAggregateInput = {
+    id?: SortOrder
   }
 
   export type ArmarioListRelationFilter = {
@@ -75020,28 +77755,30 @@ export namespace Prisma {
     id?: SortOrder
   }
 
+  export type BoolNullableFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
+  }
+
+  export type DocumentoTipoNullableScalarRelationFilter = {
+    is?: DocumentoTipoWhereInput | null
+    isNot?: DocumentoTipoWhereInput | null
+  }
+
+  export type ProvinciaNullableScalarRelationFilter = {
+    is?: ProvinciaWhereInput | null
+    isNot?: ProvinciaWhereInput | null
+  }
+
+  export type PaisNullableScalarRelationFilter = {
+    is?: PaisWhereInput | null
+    isNot?: PaisWhereInput | null
+  }
+
   export type AccountListRelationFilter = {
     every?: AccountWhereInput
     some?: AccountWhereInput
     none?: AccountWhereInput
-  }
-
-  export type InscripcionEspecialListRelationFilter = {
-    every?: InscripcionEspecialWhereInput
-    some?: InscripcionEspecialWhereInput
-    none?: InscripcionEspecialWhereInput
-  }
-
-  export type MateriaListRelationFilter = {
-    every?: MateriaWhereInput
-    some?: MateriaWhereInput
-    none?: MateriaWhereInput
-  }
-
-  export type ReservaListRelationFilter = {
-    every?: ReservaWhereInput
-    some?: ReservaWhereInput
-    none?: ReservaWhereInput
   }
 
   export type SessionListRelationFilter = {
@@ -75050,45 +77787,42 @@ export namespace Prisma {
     none?: SessionWhereInput
   }
 
-  export type TutorNullableScalarRelationFilter = {
-    is?: TutorWhereInput | null
-    isNot?: TutorWhereInput | null
-  }
-
-  export type DocumentoTipoNullableScalarRelationFilter = {
-    is?: DocumentoTipoWhereInput | null
-    isNot?: DocumentoTipoWhereInput | null
-  }
-
-  export type PaisNullableScalarRelationFilter = {
-    is?: PaisWhereInput | null
-    isNot?: PaisWhereInput | null
-  }
-
-  export type ProvinciaNullableScalarRelationFilter = {
-    is?: ProvinciaWhereInput | null
-    isNot?: ProvinciaWhereInput | null
-  }
-
   export type UsuarioRolListRelationFilter = {
     every?: UsuarioRolWhereInput
     some?: UsuarioRolWhereInput
     none?: UsuarioRolWhereInput
   }
 
+  export type ReservaListRelationFilter = {
+    every?: ReservaWhereInput
+    some?: ReservaWhereInput
+    none?: ReservaWhereInput
+  }
+
+  export type InscripcionEspecialListRelationFilter = {
+    every?: InscripcionEspecialWhereInput
+    some?: InscripcionEspecialWhereInput
+    none?: InscripcionEspecialWhereInput
+  }
+
+  export type InscripcionEspecialPeriodoListRelationFilter = {
+    every?: InscripcionEspecialPeriodoWhereInput
+    some?: InscripcionEspecialPeriodoWhereInput
+    none?: InscripcionEspecialPeriodoWhereInput
+  }
+
+  export type MateriaListRelationFilter = {
+    every?: MateriaWhereInput
+    some?: MateriaWhereInput
+    none?: MateriaWhereInput
+  }
+
+  export type TutorNullableScalarRelationFilter = {
+    is?: TutorWhereInput | null
+    isNot?: TutorWhereInput | null
+  }
+
   export type AccountOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type InscripcionEspecialOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type MateriaOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type ReservaOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -75097,6 +77831,22 @@ export namespace Prisma {
   }
 
   export type UsuarioRolOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ReservaOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type InscripcionEspecialOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type InscripcionEspecialPeriodoOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type MateriaOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -75201,6 +77951,14 @@ export namespace Prisma {
   export type UserSumOrderByAggregateInput = {
     penalizaciones?: SortOrder
     documentoTipoId?: SortOrder
+  }
+
+  export type BoolNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBoolNullableFilter<$PrismaModel>
+    _max?: NestedBoolNullableFilter<$PrismaModel>
   }
 
   export type TutorCountOrderByAggregateInput = {
@@ -75521,6 +78279,56 @@ export namespace Prisma {
   }
 
   export type DocumentoTipoSumOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type ConsultaCountOrderByAggregateInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    apellido?: SortOrder
+    legajo?: SortOrder
+    email?: SortOrder
+    asunto?: SortOrder
+    consulta?: SortOrder
+    fechaConsulta?: SortOrder
+    respuesta?: SortOrder
+    fechaRespuesta?: SortOrder
+    estado?: SortOrder
+  }
+
+  export type ConsultaAvgOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type ConsultaMaxOrderByAggregateInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    apellido?: SortOrder
+    legajo?: SortOrder
+    email?: SortOrder
+    asunto?: SortOrder
+    consulta?: SortOrder
+    fechaConsulta?: SortOrder
+    respuesta?: SortOrder
+    fechaRespuesta?: SortOrder
+    estado?: SortOrder
+  }
+
+  export type ConsultaMinOrderByAggregateInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    apellido?: SortOrder
+    legajo?: SortOrder
+    email?: SortOrder
+    asunto?: SortOrder
+    consulta?: SortOrder
+    fechaConsulta?: SortOrder
+    respuesta?: SortOrder
+    fechaRespuesta?: SortOrder
+    estado?: SortOrder
+  }
+
+  export type ConsultaSumOrderByAggregateInput = {
     id?: SortOrder
   }
 
@@ -76774,10 +79582,6 @@ export namespace Prisma {
     push?: number | number[]
   }
 
-  export type NullableBoolFieldUpdateOperationsInput = {
-    set?: boolean | null
-  }
-
   export type NullableDateTimeFieldUpdateOperationsInput = {
     set?: Date | string | null
   }
@@ -76788,6 +79592,20 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutInscripcionesEspecialesInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutInscripcionesEspecialesInput, UserUpdateWithoutInscripcionesEspecialesInput>, UserUncheckedUpdateWithoutInscripcionesEspecialesInput>
+  }
+
+  export type UserCreateNestedOneWithoutInscripcionEspecialPeriodosCreadosInput = {
+    create?: XOR<UserCreateWithoutInscripcionEspecialPeriodosCreadosInput, UserUncheckedCreateWithoutInscripcionEspecialPeriodosCreadosInput>
+    connectOrCreate?: UserCreateOrConnectWithoutInscripcionEspecialPeriodosCreadosInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutInscripcionEspecialPeriodosCreadosNestedInput = {
+    create?: XOR<UserCreateWithoutInscripcionEspecialPeriodosCreadosInput, UserUncheckedCreateWithoutInscripcionEspecialPeriodosCreadosInput>
+    connectOrCreate?: UserCreateOrConnectWithoutInscripcionEspecialPeriodosCreadosInput
+    upsert?: UserUpsertWithoutInscripcionEspecialPeriodosCreadosInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutInscripcionEspecialPeriodosCreadosInput, UserUpdateWithoutInscripcionEspecialPeriodosCreadosInput>, UserUncheckedUpdateWithoutInscripcionEspecialPeriodosCreadosInput>
   }
 
   export type ArmarioCreateNestedManyWithoutLaboratorioInput = {
@@ -78602,6 +81420,24 @@ export namespace Prisma {
     deleteMany?: ReservaLaboratorioCerradoScalarWhereInput | ReservaLaboratorioCerradoScalarWhereInput[]
   }
 
+  export type DocumentoTipoCreateNestedOneWithoutUsuariosInput = {
+    create?: XOR<DocumentoTipoCreateWithoutUsuariosInput, DocumentoTipoUncheckedCreateWithoutUsuariosInput>
+    connectOrCreate?: DocumentoTipoCreateOrConnectWithoutUsuariosInput
+    connect?: DocumentoTipoWhereUniqueInput
+  }
+
+  export type ProvinciaCreateNestedOneWithoutUsuariosInput = {
+    create?: XOR<ProvinciaCreateWithoutUsuariosInput, ProvinciaUncheckedCreateWithoutUsuariosInput>
+    connectOrCreate?: ProvinciaCreateOrConnectWithoutUsuariosInput
+    connect?: ProvinciaWhereUniqueInput
+  }
+
+  export type PaisCreateNestedOneWithoutUsuariosInput = {
+    create?: XOR<PaisCreateWithoutUsuariosInput, PaisUncheckedCreateWithoutUsuariosInput>
+    connectOrCreate?: PaisCreateOrConnectWithoutUsuariosInput
+    connect?: PaisWhereUniqueInput
+  }
+
   export type AccountCreateNestedManyWithoutUserInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -78609,67 +81445,39 @@ export namespace Prisma {
     connect?: AccountWhereUniqueInput | AccountWhereUniqueInput[]
   }
 
-  export type CursoCreateNestedManyWithoutProfesorInput = {
-    create?: XOR<CursoCreateWithoutProfesorInput, CursoUncheckedCreateWithoutProfesorInput> | CursoCreateWithoutProfesorInput[] | CursoUncheckedCreateWithoutProfesorInput[]
-    connectOrCreate?: CursoCreateOrConnectWithoutProfesorInput | CursoCreateOrConnectWithoutProfesorInput[]
-    createMany?: CursoCreateManyProfesorInputEnvelope
-    connect?: CursoWhereUniqueInput | CursoWhereUniqueInput[]
+  export type SessionCreateNestedManyWithoutUserInput = {
+    create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
+    createMany?: SessionCreateManyUserInputEnvelope
+    connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
   }
 
-  export type CursoAyudanteCreateNestedManyWithoutUsuarioInput = {
-    create?: XOR<CursoAyudanteCreateWithoutUsuarioInput, CursoAyudanteUncheckedCreateWithoutUsuarioInput> | CursoAyudanteCreateWithoutUsuarioInput[] | CursoAyudanteUncheckedCreateWithoutUsuarioInput[]
-    connectOrCreate?: CursoAyudanteCreateOrConnectWithoutUsuarioInput | CursoAyudanteCreateOrConnectWithoutUsuarioInput[]
-    createMany?: CursoAyudanteCreateManyUsuarioInputEnvelope
-    connect?: CursoAyudanteWhereUniqueInput | CursoAyudanteWhereUniqueInput[]
+  export type UsuarioRolCreateNestedManyWithoutUsuarioInput = {
+    create?: XOR<UsuarioRolCreateWithoutUsuarioInput, UsuarioRolUncheckedCreateWithoutUsuarioInput> | UsuarioRolCreateWithoutUsuarioInput[] | UsuarioRolUncheckedCreateWithoutUsuarioInput[]
+    connectOrCreate?: UsuarioRolCreateOrConnectWithoutUsuarioInput | UsuarioRolCreateOrConnectWithoutUsuarioInput[]
+    createMany?: UsuarioRolCreateManyUsuarioInputEnvelope
+    connect?: UsuarioRolWhereUniqueInput | UsuarioRolWhereUniqueInput[]
   }
 
-  export type FallaCreateNestedManyWithoutAsignadoAInput = {
-    create?: XOR<FallaCreateWithoutAsignadoAInput, FallaUncheckedCreateWithoutAsignadoAInput> | FallaCreateWithoutAsignadoAInput[] | FallaUncheckedCreateWithoutAsignadoAInput[]
-    connectOrCreate?: FallaCreateOrConnectWithoutAsignadoAInput | FallaCreateOrConnectWithoutAsignadoAInput[]
-    createMany?: FallaCreateManyAsignadoAInputEnvelope
-    connect?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
+  export type ReservaCreateNestedManyWithoutUsuarioSolicitoInput = {
+    create?: XOR<ReservaCreateWithoutUsuarioSolicitoInput, ReservaUncheckedCreateWithoutUsuarioSolicitoInput> | ReservaCreateWithoutUsuarioSolicitoInput[] | ReservaUncheckedCreateWithoutUsuarioSolicitoInput[]
+    connectOrCreate?: ReservaCreateOrConnectWithoutUsuarioSolicitoInput | ReservaCreateOrConnectWithoutUsuarioSolicitoInput[]
+    createMany?: ReservaCreateManyUsuarioSolicitoInputEnvelope
+    connect?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
   }
 
-  export type FallaCreateNestedManyWithoutReportadoPorInput = {
-    create?: XOR<FallaCreateWithoutReportadoPorInput, FallaUncheckedCreateWithoutReportadoPorInput> | FallaCreateWithoutReportadoPorInput[] | FallaUncheckedCreateWithoutReportadoPorInput[]
-    connectOrCreate?: FallaCreateOrConnectWithoutReportadoPorInput | FallaCreateOrConnectWithoutReportadoPorInput[]
-    createMany?: FallaCreateManyReportadoPorInputEnvelope
-    connect?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
+  export type ReservaCreateNestedManyWithoutUsuarioRenovoInput = {
+    create?: XOR<ReservaCreateWithoutUsuarioRenovoInput, ReservaUncheckedCreateWithoutUsuarioRenovoInput> | ReservaCreateWithoutUsuarioRenovoInput[] | ReservaUncheckedCreateWithoutUsuarioRenovoInput[]
+    connectOrCreate?: ReservaCreateOrConnectWithoutUsuarioRenovoInput | ReservaCreateOrConnectWithoutUsuarioRenovoInput[]
+    createMany?: ReservaCreateManyUsuarioRenovoInputEnvelope
+    connect?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
   }
 
-  export type FallaHistorialCreateNestedManyWithoutAsignadoAInput = {
-    create?: XOR<FallaHistorialCreateWithoutAsignadoAInput, FallaHistorialUncheckedCreateWithoutAsignadoAInput> | FallaHistorialCreateWithoutAsignadoAInput[] | FallaHistorialUncheckedCreateWithoutAsignadoAInput[]
-    connectOrCreate?: FallaHistorialCreateOrConnectWithoutAsignadoAInput | FallaHistorialCreateOrConnectWithoutAsignadoAInput[]
-    createMany?: FallaHistorialCreateManyAsignadoAInputEnvelope
-    connect?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
-  }
-
-  export type FallaHistorialCreateNestedManyWithoutReportadoPorInput = {
-    create?: XOR<FallaHistorialCreateWithoutReportadoPorInput, FallaHistorialUncheckedCreateWithoutReportadoPorInput> | FallaHistorialCreateWithoutReportadoPorInput[] | FallaHistorialUncheckedCreateWithoutReportadoPorInput[]
-    connectOrCreate?: FallaHistorialCreateOrConnectWithoutReportadoPorInput | FallaHistorialCreateOrConnectWithoutReportadoPorInput[]
-    createMany?: FallaHistorialCreateManyReportadoPorInputEnvelope
-    connect?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
-  }
-
-  export type InscripcionEspecialCreateNestedManyWithoutSolicitanteInput = {
-    create?: XOR<InscripcionEspecialCreateWithoutSolicitanteInput, InscripcionEspecialUncheckedCreateWithoutSolicitanteInput> | InscripcionEspecialCreateWithoutSolicitanteInput[] | InscripcionEspecialUncheckedCreateWithoutSolicitanteInput[]
-    connectOrCreate?: InscripcionEspecialCreateOrConnectWithoutSolicitanteInput | InscripcionEspecialCreateOrConnectWithoutSolicitanteInput[]
-    createMany?: InscripcionEspecialCreateManySolicitanteInputEnvelope
-    connect?: InscripcionEspecialWhereUniqueInput | InscripcionEspecialWhereUniqueInput[]
-  }
-
-  export type MateriaCreateNestedManyWithoutDirectorUsuarioInput = {
-    create?: XOR<MateriaCreateWithoutDirectorUsuarioInput, MateriaUncheckedCreateWithoutDirectorUsuarioInput> | MateriaCreateWithoutDirectorUsuarioInput[] | MateriaUncheckedCreateWithoutDirectorUsuarioInput[]
-    connectOrCreate?: MateriaCreateOrConnectWithoutDirectorUsuarioInput | MateriaCreateOrConnectWithoutDirectorUsuarioInput[]
-    createMany?: MateriaCreateManyDirectorUsuarioInputEnvelope
-    connect?: MateriaWhereUniqueInput | MateriaWhereUniqueInput[]
-  }
-
-  export type MateriaJefeTpCreateNestedManyWithoutUsuarioInput = {
-    create?: XOR<MateriaJefeTpCreateWithoutUsuarioInput, MateriaJefeTpUncheckedCreateWithoutUsuarioInput> | MateriaJefeTpCreateWithoutUsuarioInput[] | MateriaJefeTpUncheckedCreateWithoutUsuarioInput[]
-    connectOrCreate?: MateriaJefeTpCreateOrConnectWithoutUsuarioInput | MateriaJefeTpCreateOrConnectWithoutUsuarioInput[]
-    createMany?: MateriaJefeTpCreateManyUsuarioInputEnvelope
-    connect?: MateriaJefeTpWhereUniqueInput | MateriaJefeTpWhereUniqueInput[]
+  export type ReservaCreateNestedManyWithoutUsuarioTutorInput = {
+    create?: XOR<ReservaCreateWithoutUsuarioTutorInput, ReservaUncheckedCreateWithoutUsuarioTutorInput> | ReservaCreateWithoutUsuarioTutorInput[] | ReservaUncheckedCreateWithoutUsuarioTutorInput[]
+    connectOrCreate?: ReservaCreateOrConnectWithoutUsuarioTutorInput | ReservaCreateOrConnectWithoutUsuarioTutorInput[]
+    createMany?: ReservaCreateManyUsuarioTutorInputEnvelope
+    connect?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
   }
 
   export type ReservaCreateNestedManyWithoutUsuarioAprobadorInput = {
@@ -78693,25 +81501,52 @@ export namespace Prisma {
     connect?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
   }
 
-  export type ReservaCreateNestedManyWithoutUsuarioRenovoInput = {
-    create?: XOR<ReservaCreateWithoutUsuarioRenovoInput, ReservaUncheckedCreateWithoutUsuarioRenovoInput> | ReservaCreateWithoutUsuarioRenovoInput[] | ReservaUncheckedCreateWithoutUsuarioRenovoInput[]
-    connectOrCreate?: ReservaCreateOrConnectWithoutUsuarioRenovoInput | ReservaCreateOrConnectWithoutUsuarioRenovoInput[]
-    createMany?: ReservaCreateManyUsuarioRenovoInputEnvelope
-    connect?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
+  export type InscripcionEspecialCreateNestedManyWithoutSolicitanteInput = {
+    create?: XOR<InscripcionEspecialCreateWithoutSolicitanteInput, InscripcionEspecialUncheckedCreateWithoutSolicitanteInput> | InscripcionEspecialCreateWithoutSolicitanteInput[] | InscripcionEspecialUncheckedCreateWithoutSolicitanteInput[]
+    connectOrCreate?: InscripcionEspecialCreateOrConnectWithoutSolicitanteInput | InscripcionEspecialCreateOrConnectWithoutSolicitanteInput[]
+    createMany?: InscripcionEspecialCreateManySolicitanteInputEnvelope
+    connect?: InscripcionEspecialWhereUniqueInput | InscripcionEspecialWhereUniqueInput[]
   }
 
-  export type ReservaCreateNestedManyWithoutUsuarioSolicitoInput = {
-    create?: XOR<ReservaCreateWithoutUsuarioSolicitoInput, ReservaUncheckedCreateWithoutUsuarioSolicitoInput> | ReservaCreateWithoutUsuarioSolicitoInput[] | ReservaUncheckedCreateWithoutUsuarioSolicitoInput[]
-    connectOrCreate?: ReservaCreateOrConnectWithoutUsuarioSolicitoInput | ReservaCreateOrConnectWithoutUsuarioSolicitoInput[]
-    createMany?: ReservaCreateManyUsuarioSolicitoInputEnvelope
-    connect?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
+  export type InscripcionEspecialPeriodoCreateNestedManyWithoutUsuarioCreadorInput = {
+    create?: XOR<InscripcionEspecialPeriodoCreateWithoutUsuarioCreadorInput, InscripcionEspecialPeriodoUncheckedCreateWithoutUsuarioCreadorInput> | InscripcionEspecialPeriodoCreateWithoutUsuarioCreadorInput[] | InscripcionEspecialPeriodoUncheckedCreateWithoutUsuarioCreadorInput[]
+    connectOrCreate?: InscripcionEspecialPeriodoCreateOrConnectWithoutUsuarioCreadorInput | InscripcionEspecialPeriodoCreateOrConnectWithoutUsuarioCreadorInput[]
+    createMany?: InscripcionEspecialPeriodoCreateManyUsuarioCreadorInputEnvelope
+    connect?: InscripcionEspecialPeriodoWhereUniqueInput | InscripcionEspecialPeriodoWhereUniqueInput[]
   }
 
-  export type ReservaCreateNestedManyWithoutUsuarioTutorInput = {
-    create?: XOR<ReservaCreateWithoutUsuarioTutorInput, ReservaUncheckedCreateWithoutUsuarioTutorInput> | ReservaCreateWithoutUsuarioTutorInput[] | ReservaUncheckedCreateWithoutUsuarioTutorInput[]
-    connectOrCreate?: ReservaCreateOrConnectWithoutUsuarioTutorInput | ReservaCreateOrConnectWithoutUsuarioTutorInput[]
-    createMany?: ReservaCreateManyUsuarioTutorInputEnvelope
-    connect?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
+  export type CursoAyudanteCreateNestedManyWithoutUsuarioInput = {
+    create?: XOR<CursoAyudanteCreateWithoutUsuarioInput, CursoAyudanteUncheckedCreateWithoutUsuarioInput> | CursoAyudanteCreateWithoutUsuarioInput[] | CursoAyudanteUncheckedCreateWithoutUsuarioInput[]
+    connectOrCreate?: CursoAyudanteCreateOrConnectWithoutUsuarioInput | CursoAyudanteCreateOrConnectWithoutUsuarioInput[]
+    createMany?: CursoAyudanteCreateManyUsuarioInputEnvelope
+    connect?: CursoAyudanteWhereUniqueInput | CursoAyudanteWhereUniqueInput[]
+  }
+
+  export type CursoCreateNestedManyWithoutProfesorInput = {
+    create?: XOR<CursoCreateWithoutProfesorInput, CursoUncheckedCreateWithoutProfesorInput> | CursoCreateWithoutProfesorInput[] | CursoUncheckedCreateWithoutProfesorInput[]
+    connectOrCreate?: CursoCreateOrConnectWithoutProfesorInput | CursoCreateOrConnectWithoutProfesorInput[]
+    createMany?: CursoCreateManyProfesorInputEnvelope
+    connect?: CursoWhereUniqueInput | CursoWhereUniqueInput[]
+  }
+
+  export type MateriaJefeTpCreateNestedManyWithoutUsuarioInput = {
+    create?: XOR<MateriaJefeTpCreateWithoutUsuarioInput, MateriaJefeTpUncheckedCreateWithoutUsuarioInput> | MateriaJefeTpCreateWithoutUsuarioInput[] | MateriaJefeTpUncheckedCreateWithoutUsuarioInput[]
+    connectOrCreate?: MateriaJefeTpCreateOrConnectWithoutUsuarioInput | MateriaJefeTpCreateOrConnectWithoutUsuarioInput[]
+    createMany?: MateriaJefeTpCreateManyUsuarioInputEnvelope
+    connect?: MateriaJefeTpWhereUniqueInput | MateriaJefeTpWhereUniqueInput[]
+  }
+
+  export type MateriaCreateNestedManyWithoutDirectorUsuarioInput = {
+    create?: XOR<MateriaCreateWithoutDirectorUsuarioInput, MateriaUncheckedCreateWithoutDirectorUsuarioInput> | MateriaCreateWithoutDirectorUsuarioInput[] | MateriaUncheckedCreateWithoutDirectorUsuarioInput[]
+    connectOrCreate?: MateriaCreateOrConnectWithoutDirectorUsuarioInput | MateriaCreateOrConnectWithoutDirectorUsuarioInput[]
+    createMany?: MateriaCreateManyDirectorUsuarioInputEnvelope
+    connect?: MateriaWhereUniqueInput | MateriaWhereUniqueInput[]
+  }
+
+  export type TutorCreateNestedOneWithoutUsuarioInput = {
+    create?: XOR<TutorCreateWithoutUsuarioInput, TutorUncheckedCreateWithoutUsuarioInput>
+    connectOrCreate?: TutorCreateOrConnectWithoutUsuarioInput
+    connect?: TutorWhereUniqueInput
   }
 
   export type ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput = {
@@ -78721,49 +81556,39 @@ export namespace Prisma {
     connect?: ReservaLaboratorioCerradoWhereUniqueInput | ReservaLaboratorioCerradoWhereUniqueInput[]
   }
 
-  export type SessionCreateNestedManyWithoutUserInput = {
-    create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
-    createMany?: SessionCreateManyUserInputEnvelope
-    connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
-  }
-
-  export type TutorCreateNestedOneWithoutUsuarioInput = {
-    create?: XOR<TutorCreateWithoutUsuarioInput, TutorUncheckedCreateWithoutUsuarioInput>
-    connectOrCreate?: TutorCreateOrConnectWithoutUsuarioInput
-    connect?: TutorWhereUniqueInput
-  }
-
-  export type DocumentoTipoCreateNestedOneWithoutUsuariosInput = {
-    create?: XOR<DocumentoTipoCreateWithoutUsuariosInput, DocumentoTipoUncheckedCreateWithoutUsuariosInput>
-    connectOrCreate?: DocumentoTipoCreateOrConnectWithoutUsuariosInput
-    connect?: DocumentoTipoWhereUniqueInput
-  }
-
-  export type PaisCreateNestedOneWithoutUsuariosInput = {
-    create?: XOR<PaisCreateWithoutUsuariosInput, PaisUncheckedCreateWithoutUsuariosInput>
-    connectOrCreate?: PaisCreateOrConnectWithoutUsuariosInput
-    connect?: PaisWhereUniqueInput
-  }
-
-  export type ProvinciaCreateNestedOneWithoutUsuariosInput = {
-    create?: XOR<ProvinciaCreateWithoutUsuariosInput, ProvinciaUncheckedCreateWithoutUsuariosInput>
-    connectOrCreate?: ProvinciaCreateOrConnectWithoutUsuariosInput
-    connect?: ProvinciaWhereUniqueInput
-  }
-
-  export type UsuarioRolCreateNestedManyWithoutUsuarioInput = {
-    create?: XOR<UsuarioRolCreateWithoutUsuarioInput, UsuarioRolUncheckedCreateWithoutUsuarioInput> | UsuarioRolCreateWithoutUsuarioInput[] | UsuarioRolUncheckedCreateWithoutUsuarioInput[]
-    connectOrCreate?: UsuarioRolCreateOrConnectWithoutUsuarioInput | UsuarioRolCreateOrConnectWithoutUsuarioInput[]
-    createMany?: UsuarioRolCreateManyUsuarioInputEnvelope
-    connect?: UsuarioRolWhereUniqueInput | UsuarioRolWhereUniqueInput[]
-  }
-
   export type VotoCreateNestedManyWithoutUserInput = {
     create?: XOR<VotoCreateWithoutUserInput, VotoUncheckedCreateWithoutUserInput> | VotoCreateWithoutUserInput[] | VotoUncheckedCreateWithoutUserInput[]
     connectOrCreate?: VotoCreateOrConnectWithoutUserInput | VotoCreateOrConnectWithoutUserInput[]
     createMany?: VotoCreateManyUserInputEnvelope
     connect?: VotoWhereUniqueInput | VotoWhereUniqueInput[]
+  }
+
+  export type FallaCreateNestedManyWithoutReportadoPorInput = {
+    create?: XOR<FallaCreateWithoutReportadoPorInput, FallaUncheckedCreateWithoutReportadoPorInput> | FallaCreateWithoutReportadoPorInput[] | FallaUncheckedCreateWithoutReportadoPorInput[]
+    connectOrCreate?: FallaCreateOrConnectWithoutReportadoPorInput | FallaCreateOrConnectWithoutReportadoPorInput[]
+    createMany?: FallaCreateManyReportadoPorInputEnvelope
+    connect?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
+  }
+
+  export type FallaCreateNestedManyWithoutAsignadoAInput = {
+    create?: XOR<FallaCreateWithoutAsignadoAInput, FallaUncheckedCreateWithoutAsignadoAInput> | FallaCreateWithoutAsignadoAInput[] | FallaUncheckedCreateWithoutAsignadoAInput[]
+    connectOrCreate?: FallaCreateOrConnectWithoutAsignadoAInput | FallaCreateOrConnectWithoutAsignadoAInput[]
+    createMany?: FallaCreateManyAsignadoAInputEnvelope
+    connect?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
+  }
+
+  export type FallaHistorialCreateNestedManyWithoutReportadoPorInput = {
+    create?: XOR<FallaHistorialCreateWithoutReportadoPorInput, FallaHistorialUncheckedCreateWithoutReportadoPorInput> | FallaHistorialCreateWithoutReportadoPorInput[] | FallaHistorialUncheckedCreateWithoutReportadoPorInput[]
+    connectOrCreate?: FallaHistorialCreateOrConnectWithoutReportadoPorInput | FallaHistorialCreateOrConnectWithoutReportadoPorInput[]
+    createMany?: FallaHistorialCreateManyReportadoPorInputEnvelope
+    connect?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
+  }
+
+  export type FallaHistorialCreateNestedManyWithoutAsignadoAInput = {
+    create?: XOR<FallaHistorialCreateWithoutAsignadoAInput, FallaHistorialUncheckedCreateWithoutAsignadoAInput> | FallaHistorialCreateWithoutAsignadoAInput[] | FallaHistorialUncheckedCreateWithoutAsignadoAInput[]
+    connectOrCreate?: FallaHistorialCreateOrConnectWithoutAsignadoAInput | FallaHistorialCreateOrConnectWithoutAsignadoAInput[]
+    createMany?: FallaHistorialCreateManyAsignadoAInputEnvelope
+    connect?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
   }
 
   export type AccountUncheckedCreateNestedManyWithoutUserInput = {
@@ -78773,67 +81598,39 @@ export namespace Prisma {
     connect?: AccountWhereUniqueInput | AccountWhereUniqueInput[]
   }
 
-  export type CursoUncheckedCreateNestedManyWithoutProfesorInput = {
-    create?: XOR<CursoCreateWithoutProfesorInput, CursoUncheckedCreateWithoutProfesorInput> | CursoCreateWithoutProfesorInput[] | CursoUncheckedCreateWithoutProfesorInput[]
-    connectOrCreate?: CursoCreateOrConnectWithoutProfesorInput | CursoCreateOrConnectWithoutProfesorInput[]
-    createMany?: CursoCreateManyProfesorInputEnvelope
-    connect?: CursoWhereUniqueInput | CursoWhereUniqueInput[]
+  export type SessionUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
+    createMany?: SessionCreateManyUserInputEnvelope
+    connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
   }
 
-  export type CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput = {
-    create?: XOR<CursoAyudanteCreateWithoutUsuarioInput, CursoAyudanteUncheckedCreateWithoutUsuarioInput> | CursoAyudanteCreateWithoutUsuarioInput[] | CursoAyudanteUncheckedCreateWithoutUsuarioInput[]
-    connectOrCreate?: CursoAyudanteCreateOrConnectWithoutUsuarioInput | CursoAyudanteCreateOrConnectWithoutUsuarioInput[]
-    createMany?: CursoAyudanteCreateManyUsuarioInputEnvelope
-    connect?: CursoAyudanteWhereUniqueInput | CursoAyudanteWhereUniqueInput[]
+  export type UsuarioRolUncheckedCreateNestedManyWithoutUsuarioInput = {
+    create?: XOR<UsuarioRolCreateWithoutUsuarioInput, UsuarioRolUncheckedCreateWithoutUsuarioInput> | UsuarioRolCreateWithoutUsuarioInput[] | UsuarioRolUncheckedCreateWithoutUsuarioInput[]
+    connectOrCreate?: UsuarioRolCreateOrConnectWithoutUsuarioInput | UsuarioRolCreateOrConnectWithoutUsuarioInput[]
+    createMany?: UsuarioRolCreateManyUsuarioInputEnvelope
+    connect?: UsuarioRolWhereUniqueInput | UsuarioRolWhereUniqueInput[]
   }
 
-  export type FallaUncheckedCreateNestedManyWithoutAsignadoAInput = {
-    create?: XOR<FallaCreateWithoutAsignadoAInput, FallaUncheckedCreateWithoutAsignadoAInput> | FallaCreateWithoutAsignadoAInput[] | FallaUncheckedCreateWithoutAsignadoAInput[]
-    connectOrCreate?: FallaCreateOrConnectWithoutAsignadoAInput | FallaCreateOrConnectWithoutAsignadoAInput[]
-    createMany?: FallaCreateManyAsignadoAInputEnvelope
-    connect?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
+  export type ReservaUncheckedCreateNestedManyWithoutUsuarioSolicitoInput = {
+    create?: XOR<ReservaCreateWithoutUsuarioSolicitoInput, ReservaUncheckedCreateWithoutUsuarioSolicitoInput> | ReservaCreateWithoutUsuarioSolicitoInput[] | ReservaUncheckedCreateWithoutUsuarioSolicitoInput[]
+    connectOrCreate?: ReservaCreateOrConnectWithoutUsuarioSolicitoInput | ReservaCreateOrConnectWithoutUsuarioSolicitoInput[]
+    createMany?: ReservaCreateManyUsuarioSolicitoInputEnvelope
+    connect?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
   }
 
-  export type FallaUncheckedCreateNestedManyWithoutReportadoPorInput = {
-    create?: XOR<FallaCreateWithoutReportadoPorInput, FallaUncheckedCreateWithoutReportadoPorInput> | FallaCreateWithoutReportadoPorInput[] | FallaUncheckedCreateWithoutReportadoPorInput[]
-    connectOrCreate?: FallaCreateOrConnectWithoutReportadoPorInput | FallaCreateOrConnectWithoutReportadoPorInput[]
-    createMany?: FallaCreateManyReportadoPorInputEnvelope
-    connect?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
+  export type ReservaUncheckedCreateNestedManyWithoutUsuarioRenovoInput = {
+    create?: XOR<ReservaCreateWithoutUsuarioRenovoInput, ReservaUncheckedCreateWithoutUsuarioRenovoInput> | ReservaCreateWithoutUsuarioRenovoInput[] | ReservaUncheckedCreateWithoutUsuarioRenovoInput[]
+    connectOrCreate?: ReservaCreateOrConnectWithoutUsuarioRenovoInput | ReservaCreateOrConnectWithoutUsuarioRenovoInput[]
+    createMany?: ReservaCreateManyUsuarioRenovoInputEnvelope
+    connect?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
   }
 
-  export type FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput = {
-    create?: XOR<FallaHistorialCreateWithoutAsignadoAInput, FallaHistorialUncheckedCreateWithoutAsignadoAInput> | FallaHistorialCreateWithoutAsignadoAInput[] | FallaHistorialUncheckedCreateWithoutAsignadoAInput[]
-    connectOrCreate?: FallaHistorialCreateOrConnectWithoutAsignadoAInput | FallaHistorialCreateOrConnectWithoutAsignadoAInput[]
-    createMany?: FallaHistorialCreateManyAsignadoAInputEnvelope
-    connect?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
-  }
-
-  export type FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput = {
-    create?: XOR<FallaHistorialCreateWithoutReportadoPorInput, FallaHistorialUncheckedCreateWithoutReportadoPorInput> | FallaHistorialCreateWithoutReportadoPorInput[] | FallaHistorialUncheckedCreateWithoutReportadoPorInput[]
-    connectOrCreate?: FallaHistorialCreateOrConnectWithoutReportadoPorInput | FallaHistorialCreateOrConnectWithoutReportadoPorInput[]
-    createMany?: FallaHistorialCreateManyReportadoPorInputEnvelope
-    connect?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
-  }
-
-  export type InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput = {
-    create?: XOR<InscripcionEspecialCreateWithoutSolicitanteInput, InscripcionEspecialUncheckedCreateWithoutSolicitanteInput> | InscripcionEspecialCreateWithoutSolicitanteInput[] | InscripcionEspecialUncheckedCreateWithoutSolicitanteInput[]
-    connectOrCreate?: InscripcionEspecialCreateOrConnectWithoutSolicitanteInput | InscripcionEspecialCreateOrConnectWithoutSolicitanteInput[]
-    createMany?: InscripcionEspecialCreateManySolicitanteInputEnvelope
-    connect?: InscripcionEspecialWhereUniqueInput | InscripcionEspecialWhereUniqueInput[]
-  }
-
-  export type MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput = {
-    create?: XOR<MateriaCreateWithoutDirectorUsuarioInput, MateriaUncheckedCreateWithoutDirectorUsuarioInput> | MateriaCreateWithoutDirectorUsuarioInput[] | MateriaUncheckedCreateWithoutDirectorUsuarioInput[]
-    connectOrCreate?: MateriaCreateOrConnectWithoutDirectorUsuarioInput | MateriaCreateOrConnectWithoutDirectorUsuarioInput[]
-    createMany?: MateriaCreateManyDirectorUsuarioInputEnvelope
-    connect?: MateriaWhereUniqueInput | MateriaWhereUniqueInput[]
-  }
-
-  export type MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput = {
-    create?: XOR<MateriaJefeTpCreateWithoutUsuarioInput, MateriaJefeTpUncheckedCreateWithoutUsuarioInput> | MateriaJefeTpCreateWithoutUsuarioInput[] | MateriaJefeTpUncheckedCreateWithoutUsuarioInput[]
-    connectOrCreate?: MateriaJefeTpCreateOrConnectWithoutUsuarioInput | MateriaJefeTpCreateOrConnectWithoutUsuarioInput[]
-    createMany?: MateriaJefeTpCreateManyUsuarioInputEnvelope
-    connect?: MateriaJefeTpWhereUniqueInput | MateriaJefeTpWhereUniqueInput[]
+  export type ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput = {
+    create?: XOR<ReservaCreateWithoutUsuarioTutorInput, ReservaUncheckedCreateWithoutUsuarioTutorInput> | ReservaCreateWithoutUsuarioTutorInput[] | ReservaUncheckedCreateWithoutUsuarioTutorInput[]
+    connectOrCreate?: ReservaCreateOrConnectWithoutUsuarioTutorInput | ReservaCreateOrConnectWithoutUsuarioTutorInput[]
+    createMany?: ReservaCreateManyUsuarioTutorInputEnvelope
+    connect?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
   }
 
   export type ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput = {
@@ -78857,25 +81654,52 @@ export namespace Prisma {
     connect?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
   }
 
-  export type ReservaUncheckedCreateNestedManyWithoutUsuarioRenovoInput = {
-    create?: XOR<ReservaCreateWithoutUsuarioRenovoInput, ReservaUncheckedCreateWithoutUsuarioRenovoInput> | ReservaCreateWithoutUsuarioRenovoInput[] | ReservaUncheckedCreateWithoutUsuarioRenovoInput[]
-    connectOrCreate?: ReservaCreateOrConnectWithoutUsuarioRenovoInput | ReservaCreateOrConnectWithoutUsuarioRenovoInput[]
-    createMany?: ReservaCreateManyUsuarioRenovoInputEnvelope
-    connect?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
+  export type InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput = {
+    create?: XOR<InscripcionEspecialCreateWithoutSolicitanteInput, InscripcionEspecialUncheckedCreateWithoutSolicitanteInput> | InscripcionEspecialCreateWithoutSolicitanteInput[] | InscripcionEspecialUncheckedCreateWithoutSolicitanteInput[]
+    connectOrCreate?: InscripcionEspecialCreateOrConnectWithoutSolicitanteInput | InscripcionEspecialCreateOrConnectWithoutSolicitanteInput[]
+    createMany?: InscripcionEspecialCreateManySolicitanteInputEnvelope
+    connect?: InscripcionEspecialWhereUniqueInput | InscripcionEspecialWhereUniqueInput[]
   }
 
-  export type ReservaUncheckedCreateNestedManyWithoutUsuarioSolicitoInput = {
-    create?: XOR<ReservaCreateWithoutUsuarioSolicitoInput, ReservaUncheckedCreateWithoutUsuarioSolicitoInput> | ReservaCreateWithoutUsuarioSolicitoInput[] | ReservaUncheckedCreateWithoutUsuarioSolicitoInput[]
-    connectOrCreate?: ReservaCreateOrConnectWithoutUsuarioSolicitoInput | ReservaCreateOrConnectWithoutUsuarioSolicitoInput[]
-    createMany?: ReservaCreateManyUsuarioSolicitoInputEnvelope
-    connect?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
+  export type InscripcionEspecialPeriodoUncheckedCreateNestedManyWithoutUsuarioCreadorInput = {
+    create?: XOR<InscripcionEspecialPeriodoCreateWithoutUsuarioCreadorInput, InscripcionEspecialPeriodoUncheckedCreateWithoutUsuarioCreadorInput> | InscripcionEspecialPeriodoCreateWithoutUsuarioCreadorInput[] | InscripcionEspecialPeriodoUncheckedCreateWithoutUsuarioCreadorInput[]
+    connectOrCreate?: InscripcionEspecialPeriodoCreateOrConnectWithoutUsuarioCreadorInput | InscripcionEspecialPeriodoCreateOrConnectWithoutUsuarioCreadorInput[]
+    createMany?: InscripcionEspecialPeriodoCreateManyUsuarioCreadorInputEnvelope
+    connect?: InscripcionEspecialPeriodoWhereUniqueInput | InscripcionEspecialPeriodoWhereUniqueInput[]
   }
 
-  export type ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput = {
-    create?: XOR<ReservaCreateWithoutUsuarioTutorInput, ReservaUncheckedCreateWithoutUsuarioTutorInput> | ReservaCreateWithoutUsuarioTutorInput[] | ReservaUncheckedCreateWithoutUsuarioTutorInput[]
-    connectOrCreate?: ReservaCreateOrConnectWithoutUsuarioTutorInput | ReservaCreateOrConnectWithoutUsuarioTutorInput[]
-    createMany?: ReservaCreateManyUsuarioTutorInputEnvelope
-    connect?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
+  export type CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput = {
+    create?: XOR<CursoAyudanteCreateWithoutUsuarioInput, CursoAyudanteUncheckedCreateWithoutUsuarioInput> | CursoAyudanteCreateWithoutUsuarioInput[] | CursoAyudanteUncheckedCreateWithoutUsuarioInput[]
+    connectOrCreate?: CursoAyudanteCreateOrConnectWithoutUsuarioInput | CursoAyudanteCreateOrConnectWithoutUsuarioInput[]
+    createMany?: CursoAyudanteCreateManyUsuarioInputEnvelope
+    connect?: CursoAyudanteWhereUniqueInput | CursoAyudanteWhereUniqueInput[]
+  }
+
+  export type CursoUncheckedCreateNestedManyWithoutProfesorInput = {
+    create?: XOR<CursoCreateWithoutProfesorInput, CursoUncheckedCreateWithoutProfesorInput> | CursoCreateWithoutProfesorInput[] | CursoUncheckedCreateWithoutProfesorInput[]
+    connectOrCreate?: CursoCreateOrConnectWithoutProfesorInput | CursoCreateOrConnectWithoutProfesorInput[]
+    createMany?: CursoCreateManyProfesorInputEnvelope
+    connect?: CursoWhereUniqueInput | CursoWhereUniqueInput[]
+  }
+
+  export type MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput = {
+    create?: XOR<MateriaJefeTpCreateWithoutUsuarioInput, MateriaJefeTpUncheckedCreateWithoutUsuarioInput> | MateriaJefeTpCreateWithoutUsuarioInput[] | MateriaJefeTpUncheckedCreateWithoutUsuarioInput[]
+    connectOrCreate?: MateriaJefeTpCreateOrConnectWithoutUsuarioInput | MateriaJefeTpCreateOrConnectWithoutUsuarioInput[]
+    createMany?: MateriaJefeTpCreateManyUsuarioInputEnvelope
+    connect?: MateriaJefeTpWhereUniqueInput | MateriaJefeTpWhereUniqueInput[]
+  }
+
+  export type MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput = {
+    create?: XOR<MateriaCreateWithoutDirectorUsuarioInput, MateriaUncheckedCreateWithoutDirectorUsuarioInput> | MateriaCreateWithoutDirectorUsuarioInput[] | MateriaUncheckedCreateWithoutDirectorUsuarioInput[]
+    connectOrCreate?: MateriaCreateOrConnectWithoutDirectorUsuarioInput | MateriaCreateOrConnectWithoutDirectorUsuarioInput[]
+    createMany?: MateriaCreateManyDirectorUsuarioInputEnvelope
+    connect?: MateriaWhereUniqueInput | MateriaWhereUniqueInput[]
+  }
+
+  export type TutorUncheckedCreateNestedOneWithoutUsuarioInput = {
+    create?: XOR<TutorCreateWithoutUsuarioInput, TutorUncheckedCreateWithoutUsuarioInput>
+    connectOrCreate?: TutorCreateOrConnectWithoutUsuarioInput
+    connect?: TutorWhereUniqueInput
   }
 
   export type ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput = {
@@ -78885,31 +81709,73 @@ export namespace Prisma {
     connect?: ReservaLaboratorioCerradoWhereUniqueInput | ReservaLaboratorioCerradoWhereUniqueInput[]
   }
 
-  export type SessionUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
-    createMany?: SessionCreateManyUserInputEnvelope
-    connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
-  }
-
-  export type TutorUncheckedCreateNestedOneWithoutUsuarioInput = {
-    create?: XOR<TutorCreateWithoutUsuarioInput, TutorUncheckedCreateWithoutUsuarioInput>
-    connectOrCreate?: TutorCreateOrConnectWithoutUsuarioInput
-    connect?: TutorWhereUniqueInput
-  }
-
-  export type UsuarioRolUncheckedCreateNestedManyWithoutUsuarioInput = {
-    create?: XOR<UsuarioRolCreateWithoutUsuarioInput, UsuarioRolUncheckedCreateWithoutUsuarioInput> | UsuarioRolCreateWithoutUsuarioInput[] | UsuarioRolUncheckedCreateWithoutUsuarioInput[]
-    connectOrCreate?: UsuarioRolCreateOrConnectWithoutUsuarioInput | UsuarioRolCreateOrConnectWithoutUsuarioInput[]
-    createMany?: UsuarioRolCreateManyUsuarioInputEnvelope
-    connect?: UsuarioRolWhereUniqueInput | UsuarioRolWhereUniqueInput[]
-  }
-
   export type VotoUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<VotoCreateWithoutUserInput, VotoUncheckedCreateWithoutUserInput> | VotoCreateWithoutUserInput[] | VotoUncheckedCreateWithoutUserInput[]
     connectOrCreate?: VotoCreateOrConnectWithoutUserInput | VotoCreateOrConnectWithoutUserInput[]
     createMany?: VotoCreateManyUserInputEnvelope
     connect?: VotoWhereUniqueInput | VotoWhereUniqueInput[]
+  }
+
+  export type FallaUncheckedCreateNestedManyWithoutReportadoPorInput = {
+    create?: XOR<FallaCreateWithoutReportadoPorInput, FallaUncheckedCreateWithoutReportadoPorInput> | FallaCreateWithoutReportadoPorInput[] | FallaUncheckedCreateWithoutReportadoPorInput[]
+    connectOrCreate?: FallaCreateOrConnectWithoutReportadoPorInput | FallaCreateOrConnectWithoutReportadoPorInput[]
+    createMany?: FallaCreateManyReportadoPorInputEnvelope
+    connect?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
+  }
+
+  export type FallaUncheckedCreateNestedManyWithoutAsignadoAInput = {
+    create?: XOR<FallaCreateWithoutAsignadoAInput, FallaUncheckedCreateWithoutAsignadoAInput> | FallaCreateWithoutAsignadoAInput[] | FallaUncheckedCreateWithoutAsignadoAInput[]
+    connectOrCreate?: FallaCreateOrConnectWithoutAsignadoAInput | FallaCreateOrConnectWithoutAsignadoAInput[]
+    createMany?: FallaCreateManyAsignadoAInputEnvelope
+    connect?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
+  }
+
+  export type FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput = {
+    create?: XOR<FallaHistorialCreateWithoutReportadoPorInput, FallaHistorialUncheckedCreateWithoutReportadoPorInput> | FallaHistorialCreateWithoutReportadoPorInput[] | FallaHistorialUncheckedCreateWithoutReportadoPorInput[]
+    connectOrCreate?: FallaHistorialCreateOrConnectWithoutReportadoPorInput | FallaHistorialCreateOrConnectWithoutReportadoPorInput[]
+    createMany?: FallaHistorialCreateManyReportadoPorInputEnvelope
+    connect?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
+  }
+
+  export type FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput = {
+    create?: XOR<FallaHistorialCreateWithoutAsignadoAInput, FallaHistorialUncheckedCreateWithoutAsignadoAInput> | FallaHistorialCreateWithoutAsignadoAInput[] | FallaHistorialUncheckedCreateWithoutAsignadoAInput[]
+    connectOrCreate?: FallaHistorialCreateOrConnectWithoutAsignadoAInput | FallaHistorialCreateOrConnectWithoutAsignadoAInput[]
+    createMany?: FallaHistorialCreateManyAsignadoAInputEnvelope
+    connect?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
+  }
+
+  export type NullableBoolFieldUpdateOperationsInput = {
+    set?: boolean | null
+  }
+
+  export type DocumentoTipoUpdateOneWithoutUsuariosNestedInput = {
+    create?: XOR<DocumentoTipoCreateWithoutUsuariosInput, DocumentoTipoUncheckedCreateWithoutUsuariosInput>
+    connectOrCreate?: DocumentoTipoCreateOrConnectWithoutUsuariosInput
+    upsert?: DocumentoTipoUpsertWithoutUsuariosInput
+    disconnect?: DocumentoTipoWhereInput | boolean
+    delete?: DocumentoTipoWhereInput | boolean
+    connect?: DocumentoTipoWhereUniqueInput
+    update?: XOR<XOR<DocumentoTipoUpdateToOneWithWhereWithoutUsuariosInput, DocumentoTipoUpdateWithoutUsuariosInput>, DocumentoTipoUncheckedUpdateWithoutUsuariosInput>
+  }
+
+  export type ProvinciaUpdateOneWithoutUsuariosNestedInput = {
+    create?: XOR<ProvinciaCreateWithoutUsuariosInput, ProvinciaUncheckedCreateWithoutUsuariosInput>
+    connectOrCreate?: ProvinciaCreateOrConnectWithoutUsuariosInput
+    upsert?: ProvinciaUpsertWithoutUsuariosInput
+    disconnect?: ProvinciaWhereInput | boolean
+    delete?: ProvinciaWhereInput | boolean
+    connect?: ProvinciaWhereUniqueInput
+    update?: XOR<XOR<ProvinciaUpdateToOneWithWhereWithoutUsuariosInput, ProvinciaUpdateWithoutUsuariosInput>, ProvinciaUncheckedUpdateWithoutUsuariosInput>
+  }
+
+  export type PaisUpdateOneWithoutUsuariosNestedInput = {
+    create?: XOR<PaisCreateWithoutUsuariosInput, PaisUncheckedCreateWithoutUsuariosInput>
+    connectOrCreate?: PaisCreateOrConnectWithoutUsuariosInput
+    upsert?: PaisUpsertWithoutUsuariosInput
+    disconnect?: PaisWhereInput | boolean
+    delete?: PaisWhereInput | boolean
+    connect?: PaisWhereUniqueInput
+    update?: XOR<XOR<PaisUpdateToOneWithWhereWithoutUsuariosInput, PaisUpdateWithoutUsuariosInput>, PaisUncheckedUpdateWithoutUsuariosInput>
   }
 
   export type AccountUpdateManyWithoutUserNestedInput = {
@@ -78926,130 +81792,74 @@ export namespace Prisma {
     deleteMany?: AccountScalarWhereInput | AccountScalarWhereInput[]
   }
 
-  export type CursoUpdateManyWithoutProfesorNestedInput = {
-    create?: XOR<CursoCreateWithoutProfesorInput, CursoUncheckedCreateWithoutProfesorInput> | CursoCreateWithoutProfesorInput[] | CursoUncheckedCreateWithoutProfesorInput[]
-    connectOrCreate?: CursoCreateOrConnectWithoutProfesorInput | CursoCreateOrConnectWithoutProfesorInput[]
-    upsert?: CursoUpsertWithWhereUniqueWithoutProfesorInput | CursoUpsertWithWhereUniqueWithoutProfesorInput[]
-    createMany?: CursoCreateManyProfesorInputEnvelope
-    set?: CursoWhereUniqueInput | CursoWhereUniqueInput[]
-    disconnect?: CursoWhereUniqueInput | CursoWhereUniqueInput[]
-    delete?: CursoWhereUniqueInput | CursoWhereUniqueInput[]
-    connect?: CursoWhereUniqueInput | CursoWhereUniqueInput[]
-    update?: CursoUpdateWithWhereUniqueWithoutProfesorInput | CursoUpdateWithWhereUniqueWithoutProfesorInput[]
-    updateMany?: CursoUpdateManyWithWhereWithoutProfesorInput | CursoUpdateManyWithWhereWithoutProfesorInput[]
-    deleteMany?: CursoScalarWhereInput | CursoScalarWhereInput[]
+  export type SessionUpdateManyWithoutUserNestedInput = {
+    create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
+    upsert?: SessionUpsertWithWhereUniqueWithoutUserInput | SessionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: SessionCreateManyUserInputEnvelope
+    set?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
+    disconnect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
+    delete?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
+    connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
+    update?: SessionUpdateWithWhereUniqueWithoutUserInput | SessionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: SessionUpdateManyWithWhereWithoutUserInput | SessionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: SessionScalarWhereInput | SessionScalarWhereInput[]
   }
 
-  export type CursoAyudanteUpdateManyWithoutUsuarioNestedInput = {
-    create?: XOR<CursoAyudanteCreateWithoutUsuarioInput, CursoAyudanteUncheckedCreateWithoutUsuarioInput> | CursoAyudanteCreateWithoutUsuarioInput[] | CursoAyudanteUncheckedCreateWithoutUsuarioInput[]
-    connectOrCreate?: CursoAyudanteCreateOrConnectWithoutUsuarioInput | CursoAyudanteCreateOrConnectWithoutUsuarioInput[]
-    upsert?: CursoAyudanteUpsertWithWhereUniqueWithoutUsuarioInput | CursoAyudanteUpsertWithWhereUniqueWithoutUsuarioInput[]
-    createMany?: CursoAyudanteCreateManyUsuarioInputEnvelope
-    set?: CursoAyudanteWhereUniqueInput | CursoAyudanteWhereUniqueInput[]
-    disconnect?: CursoAyudanteWhereUniqueInput | CursoAyudanteWhereUniqueInput[]
-    delete?: CursoAyudanteWhereUniqueInput | CursoAyudanteWhereUniqueInput[]
-    connect?: CursoAyudanteWhereUniqueInput | CursoAyudanteWhereUniqueInput[]
-    update?: CursoAyudanteUpdateWithWhereUniqueWithoutUsuarioInput | CursoAyudanteUpdateWithWhereUniqueWithoutUsuarioInput[]
-    updateMany?: CursoAyudanteUpdateManyWithWhereWithoutUsuarioInput | CursoAyudanteUpdateManyWithWhereWithoutUsuarioInput[]
-    deleteMany?: CursoAyudanteScalarWhereInput | CursoAyudanteScalarWhereInput[]
+  export type UsuarioRolUpdateManyWithoutUsuarioNestedInput = {
+    create?: XOR<UsuarioRolCreateWithoutUsuarioInput, UsuarioRolUncheckedCreateWithoutUsuarioInput> | UsuarioRolCreateWithoutUsuarioInput[] | UsuarioRolUncheckedCreateWithoutUsuarioInput[]
+    connectOrCreate?: UsuarioRolCreateOrConnectWithoutUsuarioInput | UsuarioRolCreateOrConnectWithoutUsuarioInput[]
+    upsert?: UsuarioRolUpsertWithWhereUniqueWithoutUsuarioInput | UsuarioRolUpsertWithWhereUniqueWithoutUsuarioInput[]
+    createMany?: UsuarioRolCreateManyUsuarioInputEnvelope
+    set?: UsuarioRolWhereUniqueInput | UsuarioRolWhereUniqueInput[]
+    disconnect?: UsuarioRolWhereUniqueInput | UsuarioRolWhereUniqueInput[]
+    delete?: UsuarioRolWhereUniqueInput | UsuarioRolWhereUniqueInput[]
+    connect?: UsuarioRolWhereUniqueInput | UsuarioRolWhereUniqueInput[]
+    update?: UsuarioRolUpdateWithWhereUniqueWithoutUsuarioInput | UsuarioRolUpdateWithWhereUniqueWithoutUsuarioInput[]
+    updateMany?: UsuarioRolUpdateManyWithWhereWithoutUsuarioInput | UsuarioRolUpdateManyWithWhereWithoutUsuarioInput[]
+    deleteMany?: UsuarioRolScalarWhereInput | UsuarioRolScalarWhereInput[]
   }
 
-  export type FallaUpdateManyWithoutAsignadoANestedInput = {
-    create?: XOR<FallaCreateWithoutAsignadoAInput, FallaUncheckedCreateWithoutAsignadoAInput> | FallaCreateWithoutAsignadoAInput[] | FallaUncheckedCreateWithoutAsignadoAInput[]
-    connectOrCreate?: FallaCreateOrConnectWithoutAsignadoAInput | FallaCreateOrConnectWithoutAsignadoAInput[]
-    upsert?: FallaUpsertWithWhereUniqueWithoutAsignadoAInput | FallaUpsertWithWhereUniqueWithoutAsignadoAInput[]
-    createMany?: FallaCreateManyAsignadoAInputEnvelope
-    set?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
-    disconnect?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
-    delete?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
-    connect?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
-    update?: FallaUpdateWithWhereUniqueWithoutAsignadoAInput | FallaUpdateWithWhereUniqueWithoutAsignadoAInput[]
-    updateMany?: FallaUpdateManyWithWhereWithoutAsignadoAInput | FallaUpdateManyWithWhereWithoutAsignadoAInput[]
-    deleteMany?: FallaScalarWhereInput | FallaScalarWhereInput[]
+  export type ReservaUpdateManyWithoutUsuarioSolicitoNestedInput = {
+    create?: XOR<ReservaCreateWithoutUsuarioSolicitoInput, ReservaUncheckedCreateWithoutUsuarioSolicitoInput> | ReservaCreateWithoutUsuarioSolicitoInput[] | ReservaUncheckedCreateWithoutUsuarioSolicitoInput[]
+    connectOrCreate?: ReservaCreateOrConnectWithoutUsuarioSolicitoInput | ReservaCreateOrConnectWithoutUsuarioSolicitoInput[]
+    upsert?: ReservaUpsertWithWhereUniqueWithoutUsuarioSolicitoInput | ReservaUpsertWithWhereUniqueWithoutUsuarioSolicitoInput[]
+    createMany?: ReservaCreateManyUsuarioSolicitoInputEnvelope
+    set?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
+    disconnect?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
+    delete?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
+    connect?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
+    update?: ReservaUpdateWithWhereUniqueWithoutUsuarioSolicitoInput | ReservaUpdateWithWhereUniqueWithoutUsuarioSolicitoInput[]
+    updateMany?: ReservaUpdateManyWithWhereWithoutUsuarioSolicitoInput | ReservaUpdateManyWithWhereWithoutUsuarioSolicitoInput[]
+    deleteMany?: ReservaScalarWhereInput | ReservaScalarWhereInput[]
   }
 
-  export type FallaUpdateManyWithoutReportadoPorNestedInput = {
-    create?: XOR<FallaCreateWithoutReportadoPorInput, FallaUncheckedCreateWithoutReportadoPorInput> | FallaCreateWithoutReportadoPorInput[] | FallaUncheckedCreateWithoutReportadoPorInput[]
-    connectOrCreate?: FallaCreateOrConnectWithoutReportadoPorInput | FallaCreateOrConnectWithoutReportadoPorInput[]
-    upsert?: FallaUpsertWithWhereUniqueWithoutReportadoPorInput | FallaUpsertWithWhereUniqueWithoutReportadoPorInput[]
-    createMany?: FallaCreateManyReportadoPorInputEnvelope
-    set?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
-    disconnect?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
-    delete?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
-    connect?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
-    update?: FallaUpdateWithWhereUniqueWithoutReportadoPorInput | FallaUpdateWithWhereUniqueWithoutReportadoPorInput[]
-    updateMany?: FallaUpdateManyWithWhereWithoutReportadoPorInput | FallaUpdateManyWithWhereWithoutReportadoPorInput[]
-    deleteMany?: FallaScalarWhereInput | FallaScalarWhereInput[]
+  export type ReservaUpdateManyWithoutUsuarioRenovoNestedInput = {
+    create?: XOR<ReservaCreateWithoutUsuarioRenovoInput, ReservaUncheckedCreateWithoutUsuarioRenovoInput> | ReservaCreateWithoutUsuarioRenovoInput[] | ReservaUncheckedCreateWithoutUsuarioRenovoInput[]
+    connectOrCreate?: ReservaCreateOrConnectWithoutUsuarioRenovoInput | ReservaCreateOrConnectWithoutUsuarioRenovoInput[]
+    upsert?: ReservaUpsertWithWhereUniqueWithoutUsuarioRenovoInput | ReservaUpsertWithWhereUniqueWithoutUsuarioRenovoInput[]
+    createMany?: ReservaCreateManyUsuarioRenovoInputEnvelope
+    set?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
+    disconnect?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
+    delete?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
+    connect?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
+    update?: ReservaUpdateWithWhereUniqueWithoutUsuarioRenovoInput | ReservaUpdateWithWhereUniqueWithoutUsuarioRenovoInput[]
+    updateMany?: ReservaUpdateManyWithWhereWithoutUsuarioRenovoInput | ReservaUpdateManyWithWhereWithoutUsuarioRenovoInput[]
+    deleteMany?: ReservaScalarWhereInput | ReservaScalarWhereInput[]
   }
 
-  export type FallaHistorialUpdateManyWithoutAsignadoANestedInput = {
-    create?: XOR<FallaHistorialCreateWithoutAsignadoAInput, FallaHistorialUncheckedCreateWithoutAsignadoAInput> | FallaHistorialCreateWithoutAsignadoAInput[] | FallaHistorialUncheckedCreateWithoutAsignadoAInput[]
-    connectOrCreate?: FallaHistorialCreateOrConnectWithoutAsignadoAInput | FallaHistorialCreateOrConnectWithoutAsignadoAInput[]
-    upsert?: FallaHistorialUpsertWithWhereUniqueWithoutAsignadoAInput | FallaHistorialUpsertWithWhereUniqueWithoutAsignadoAInput[]
-    createMany?: FallaHistorialCreateManyAsignadoAInputEnvelope
-    set?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
-    disconnect?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
-    delete?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
-    connect?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
-    update?: FallaHistorialUpdateWithWhereUniqueWithoutAsignadoAInput | FallaHistorialUpdateWithWhereUniqueWithoutAsignadoAInput[]
-    updateMany?: FallaHistorialUpdateManyWithWhereWithoutAsignadoAInput | FallaHistorialUpdateManyWithWhereWithoutAsignadoAInput[]
-    deleteMany?: FallaHistorialScalarWhereInput | FallaHistorialScalarWhereInput[]
-  }
-
-  export type FallaHistorialUpdateManyWithoutReportadoPorNestedInput = {
-    create?: XOR<FallaHistorialCreateWithoutReportadoPorInput, FallaHistorialUncheckedCreateWithoutReportadoPorInput> | FallaHistorialCreateWithoutReportadoPorInput[] | FallaHistorialUncheckedCreateWithoutReportadoPorInput[]
-    connectOrCreate?: FallaHistorialCreateOrConnectWithoutReportadoPorInput | FallaHistorialCreateOrConnectWithoutReportadoPorInput[]
-    upsert?: FallaHistorialUpsertWithWhereUniqueWithoutReportadoPorInput | FallaHistorialUpsertWithWhereUniqueWithoutReportadoPorInput[]
-    createMany?: FallaHistorialCreateManyReportadoPorInputEnvelope
-    set?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
-    disconnect?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
-    delete?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
-    connect?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
-    update?: FallaHistorialUpdateWithWhereUniqueWithoutReportadoPorInput | FallaHistorialUpdateWithWhereUniqueWithoutReportadoPorInput[]
-    updateMany?: FallaHistorialUpdateManyWithWhereWithoutReportadoPorInput | FallaHistorialUpdateManyWithWhereWithoutReportadoPorInput[]
-    deleteMany?: FallaHistorialScalarWhereInput | FallaHistorialScalarWhereInput[]
-  }
-
-  export type InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput = {
-    create?: XOR<InscripcionEspecialCreateWithoutSolicitanteInput, InscripcionEspecialUncheckedCreateWithoutSolicitanteInput> | InscripcionEspecialCreateWithoutSolicitanteInput[] | InscripcionEspecialUncheckedCreateWithoutSolicitanteInput[]
-    connectOrCreate?: InscripcionEspecialCreateOrConnectWithoutSolicitanteInput | InscripcionEspecialCreateOrConnectWithoutSolicitanteInput[]
-    upsert?: InscripcionEspecialUpsertWithWhereUniqueWithoutSolicitanteInput | InscripcionEspecialUpsertWithWhereUniqueWithoutSolicitanteInput[]
-    createMany?: InscripcionEspecialCreateManySolicitanteInputEnvelope
-    set?: InscripcionEspecialWhereUniqueInput | InscripcionEspecialWhereUniqueInput[]
-    disconnect?: InscripcionEspecialWhereUniqueInput | InscripcionEspecialWhereUniqueInput[]
-    delete?: InscripcionEspecialWhereUniqueInput | InscripcionEspecialWhereUniqueInput[]
-    connect?: InscripcionEspecialWhereUniqueInput | InscripcionEspecialWhereUniqueInput[]
-    update?: InscripcionEspecialUpdateWithWhereUniqueWithoutSolicitanteInput | InscripcionEspecialUpdateWithWhereUniqueWithoutSolicitanteInput[]
-    updateMany?: InscripcionEspecialUpdateManyWithWhereWithoutSolicitanteInput | InscripcionEspecialUpdateManyWithWhereWithoutSolicitanteInput[]
-    deleteMany?: InscripcionEspecialScalarWhereInput | InscripcionEspecialScalarWhereInput[]
-  }
-
-  export type MateriaUpdateManyWithoutDirectorUsuarioNestedInput = {
-    create?: XOR<MateriaCreateWithoutDirectorUsuarioInput, MateriaUncheckedCreateWithoutDirectorUsuarioInput> | MateriaCreateWithoutDirectorUsuarioInput[] | MateriaUncheckedCreateWithoutDirectorUsuarioInput[]
-    connectOrCreate?: MateriaCreateOrConnectWithoutDirectorUsuarioInput | MateriaCreateOrConnectWithoutDirectorUsuarioInput[]
-    upsert?: MateriaUpsertWithWhereUniqueWithoutDirectorUsuarioInput | MateriaUpsertWithWhereUniqueWithoutDirectorUsuarioInput[]
-    createMany?: MateriaCreateManyDirectorUsuarioInputEnvelope
-    set?: MateriaWhereUniqueInput | MateriaWhereUniqueInput[]
-    disconnect?: MateriaWhereUniqueInput | MateriaWhereUniqueInput[]
-    delete?: MateriaWhereUniqueInput | MateriaWhereUniqueInput[]
-    connect?: MateriaWhereUniqueInput | MateriaWhereUniqueInput[]
-    update?: MateriaUpdateWithWhereUniqueWithoutDirectorUsuarioInput | MateriaUpdateWithWhereUniqueWithoutDirectorUsuarioInput[]
-    updateMany?: MateriaUpdateManyWithWhereWithoutDirectorUsuarioInput | MateriaUpdateManyWithWhereWithoutDirectorUsuarioInput[]
-    deleteMany?: MateriaScalarWhereInput | MateriaScalarWhereInput[]
-  }
-
-  export type MateriaJefeTpUpdateManyWithoutUsuarioNestedInput = {
-    create?: XOR<MateriaJefeTpCreateWithoutUsuarioInput, MateriaJefeTpUncheckedCreateWithoutUsuarioInput> | MateriaJefeTpCreateWithoutUsuarioInput[] | MateriaJefeTpUncheckedCreateWithoutUsuarioInput[]
-    connectOrCreate?: MateriaJefeTpCreateOrConnectWithoutUsuarioInput | MateriaJefeTpCreateOrConnectWithoutUsuarioInput[]
-    upsert?: MateriaJefeTpUpsertWithWhereUniqueWithoutUsuarioInput | MateriaJefeTpUpsertWithWhereUniqueWithoutUsuarioInput[]
-    createMany?: MateriaJefeTpCreateManyUsuarioInputEnvelope
-    set?: MateriaJefeTpWhereUniqueInput | MateriaJefeTpWhereUniqueInput[]
-    disconnect?: MateriaJefeTpWhereUniqueInput | MateriaJefeTpWhereUniqueInput[]
-    delete?: MateriaJefeTpWhereUniqueInput | MateriaJefeTpWhereUniqueInput[]
-    connect?: MateriaJefeTpWhereUniqueInput | MateriaJefeTpWhereUniqueInput[]
-    update?: MateriaJefeTpUpdateWithWhereUniqueWithoutUsuarioInput | MateriaJefeTpUpdateWithWhereUniqueWithoutUsuarioInput[]
-    updateMany?: MateriaJefeTpUpdateManyWithWhereWithoutUsuarioInput | MateriaJefeTpUpdateManyWithWhereWithoutUsuarioInput[]
-    deleteMany?: MateriaJefeTpScalarWhereInput | MateriaJefeTpScalarWhereInput[]
+  export type ReservaUpdateManyWithoutUsuarioTutorNestedInput = {
+    create?: XOR<ReservaCreateWithoutUsuarioTutorInput, ReservaUncheckedCreateWithoutUsuarioTutorInput> | ReservaCreateWithoutUsuarioTutorInput[] | ReservaUncheckedCreateWithoutUsuarioTutorInput[]
+    connectOrCreate?: ReservaCreateOrConnectWithoutUsuarioTutorInput | ReservaCreateOrConnectWithoutUsuarioTutorInput[]
+    upsert?: ReservaUpsertWithWhereUniqueWithoutUsuarioTutorInput | ReservaUpsertWithWhereUniqueWithoutUsuarioTutorInput[]
+    createMany?: ReservaCreateManyUsuarioTutorInputEnvelope
+    set?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
+    disconnect?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
+    delete?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
+    connect?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
+    update?: ReservaUpdateWithWhereUniqueWithoutUsuarioTutorInput | ReservaUpdateWithWhereUniqueWithoutUsuarioTutorInput[]
+    updateMany?: ReservaUpdateManyWithWhereWithoutUsuarioTutorInput | ReservaUpdateManyWithWhereWithoutUsuarioTutorInput[]
+    deleteMany?: ReservaScalarWhereInput | ReservaScalarWhereInput[]
   }
 
   export type ReservaUpdateManyWithoutUsuarioAprobadorNestedInput = {
@@ -79094,46 +81904,98 @@ export namespace Prisma {
     deleteMany?: ReservaScalarWhereInput | ReservaScalarWhereInput[]
   }
 
-  export type ReservaUpdateManyWithoutUsuarioRenovoNestedInput = {
-    create?: XOR<ReservaCreateWithoutUsuarioRenovoInput, ReservaUncheckedCreateWithoutUsuarioRenovoInput> | ReservaCreateWithoutUsuarioRenovoInput[] | ReservaUncheckedCreateWithoutUsuarioRenovoInput[]
-    connectOrCreate?: ReservaCreateOrConnectWithoutUsuarioRenovoInput | ReservaCreateOrConnectWithoutUsuarioRenovoInput[]
-    upsert?: ReservaUpsertWithWhereUniqueWithoutUsuarioRenovoInput | ReservaUpsertWithWhereUniqueWithoutUsuarioRenovoInput[]
-    createMany?: ReservaCreateManyUsuarioRenovoInputEnvelope
-    set?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
-    disconnect?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
-    delete?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
-    connect?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
-    update?: ReservaUpdateWithWhereUniqueWithoutUsuarioRenovoInput | ReservaUpdateWithWhereUniqueWithoutUsuarioRenovoInput[]
-    updateMany?: ReservaUpdateManyWithWhereWithoutUsuarioRenovoInput | ReservaUpdateManyWithWhereWithoutUsuarioRenovoInput[]
-    deleteMany?: ReservaScalarWhereInput | ReservaScalarWhereInput[]
+  export type InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput = {
+    create?: XOR<InscripcionEspecialCreateWithoutSolicitanteInput, InscripcionEspecialUncheckedCreateWithoutSolicitanteInput> | InscripcionEspecialCreateWithoutSolicitanteInput[] | InscripcionEspecialUncheckedCreateWithoutSolicitanteInput[]
+    connectOrCreate?: InscripcionEspecialCreateOrConnectWithoutSolicitanteInput | InscripcionEspecialCreateOrConnectWithoutSolicitanteInput[]
+    upsert?: InscripcionEspecialUpsertWithWhereUniqueWithoutSolicitanteInput | InscripcionEspecialUpsertWithWhereUniqueWithoutSolicitanteInput[]
+    createMany?: InscripcionEspecialCreateManySolicitanteInputEnvelope
+    set?: InscripcionEspecialWhereUniqueInput | InscripcionEspecialWhereUniqueInput[]
+    disconnect?: InscripcionEspecialWhereUniqueInput | InscripcionEspecialWhereUniqueInput[]
+    delete?: InscripcionEspecialWhereUniqueInput | InscripcionEspecialWhereUniqueInput[]
+    connect?: InscripcionEspecialWhereUniqueInput | InscripcionEspecialWhereUniqueInput[]
+    update?: InscripcionEspecialUpdateWithWhereUniqueWithoutSolicitanteInput | InscripcionEspecialUpdateWithWhereUniqueWithoutSolicitanteInput[]
+    updateMany?: InscripcionEspecialUpdateManyWithWhereWithoutSolicitanteInput | InscripcionEspecialUpdateManyWithWhereWithoutSolicitanteInput[]
+    deleteMany?: InscripcionEspecialScalarWhereInput | InscripcionEspecialScalarWhereInput[]
   }
 
-  export type ReservaUpdateManyWithoutUsuarioSolicitoNestedInput = {
-    create?: XOR<ReservaCreateWithoutUsuarioSolicitoInput, ReservaUncheckedCreateWithoutUsuarioSolicitoInput> | ReservaCreateWithoutUsuarioSolicitoInput[] | ReservaUncheckedCreateWithoutUsuarioSolicitoInput[]
-    connectOrCreate?: ReservaCreateOrConnectWithoutUsuarioSolicitoInput | ReservaCreateOrConnectWithoutUsuarioSolicitoInput[]
-    upsert?: ReservaUpsertWithWhereUniqueWithoutUsuarioSolicitoInput | ReservaUpsertWithWhereUniqueWithoutUsuarioSolicitoInput[]
-    createMany?: ReservaCreateManyUsuarioSolicitoInputEnvelope
-    set?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
-    disconnect?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
-    delete?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
-    connect?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
-    update?: ReservaUpdateWithWhereUniqueWithoutUsuarioSolicitoInput | ReservaUpdateWithWhereUniqueWithoutUsuarioSolicitoInput[]
-    updateMany?: ReservaUpdateManyWithWhereWithoutUsuarioSolicitoInput | ReservaUpdateManyWithWhereWithoutUsuarioSolicitoInput[]
-    deleteMany?: ReservaScalarWhereInput | ReservaScalarWhereInput[]
+  export type InscripcionEspecialPeriodoUpdateManyWithoutUsuarioCreadorNestedInput = {
+    create?: XOR<InscripcionEspecialPeriodoCreateWithoutUsuarioCreadorInput, InscripcionEspecialPeriodoUncheckedCreateWithoutUsuarioCreadorInput> | InscripcionEspecialPeriodoCreateWithoutUsuarioCreadorInput[] | InscripcionEspecialPeriodoUncheckedCreateWithoutUsuarioCreadorInput[]
+    connectOrCreate?: InscripcionEspecialPeriodoCreateOrConnectWithoutUsuarioCreadorInput | InscripcionEspecialPeriodoCreateOrConnectWithoutUsuarioCreadorInput[]
+    upsert?: InscripcionEspecialPeriodoUpsertWithWhereUniqueWithoutUsuarioCreadorInput | InscripcionEspecialPeriodoUpsertWithWhereUniqueWithoutUsuarioCreadorInput[]
+    createMany?: InscripcionEspecialPeriodoCreateManyUsuarioCreadorInputEnvelope
+    set?: InscripcionEspecialPeriodoWhereUniqueInput | InscripcionEspecialPeriodoWhereUniqueInput[]
+    disconnect?: InscripcionEspecialPeriodoWhereUniqueInput | InscripcionEspecialPeriodoWhereUniqueInput[]
+    delete?: InscripcionEspecialPeriodoWhereUniqueInput | InscripcionEspecialPeriodoWhereUniqueInput[]
+    connect?: InscripcionEspecialPeriodoWhereUniqueInput | InscripcionEspecialPeriodoWhereUniqueInput[]
+    update?: InscripcionEspecialPeriodoUpdateWithWhereUniqueWithoutUsuarioCreadorInput | InscripcionEspecialPeriodoUpdateWithWhereUniqueWithoutUsuarioCreadorInput[]
+    updateMany?: InscripcionEspecialPeriodoUpdateManyWithWhereWithoutUsuarioCreadorInput | InscripcionEspecialPeriodoUpdateManyWithWhereWithoutUsuarioCreadorInput[]
+    deleteMany?: InscripcionEspecialPeriodoScalarWhereInput | InscripcionEspecialPeriodoScalarWhereInput[]
   }
 
-  export type ReservaUpdateManyWithoutUsuarioTutorNestedInput = {
-    create?: XOR<ReservaCreateWithoutUsuarioTutorInput, ReservaUncheckedCreateWithoutUsuarioTutorInput> | ReservaCreateWithoutUsuarioTutorInput[] | ReservaUncheckedCreateWithoutUsuarioTutorInput[]
-    connectOrCreate?: ReservaCreateOrConnectWithoutUsuarioTutorInput | ReservaCreateOrConnectWithoutUsuarioTutorInput[]
-    upsert?: ReservaUpsertWithWhereUniqueWithoutUsuarioTutorInput | ReservaUpsertWithWhereUniqueWithoutUsuarioTutorInput[]
-    createMany?: ReservaCreateManyUsuarioTutorInputEnvelope
-    set?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
-    disconnect?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
-    delete?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
-    connect?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
-    update?: ReservaUpdateWithWhereUniqueWithoutUsuarioTutorInput | ReservaUpdateWithWhereUniqueWithoutUsuarioTutorInput[]
-    updateMany?: ReservaUpdateManyWithWhereWithoutUsuarioTutorInput | ReservaUpdateManyWithWhereWithoutUsuarioTutorInput[]
-    deleteMany?: ReservaScalarWhereInput | ReservaScalarWhereInput[]
+  export type CursoAyudanteUpdateManyWithoutUsuarioNestedInput = {
+    create?: XOR<CursoAyudanteCreateWithoutUsuarioInput, CursoAyudanteUncheckedCreateWithoutUsuarioInput> | CursoAyudanteCreateWithoutUsuarioInput[] | CursoAyudanteUncheckedCreateWithoutUsuarioInput[]
+    connectOrCreate?: CursoAyudanteCreateOrConnectWithoutUsuarioInput | CursoAyudanteCreateOrConnectWithoutUsuarioInput[]
+    upsert?: CursoAyudanteUpsertWithWhereUniqueWithoutUsuarioInput | CursoAyudanteUpsertWithWhereUniqueWithoutUsuarioInput[]
+    createMany?: CursoAyudanteCreateManyUsuarioInputEnvelope
+    set?: CursoAyudanteWhereUniqueInput | CursoAyudanteWhereUniqueInput[]
+    disconnect?: CursoAyudanteWhereUniqueInput | CursoAyudanteWhereUniqueInput[]
+    delete?: CursoAyudanteWhereUniqueInput | CursoAyudanteWhereUniqueInput[]
+    connect?: CursoAyudanteWhereUniqueInput | CursoAyudanteWhereUniqueInput[]
+    update?: CursoAyudanteUpdateWithWhereUniqueWithoutUsuarioInput | CursoAyudanteUpdateWithWhereUniqueWithoutUsuarioInput[]
+    updateMany?: CursoAyudanteUpdateManyWithWhereWithoutUsuarioInput | CursoAyudanteUpdateManyWithWhereWithoutUsuarioInput[]
+    deleteMany?: CursoAyudanteScalarWhereInput | CursoAyudanteScalarWhereInput[]
+  }
+
+  export type CursoUpdateManyWithoutProfesorNestedInput = {
+    create?: XOR<CursoCreateWithoutProfesorInput, CursoUncheckedCreateWithoutProfesorInput> | CursoCreateWithoutProfesorInput[] | CursoUncheckedCreateWithoutProfesorInput[]
+    connectOrCreate?: CursoCreateOrConnectWithoutProfesorInput | CursoCreateOrConnectWithoutProfesorInput[]
+    upsert?: CursoUpsertWithWhereUniqueWithoutProfesorInput | CursoUpsertWithWhereUniqueWithoutProfesorInput[]
+    createMany?: CursoCreateManyProfesorInputEnvelope
+    set?: CursoWhereUniqueInput | CursoWhereUniqueInput[]
+    disconnect?: CursoWhereUniqueInput | CursoWhereUniqueInput[]
+    delete?: CursoWhereUniqueInput | CursoWhereUniqueInput[]
+    connect?: CursoWhereUniqueInput | CursoWhereUniqueInput[]
+    update?: CursoUpdateWithWhereUniqueWithoutProfesorInput | CursoUpdateWithWhereUniqueWithoutProfesorInput[]
+    updateMany?: CursoUpdateManyWithWhereWithoutProfesorInput | CursoUpdateManyWithWhereWithoutProfesorInput[]
+    deleteMany?: CursoScalarWhereInput | CursoScalarWhereInput[]
+  }
+
+  export type MateriaJefeTpUpdateManyWithoutUsuarioNestedInput = {
+    create?: XOR<MateriaJefeTpCreateWithoutUsuarioInput, MateriaJefeTpUncheckedCreateWithoutUsuarioInput> | MateriaJefeTpCreateWithoutUsuarioInput[] | MateriaJefeTpUncheckedCreateWithoutUsuarioInput[]
+    connectOrCreate?: MateriaJefeTpCreateOrConnectWithoutUsuarioInput | MateriaJefeTpCreateOrConnectWithoutUsuarioInput[]
+    upsert?: MateriaJefeTpUpsertWithWhereUniqueWithoutUsuarioInput | MateriaJefeTpUpsertWithWhereUniqueWithoutUsuarioInput[]
+    createMany?: MateriaJefeTpCreateManyUsuarioInputEnvelope
+    set?: MateriaJefeTpWhereUniqueInput | MateriaJefeTpWhereUniqueInput[]
+    disconnect?: MateriaJefeTpWhereUniqueInput | MateriaJefeTpWhereUniqueInput[]
+    delete?: MateriaJefeTpWhereUniqueInput | MateriaJefeTpWhereUniqueInput[]
+    connect?: MateriaJefeTpWhereUniqueInput | MateriaJefeTpWhereUniqueInput[]
+    update?: MateriaJefeTpUpdateWithWhereUniqueWithoutUsuarioInput | MateriaJefeTpUpdateWithWhereUniqueWithoutUsuarioInput[]
+    updateMany?: MateriaJefeTpUpdateManyWithWhereWithoutUsuarioInput | MateriaJefeTpUpdateManyWithWhereWithoutUsuarioInput[]
+    deleteMany?: MateriaJefeTpScalarWhereInput | MateriaJefeTpScalarWhereInput[]
+  }
+
+  export type MateriaUpdateManyWithoutDirectorUsuarioNestedInput = {
+    create?: XOR<MateriaCreateWithoutDirectorUsuarioInput, MateriaUncheckedCreateWithoutDirectorUsuarioInput> | MateriaCreateWithoutDirectorUsuarioInput[] | MateriaUncheckedCreateWithoutDirectorUsuarioInput[]
+    connectOrCreate?: MateriaCreateOrConnectWithoutDirectorUsuarioInput | MateriaCreateOrConnectWithoutDirectorUsuarioInput[]
+    upsert?: MateriaUpsertWithWhereUniqueWithoutDirectorUsuarioInput | MateriaUpsertWithWhereUniqueWithoutDirectorUsuarioInput[]
+    createMany?: MateriaCreateManyDirectorUsuarioInputEnvelope
+    set?: MateriaWhereUniqueInput | MateriaWhereUniqueInput[]
+    disconnect?: MateriaWhereUniqueInput | MateriaWhereUniqueInput[]
+    delete?: MateriaWhereUniqueInput | MateriaWhereUniqueInput[]
+    connect?: MateriaWhereUniqueInput | MateriaWhereUniqueInput[]
+    update?: MateriaUpdateWithWhereUniqueWithoutDirectorUsuarioInput | MateriaUpdateWithWhereUniqueWithoutDirectorUsuarioInput[]
+    updateMany?: MateriaUpdateManyWithWhereWithoutDirectorUsuarioInput | MateriaUpdateManyWithWhereWithoutDirectorUsuarioInput[]
+    deleteMany?: MateriaScalarWhereInput | MateriaScalarWhereInput[]
+  }
+
+  export type TutorUpdateOneWithoutUsuarioNestedInput = {
+    create?: XOR<TutorCreateWithoutUsuarioInput, TutorUncheckedCreateWithoutUsuarioInput>
+    connectOrCreate?: TutorCreateOrConnectWithoutUsuarioInput
+    upsert?: TutorUpsertWithoutUsuarioInput
+    disconnect?: TutorWhereInput | boolean
+    delete?: TutorWhereInput | boolean
+    connect?: TutorWhereUniqueInput
+    update?: XOR<XOR<TutorUpdateToOneWithWhereWithoutUsuarioInput, TutorUpdateWithoutUsuarioInput>, TutorUncheckedUpdateWithoutUsuarioInput>
   }
 
   export type ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput = {
@@ -79150,74 +82012,6 @@ export namespace Prisma {
     deleteMany?: ReservaLaboratorioCerradoScalarWhereInput | ReservaLaboratorioCerradoScalarWhereInput[]
   }
 
-  export type SessionUpdateManyWithoutUserNestedInput = {
-    create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
-    upsert?: SessionUpsertWithWhereUniqueWithoutUserInput | SessionUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: SessionCreateManyUserInputEnvelope
-    set?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
-    disconnect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
-    delete?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
-    connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
-    update?: SessionUpdateWithWhereUniqueWithoutUserInput | SessionUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: SessionUpdateManyWithWhereWithoutUserInput | SessionUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: SessionScalarWhereInput | SessionScalarWhereInput[]
-  }
-
-  export type TutorUpdateOneWithoutUsuarioNestedInput = {
-    create?: XOR<TutorCreateWithoutUsuarioInput, TutorUncheckedCreateWithoutUsuarioInput>
-    connectOrCreate?: TutorCreateOrConnectWithoutUsuarioInput
-    upsert?: TutorUpsertWithoutUsuarioInput
-    disconnect?: TutorWhereInput | boolean
-    delete?: TutorWhereInput | boolean
-    connect?: TutorWhereUniqueInput
-    update?: XOR<XOR<TutorUpdateToOneWithWhereWithoutUsuarioInput, TutorUpdateWithoutUsuarioInput>, TutorUncheckedUpdateWithoutUsuarioInput>
-  }
-
-  export type DocumentoTipoUpdateOneWithoutUsuariosNestedInput = {
-    create?: XOR<DocumentoTipoCreateWithoutUsuariosInput, DocumentoTipoUncheckedCreateWithoutUsuariosInput>
-    connectOrCreate?: DocumentoTipoCreateOrConnectWithoutUsuariosInput
-    upsert?: DocumentoTipoUpsertWithoutUsuariosInput
-    disconnect?: DocumentoTipoWhereInput | boolean
-    delete?: DocumentoTipoWhereInput | boolean
-    connect?: DocumentoTipoWhereUniqueInput
-    update?: XOR<XOR<DocumentoTipoUpdateToOneWithWhereWithoutUsuariosInput, DocumentoTipoUpdateWithoutUsuariosInput>, DocumentoTipoUncheckedUpdateWithoutUsuariosInput>
-  }
-
-  export type PaisUpdateOneWithoutUsuariosNestedInput = {
-    create?: XOR<PaisCreateWithoutUsuariosInput, PaisUncheckedCreateWithoutUsuariosInput>
-    connectOrCreate?: PaisCreateOrConnectWithoutUsuariosInput
-    upsert?: PaisUpsertWithoutUsuariosInput
-    disconnect?: PaisWhereInput | boolean
-    delete?: PaisWhereInput | boolean
-    connect?: PaisWhereUniqueInput
-    update?: XOR<XOR<PaisUpdateToOneWithWhereWithoutUsuariosInput, PaisUpdateWithoutUsuariosInput>, PaisUncheckedUpdateWithoutUsuariosInput>
-  }
-
-  export type ProvinciaUpdateOneWithoutUsuariosNestedInput = {
-    create?: XOR<ProvinciaCreateWithoutUsuariosInput, ProvinciaUncheckedCreateWithoutUsuariosInput>
-    connectOrCreate?: ProvinciaCreateOrConnectWithoutUsuariosInput
-    upsert?: ProvinciaUpsertWithoutUsuariosInput
-    disconnect?: ProvinciaWhereInput | boolean
-    delete?: ProvinciaWhereInput | boolean
-    connect?: ProvinciaWhereUniqueInput
-    update?: XOR<XOR<ProvinciaUpdateToOneWithWhereWithoutUsuariosInput, ProvinciaUpdateWithoutUsuariosInput>, ProvinciaUncheckedUpdateWithoutUsuariosInput>
-  }
-
-  export type UsuarioRolUpdateManyWithoutUsuarioNestedInput = {
-    create?: XOR<UsuarioRolCreateWithoutUsuarioInput, UsuarioRolUncheckedCreateWithoutUsuarioInput> | UsuarioRolCreateWithoutUsuarioInput[] | UsuarioRolUncheckedCreateWithoutUsuarioInput[]
-    connectOrCreate?: UsuarioRolCreateOrConnectWithoutUsuarioInput | UsuarioRolCreateOrConnectWithoutUsuarioInput[]
-    upsert?: UsuarioRolUpsertWithWhereUniqueWithoutUsuarioInput | UsuarioRolUpsertWithWhereUniqueWithoutUsuarioInput[]
-    createMany?: UsuarioRolCreateManyUsuarioInputEnvelope
-    set?: UsuarioRolWhereUniqueInput | UsuarioRolWhereUniqueInput[]
-    disconnect?: UsuarioRolWhereUniqueInput | UsuarioRolWhereUniqueInput[]
-    delete?: UsuarioRolWhereUniqueInput | UsuarioRolWhereUniqueInput[]
-    connect?: UsuarioRolWhereUniqueInput | UsuarioRolWhereUniqueInput[]
-    update?: UsuarioRolUpdateWithWhereUniqueWithoutUsuarioInput | UsuarioRolUpdateWithWhereUniqueWithoutUsuarioInput[]
-    updateMany?: UsuarioRolUpdateManyWithWhereWithoutUsuarioInput | UsuarioRolUpdateManyWithWhereWithoutUsuarioInput[]
-    deleteMany?: UsuarioRolScalarWhereInput | UsuarioRolScalarWhereInput[]
-  }
-
   export type VotoUpdateManyWithoutUserNestedInput = {
     create?: XOR<VotoCreateWithoutUserInput, VotoUncheckedCreateWithoutUserInput> | VotoCreateWithoutUserInput[] | VotoUncheckedCreateWithoutUserInput[]
     connectOrCreate?: VotoCreateOrConnectWithoutUserInput | VotoCreateOrConnectWithoutUserInput[]
@@ -79230,6 +82024,62 @@ export namespace Prisma {
     update?: VotoUpdateWithWhereUniqueWithoutUserInput | VotoUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: VotoUpdateManyWithWhereWithoutUserInput | VotoUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: VotoScalarWhereInput | VotoScalarWhereInput[]
+  }
+
+  export type FallaUpdateManyWithoutReportadoPorNestedInput = {
+    create?: XOR<FallaCreateWithoutReportadoPorInput, FallaUncheckedCreateWithoutReportadoPorInput> | FallaCreateWithoutReportadoPorInput[] | FallaUncheckedCreateWithoutReportadoPorInput[]
+    connectOrCreate?: FallaCreateOrConnectWithoutReportadoPorInput | FallaCreateOrConnectWithoutReportadoPorInput[]
+    upsert?: FallaUpsertWithWhereUniqueWithoutReportadoPorInput | FallaUpsertWithWhereUniqueWithoutReportadoPorInput[]
+    createMany?: FallaCreateManyReportadoPorInputEnvelope
+    set?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
+    disconnect?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
+    delete?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
+    connect?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
+    update?: FallaUpdateWithWhereUniqueWithoutReportadoPorInput | FallaUpdateWithWhereUniqueWithoutReportadoPorInput[]
+    updateMany?: FallaUpdateManyWithWhereWithoutReportadoPorInput | FallaUpdateManyWithWhereWithoutReportadoPorInput[]
+    deleteMany?: FallaScalarWhereInput | FallaScalarWhereInput[]
+  }
+
+  export type FallaUpdateManyWithoutAsignadoANestedInput = {
+    create?: XOR<FallaCreateWithoutAsignadoAInput, FallaUncheckedCreateWithoutAsignadoAInput> | FallaCreateWithoutAsignadoAInput[] | FallaUncheckedCreateWithoutAsignadoAInput[]
+    connectOrCreate?: FallaCreateOrConnectWithoutAsignadoAInput | FallaCreateOrConnectWithoutAsignadoAInput[]
+    upsert?: FallaUpsertWithWhereUniqueWithoutAsignadoAInput | FallaUpsertWithWhereUniqueWithoutAsignadoAInput[]
+    createMany?: FallaCreateManyAsignadoAInputEnvelope
+    set?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
+    disconnect?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
+    delete?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
+    connect?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
+    update?: FallaUpdateWithWhereUniqueWithoutAsignadoAInput | FallaUpdateWithWhereUniqueWithoutAsignadoAInput[]
+    updateMany?: FallaUpdateManyWithWhereWithoutAsignadoAInput | FallaUpdateManyWithWhereWithoutAsignadoAInput[]
+    deleteMany?: FallaScalarWhereInput | FallaScalarWhereInput[]
+  }
+
+  export type FallaHistorialUpdateManyWithoutReportadoPorNestedInput = {
+    create?: XOR<FallaHistorialCreateWithoutReportadoPorInput, FallaHistorialUncheckedCreateWithoutReportadoPorInput> | FallaHistorialCreateWithoutReportadoPorInput[] | FallaHistorialUncheckedCreateWithoutReportadoPorInput[]
+    connectOrCreate?: FallaHistorialCreateOrConnectWithoutReportadoPorInput | FallaHistorialCreateOrConnectWithoutReportadoPorInput[]
+    upsert?: FallaHistorialUpsertWithWhereUniqueWithoutReportadoPorInput | FallaHistorialUpsertWithWhereUniqueWithoutReportadoPorInput[]
+    createMany?: FallaHistorialCreateManyReportadoPorInputEnvelope
+    set?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
+    disconnect?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
+    delete?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
+    connect?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
+    update?: FallaHistorialUpdateWithWhereUniqueWithoutReportadoPorInput | FallaHistorialUpdateWithWhereUniqueWithoutReportadoPorInput[]
+    updateMany?: FallaHistorialUpdateManyWithWhereWithoutReportadoPorInput | FallaHistorialUpdateManyWithWhereWithoutReportadoPorInput[]
+    deleteMany?: FallaHistorialScalarWhereInput | FallaHistorialScalarWhereInput[]
+  }
+
+  export type FallaHistorialUpdateManyWithoutAsignadoANestedInput = {
+    create?: XOR<FallaHistorialCreateWithoutAsignadoAInput, FallaHistorialUncheckedCreateWithoutAsignadoAInput> | FallaHistorialCreateWithoutAsignadoAInput[] | FallaHistorialUncheckedCreateWithoutAsignadoAInput[]
+    connectOrCreate?: FallaHistorialCreateOrConnectWithoutAsignadoAInput | FallaHistorialCreateOrConnectWithoutAsignadoAInput[]
+    upsert?: FallaHistorialUpsertWithWhereUniqueWithoutAsignadoAInput | FallaHistorialUpsertWithWhereUniqueWithoutAsignadoAInput[]
+    createMany?: FallaHistorialCreateManyAsignadoAInputEnvelope
+    set?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
+    disconnect?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
+    delete?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
+    connect?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
+    update?: FallaHistorialUpdateWithWhereUniqueWithoutAsignadoAInput | FallaHistorialUpdateWithWhereUniqueWithoutAsignadoAInput[]
+    updateMany?: FallaHistorialUpdateManyWithWhereWithoutAsignadoAInput | FallaHistorialUpdateManyWithWhereWithoutAsignadoAInput[]
+    deleteMany?: FallaHistorialScalarWhereInput | FallaHistorialScalarWhereInput[]
   }
 
   export type AccountUncheckedUpdateManyWithoutUserNestedInput = {
@@ -79246,130 +82096,74 @@ export namespace Prisma {
     deleteMany?: AccountScalarWhereInput | AccountScalarWhereInput[]
   }
 
-  export type CursoUncheckedUpdateManyWithoutProfesorNestedInput = {
-    create?: XOR<CursoCreateWithoutProfesorInput, CursoUncheckedCreateWithoutProfesorInput> | CursoCreateWithoutProfesorInput[] | CursoUncheckedCreateWithoutProfesorInput[]
-    connectOrCreate?: CursoCreateOrConnectWithoutProfesorInput | CursoCreateOrConnectWithoutProfesorInput[]
-    upsert?: CursoUpsertWithWhereUniqueWithoutProfesorInput | CursoUpsertWithWhereUniqueWithoutProfesorInput[]
-    createMany?: CursoCreateManyProfesorInputEnvelope
-    set?: CursoWhereUniqueInput | CursoWhereUniqueInput[]
-    disconnect?: CursoWhereUniqueInput | CursoWhereUniqueInput[]
-    delete?: CursoWhereUniqueInput | CursoWhereUniqueInput[]
-    connect?: CursoWhereUniqueInput | CursoWhereUniqueInput[]
-    update?: CursoUpdateWithWhereUniqueWithoutProfesorInput | CursoUpdateWithWhereUniqueWithoutProfesorInput[]
-    updateMany?: CursoUpdateManyWithWhereWithoutProfesorInput | CursoUpdateManyWithWhereWithoutProfesorInput[]
-    deleteMany?: CursoScalarWhereInput | CursoScalarWhereInput[]
+  export type SessionUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
+    upsert?: SessionUpsertWithWhereUniqueWithoutUserInput | SessionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: SessionCreateManyUserInputEnvelope
+    set?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
+    disconnect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
+    delete?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
+    connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
+    update?: SessionUpdateWithWhereUniqueWithoutUserInput | SessionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: SessionUpdateManyWithWhereWithoutUserInput | SessionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: SessionScalarWhereInput | SessionScalarWhereInput[]
   }
 
-  export type CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput = {
-    create?: XOR<CursoAyudanteCreateWithoutUsuarioInput, CursoAyudanteUncheckedCreateWithoutUsuarioInput> | CursoAyudanteCreateWithoutUsuarioInput[] | CursoAyudanteUncheckedCreateWithoutUsuarioInput[]
-    connectOrCreate?: CursoAyudanteCreateOrConnectWithoutUsuarioInput | CursoAyudanteCreateOrConnectWithoutUsuarioInput[]
-    upsert?: CursoAyudanteUpsertWithWhereUniqueWithoutUsuarioInput | CursoAyudanteUpsertWithWhereUniqueWithoutUsuarioInput[]
-    createMany?: CursoAyudanteCreateManyUsuarioInputEnvelope
-    set?: CursoAyudanteWhereUniqueInput | CursoAyudanteWhereUniqueInput[]
-    disconnect?: CursoAyudanteWhereUniqueInput | CursoAyudanteWhereUniqueInput[]
-    delete?: CursoAyudanteWhereUniqueInput | CursoAyudanteWhereUniqueInput[]
-    connect?: CursoAyudanteWhereUniqueInput | CursoAyudanteWhereUniqueInput[]
-    update?: CursoAyudanteUpdateWithWhereUniqueWithoutUsuarioInput | CursoAyudanteUpdateWithWhereUniqueWithoutUsuarioInput[]
-    updateMany?: CursoAyudanteUpdateManyWithWhereWithoutUsuarioInput | CursoAyudanteUpdateManyWithWhereWithoutUsuarioInput[]
-    deleteMany?: CursoAyudanteScalarWhereInput | CursoAyudanteScalarWhereInput[]
+  export type UsuarioRolUncheckedUpdateManyWithoutUsuarioNestedInput = {
+    create?: XOR<UsuarioRolCreateWithoutUsuarioInput, UsuarioRolUncheckedCreateWithoutUsuarioInput> | UsuarioRolCreateWithoutUsuarioInput[] | UsuarioRolUncheckedCreateWithoutUsuarioInput[]
+    connectOrCreate?: UsuarioRolCreateOrConnectWithoutUsuarioInput | UsuarioRolCreateOrConnectWithoutUsuarioInput[]
+    upsert?: UsuarioRolUpsertWithWhereUniqueWithoutUsuarioInput | UsuarioRolUpsertWithWhereUniqueWithoutUsuarioInput[]
+    createMany?: UsuarioRolCreateManyUsuarioInputEnvelope
+    set?: UsuarioRolWhereUniqueInput | UsuarioRolWhereUniqueInput[]
+    disconnect?: UsuarioRolWhereUniqueInput | UsuarioRolWhereUniqueInput[]
+    delete?: UsuarioRolWhereUniqueInput | UsuarioRolWhereUniqueInput[]
+    connect?: UsuarioRolWhereUniqueInput | UsuarioRolWhereUniqueInput[]
+    update?: UsuarioRolUpdateWithWhereUniqueWithoutUsuarioInput | UsuarioRolUpdateWithWhereUniqueWithoutUsuarioInput[]
+    updateMany?: UsuarioRolUpdateManyWithWhereWithoutUsuarioInput | UsuarioRolUpdateManyWithWhereWithoutUsuarioInput[]
+    deleteMany?: UsuarioRolScalarWhereInput | UsuarioRolScalarWhereInput[]
   }
 
-  export type FallaUncheckedUpdateManyWithoutAsignadoANestedInput = {
-    create?: XOR<FallaCreateWithoutAsignadoAInput, FallaUncheckedCreateWithoutAsignadoAInput> | FallaCreateWithoutAsignadoAInput[] | FallaUncheckedCreateWithoutAsignadoAInput[]
-    connectOrCreate?: FallaCreateOrConnectWithoutAsignadoAInput | FallaCreateOrConnectWithoutAsignadoAInput[]
-    upsert?: FallaUpsertWithWhereUniqueWithoutAsignadoAInput | FallaUpsertWithWhereUniqueWithoutAsignadoAInput[]
-    createMany?: FallaCreateManyAsignadoAInputEnvelope
-    set?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
-    disconnect?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
-    delete?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
-    connect?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
-    update?: FallaUpdateWithWhereUniqueWithoutAsignadoAInput | FallaUpdateWithWhereUniqueWithoutAsignadoAInput[]
-    updateMany?: FallaUpdateManyWithWhereWithoutAsignadoAInput | FallaUpdateManyWithWhereWithoutAsignadoAInput[]
-    deleteMany?: FallaScalarWhereInput | FallaScalarWhereInput[]
+  export type ReservaUncheckedUpdateManyWithoutUsuarioSolicitoNestedInput = {
+    create?: XOR<ReservaCreateWithoutUsuarioSolicitoInput, ReservaUncheckedCreateWithoutUsuarioSolicitoInput> | ReservaCreateWithoutUsuarioSolicitoInput[] | ReservaUncheckedCreateWithoutUsuarioSolicitoInput[]
+    connectOrCreate?: ReservaCreateOrConnectWithoutUsuarioSolicitoInput | ReservaCreateOrConnectWithoutUsuarioSolicitoInput[]
+    upsert?: ReservaUpsertWithWhereUniqueWithoutUsuarioSolicitoInput | ReservaUpsertWithWhereUniqueWithoutUsuarioSolicitoInput[]
+    createMany?: ReservaCreateManyUsuarioSolicitoInputEnvelope
+    set?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
+    disconnect?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
+    delete?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
+    connect?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
+    update?: ReservaUpdateWithWhereUniqueWithoutUsuarioSolicitoInput | ReservaUpdateWithWhereUniqueWithoutUsuarioSolicitoInput[]
+    updateMany?: ReservaUpdateManyWithWhereWithoutUsuarioSolicitoInput | ReservaUpdateManyWithWhereWithoutUsuarioSolicitoInput[]
+    deleteMany?: ReservaScalarWhereInput | ReservaScalarWhereInput[]
   }
 
-  export type FallaUncheckedUpdateManyWithoutReportadoPorNestedInput = {
-    create?: XOR<FallaCreateWithoutReportadoPorInput, FallaUncheckedCreateWithoutReportadoPorInput> | FallaCreateWithoutReportadoPorInput[] | FallaUncheckedCreateWithoutReportadoPorInput[]
-    connectOrCreate?: FallaCreateOrConnectWithoutReportadoPorInput | FallaCreateOrConnectWithoutReportadoPorInput[]
-    upsert?: FallaUpsertWithWhereUniqueWithoutReportadoPorInput | FallaUpsertWithWhereUniqueWithoutReportadoPorInput[]
-    createMany?: FallaCreateManyReportadoPorInputEnvelope
-    set?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
-    disconnect?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
-    delete?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
-    connect?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
-    update?: FallaUpdateWithWhereUniqueWithoutReportadoPorInput | FallaUpdateWithWhereUniqueWithoutReportadoPorInput[]
-    updateMany?: FallaUpdateManyWithWhereWithoutReportadoPorInput | FallaUpdateManyWithWhereWithoutReportadoPorInput[]
-    deleteMany?: FallaScalarWhereInput | FallaScalarWhereInput[]
+  export type ReservaUncheckedUpdateManyWithoutUsuarioRenovoNestedInput = {
+    create?: XOR<ReservaCreateWithoutUsuarioRenovoInput, ReservaUncheckedCreateWithoutUsuarioRenovoInput> | ReservaCreateWithoutUsuarioRenovoInput[] | ReservaUncheckedCreateWithoutUsuarioRenovoInput[]
+    connectOrCreate?: ReservaCreateOrConnectWithoutUsuarioRenovoInput | ReservaCreateOrConnectWithoutUsuarioRenovoInput[]
+    upsert?: ReservaUpsertWithWhereUniqueWithoutUsuarioRenovoInput | ReservaUpsertWithWhereUniqueWithoutUsuarioRenovoInput[]
+    createMany?: ReservaCreateManyUsuarioRenovoInputEnvelope
+    set?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
+    disconnect?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
+    delete?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
+    connect?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
+    update?: ReservaUpdateWithWhereUniqueWithoutUsuarioRenovoInput | ReservaUpdateWithWhereUniqueWithoutUsuarioRenovoInput[]
+    updateMany?: ReservaUpdateManyWithWhereWithoutUsuarioRenovoInput | ReservaUpdateManyWithWhereWithoutUsuarioRenovoInput[]
+    deleteMany?: ReservaScalarWhereInput | ReservaScalarWhereInput[]
   }
 
-  export type FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput = {
-    create?: XOR<FallaHistorialCreateWithoutAsignadoAInput, FallaHistorialUncheckedCreateWithoutAsignadoAInput> | FallaHistorialCreateWithoutAsignadoAInput[] | FallaHistorialUncheckedCreateWithoutAsignadoAInput[]
-    connectOrCreate?: FallaHistorialCreateOrConnectWithoutAsignadoAInput | FallaHistorialCreateOrConnectWithoutAsignadoAInput[]
-    upsert?: FallaHistorialUpsertWithWhereUniqueWithoutAsignadoAInput | FallaHistorialUpsertWithWhereUniqueWithoutAsignadoAInput[]
-    createMany?: FallaHistorialCreateManyAsignadoAInputEnvelope
-    set?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
-    disconnect?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
-    delete?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
-    connect?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
-    update?: FallaHistorialUpdateWithWhereUniqueWithoutAsignadoAInput | FallaHistorialUpdateWithWhereUniqueWithoutAsignadoAInput[]
-    updateMany?: FallaHistorialUpdateManyWithWhereWithoutAsignadoAInput | FallaHistorialUpdateManyWithWhereWithoutAsignadoAInput[]
-    deleteMany?: FallaHistorialScalarWhereInput | FallaHistorialScalarWhereInput[]
-  }
-
-  export type FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput = {
-    create?: XOR<FallaHistorialCreateWithoutReportadoPorInput, FallaHistorialUncheckedCreateWithoutReportadoPorInput> | FallaHistorialCreateWithoutReportadoPorInput[] | FallaHistorialUncheckedCreateWithoutReportadoPorInput[]
-    connectOrCreate?: FallaHistorialCreateOrConnectWithoutReportadoPorInput | FallaHistorialCreateOrConnectWithoutReportadoPorInput[]
-    upsert?: FallaHistorialUpsertWithWhereUniqueWithoutReportadoPorInput | FallaHistorialUpsertWithWhereUniqueWithoutReportadoPorInput[]
-    createMany?: FallaHistorialCreateManyReportadoPorInputEnvelope
-    set?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
-    disconnect?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
-    delete?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
-    connect?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
-    update?: FallaHistorialUpdateWithWhereUniqueWithoutReportadoPorInput | FallaHistorialUpdateWithWhereUniqueWithoutReportadoPorInput[]
-    updateMany?: FallaHistorialUpdateManyWithWhereWithoutReportadoPorInput | FallaHistorialUpdateManyWithWhereWithoutReportadoPorInput[]
-    deleteMany?: FallaHistorialScalarWhereInput | FallaHistorialScalarWhereInput[]
-  }
-
-  export type InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput = {
-    create?: XOR<InscripcionEspecialCreateWithoutSolicitanteInput, InscripcionEspecialUncheckedCreateWithoutSolicitanteInput> | InscripcionEspecialCreateWithoutSolicitanteInput[] | InscripcionEspecialUncheckedCreateWithoutSolicitanteInput[]
-    connectOrCreate?: InscripcionEspecialCreateOrConnectWithoutSolicitanteInput | InscripcionEspecialCreateOrConnectWithoutSolicitanteInput[]
-    upsert?: InscripcionEspecialUpsertWithWhereUniqueWithoutSolicitanteInput | InscripcionEspecialUpsertWithWhereUniqueWithoutSolicitanteInput[]
-    createMany?: InscripcionEspecialCreateManySolicitanteInputEnvelope
-    set?: InscripcionEspecialWhereUniqueInput | InscripcionEspecialWhereUniqueInput[]
-    disconnect?: InscripcionEspecialWhereUniqueInput | InscripcionEspecialWhereUniqueInput[]
-    delete?: InscripcionEspecialWhereUniqueInput | InscripcionEspecialWhereUniqueInput[]
-    connect?: InscripcionEspecialWhereUniqueInput | InscripcionEspecialWhereUniqueInput[]
-    update?: InscripcionEspecialUpdateWithWhereUniqueWithoutSolicitanteInput | InscripcionEspecialUpdateWithWhereUniqueWithoutSolicitanteInput[]
-    updateMany?: InscripcionEspecialUpdateManyWithWhereWithoutSolicitanteInput | InscripcionEspecialUpdateManyWithWhereWithoutSolicitanteInput[]
-    deleteMany?: InscripcionEspecialScalarWhereInput | InscripcionEspecialScalarWhereInput[]
-  }
-
-  export type MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput = {
-    create?: XOR<MateriaCreateWithoutDirectorUsuarioInput, MateriaUncheckedCreateWithoutDirectorUsuarioInput> | MateriaCreateWithoutDirectorUsuarioInput[] | MateriaUncheckedCreateWithoutDirectorUsuarioInput[]
-    connectOrCreate?: MateriaCreateOrConnectWithoutDirectorUsuarioInput | MateriaCreateOrConnectWithoutDirectorUsuarioInput[]
-    upsert?: MateriaUpsertWithWhereUniqueWithoutDirectorUsuarioInput | MateriaUpsertWithWhereUniqueWithoutDirectorUsuarioInput[]
-    createMany?: MateriaCreateManyDirectorUsuarioInputEnvelope
-    set?: MateriaWhereUniqueInput | MateriaWhereUniqueInput[]
-    disconnect?: MateriaWhereUniqueInput | MateriaWhereUniqueInput[]
-    delete?: MateriaWhereUniqueInput | MateriaWhereUniqueInput[]
-    connect?: MateriaWhereUniqueInput | MateriaWhereUniqueInput[]
-    update?: MateriaUpdateWithWhereUniqueWithoutDirectorUsuarioInput | MateriaUpdateWithWhereUniqueWithoutDirectorUsuarioInput[]
-    updateMany?: MateriaUpdateManyWithWhereWithoutDirectorUsuarioInput | MateriaUpdateManyWithWhereWithoutDirectorUsuarioInput[]
-    deleteMany?: MateriaScalarWhereInput | MateriaScalarWhereInput[]
-  }
-
-  export type MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput = {
-    create?: XOR<MateriaJefeTpCreateWithoutUsuarioInput, MateriaJefeTpUncheckedCreateWithoutUsuarioInput> | MateriaJefeTpCreateWithoutUsuarioInput[] | MateriaJefeTpUncheckedCreateWithoutUsuarioInput[]
-    connectOrCreate?: MateriaJefeTpCreateOrConnectWithoutUsuarioInput | MateriaJefeTpCreateOrConnectWithoutUsuarioInput[]
-    upsert?: MateriaJefeTpUpsertWithWhereUniqueWithoutUsuarioInput | MateriaJefeTpUpsertWithWhereUniqueWithoutUsuarioInput[]
-    createMany?: MateriaJefeTpCreateManyUsuarioInputEnvelope
-    set?: MateriaJefeTpWhereUniqueInput | MateriaJefeTpWhereUniqueInput[]
-    disconnect?: MateriaJefeTpWhereUniqueInput | MateriaJefeTpWhereUniqueInput[]
-    delete?: MateriaJefeTpWhereUniqueInput | MateriaJefeTpWhereUniqueInput[]
-    connect?: MateriaJefeTpWhereUniqueInput | MateriaJefeTpWhereUniqueInput[]
-    update?: MateriaJefeTpUpdateWithWhereUniqueWithoutUsuarioInput | MateriaJefeTpUpdateWithWhereUniqueWithoutUsuarioInput[]
-    updateMany?: MateriaJefeTpUpdateManyWithWhereWithoutUsuarioInput | MateriaJefeTpUpdateManyWithWhereWithoutUsuarioInput[]
-    deleteMany?: MateriaJefeTpScalarWhereInput | MateriaJefeTpScalarWhereInput[]
+  export type ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput = {
+    create?: XOR<ReservaCreateWithoutUsuarioTutorInput, ReservaUncheckedCreateWithoutUsuarioTutorInput> | ReservaCreateWithoutUsuarioTutorInput[] | ReservaUncheckedCreateWithoutUsuarioTutorInput[]
+    connectOrCreate?: ReservaCreateOrConnectWithoutUsuarioTutorInput | ReservaCreateOrConnectWithoutUsuarioTutorInput[]
+    upsert?: ReservaUpsertWithWhereUniqueWithoutUsuarioTutorInput | ReservaUpsertWithWhereUniqueWithoutUsuarioTutorInput[]
+    createMany?: ReservaCreateManyUsuarioTutorInputEnvelope
+    set?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
+    disconnect?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
+    delete?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
+    connect?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
+    update?: ReservaUpdateWithWhereUniqueWithoutUsuarioTutorInput | ReservaUpdateWithWhereUniqueWithoutUsuarioTutorInput[]
+    updateMany?: ReservaUpdateManyWithWhereWithoutUsuarioTutorInput | ReservaUpdateManyWithWhereWithoutUsuarioTutorInput[]
+    deleteMany?: ReservaScalarWhereInput | ReservaScalarWhereInput[]
   }
 
   export type ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput = {
@@ -79414,46 +82208,98 @@ export namespace Prisma {
     deleteMany?: ReservaScalarWhereInput | ReservaScalarWhereInput[]
   }
 
-  export type ReservaUncheckedUpdateManyWithoutUsuarioRenovoNestedInput = {
-    create?: XOR<ReservaCreateWithoutUsuarioRenovoInput, ReservaUncheckedCreateWithoutUsuarioRenovoInput> | ReservaCreateWithoutUsuarioRenovoInput[] | ReservaUncheckedCreateWithoutUsuarioRenovoInput[]
-    connectOrCreate?: ReservaCreateOrConnectWithoutUsuarioRenovoInput | ReservaCreateOrConnectWithoutUsuarioRenovoInput[]
-    upsert?: ReservaUpsertWithWhereUniqueWithoutUsuarioRenovoInput | ReservaUpsertWithWhereUniqueWithoutUsuarioRenovoInput[]
-    createMany?: ReservaCreateManyUsuarioRenovoInputEnvelope
-    set?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
-    disconnect?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
-    delete?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
-    connect?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
-    update?: ReservaUpdateWithWhereUniqueWithoutUsuarioRenovoInput | ReservaUpdateWithWhereUniqueWithoutUsuarioRenovoInput[]
-    updateMany?: ReservaUpdateManyWithWhereWithoutUsuarioRenovoInput | ReservaUpdateManyWithWhereWithoutUsuarioRenovoInput[]
-    deleteMany?: ReservaScalarWhereInput | ReservaScalarWhereInput[]
+  export type InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput = {
+    create?: XOR<InscripcionEspecialCreateWithoutSolicitanteInput, InscripcionEspecialUncheckedCreateWithoutSolicitanteInput> | InscripcionEspecialCreateWithoutSolicitanteInput[] | InscripcionEspecialUncheckedCreateWithoutSolicitanteInput[]
+    connectOrCreate?: InscripcionEspecialCreateOrConnectWithoutSolicitanteInput | InscripcionEspecialCreateOrConnectWithoutSolicitanteInput[]
+    upsert?: InscripcionEspecialUpsertWithWhereUniqueWithoutSolicitanteInput | InscripcionEspecialUpsertWithWhereUniqueWithoutSolicitanteInput[]
+    createMany?: InscripcionEspecialCreateManySolicitanteInputEnvelope
+    set?: InscripcionEspecialWhereUniqueInput | InscripcionEspecialWhereUniqueInput[]
+    disconnect?: InscripcionEspecialWhereUniqueInput | InscripcionEspecialWhereUniqueInput[]
+    delete?: InscripcionEspecialWhereUniqueInput | InscripcionEspecialWhereUniqueInput[]
+    connect?: InscripcionEspecialWhereUniqueInput | InscripcionEspecialWhereUniqueInput[]
+    update?: InscripcionEspecialUpdateWithWhereUniqueWithoutSolicitanteInput | InscripcionEspecialUpdateWithWhereUniqueWithoutSolicitanteInput[]
+    updateMany?: InscripcionEspecialUpdateManyWithWhereWithoutSolicitanteInput | InscripcionEspecialUpdateManyWithWhereWithoutSolicitanteInput[]
+    deleteMany?: InscripcionEspecialScalarWhereInput | InscripcionEspecialScalarWhereInput[]
   }
 
-  export type ReservaUncheckedUpdateManyWithoutUsuarioSolicitoNestedInput = {
-    create?: XOR<ReservaCreateWithoutUsuarioSolicitoInput, ReservaUncheckedCreateWithoutUsuarioSolicitoInput> | ReservaCreateWithoutUsuarioSolicitoInput[] | ReservaUncheckedCreateWithoutUsuarioSolicitoInput[]
-    connectOrCreate?: ReservaCreateOrConnectWithoutUsuarioSolicitoInput | ReservaCreateOrConnectWithoutUsuarioSolicitoInput[]
-    upsert?: ReservaUpsertWithWhereUniqueWithoutUsuarioSolicitoInput | ReservaUpsertWithWhereUniqueWithoutUsuarioSolicitoInput[]
-    createMany?: ReservaCreateManyUsuarioSolicitoInputEnvelope
-    set?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
-    disconnect?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
-    delete?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
-    connect?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
-    update?: ReservaUpdateWithWhereUniqueWithoutUsuarioSolicitoInput | ReservaUpdateWithWhereUniqueWithoutUsuarioSolicitoInput[]
-    updateMany?: ReservaUpdateManyWithWhereWithoutUsuarioSolicitoInput | ReservaUpdateManyWithWhereWithoutUsuarioSolicitoInput[]
-    deleteMany?: ReservaScalarWhereInput | ReservaScalarWhereInput[]
+  export type InscripcionEspecialPeriodoUncheckedUpdateManyWithoutUsuarioCreadorNestedInput = {
+    create?: XOR<InscripcionEspecialPeriodoCreateWithoutUsuarioCreadorInput, InscripcionEspecialPeriodoUncheckedCreateWithoutUsuarioCreadorInput> | InscripcionEspecialPeriodoCreateWithoutUsuarioCreadorInput[] | InscripcionEspecialPeriodoUncheckedCreateWithoutUsuarioCreadorInput[]
+    connectOrCreate?: InscripcionEspecialPeriodoCreateOrConnectWithoutUsuarioCreadorInput | InscripcionEspecialPeriodoCreateOrConnectWithoutUsuarioCreadorInput[]
+    upsert?: InscripcionEspecialPeriodoUpsertWithWhereUniqueWithoutUsuarioCreadorInput | InscripcionEspecialPeriodoUpsertWithWhereUniqueWithoutUsuarioCreadorInput[]
+    createMany?: InscripcionEspecialPeriodoCreateManyUsuarioCreadorInputEnvelope
+    set?: InscripcionEspecialPeriodoWhereUniqueInput | InscripcionEspecialPeriodoWhereUniqueInput[]
+    disconnect?: InscripcionEspecialPeriodoWhereUniqueInput | InscripcionEspecialPeriodoWhereUniqueInput[]
+    delete?: InscripcionEspecialPeriodoWhereUniqueInput | InscripcionEspecialPeriodoWhereUniqueInput[]
+    connect?: InscripcionEspecialPeriodoWhereUniqueInput | InscripcionEspecialPeriodoWhereUniqueInput[]
+    update?: InscripcionEspecialPeriodoUpdateWithWhereUniqueWithoutUsuarioCreadorInput | InscripcionEspecialPeriodoUpdateWithWhereUniqueWithoutUsuarioCreadorInput[]
+    updateMany?: InscripcionEspecialPeriodoUpdateManyWithWhereWithoutUsuarioCreadorInput | InscripcionEspecialPeriodoUpdateManyWithWhereWithoutUsuarioCreadorInput[]
+    deleteMany?: InscripcionEspecialPeriodoScalarWhereInput | InscripcionEspecialPeriodoScalarWhereInput[]
   }
 
-  export type ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput = {
-    create?: XOR<ReservaCreateWithoutUsuarioTutorInput, ReservaUncheckedCreateWithoutUsuarioTutorInput> | ReservaCreateWithoutUsuarioTutorInput[] | ReservaUncheckedCreateWithoutUsuarioTutorInput[]
-    connectOrCreate?: ReservaCreateOrConnectWithoutUsuarioTutorInput | ReservaCreateOrConnectWithoutUsuarioTutorInput[]
-    upsert?: ReservaUpsertWithWhereUniqueWithoutUsuarioTutorInput | ReservaUpsertWithWhereUniqueWithoutUsuarioTutorInput[]
-    createMany?: ReservaCreateManyUsuarioTutorInputEnvelope
-    set?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
-    disconnect?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
-    delete?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
-    connect?: ReservaWhereUniqueInput | ReservaWhereUniqueInput[]
-    update?: ReservaUpdateWithWhereUniqueWithoutUsuarioTutorInput | ReservaUpdateWithWhereUniqueWithoutUsuarioTutorInput[]
-    updateMany?: ReservaUpdateManyWithWhereWithoutUsuarioTutorInput | ReservaUpdateManyWithWhereWithoutUsuarioTutorInput[]
-    deleteMany?: ReservaScalarWhereInput | ReservaScalarWhereInput[]
+  export type CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput = {
+    create?: XOR<CursoAyudanteCreateWithoutUsuarioInput, CursoAyudanteUncheckedCreateWithoutUsuarioInput> | CursoAyudanteCreateWithoutUsuarioInput[] | CursoAyudanteUncheckedCreateWithoutUsuarioInput[]
+    connectOrCreate?: CursoAyudanteCreateOrConnectWithoutUsuarioInput | CursoAyudanteCreateOrConnectWithoutUsuarioInput[]
+    upsert?: CursoAyudanteUpsertWithWhereUniqueWithoutUsuarioInput | CursoAyudanteUpsertWithWhereUniqueWithoutUsuarioInput[]
+    createMany?: CursoAyudanteCreateManyUsuarioInputEnvelope
+    set?: CursoAyudanteWhereUniqueInput | CursoAyudanteWhereUniqueInput[]
+    disconnect?: CursoAyudanteWhereUniqueInput | CursoAyudanteWhereUniqueInput[]
+    delete?: CursoAyudanteWhereUniqueInput | CursoAyudanteWhereUniqueInput[]
+    connect?: CursoAyudanteWhereUniqueInput | CursoAyudanteWhereUniqueInput[]
+    update?: CursoAyudanteUpdateWithWhereUniqueWithoutUsuarioInput | CursoAyudanteUpdateWithWhereUniqueWithoutUsuarioInput[]
+    updateMany?: CursoAyudanteUpdateManyWithWhereWithoutUsuarioInput | CursoAyudanteUpdateManyWithWhereWithoutUsuarioInput[]
+    deleteMany?: CursoAyudanteScalarWhereInput | CursoAyudanteScalarWhereInput[]
+  }
+
+  export type CursoUncheckedUpdateManyWithoutProfesorNestedInput = {
+    create?: XOR<CursoCreateWithoutProfesorInput, CursoUncheckedCreateWithoutProfesorInput> | CursoCreateWithoutProfesorInput[] | CursoUncheckedCreateWithoutProfesorInput[]
+    connectOrCreate?: CursoCreateOrConnectWithoutProfesorInput | CursoCreateOrConnectWithoutProfesorInput[]
+    upsert?: CursoUpsertWithWhereUniqueWithoutProfesorInput | CursoUpsertWithWhereUniqueWithoutProfesorInput[]
+    createMany?: CursoCreateManyProfesorInputEnvelope
+    set?: CursoWhereUniqueInput | CursoWhereUniqueInput[]
+    disconnect?: CursoWhereUniqueInput | CursoWhereUniqueInput[]
+    delete?: CursoWhereUniqueInput | CursoWhereUniqueInput[]
+    connect?: CursoWhereUniqueInput | CursoWhereUniqueInput[]
+    update?: CursoUpdateWithWhereUniqueWithoutProfesorInput | CursoUpdateWithWhereUniqueWithoutProfesorInput[]
+    updateMany?: CursoUpdateManyWithWhereWithoutProfesorInput | CursoUpdateManyWithWhereWithoutProfesorInput[]
+    deleteMany?: CursoScalarWhereInput | CursoScalarWhereInput[]
+  }
+
+  export type MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput = {
+    create?: XOR<MateriaJefeTpCreateWithoutUsuarioInput, MateriaJefeTpUncheckedCreateWithoutUsuarioInput> | MateriaJefeTpCreateWithoutUsuarioInput[] | MateriaJefeTpUncheckedCreateWithoutUsuarioInput[]
+    connectOrCreate?: MateriaJefeTpCreateOrConnectWithoutUsuarioInput | MateriaJefeTpCreateOrConnectWithoutUsuarioInput[]
+    upsert?: MateriaJefeTpUpsertWithWhereUniqueWithoutUsuarioInput | MateriaJefeTpUpsertWithWhereUniqueWithoutUsuarioInput[]
+    createMany?: MateriaJefeTpCreateManyUsuarioInputEnvelope
+    set?: MateriaJefeTpWhereUniqueInput | MateriaJefeTpWhereUniqueInput[]
+    disconnect?: MateriaJefeTpWhereUniqueInput | MateriaJefeTpWhereUniqueInput[]
+    delete?: MateriaJefeTpWhereUniqueInput | MateriaJefeTpWhereUniqueInput[]
+    connect?: MateriaJefeTpWhereUniqueInput | MateriaJefeTpWhereUniqueInput[]
+    update?: MateriaJefeTpUpdateWithWhereUniqueWithoutUsuarioInput | MateriaJefeTpUpdateWithWhereUniqueWithoutUsuarioInput[]
+    updateMany?: MateriaJefeTpUpdateManyWithWhereWithoutUsuarioInput | MateriaJefeTpUpdateManyWithWhereWithoutUsuarioInput[]
+    deleteMany?: MateriaJefeTpScalarWhereInput | MateriaJefeTpScalarWhereInput[]
+  }
+
+  export type MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput = {
+    create?: XOR<MateriaCreateWithoutDirectorUsuarioInput, MateriaUncheckedCreateWithoutDirectorUsuarioInput> | MateriaCreateWithoutDirectorUsuarioInput[] | MateriaUncheckedCreateWithoutDirectorUsuarioInput[]
+    connectOrCreate?: MateriaCreateOrConnectWithoutDirectorUsuarioInput | MateriaCreateOrConnectWithoutDirectorUsuarioInput[]
+    upsert?: MateriaUpsertWithWhereUniqueWithoutDirectorUsuarioInput | MateriaUpsertWithWhereUniqueWithoutDirectorUsuarioInput[]
+    createMany?: MateriaCreateManyDirectorUsuarioInputEnvelope
+    set?: MateriaWhereUniqueInput | MateriaWhereUniqueInput[]
+    disconnect?: MateriaWhereUniqueInput | MateriaWhereUniqueInput[]
+    delete?: MateriaWhereUniqueInput | MateriaWhereUniqueInput[]
+    connect?: MateriaWhereUniqueInput | MateriaWhereUniqueInput[]
+    update?: MateriaUpdateWithWhereUniqueWithoutDirectorUsuarioInput | MateriaUpdateWithWhereUniqueWithoutDirectorUsuarioInput[]
+    updateMany?: MateriaUpdateManyWithWhereWithoutDirectorUsuarioInput | MateriaUpdateManyWithWhereWithoutDirectorUsuarioInput[]
+    deleteMany?: MateriaScalarWhereInput | MateriaScalarWhereInput[]
+  }
+
+  export type TutorUncheckedUpdateOneWithoutUsuarioNestedInput = {
+    create?: XOR<TutorCreateWithoutUsuarioInput, TutorUncheckedCreateWithoutUsuarioInput>
+    connectOrCreate?: TutorCreateOrConnectWithoutUsuarioInput
+    upsert?: TutorUpsertWithoutUsuarioInput
+    disconnect?: TutorWhereInput | boolean
+    delete?: TutorWhereInput | boolean
+    connect?: TutorWhereUniqueInput
+    update?: XOR<XOR<TutorUpdateToOneWithWhereWithoutUsuarioInput, TutorUpdateWithoutUsuarioInput>, TutorUncheckedUpdateWithoutUsuarioInput>
   }
 
   export type ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput = {
@@ -79470,44 +82316,6 @@ export namespace Prisma {
     deleteMany?: ReservaLaboratorioCerradoScalarWhereInput | ReservaLaboratorioCerradoScalarWhereInput[]
   }
 
-  export type SessionUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
-    upsert?: SessionUpsertWithWhereUniqueWithoutUserInput | SessionUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: SessionCreateManyUserInputEnvelope
-    set?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
-    disconnect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
-    delete?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
-    connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
-    update?: SessionUpdateWithWhereUniqueWithoutUserInput | SessionUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: SessionUpdateManyWithWhereWithoutUserInput | SessionUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: SessionScalarWhereInput | SessionScalarWhereInput[]
-  }
-
-  export type TutorUncheckedUpdateOneWithoutUsuarioNestedInput = {
-    create?: XOR<TutorCreateWithoutUsuarioInput, TutorUncheckedCreateWithoutUsuarioInput>
-    connectOrCreate?: TutorCreateOrConnectWithoutUsuarioInput
-    upsert?: TutorUpsertWithoutUsuarioInput
-    disconnect?: TutorWhereInput | boolean
-    delete?: TutorWhereInput | boolean
-    connect?: TutorWhereUniqueInput
-    update?: XOR<XOR<TutorUpdateToOneWithWhereWithoutUsuarioInput, TutorUpdateWithoutUsuarioInput>, TutorUncheckedUpdateWithoutUsuarioInput>
-  }
-
-  export type UsuarioRolUncheckedUpdateManyWithoutUsuarioNestedInput = {
-    create?: XOR<UsuarioRolCreateWithoutUsuarioInput, UsuarioRolUncheckedCreateWithoutUsuarioInput> | UsuarioRolCreateWithoutUsuarioInput[] | UsuarioRolUncheckedCreateWithoutUsuarioInput[]
-    connectOrCreate?: UsuarioRolCreateOrConnectWithoutUsuarioInput | UsuarioRolCreateOrConnectWithoutUsuarioInput[]
-    upsert?: UsuarioRolUpsertWithWhereUniqueWithoutUsuarioInput | UsuarioRolUpsertWithWhereUniqueWithoutUsuarioInput[]
-    createMany?: UsuarioRolCreateManyUsuarioInputEnvelope
-    set?: UsuarioRolWhereUniqueInput | UsuarioRolWhereUniqueInput[]
-    disconnect?: UsuarioRolWhereUniqueInput | UsuarioRolWhereUniqueInput[]
-    delete?: UsuarioRolWhereUniqueInput | UsuarioRolWhereUniqueInput[]
-    connect?: UsuarioRolWhereUniqueInput | UsuarioRolWhereUniqueInput[]
-    update?: UsuarioRolUpdateWithWhereUniqueWithoutUsuarioInput | UsuarioRolUpdateWithWhereUniqueWithoutUsuarioInput[]
-    updateMany?: UsuarioRolUpdateManyWithWhereWithoutUsuarioInput | UsuarioRolUpdateManyWithWhereWithoutUsuarioInput[]
-    deleteMany?: UsuarioRolScalarWhereInput | UsuarioRolScalarWhereInput[]
-  }
-
   export type VotoUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<VotoCreateWithoutUserInput, VotoUncheckedCreateWithoutUserInput> | VotoCreateWithoutUserInput[] | VotoUncheckedCreateWithoutUserInput[]
     connectOrCreate?: VotoCreateOrConnectWithoutUserInput | VotoCreateOrConnectWithoutUserInput[]
@@ -79520,6 +82328,62 @@ export namespace Prisma {
     update?: VotoUpdateWithWhereUniqueWithoutUserInput | VotoUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: VotoUpdateManyWithWhereWithoutUserInput | VotoUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: VotoScalarWhereInput | VotoScalarWhereInput[]
+  }
+
+  export type FallaUncheckedUpdateManyWithoutReportadoPorNestedInput = {
+    create?: XOR<FallaCreateWithoutReportadoPorInput, FallaUncheckedCreateWithoutReportadoPorInput> | FallaCreateWithoutReportadoPorInput[] | FallaUncheckedCreateWithoutReportadoPorInput[]
+    connectOrCreate?: FallaCreateOrConnectWithoutReportadoPorInput | FallaCreateOrConnectWithoutReportadoPorInput[]
+    upsert?: FallaUpsertWithWhereUniqueWithoutReportadoPorInput | FallaUpsertWithWhereUniqueWithoutReportadoPorInput[]
+    createMany?: FallaCreateManyReportadoPorInputEnvelope
+    set?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
+    disconnect?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
+    delete?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
+    connect?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
+    update?: FallaUpdateWithWhereUniqueWithoutReportadoPorInput | FallaUpdateWithWhereUniqueWithoutReportadoPorInput[]
+    updateMany?: FallaUpdateManyWithWhereWithoutReportadoPorInput | FallaUpdateManyWithWhereWithoutReportadoPorInput[]
+    deleteMany?: FallaScalarWhereInput | FallaScalarWhereInput[]
+  }
+
+  export type FallaUncheckedUpdateManyWithoutAsignadoANestedInput = {
+    create?: XOR<FallaCreateWithoutAsignadoAInput, FallaUncheckedCreateWithoutAsignadoAInput> | FallaCreateWithoutAsignadoAInput[] | FallaUncheckedCreateWithoutAsignadoAInput[]
+    connectOrCreate?: FallaCreateOrConnectWithoutAsignadoAInput | FallaCreateOrConnectWithoutAsignadoAInput[]
+    upsert?: FallaUpsertWithWhereUniqueWithoutAsignadoAInput | FallaUpsertWithWhereUniqueWithoutAsignadoAInput[]
+    createMany?: FallaCreateManyAsignadoAInputEnvelope
+    set?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
+    disconnect?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
+    delete?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
+    connect?: FallaWhereUniqueInput | FallaWhereUniqueInput[]
+    update?: FallaUpdateWithWhereUniqueWithoutAsignadoAInput | FallaUpdateWithWhereUniqueWithoutAsignadoAInput[]
+    updateMany?: FallaUpdateManyWithWhereWithoutAsignadoAInput | FallaUpdateManyWithWhereWithoutAsignadoAInput[]
+    deleteMany?: FallaScalarWhereInput | FallaScalarWhereInput[]
+  }
+
+  export type FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput = {
+    create?: XOR<FallaHistorialCreateWithoutReportadoPorInput, FallaHistorialUncheckedCreateWithoutReportadoPorInput> | FallaHistorialCreateWithoutReportadoPorInput[] | FallaHistorialUncheckedCreateWithoutReportadoPorInput[]
+    connectOrCreate?: FallaHistorialCreateOrConnectWithoutReportadoPorInput | FallaHistorialCreateOrConnectWithoutReportadoPorInput[]
+    upsert?: FallaHistorialUpsertWithWhereUniqueWithoutReportadoPorInput | FallaHistorialUpsertWithWhereUniqueWithoutReportadoPorInput[]
+    createMany?: FallaHistorialCreateManyReportadoPorInputEnvelope
+    set?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
+    disconnect?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
+    delete?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
+    connect?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
+    update?: FallaHistorialUpdateWithWhereUniqueWithoutReportadoPorInput | FallaHistorialUpdateWithWhereUniqueWithoutReportadoPorInput[]
+    updateMany?: FallaHistorialUpdateManyWithWhereWithoutReportadoPorInput | FallaHistorialUpdateManyWithWhereWithoutReportadoPorInput[]
+    deleteMany?: FallaHistorialScalarWhereInput | FallaHistorialScalarWhereInput[]
+  }
+
+  export type FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput = {
+    create?: XOR<FallaHistorialCreateWithoutAsignadoAInput, FallaHistorialUncheckedCreateWithoutAsignadoAInput> | FallaHistorialCreateWithoutAsignadoAInput[] | FallaHistorialUncheckedCreateWithoutAsignadoAInput[]
+    connectOrCreate?: FallaHistorialCreateOrConnectWithoutAsignadoAInput | FallaHistorialCreateOrConnectWithoutAsignadoAInput[]
+    upsert?: FallaHistorialUpsertWithWhereUniqueWithoutAsignadoAInput | FallaHistorialUpsertWithWhereUniqueWithoutAsignadoAInput[]
+    createMany?: FallaHistorialCreateManyAsignadoAInputEnvelope
+    set?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
+    disconnect?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
+    delete?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
+    connect?: FallaHistorialWhereUniqueInput | FallaHistorialWhereUniqueInput[]
+    update?: FallaHistorialUpdateWithWhereUniqueWithoutAsignadoAInput | FallaHistorialUpdateWithWhereUniqueWithoutAsignadoAInput[]
+    updateMany?: FallaHistorialUpdateManyWithWhereWithoutAsignadoAInput | FallaHistorialUpdateManyWithWhereWithoutAsignadoAInput[]
+    deleteMany?: FallaHistorialScalarWhereInput | FallaHistorialScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutTutorInput = {
@@ -80182,11 +83046,6 @@ export namespace Prisma {
     _max?: NestedEnumTurnoCursoFilter<$PrismaModel>
   }
 
-  export type NestedBoolNullableFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
-    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
-  }
-
   export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -80196,14 +83055,6 @@ export namespace Prisma {
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-  }
-
-  export type NestedBoolNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
-    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedBoolNullableFilter<$PrismaModel>
-    _max?: NestedBoolNullableFilter<$PrismaModel>
   }
 
   export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -80345,6 +83196,19 @@ export namespace Prisma {
     _max?: NestedEnumLaboratorioAbiertoTipoFilter<$PrismaModel>
   }
 
+  export type NestedBoolNullableFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
+  }
+
+  export type NestedBoolNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBoolNullableFilter<$PrismaModel>
+    _max?: NestedBoolNullableFilter<$PrismaModel>
+  }
+
   export type NestedEnumSgeNombreFilter<$PrismaModel = never> = {
     equals?: $Enums.SgeNombre | EnumSgeNombreFieldRefInput<$PrismaModel>
     in?: $Enums.SgeNombre[] | ListEnumSgeNombreFieldRefInput<$PrismaModel>
@@ -80463,29 +83327,30 @@ export namespace Prisma {
     fechaRegistro?: Date | string
     fechaUltimoAcceso?: Date | string
     fechaUltimaActualizacion?: Date | string
+    documentoTipo?: DocumentoTipoCreateNestedOneWithoutUsuariosInput
+    provincia?: ProvinciaCreateNestedOneWithoutUsuariosInput
+    pais?: PaisCreateNestedOneWithoutUsuariosInput
     accounts?: AccountCreateNestedManyWithoutUserInput
-    cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
-    cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
-    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
-    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
-    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
-    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
-    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
-    materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
-    MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
-    reservasRenovadas?: ReservaCreateNestedManyWithoutUsuarioRenovoInput
-    reservasSolicitadas?: ReservaCreateNestedManyWithoutUsuarioSolicitoInput
-    reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
-    sessions?: SessionCreateNestedManyWithoutUserInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoCreateNestedManyWithoutUsuarioCreadorInput
+    cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
-    documentoTipo?: DocumentoTipoCreateNestedOneWithoutUsuariosInput
-    pais?: PaisCreateNestedOneWithoutUsuariosInput
-    provincia?: ProvinciaCreateNestedOneWithoutUsuariosInput
-    usuarioRol?: UsuarioRolCreateNestedManyWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
+    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserUncheckedCreateWithoutVotoInput = {
@@ -80518,25 +83383,26 @@ export namespace Prisma {
     provinciaIso?: string | null
     paisIso?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
-    cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
-    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
-    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
-    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
-    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
-    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
-    materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
-    MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolUncheckedCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
-    reservasRenovadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRenovoInput
-    reservasSolicitadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioSolicitoInput
-    reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUncheckedCreateNestedManyWithoutUsuarioCreadorInput
+    cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
-    usuarioRol?: UsuarioRolUncheckedCreateNestedManyWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
+    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserCreateOrConnectWithoutVotoInput = {
@@ -80609,29 +83475,30 @@ export namespace Prisma {
     fechaRegistro?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaUltimoAcceso?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaUltimaActualizacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    documentoTipo?: DocumentoTipoUpdateOneWithoutUsuariosNestedInput
+    provincia?: ProvinciaUpdateOneWithoutUsuariosNestedInput
+    pais?: PaisUpdateOneWithoutUsuariosNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
-    cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
-    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
-    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
-    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
-    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
-    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
-    materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
-    MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
-    reservasRenovadas?: ReservaUpdateManyWithoutUsuarioRenovoNestedInput
-    reservasSolicitadas?: ReservaUpdateManyWithoutUsuarioSolicitoNestedInput
-    reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
-    sessions?: SessionUpdateManyWithoutUserNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUpdateManyWithoutUsuarioCreadorNestedInput
+    cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
-    documentoTipo?: DocumentoTipoUpdateOneWithoutUsuariosNestedInput
-    pais?: PaisUpdateOneWithoutUsuariosNestedInput
-    provincia?: ProvinciaUpdateOneWithoutUsuariosNestedInput
-    usuarioRol?: UsuarioRolUpdateManyWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
+    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUncheckedUpdateWithoutVotoInput = {
@@ -80664,25 +83531,26 @@ export namespace Prisma {
     provinciaIso?: NullableStringFieldUpdateOperationsInput | string | null
     paisIso?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
-    cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
-    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
-    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
-    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
-    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
-    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
-    materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
-    MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUncheckedUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUncheckedUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUncheckedUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
-    reservasRenovadas?: ReservaUncheckedUpdateManyWithoutUsuarioRenovoNestedInput
-    reservasSolicitadas?: ReservaUncheckedUpdateManyWithoutUsuarioSolicitoNestedInput
-    reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUncheckedUpdateManyWithoutUsuarioCreadorNestedInput
+    cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
-    usuarioRol?: UsuarioRolUncheckedUpdateManyWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
+    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
   }
 
   export type ArmarioCreateWithoutLibrosInput = {
@@ -81697,29 +84565,30 @@ export namespace Prisma {
     fechaRegistro?: Date | string
     fechaUltimoAcceso?: Date | string
     fechaUltimaActualizacion?: Date | string
+    documentoTipo?: DocumentoTipoCreateNestedOneWithoutUsuariosInput
+    provincia?: ProvinciaCreateNestedOneWithoutUsuariosInput
+    pais?: PaisCreateNestedOneWithoutUsuariosInput
     accounts?: AccountCreateNestedManyWithoutUserInput
-    cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
-    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
-    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
-    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
-    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
-    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
-    materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
-    MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
-    reservasRenovadas?: ReservaCreateNestedManyWithoutUsuarioRenovoInput
-    reservasSolicitadas?: ReservaCreateNestedManyWithoutUsuarioSolicitoInput
-    reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
-    sessions?: SessionCreateNestedManyWithoutUserInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoCreateNestedManyWithoutUsuarioCreadorInput
+    cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
+    MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
-    documentoTipo?: DocumentoTipoCreateNestedOneWithoutUsuariosInput
-    pais?: PaisCreateNestedOneWithoutUsuariosInput
-    provincia?: ProvinciaCreateNestedOneWithoutUsuariosInput
-    usuarioRol?: UsuarioRolCreateNestedManyWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserUncheckedCreateWithoutCursosComoProfesorInput = {
@@ -81752,25 +84621,26 @@ export namespace Prisma {
     provinciaIso?: string | null
     paisIso?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
-    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
-    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
-    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
-    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
-    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
-    materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
-    MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolUncheckedCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
-    reservasRenovadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRenovoInput
-    reservasSolicitadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioSolicitoInput
-    reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUncheckedCreateNestedManyWithoutUsuarioCreadorInput
+    cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
-    usuarioRol?: UsuarioRolUncheckedCreateNestedManyWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserCreateOrConnectWithoutCursosComoProfesorInput = {
@@ -81992,29 +84862,30 @@ export namespace Prisma {
     fechaRegistro?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaUltimoAcceso?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaUltimaActualizacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    documentoTipo?: DocumentoTipoUpdateOneWithoutUsuariosNestedInput
+    provincia?: ProvinciaUpdateOneWithoutUsuariosNestedInput
+    pais?: PaisUpdateOneWithoutUsuariosNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
-    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
-    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
-    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
-    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
-    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
-    materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
-    MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
-    reservasRenovadas?: ReservaUpdateManyWithoutUsuarioRenovoNestedInput
-    reservasSolicitadas?: ReservaUpdateManyWithoutUsuarioSolicitoNestedInput
-    reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
-    sessions?: SessionUpdateManyWithoutUserNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUpdateManyWithoutUsuarioCreadorNestedInput
+    cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
+    MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
-    documentoTipo?: DocumentoTipoUpdateOneWithoutUsuariosNestedInput
-    pais?: PaisUpdateOneWithoutUsuariosNestedInput
-    provincia?: ProvinciaUpdateOneWithoutUsuariosNestedInput
-    usuarioRol?: UsuarioRolUpdateManyWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUncheckedUpdateWithoutCursosComoProfesorInput = {
@@ -82047,25 +84918,26 @@ export namespace Prisma {
     provinciaIso?: NullableStringFieldUpdateOperationsInput | string | null
     paisIso?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
-    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
-    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
-    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
-    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
-    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
-    materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
-    MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUncheckedUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUncheckedUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUncheckedUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
-    reservasRenovadas?: ReservaUncheckedUpdateManyWithoutUsuarioRenovoNestedInput
-    reservasSolicitadas?: ReservaUncheckedUpdateManyWithoutUsuarioSolicitoNestedInput
-    reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUncheckedUpdateManyWithoutUsuarioCreadorNestedInput
+    cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
-    usuarioRol?: UsuarioRolUncheckedUpdateManyWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
   }
 
   export type SedeUpsertWithoutCursosInput = {
@@ -82242,29 +85114,30 @@ export namespace Prisma {
     fechaRegistro?: Date | string
     fechaUltimoAcceso?: Date | string
     fechaUltimaActualizacion?: Date | string
+    documentoTipo?: DocumentoTipoCreateNestedOneWithoutUsuariosInput
+    provincia?: ProvinciaCreateNestedOneWithoutUsuariosInput
+    pais?: PaisCreateNestedOneWithoutUsuariosInput
     accounts?: AccountCreateNestedManyWithoutUserInput
-    cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
-    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
-    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
-    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
-    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
-    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
-    materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
-    MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
-    reservasRenovadas?: ReservaCreateNestedManyWithoutUsuarioRenovoInput
-    reservasSolicitadas?: ReservaCreateNestedManyWithoutUsuarioSolicitoInput
-    reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
-    sessions?: SessionCreateNestedManyWithoutUserInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoCreateNestedManyWithoutUsuarioCreadorInput
+    cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
-    documentoTipo?: DocumentoTipoCreateNestedOneWithoutUsuariosInput
-    pais?: PaisCreateNestedOneWithoutUsuariosInput
-    provincia?: ProvinciaCreateNestedOneWithoutUsuariosInput
-    usuarioRol?: UsuarioRolCreateNestedManyWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserUncheckedCreateWithoutCursosComoAyudanteInput = {
@@ -82297,25 +85170,26 @@ export namespace Prisma {
     provinciaIso?: string | null
     paisIso?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
-    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
-    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
-    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
-    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
-    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
-    materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
-    MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolUncheckedCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
-    reservasRenovadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRenovoInput
-    reservasSolicitadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioSolicitoInput
-    reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUncheckedCreateNestedManyWithoutUsuarioCreadorInput
+    cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
-    usuarioRol?: UsuarioRolUncheckedCreateNestedManyWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserCreateOrConnectWithoutCursosComoAyudanteInput = {
@@ -82416,29 +85290,30 @@ export namespace Prisma {
     fechaRegistro?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaUltimoAcceso?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaUltimaActualizacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    documentoTipo?: DocumentoTipoUpdateOneWithoutUsuariosNestedInput
+    provincia?: ProvinciaUpdateOneWithoutUsuariosNestedInput
+    pais?: PaisUpdateOneWithoutUsuariosNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
-    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
-    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
-    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
-    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
-    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
-    materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
-    MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
-    reservasRenovadas?: ReservaUpdateManyWithoutUsuarioRenovoNestedInput
-    reservasSolicitadas?: ReservaUpdateManyWithoutUsuarioSolicitoNestedInput
-    reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
-    sessions?: SessionUpdateManyWithoutUserNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUpdateManyWithoutUsuarioCreadorNestedInput
+    cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
-    documentoTipo?: DocumentoTipoUpdateOneWithoutUsuariosNestedInput
-    pais?: PaisUpdateOneWithoutUsuariosNestedInput
-    provincia?: ProvinciaUpdateOneWithoutUsuariosNestedInput
-    usuarioRol?: UsuarioRolUpdateManyWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUncheckedUpdateWithoutCursosComoAyudanteInput = {
@@ -82471,25 +85346,26 @@ export namespace Prisma {
     provinciaIso?: NullableStringFieldUpdateOperationsInput | string | null
     paisIso?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
-    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
-    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
-    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
-    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
-    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
-    materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
-    MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUncheckedUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUncheckedUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUncheckedUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
-    reservasRenovadas?: ReservaUncheckedUpdateManyWithoutUsuarioRenovoNestedInput
-    reservasSolicitadas?: ReservaUncheckedUpdateManyWithoutUsuarioSolicitoNestedInput
-    reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUncheckedUpdateManyWithoutUsuarioCreadorNestedInput
+    cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
-    usuarioRol?: UsuarioRolUncheckedUpdateManyWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
   }
 
   export type CursoCreateWithoutDivisionInput = {
@@ -83504,29 +86380,30 @@ export namespace Prisma {
     fechaRegistro?: Date | string
     fechaUltimoAcceso?: Date | string
     fechaUltimaActualizacion?: Date | string
+    documentoTipo?: DocumentoTipoCreateNestedOneWithoutUsuariosInput
+    provincia?: ProvinciaCreateNestedOneWithoutUsuariosInput
+    pais?: PaisCreateNestedOneWithoutUsuariosInput
     accounts?: AccountCreateNestedManyWithoutUserInput
-    cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
-    cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
-    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
-    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
-    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
-    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
-    materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
-    MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
-    reservasRenovadas?: ReservaCreateNestedManyWithoutUsuarioRenovoInput
-    reservasSolicitadas?: ReservaCreateNestedManyWithoutUsuarioSolicitoInput
-    reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
-    sessions?: SessionCreateNestedManyWithoutUserInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoCreateNestedManyWithoutUsuarioCreadorInput
+    cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
-    documentoTipo?: DocumentoTipoCreateNestedOneWithoutUsuariosInput
-    pais?: PaisCreateNestedOneWithoutUsuariosInput
-    provincia?: ProvinciaCreateNestedOneWithoutUsuariosInput
-    usuarioRol?: UsuarioRolCreateNestedManyWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
+    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserUncheckedCreateWithoutFallasAsignadasInput = {
@@ -83559,25 +86436,26 @@ export namespace Prisma {
     provinciaIso?: string | null
     paisIso?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
-    cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
-    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
-    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
-    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
-    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
-    materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
-    MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolUncheckedCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
-    reservasRenovadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRenovoInput
-    reservasSolicitadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioSolicitoInput
-    reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUncheckedCreateNestedManyWithoutUsuarioCreadorInput
+    cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
-    usuarioRol?: UsuarioRolUncheckedCreateNestedManyWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserCreateOrConnectWithoutFallasAsignadasInput = {
@@ -83661,29 +86539,30 @@ export namespace Prisma {
     fechaRegistro?: Date | string
     fechaUltimoAcceso?: Date | string
     fechaUltimaActualizacion?: Date | string
+    documentoTipo?: DocumentoTipoCreateNestedOneWithoutUsuariosInput
+    provincia?: ProvinciaCreateNestedOneWithoutUsuariosInput
+    pais?: PaisCreateNestedOneWithoutUsuariosInput
     accounts?: AccountCreateNestedManyWithoutUserInput
-    cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
-    cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
-    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
-    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
-    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
-    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
-    materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
-    MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
-    reservasRenovadas?: ReservaCreateNestedManyWithoutUsuarioRenovoInput
-    reservasSolicitadas?: ReservaCreateNestedManyWithoutUsuarioSolicitoInput
-    reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
-    sessions?: SessionCreateNestedManyWithoutUserInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoCreateNestedManyWithoutUsuarioCreadorInput
+    cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
-    documentoTipo?: DocumentoTipoCreateNestedOneWithoutUsuariosInput
-    pais?: PaisCreateNestedOneWithoutUsuariosInput
-    provincia?: ProvinciaCreateNestedOneWithoutUsuariosInput
-    usuarioRol?: UsuarioRolCreateNestedManyWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoCreateNestedManyWithoutUserInput
+    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserUncheckedCreateWithoutFallasReportadasInput = {
@@ -83716,25 +86595,26 @@ export namespace Prisma {
     provinciaIso?: string | null
     paisIso?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
-    cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
-    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
-    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
-    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
-    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
-    materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
-    MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolUncheckedCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
-    reservasRenovadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRenovoInput
-    reservasSolicitadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioSolicitoInput
-    reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUncheckedCreateNestedManyWithoutUsuarioCreadorInput
+    cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
-    usuarioRol?: UsuarioRolUncheckedCreateNestedManyWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
+    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserCreateOrConnectWithoutFallasReportadasInput = {
@@ -83812,29 +86692,30 @@ export namespace Prisma {
     fechaRegistro?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaUltimoAcceso?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaUltimaActualizacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    documentoTipo?: DocumentoTipoUpdateOneWithoutUsuariosNestedInput
+    provincia?: ProvinciaUpdateOneWithoutUsuariosNestedInput
+    pais?: PaisUpdateOneWithoutUsuariosNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
-    cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
-    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
-    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
-    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
-    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
-    materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
-    MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
-    reservasRenovadas?: ReservaUpdateManyWithoutUsuarioRenovoNestedInput
-    reservasSolicitadas?: ReservaUpdateManyWithoutUsuarioSolicitoNestedInput
-    reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
-    sessions?: SessionUpdateManyWithoutUserNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUpdateManyWithoutUsuarioCreadorNestedInput
+    cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
-    documentoTipo?: DocumentoTipoUpdateOneWithoutUsuariosNestedInput
-    pais?: PaisUpdateOneWithoutUsuariosNestedInput
-    provincia?: ProvinciaUpdateOneWithoutUsuariosNestedInput
-    usuarioRol?: UsuarioRolUpdateManyWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
+    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUncheckedUpdateWithoutFallasAsignadasInput = {
@@ -83867,25 +86748,26 @@ export namespace Prisma {
     provinciaIso?: NullableStringFieldUpdateOperationsInput | string | null
     paisIso?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
-    cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
-    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
-    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
-    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
-    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
-    materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
-    MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUncheckedUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUncheckedUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUncheckedUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
-    reservasRenovadas?: ReservaUncheckedUpdateManyWithoutUsuarioRenovoNestedInput
-    reservasSolicitadas?: ReservaUncheckedUpdateManyWithoutUsuarioSolicitoNestedInput
-    reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUncheckedUpdateManyWithoutUsuarioCreadorNestedInput
+    cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
-    usuarioRol?: UsuarioRolUncheckedUpdateManyWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
   }
 
   export type EquipoUpsertWithoutFallaPcInput = {
@@ -83981,29 +86863,30 @@ export namespace Prisma {
     fechaRegistro?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaUltimoAcceso?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaUltimaActualizacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    documentoTipo?: DocumentoTipoUpdateOneWithoutUsuariosNestedInput
+    provincia?: ProvinciaUpdateOneWithoutUsuariosNestedInput
+    pais?: PaisUpdateOneWithoutUsuariosNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
-    cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
-    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
-    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
-    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
-    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
-    materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
-    MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
-    reservasRenovadas?: ReservaUpdateManyWithoutUsuarioRenovoNestedInput
-    reservasSolicitadas?: ReservaUpdateManyWithoutUsuarioSolicitoNestedInput
-    reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
-    sessions?: SessionUpdateManyWithoutUserNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUpdateManyWithoutUsuarioCreadorNestedInput
+    cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
-    documentoTipo?: DocumentoTipoUpdateOneWithoutUsuariosNestedInput
-    pais?: PaisUpdateOneWithoutUsuariosNestedInput
-    provincia?: ProvinciaUpdateOneWithoutUsuariosNestedInput
-    usuarioRol?: UsuarioRolUpdateManyWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUpdateManyWithoutUserNestedInput
+    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUncheckedUpdateWithoutFallasReportadasInput = {
@@ -84036,25 +86919,26 @@ export namespace Prisma {
     provinciaIso?: NullableStringFieldUpdateOperationsInput | string | null
     paisIso?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
-    cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
-    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
-    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
-    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
-    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
-    materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
-    MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUncheckedUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUncheckedUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUncheckedUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
-    reservasRenovadas?: ReservaUncheckedUpdateManyWithoutUsuarioRenovoNestedInput
-    reservasSolicitadas?: ReservaUncheckedUpdateManyWithoutUsuarioSolicitoNestedInput
-    reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUncheckedUpdateManyWithoutUsuarioCreadorNestedInput
+    cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
-    usuarioRol?: UsuarioRolUncheckedUpdateManyWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
+    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
   }
 
   export type FallaHistorialUpsertWithWhereUniqueWithoutFallaInput = {
@@ -84115,29 +86999,30 @@ export namespace Prisma {
     fechaRegistro?: Date | string
     fechaUltimoAcceso?: Date | string
     fechaUltimaActualizacion?: Date | string
+    documentoTipo?: DocumentoTipoCreateNestedOneWithoutUsuariosInput
+    provincia?: ProvinciaCreateNestedOneWithoutUsuariosInput
+    pais?: PaisCreateNestedOneWithoutUsuariosInput
     accounts?: AccountCreateNestedManyWithoutUserInput
-    cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
-    cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
-    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
-    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
-    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
-    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
-    materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
-    MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
-    reservasRenovadas?: ReservaCreateNestedManyWithoutUsuarioRenovoInput
-    reservasSolicitadas?: ReservaCreateNestedManyWithoutUsuarioSolicitoInput
-    reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
-    sessions?: SessionCreateNestedManyWithoutUserInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoCreateNestedManyWithoutUsuarioCreadorInput
+    cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
-    documentoTipo?: DocumentoTipoCreateNestedOneWithoutUsuariosInput
-    pais?: PaisCreateNestedOneWithoutUsuariosInput
-    provincia?: ProvinciaCreateNestedOneWithoutUsuariosInput
-    usuarioRol?: UsuarioRolCreateNestedManyWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
   }
 
   export type UserUncheckedCreateWithoutFallasHistAsignadasInput = {
@@ -84170,25 +87055,26 @@ export namespace Prisma {
     provinciaIso?: string | null
     paisIso?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
-    cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
-    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
-    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
-    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
-    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
-    materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
-    MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolUncheckedCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
-    reservasRenovadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRenovoInput
-    reservasSolicitadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioSolicitoInput
-    reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUncheckedCreateNestedManyWithoutUsuarioCreadorInput
+    cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
-    usuarioRol?: UsuarioRolUncheckedCreateNestedManyWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
   }
 
   export type UserCreateOrConnectWithoutFallasHistAsignadasInput = {
@@ -84256,29 +87142,30 @@ export namespace Prisma {
     fechaRegistro?: Date | string
     fechaUltimoAcceso?: Date | string
     fechaUltimaActualizacion?: Date | string
+    documentoTipo?: DocumentoTipoCreateNestedOneWithoutUsuariosInput
+    provincia?: ProvinciaCreateNestedOneWithoutUsuariosInput
+    pais?: PaisCreateNestedOneWithoutUsuariosInput
     accounts?: AccountCreateNestedManyWithoutUserInput
-    cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
-    cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
-    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
-    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
-    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
-    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
-    materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
-    MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
-    reservasRenovadas?: ReservaCreateNestedManyWithoutUsuarioRenovoInput
-    reservasSolicitadas?: ReservaCreateNestedManyWithoutUsuarioSolicitoInput
-    reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
-    sessions?: SessionCreateNestedManyWithoutUserInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoCreateNestedManyWithoutUsuarioCreadorInput
+    cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
-    documentoTipo?: DocumentoTipoCreateNestedOneWithoutUsuariosInput
-    pais?: PaisCreateNestedOneWithoutUsuariosInput
-    provincia?: ProvinciaCreateNestedOneWithoutUsuariosInput
-    usuarioRol?: UsuarioRolCreateNestedManyWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
+    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserUncheckedCreateWithoutFallasHistReportadasInput = {
@@ -84311,25 +87198,26 @@ export namespace Prisma {
     provinciaIso?: string | null
     paisIso?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
-    cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
-    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
-    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
-    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
-    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
-    materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
-    MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolUncheckedCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
-    reservasRenovadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRenovoInput
-    reservasSolicitadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioSolicitoInput
-    reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUncheckedCreateNestedManyWithoutUsuarioCreadorInput
+    cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
-    usuarioRol?: UsuarioRolUncheckedCreateNestedManyWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
+    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserCreateOrConnectWithoutFallasHistReportadasInput = {
@@ -84374,29 +87262,30 @@ export namespace Prisma {
     fechaRegistro?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaUltimoAcceso?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaUltimaActualizacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    documentoTipo?: DocumentoTipoUpdateOneWithoutUsuariosNestedInput
+    provincia?: ProvinciaUpdateOneWithoutUsuariosNestedInput
+    pais?: PaisUpdateOneWithoutUsuariosNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
-    cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
-    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
-    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
-    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
-    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
-    materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
-    MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
-    reservasRenovadas?: ReservaUpdateManyWithoutUsuarioRenovoNestedInput
-    reservasSolicitadas?: ReservaUpdateManyWithoutUsuarioSolicitoNestedInput
-    reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
-    sessions?: SessionUpdateManyWithoutUserNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUpdateManyWithoutUsuarioCreadorNestedInput
+    cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
-    documentoTipo?: DocumentoTipoUpdateOneWithoutUsuariosNestedInput
-    pais?: PaisUpdateOneWithoutUsuariosNestedInput
-    provincia?: ProvinciaUpdateOneWithoutUsuariosNestedInput
-    usuarioRol?: UsuarioRolUpdateManyWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFallasHistAsignadasInput = {
@@ -84429,25 +87318,26 @@ export namespace Prisma {
     provinciaIso?: NullableStringFieldUpdateOperationsInput | string | null
     paisIso?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
-    cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
-    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
-    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
-    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
-    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
-    materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
-    MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUncheckedUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUncheckedUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUncheckedUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
-    reservasRenovadas?: ReservaUncheckedUpdateManyWithoutUsuarioRenovoNestedInput
-    reservasSolicitadas?: ReservaUncheckedUpdateManyWithoutUsuarioSolicitoNestedInput
-    reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUncheckedUpdateManyWithoutUsuarioCreadorNestedInput
+    cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
-    usuarioRol?: UsuarioRolUncheckedUpdateManyWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
   }
 
   export type FallaUpsertWithoutHistorialInput = {
@@ -84527,29 +87417,30 @@ export namespace Prisma {
     fechaRegistro?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaUltimoAcceso?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaUltimaActualizacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    documentoTipo?: DocumentoTipoUpdateOneWithoutUsuariosNestedInput
+    provincia?: ProvinciaUpdateOneWithoutUsuariosNestedInput
+    pais?: PaisUpdateOneWithoutUsuariosNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
-    cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
-    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
-    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
-    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
-    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
-    materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
-    MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
-    reservasRenovadas?: ReservaUpdateManyWithoutUsuarioRenovoNestedInput
-    reservasSolicitadas?: ReservaUpdateManyWithoutUsuarioSolicitoNestedInput
-    reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
-    sessions?: SessionUpdateManyWithoutUserNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUpdateManyWithoutUsuarioCreadorNestedInput
+    cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
-    documentoTipo?: DocumentoTipoUpdateOneWithoutUsuariosNestedInput
-    pais?: PaisUpdateOneWithoutUsuariosNestedInput
-    provincia?: ProvinciaUpdateOneWithoutUsuariosNestedInput
-    usuarioRol?: UsuarioRolUpdateManyWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
+    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUncheckedUpdateWithoutFallasHistReportadasInput = {
@@ -84582,25 +87473,26 @@ export namespace Prisma {
     provinciaIso?: NullableStringFieldUpdateOperationsInput | string | null
     paisIso?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
-    cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
-    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
-    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
-    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
-    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
-    materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
-    MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUncheckedUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUncheckedUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUncheckedUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
-    reservasRenovadas?: ReservaUncheckedUpdateManyWithoutUsuarioRenovoNestedInput
-    reservasSolicitadas?: ReservaUncheckedUpdateManyWithoutUsuarioSolicitoNestedInput
-    reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUncheckedUpdateManyWithoutUsuarioCreadorNestedInput
+    cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
-    usuarioRol?: UsuarioRolUncheckedUpdateManyWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
+    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserCreateWithoutInscripcionesEspecialesInput = {
@@ -84629,29 +87521,30 @@ export namespace Prisma {
     fechaRegistro?: Date | string
     fechaUltimoAcceso?: Date | string
     fechaUltimaActualizacion?: Date | string
+    documentoTipo?: DocumentoTipoCreateNestedOneWithoutUsuariosInput
+    provincia?: ProvinciaCreateNestedOneWithoutUsuariosInput
+    pais?: PaisCreateNestedOneWithoutUsuariosInput
     accounts?: AccountCreateNestedManyWithoutUserInput
-    cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
-    cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
-    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
-    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
-    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
-    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
-    materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
-    MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
-    reservasRenovadas?: ReservaCreateNestedManyWithoutUsuarioRenovoInput
-    reservasSolicitadas?: ReservaCreateNestedManyWithoutUsuarioSolicitoInput
-    reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
-    sessions?: SessionCreateNestedManyWithoutUserInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoCreateNestedManyWithoutUsuarioCreadorInput
+    cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
-    documentoTipo?: DocumentoTipoCreateNestedOneWithoutUsuariosInput
-    pais?: PaisCreateNestedOneWithoutUsuariosInput
-    provincia?: ProvinciaCreateNestedOneWithoutUsuariosInput
-    usuarioRol?: UsuarioRolCreateNestedManyWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserUncheckedCreateWithoutInscripcionesEspecialesInput = {
@@ -84684,25 +87577,26 @@ export namespace Prisma {
     provinciaIso?: string | null
     paisIso?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
-    cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
-    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
-    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
-    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
-    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
-    materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
-    MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolUncheckedCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
-    reservasRenovadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRenovoInput
-    reservasSolicitadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioSolicitoInput
-    reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUncheckedCreateNestedManyWithoutUsuarioCreadorInput
+    cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
-    usuarioRol?: UsuarioRolUncheckedCreateNestedManyWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserCreateOrConnectWithoutInscripcionesEspecialesInput = {
@@ -84747,29 +87641,30 @@ export namespace Prisma {
     fechaRegistro?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaUltimoAcceso?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaUltimaActualizacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    documentoTipo?: DocumentoTipoUpdateOneWithoutUsuariosNestedInput
+    provincia?: ProvinciaUpdateOneWithoutUsuariosNestedInput
+    pais?: PaisUpdateOneWithoutUsuariosNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
-    cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
-    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
-    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
-    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
-    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
-    materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
-    MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
-    reservasRenovadas?: ReservaUpdateManyWithoutUsuarioRenovoNestedInput
-    reservasSolicitadas?: ReservaUpdateManyWithoutUsuarioSolicitoNestedInput
-    reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
-    sessions?: SessionUpdateManyWithoutUserNestedInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUpdateManyWithoutUsuarioCreadorNestedInput
+    cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
-    documentoTipo?: DocumentoTipoUpdateOneWithoutUsuariosNestedInput
-    pais?: PaisUpdateOneWithoutUsuariosNestedInput
-    provincia?: ProvinciaUpdateOneWithoutUsuariosNestedInput
-    usuarioRol?: UsuarioRolUpdateManyWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUncheckedUpdateWithoutInscripcionesEspecialesInput = {
@@ -84802,25 +87697,250 @@ export namespace Prisma {
     provinciaIso?: NullableStringFieldUpdateOperationsInput | string | null
     paisIso?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
-    cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
-    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
-    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
-    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
-    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
-    materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
-    MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUncheckedUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUncheckedUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUncheckedUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
-    reservasRenovadas?: ReservaUncheckedUpdateManyWithoutUsuarioRenovoNestedInput
-    reservasSolicitadas?: ReservaUncheckedUpdateManyWithoutUsuarioSolicitoNestedInput
-    reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUncheckedUpdateManyWithoutUsuarioCreadorNestedInput
+    cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
-    usuarioRol?: UsuarioRolUncheckedUpdateManyWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
+  }
+
+  export type UserCreateWithoutInscripcionEspecialPeriodosCreadosInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified?: boolean | null
+    image?: string
+    nombre?: string | null
+    apellido?: string | null
+    fechaNacimiento?: Date | string | null
+    direccion?: string | null
+    piso?: string | null
+    departamento?: string | null
+    ciudad?: string | null
+    codigoPostal?: string | null
+    telefonoCasa?: string | null
+    telefonoCelular?: string | null
+    telefonoLaboral?: string | null
+    documentoNumero?: string | null
+    legajo?: string | null
+    gitlab?: string | null
+    penalizaciones?: number
+    esDocente?: boolean
+    esTutor?: boolean
+    fechaRegistro?: Date | string
+    fechaUltimoAcceso?: Date | string
+    fechaUltimaActualizacion?: Date | string
+    documentoTipo?: DocumentoTipoCreateNestedOneWithoutUsuariosInput
+    provincia?: ProvinciaCreateNestedOneWithoutUsuariosInput
+    pais?: PaisCreateNestedOneWithoutUsuariosInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
+    reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
+    reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
+    reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
+    cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
+    tutor?: TutorCreateNestedOneWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
+    Voto?: VotoCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
+  }
+
+  export type UserUncheckedCreateWithoutInscripcionEspecialPeriodosCreadosInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified?: boolean | null
+    image?: string
+    nombre?: string | null
+    apellido?: string | null
+    fechaNacimiento?: Date | string | null
+    direccion?: string | null
+    piso?: string | null
+    departamento?: string | null
+    ciudad?: string | null
+    codigoPostal?: string | null
+    telefonoCasa?: string | null
+    telefonoCelular?: string | null
+    telefonoLaboral?: string | null
+    documentoNumero?: string | null
+    legajo?: string | null
+    gitlab?: string | null
+    penalizaciones?: number
+    esDocente?: boolean
+    esTutor?: boolean
+    fechaRegistro?: Date | string
+    fechaUltimoAcceso?: Date | string
+    fechaUltimaActualizacion?: Date | string
+    documentoTipoId?: number | null
+    provinciaIso?: string | null
+    paisIso?: string | null
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolUncheckedCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
+    reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
+    reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
+    reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
+    cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
+    tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
+    Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
+  }
+
+  export type UserCreateOrConnectWithoutInscripcionEspecialPeriodosCreadosInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutInscripcionEspecialPeriodosCreadosInput, UserUncheckedCreateWithoutInscripcionEspecialPeriodosCreadosInput>
+  }
+
+  export type UserUpsertWithoutInscripcionEspecialPeriodosCreadosInput = {
+    update: XOR<UserUpdateWithoutInscripcionEspecialPeriodosCreadosInput, UserUncheckedUpdateWithoutInscripcionEspecialPeriodosCreadosInput>
+    create: XOR<UserCreateWithoutInscripcionEspecialPeriodosCreadosInput, UserUncheckedCreateWithoutInscripcionEspecialPeriodosCreadosInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutInscripcionEspecialPeriodosCreadosInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutInscripcionEspecialPeriodosCreadosInput, UserUncheckedUpdateWithoutInscripcionEspecialPeriodosCreadosInput>
+  }
+
+  export type UserUpdateWithoutInscripcionEspecialPeriodosCreadosInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    image?: StringFieldUpdateOperationsInput | string
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
+    apellido?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    direccion?: NullableStringFieldUpdateOperationsInput | string | null
+    piso?: NullableStringFieldUpdateOperationsInput | string | null
+    departamento?: NullableStringFieldUpdateOperationsInput | string | null
+    ciudad?: NullableStringFieldUpdateOperationsInput | string | null
+    codigoPostal?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoCasa?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoCelular?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoLaboral?: NullableStringFieldUpdateOperationsInput | string | null
+    documentoNumero?: NullableStringFieldUpdateOperationsInput | string | null
+    legajo?: NullableStringFieldUpdateOperationsInput | string | null
+    gitlab?: NullableStringFieldUpdateOperationsInput | string | null
+    penalizaciones?: IntFieldUpdateOperationsInput | number
+    esDocente?: BoolFieldUpdateOperationsInput | boolean
+    esTutor?: BoolFieldUpdateOperationsInput | boolean
+    fechaRegistro?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaUltimoAcceso?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaUltimaActualizacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    documentoTipo?: DocumentoTipoUpdateOneWithoutUsuariosNestedInput
+    provincia?: ProvinciaUpdateOneWithoutUsuariosNestedInput
+    pais?: PaisUpdateOneWithoutUsuariosNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
+    reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
+    reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
+    reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
+    cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
+    tutor?: TutorUpdateOneWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
+    Voto?: VotoUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutInscripcionEspecialPeriodosCreadosInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    image?: StringFieldUpdateOperationsInput | string
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
+    apellido?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    direccion?: NullableStringFieldUpdateOperationsInput | string | null
+    piso?: NullableStringFieldUpdateOperationsInput | string | null
+    departamento?: NullableStringFieldUpdateOperationsInput | string | null
+    ciudad?: NullableStringFieldUpdateOperationsInput | string | null
+    codigoPostal?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoCasa?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoCelular?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoLaboral?: NullableStringFieldUpdateOperationsInput | string | null
+    documentoNumero?: NullableStringFieldUpdateOperationsInput | string | null
+    legajo?: NullableStringFieldUpdateOperationsInput | string | null
+    gitlab?: NullableStringFieldUpdateOperationsInput | string | null
+    penalizaciones?: IntFieldUpdateOperationsInput | number
+    esDocente?: BoolFieldUpdateOperationsInput | boolean
+    esTutor?: BoolFieldUpdateOperationsInput | boolean
+    fechaRegistro?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaUltimoAcceso?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaUltimaActualizacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    documentoTipoId?: NullableIntFieldUpdateOperationsInput | number | null
+    provinciaIso?: NullableStringFieldUpdateOperationsInput | string | null
+    paisIso?: NullableStringFieldUpdateOperationsInput | string | null
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUncheckedUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUncheckedUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUncheckedUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
+    reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
+    reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
+    reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
+    cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
+    tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
+    Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
   }
 
   export type ArmarioCreateWithoutLaboratorioInput = {
@@ -86048,29 +89168,30 @@ export namespace Prisma {
     fechaRegistro?: Date | string
     fechaUltimoAcceso?: Date | string
     fechaUltimaActualizacion?: Date | string
+    documentoTipo?: DocumentoTipoCreateNestedOneWithoutUsuariosInput
+    provincia?: ProvinciaCreateNestedOneWithoutUsuariosInput
+    pais?: PaisCreateNestedOneWithoutUsuariosInput
     accounts?: AccountCreateNestedManyWithoutUserInput
-    cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
-    cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
-    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
-    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
-    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
-    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
-    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
-    MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
-    reservasRenovadas?: ReservaCreateNestedManyWithoutUsuarioRenovoInput
-    reservasSolicitadas?: ReservaCreateNestedManyWithoutUsuarioSolicitoInput
-    reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
-    sessions?: SessionCreateNestedManyWithoutUserInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoCreateNestedManyWithoutUsuarioCreadorInput
+    cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
-    documentoTipo?: DocumentoTipoCreateNestedOneWithoutUsuariosInput
-    pais?: PaisCreateNestedOneWithoutUsuariosInput
-    provincia?: ProvinciaCreateNestedOneWithoutUsuariosInput
-    usuarioRol?: UsuarioRolCreateNestedManyWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserUncheckedCreateWithoutMateriasDirectorInput = {
@@ -86103,25 +89224,26 @@ export namespace Prisma {
     provinciaIso?: string | null
     paisIso?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
-    cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
-    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
-    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
-    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
-    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
-    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
-    MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolUncheckedCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
-    reservasRenovadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRenovoInput
-    reservasSolicitadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioSolicitoInput
-    reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUncheckedCreateNestedManyWithoutUsuarioCreadorInput
+    cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
-    usuarioRol?: UsuarioRolUncheckedCreateNestedManyWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserCreateOrConnectWithoutMateriasDirectorInput = {
@@ -86319,29 +89441,30 @@ export namespace Prisma {
     fechaRegistro?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaUltimoAcceso?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaUltimaActualizacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    documentoTipo?: DocumentoTipoUpdateOneWithoutUsuariosNestedInput
+    provincia?: ProvinciaUpdateOneWithoutUsuariosNestedInput
+    pais?: PaisUpdateOneWithoutUsuariosNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
-    cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
-    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
-    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
-    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
-    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
-    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
-    MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
-    reservasRenovadas?: ReservaUpdateManyWithoutUsuarioRenovoNestedInput
-    reservasSolicitadas?: ReservaUpdateManyWithoutUsuarioSolicitoNestedInput
-    reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
-    sessions?: SessionUpdateManyWithoutUserNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUpdateManyWithoutUsuarioCreadorNestedInput
+    cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
-    documentoTipo?: DocumentoTipoUpdateOneWithoutUsuariosNestedInput
-    pais?: PaisUpdateOneWithoutUsuariosNestedInput
-    provincia?: ProvinciaUpdateOneWithoutUsuariosNestedInput
-    usuarioRol?: UsuarioRolUpdateManyWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUncheckedUpdateWithoutMateriasDirectorInput = {
@@ -86374,25 +89497,26 @@ export namespace Prisma {
     provinciaIso?: NullableStringFieldUpdateOperationsInput | string | null
     paisIso?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
-    cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
-    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
-    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
-    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
-    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
-    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
-    MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUncheckedUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUncheckedUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUncheckedUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
-    reservasRenovadas?: ReservaUncheckedUpdateManyWithoutUsuarioRenovoNestedInput
-    reservasSolicitadas?: ReservaUncheckedUpdateManyWithoutUsuarioSolicitoNestedInput
-    reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUncheckedUpdateManyWithoutUsuarioCreadorNestedInput
+    cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
-    usuarioRol?: UsuarioRolUncheckedUpdateManyWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
   }
 
   export type MateriaCorrelativaUpsertWithWhereUniqueWithoutCorrelativaInput = {
@@ -86506,29 +89630,30 @@ export namespace Prisma {
     fechaRegistro?: Date | string
     fechaUltimoAcceso?: Date | string
     fechaUltimaActualizacion?: Date | string
+    documentoTipo?: DocumentoTipoCreateNestedOneWithoutUsuariosInput
+    provincia?: ProvinciaCreateNestedOneWithoutUsuariosInput
+    pais?: PaisCreateNestedOneWithoutUsuariosInput
     accounts?: AccountCreateNestedManyWithoutUserInput
-    cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
-    cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
-    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
-    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
-    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
-    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
-    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
-    materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
-    reservasRenovadas?: ReservaCreateNestedManyWithoutUsuarioRenovoInput
-    reservasSolicitadas?: ReservaCreateNestedManyWithoutUsuarioSolicitoInput
-    reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
-    sessions?: SessionCreateNestedManyWithoutUserInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoCreateNestedManyWithoutUsuarioCreadorInput
+    cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
+    materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
-    documentoTipo?: DocumentoTipoCreateNestedOneWithoutUsuariosInput
-    pais?: PaisCreateNestedOneWithoutUsuariosInput
-    provincia?: ProvinciaCreateNestedOneWithoutUsuariosInput
-    usuarioRol?: UsuarioRolCreateNestedManyWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserUncheckedCreateWithoutMateriaJefeTpInput = {
@@ -86561,25 +89686,26 @@ export namespace Prisma {
     provinciaIso?: string | null
     paisIso?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
-    cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
-    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
-    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
-    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
-    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
-    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
-    materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolUncheckedCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
-    reservasRenovadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRenovoInput
-    reservasSolicitadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioSolicitoInput
-    reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUncheckedCreateNestedManyWithoutUsuarioCreadorInput
+    cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
+    materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
-    usuarioRol?: UsuarioRolUncheckedCreateNestedManyWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserCreateOrConnectWithoutMateriaJefeTpInput = {
@@ -86666,29 +89792,30 @@ export namespace Prisma {
     fechaRegistro?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaUltimoAcceso?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaUltimaActualizacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    documentoTipo?: DocumentoTipoUpdateOneWithoutUsuariosNestedInput
+    provincia?: ProvinciaUpdateOneWithoutUsuariosNestedInput
+    pais?: PaisUpdateOneWithoutUsuariosNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
-    cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
-    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
-    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
-    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
-    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
-    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
-    materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
-    reservasRenovadas?: ReservaUpdateManyWithoutUsuarioRenovoNestedInput
-    reservasSolicitadas?: ReservaUpdateManyWithoutUsuarioSolicitoNestedInput
-    reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
-    sessions?: SessionUpdateManyWithoutUserNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUpdateManyWithoutUsuarioCreadorNestedInput
+    cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
+    materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
-    documentoTipo?: DocumentoTipoUpdateOneWithoutUsuariosNestedInput
-    pais?: PaisUpdateOneWithoutUsuariosNestedInput
-    provincia?: ProvinciaUpdateOneWithoutUsuariosNestedInput
-    usuarioRol?: UsuarioRolUpdateManyWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUncheckedUpdateWithoutMateriaJefeTpInput = {
@@ -86721,25 +89848,26 @@ export namespace Prisma {
     provinciaIso?: NullableStringFieldUpdateOperationsInput | string | null
     paisIso?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
-    cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
-    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
-    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
-    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
-    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
-    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
-    materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUncheckedUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUncheckedUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUncheckedUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
-    reservasRenovadas?: ReservaUncheckedUpdateManyWithoutUsuarioRenovoNestedInput
-    reservasSolicitadas?: ReservaUncheckedUpdateManyWithoutUsuarioSolicitoNestedInput
-    reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUncheckedUpdateManyWithoutUsuarioCreadorNestedInput
+    cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
+    materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
-    usuarioRol?: UsuarioRolUncheckedUpdateManyWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
   }
 
   export type MateriaUpsertWithoutJefeTrabajoPracticosInput = {
@@ -86996,29 +90124,30 @@ export namespace Prisma {
     fechaRegistro?: Date | string
     fechaUltimoAcceso?: Date | string
     fechaUltimaActualizacion?: Date | string
+    documentoTipo?: DocumentoTipoCreateNestedOneWithoutUsuariosInput
+    provincia?: ProvinciaCreateNestedOneWithoutUsuariosInput
+    pais?: PaisCreateNestedOneWithoutUsuariosInput
     accounts?: AccountCreateNestedManyWithoutUserInput
-    cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
-    cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
-    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
-    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
-    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
-    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
-    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
-    materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
-    MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
-    reservasRenovadas?: ReservaCreateNestedManyWithoutUsuarioRenovoInput
-    reservasSolicitadas?: ReservaCreateNestedManyWithoutUsuarioSolicitoInput
-    reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
-    sessions?: SessionCreateNestedManyWithoutUserInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoCreateNestedManyWithoutUsuarioCreadorInput
+    cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
-    documentoTipo?: DocumentoTipoCreateNestedOneWithoutUsuariosInput
-    pais?: PaisCreateNestedOneWithoutUsuariosInput
-    provincia?: ProvinciaCreateNestedOneWithoutUsuariosInput
-    usuarioRol?: UsuarioRolCreateNestedManyWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserUncheckedCreateWithoutReservasAprobadasInput = {
@@ -87051,25 +90180,26 @@ export namespace Prisma {
     provinciaIso?: string | null
     paisIso?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
-    cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
-    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
-    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
-    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
-    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
-    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
-    materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
-    MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolUncheckedCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
-    reservasRenovadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRenovoInput
-    reservasSolicitadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioSolicitoInput
-    reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUncheckedCreateNestedManyWithoutUsuarioCreadorInput
+    cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
-    usuarioRol?: UsuarioRolUncheckedCreateNestedManyWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserCreateOrConnectWithoutReservasAprobadasInput = {
@@ -87103,29 +90233,30 @@ export namespace Prisma {
     fechaRegistro?: Date | string
     fechaUltimoAcceso?: Date | string
     fechaUltimaActualizacion?: Date | string
+    documentoTipo?: DocumentoTipoCreateNestedOneWithoutUsuariosInput
+    provincia?: ProvinciaCreateNestedOneWithoutUsuariosInput
+    pais?: PaisCreateNestedOneWithoutUsuariosInput
     accounts?: AccountCreateNestedManyWithoutUserInput
-    cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
-    cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
-    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
-    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
-    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
-    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
-    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
-    materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
-    MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
-    reservasRenovadas?: ReservaCreateNestedManyWithoutUsuarioRenovoInput
-    reservasSolicitadas?: ReservaCreateNestedManyWithoutUsuarioSolicitoInput
-    reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
-    sessions?: SessionCreateNestedManyWithoutUserInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoCreateNestedManyWithoutUsuarioCreadorInput
+    cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
-    documentoTipo?: DocumentoTipoCreateNestedOneWithoutUsuariosInput
-    pais?: PaisCreateNestedOneWithoutUsuariosInput
-    provincia?: ProvinciaCreateNestedOneWithoutUsuariosInput
-    usuarioRol?: UsuarioRolCreateNestedManyWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserUncheckedCreateWithoutReservasRechazadasInput = {
@@ -87158,25 +90289,26 @@ export namespace Prisma {
     provinciaIso?: string | null
     paisIso?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
-    cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
-    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
-    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
-    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
-    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
-    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
-    materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
-    MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolUncheckedCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
-    reservasRenovadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRenovoInput
-    reservasSolicitadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioSolicitoInput
-    reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUncheckedCreateNestedManyWithoutUsuarioCreadorInput
+    cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
-    usuarioRol?: UsuarioRolUncheckedCreateNestedManyWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserCreateOrConnectWithoutReservasRechazadasInput = {
@@ -87210,29 +90342,30 @@ export namespace Prisma {
     fechaRegistro?: Date | string
     fechaUltimoAcceso?: Date | string
     fechaUltimaActualizacion?: Date | string
+    documentoTipo?: DocumentoTipoCreateNestedOneWithoutUsuariosInput
+    provincia?: ProvinciaCreateNestedOneWithoutUsuariosInput
+    pais?: PaisCreateNestedOneWithoutUsuariosInput
     accounts?: AccountCreateNestedManyWithoutUserInput
-    cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
-    cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
-    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
-    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
-    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
-    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
-    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
-    materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
-    MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
-    reservasRenovadas?: ReservaCreateNestedManyWithoutUsuarioRenovoInput
-    reservasSolicitadas?: ReservaCreateNestedManyWithoutUsuarioSolicitoInput
-    reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
-    sessions?: SessionCreateNestedManyWithoutUserInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoCreateNestedManyWithoutUsuarioCreadorInput
+    cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
-    documentoTipo?: DocumentoTipoCreateNestedOneWithoutUsuariosInput
-    pais?: PaisCreateNestedOneWithoutUsuariosInput
-    provincia?: ProvinciaCreateNestedOneWithoutUsuariosInput
-    usuarioRol?: UsuarioRolCreateNestedManyWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserUncheckedCreateWithoutReservasRecibidasInput = {
@@ -87265,25 +90398,26 @@ export namespace Prisma {
     provinciaIso?: string | null
     paisIso?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
-    cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
-    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
-    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
-    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
-    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
-    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
-    materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
-    MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolUncheckedCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
-    reservasRenovadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRenovoInput
-    reservasSolicitadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioSolicitoInput
-    reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUncheckedCreateNestedManyWithoutUsuarioCreadorInput
+    cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
-    usuarioRol?: UsuarioRolUncheckedCreateNestedManyWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserCreateOrConnectWithoutReservasRecibidasInput = {
@@ -87317,29 +90451,30 @@ export namespace Prisma {
     fechaRegistro?: Date | string
     fechaUltimoAcceso?: Date | string
     fechaUltimaActualizacion?: Date | string
+    documentoTipo?: DocumentoTipoCreateNestedOneWithoutUsuariosInput
+    provincia?: ProvinciaCreateNestedOneWithoutUsuariosInput
+    pais?: PaisCreateNestedOneWithoutUsuariosInput
     accounts?: AccountCreateNestedManyWithoutUserInput
-    cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
-    cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
-    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
-    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
-    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
-    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
-    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
-    materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
-    MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
-    reservasSolicitadas?: ReservaCreateNestedManyWithoutUsuarioSolicitoInput
-    reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
-    sessions?: SessionCreateNestedManyWithoutUserInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoCreateNestedManyWithoutUsuarioCreadorInput
+    cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
-    documentoTipo?: DocumentoTipoCreateNestedOneWithoutUsuariosInput
-    pais?: PaisCreateNestedOneWithoutUsuariosInput
-    provincia?: ProvinciaCreateNestedOneWithoutUsuariosInput
-    usuarioRol?: UsuarioRolCreateNestedManyWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserUncheckedCreateWithoutReservasRenovadasInput = {
@@ -87372,25 +90507,26 @@ export namespace Prisma {
     provinciaIso?: string | null
     paisIso?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
-    cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
-    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
-    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
-    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
-    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
-    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
-    materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
-    MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolUncheckedCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
-    reservasSolicitadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioSolicitoInput
-    reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUncheckedCreateNestedManyWithoutUsuarioCreadorInput
+    cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
-    usuarioRol?: UsuarioRolUncheckedCreateNestedManyWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserCreateOrConnectWithoutReservasRenovadasInput = {
@@ -87424,29 +90560,30 @@ export namespace Prisma {
     fechaRegistro?: Date | string
     fechaUltimoAcceso?: Date | string
     fechaUltimaActualizacion?: Date | string
+    documentoTipo?: DocumentoTipoCreateNestedOneWithoutUsuariosInput
+    provincia?: ProvinciaCreateNestedOneWithoutUsuariosInput
+    pais?: PaisCreateNestedOneWithoutUsuariosInput
     accounts?: AccountCreateNestedManyWithoutUserInput
-    cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
-    cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
-    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
-    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
-    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
-    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
-    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
-    materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
-    MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolCreateNestedManyWithoutUsuarioInput
+    reservasRenovadas?: ReservaCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
-    reservasRenovadas?: ReservaCreateNestedManyWithoutUsuarioRenovoInput
-    reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
-    sessions?: SessionCreateNestedManyWithoutUserInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoCreateNestedManyWithoutUsuarioCreadorInput
+    cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
-    documentoTipo?: DocumentoTipoCreateNestedOneWithoutUsuariosInput
-    pais?: PaisCreateNestedOneWithoutUsuariosInput
-    provincia?: ProvinciaCreateNestedOneWithoutUsuariosInput
-    usuarioRol?: UsuarioRolCreateNestedManyWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserUncheckedCreateWithoutReservasSolicitadasInput = {
@@ -87479,25 +90616,26 @@ export namespace Prisma {
     provinciaIso?: string | null
     paisIso?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
-    cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
-    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
-    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
-    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
-    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
-    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
-    materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
-    MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolUncheckedCreateNestedManyWithoutUsuarioInput
+    reservasRenovadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
-    reservasRenovadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRenovoInput
-    reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUncheckedCreateNestedManyWithoutUsuarioCreadorInput
+    cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
-    usuarioRol?: UsuarioRolUncheckedCreateNestedManyWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserCreateOrConnectWithoutReservasSolicitadasInput = {
@@ -87531,29 +90669,30 @@ export namespace Prisma {
     fechaRegistro?: Date | string
     fechaUltimoAcceso?: Date | string
     fechaUltimaActualizacion?: Date | string
+    documentoTipo?: DocumentoTipoCreateNestedOneWithoutUsuariosInput
+    provincia?: ProvinciaCreateNestedOneWithoutUsuariosInput
+    pais?: PaisCreateNestedOneWithoutUsuariosInput
     accounts?: AccountCreateNestedManyWithoutUserInput
-    cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
-    cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
-    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
-    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
-    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
-    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
-    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
-    materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
-    MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaCreateNestedManyWithoutUsuarioRenovoInput
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
-    reservasRenovadas?: ReservaCreateNestedManyWithoutUsuarioRenovoInput
-    reservasSolicitadas?: ReservaCreateNestedManyWithoutUsuarioSolicitoInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
-    sessions?: SessionCreateNestedManyWithoutUserInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoCreateNestedManyWithoutUsuarioCreadorInput
+    cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
-    documentoTipo?: DocumentoTipoCreateNestedOneWithoutUsuariosInput
-    pais?: PaisCreateNestedOneWithoutUsuariosInput
-    provincia?: ProvinciaCreateNestedOneWithoutUsuariosInput
-    usuarioRol?: UsuarioRolCreateNestedManyWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserUncheckedCreateWithoutReservasComoTutorInput = {
@@ -87586,25 +90725,26 @@ export namespace Prisma {
     provinciaIso?: string | null
     paisIso?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
-    cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
-    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
-    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
-    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
-    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
-    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
-    materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
-    MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolUncheckedCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRenovoInput
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
-    reservasRenovadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRenovoInput
-    reservasSolicitadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioSolicitoInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUncheckedCreateNestedManyWithoutUsuarioCreadorInput
+    cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
-    usuarioRol?: UsuarioRolUncheckedCreateNestedManyWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserCreateOrConnectWithoutReservasComoTutorInput = {
@@ -87773,29 +90913,30 @@ export namespace Prisma {
     fechaRegistro?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaUltimoAcceso?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaUltimaActualizacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    documentoTipo?: DocumentoTipoUpdateOneWithoutUsuariosNestedInput
+    provincia?: ProvinciaUpdateOneWithoutUsuariosNestedInput
+    pais?: PaisUpdateOneWithoutUsuariosNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
-    cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
-    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
-    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
-    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
-    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
-    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
-    materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
-    MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
-    reservasRenovadas?: ReservaUpdateManyWithoutUsuarioRenovoNestedInput
-    reservasSolicitadas?: ReservaUpdateManyWithoutUsuarioSolicitoNestedInput
-    reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
-    sessions?: SessionUpdateManyWithoutUserNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUpdateManyWithoutUsuarioCreadorNestedInput
+    cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
-    documentoTipo?: DocumentoTipoUpdateOneWithoutUsuariosNestedInput
-    pais?: PaisUpdateOneWithoutUsuariosNestedInput
-    provincia?: ProvinciaUpdateOneWithoutUsuariosNestedInput
-    usuarioRol?: UsuarioRolUpdateManyWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUncheckedUpdateWithoutReservasAprobadasInput = {
@@ -87828,25 +90969,26 @@ export namespace Prisma {
     provinciaIso?: NullableStringFieldUpdateOperationsInput | string | null
     paisIso?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
-    cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
-    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
-    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
-    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
-    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
-    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
-    materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
-    MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUncheckedUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUncheckedUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUncheckedUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
-    reservasRenovadas?: ReservaUncheckedUpdateManyWithoutUsuarioRenovoNestedInput
-    reservasSolicitadas?: ReservaUncheckedUpdateManyWithoutUsuarioSolicitoNestedInput
-    reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUncheckedUpdateManyWithoutUsuarioCreadorNestedInput
+    cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
-    usuarioRol?: UsuarioRolUncheckedUpdateManyWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUpsertWithoutReservasRechazadasInput = {
@@ -87886,29 +91028,30 @@ export namespace Prisma {
     fechaRegistro?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaUltimoAcceso?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaUltimaActualizacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    documentoTipo?: DocumentoTipoUpdateOneWithoutUsuariosNestedInput
+    provincia?: ProvinciaUpdateOneWithoutUsuariosNestedInput
+    pais?: PaisUpdateOneWithoutUsuariosNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
-    cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
-    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
-    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
-    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
-    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
-    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
-    materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
-    MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
-    reservasRenovadas?: ReservaUpdateManyWithoutUsuarioRenovoNestedInput
-    reservasSolicitadas?: ReservaUpdateManyWithoutUsuarioSolicitoNestedInput
-    reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
-    sessions?: SessionUpdateManyWithoutUserNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUpdateManyWithoutUsuarioCreadorNestedInput
+    cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
-    documentoTipo?: DocumentoTipoUpdateOneWithoutUsuariosNestedInput
-    pais?: PaisUpdateOneWithoutUsuariosNestedInput
-    provincia?: ProvinciaUpdateOneWithoutUsuariosNestedInput
-    usuarioRol?: UsuarioRolUpdateManyWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUncheckedUpdateWithoutReservasRechazadasInput = {
@@ -87941,25 +91084,26 @@ export namespace Prisma {
     provinciaIso?: NullableStringFieldUpdateOperationsInput | string | null
     paisIso?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
-    cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
-    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
-    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
-    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
-    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
-    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
-    materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
-    MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUncheckedUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUncheckedUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUncheckedUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
-    reservasRenovadas?: ReservaUncheckedUpdateManyWithoutUsuarioRenovoNestedInput
-    reservasSolicitadas?: ReservaUncheckedUpdateManyWithoutUsuarioSolicitoNestedInput
-    reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUncheckedUpdateManyWithoutUsuarioCreadorNestedInput
+    cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
-    usuarioRol?: UsuarioRolUncheckedUpdateManyWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUpsertWithoutReservasRecibidasInput = {
@@ -87999,29 +91143,30 @@ export namespace Prisma {
     fechaRegistro?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaUltimoAcceso?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaUltimaActualizacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    documentoTipo?: DocumentoTipoUpdateOneWithoutUsuariosNestedInput
+    provincia?: ProvinciaUpdateOneWithoutUsuariosNestedInput
+    pais?: PaisUpdateOneWithoutUsuariosNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
-    cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
-    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
-    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
-    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
-    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
-    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
-    materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
-    MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
-    reservasRenovadas?: ReservaUpdateManyWithoutUsuarioRenovoNestedInput
-    reservasSolicitadas?: ReservaUpdateManyWithoutUsuarioSolicitoNestedInput
-    reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
-    sessions?: SessionUpdateManyWithoutUserNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUpdateManyWithoutUsuarioCreadorNestedInput
+    cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
-    documentoTipo?: DocumentoTipoUpdateOneWithoutUsuariosNestedInput
-    pais?: PaisUpdateOneWithoutUsuariosNestedInput
-    provincia?: ProvinciaUpdateOneWithoutUsuariosNestedInput
-    usuarioRol?: UsuarioRolUpdateManyWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUncheckedUpdateWithoutReservasRecibidasInput = {
@@ -88054,25 +91199,26 @@ export namespace Prisma {
     provinciaIso?: NullableStringFieldUpdateOperationsInput | string | null
     paisIso?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
-    cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
-    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
-    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
-    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
-    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
-    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
-    materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
-    MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUncheckedUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUncheckedUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUncheckedUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
-    reservasRenovadas?: ReservaUncheckedUpdateManyWithoutUsuarioRenovoNestedInput
-    reservasSolicitadas?: ReservaUncheckedUpdateManyWithoutUsuarioSolicitoNestedInput
-    reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUncheckedUpdateManyWithoutUsuarioCreadorNestedInput
+    cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
-    usuarioRol?: UsuarioRolUncheckedUpdateManyWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUpsertWithoutReservasRenovadasInput = {
@@ -88112,29 +91258,30 @@ export namespace Prisma {
     fechaRegistro?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaUltimoAcceso?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaUltimaActualizacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    documentoTipo?: DocumentoTipoUpdateOneWithoutUsuariosNestedInput
+    provincia?: ProvinciaUpdateOneWithoutUsuariosNestedInput
+    pais?: PaisUpdateOneWithoutUsuariosNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
-    cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
-    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
-    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
-    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
-    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
-    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
-    materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
-    MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
-    reservasSolicitadas?: ReservaUpdateManyWithoutUsuarioSolicitoNestedInput
-    reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
-    sessions?: SessionUpdateManyWithoutUserNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUpdateManyWithoutUsuarioCreadorNestedInput
+    cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
-    documentoTipo?: DocumentoTipoUpdateOneWithoutUsuariosNestedInput
-    pais?: PaisUpdateOneWithoutUsuariosNestedInput
-    provincia?: ProvinciaUpdateOneWithoutUsuariosNestedInput
-    usuarioRol?: UsuarioRolUpdateManyWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUncheckedUpdateWithoutReservasRenovadasInput = {
@@ -88167,25 +91314,26 @@ export namespace Prisma {
     provinciaIso?: NullableStringFieldUpdateOperationsInput | string | null
     paisIso?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
-    cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
-    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
-    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
-    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
-    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
-    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
-    materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
-    MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUncheckedUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUncheckedUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
-    reservasSolicitadas?: ReservaUncheckedUpdateManyWithoutUsuarioSolicitoNestedInput
-    reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUncheckedUpdateManyWithoutUsuarioCreadorNestedInput
+    cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
-    usuarioRol?: UsuarioRolUncheckedUpdateManyWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUpsertWithoutReservasSolicitadasInput = {
@@ -88225,29 +91373,30 @@ export namespace Prisma {
     fechaRegistro?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaUltimoAcceso?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaUltimaActualizacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    documentoTipo?: DocumentoTipoUpdateOneWithoutUsuariosNestedInput
+    provincia?: ProvinciaUpdateOneWithoutUsuariosNestedInput
+    pais?: PaisUpdateOneWithoutUsuariosNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
-    cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
-    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
-    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
-    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
-    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
-    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
-    materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
-    MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUpdateManyWithoutUsuarioNestedInput
+    reservasRenovadas?: ReservaUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
-    reservasRenovadas?: ReservaUpdateManyWithoutUsuarioRenovoNestedInput
-    reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
-    sessions?: SessionUpdateManyWithoutUserNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUpdateManyWithoutUsuarioCreadorNestedInput
+    cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
-    documentoTipo?: DocumentoTipoUpdateOneWithoutUsuariosNestedInput
-    pais?: PaisUpdateOneWithoutUsuariosNestedInput
-    provincia?: ProvinciaUpdateOneWithoutUsuariosNestedInput
-    usuarioRol?: UsuarioRolUpdateManyWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUncheckedUpdateWithoutReservasSolicitadasInput = {
@@ -88280,25 +91429,26 @@ export namespace Prisma {
     provinciaIso?: NullableStringFieldUpdateOperationsInput | string | null
     paisIso?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
-    cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
-    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
-    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
-    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
-    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
-    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
-    materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
-    MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUncheckedUpdateManyWithoutUsuarioNestedInput
+    reservasRenovadas?: ReservaUncheckedUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
-    reservasRenovadas?: ReservaUncheckedUpdateManyWithoutUsuarioRenovoNestedInput
-    reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUncheckedUpdateManyWithoutUsuarioCreadorNestedInput
+    cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
-    usuarioRol?: UsuarioRolUncheckedUpdateManyWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUpsertWithoutReservasComoTutorInput = {
@@ -88338,29 +91488,30 @@ export namespace Prisma {
     fechaRegistro?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaUltimoAcceso?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaUltimaActualizacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    documentoTipo?: DocumentoTipoUpdateOneWithoutUsuariosNestedInput
+    provincia?: ProvinciaUpdateOneWithoutUsuariosNestedInput
+    pais?: PaisUpdateOneWithoutUsuariosNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
-    cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
-    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
-    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
-    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
-    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
-    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
-    materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
-    MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUpdateManyWithoutUsuarioRenovoNestedInput
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
-    reservasRenovadas?: ReservaUpdateManyWithoutUsuarioRenovoNestedInput
-    reservasSolicitadas?: ReservaUpdateManyWithoutUsuarioSolicitoNestedInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
-    sessions?: SessionUpdateManyWithoutUserNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUpdateManyWithoutUsuarioCreadorNestedInput
+    cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
-    documentoTipo?: DocumentoTipoUpdateOneWithoutUsuariosNestedInput
-    pais?: PaisUpdateOneWithoutUsuariosNestedInput
-    provincia?: ProvinciaUpdateOneWithoutUsuariosNestedInput
-    usuarioRol?: UsuarioRolUpdateManyWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUncheckedUpdateWithoutReservasComoTutorInput = {
@@ -88393,25 +91544,26 @@ export namespace Prisma {
     provinciaIso?: NullableStringFieldUpdateOperationsInput | string | null
     paisIso?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
-    cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
-    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
-    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
-    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
-    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
-    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
-    materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
-    MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUncheckedUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUncheckedUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUncheckedUpdateManyWithoutUsuarioRenovoNestedInput
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
-    reservasRenovadas?: ReservaUncheckedUpdateManyWithoutUsuarioRenovoNestedInput
-    reservasSolicitadas?: ReservaUncheckedUpdateManyWithoutUsuarioSolicitoNestedInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUncheckedUpdateManyWithoutUsuarioCreadorNestedInput
+    cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
-    usuarioRol?: UsuarioRolUncheckedUpdateManyWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
   }
 
   export type ReservaEquipoUpsertWithoutReservaInput = {
@@ -89098,29 +92250,30 @@ export namespace Prisma {
     fechaRegistro?: Date | string
     fechaUltimoAcceso?: Date | string
     fechaUltimaActualizacion?: Date | string
+    documentoTipo?: DocumentoTipoCreateNestedOneWithoutUsuariosInput
+    provincia?: ProvinciaCreateNestedOneWithoutUsuariosInput
+    pais?: PaisCreateNestedOneWithoutUsuariosInput
     accounts?: AccountCreateNestedManyWithoutUserInput
-    cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
-    cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
-    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
-    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
-    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
-    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
-    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
-    materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
-    MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
-    reservasRenovadas?: ReservaCreateNestedManyWithoutUsuarioRenovoInput
-    reservasSolicitadas?: ReservaCreateNestedManyWithoutUsuarioSolicitoInput
-    reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
-    sessions?: SessionCreateNestedManyWithoutUserInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoCreateNestedManyWithoutUsuarioCreadorInput
+    cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
-    documentoTipo?: DocumentoTipoCreateNestedOneWithoutUsuariosInput
-    pais?: PaisCreateNestedOneWithoutUsuariosInput
-    provincia?: ProvinciaCreateNestedOneWithoutUsuariosInput
-    usuarioRol?: UsuarioRolCreateNestedManyWithoutUsuarioInput
     Voto?: VotoCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserUncheckedCreateWithoutReservaLaboratorioCerradoInput = {
@@ -89153,25 +92306,26 @@ export namespace Prisma {
     provinciaIso?: string | null
     paisIso?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
-    cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
-    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
-    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
-    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
-    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
-    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
-    materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
-    MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolUncheckedCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
-    reservasRenovadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRenovoInput
-    reservasSolicitadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioSolicitoInput
-    reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUncheckedCreateNestedManyWithoutUsuarioCreadorInput
+    cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
-    usuarioRol?: UsuarioRolUncheckedCreateNestedManyWithoutUsuarioInput
     Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserCreateOrConnectWithoutReservaLaboratorioCerradoInput = {
@@ -89469,29 +92623,30 @@ export namespace Prisma {
     fechaRegistro?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaUltimoAcceso?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaUltimaActualizacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    documentoTipo?: DocumentoTipoUpdateOneWithoutUsuariosNestedInput
+    provincia?: ProvinciaUpdateOneWithoutUsuariosNestedInput
+    pais?: PaisUpdateOneWithoutUsuariosNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
-    cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
-    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
-    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
-    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
-    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
-    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
-    materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
-    MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
-    reservasRenovadas?: ReservaUpdateManyWithoutUsuarioRenovoNestedInput
-    reservasSolicitadas?: ReservaUpdateManyWithoutUsuarioSolicitoNestedInput
-    reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
-    sessions?: SessionUpdateManyWithoutUserNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUpdateManyWithoutUsuarioCreadorNestedInput
+    cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
-    documentoTipo?: DocumentoTipoUpdateOneWithoutUsuariosNestedInput
-    pais?: PaisUpdateOneWithoutUsuariosNestedInput
-    provincia?: ProvinciaUpdateOneWithoutUsuariosNestedInput
-    usuarioRol?: UsuarioRolUpdateManyWithoutUsuarioNestedInput
     Voto?: VotoUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUncheckedUpdateWithoutReservaLaboratorioCerradoInput = {
@@ -89524,25 +92679,26 @@ export namespace Prisma {
     provinciaIso?: NullableStringFieldUpdateOperationsInput | string | null
     paisIso?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
-    cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
-    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
-    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
-    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
-    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
-    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
-    materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
-    MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUncheckedUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUncheckedUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUncheckedUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
-    reservasRenovadas?: ReservaUncheckedUpdateManyWithoutUsuarioRenovoNestedInput
-    reservasSolicitadas?: ReservaUncheckedUpdateManyWithoutUsuarioSolicitoNestedInput
-    reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUncheckedUpdateManyWithoutUsuarioCreadorNestedInput
+    cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
-    usuarioRol?: UsuarioRolUncheckedUpdateManyWithoutUsuarioNestedInput
     Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
   }
 
   export type MateriaUpsertWithoutReservaLaboratorioCerradoInput = {
@@ -90424,29 +93580,30 @@ export namespace Prisma {
     fechaRegistro?: Date | string
     fechaUltimoAcceso?: Date | string
     fechaUltimaActualizacion?: Date | string
-    cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
-    cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
-    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
-    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
-    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
-    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
-    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
-    materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
-    MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
+    documentoTipo?: DocumentoTipoCreateNestedOneWithoutUsuariosInput
+    provincia?: ProvinciaCreateNestedOneWithoutUsuariosInput
+    pais?: PaisCreateNestedOneWithoutUsuariosInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
-    reservasRenovadas?: ReservaCreateNestedManyWithoutUsuarioRenovoInput
-    reservasSolicitadas?: ReservaCreateNestedManyWithoutUsuarioSolicitoInput
-    reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
-    sessions?: SessionCreateNestedManyWithoutUserInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoCreateNestedManyWithoutUsuarioCreadorInput
+    cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
-    documentoTipo?: DocumentoTipoCreateNestedOneWithoutUsuariosInput
-    pais?: PaisCreateNestedOneWithoutUsuariosInput
-    provincia?: ProvinciaCreateNestedOneWithoutUsuariosInput
-    usuarioRol?: UsuarioRolCreateNestedManyWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -90478,26 +93635,27 @@ export namespace Prisma {
     documentoTipoId?: number | null
     provinciaIso?: string | null
     paisIso?: string | null
-    cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
-    cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
-    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
-    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
-    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
-    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
-    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
-    materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
-    MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolUncheckedCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
-    reservasRenovadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRenovoInput
-    reservasSolicitadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioSolicitoInput
-    reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUncheckedCreateNestedManyWithoutUsuarioCreadorInput
+    cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
-    usuarioRol?: UsuarioRolUncheckedCreateNestedManyWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -90542,29 +93700,30 @@ export namespace Prisma {
     fechaRegistro?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaUltimoAcceso?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaUltimaActualizacion?: DateTimeFieldUpdateOperationsInput | Date | string
-    cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
-    cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
-    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
-    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
-    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
-    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
-    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
-    materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
-    MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
+    documentoTipo?: DocumentoTipoUpdateOneWithoutUsuariosNestedInput
+    provincia?: ProvinciaUpdateOneWithoutUsuariosNestedInput
+    pais?: PaisUpdateOneWithoutUsuariosNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
-    reservasRenovadas?: ReservaUpdateManyWithoutUsuarioRenovoNestedInput
-    reservasSolicitadas?: ReservaUpdateManyWithoutUsuarioSolicitoNestedInput
-    reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
-    sessions?: SessionUpdateManyWithoutUserNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUpdateManyWithoutUsuarioCreadorNestedInput
+    cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
-    documentoTipo?: DocumentoTipoUpdateOneWithoutUsuariosNestedInput
-    pais?: PaisUpdateOneWithoutUsuariosNestedInput
-    provincia?: ProvinciaUpdateOneWithoutUsuariosNestedInput
-    usuarioRol?: UsuarioRolUpdateManyWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -90596,26 +93755,27 @@ export namespace Prisma {
     documentoTipoId?: NullableIntFieldUpdateOperationsInput | number | null
     provinciaIso?: NullableStringFieldUpdateOperationsInput | string | null
     paisIso?: NullableStringFieldUpdateOperationsInput | string | null
-    cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
-    cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
-    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
-    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
-    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
-    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
-    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
-    materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
-    MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUncheckedUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUncheckedUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUncheckedUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
-    reservasRenovadas?: ReservaUncheckedUpdateManyWithoutUsuarioRenovoNestedInput
-    reservasSolicitadas?: ReservaUncheckedUpdateManyWithoutUsuarioSolicitoNestedInput
-    reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUncheckedUpdateManyWithoutUsuarioCreadorNestedInput
+    cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
-    usuarioRol?: UsuarioRolUncheckedUpdateManyWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserCreateWithoutSessionsInput = {
@@ -90644,29 +93804,30 @@ export namespace Prisma {
     fechaRegistro?: Date | string
     fechaUltimoAcceso?: Date | string
     fechaUltimaActualizacion?: Date | string
+    documentoTipo?: DocumentoTipoCreateNestedOneWithoutUsuariosInput
+    provincia?: ProvinciaCreateNestedOneWithoutUsuariosInput
+    pais?: PaisCreateNestedOneWithoutUsuariosInput
     accounts?: AccountCreateNestedManyWithoutUserInput
-    cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
-    cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
-    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
-    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
-    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
-    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
-    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
-    materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
-    MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
+    usuarioRol?: UsuarioRolCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
-    reservasRenovadas?: ReservaCreateNestedManyWithoutUsuarioRenovoInput
-    reservasSolicitadas?: ReservaCreateNestedManyWithoutUsuarioSolicitoInput
-    reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoCreateNestedManyWithoutUsuarioCreadorInput
+    cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
-    documentoTipo?: DocumentoTipoCreateNestedOneWithoutUsuariosInput
-    pais?: PaisCreateNestedOneWithoutUsuariosInput
-    provincia?: ProvinciaCreateNestedOneWithoutUsuariosInput
-    usuarioRol?: UsuarioRolCreateNestedManyWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -90699,25 +93860,26 @@ export namespace Prisma {
     provinciaIso?: string | null
     paisIso?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
-    cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
-    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
-    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
-    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
-    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
-    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
-    materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
-    MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
+    usuarioRol?: UsuarioRolUncheckedCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
-    reservasRenovadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRenovoInput
-    reservasSolicitadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioSolicitoInput
-    reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUncheckedCreateNestedManyWithoutUsuarioCreadorInput
+    cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
-    usuarioRol?: UsuarioRolUncheckedCreateNestedManyWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -90762,29 +93924,30 @@ export namespace Prisma {
     fechaRegistro?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaUltimoAcceso?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaUltimaActualizacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    documentoTipo?: DocumentoTipoUpdateOneWithoutUsuariosNestedInput
+    provincia?: ProvinciaUpdateOneWithoutUsuariosNestedInput
+    pais?: PaisUpdateOneWithoutUsuariosNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
-    cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
-    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
-    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
-    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
-    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
-    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
-    materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
-    MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
+    usuarioRol?: UsuarioRolUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
-    reservasRenovadas?: ReservaUpdateManyWithoutUsuarioRenovoNestedInput
-    reservasSolicitadas?: ReservaUpdateManyWithoutUsuarioSolicitoNestedInput
-    reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUpdateManyWithoutUsuarioCreadorNestedInput
+    cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
-    documentoTipo?: DocumentoTipoUpdateOneWithoutUsuariosNestedInput
-    pais?: PaisUpdateOneWithoutUsuariosNestedInput
-    provincia?: ProvinciaUpdateOneWithoutUsuariosNestedInput
-    usuarioRol?: UsuarioRolUpdateManyWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -90817,25 +93980,26 @@ export namespace Prisma {
     provinciaIso?: NullableStringFieldUpdateOperationsInput | string | null
     paisIso?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
-    cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
-    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
-    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
-    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
-    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
-    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
-    materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
-    MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
+    usuarioRol?: UsuarioRolUncheckedUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUncheckedUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUncheckedUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
-    reservasRenovadas?: ReservaUncheckedUpdateManyWithoutUsuarioRenovoNestedInput
-    reservasSolicitadas?: ReservaUncheckedUpdateManyWithoutUsuarioSolicitoNestedInput
-    reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUncheckedUpdateManyWithoutUsuarioCreadorNestedInput
+    cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
-    usuarioRol?: UsuarioRolUncheckedUpdateManyWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
   }
 
   export type CursoCreateWithoutSedeInput = {
@@ -91306,6 +94470,60 @@ export namespace Prisma {
     data: XOR<ReservaLaboratorioCerradoUpdateManyMutationInput, ReservaLaboratorioCerradoUncheckedUpdateManyWithoutSedeInput>
   }
 
+  export type DocumentoTipoCreateWithoutUsuariosInput = {
+    nombre: string
+  }
+
+  export type DocumentoTipoUncheckedCreateWithoutUsuariosInput = {
+    id?: number
+    nombre: string
+  }
+
+  export type DocumentoTipoCreateOrConnectWithoutUsuariosInput = {
+    where: DocumentoTipoWhereUniqueInput
+    create: XOR<DocumentoTipoCreateWithoutUsuariosInput, DocumentoTipoUncheckedCreateWithoutUsuariosInput>
+  }
+
+  export type ProvinciaCreateWithoutUsuariosInput = {
+    iso: string
+    nombre: string
+    pais: PaisCreateNestedOneWithoutProvinciasInput
+  }
+
+  export type ProvinciaUncheckedCreateWithoutUsuariosInput = {
+    iso: string
+    nombre: string
+    paisIso: string
+  }
+
+  export type ProvinciaCreateOrConnectWithoutUsuariosInput = {
+    where: ProvinciaWhereUniqueInput
+    create: XOR<ProvinciaCreateWithoutUsuariosInput, ProvinciaUncheckedCreateWithoutUsuariosInput>
+  }
+
+  export type PaisCreateWithoutUsuariosInput = {
+    iso: string
+    nombreEspanol: string
+    nombreIngles: string
+    iso3: string
+    codigoNumerico: number
+    provincias?: ProvinciaCreateNestedManyWithoutPaisInput
+  }
+
+  export type PaisUncheckedCreateWithoutUsuariosInput = {
+    iso: string
+    nombreEspanol: string
+    nombreIngles: string
+    iso3: string
+    codigoNumerico: number
+    provincias?: ProvinciaUncheckedCreateNestedManyWithoutPaisInput
+  }
+
+  export type PaisCreateOrConnectWithoutUsuariosInput = {
+    where: PaisWhereUniqueInput
+    create: XOR<PaisCreateWithoutUsuariosInput, PaisUncheckedCreateWithoutUsuariosInput>
+  }
+
   export type AccountCreateWithoutUserInput = {
     id?: string
     type: string
@@ -91348,334 +94566,242 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type CursoCreateWithoutProfesorInput = {
-    horaInicio1: string
-    duracion1: string
-    horaInicio2?: string | null
-    duracion2?: string | null
-    dia1: $Enums.CursoDia
-    dia2?: $Enums.CursoDia | null
-    anioDeCarrera: number
-    activo: boolean
-    ac: string
-    turno: $Enums.TurnoCurso
-    fechaCreacion?: Date | string
-    fechaModificacion?: Date | string
-    usuarioCreadorId: string
-    usuarioModificadorId: string
-    division: DivisionCreateNestedOneWithoutCursosInput
-    materia: MateriaCreateNestedOneWithoutCursosInput
-    sede: SedeCreateNestedOneWithoutCursosInput
-    ayudantes?: CursoAyudanteCreateNestedManyWithoutCursoInput
-    reservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutCursoInput
+  export type SessionCreateWithoutUserInput = {
+    id?: string
+    sessionToken: string
+    expires: Date | string
   }
 
-  export type CursoUncheckedCreateWithoutProfesorInput = {
-    id?: number
-    horaInicio1: string
-    duracion1: string
-    horaInicio2?: string | null
-    duracion2?: string | null
-    dia1: $Enums.CursoDia
-    dia2?: $Enums.CursoDia | null
-    anioDeCarrera: number
-    activo: boolean
-    ac: string
-    sedeId: number
-    materiaId: number
-    divisionId: number
-    turno: $Enums.TurnoCurso
-    fechaCreacion?: Date | string
-    fechaModificacion?: Date | string
-    usuarioCreadorId: string
-    usuarioModificadorId: string
-    ayudantes?: CursoAyudanteUncheckedCreateNestedManyWithoutCursoInput
-    reservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutCursoInput
+  export type SessionUncheckedCreateWithoutUserInput = {
+    id?: string
+    sessionToken: string
+    expires: Date | string
   }
 
-  export type CursoCreateOrConnectWithoutProfesorInput = {
-    where: CursoWhereUniqueInput
-    create: XOR<CursoCreateWithoutProfesorInput, CursoUncheckedCreateWithoutProfesorInput>
+  export type SessionCreateOrConnectWithoutUserInput = {
+    where: SessionWhereUniqueInput
+    create: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput>
   }
 
-  export type CursoCreateManyProfesorInputEnvelope = {
-    data: CursoCreateManyProfesorInput | CursoCreateManyProfesorInput[]
+  export type SessionCreateManyUserInputEnvelope = {
+    data: SessionCreateManyUserInput | SessionCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
-  export type CursoAyudanteCreateWithoutUsuarioInput = {
+  export type UsuarioRolCreateWithoutUsuarioInput = {
     fechaCreacion?: Date | string
     usuarioCreadorId: string
-    fechaModificacion?: Date | string
-    usuarioModificadorId: string
-    curso: CursoCreateNestedOneWithoutAyudantesInput
+    rol: RolCreateNestedOneWithoutUsuariosInput
   }
 
-  export type CursoAyudanteUncheckedCreateWithoutUsuarioInput = {
-    cursoId: number
+  export type UsuarioRolUncheckedCreateWithoutUsuarioInput = {
+    rolId: number
     fechaCreacion?: Date | string
     usuarioCreadorId: string
-    fechaModificacion?: Date | string
-    usuarioModificadorId: string
   }
 
-  export type CursoAyudanteCreateOrConnectWithoutUsuarioInput = {
-    where: CursoAyudanteWhereUniqueInput
-    create: XOR<CursoAyudanteCreateWithoutUsuarioInput, CursoAyudanteUncheckedCreateWithoutUsuarioInput>
+  export type UsuarioRolCreateOrConnectWithoutUsuarioInput = {
+    where: UsuarioRolWhereUniqueInput
+    create: XOR<UsuarioRolCreateWithoutUsuarioInput, UsuarioRolUncheckedCreateWithoutUsuarioInput>
   }
 
-  export type CursoAyudanteCreateManyUsuarioInputEnvelope = {
-    data: CursoAyudanteCreateManyUsuarioInput | CursoAyudanteCreateManyUsuarioInput[]
+  export type UsuarioRolCreateManyUsuarioInputEnvelope = {
+    data: UsuarioRolCreateManyUsuarioInput | UsuarioRolCreateManyUsuarioInput[]
     skipDuplicates?: boolean
   }
 
-  export type FallaCreateWithoutAsignadoAInput = {
-    tipoFalla: string
-    fallas?: FallaCreatefallasInput | string[]
-    descripcionEquipo?: string | null
-    descripcionFalla: string
-    condicion?: string | null
-    fechaReporte?: Date | string
-    estado: string
-    palabrasClave?: string | null
-    equipo?: EquipoCreateNestedOneWithoutFallaPcInput
-    reportadoPor?: UserCreateNestedOneWithoutFallasReportadasInput
-    historial?: FallaHistorialCreateNestedManyWithoutFallaInput
-  }
-
-  export type FallaUncheckedCreateWithoutAsignadoAInput = {
-    id?: number
-    equipoId?: number | null
-    tipoFalla: string
-    fallas?: FallaCreatefallasInput | string[]
-    descripcionEquipo?: string | null
-    descripcionFalla: string
-    condicion?: string | null
-    fechaReporte?: Date | string
-    reportadoPorId?: string | null
-    estado: string
-    palabrasClave?: string | null
-    historial?: FallaHistorialUncheckedCreateNestedManyWithoutFallaInput
-  }
-
-  export type FallaCreateOrConnectWithoutAsignadoAInput = {
-    where: FallaWhereUniqueInput
-    create: XOR<FallaCreateWithoutAsignadoAInput, FallaUncheckedCreateWithoutAsignadoAInput>
-  }
-
-  export type FallaCreateManyAsignadoAInputEnvelope = {
-    data: FallaCreateManyAsignadoAInput | FallaCreateManyAsignadoAInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type FallaCreateWithoutReportadoPorInput = {
-    tipoFalla: string
-    fallas?: FallaCreatefallasInput | string[]
-    descripcionEquipo?: string | null
-    descripcionFalla: string
-    condicion?: string | null
-    fechaReporte?: Date | string
-    estado: string
-    palabrasClave?: string | null
-    asignadoA?: UserCreateNestedOneWithoutFallasAsignadasInput
-    equipo?: EquipoCreateNestedOneWithoutFallaPcInput
-    historial?: FallaHistorialCreateNestedManyWithoutFallaInput
-  }
-
-  export type FallaUncheckedCreateWithoutReportadoPorInput = {
-    id?: number
-    equipoId?: number | null
-    tipoFalla: string
-    fallas?: FallaCreatefallasInput | string[]
-    descripcionEquipo?: string | null
-    descripcionFalla: string
-    condicion?: string | null
-    fechaReporte?: Date | string
-    asignadoAId?: string | null
-    estado: string
-    palabrasClave?: string | null
-    historial?: FallaHistorialUncheckedCreateNestedManyWithoutFallaInput
-  }
-
-  export type FallaCreateOrConnectWithoutReportadoPorInput = {
-    where: FallaWhereUniqueInput
-    create: XOR<FallaCreateWithoutReportadoPorInput, FallaUncheckedCreateWithoutReportadoPorInput>
-  }
-
-  export type FallaCreateManyReportadoPorInputEnvelope = {
-    data: FallaCreateManyReportadoPorInput | FallaCreateManyReportadoPorInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type FallaHistorialCreateWithoutAsignadoAInput = {
-    fallas?: FallaHistorialCreatefallasInput | string[]
-    descripcionEquipo?: string | null
-    descripcionFalla: string
-    estado: string
-    fechaReporte: Date | string
-    fechaCambioEstado?: Date | string
-    falla: FallaCreateNestedOneWithoutHistorialInput
-    reportadoPor?: UserCreateNestedOneWithoutFallasHistReportadasInput
-  }
-
-  export type FallaHistorialUncheckedCreateWithoutAsignadoAInput = {
-    id?: number
-    fallaId: number
-    fallas?: FallaHistorialCreatefallasInput | string[]
-    descripcionEquipo?: string | null
-    descripcionFalla: string
-    reportadoPorId?: string | null
-    estado: string
-    fechaReporte: Date | string
-    fechaCambioEstado?: Date | string
-  }
-
-  export type FallaHistorialCreateOrConnectWithoutAsignadoAInput = {
-    where: FallaHistorialWhereUniqueInput
-    create: XOR<FallaHistorialCreateWithoutAsignadoAInput, FallaHistorialUncheckedCreateWithoutAsignadoAInput>
-  }
-
-  export type FallaHistorialCreateManyAsignadoAInputEnvelope = {
-    data: FallaHistorialCreateManyAsignadoAInput | FallaHistorialCreateManyAsignadoAInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type FallaHistorialCreateWithoutReportadoPorInput = {
-    fallas?: FallaHistorialCreatefallasInput | string[]
-    descripcionEquipo?: string | null
-    descripcionFalla: string
-    estado: string
-    fechaReporte: Date | string
-    fechaCambioEstado?: Date | string
-    asignadoA?: UserCreateNestedOneWithoutFallasHistAsignadasInput
-    falla: FallaCreateNestedOneWithoutHistorialInput
-  }
-
-  export type FallaHistorialUncheckedCreateWithoutReportadoPorInput = {
-    id?: number
-    fallaId: number
-    fallas?: FallaHistorialCreatefallasInput | string[]
-    descripcionEquipo?: string | null
-    descripcionFalla: string
-    asignadoAId?: string | null
-    estado: string
-    fechaReporte: Date | string
-    fechaCambioEstado?: Date | string
-  }
-
-  export type FallaHistorialCreateOrConnectWithoutReportadoPorInput = {
-    where: FallaHistorialWhereUniqueInput
-    create: XOR<FallaHistorialCreateWithoutReportadoPorInput, FallaHistorialUncheckedCreateWithoutReportadoPorInput>
-  }
-
-  export type FallaHistorialCreateManyReportadoPorInputEnvelope = {
-    data: FallaHistorialCreateManyReportadoPorInput | FallaHistorialCreateManyReportadoPorInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type InscripcionEspecialCreateWithoutSolicitanteInput = {
-    caso: string
-    justificacion: string
-    turnoAlternativa1?: string | null
-    turnoAlternativa2?: string | null
-    materias?: InscripcionEspecialCreatemateriasInput | number[]
-    materiasAdeudadas?: InscripcionEspecialCreatemateriasAdeudadasInput | number[]
-    estado: string
-    respuesta?: string | null
-    fueContactado?: boolean | null
-    vinoPresencialmente?: boolean | null
-    fechaSolicitud?: Date | string
-    fechaRespuesta?: Date | string | null
-  }
-
-  export type InscripcionEspecialUncheckedCreateWithoutSolicitanteInput = {
-    id?: number
-    caso: string
-    justificacion: string
-    turnoAlternativa1?: string | null
-    turnoAlternativa2?: string | null
-    materias?: InscripcionEspecialCreatemateriasInput | number[]
-    materiasAdeudadas?: InscripcionEspecialCreatemateriasAdeudadasInput | number[]
-    estado: string
-    respuesta?: string | null
-    fueContactado?: boolean | null
-    vinoPresencialmente?: boolean | null
-    fechaSolicitud?: Date | string
-    fechaRespuesta?: Date | string | null
-  }
-
-  export type InscripcionEspecialCreateOrConnectWithoutSolicitanteInput = {
-    where: InscripcionEspecialWhereUniqueInput
-    create: XOR<InscripcionEspecialCreateWithoutSolicitanteInput, InscripcionEspecialUncheckedCreateWithoutSolicitanteInput>
-  }
-
-  export type InscripcionEspecialCreateManySolicitanteInputEnvelope = {
-    data: InscripcionEspecialCreateManySolicitanteInput | InscripcionEspecialCreateManySolicitanteInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type MateriaCreateWithoutDirectorUsuarioInput = {
-    nombre: string
-    codigo: string
-    anio: number
-    duracion: $Enums.MateriaDuracion
-    tipo: $Enums.MateriaTipo
-    fechaCreacion?: Date | string
-    fechaModificacion?: Date | string
+  export type ReservaCreateWithoutUsuarioSolicitoInput = {
+    estatus: $Enums.ReservaEstatus
+    fechaHoraInicio: Date | string
+    fechaHoraFin: Date | string
+    tipo: $Enums.ReservaTipo
+    asistio?: boolean
+    motivoRechazo?: string | null
+    fechaRenovacion?: Date | string | null
+    fechaAprobacion?: Date | string | null
+    fechaRechazo?: Date | string | null
+    fechaRecibido?: Date | string | null
     usuarioCreadorId: string
     usuarioModificadorId: string
-    cursos?: CursoCreateNestedManyWithoutMateriaInput
-    libros?: LibroMateriaCreateNestedManyWithoutMateriaInput
-    correlativa?: MateriaCorrelativaCreateNestedManyWithoutCorrelativaInput
-    materiaPrerequisito?: MateriaCorrelativaCreateNestedManyWithoutMateriaPrerequisitoInput
-    jefeTrabajoPracticos?: MateriaJefeTpCreateNestedManyWithoutMateriaInput
-    reservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalMateriaInput
-  }
-
-  export type MateriaUncheckedCreateWithoutDirectorUsuarioInput = {
-    id?: number
-    nombre: string
-    codigo: string
-    anio: number
-    duracion: $Enums.MateriaDuracion
-    tipo: $Enums.MateriaTipo
     fechaCreacion?: Date | string
     fechaModificacion?: Date | string
+    mostrarEnPantalla?: boolean
+    usuarioAprobador?: UserCreateNestedOneWithoutReservasAprobadasInput
+    usuarioRechazado?: UserCreateNestedOneWithoutReservasRechazadasInput
+    usuarioRecibio?: UserCreateNestedOneWithoutReservasRecibidasInput
+    usuarioRenovo?: UserCreateNestedOneWithoutReservasRenovadasInput
+    usuarioTutor?: UserCreateNestedOneWithoutReservasComoTutorInput
+    reservaEquipo?: ReservaEquipoCreateNestedOneWithoutReservaInput
+    reservaLaboratorioAbierto?: ReservaLaboratorioAbiertoCreateNestedOneWithoutReservaInput
+    reservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedOneWithoutReservaInput
+    reservaLibro?: ReservaLibroCreateNestedOneWithoutReservaInput
+  }
+
+  export type ReservaUncheckedCreateWithoutUsuarioSolicitoInput = {
+    id?: number
+    estatus: $Enums.ReservaEstatus
+    fechaHoraInicio: Date | string
+    fechaHoraFin: Date | string
+    tipo: $Enums.ReservaTipo
+    asistio?: boolean
+    motivoRechazo?: string | null
+    usuarioAprobadorId?: string | null
+    usuarioRechazadoId?: string | null
+    usuarioRenovoId?: string | null
+    usuarioRecibioId?: string | null
+    usuarioTutorId?: string | null
+    fechaRenovacion?: Date | string | null
+    fechaAprobacion?: Date | string | null
+    fechaRechazo?: Date | string | null
+    fechaRecibido?: Date | string | null
     usuarioCreadorId: string
     usuarioModificadorId: string
-    cursos?: CursoUncheckedCreateNestedManyWithoutMateriaInput
-    libros?: LibroMateriaUncheckedCreateNestedManyWithoutMateriaInput
-    correlativa?: MateriaCorrelativaUncheckedCreateNestedManyWithoutCorrelativaInput
-    materiaPrerequisito?: MateriaCorrelativaUncheckedCreateNestedManyWithoutMateriaPrerequisitoInput
-    jefeTrabajoPracticos?: MateriaJefeTpUncheckedCreateNestedManyWithoutMateriaInput
-    reservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalMateriaInput
+    fechaCreacion?: Date | string
+    fechaModificacion?: Date | string
+    mostrarEnPantalla?: boolean
+    reservaEquipo?: ReservaEquipoUncheckedCreateNestedOneWithoutReservaInput
+    reservaLaboratorioAbierto?: ReservaLaboratorioAbiertoUncheckedCreateNestedOneWithoutReservaInput
+    reservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedOneWithoutReservaInput
+    reservaLibro?: ReservaLibroUncheckedCreateNestedOneWithoutReservaInput
   }
 
-  export type MateriaCreateOrConnectWithoutDirectorUsuarioInput = {
-    where: MateriaWhereUniqueInput
-    create: XOR<MateriaCreateWithoutDirectorUsuarioInput, MateriaUncheckedCreateWithoutDirectorUsuarioInput>
+  export type ReservaCreateOrConnectWithoutUsuarioSolicitoInput = {
+    where: ReservaWhereUniqueInput
+    create: XOR<ReservaCreateWithoutUsuarioSolicitoInput, ReservaUncheckedCreateWithoutUsuarioSolicitoInput>
   }
 
-  export type MateriaCreateManyDirectorUsuarioInputEnvelope = {
-    data: MateriaCreateManyDirectorUsuarioInput | MateriaCreateManyDirectorUsuarioInput[]
+  export type ReservaCreateManyUsuarioSolicitoInputEnvelope = {
+    data: ReservaCreateManyUsuarioSolicitoInput | ReservaCreateManyUsuarioSolicitoInput[]
     skipDuplicates?: boolean
   }
 
-  export type MateriaJefeTpCreateWithoutUsuarioInput = {
-    materia: MateriaCreateNestedOneWithoutJefeTrabajoPracticosInput
+  export type ReservaCreateWithoutUsuarioRenovoInput = {
+    estatus: $Enums.ReservaEstatus
+    fechaHoraInicio: Date | string
+    fechaHoraFin: Date | string
+    tipo: $Enums.ReservaTipo
+    asistio?: boolean
+    motivoRechazo?: string | null
+    fechaRenovacion?: Date | string | null
+    fechaAprobacion?: Date | string | null
+    fechaRechazo?: Date | string | null
+    fechaRecibido?: Date | string | null
+    usuarioCreadorId: string
+    usuarioModificadorId: string
+    fechaCreacion?: Date | string
+    fechaModificacion?: Date | string
+    mostrarEnPantalla?: boolean
+    usuarioAprobador?: UserCreateNestedOneWithoutReservasAprobadasInput
+    usuarioRechazado?: UserCreateNestedOneWithoutReservasRechazadasInput
+    usuarioRecibio?: UserCreateNestedOneWithoutReservasRecibidasInput
+    usuarioSolicito: UserCreateNestedOneWithoutReservasSolicitadasInput
+    usuarioTutor?: UserCreateNestedOneWithoutReservasComoTutorInput
+    reservaEquipo?: ReservaEquipoCreateNestedOneWithoutReservaInput
+    reservaLaboratorioAbierto?: ReservaLaboratorioAbiertoCreateNestedOneWithoutReservaInput
+    reservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedOneWithoutReservaInput
+    reservaLibro?: ReservaLibroCreateNestedOneWithoutReservaInput
   }
 
-  export type MateriaJefeTpUncheckedCreateWithoutUsuarioInput = {
-    materiaId: number
+  export type ReservaUncheckedCreateWithoutUsuarioRenovoInput = {
+    id?: number
+    estatus: $Enums.ReservaEstatus
+    fechaHoraInicio: Date | string
+    fechaHoraFin: Date | string
+    tipo: $Enums.ReservaTipo
+    asistio?: boolean
+    motivoRechazo?: string | null
+    usuarioSolicitoId: string
+    usuarioAprobadorId?: string | null
+    usuarioRechazadoId?: string | null
+    usuarioRecibioId?: string | null
+    usuarioTutorId?: string | null
+    fechaRenovacion?: Date | string | null
+    fechaAprobacion?: Date | string | null
+    fechaRechazo?: Date | string | null
+    fechaRecibido?: Date | string | null
+    usuarioCreadorId: string
+    usuarioModificadorId: string
+    fechaCreacion?: Date | string
+    fechaModificacion?: Date | string
+    mostrarEnPantalla?: boolean
+    reservaEquipo?: ReservaEquipoUncheckedCreateNestedOneWithoutReservaInput
+    reservaLaboratorioAbierto?: ReservaLaboratorioAbiertoUncheckedCreateNestedOneWithoutReservaInput
+    reservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedOneWithoutReservaInput
+    reservaLibro?: ReservaLibroUncheckedCreateNestedOneWithoutReservaInput
   }
 
-  export type MateriaJefeTpCreateOrConnectWithoutUsuarioInput = {
-    where: MateriaJefeTpWhereUniqueInput
-    create: XOR<MateriaJefeTpCreateWithoutUsuarioInput, MateriaJefeTpUncheckedCreateWithoutUsuarioInput>
+  export type ReservaCreateOrConnectWithoutUsuarioRenovoInput = {
+    where: ReservaWhereUniqueInput
+    create: XOR<ReservaCreateWithoutUsuarioRenovoInput, ReservaUncheckedCreateWithoutUsuarioRenovoInput>
   }
 
-  export type MateriaJefeTpCreateManyUsuarioInputEnvelope = {
-    data: MateriaJefeTpCreateManyUsuarioInput | MateriaJefeTpCreateManyUsuarioInput[]
+  export type ReservaCreateManyUsuarioRenovoInputEnvelope = {
+    data: ReservaCreateManyUsuarioRenovoInput | ReservaCreateManyUsuarioRenovoInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ReservaCreateWithoutUsuarioTutorInput = {
+    estatus: $Enums.ReservaEstatus
+    fechaHoraInicio: Date | string
+    fechaHoraFin: Date | string
+    tipo: $Enums.ReservaTipo
+    asistio?: boolean
+    motivoRechazo?: string | null
+    fechaRenovacion?: Date | string | null
+    fechaAprobacion?: Date | string | null
+    fechaRechazo?: Date | string | null
+    fechaRecibido?: Date | string | null
+    usuarioCreadorId: string
+    usuarioModificadorId: string
+    fechaCreacion?: Date | string
+    fechaModificacion?: Date | string
+    mostrarEnPantalla?: boolean
+    usuarioAprobador?: UserCreateNestedOneWithoutReservasAprobadasInput
+    usuarioRechazado?: UserCreateNestedOneWithoutReservasRechazadasInput
+    usuarioRecibio?: UserCreateNestedOneWithoutReservasRecibidasInput
+    usuarioRenovo?: UserCreateNestedOneWithoutReservasRenovadasInput
+    usuarioSolicito: UserCreateNestedOneWithoutReservasSolicitadasInput
+    reservaEquipo?: ReservaEquipoCreateNestedOneWithoutReservaInput
+    reservaLaboratorioAbierto?: ReservaLaboratorioAbiertoCreateNestedOneWithoutReservaInput
+    reservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedOneWithoutReservaInput
+    reservaLibro?: ReservaLibroCreateNestedOneWithoutReservaInput
+  }
+
+  export type ReservaUncheckedCreateWithoutUsuarioTutorInput = {
+    id?: number
+    estatus: $Enums.ReservaEstatus
+    fechaHoraInicio: Date | string
+    fechaHoraFin: Date | string
+    tipo: $Enums.ReservaTipo
+    asistio?: boolean
+    motivoRechazo?: string | null
+    usuarioSolicitoId: string
+    usuarioAprobadorId?: string | null
+    usuarioRechazadoId?: string | null
+    usuarioRenovoId?: string | null
+    usuarioRecibioId?: string | null
+    fechaRenovacion?: Date | string | null
+    fechaAprobacion?: Date | string | null
+    fechaRechazo?: Date | string | null
+    fechaRecibido?: Date | string | null
+    usuarioCreadorId: string
+    usuarioModificadorId: string
+    fechaCreacion?: Date | string
+    fechaModificacion?: Date | string
+    mostrarEnPantalla?: boolean
+    reservaEquipo?: ReservaEquipoUncheckedCreateNestedOneWithoutReservaInput
+    reservaLaboratorioAbierto?: ReservaLaboratorioAbiertoUncheckedCreateNestedOneWithoutReservaInput
+    reservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedOneWithoutReservaInput
+    reservaLibro?: ReservaLibroUncheckedCreateNestedOneWithoutReservaInput
+  }
+
+  export type ReservaCreateOrConnectWithoutUsuarioTutorInput = {
+    where: ReservaWhereUniqueInput
+    create: XOR<ReservaCreateWithoutUsuarioTutorInput, ReservaUncheckedCreateWithoutUsuarioTutorInput>
+  }
+
+  export type ReservaCreateManyUsuarioTutorInputEnvelope = {
+    data: ReservaCreateManyUsuarioTutorInput | ReservaCreateManyUsuarioTutorInput[]
     skipDuplicates?: boolean
   }
 
@@ -91874,199 +95000,233 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type ReservaCreateWithoutUsuarioRenovoInput = {
-    estatus: $Enums.ReservaEstatus
-    fechaHoraInicio: Date | string
-    fechaHoraFin: Date | string
-    tipo: $Enums.ReservaTipo
-    asistio?: boolean
-    motivoRechazo?: string | null
-    fechaRenovacion?: Date | string | null
-    fechaAprobacion?: Date | string | null
-    fechaRechazo?: Date | string | null
-    fechaRecibido?: Date | string | null
-    usuarioCreadorId: string
-    usuarioModificadorId: string
-    fechaCreacion?: Date | string
-    fechaModificacion?: Date | string
-    mostrarEnPantalla?: boolean
-    usuarioAprobador?: UserCreateNestedOneWithoutReservasAprobadasInput
-    usuarioRechazado?: UserCreateNestedOneWithoutReservasRechazadasInput
-    usuarioRecibio?: UserCreateNestedOneWithoutReservasRecibidasInput
-    usuarioSolicito: UserCreateNestedOneWithoutReservasSolicitadasInput
-    usuarioTutor?: UserCreateNestedOneWithoutReservasComoTutorInput
-    reservaEquipo?: ReservaEquipoCreateNestedOneWithoutReservaInput
-    reservaLaboratorioAbierto?: ReservaLaboratorioAbiertoCreateNestedOneWithoutReservaInput
-    reservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedOneWithoutReservaInput
-    reservaLibro?: ReservaLibroCreateNestedOneWithoutReservaInput
+  export type InscripcionEspecialCreateWithoutSolicitanteInput = {
+    caso: string
+    justificacion: string
+    turnoAlternativa1?: string | null
+    turnoAlternativa2?: string | null
+    materias?: InscripcionEspecialCreatemateriasInput | number[]
+    materiasAdeudadas?: InscripcionEspecialCreatemateriasAdeudadasInput | number[]
+    estado: string
+    respuesta?: string | null
+    fueContactado?: boolean
+    vinoPresencialmente?: boolean
+    fechaSolicitud?: Date | string
+    fechaRespuesta?: Date | string | null
   }
 
-  export type ReservaUncheckedCreateWithoutUsuarioRenovoInput = {
+  export type InscripcionEspecialUncheckedCreateWithoutSolicitanteInput = {
     id?: number
-    estatus: $Enums.ReservaEstatus
-    fechaHoraInicio: Date | string
-    fechaHoraFin: Date | string
-    tipo: $Enums.ReservaTipo
-    asistio?: boolean
-    motivoRechazo?: string | null
-    usuarioSolicitoId: string
-    usuarioAprobadorId?: string | null
-    usuarioRechazadoId?: string | null
-    usuarioRecibioId?: string | null
-    usuarioTutorId?: string | null
-    fechaRenovacion?: Date | string | null
-    fechaAprobacion?: Date | string | null
-    fechaRechazo?: Date | string | null
-    fechaRecibido?: Date | string | null
-    usuarioCreadorId: string
-    usuarioModificadorId: string
-    fechaCreacion?: Date | string
-    fechaModificacion?: Date | string
-    mostrarEnPantalla?: boolean
-    reservaEquipo?: ReservaEquipoUncheckedCreateNestedOneWithoutReservaInput
-    reservaLaboratorioAbierto?: ReservaLaboratorioAbiertoUncheckedCreateNestedOneWithoutReservaInput
-    reservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedOneWithoutReservaInput
-    reservaLibro?: ReservaLibroUncheckedCreateNestedOneWithoutReservaInput
+    caso: string
+    justificacion: string
+    turnoAlternativa1?: string | null
+    turnoAlternativa2?: string | null
+    materias?: InscripcionEspecialCreatemateriasInput | number[]
+    materiasAdeudadas?: InscripcionEspecialCreatemateriasAdeudadasInput | number[]
+    estado: string
+    respuesta?: string | null
+    fueContactado?: boolean
+    vinoPresencialmente?: boolean
+    fechaSolicitud?: Date | string
+    fechaRespuesta?: Date | string | null
   }
 
-  export type ReservaCreateOrConnectWithoutUsuarioRenovoInput = {
-    where: ReservaWhereUniqueInput
-    create: XOR<ReservaCreateWithoutUsuarioRenovoInput, ReservaUncheckedCreateWithoutUsuarioRenovoInput>
+  export type InscripcionEspecialCreateOrConnectWithoutSolicitanteInput = {
+    where: InscripcionEspecialWhereUniqueInput
+    create: XOR<InscripcionEspecialCreateWithoutSolicitanteInput, InscripcionEspecialUncheckedCreateWithoutSolicitanteInput>
   }
 
-  export type ReservaCreateManyUsuarioRenovoInputEnvelope = {
-    data: ReservaCreateManyUsuarioRenovoInput | ReservaCreateManyUsuarioRenovoInput[]
+  export type InscripcionEspecialCreateManySolicitanteInputEnvelope = {
+    data: InscripcionEspecialCreateManySolicitanteInput | InscripcionEspecialCreateManySolicitanteInput[]
     skipDuplicates?: boolean
   }
 
-  export type ReservaCreateWithoutUsuarioSolicitoInput = {
-    estatus: $Enums.ReservaEstatus
-    fechaHoraInicio: Date | string
-    fechaHoraFin: Date | string
-    tipo: $Enums.ReservaTipo
-    asistio?: boolean
-    motivoRechazo?: string | null
-    fechaRenovacion?: Date | string | null
-    fechaAprobacion?: Date | string | null
-    fechaRechazo?: Date | string | null
-    fechaRecibido?: Date | string | null
-    usuarioCreadorId: string
-    usuarioModificadorId: string
-    fechaCreacion?: Date | string
-    fechaModificacion?: Date | string
-    mostrarEnPantalla?: boolean
-    usuarioAprobador?: UserCreateNestedOneWithoutReservasAprobadasInput
-    usuarioRechazado?: UserCreateNestedOneWithoutReservasRechazadasInput
-    usuarioRecibio?: UserCreateNestedOneWithoutReservasRecibidasInput
-    usuarioRenovo?: UserCreateNestedOneWithoutReservasRenovadasInput
-    usuarioTutor?: UserCreateNestedOneWithoutReservasComoTutorInput
-    reservaEquipo?: ReservaEquipoCreateNestedOneWithoutReservaInput
-    reservaLaboratorioAbierto?: ReservaLaboratorioAbiertoCreateNestedOneWithoutReservaInput
-    reservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedOneWithoutReservaInput
-    reservaLibro?: ReservaLibroCreateNestedOneWithoutReservaInput
+  export type InscripcionEspecialPeriodoCreateWithoutUsuarioCreadorInput = {
+    fechaInicio: Date | string
+    fechaFin: Date | string
   }
 
-  export type ReservaUncheckedCreateWithoutUsuarioSolicitoInput = {
+  export type InscripcionEspecialPeriodoUncheckedCreateWithoutUsuarioCreadorInput = {
     id?: number
-    estatus: $Enums.ReservaEstatus
-    fechaHoraInicio: Date | string
-    fechaHoraFin: Date | string
-    tipo: $Enums.ReservaTipo
-    asistio?: boolean
-    motivoRechazo?: string | null
-    usuarioAprobadorId?: string | null
-    usuarioRechazadoId?: string | null
-    usuarioRenovoId?: string | null
-    usuarioRecibioId?: string | null
-    usuarioTutorId?: string | null
-    fechaRenovacion?: Date | string | null
-    fechaAprobacion?: Date | string | null
-    fechaRechazo?: Date | string | null
-    fechaRecibido?: Date | string | null
-    usuarioCreadorId: string
-    usuarioModificadorId: string
-    fechaCreacion?: Date | string
-    fechaModificacion?: Date | string
-    mostrarEnPantalla?: boolean
-    reservaEquipo?: ReservaEquipoUncheckedCreateNestedOneWithoutReservaInput
-    reservaLaboratorioAbierto?: ReservaLaboratorioAbiertoUncheckedCreateNestedOneWithoutReservaInput
-    reservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedOneWithoutReservaInput
-    reservaLibro?: ReservaLibroUncheckedCreateNestedOneWithoutReservaInput
+    fechaInicio: Date | string
+    fechaFin: Date | string
   }
 
-  export type ReservaCreateOrConnectWithoutUsuarioSolicitoInput = {
-    where: ReservaWhereUniqueInput
-    create: XOR<ReservaCreateWithoutUsuarioSolicitoInput, ReservaUncheckedCreateWithoutUsuarioSolicitoInput>
+  export type InscripcionEspecialPeriodoCreateOrConnectWithoutUsuarioCreadorInput = {
+    where: InscripcionEspecialPeriodoWhereUniqueInput
+    create: XOR<InscripcionEspecialPeriodoCreateWithoutUsuarioCreadorInput, InscripcionEspecialPeriodoUncheckedCreateWithoutUsuarioCreadorInput>
   }
 
-  export type ReservaCreateManyUsuarioSolicitoInputEnvelope = {
-    data: ReservaCreateManyUsuarioSolicitoInput | ReservaCreateManyUsuarioSolicitoInput[]
+  export type InscripcionEspecialPeriodoCreateManyUsuarioCreadorInputEnvelope = {
+    data: InscripcionEspecialPeriodoCreateManyUsuarioCreadorInput | InscripcionEspecialPeriodoCreateManyUsuarioCreadorInput[]
     skipDuplicates?: boolean
   }
 
-  export type ReservaCreateWithoutUsuarioTutorInput = {
-    estatus: $Enums.ReservaEstatus
-    fechaHoraInicio: Date | string
-    fechaHoraFin: Date | string
-    tipo: $Enums.ReservaTipo
-    asistio?: boolean
-    motivoRechazo?: string | null
-    fechaRenovacion?: Date | string | null
-    fechaAprobacion?: Date | string | null
-    fechaRechazo?: Date | string | null
-    fechaRecibido?: Date | string | null
-    usuarioCreadorId: string
-    usuarioModificadorId: string
+  export type CursoAyudanteCreateWithoutUsuarioInput = {
     fechaCreacion?: Date | string
-    fechaModificacion?: Date | string
-    mostrarEnPantalla?: boolean
-    usuarioAprobador?: UserCreateNestedOneWithoutReservasAprobadasInput
-    usuarioRechazado?: UserCreateNestedOneWithoutReservasRechazadasInput
-    usuarioRecibio?: UserCreateNestedOneWithoutReservasRecibidasInput
-    usuarioRenovo?: UserCreateNestedOneWithoutReservasRenovadasInput
-    usuarioSolicito: UserCreateNestedOneWithoutReservasSolicitadasInput
-    reservaEquipo?: ReservaEquipoCreateNestedOneWithoutReservaInput
-    reservaLaboratorioAbierto?: ReservaLaboratorioAbiertoCreateNestedOneWithoutReservaInput
-    reservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedOneWithoutReservaInput
-    reservaLibro?: ReservaLibroCreateNestedOneWithoutReservaInput
-  }
-
-  export type ReservaUncheckedCreateWithoutUsuarioTutorInput = {
-    id?: number
-    estatus: $Enums.ReservaEstatus
-    fechaHoraInicio: Date | string
-    fechaHoraFin: Date | string
-    tipo: $Enums.ReservaTipo
-    asistio?: boolean
-    motivoRechazo?: string | null
-    usuarioSolicitoId: string
-    usuarioAprobadorId?: string | null
-    usuarioRechazadoId?: string | null
-    usuarioRenovoId?: string | null
-    usuarioRecibioId?: string | null
-    fechaRenovacion?: Date | string | null
-    fechaAprobacion?: Date | string | null
-    fechaRechazo?: Date | string | null
-    fechaRecibido?: Date | string | null
     usuarioCreadorId: string
-    usuarioModificadorId: string
-    fechaCreacion?: Date | string
     fechaModificacion?: Date | string
-    mostrarEnPantalla?: boolean
-    reservaEquipo?: ReservaEquipoUncheckedCreateNestedOneWithoutReservaInput
-    reservaLaboratorioAbierto?: ReservaLaboratorioAbiertoUncheckedCreateNestedOneWithoutReservaInput
-    reservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedOneWithoutReservaInput
-    reservaLibro?: ReservaLibroUncheckedCreateNestedOneWithoutReservaInput
+    usuarioModificadorId: string
+    curso: CursoCreateNestedOneWithoutAyudantesInput
   }
 
-  export type ReservaCreateOrConnectWithoutUsuarioTutorInput = {
-    where: ReservaWhereUniqueInput
-    create: XOR<ReservaCreateWithoutUsuarioTutorInput, ReservaUncheckedCreateWithoutUsuarioTutorInput>
+  export type CursoAyudanteUncheckedCreateWithoutUsuarioInput = {
+    cursoId: number
+    fechaCreacion?: Date | string
+    usuarioCreadorId: string
+    fechaModificacion?: Date | string
+    usuarioModificadorId: string
   }
 
-  export type ReservaCreateManyUsuarioTutorInputEnvelope = {
-    data: ReservaCreateManyUsuarioTutorInput | ReservaCreateManyUsuarioTutorInput[]
+  export type CursoAyudanteCreateOrConnectWithoutUsuarioInput = {
+    where: CursoAyudanteWhereUniqueInput
+    create: XOR<CursoAyudanteCreateWithoutUsuarioInput, CursoAyudanteUncheckedCreateWithoutUsuarioInput>
+  }
+
+  export type CursoAyudanteCreateManyUsuarioInputEnvelope = {
+    data: CursoAyudanteCreateManyUsuarioInput | CursoAyudanteCreateManyUsuarioInput[]
     skipDuplicates?: boolean
+  }
+
+  export type CursoCreateWithoutProfesorInput = {
+    horaInicio1: string
+    duracion1: string
+    horaInicio2?: string | null
+    duracion2?: string | null
+    dia1: $Enums.CursoDia
+    dia2?: $Enums.CursoDia | null
+    anioDeCarrera: number
+    activo: boolean
+    ac: string
+    turno: $Enums.TurnoCurso
+    fechaCreacion?: Date | string
+    fechaModificacion?: Date | string
+    usuarioCreadorId: string
+    usuarioModificadorId: string
+    division: DivisionCreateNestedOneWithoutCursosInput
+    materia: MateriaCreateNestedOneWithoutCursosInput
+    sede: SedeCreateNestedOneWithoutCursosInput
+    ayudantes?: CursoAyudanteCreateNestedManyWithoutCursoInput
+    reservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutCursoInput
+  }
+
+  export type CursoUncheckedCreateWithoutProfesorInput = {
+    id?: number
+    horaInicio1: string
+    duracion1: string
+    horaInicio2?: string | null
+    duracion2?: string | null
+    dia1: $Enums.CursoDia
+    dia2?: $Enums.CursoDia | null
+    anioDeCarrera: number
+    activo: boolean
+    ac: string
+    sedeId: number
+    materiaId: number
+    divisionId: number
+    turno: $Enums.TurnoCurso
+    fechaCreacion?: Date | string
+    fechaModificacion?: Date | string
+    usuarioCreadorId: string
+    usuarioModificadorId: string
+    ayudantes?: CursoAyudanteUncheckedCreateNestedManyWithoutCursoInput
+    reservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutCursoInput
+  }
+
+  export type CursoCreateOrConnectWithoutProfesorInput = {
+    where: CursoWhereUniqueInput
+    create: XOR<CursoCreateWithoutProfesorInput, CursoUncheckedCreateWithoutProfesorInput>
+  }
+
+  export type CursoCreateManyProfesorInputEnvelope = {
+    data: CursoCreateManyProfesorInput | CursoCreateManyProfesorInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type MateriaJefeTpCreateWithoutUsuarioInput = {
+    materia: MateriaCreateNestedOneWithoutJefeTrabajoPracticosInput
+  }
+
+  export type MateriaJefeTpUncheckedCreateWithoutUsuarioInput = {
+    materiaId: number
+  }
+
+  export type MateriaJefeTpCreateOrConnectWithoutUsuarioInput = {
+    where: MateriaJefeTpWhereUniqueInput
+    create: XOR<MateriaJefeTpCreateWithoutUsuarioInput, MateriaJefeTpUncheckedCreateWithoutUsuarioInput>
+  }
+
+  export type MateriaJefeTpCreateManyUsuarioInputEnvelope = {
+    data: MateriaJefeTpCreateManyUsuarioInput | MateriaJefeTpCreateManyUsuarioInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type MateriaCreateWithoutDirectorUsuarioInput = {
+    nombre: string
+    codigo: string
+    anio: number
+    duracion: $Enums.MateriaDuracion
+    tipo: $Enums.MateriaTipo
+    fechaCreacion?: Date | string
+    fechaModificacion?: Date | string
+    usuarioCreadorId: string
+    usuarioModificadorId: string
+    cursos?: CursoCreateNestedManyWithoutMateriaInput
+    libros?: LibroMateriaCreateNestedManyWithoutMateriaInput
+    correlativa?: MateriaCorrelativaCreateNestedManyWithoutCorrelativaInput
+    materiaPrerequisito?: MateriaCorrelativaCreateNestedManyWithoutMateriaPrerequisitoInput
+    jefeTrabajoPracticos?: MateriaJefeTpCreateNestedManyWithoutMateriaInput
+    reservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalMateriaInput
+  }
+
+  export type MateriaUncheckedCreateWithoutDirectorUsuarioInput = {
+    id?: number
+    nombre: string
+    codigo: string
+    anio: number
+    duracion: $Enums.MateriaDuracion
+    tipo: $Enums.MateriaTipo
+    fechaCreacion?: Date | string
+    fechaModificacion?: Date | string
+    usuarioCreadorId: string
+    usuarioModificadorId: string
+    cursos?: CursoUncheckedCreateNestedManyWithoutMateriaInput
+    libros?: LibroMateriaUncheckedCreateNestedManyWithoutMateriaInput
+    correlativa?: MateriaCorrelativaUncheckedCreateNestedManyWithoutCorrelativaInput
+    materiaPrerequisito?: MateriaCorrelativaUncheckedCreateNestedManyWithoutMateriaPrerequisitoInput
+    jefeTrabajoPracticos?: MateriaJefeTpUncheckedCreateNestedManyWithoutMateriaInput
+    reservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalMateriaInput
+  }
+
+  export type MateriaCreateOrConnectWithoutDirectorUsuarioInput = {
+    where: MateriaWhereUniqueInput
+    create: XOR<MateriaCreateWithoutDirectorUsuarioInput, MateriaUncheckedCreateWithoutDirectorUsuarioInput>
+  }
+
+  export type MateriaCreateManyDirectorUsuarioInputEnvelope = {
+    data: MateriaCreateManyDirectorUsuarioInput | MateriaCreateManyDirectorUsuarioInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TutorCreateWithoutUsuarioInput = {
+    diasHorarios: string
+    activo: boolean
+    especialidad: string
+    fechaCreacion?: Date | string
+    usuarioCreadorId: string
+  }
+
+  export type TutorUncheckedCreateWithoutUsuarioInput = {
+    diasHorarios: string
+    activo: boolean
+    especialidad: string
+    fechaCreacion?: Date | string
+    usuarioCreadorId: string
+  }
+
+  export type TutorCreateOrConnectWithoutUsuarioInput = {
+    where: TutorWhereUniqueInput
+    create: XOR<TutorCreateWithoutUsuarioInput, TutorUncheckedCreateWithoutUsuarioInput>
   }
 
   export type ReservaLaboratorioCerradoCreateWithoutDiscrecionalDocenteInput = {
@@ -92116,125 +95276,6 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type SessionCreateWithoutUserInput = {
-    id?: string
-    sessionToken: string
-    expires: Date | string
-  }
-
-  export type SessionUncheckedCreateWithoutUserInput = {
-    id?: string
-    sessionToken: string
-    expires: Date | string
-  }
-
-  export type SessionCreateOrConnectWithoutUserInput = {
-    where: SessionWhereUniqueInput
-    create: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput>
-  }
-
-  export type SessionCreateManyUserInputEnvelope = {
-    data: SessionCreateManyUserInput | SessionCreateManyUserInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type TutorCreateWithoutUsuarioInput = {
-    diasHorarios: string
-    activo: boolean
-    especialidad: string
-    fechaCreacion?: Date | string
-    usuarioCreadorId: string
-  }
-
-  export type TutorUncheckedCreateWithoutUsuarioInput = {
-    diasHorarios: string
-    activo: boolean
-    especialidad: string
-    fechaCreacion?: Date | string
-    usuarioCreadorId: string
-  }
-
-  export type TutorCreateOrConnectWithoutUsuarioInput = {
-    where: TutorWhereUniqueInput
-    create: XOR<TutorCreateWithoutUsuarioInput, TutorUncheckedCreateWithoutUsuarioInput>
-  }
-
-  export type DocumentoTipoCreateWithoutUsuariosInput = {
-    nombre: string
-  }
-
-  export type DocumentoTipoUncheckedCreateWithoutUsuariosInput = {
-    id?: number
-    nombre: string
-  }
-
-  export type DocumentoTipoCreateOrConnectWithoutUsuariosInput = {
-    where: DocumentoTipoWhereUniqueInput
-    create: XOR<DocumentoTipoCreateWithoutUsuariosInput, DocumentoTipoUncheckedCreateWithoutUsuariosInput>
-  }
-
-  export type PaisCreateWithoutUsuariosInput = {
-    iso: string
-    nombreEspanol: string
-    nombreIngles: string
-    iso3: string
-    codigoNumerico: number
-    provincias?: ProvinciaCreateNestedManyWithoutPaisInput
-  }
-
-  export type PaisUncheckedCreateWithoutUsuariosInput = {
-    iso: string
-    nombreEspanol: string
-    nombreIngles: string
-    iso3: string
-    codigoNumerico: number
-    provincias?: ProvinciaUncheckedCreateNestedManyWithoutPaisInput
-  }
-
-  export type PaisCreateOrConnectWithoutUsuariosInput = {
-    where: PaisWhereUniqueInput
-    create: XOR<PaisCreateWithoutUsuariosInput, PaisUncheckedCreateWithoutUsuariosInput>
-  }
-
-  export type ProvinciaCreateWithoutUsuariosInput = {
-    iso: string
-    nombre: string
-    pais: PaisCreateNestedOneWithoutProvinciasInput
-  }
-
-  export type ProvinciaUncheckedCreateWithoutUsuariosInput = {
-    iso: string
-    nombre: string
-    paisIso: string
-  }
-
-  export type ProvinciaCreateOrConnectWithoutUsuariosInput = {
-    where: ProvinciaWhereUniqueInput
-    create: XOR<ProvinciaCreateWithoutUsuariosInput, ProvinciaUncheckedCreateWithoutUsuariosInput>
-  }
-
-  export type UsuarioRolCreateWithoutUsuarioInput = {
-    fechaCreacion?: Date | string
-    usuarioCreadorId: string
-    rol: RolCreateNestedOneWithoutUsuariosInput
-  }
-
-  export type UsuarioRolUncheckedCreateWithoutUsuarioInput = {
-    rolId: number
-    fechaCreacion?: Date | string
-    usuarioCreadorId: string
-  }
-
-  export type UsuarioRolCreateOrConnectWithoutUsuarioInput = {
-    where: UsuarioRolWhereUniqueInput
-    create: XOR<UsuarioRolCreateWithoutUsuarioInput, UsuarioRolUncheckedCreateWithoutUsuarioInput>
-  }
-
-  export type UsuarioRolCreateManyUsuarioInputEnvelope = {
-    data: UsuarioRolCreateManyUsuarioInput | UsuarioRolCreateManyUsuarioInput[]
-    skipDuplicates?: boolean
-  }
-
   export type VotoCreateWithoutUserInput = {
     posicion: $Enums.Posicion
     comentario?: string | null
@@ -92258,6 +95299,222 @@ export namespace Prisma {
   export type VotoCreateManyUserInputEnvelope = {
     data: VotoCreateManyUserInput | VotoCreateManyUserInput[]
     skipDuplicates?: boolean
+  }
+
+  export type FallaCreateWithoutReportadoPorInput = {
+    tipoFalla: string
+    fallas?: FallaCreatefallasInput | string[]
+    descripcionEquipo?: string | null
+    descripcionFalla: string
+    condicion?: string | null
+    fechaReporte?: Date | string
+    estado: string
+    palabrasClave?: string | null
+    asignadoA?: UserCreateNestedOneWithoutFallasAsignadasInput
+    equipo?: EquipoCreateNestedOneWithoutFallaPcInput
+    historial?: FallaHistorialCreateNestedManyWithoutFallaInput
+  }
+
+  export type FallaUncheckedCreateWithoutReportadoPorInput = {
+    id?: number
+    equipoId?: number | null
+    tipoFalla: string
+    fallas?: FallaCreatefallasInput | string[]
+    descripcionEquipo?: string | null
+    descripcionFalla: string
+    condicion?: string | null
+    fechaReporte?: Date | string
+    asignadoAId?: string | null
+    estado: string
+    palabrasClave?: string | null
+    historial?: FallaHistorialUncheckedCreateNestedManyWithoutFallaInput
+  }
+
+  export type FallaCreateOrConnectWithoutReportadoPorInput = {
+    where: FallaWhereUniqueInput
+    create: XOR<FallaCreateWithoutReportadoPorInput, FallaUncheckedCreateWithoutReportadoPorInput>
+  }
+
+  export type FallaCreateManyReportadoPorInputEnvelope = {
+    data: FallaCreateManyReportadoPorInput | FallaCreateManyReportadoPorInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type FallaCreateWithoutAsignadoAInput = {
+    tipoFalla: string
+    fallas?: FallaCreatefallasInput | string[]
+    descripcionEquipo?: string | null
+    descripcionFalla: string
+    condicion?: string | null
+    fechaReporte?: Date | string
+    estado: string
+    palabrasClave?: string | null
+    equipo?: EquipoCreateNestedOneWithoutFallaPcInput
+    reportadoPor?: UserCreateNestedOneWithoutFallasReportadasInput
+    historial?: FallaHistorialCreateNestedManyWithoutFallaInput
+  }
+
+  export type FallaUncheckedCreateWithoutAsignadoAInput = {
+    id?: number
+    equipoId?: number | null
+    tipoFalla: string
+    fallas?: FallaCreatefallasInput | string[]
+    descripcionEquipo?: string | null
+    descripcionFalla: string
+    condicion?: string | null
+    fechaReporte?: Date | string
+    reportadoPorId?: string | null
+    estado: string
+    palabrasClave?: string | null
+    historial?: FallaHistorialUncheckedCreateNestedManyWithoutFallaInput
+  }
+
+  export type FallaCreateOrConnectWithoutAsignadoAInput = {
+    where: FallaWhereUniqueInput
+    create: XOR<FallaCreateWithoutAsignadoAInput, FallaUncheckedCreateWithoutAsignadoAInput>
+  }
+
+  export type FallaCreateManyAsignadoAInputEnvelope = {
+    data: FallaCreateManyAsignadoAInput | FallaCreateManyAsignadoAInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type FallaHistorialCreateWithoutReportadoPorInput = {
+    fallas?: FallaHistorialCreatefallasInput | string[]
+    descripcionEquipo?: string | null
+    descripcionFalla: string
+    estado: string
+    fechaReporte: Date | string
+    fechaCambioEstado?: Date | string
+    asignadoA?: UserCreateNestedOneWithoutFallasHistAsignadasInput
+    falla: FallaCreateNestedOneWithoutHistorialInput
+  }
+
+  export type FallaHistorialUncheckedCreateWithoutReportadoPorInput = {
+    id?: number
+    fallaId: number
+    fallas?: FallaHistorialCreatefallasInput | string[]
+    descripcionEquipo?: string | null
+    descripcionFalla: string
+    asignadoAId?: string | null
+    estado: string
+    fechaReporte: Date | string
+    fechaCambioEstado?: Date | string
+  }
+
+  export type FallaHistorialCreateOrConnectWithoutReportadoPorInput = {
+    where: FallaHistorialWhereUniqueInput
+    create: XOR<FallaHistorialCreateWithoutReportadoPorInput, FallaHistorialUncheckedCreateWithoutReportadoPorInput>
+  }
+
+  export type FallaHistorialCreateManyReportadoPorInputEnvelope = {
+    data: FallaHistorialCreateManyReportadoPorInput | FallaHistorialCreateManyReportadoPorInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type FallaHistorialCreateWithoutAsignadoAInput = {
+    fallas?: FallaHistorialCreatefallasInput | string[]
+    descripcionEquipo?: string | null
+    descripcionFalla: string
+    estado: string
+    fechaReporte: Date | string
+    fechaCambioEstado?: Date | string
+    falla: FallaCreateNestedOneWithoutHistorialInput
+    reportadoPor?: UserCreateNestedOneWithoutFallasHistReportadasInput
+  }
+
+  export type FallaHistorialUncheckedCreateWithoutAsignadoAInput = {
+    id?: number
+    fallaId: number
+    fallas?: FallaHistorialCreatefallasInput | string[]
+    descripcionEquipo?: string | null
+    descripcionFalla: string
+    reportadoPorId?: string | null
+    estado: string
+    fechaReporte: Date | string
+    fechaCambioEstado?: Date | string
+  }
+
+  export type FallaHistorialCreateOrConnectWithoutAsignadoAInput = {
+    where: FallaHistorialWhereUniqueInput
+    create: XOR<FallaHistorialCreateWithoutAsignadoAInput, FallaHistorialUncheckedCreateWithoutAsignadoAInput>
+  }
+
+  export type FallaHistorialCreateManyAsignadoAInputEnvelope = {
+    data: FallaHistorialCreateManyAsignadoAInput | FallaHistorialCreateManyAsignadoAInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type DocumentoTipoUpsertWithoutUsuariosInput = {
+    update: XOR<DocumentoTipoUpdateWithoutUsuariosInput, DocumentoTipoUncheckedUpdateWithoutUsuariosInput>
+    create: XOR<DocumentoTipoCreateWithoutUsuariosInput, DocumentoTipoUncheckedCreateWithoutUsuariosInput>
+    where?: DocumentoTipoWhereInput
+  }
+
+  export type DocumentoTipoUpdateToOneWithWhereWithoutUsuariosInput = {
+    where?: DocumentoTipoWhereInput
+    data: XOR<DocumentoTipoUpdateWithoutUsuariosInput, DocumentoTipoUncheckedUpdateWithoutUsuariosInput>
+  }
+
+  export type DocumentoTipoUpdateWithoutUsuariosInput = {
+    nombre?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type DocumentoTipoUncheckedUpdateWithoutUsuariosInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nombre?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ProvinciaUpsertWithoutUsuariosInput = {
+    update: XOR<ProvinciaUpdateWithoutUsuariosInput, ProvinciaUncheckedUpdateWithoutUsuariosInput>
+    create: XOR<ProvinciaCreateWithoutUsuariosInput, ProvinciaUncheckedCreateWithoutUsuariosInput>
+    where?: ProvinciaWhereInput
+  }
+
+  export type ProvinciaUpdateToOneWithWhereWithoutUsuariosInput = {
+    where?: ProvinciaWhereInput
+    data: XOR<ProvinciaUpdateWithoutUsuariosInput, ProvinciaUncheckedUpdateWithoutUsuariosInput>
+  }
+
+  export type ProvinciaUpdateWithoutUsuariosInput = {
+    iso?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    pais?: PaisUpdateOneRequiredWithoutProvinciasNestedInput
+  }
+
+  export type ProvinciaUncheckedUpdateWithoutUsuariosInput = {
+    iso?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    paisIso?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type PaisUpsertWithoutUsuariosInput = {
+    update: XOR<PaisUpdateWithoutUsuariosInput, PaisUncheckedUpdateWithoutUsuariosInput>
+    create: XOR<PaisCreateWithoutUsuariosInput, PaisUncheckedCreateWithoutUsuariosInput>
+    where?: PaisWhereInput
+  }
+
+  export type PaisUpdateToOneWithWhereWithoutUsuariosInput = {
+    where?: PaisWhereInput
+    data: XOR<PaisUpdateWithoutUsuariosInput, PaisUncheckedUpdateWithoutUsuariosInput>
+  }
+
+  export type PaisUpdateWithoutUsuariosInput = {
+    iso?: StringFieldUpdateOperationsInput | string
+    nombreEspanol?: StringFieldUpdateOperationsInput | string
+    nombreIngles?: StringFieldUpdateOperationsInput | string
+    iso3?: StringFieldUpdateOperationsInput | string
+    codigoNumerico?: IntFieldUpdateOperationsInput | number
+    provincias?: ProvinciaUpdateManyWithoutPaisNestedInput
+  }
+
+  export type PaisUncheckedUpdateWithoutUsuariosInput = {
+    iso?: StringFieldUpdateOperationsInput | string
+    nombreEspanol?: StringFieldUpdateOperationsInput | string
+    nombreIngles?: StringFieldUpdateOperationsInput | string
+    iso3?: StringFieldUpdateOperationsInput | string
+    codigoNumerico?: IntFieldUpdateOperationsInput | number
+    provincias?: ProvinciaUncheckedUpdateManyWithoutPaisNestedInput
   }
 
   export type AccountUpsertWithWhereUniqueWithoutUserInput = {
@@ -92296,100 +95553,180 @@ export namespace Prisma {
     refresh_token_expires_in?: IntNullableFilter<"Account"> | number | null
   }
 
-  export type CursoUpsertWithWhereUniqueWithoutProfesorInput = {
-    where: CursoWhereUniqueInput
-    update: XOR<CursoUpdateWithoutProfesorInput, CursoUncheckedUpdateWithoutProfesorInput>
-    create: XOR<CursoCreateWithoutProfesorInput, CursoUncheckedCreateWithoutProfesorInput>
+  export type SessionUpsertWithWhereUniqueWithoutUserInput = {
+    where: SessionWhereUniqueInput
+    update: XOR<SessionUpdateWithoutUserInput, SessionUncheckedUpdateWithoutUserInput>
+    create: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput>
   }
 
-  export type CursoUpdateWithWhereUniqueWithoutProfesorInput = {
-    where: CursoWhereUniqueInput
-    data: XOR<CursoUpdateWithoutProfesorInput, CursoUncheckedUpdateWithoutProfesorInput>
+  export type SessionUpdateWithWhereUniqueWithoutUserInput = {
+    where: SessionWhereUniqueInput
+    data: XOR<SessionUpdateWithoutUserInput, SessionUncheckedUpdateWithoutUserInput>
   }
 
-  export type CursoUpdateManyWithWhereWithoutProfesorInput = {
-    where: CursoScalarWhereInput
-    data: XOR<CursoUpdateManyMutationInput, CursoUncheckedUpdateManyWithoutProfesorInput>
+  export type SessionUpdateManyWithWhereWithoutUserInput = {
+    where: SessionScalarWhereInput
+    data: XOR<SessionUpdateManyMutationInput, SessionUncheckedUpdateManyWithoutUserInput>
   }
 
-  export type CursoAyudanteUpsertWithWhereUniqueWithoutUsuarioInput = {
-    where: CursoAyudanteWhereUniqueInput
-    update: XOR<CursoAyudanteUpdateWithoutUsuarioInput, CursoAyudanteUncheckedUpdateWithoutUsuarioInput>
-    create: XOR<CursoAyudanteCreateWithoutUsuarioInput, CursoAyudanteUncheckedCreateWithoutUsuarioInput>
+  export type SessionScalarWhereInput = {
+    AND?: SessionScalarWhereInput | SessionScalarWhereInput[]
+    OR?: SessionScalarWhereInput[]
+    NOT?: SessionScalarWhereInput | SessionScalarWhereInput[]
+    id?: StringFilter<"Session"> | string
+    sessionToken?: StringFilter<"Session"> | string
+    userId?: StringFilter<"Session"> | string
+    expires?: DateTimeFilter<"Session"> | Date | string
   }
 
-  export type CursoAyudanteUpdateWithWhereUniqueWithoutUsuarioInput = {
-    where: CursoAyudanteWhereUniqueInput
-    data: XOR<CursoAyudanteUpdateWithoutUsuarioInput, CursoAyudanteUncheckedUpdateWithoutUsuarioInput>
+  export type UsuarioRolUpsertWithWhereUniqueWithoutUsuarioInput = {
+    where: UsuarioRolWhereUniqueInput
+    update: XOR<UsuarioRolUpdateWithoutUsuarioInput, UsuarioRolUncheckedUpdateWithoutUsuarioInput>
+    create: XOR<UsuarioRolCreateWithoutUsuarioInput, UsuarioRolUncheckedCreateWithoutUsuarioInput>
   }
 
-  export type CursoAyudanteUpdateManyWithWhereWithoutUsuarioInput = {
-    where: CursoAyudanteScalarWhereInput
-    data: XOR<CursoAyudanteUpdateManyMutationInput, CursoAyudanteUncheckedUpdateManyWithoutUsuarioInput>
+  export type UsuarioRolUpdateWithWhereUniqueWithoutUsuarioInput = {
+    where: UsuarioRolWhereUniqueInput
+    data: XOR<UsuarioRolUpdateWithoutUsuarioInput, UsuarioRolUncheckedUpdateWithoutUsuarioInput>
   }
 
-  export type FallaUpsertWithWhereUniqueWithoutAsignadoAInput = {
-    where: FallaWhereUniqueInput
-    update: XOR<FallaUpdateWithoutAsignadoAInput, FallaUncheckedUpdateWithoutAsignadoAInput>
-    create: XOR<FallaCreateWithoutAsignadoAInput, FallaUncheckedCreateWithoutAsignadoAInput>
+  export type UsuarioRolUpdateManyWithWhereWithoutUsuarioInput = {
+    where: UsuarioRolScalarWhereInput
+    data: XOR<UsuarioRolUpdateManyMutationInput, UsuarioRolUncheckedUpdateManyWithoutUsuarioInput>
   }
 
-  export type FallaUpdateWithWhereUniqueWithoutAsignadoAInput = {
-    where: FallaWhereUniqueInput
-    data: XOR<FallaUpdateWithoutAsignadoAInput, FallaUncheckedUpdateWithoutAsignadoAInput>
+  export type UsuarioRolScalarWhereInput = {
+    AND?: UsuarioRolScalarWhereInput | UsuarioRolScalarWhereInput[]
+    OR?: UsuarioRolScalarWhereInput[]
+    NOT?: UsuarioRolScalarWhereInput | UsuarioRolScalarWhereInput[]
+    userId?: StringFilter<"UsuarioRol"> | string
+    rolId?: IntFilter<"UsuarioRol"> | number
+    fechaCreacion?: DateTimeFilter<"UsuarioRol"> | Date | string
+    usuarioCreadorId?: StringFilter<"UsuarioRol"> | string
   }
 
-  export type FallaUpdateManyWithWhereWithoutAsignadoAInput = {
-    where: FallaScalarWhereInput
-    data: XOR<FallaUpdateManyMutationInput, FallaUncheckedUpdateManyWithoutAsignadoAInput>
+  export type ReservaUpsertWithWhereUniqueWithoutUsuarioSolicitoInput = {
+    where: ReservaWhereUniqueInput
+    update: XOR<ReservaUpdateWithoutUsuarioSolicitoInput, ReservaUncheckedUpdateWithoutUsuarioSolicitoInput>
+    create: XOR<ReservaCreateWithoutUsuarioSolicitoInput, ReservaUncheckedCreateWithoutUsuarioSolicitoInput>
   }
 
-  export type FallaUpsertWithWhereUniqueWithoutReportadoPorInput = {
-    where: FallaWhereUniqueInput
-    update: XOR<FallaUpdateWithoutReportadoPorInput, FallaUncheckedUpdateWithoutReportadoPorInput>
-    create: XOR<FallaCreateWithoutReportadoPorInput, FallaUncheckedCreateWithoutReportadoPorInput>
+  export type ReservaUpdateWithWhereUniqueWithoutUsuarioSolicitoInput = {
+    where: ReservaWhereUniqueInput
+    data: XOR<ReservaUpdateWithoutUsuarioSolicitoInput, ReservaUncheckedUpdateWithoutUsuarioSolicitoInput>
   }
 
-  export type FallaUpdateWithWhereUniqueWithoutReportadoPorInput = {
-    where: FallaWhereUniqueInput
-    data: XOR<FallaUpdateWithoutReportadoPorInput, FallaUncheckedUpdateWithoutReportadoPorInput>
+  export type ReservaUpdateManyWithWhereWithoutUsuarioSolicitoInput = {
+    where: ReservaScalarWhereInput
+    data: XOR<ReservaUpdateManyMutationInput, ReservaUncheckedUpdateManyWithoutUsuarioSolicitoInput>
   }
 
-  export type FallaUpdateManyWithWhereWithoutReportadoPorInput = {
-    where: FallaScalarWhereInput
-    data: XOR<FallaUpdateManyMutationInput, FallaUncheckedUpdateManyWithoutReportadoPorInput>
+  export type ReservaScalarWhereInput = {
+    AND?: ReservaScalarWhereInput | ReservaScalarWhereInput[]
+    OR?: ReservaScalarWhereInput[]
+    NOT?: ReservaScalarWhereInput | ReservaScalarWhereInput[]
+    id?: IntFilter<"Reserva"> | number
+    estatus?: EnumReservaEstatusFilter<"Reserva"> | $Enums.ReservaEstatus
+    fechaHoraInicio?: DateTimeFilter<"Reserva"> | Date | string
+    fechaHoraFin?: DateTimeFilter<"Reserva"> | Date | string
+    tipo?: EnumReservaTipoFilter<"Reserva"> | $Enums.ReservaTipo
+    asistio?: BoolFilter<"Reserva"> | boolean
+    motivoRechazo?: StringNullableFilter<"Reserva"> | string | null
+    usuarioSolicitoId?: StringFilter<"Reserva"> | string
+    usuarioAprobadorId?: StringNullableFilter<"Reserva"> | string | null
+    usuarioRechazadoId?: StringNullableFilter<"Reserva"> | string | null
+    usuarioRenovoId?: StringNullableFilter<"Reserva"> | string | null
+    usuarioRecibioId?: StringNullableFilter<"Reserva"> | string | null
+    usuarioTutorId?: StringNullableFilter<"Reserva"> | string | null
+    fechaRenovacion?: DateTimeNullableFilter<"Reserva"> | Date | string | null
+    fechaAprobacion?: DateTimeNullableFilter<"Reserva"> | Date | string | null
+    fechaRechazo?: DateTimeNullableFilter<"Reserva"> | Date | string | null
+    fechaRecibido?: DateTimeNullableFilter<"Reserva"> | Date | string | null
+    usuarioCreadorId?: StringFilter<"Reserva"> | string
+    usuarioModificadorId?: StringFilter<"Reserva"> | string
+    fechaCreacion?: DateTimeFilter<"Reserva"> | Date | string
+    fechaModificacion?: DateTimeFilter<"Reserva"> | Date | string
+    mostrarEnPantalla?: BoolFilter<"Reserva"> | boolean
   }
 
-  export type FallaHistorialUpsertWithWhereUniqueWithoutAsignadoAInput = {
-    where: FallaHistorialWhereUniqueInput
-    update: XOR<FallaHistorialUpdateWithoutAsignadoAInput, FallaHistorialUncheckedUpdateWithoutAsignadoAInput>
-    create: XOR<FallaHistorialCreateWithoutAsignadoAInput, FallaHistorialUncheckedCreateWithoutAsignadoAInput>
+  export type ReservaUpsertWithWhereUniqueWithoutUsuarioRenovoInput = {
+    where: ReservaWhereUniqueInput
+    update: XOR<ReservaUpdateWithoutUsuarioRenovoInput, ReservaUncheckedUpdateWithoutUsuarioRenovoInput>
+    create: XOR<ReservaCreateWithoutUsuarioRenovoInput, ReservaUncheckedCreateWithoutUsuarioRenovoInput>
   }
 
-  export type FallaHistorialUpdateWithWhereUniqueWithoutAsignadoAInput = {
-    where: FallaHistorialWhereUniqueInput
-    data: XOR<FallaHistorialUpdateWithoutAsignadoAInput, FallaHistorialUncheckedUpdateWithoutAsignadoAInput>
+  export type ReservaUpdateWithWhereUniqueWithoutUsuarioRenovoInput = {
+    where: ReservaWhereUniqueInput
+    data: XOR<ReservaUpdateWithoutUsuarioRenovoInput, ReservaUncheckedUpdateWithoutUsuarioRenovoInput>
   }
 
-  export type FallaHistorialUpdateManyWithWhereWithoutAsignadoAInput = {
-    where: FallaHistorialScalarWhereInput
-    data: XOR<FallaHistorialUpdateManyMutationInput, FallaHistorialUncheckedUpdateManyWithoutAsignadoAInput>
+  export type ReservaUpdateManyWithWhereWithoutUsuarioRenovoInput = {
+    where: ReservaScalarWhereInput
+    data: XOR<ReservaUpdateManyMutationInput, ReservaUncheckedUpdateManyWithoutUsuarioRenovoInput>
   }
 
-  export type FallaHistorialUpsertWithWhereUniqueWithoutReportadoPorInput = {
-    where: FallaHistorialWhereUniqueInput
-    update: XOR<FallaHistorialUpdateWithoutReportadoPorInput, FallaHistorialUncheckedUpdateWithoutReportadoPorInput>
-    create: XOR<FallaHistorialCreateWithoutReportadoPorInput, FallaHistorialUncheckedCreateWithoutReportadoPorInput>
+  export type ReservaUpsertWithWhereUniqueWithoutUsuarioTutorInput = {
+    where: ReservaWhereUniqueInput
+    update: XOR<ReservaUpdateWithoutUsuarioTutorInput, ReservaUncheckedUpdateWithoutUsuarioTutorInput>
+    create: XOR<ReservaCreateWithoutUsuarioTutorInput, ReservaUncheckedCreateWithoutUsuarioTutorInput>
   }
 
-  export type FallaHistorialUpdateWithWhereUniqueWithoutReportadoPorInput = {
-    where: FallaHistorialWhereUniqueInput
-    data: XOR<FallaHistorialUpdateWithoutReportadoPorInput, FallaHistorialUncheckedUpdateWithoutReportadoPorInput>
+  export type ReservaUpdateWithWhereUniqueWithoutUsuarioTutorInput = {
+    where: ReservaWhereUniqueInput
+    data: XOR<ReservaUpdateWithoutUsuarioTutorInput, ReservaUncheckedUpdateWithoutUsuarioTutorInput>
   }
 
-  export type FallaHistorialUpdateManyWithWhereWithoutReportadoPorInput = {
-    where: FallaHistorialScalarWhereInput
-    data: XOR<FallaHistorialUpdateManyMutationInput, FallaHistorialUncheckedUpdateManyWithoutReportadoPorInput>
+  export type ReservaUpdateManyWithWhereWithoutUsuarioTutorInput = {
+    where: ReservaScalarWhereInput
+    data: XOR<ReservaUpdateManyMutationInput, ReservaUncheckedUpdateManyWithoutUsuarioTutorInput>
+  }
+
+  export type ReservaUpsertWithWhereUniqueWithoutUsuarioAprobadorInput = {
+    where: ReservaWhereUniqueInput
+    update: XOR<ReservaUpdateWithoutUsuarioAprobadorInput, ReservaUncheckedUpdateWithoutUsuarioAprobadorInput>
+    create: XOR<ReservaCreateWithoutUsuarioAprobadorInput, ReservaUncheckedCreateWithoutUsuarioAprobadorInput>
+  }
+
+  export type ReservaUpdateWithWhereUniqueWithoutUsuarioAprobadorInput = {
+    where: ReservaWhereUniqueInput
+    data: XOR<ReservaUpdateWithoutUsuarioAprobadorInput, ReservaUncheckedUpdateWithoutUsuarioAprobadorInput>
+  }
+
+  export type ReservaUpdateManyWithWhereWithoutUsuarioAprobadorInput = {
+    where: ReservaScalarWhereInput
+    data: XOR<ReservaUpdateManyMutationInput, ReservaUncheckedUpdateManyWithoutUsuarioAprobadorInput>
+  }
+
+  export type ReservaUpsertWithWhereUniqueWithoutUsuarioRechazadoInput = {
+    where: ReservaWhereUniqueInput
+    update: XOR<ReservaUpdateWithoutUsuarioRechazadoInput, ReservaUncheckedUpdateWithoutUsuarioRechazadoInput>
+    create: XOR<ReservaCreateWithoutUsuarioRechazadoInput, ReservaUncheckedCreateWithoutUsuarioRechazadoInput>
+  }
+
+  export type ReservaUpdateWithWhereUniqueWithoutUsuarioRechazadoInput = {
+    where: ReservaWhereUniqueInput
+    data: XOR<ReservaUpdateWithoutUsuarioRechazadoInput, ReservaUncheckedUpdateWithoutUsuarioRechazadoInput>
+  }
+
+  export type ReservaUpdateManyWithWhereWithoutUsuarioRechazadoInput = {
+    where: ReservaScalarWhereInput
+    data: XOR<ReservaUpdateManyMutationInput, ReservaUncheckedUpdateManyWithoutUsuarioRechazadoInput>
+  }
+
+  export type ReservaUpsertWithWhereUniqueWithoutUsuarioRecibioInput = {
+    where: ReservaWhereUniqueInput
+    update: XOR<ReservaUpdateWithoutUsuarioRecibioInput, ReservaUncheckedUpdateWithoutUsuarioRecibioInput>
+    create: XOR<ReservaCreateWithoutUsuarioRecibioInput, ReservaUncheckedCreateWithoutUsuarioRecibioInput>
+  }
+
+  export type ReservaUpdateWithWhereUniqueWithoutUsuarioRecibioInput = {
+    where: ReservaWhereUniqueInput
+    data: XOR<ReservaUpdateWithoutUsuarioRecibioInput, ReservaUncheckedUpdateWithoutUsuarioRecibioInput>
+  }
+
+  export type ReservaUpdateManyWithWhereWithoutUsuarioRecibioInput = {
+    where: ReservaScalarWhereInput
+    data: XOR<ReservaUpdateManyMutationInput, ReservaUncheckedUpdateManyWithoutUsuarioRecibioInput>
   }
 
   export type InscripcionEspecialUpsertWithWhereUniqueWithoutSolicitanteInput = {
@@ -92422,10 +95759,84 @@ export namespace Prisma {
     materiasAdeudadas?: IntNullableListFilter<"InscripcionEspecial">
     estado?: StringFilter<"InscripcionEspecial"> | string
     respuesta?: StringNullableFilter<"InscripcionEspecial"> | string | null
-    fueContactado?: BoolNullableFilter<"InscripcionEspecial"> | boolean | null
-    vinoPresencialmente?: BoolNullableFilter<"InscripcionEspecial"> | boolean | null
+    fueContactado?: BoolFilter<"InscripcionEspecial"> | boolean
+    vinoPresencialmente?: BoolFilter<"InscripcionEspecial"> | boolean
     fechaSolicitud?: DateTimeFilter<"InscripcionEspecial"> | Date | string
     fechaRespuesta?: DateTimeNullableFilter<"InscripcionEspecial"> | Date | string | null
+  }
+
+  export type InscripcionEspecialPeriodoUpsertWithWhereUniqueWithoutUsuarioCreadorInput = {
+    where: InscripcionEspecialPeriodoWhereUniqueInput
+    update: XOR<InscripcionEspecialPeriodoUpdateWithoutUsuarioCreadorInput, InscripcionEspecialPeriodoUncheckedUpdateWithoutUsuarioCreadorInput>
+    create: XOR<InscripcionEspecialPeriodoCreateWithoutUsuarioCreadorInput, InscripcionEspecialPeriodoUncheckedCreateWithoutUsuarioCreadorInput>
+  }
+
+  export type InscripcionEspecialPeriodoUpdateWithWhereUniqueWithoutUsuarioCreadorInput = {
+    where: InscripcionEspecialPeriodoWhereUniqueInput
+    data: XOR<InscripcionEspecialPeriodoUpdateWithoutUsuarioCreadorInput, InscripcionEspecialPeriodoUncheckedUpdateWithoutUsuarioCreadorInput>
+  }
+
+  export type InscripcionEspecialPeriodoUpdateManyWithWhereWithoutUsuarioCreadorInput = {
+    where: InscripcionEspecialPeriodoScalarWhereInput
+    data: XOR<InscripcionEspecialPeriodoUpdateManyMutationInput, InscripcionEspecialPeriodoUncheckedUpdateManyWithoutUsuarioCreadorInput>
+  }
+
+  export type InscripcionEspecialPeriodoScalarWhereInput = {
+    AND?: InscripcionEspecialPeriodoScalarWhereInput | InscripcionEspecialPeriodoScalarWhereInput[]
+    OR?: InscripcionEspecialPeriodoScalarWhereInput[]
+    NOT?: InscripcionEspecialPeriodoScalarWhereInput | InscripcionEspecialPeriodoScalarWhereInput[]
+    id?: IntFilter<"InscripcionEspecialPeriodo"> | number
+    fechaInicio?: DateTimeFilter<"InscripcionEspecialPeriodo"> | Date | string
+    fechaFin?: DateTimeFilter<"InscripcionEspecialPeriodo"> | Date | string
+    usuarioCreadorId?: StringFilter<"InscripcionEspecialPeriodo"> | string
+  }
+
+  export type CursoAyudanteUpsertWithWhereUniqueWithoutUsuarioInput = {
+    where: CursoAyudanteWhereUniqueInput
+    update: XOR<CursoAyudanteUpdateWithoutUsuarioInput, CursoAyudanteUncheckedUpdateWithoutUsuarioInput>
+    create: XOR<CursoAyudanteCreateWithoutUsuarioInput, CursoAyudanteUncheckedCreateWithoutUsuarioInput>
+  }
+
+  export type CursoAyudanteUpdateWithWhereUniqueWithoutUsuarioInput = {
+    where: CursoAyudanteWhereUniqueInput
+    data: XOR<CursoAyudanteUpdateWithoutUsuarioInput, CursoAyudanteUncheckedUpdateWithoutUsuarioInput>
+  }
+
+  export type CursoAyudanteUpdateManyWithWhereWithoutUsuarioInput = {
+    where: CursoAyudanteScalarWhereInput
+    data: XOR<CursoAyudanteUpdateManyMutationInput, CursoAyudanteUncheckedUpdateManyWithoutUsuarioInput>
+  }
+
+  export type CursoUpsertWithWhereUniqueWithoutProfesorInput = {
+    where: CursoWhereUniqueInput
+    update: XOR<CursoUpdateWithoutProfesorInput, CursoUncheckedUpdateWithoutProfesorInput>
+    create: XOR<CursoCreateWithoutProfesorInput, CursoUncheckedCreateWithoutProfesorInput>
+  }
+
+  export type CursoUpdateWithWhereUniqueWithoutProfesorInput = {
+    where: CursoWhereUniqueInput
+    data: XOR<CursoUpdateWithoutProfesorInput, CursoUncheckedUpdateWithoutProfesorInput>
+  }
+
+  export type CursoUpdateManyWithWhereWithoutProfesorInput = {
+    where: CursoScalarWhereInput
+    data: XOR<CursoUpdateManyMutationInput, CursoUncheckedUpdateManyWithoutProfesorInput>
+  }
+
+  export type MateriaJefeTpUpsertWithWhereUniqueWithoutUsuarioInput = {
+    where: MateriaJefeTpWhereUniqueInput
+    update: XOR<MateriaJefeTpUpdateWithoutUsuarioInput, MateriaJefeTpUncheckedUpdateWithoutUsuarioInput>
+    create: XOR<MateriaJefeTpCreateWithoutUsuarioInput, MateriaJefeTpUncheckedCreateWithoutUsuarioInput>
+  }
+
+  export type MateriaJefeTpUpdateWithWhereUniqueWithoutUsuarioInput = {
+    where: MateriaJefeTpWhereUniqueInput
+    data: XOR<MateriaJefeTpUpdateWithoutUsuarioInput, MateriaJefeTpUncheckedUpdateWithoutUsuarioInput>
+  }
+
+  export type MateriaJefeTpUpdateManyWithWhereWithoutUsuarioInput = {
+    where: MateriaJefeTpScalarWhereInput
+    data: XOR<MateriaJefeTpUpdateManyMutationInput, MateriaJefeTpUncheckedUpdateManyWithoutUsuarioInput>
   }
 
   export type MateriaUpsertWithWhereUniqueWithoutDirectorUsuarioInput = {
@@ -92461,188 +95872,6 @@ export namespace Prisma {
     usuarioModificadorId?: StringFilter<"Materia"> | string
   }
 
-  export type MateriaJefeTpUpsertWithWhereUniqueWithoutUsuarioInput = {
-    where: MateriaJefeTpWhereUniqueInput
-    update: XOR<MateriaJefeTpUpdateWithoutUsuarioInput, MateriaJefeTpUncheckedUpdateWithoutUsuarioInput>
-    create: XOR<MateriaJefeTpCreateWithoutUsuarioInput, MateriaJefeTpUncheckedCreateWithoutUsuarioInput>
-  }
-
-  export type MateriaJefeTpUpdateWithWhereUniqueWithoutUsuarioInput = {
-    where: MateriaJefeTpWhereUniqueInput
-    data: XOR<MateriaJefeTpUpdateWithoutUsuarioInput, MateriaJefeTpUncheckedUpdateWithoutUsuarioInput>
-  }
-
-  export type MateriaJefeTpUpdateManyWithWhereWithoutUsuarioInput = {
-    where: MateriaJefeTpScalarWhereInput
-    data: XOR<MateriaJefeTpUpdateManyMutationInput, MateriaJefeTpUncheckedUpdateManyWithoutUsuarioInput>
-  }
-
-  export type ReservaUpsertWithWhereUniqueWithoutUsuarioAprobadorInput = {
-    where: ReservaWhereUniqueInput
-    update: XOR<ReservaUpdateWithoutUsuarioAprobadorInput, ReservaUncheckedUpdateWithoutUsuarioAprobadorInput>
-    create: XOR<ReservaCreateWithoutUsuarioAprobadorInput, ReservaUncheckedCreateWithoutUsuarioAprobadorInput>
-  }
-
-  export type ReservaUpdateWithWhereUniqueWithoutUsuarioAprobadorInput = {
-    where: ReservaWhereUniqueInput
-    data: XOR<ReservaUpdateWithoutUsuarioAprobadorInput, ReservaUncheckedUpdateWithoutUsuarioAprobadorInput>
-  }
-
-  export type ReservaUpdateManyWithWhereWithoutUsuarioAprobadorInput = {
-    where: ReservaScalarWhereInput
-    data: XOR<ReservaUpdateManyMutationInput, ReservaUncheckedUpdateManyWithoutUsuarioAprobadorInput>
-  }
-
-  export type ReservaScalarWhereInput = {
-    AND?: ReservaScalarWhereInput | ReservaScalarWhereInput[]
-    OR?: ReservaScalarWhereInput[]
-    NOT?: ReservaScalarWhereInput | ReservaScalarWhereInput[]
-    id?: IntFilter<"Reserva"> | number
-    estatus?: EnumReservaEstatusFilter<"Reserva"> | $Enums.ReservaEstatus
-    fechaHoraInicio?: DateTimeFilter<"Reserva"> | Date | string
-    fechaHoraFin?: DateTimeFilter<"Reserva"> | Date | string
-    tipo?: EnumReservaTipoFilter<"Reserva"> | $Enums.ReservaTipo
-    asistio?: BoolFilter<"Reserva"> | boolean
-    motivoRechazo?: StringNullableFilter<"Reserva"> | string | null
-    usuarioSolicitoId?: StringFilter<"Reserva"> | string
-    usuarioAprobadorId?: StringNullableFilter<"Reserva"> | string | null
-    usuarioRechazadoId?: StringNullableFilter<"Reserva"> | string | null
-    usuarioRenovoId?: StringNullableFilter<"Reserva"> | string | null
-    usuarioRecibioId?: StringNullableFilter<"Reserva"> | string | null
-    usuarioTutorId?: StringNullableFilter<"Reserva"> | string | null
-    fechaRenovacion?: DateTimeNullableFilter<"Reserva"> | Date | string | null
-    fechaAprobacion?: DateTimeNullableFilter<"Reserva"> | Date | string | null
-    fechaRechazo?: DateTimeNullableFilter<"Reserva"> | Date | string | null
-    fechaRecibido?: DateTimeNullableFilter<"Reserva"> | Date | string | null
-    usuarioCreadorId?: StringFilter<"Reserva"> | string
-    usuarioModificadorId?: StringFilter<"Reserva"> | string
-    fechaCreacion?: DateTimeFilter<"Reserva"> | Date | string
-    fechaModificacion?: DateTimeFilter<"Reserva"> | Date | string
-    mostrarEnPantalla?: BoolFilter<"Reserva"> | boolean
-  }
-
-  export type ReservaUpsertWithWhereUniqueWithoutUsuarioRechazadoInput = {
-    where: ReservaWhereUniqueInput
-    update: XOR<ReservaUpdateWithoutUsuarioRechazadoInput, ReservaUncheckedUpdateWithoutUsuarioRechazadoInput>
-    create: XOR<ReservaCreateWithoutUsuarioRechazadoInput, ReservaUncheckedCreateWithoutUsuarioRechazadoInput>
-  }
-
-  export type ReservaUpdateWithWhereUniqueWithoutUsuarioRechazadoInput = {
-    where: ReservaWhereUniqueInput
-    data: XOR<ReservaUpdateWithoutUsuarioRechazadoInput, ReservaUncheckedUpdateWithoutUsuarioRechazadoInput>
-  }
-
-  export type ReservaUpdateManyWithWhereWithoutUsuarioRechazadoInput = {
-    where: ReservaScalarWhereInput
-    data: XOR<ReservaUpdateManyMutationInput, ReservaUncheckedUpdateManyWithoutUsuarioRechazadoInput>
-  }
-
-  export type ReservaUpsertWithWhereUniqueWithoutUsuarioRecibioInput = {
-    where: ReservaWhereUniqueInput
-    update: XOR<ReservaUpdateWithoutUsuarioRecibioInput, ReservaUncheckedUpdateWithoutUsuarioRecibioInput>
-    create: XOR<ReservaCreateWithoutUsuarioRecibioInput, ReservaUncheckedCreateWithoutUsuarioRecibioInput>
-  }
-
-  export type ReservaUpdateWithWhereUniqueWithoutUsuarioRecibioInput = {
-    where: ReservaWhereUniqueInput
-    data: XOR<ReservaUpdateWithoutUsuarioRecibioInput, ReservaUncheckedUpdateWithoutUsuarioRecibioInput>
-  }
-
-  export type ReservaUpdateManyWithWhereWithoutUsuarioRecibioInput = {
-    where: ReservaScalarWhereInput
-    data: XOR<ReservaUpdateManyMutationInput, ReservaUncheckedUpdateManyWithoutUsuarioRecibioInput>
-  }
-
-  export type ReservaUpsertWithWhereUniqueWithoutUsuarioRenovoInput = {
-    where: ReservaWhereUniqueInput
-    update: XOR<ReservaUpdateWithoutUsuarioRenovoInput, ReservaUncheckedUpdateWithoutUsuarioRenovoInput>
-    create: XOR<ReservaCreateWithoutUsuarioRenovoInput, ReservaUncheckedCreateWithoutUsuarioRenovoInput>
-  }
-
-  export type ReservaUpdateWithWhereUniqueWithoutUsuarioRenovoInput = {
-    where: ReservaWhereUniqueInput
-    data: XOR<ReservaUpdateWithoutUsuarioRenovoInput, ReservaUncheckedUpdateWithoutUsuarioRenovoInput>
-  }
-
-  export type ReservaUpdateManyWithWhereWithoutUsuarioRenovoInput = {
-    where: ReservaScalarWhereInput
-    data: XOR<ReservaUpdateManyMutationInput, ReservaUncheckedUpdateManyWithoutUsuarioRenovoInput>
-  }
-
-  export type ReservaUpsertWithWhereUniqueWithoutUsuarioSolicitoInput = {
-    where: ReservaWhereUniqueInput
-    update: XOR<ReservaUpdateWithoutUsuarioSolicitoInput, ReservaUncheckedUpdateWithoutUsuarioSolicitoInput>
-    create: XOR<ReservaCreateWithoutUsuarioSolicitoInput, ReservaUncheckedCreateWithoutUsuarioSolicitoInput>
-  }
-
-  export type ReservaUpdateWithWhereUniqueWithoutUsuarioSolicitoInput = {
-    where: ReservaWhereUniqueInput
-    data: XOR<ReservaUpdateWithoutUsuarioSolicitoInput, ReservaUncheckedUpdateWithoutUsuarioSolicitoInput>
-  }
-
-  export type ReservaUpdateManyWithWhereWithoutUsuarioSolicitoInput = {
-    where: ReservaScalarWhereInput
-    data: XOR<ReservaUpdateManyMutationInput, ReservaUncheckedUpdateManyWithoutUsuarioSolicitoInput>
-  }
-
-  export type ReservaUpsertWithWhereUniqueWithoutUsuarioTutorInput = {
-    where: ReservaWhereUniqueInput
-    update: XOR<ReservaUpdateWithoutUsuarioTutorInput, ReservaUncheckedUpdateWithoutUsuarioTutorInput>
-    create: XOR<ReservaCreateWithoutUsuarioTutorInput, ReservaUncheckedCreateWithoutUsuarioTutorInput>
-  }
-
-  export type ReservaUpdateWithWhereUniqueWithoutUsuarioTutorInput = {
-    where: ReservaWhereUniqueInput
-    data: XOR<ReservaUpdateWithoutUsuarioTutorInput, ReservaUncheckedUpdateWithoutUsuarioTutorInput>
-  }
-
-  export type ReservaUpdateManyWithWhereWithoutUsuarioTutorInput = {
-    where: ReservaScalarWhereInput
-    data: XOR<ReservaUpdateManyMutationInput, ReservaUncheckedUpdateManyWithoutUsuarioTutorInput>
-  }
-
-  export type ReservaLaboratorioCerradoUpsertWithWhereUniqueWithoutDiscrecionalDocenteInput = {
-    where: ReservaLaboratorioCerradoWhereUniqueInput
-    update: XOR<ReservaLaboratorioCerradoUpdateWithoutDiscrecionalDocenteInput, ReservaLaboratorioCerradoUncheckedUpdateWithoutDiscrecionalDocenteInput>
-    create: XOR<ReservaLaboratorioCerradoCreateWithoutDiscrecionalDocenteInput, ReservaLaboratorioCerradoUncheckedCreateWithoutDiscrecionalDocenteInput>
-  }
-
-  export type ReservaLaboratorioCerradoUpdateWithWhereUniqueWithoutDiscrecionalDocenteInput = {
-    where: ReservaLaboratorioCerradoWhereUniqueInput
-    data: XOR<ReservaLaboratorioCerradoUpdateWithoutDiscrecionalDocenteInput, ReservaLaboratorioCerradoUncheckedUpdateWithoutDiscrecionalDocenteInput>
-  }
-
-  export type ReservaLaboratorioCerradoUpdateManyWithWhereWithoutDiscrecionalDocenteInput = {
-    where: ReservaLaboratorioCerradoScalarWhereInput
-    data: XOR<ReservaLaboratorioCerradoUpdateManyMutationInput, ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteInput>
-  }
-
-  export type SessionUpsertWithWhereUniqueWithoutUserInput = {
-    where: SessionWhereUniqueInput
-    update: XOR<SessionUpdateWithoutUserInput, SessionUncheckedUpdateWithoutUserInput>
-    create: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput>
-  }
-
-  export type SessionUpdateWithWhereUniqueWithoutUserInput = {
-    where: SessionWhereUniqueInput
-    data: XOR<SessionUpdateWithoutUserInput, SessionUncheckedUpdateWithoutUserInput>
-  }
-
-  export type SessionUpdateManyWithWhereWithoutUserInput = {
-    where: SessionScalarWhereInput
-    data: XOR<SessionUpdateManyMutationInput, SessionUncheckedUpdateManyWithoutUserInput>
-  }
-
-  export type SessionScalarWhereInput = {
-    AND?: SessionScalarWhereInput | SessionScalarWhereInput[]
-    OR?: SessionScalarWhereInput[]
-    NOT?: SessionScalarWhereInput | SessionScalarWhereInput[]
-    id?: StringFilter<"Session"> | string
-    sessionToken?: StringFilter<"Session"> | string
-    userId?: StringFilter<"Session"> | string
-    expires?: DateTimeFilter<"Session"> | Date | string
-  }
-
   export type TutorUpsertWithoutUsuarioInput = {
     update: XOR<TutorUpdateWithoutUsuarioInput, TutorUncheckedUpdateWithoutUsuarioInput>
     create: XOR<TutorCreateWithoutUsuarioInput, TutorUncheckedCreateWithoutUsuarioInput>
@@ -92670,102 +95899,20 @@ export namespace Prisma {
     usuarioCreadorId?: StringFieldUpdateOperationsInput | string
   }
 
-  export type DocumentoTipoUpsertWithoutUsuariosInput = {
-    update: XOR<DocumentoTipoUpdateWithoutUsuariosInput, DocumentoTipoUncheckedUpdateWithoutUsuariosInput>
-    create: XOR<DocumentoTipoCreateWithoutUsuariosInput, DocumentoTipoUncheckedCreateWithoutUsuariosInput>
-    where?: DocumentoTipoWhereInput
+  export type ReservaLaboratorioCerradoUpsertWithWhereUniqueWithoutDiscrecionalDocenteInput = {
+    where: ReservaLaboratorioCerradoWhereUniqueInput
+    update: XOR<ReservaLaboratorioCerradoUpdateWithoutDiscrecionalDocenteInput, ReservaLaboratorioCerradoUncheckedUpdateWithoutDiscrecionalDocenteInput>
+    create: XOR<ReservaLaboratorioCerradoCreateWithoutDiscrecionalDocenteInput, ReservaLaboratorioCerradoUncheckedCreateWithoutDiscrecionalDocenteInput>
   }
 
-  export type DocumentoTipoUpdateToOneWithWhereWithoutUsuariosInput = {
-    where?: DocumentoTipoWhereInput
-    data: XOR<DocumentoTipoUpdateWithoutUsuariosInput, DocumentoTipoUncheckedUpdateWithoutUsuariosInput>
+  export type ReservaLaboratorioCerradoUpdateWithWhereUniqueWithoutDiscrecionalDocenteInput = {
+    where: ReservaLaboratorioCerradoWhereUniqueInput
+    data: XOR<ReservaLaboratorioCerradoUpdateWithoutDiscrecionalDocenteInput, ReservaLaboratorioCerradoUncheckedUpdateWithoutDiscrecionalDocenteInput>
   }
 
-  export type DocumentoTipoUpdateWithoutUsuariosInput = {
-    nombre?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type DocumentoTipoUncheckedUpdateWithoutUsuariosInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    nombre?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type PaisUpsertWithoutUsuariosInput = {
-    update: XOR<PaisUpdateWithoutUsuariosInput, PaisUncheckedUpdateWithoutUsuariosInput>
-    create: XOR<PaisCreateWithoutUsuariosInput, PaisUncheckedCreateWithoutUsuariosInput>
-    where?: PaisWhereInput
-  }
-
-  export type PaisUpdateToOneWithWhereWithoutUsuariosInput = {
-    where?: PaisWhereInput
-    data: XOR<PaisUpdateWithoutUsuariosInput, PaisUncheckedUpdateWithoutUsuariosInput>
-  }
-
-  export type PaisUpdateWithoutUsuariosInput = {
-    iso?: StringFieldUpdateOperationsInput | string
-    nombreEspanol?: StringFieldUpdateOperationsInput | string
-    nombreIngles?: StringFieldUpdateOperationsInput | string
-    iso3?: StringFieldUpdateOperationsInput | string
-    codigoNumerico?: IntFieldUpdateOperationsInput | number
-    provincias?: ProvinciaUpdateManyWithoutPaisNestedInput
-  }
-
-  export type PaisUncheckedUpdateWithoutUsuariosInput = {
-    iso?: StringFieldUpdateOperationsInput | string
-    nombreEspanol?: StringFieldUpdateOperationsInput | string
-    nombreIngles?: StringFieldUpdateOperationsInput | string
-    iso3?: StringFieldUpdateOperationsInput | string
-    codigoNumerico?: IntFieldUpdateOperationsInput | number
-    provincias?: ProvinciaUncheckedUpdateManyWithoutPaisNestedInput
-  }
-
-  export type ProvinciaUpsertWithoutUsuariosInput = {
-    update: XOR<ProvinciaUpdateWithoutUsuariosInput, ProvinciaUncheckedUpdateWithoutUsuariosInput>
-    create: XOR<ProvinciaCreateWithoutUsuariosInput, ProvinciaUncheckedCreateWithoutUsuariosInput>
-    where?: ProvinciaWhereInput
-  }
-
-  export type ProvinciaUpdateToOneWithWhereWithoutUsuariosInput = {
-    where?: ProvinciaWhereInput
-    data: XOR<ProvinciaUpdateWithoutUsuariosInput, ProvinciaUncheckedUpdateWithoutUsuariosInput>
-  }
-
-  export type ProvinciaUpdateWithoutUsuariosInput = {
-    iso?: StringFieldUpdateOperationsInput | string
-    nombre?: StringFieldUpdateOperationsInput | string
-    pais?: PaisUpdateOneRequiredWithoutProvinciasNestedInput
-  }
-
-  export type ProvinciaUncheckedUpdateWithoutUsuariosInput = {
-    iso?: StringFieldUpdateOperationsInput | string
-    nombre?: StringFieldUpdateOperationsInput | string
-    paisIso?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type UsuarioRolUpsertWithWhereUniqueWithoutUsuarioInput = {
-    where: UsuarioRolWhereUniqueInput
-    update: XOR<UsuarioRolUpdateWithoutUsuarioInput, UsuarioRolUncheckedUpdateWithoutUsuarioInput>
-    create: XOR<UsuarioRolCreateWithoutUsuarioInput, UsuarioRolUncheckedCreateWithoutUsuarioInput>
-  }
-
-  export type UsuarioRolUpdateWithWhereUniqueWithoutUsuarioInput = {
-    where: UsuarioRolWhereUniqueInput
-    data: XOR<UsuarioRolUpdateWithoutUsuarioInput, UsuarioRolUncheckedUpdateWithoutUsuarioInput>
-  }
-
-  export type UsuarioRolUpdateManyWithWhereWithoutUsuarioInput = {
-    where: UsuarioRolScalarWhereInput
-    data: XOR<UsuarioRolUpdateManyMutationInput, UsuarioRolUncheckedUpdateManyWithoutUsuarioInput>
-  }
-
-  export type UsuarioRolScalarWhereInput = {
-    AND?: UsuarioRolScalarWhereInput | UsuarioRolScalarWhereInput[]
-    OR?: UsuarioRolScalarWhereInput[]
-    NOT?: UsuarioRolScalarWhereInput | UsuarioRolScalarWhereInput[]
-    userId?: StringFilter<"UsuarioRol"> | string
-    rolId?: IntFilter<"UsuarioRol"> | number
-    fechaCreacion?: DateTimeFilter<"UsuarioRol"> | Date | string
-    usuarioCreadorId?: StringFilter<"UsuarioRol"> | string
+  export type ReservaLaboratorioCerradoUpdateManyWithWhereWithoutDiscrecionalDocenteInput = {
+    where: ReservaLaboratorioCerradoScalarWhereInput
+    data: XOR<ReservaLaboratorioCerradoUpdateManyMutationInput, ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteInput>
   }
 
   export type VotoUpsertWithWhereUniqueWithoutUserInput = {
@@ -92782,6 +95929,70 @@ export namespace Prisma {
   export type VotoUpdateManyWithWhereWithoutUserInput = {
     where: VotoScalarWhereInput
     data: XOR<VotoUpdateManyMutationInput, VotoUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type FallaUpsertWithWhereUniqueWithoutReportadoPorInput = {
+    where: FallaWhereUniqueInput
+    update: XOR<FallaUpdateWithoutReportadoPorInput, FallaUncheckedUpdateWithoutReportadoPorInput>
+    create: XOR<FallaCreateWithoutReportadoPorInput, FallaUncheckedCreateWithoutReportadoPorInput>
+  }
+
+  export type FallaUpdateWithWhereUniqueWithoutReportadoPorInput = {
+    where: FallaWhereUniqueInput
+    data: XOR<FallaUpdateWithoutReportadoPorInput, FallaUncheckedUpdateWithoutReportadoPorInput>
+  }
+
+  export type FallaUpdateManyWithWhereWithoutReportadoPorInput = {
+    where: FallaScalarWhereInput
+    data: XOR<FallaUpdateManyMutationInput, FallaUncheckedUpdateManyWithoutReportadoPorInput>
+  }
+
+  export type FallaUpsertWithWhereUniqueWithoutAsignadoAInput = {
+    where: FallaWhereUniqueInput
+    update: XOR<FallaUpdateWithoutAsignadoAInput, FallaUncheckedUpdateWithoutAsignadoAInput>
+    create: XOR<FallaCreateWithoutAsignadoAInput, FallaUncheckedCreateWithoutAsignadoAInput>
+  }
+
+  export type FallaUpdateWithWhereUniqueWithoutAsignadoAInput = {
+    where: FallaWhereUniqueInput
+    data: XOR<FallaUpdateWithoutAsignadoAInput, FallaUncheckedUpdateWithoutAsignadoAInput>
+  }
+
+  export type FallaUpdateManyWithWhereWithoutAsignadoAInput = {
+    where: FallaScalarWhereInput
+    data: XOR<FallaUpdateManyMutationInput, FallaUncheckedUpdateManyWithoutAsignadoAInput>
+  }
+
+  export type FallaHistorialUpsertWithWhereUniqueWithoutReportadoPorInput = {
+    where: FallaHistorialWhereUniqueInput
+    update: XOR<FallaHistorialUpdateWithoutReportadoPorInput, FallaHistorialUncheckedUpdateWithoutReportadoPorInput>
+    create: XOR<FallaHistorialCreateWithoutReportadoPorInput, FallaHistorialUncheckedCreateWithoutReportadoPorInput>
+  }
+
+  export type FallaHistorialUpdateWithWhereUniqueWithoutReportadoPorInput = {
+    where: FallaHistorialWhereUniqueInput
+    data: XOR<FallaHistorialUpdateWithoutReportadoPorInput, FallaHistorialUncheckedUpdateWithoutReportadoPorInput>
+  }
+
+  export type FallaHistorialUpdateManyWithWhereWithoutReportadoPorInput = {
+    where: FallaHistorialScalarWhereInput
+    data: XOR<FallaHistorialUpdateManyMutationInput, FallaHistorialUncheckedUpdateManyWithoutReportadoPorInput>
+  }
+
+  export type FallaHistorialUpsertWithWhereUniqueWithoutAsignadoAInput = {
+    where: FallaHistorialWhereUniqueInput
+    update: XOR<FallaHistorialUpdateWithoutAsignadoAInput, FallaHistorialUncheckedUpdateWithoutAsignadoAInput>
+    create: XOR<FallaHistorialCreateWithoutAsignadoAInput, FallaHistorialUncheckedCreateWithoutAsignadoAInput>
+  }
+
+  export type FallaHistorialUpdateWithWhereUniqueWithoutAsignadoAInput = {
+    where: FallaHistorialWhereUniqueInput
+    data: XOR<FallaHistorialUpdateWithoutAsignadoAInput, FallaHistorialUncheckedUpdateWithoutAsignadoAInput>
+  }
+
+  export type FallaHistorialUpdateManyWithWhereWithoutAsignadoAInput = {
+    where: FallaHistorialScalarWhereInput
+    data: XOR<FallaHistorialUpdateManyMutationInput, FallaHistorialUncheckedUpdateManyWithoutAsignadoAInput>
   }
 
   export type UserCreateWithoutTutorInput = {
@@ -92810,29 +96021,30 @@ export namespace Prisma {
     fechaRegistro?: Date | string
     fechaUltimoAcceso?: Date | string
     fechaUltimaActualizacion?: Date | string
+    documentoTipo?: DocumentoTipoCreateNestedOneWithoutUsuariosInput
+    provincia?: ProvinciaCreateNestedOneWithoutUsuariosInput
+    pais?: PaisCreateNestedOneWithoutUsuariosInput
     accounts?: AccountCreateNestedManyWithoutUserInput
-    cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
-    cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
-    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
-    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
-    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
-    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
-    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
-    materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
-    MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
-    reservasRenovadas?: ReservaCreateNestedManyWithoutUsuarioRenovoInput
-    reservasSolicitadas?: ReservaCreateNestedManyWithoutUsuarioSolicitoInput
-    reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoCreateNestedManyWithoutUsuarioCreadorInput
+    cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
-    sessions?: SessionCreateNestedManyWithoutUserInput
-    documentoTipo?: DocumentoTipoCreateNestedOneWithoutUsuariosInput
-    pais?: PaisCreateNestedOneWithoutUsuariosInput
-    provincia?: ProvinciaCreateNestedOneWithoutUsuariosInput
-    usuarioRol?: UsuarioRolCreateNestedManyWithoutUsuarioInput
     Voto?: VotoCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserUncheckedCreateWithoutTutorInput = {
@@ -92865,25 +96077,26 @@ export namespace Prisma {
     provinciaIso?: string | null
     paisIso?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
-    cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
-    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
-    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
-    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
-    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
-    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
-    materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
-    MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolUncheckedCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
-    reservasRenovadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRenovoInput
-    reservasSolicitadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioSolicitoInput
-    reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUncheckedCreateNestedManyWithoutUsuarioCreadorInput
+    cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
-    usuarioRol?: UsuarioRolUncheckedCreateNestedManyWithoutUsuarioInput
     Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserCreateOrConnectWithoutTutorInput = {
@@ -92928,29 +96141,30 @@ export namespace Prisma {
     fechaRegistro?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaUltimoAcceso?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaUltimaActualizacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    documentoTipo?: DocumentoTipoUpdateOneWithoutUsuariosNestedInput
+    provincia?: ProvinciaUpdateOneWithoutUsuariosNestedInput
+    pais?: PaisUpdateOneWithoutUsuariosNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
-    cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
-    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
-    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
-    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
-    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
-    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
-    materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
-    MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
-    reservasRenovadas?: ReservaUpdateManyWithoutUsuarioRenovoNestedInput
-    reservasSolicitadas?: ReservaUpdateManyWithoutUsuarioSolicitoNestedInput
-    reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUpdateManyWithoutUsuarioCreadorNestedInput
+    cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
-    sessions?: SessionUpdateManyWithoutUserNestedInput
-    documentoTipo?: DocumentoTipoUpdateOneWithoutUsuariosNestedInput
-    pais?: PaisUpdateOneWithoutUsuariosNestedInput
-    provincia?: ProvinciaUpdateOneWithoutUsuariosNestedInput
-    usuarioRol?: UsuarioRolUpdateManyWithoutUsuarioNestedInput
     Voto?: VotoUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUncheckedUpdateWithoutTutorInput = {
@@ -92983,25 +96197,26 @@ export namespace Prisma {
     provinciaIso?: NullableStringFieldUpdateOperationsInput | string | null
     paisIso?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
-    cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
-    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
-    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
-    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
-    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
-    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
-    materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
-    MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUncheckedUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUncheckedUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUncheckedUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
-    reservasRenovadas?: ReservaUncheckedUpdateManyWithoutUsuarioRenovoNestedInput
-    reservasSolicitadas?: ReservaUncheckedUpdateManyWithoutUsuarioSolicitoNestedInput
-    reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUncheckedUpdateManyWithoutUsuarioCreadorNestedInput
+    cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
     ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
-    usuarioRol?: UsuarioRolUncheckedUpdateManyWithoutUsuarioNestedInput
     Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
   }
 
   export type RolCreateWithoutUsuariosInput = {
@@ -93054,29 +96269,30 @@ export namespace Prisma {
     fechaRegistro?: Date | string
     fechaUltimoAcceso?: Date | string
     fechaUltimaActualizacion?: Date | string
+    documentoTipo?: DocumentoTipoCreateNestedOneWithoutUsuariosInput
+    provincia?: ProvinciaCreateNestedOneWithoutUsuariosInput
+    pais?: PaisCreateNestedOneWithoutUsuariosInput
     accounts?: AccountCreateNestedManyWithoutUserInput
-    cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
-    cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
-    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
-    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
-    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
-    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
-    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
-    materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
-    MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    reservasSolicitadas?: ReservaCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
-    reservasRenovadas?: ReservaCreateNestedManyWithoutUsuarioRenovoInput
-    reservasSolicitadas?: ReservaCreateNestedManyWithoutUsuarioSolicitoInput
-    reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
-    sessions?: SessionCreateNestedManyWithoutUserInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoCreateNestedManyWithoutUsuarioCreadorInput
+    cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
-    documentoTipo?: DocumentoTipoCreateNestedOneWithoutUsuariosInput
-    pais?: PaisCreateNestedOneWithoutUsuariosInput
-    provincia?: ProvinciaCreateNestedOneWithoutUsuariosInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserUncheckedCreateWithoutUsuarioRolInput = {
@@ -93109,25 +96325,26 @@ export namespace Prisma {
     provinciaIso?: string | null
     paisIso?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
-    cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
-    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
-    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
-    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
-    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
-    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
-    materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
-    MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    reservasSolicitadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
-    reservasRenovadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRenovoInput
-    reservasSolicitadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioSolicitoInput
-    reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUncheckedCreateNestedManyWithoutUsuarioCreadorInput
+    cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserCreateOrConnectWithoutUsuarioRolInput = {
@@ -93202,29 +96419,30 @@ export namespace Prisma {
     fechaRegistro?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaUltimoAcceso?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaUltimaActualizacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    documentoTipo?: DocumentoTipoUpdateOneWithoutUsuariosNestedInput
+    provincia?: ProvinciaUpdateOneWithoutUsuariosNestedInput
+    pais?: PaisUpdateOneWithoutUsuariosNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
-    cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
-    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
-    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
-    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
-    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
-    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
-    materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
-    MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    reservasSolicitadas?: ReservaUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
-    reservasRenovadas?: ReservaUpdateManyWithoutUsuarioRenovoNestedInput
-    reservasSolicitadas?: ReservaUpdateManyWithoutUsuarioSolicitoNestedInput
-    reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
-    sessions?: SessionUpdateManyWithoutUserNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUpdateManyWithoutUsuarioCreadorNestedInput
+    cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
-    documentoTipo?: DocumentoTipoUpdateOneWithoutUsuariosNestedInput
-    pais?: PaisUpdateOneWithoutUsuariosNestedInput
-    provincia?: ProvinciaUpdateOneWithoutUsuariosNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUncheckedUpdateWithoutUsuarioRolInput = {
@@ -93257,25 +96475,26 @@ export namespace Prisma {
     provinciaIso?: NullableStringFieldUpdateOperationsInput | string | null
     paisIso?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
-    cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
-    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
-    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
-    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
-    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
-    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
-    materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
-    MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    reservasSolicitadas?: ReservaUncheckedUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUncheckedUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
-    reservasRenovadas?: ReservaUncheckedUpdateManyWithoutUsuarioRenovoNestedInput
-    reservasSolicitadas?: ReservaUncheckedUpdateManyWithoutUsuarioSolicitoNestedInput
-    reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUncheckedUpdateManyWithoutUsuarioCreadorNestedInput
+    cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
   }
 
   export type RolPermisoCreateWithoutRolInput = {
@@ -93567,29 +96786,30 @@ export namespace Prisma {
     fechaRegistro?: Date | string
     fechaUltimoAcceso?: Date | string
     fechaUltimaActualizacion?: Date | string
+    documentoTipo?: DocumentoTipoCreateNestedOneWithoutUsuariosInput
+    pais?: PaisCreateNestedOneWithoutUsuariosInput
     accounts?: AccountCreateNestedManyWithoutUserInput
-    cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
-    cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
-    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
-    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
-    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
-    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
-    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
-    materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
-    MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
-    reservasRenovadas?: ReservaCreateNestedManyWithoutUsuarioRenovoInput
-    reservasSolicitadas?: ReservaCreateNestedManyWithoutUsuarioSolicitoInput
-    reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
-    sessions?: SessionCreateNestedManyWithoutUserInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoCreateNestedManyWithoutUsuarioCreadorInput
+    cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
-    documentoTipo?: DocumentoTipoCreateNestedOneWithoutUsuariosInput
-    pais?: PaisCreateNestedOneWithoutUsuariosInput
-    usuarioRol?: UsuarioRolCreateNestedManyWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserUncheckedCreateWithoutProvinciaInput = {
@@ -93620,26 +96840,27 @@ export namespace Prisma {
     fechaUltimaActualizacion?: Date | string
     documentoTipoId?: number | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
-    cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
-    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
-    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
-    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
-    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
-    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
-    materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
-    MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolUncheckedCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
-    reservasRenovadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRenovoInput
-    reservasSolicitadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioSolicitoInput
-    reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUncheckedCreateNestedManyWithoutUsuarioCreadorInput
+    cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
-    usuarioRol?: UsuarioRolUncheckedCreateNestedManyWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserCreateOrConnectWithoutProvinciaInput = {
@@ -93779,29 +97000,30 @@ export namespace Prisma {
     fechaRegistro?: Date | string
     fechaUltimoAcceso?: Date | string
     fechaUltimaActualizacion?: Date | string
+    documentoTipo?: DocumentoTipoCreateNestedOneWithoutUsuariosInput
+    provincia?: ProvinciaCreateNestedOneWithoutUsuariosInput
     accounts?: AccountCreateNestedManyWithoutUserInput
-    cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
-    cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
-    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
-    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
-    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
-    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
-    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
-    materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
-    MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
-    reservasRenovadas?: ReservaCreateNestedManyWithoutUsuarioRenovoInput
-    reservasSolicitadas?: ReservaCreateNestedManyWithoutUsuarioSolicitoInput
-    reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
-    sessions?: SessionCreateNestedManyWithoutUserInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoCreateNestedManyWithoutUsuarioCreadorInput
+    cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
-    documentoTipo?: DocumentoTipoCreateNestedOneWithoutUsuariosInput
-    provincia?: ProvinciaCreateNestedOneWithoutUsuariosInput
-    usuarioRol?: UsuarioRolCreateNestedManyWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserUncheckedCreateWithoutPaisInput = {
@@ -93833,26 +97055,27 @@ export namespace Prisma {
     documentoTipoId?: number | null
     provinciaIso?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
-    cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
-    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
-    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
-    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
-    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
-    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
-    materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
-    MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolUncheckedCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
-    reservasRenovadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRenovoInput
-    reservasSolicitadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioSolicitoInput
-    reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUncheckedCreateNestedManyWithoutUsuarioCreadorInput
+    cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
-    usuarioRol?: UsuarioRolUncheckedCreateNestedManyWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserCreateOrConnectWithoutPaisInput = {
@@ -93932,29 +97155,30 @@ export namespace Prisma {
     fechaRegistro?: Date | string
     fechaUltimoAcceso?: Date | string
     fechaUltimaActualizacion?: Date | string
+    provincia?: ProvinciaCreateNestedOneWithoutUsuariosInput
+    pais?: PaisCreateNestedOneWithoutUsuariosInput
     accounts?: AccountCreateNestedManyWithoutUserInput
-    cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
-    cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
-    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
-    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
-    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
-    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
-    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
-    materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
-    MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
     reservasAprobadas?: ReservaCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaCreateNestedManyWithoutUsuarioRecibioInput
-    reservasRenovadas?: ReservaCreateNestedManyWithoutUsuarioRenovoInput
-    reservasSolicitadas?: ReservaCreateNestedManyWithoutUsuarioSolicitoInput
-    reservasComoTutor?: ReservaCreateNestedManyWithoutUsuarioTutorInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
-    sessions?: SessionCreateNestedManyWithoutUserInput
+    inscripcionesEspeciales?: InscripcionEspecialCreateNestedManyWithoutSolicitanteInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoCreateNestedManyWithoutUsuarioCreadorInput
+    cursosComoAyudante?: CursoAyudanteCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorCreateNestedOneWithoutUsuarioInput
-    pais?: PaisCreateNestedOneWithoutUsuariosInput
-    provincia?: ProvinciaCreateNestedOneWithoutUsuariosInput
-    usuarioRol?: UsuarioRolCreateNestedManyWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserUncheckedCreateWithoutDocumentoTipoInput = {
@@ -93986,26 +97210,27 @@ export namespace Prisma {
     provinciaIso?: string | null
     paisIso?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
-    cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
-    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
-    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
-    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
-    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
-    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
-    materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
-    MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    usuarioRol?: UsuarioRolUncheckedCreateNestedManyWithoutUsuarioInput
+    reservasSolicitadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioSolicitoInput
+    reservasRenovadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRenovoInput
+    reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
     reservasAprobadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioAprobadorInput
     reservasRechazadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRechazadoInput
     reservasRecibidas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRecibioInput
-    reservasRenovadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioRenovoInput
-    reservasSolicitadas?: ReservaUncheckedCreateNestedManyWithoutUsuarioSolicitoInput
-    reservasComoTutor?: ReservaUncheckedCreateNestedManyWithoutUsuarioTutorInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedCreateNestedManyWithoutSolicitanteInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUncheckedCreateNestedManyWithoutUsuarioCreadorInput
+    cursosComoAyudante?: CursoAyudanteUncheckedCreateNestedManyWithoutUsuarioInput
+    cursosComoProfesor?: CursoUncheckedCreateNestedManyWithoutProfesorInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedCreateNestedManyWithoutUsuarioInput
+    materiasDirector?: MateriaUncheckedCreateNestedManyWithoutDirectorUsuarioInput
     tutor?: TutorUncheckedCreateNestedOneWithoutUsuarioInput
-    usuarioRol?: UsuarioRolUncheckedCreateNestedManyWithoutUsuarioInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedCreateNestedManyWithoutDiscrecionalDocenteInput
     Voto?: VotoUncheckedCreateNestedManyWithoutUserInput
+    fallasReportadas?: FallaUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasAsignadas?: FallaUncheckedCreateNestedManyWithoutAsignadoAInput
+    fallasHistReportadas?: FallaHistorialUncheckedCreateNestedManyWithoutReportadoPorInput
+    fallasHistAsignadas?: FallaHistorialUncheckedCreateNestedManyWithoutAsignadoAInput
   }
 
   export type UserCreateOrConnectWithoutDocumentoTipoInput = {
@@ -96674,118 +99899,88 @@ export namespace Prisma {
     refresh_token_expires_in?: number | null
   }
 
-  export type CursoCreateManyProfesorInput = {
-    id?: number
-    horaInicio1: string
-    duracion1: string
-    horaInicio2?: string | null
-    duracion2?: string | null
-    dia1: $Enums.CursoDia
-    dia2?: $Enums.CursoDia | null
-    anioDeCarrera: number
-    activo: boolean
-    ac: string
-    sedeId: number
-    materiaId: number
-    divisionId: number
-    turno: $Enums.TurnoCurso
-    fechaCreacion?: Date | string
-    fechaModificacion?: Date | string
-    usuarioCreadorId: string
-    usuarioModificadorId: string
+  export type SessionCreateManyUserInput = {
+    id?: string
+    sessionToken: string
+    expires: Date | string
   }
 
-  export type CursoAyudanteCreateManyUsuarioInput = {
-    cursoId: number
+  export type UsuarioRolCreateManyUsuarioInput = {
+    rolId: number
     fechaCreacion?: Date | string
     usuarioCreadorId: string
-    fechaModificacion?: Date | string
-    usuarioModificadorId: string
   }
 
-  export type FallaCreateManyAsignadoAInput = {
+  export type ReservaCreateManyUsuarioSolicitoInput = {
     id?: number
-    equipoId?: number | null
-    tipoFalla: string
-    fallas?: FallaCreatefallasInput | string[]
-    descripcionEquipo?: string | null
-    descripcionFalla: string
-    condicion?: string | null
-    fechaReporte?: Date | string
-    reportadoPorId?: string | null
-    estado: string
-    palabrasClave?: string | null
-  }
-
-  export type FallaCreateManyReportadoPorInput = {
-    id?: number
-    equipoId?: number | null
-    tipoFalla: string
-    fallas?: FallaCreatefallasInput | string[]
-    descripcionEquipo?: string | null
-    descripcionFalla: string
-    condicion?: string | null
-    fechaReporte?: Date | string
-    asignadoAId?: string | null
-    estado: string
-    palabrasClave?: string | null
-  }
-
-  export type FallaHistorialCreateManyAsignadoAInput = {
-    id?: number
-    fallaId: number
-    fallas?: FallaHistorialCreatefallasInput | string[]
-    descripcionEquipo?: string | null
-    descripcionFalla: string
-    reportadoPorId?: string | null
-    estado: string
-    fechaReporte: Date | string
-    fechaCambioEstado?: Date | string
-  }
-
-  export type FallaHistorialCreateManyReportadoPorInput = {
-    id?: number
-    fallaId: number
-    fallas?: FallaHistorialCreatefallasInput | string[]
-    descripcionEquipo?: string | null
-    descripcionFalla: string
-    asignadoAId?: string | null
-    estado: string
-    fechaReporte: Date | string
-    fechaCambioEstado?: Date | string
-  }
-
-  export type InscripcionEspecialCreateManySolicitanteInput = {
-    id?: number
-    caso: string
-    justificacion: string
-    turnoAlternativa1?: string | null
-    turnoAlternativa2?: string | null
-    materias?: InscripcionEspecialCreatemateriasInput | number[]
-    materiasAdeudadas?: InscripcionEspecialCreatemateriasAdeudadasInput | number[]
-    estado: string
-    respuesta?: string | null
-    fueContactado?: boolean | null
-    vinoPresencialmente?: boolean | null
-    fechaSolicitud?: Date | string
-    fechaRespuesta?: Date | string | null
-  }
-
-  export type MateriaCreateManyDirectorUsuarioInput = {
-    id?: number
-    nombre: string
-    codigo: string
-    anio: number
-    duracion: $Enums.MateriaDuracion
-    tipo: $Enums.MateriaTipo
-    fechaCreacion?: Date | string
-    fechaModificacion?: Date | string
+    estatus: $Enums.ReservaEstatus
+    fechaHoraInicio: Date | string
+    fechaHoraFin: Date | string
+    tipo: $Enums.ReservaTipo
+    asistio?: boolean
+    motivoRechazo?: string | null
+    usuarioAprobadorId?: string | null
+    usuarioRechazadoId?: string | null
+    usuarioRenovoId?: string | null
+    usuarioRecibioId?: string | null
+    usuarioTutorId?: string | null
+    fechaRenovacion?: Date | string | null
+    fechaAprobacion?: Date | string | null
+    fechaRechazo?: Date | string | null
+    fechaRecibido?: Date | string | null
     usuarioCreadorId: string
     usuarioModificadorId: string
+    fechaCreacion?: Date | string
+    fechaModificacion?: Date | string
+    mostrarEnPantalla?: boolean
   }
 
-  export type MateriaJefeTpCreateManyUsuarioInput = {
-    materiaId: number
+  export type ReservaCreateManyUsuarioRenovoInput = {
+    id?: number
+    estatus: $Enums.ReservaEstatus
+    fechaHoraInicio: Date | string
+    fechaHoraFin: Date | string
+    tipo: $Enums.ReservaTipo
+    asistio?: boolean
+    motivoRechazo?: string | null
+    usuarioSolicitoId: string
+    usuarioAprobadorId?: string | null
+    usuarioRechazadoId?: string | null
+    usuarioRecibioId?: string | null
+    usuarioTutorId?: string | null
+    fechaRenovacion?: Date | string | null
+    fechaAprobacion?: Date | string | null
+    fechaRechazo?: Date | string | null
+    fechaRecibido?: Date | string | null
+    usuarioCreadorId: string
+    usuarioModificadorId: string
+    fechaCreacion?: Date | string
+    fechaModificacion?: Date | string
+    mostrarEnPantalla?: boolean
+  }
+
+  export type ReservaCreateManyUsuarioTutorInput = {
+    id?: number
+    estatus: $Enums.ReservaEstatus
+    fechaHoraInicio: Date | string
+    fechaHoraFin: Date | string
+    tipo: $Enums.ReservaTipo
+    asistio?: boolean
+    motivoRechazo?: string | null
+    usuarioSolicitoId: string
+    usuarioAprobadorId?: string | null
+    usuarioRechazadoId?: string | null
+    usuarioRenovoId?: string | null
+    usuarioRecibioId?: string | null
+    fechaRenovacion?: Date | string | null
+    fechaAprobacion?: Date | string | null
+    fechaRechazo?: Date | string | null
+    fechaRecibido?: Date | string | null
+    usuarioCreadorId: string
+    usuarioModificadorId: string
+    fechaCreacion?: Date | string
+    fechaModificacion?: Date | string
+    mostrarEnPantalla?: boolean
   }
 
   export type ReservaCreateManyUsuarioAprobadorInput = {
@@ -96860,76 +100055,72 @@ export namespace Prisma {
     mostrarEnPantalla?: boolean
   }
 
-  export type ReservaCreateManyUsuarioRenovoInput = {
+  export type InscripcionEspecialCreateManySolicitanteInput = {
     id?: number
-    estatus: $Enums.ReservaEstatus
-    fechaHoraInicio: Date | string
-    fechaHoraFin: Date | string
-    tipo: $Enums.ReservaTipo
-    asistio?: boolean
-    motivoRechazo?: string | null
-    usuarioSolicitoId: string
-    usuarioAprobadorId?: string | null
-    usuarioRechazadoId?: string | null
-    usuarioRecibioId?: string | null
-    usuarioTutorId?: string | null
-    fechaRenovacion?: Date | string | null
-    fechaAprobacion?: Date | string | null
-    fechaRechazo?: Date | string | null
-    fechaRecibido?: Date | string | null
-    usuarioCreadorId: string
-    usuarioModificadorId: string
-    fechaCreacion?: Date | string
-    fechaModificacion?: Date | string
-    mostrarEnPantalla?: boolean
+    caso: string
+    justificacion: string
+    turnoAlternativa1?: string | null
+    turnoAlternativa2?: string | null
+    materias?: InscripcionEspecialCreatemateriasInput | number[]
+    materiasAdeudadas?: InscripcionEspecialCreatemateriasAdeudadasInput | number[]
+    estado: string
+    respuesta?: string | null
+    fueContactado?: boolean
+    vinoPresencialmente?: boolean
+    fechaSolicitud?: Date | string
+    fechaRespuesta?: Date | string | null
   }
 
-  export type ReservaCreateManyUsuarioSolicitoInput = {
+  export type InscripcionEspecialPeriodoCreateManyUsuarioCreadorInput = {
     id?: number
-    estatus: $Enums.ReservaEstatus
-    fechaHoraInicio: Date | string
-    fechaHoraFin: Date | string
-    tipo: $Enums.ReservaTipo
-    asistio?: boolean
-    motivoRechazo?: string | null
-    usuarioAprobadorId?: string | null
-    usuarioRechazadoId?: string | null
-    usuarioRenovoId?: string | null
-    usuarioRecibioId?: string | null
-    usuarioTutorId?: string | null
-    fechaRenovacion?: Date | string | null
-    fechaAprobacion?: Date | string | null
-    fechaRechazo?: Date | string | null
-    fechaRecibido?: Date | string | null
-    usuarioCreadorId: string
-    usuarioModificadorId: string
-    fechaCreacion?: Date | string
-    fechaModificacion?: Date | string
-    mostrarEnPantalla?: boolean
+    fechaInicio: Date | string
+    fechaFin: Date | string
   }
 
-  export type ReservaCreateManyUsuarioTutorInput = {
-    id?: number
-    estatus: $Enums.ReservaEstatus
-    fechaHoraInicio: Date | string
-    fechaHoraFin: Date | string
-    tipo: $Enums.ReservaTipo
-    asistio?: boolean
-    motivoRechazo?: string | null
-    usuarioSolicitoId: string
-    usuarioAprobadorId?: string | null
-    usuarioRechazadoId?: string | null
-    usuarioRenovoId?: string | null
-    usuarioRecibioId?: string | null
-    fechaRenovacion?: Date | string | null
-    fechaAprobacion?: Date | string | null
-    fechaRechazo?: Date | string | null
-    fechaRecibido?: Date | string | null
+  export type CursoAyudanteCreateManyUsuarioInput = {
+    cursoId: number
+    fechaCreacion?: Date | string
     usuarioCreadorId: string
+    fechaModificacion?: Date | string
     usuarioModificadorId: string
+  }
+
+  export type CursoCreateManyProfesorInput = {
+    id?: number
+    horaInicio1: string
+    duracion1: string
+    horaInicio2?: string | null
+    duracion2?: string | null
+    dia1: $Enums.CursoDia
+    dia2?: $Enums.CursoDia | null
+    anioDeCarrera: number
+    activo: boolean
+    ac: string
+    sedeId: number
+    materiaId: number
+    divisionId: number
+    turno: $Enums.TurnoCurso
     fechaCreacion?: Date | string
     fechaModificacion?: Date | string
-    mostrarEnPantalla?: boolean
+    usuarioCreadorId: string
+    usuarioModificadorId: string
+  }
+
+  export type MateriaJefeTpCreateManyUsuarioInput = {
+    materiaId: number
+  }
+
+  export type MateriaCreateManyDirectorUsuarioInput = {
+    id?: number
+    nombre: string
+    codigo: string
+    anio: number
+    duracion: $Enums.MateriaDuracion
+    tipo: $Enums.MateriaTipo
+    fechaCreacion?: Date | string
+    fechaModificacion?: Date | string
+    usuarioCreadorId: string
+    usuarioModificadorId: string
   }
 
   export type ReservaLaboratorioCerradoCreateManyDiscrecionalDocenteInput = {
@@ -96950,24 +100141,64 @@ export namespace Prisma {
     usuarioModificadorId: string
   }
 
-  export type SessionCreateManyUserInput = {
-    id?: string
-    sessionToken: string
-    expires: Date | string
-  }
-
-  export type UsuarioRolCreateManyUsuarioInput = {
-    rolId: number
-    fechaCreacion?: Date | string
-    usuarioCreadorId: string
-  }
-
   export type VotoCreateManyUserInput = {
     id?: number
     actaId: number
     posicion: $Enums.Posicion
     comentario?: string | null
     fechaEmision?: Date | string
+  }
+
+  export type FallaCreateManyReportadoPorInput = {
+    id?: number
+    equipoId?: number | null
+    tipoFalla: string
+    fallas?: FallaCreatefallasInput | string[]
+    descripcionEquipo?: string | null
+    descripcionFalla: string
+    condicion?: string | null
+    fechaReporte?: Date | string
+    asignadoAId?: string | null
+    estado: string
+    palabrasClave?: string | null
+  }
+
+  export type FallaCreateManyAsignadoAInput = {
+    id?: number
+    equipoId?: number | null
+    tipoFalla: string
+    fallas?: FallaCreatefallasInput | string[]
+    descripcionEquipo?: string | null
+    descripcionFalla: string
+    condicion?: string | null
+    fechaReporte?: Date | string
+    reportadoPorId?: string | null
+    estado: string
+    palabrasClave?: string | null
+  }
+
+  export type FallaHistorialCreateManyReportadoPorInput = {
+    id?: number
+    fallaId: number
+    fallas?: FallaHistorialCreatefallasInput | string[]
+    descripcionEquipo?: string | null
+    descripcionFalla: string
+    asignadoAId?: string | null
+    estado: string
+    fechaReporte: Date | string
+    fechaCambioEstado?: Date | string
+  }
+
+  export type FallaHistorialCreateManyAsignadoAInput = {
+    id?: number
+    fallaId: number
+    fallas?: FallaHistorialCreatefallasInput | string[]
+    descripcionEquipo?: string | null
+    descripcionFalla: string
+    reportadoPorId?: string | null
+    estado: string
+    fechaReporte: Date | string
+    fechaCambioEstado?: Date | string
   }
 
   export type AccountUpdateWithoutUserInput = {
@@ -97018,359 +100249,277 @@ export namespace Prisma {
     refresh_token_expires_in?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
-  export type CursoUpdateWithoutProfesorInput = {
-    horaInicio1?: StringFieldUpdateOperationsInput | string
-    duracion1?: StringFieldUpdateOperationsInput | string
-    horaInicio2?: NullableStringFieldUpdateOperationsInput | string | null
-    duracion2?: NullableStringFieldUpdateOperationsInput | string | null
-    dia1?: EnumCursoDiaFieldUpdateOperationsInput | $Enums.CursoDia
-    dia2?: NullableEnumCursoDiaFieldUpdateOperationsInput | $Enums.CursoDia | null
-    anioDeCarrera?: IntFieldUpdateOperationsInput | number
-    activo?: BoolFieldUpdateOperationsInput | boolean
-    ac?: StringFieldUpdateOperationsInput | string
-    turno?: EnumTurnoCursoFieldUpdateOperationsInput | $Enums.TurnoCurso
-    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
-    fechaModificacion?: DateTimeFieldUpdateOperationsInput | Date | string
-    usuarioCreadorId?: StringFieldUpdateOperationsInput | string
-    usuarioModificadorId?: StringFieldUpdateOperationsInput | string
-    division?: DivisionUpdateOneRequiredWithoutCursosNestedInput
-    materia?: MateriaUpdateOneRequiredWithoutCursosNestedInput
-    sede?: SedeUpdateOneRequiredWithoutCursosNestedInput
-    ayudantes?: CursoAyudanteUpdateManyWithoutCursoNestedInput
-    reservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutCursoNestedInput
+  export type SessionUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sessionToken?: StringFieldUpdateOperationsInput | string
+    expires?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type CursoUncheckedUpdateWithoutProfesorInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    horaInicio1?: StringFieldUpdateOperationsInput | string
-    duracion1?: StringFieldUpdateOperationsInput | string
-    horaInicio2?: NullableStringFieldUpdateOperationsInput | string | null
-    duracion2?: NullableStringFieldUpdateOperationsInput | string | null
-    dia1?: EnumCursoDiaFieldUpdateOperationsInput | $Enums.CursoDia
-    dia2?: NullableEnumCursoDiaFieldUpdateOperationsInput | $Enums.CursoDia | null
-    anioDeCarrera?: IntFieldUpdateOperationsInput | number
-    activo?: BoolFieldUpdateOperationsInput | boolean
-    ac?: StringFieldUpdateOperationsInput | string
-    sedeId?: IntFieldUpdateOperationsInput | number
-    materiaId?: IntFieldUpdateOperationsInput | number
-    divisionId?: IntFieldUpdateOperationsInput | number
-    turno?: EnumTurnoCursoFieldUpdateOperationsInput | $Enums.TurnoCurso
-    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
-    fechaModificacion?: DateTimeFieldUpdateOperationsInput | Date | string
-    usuarioCreadorId?: StringFieldUpdateOperationsInput | string
-    usuarioModificadorId?: StringFieldUpdateOperationsInput | string
-    ayudantes?: CursoAyudanteUncheckedUpdateManyWithoutCursoNestedInput
-    reservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutCursoNestedInput
+  export type SessionUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sessionToken?: StringFieldUpdateOperationsInput | string
+    expires?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type CursoUncheckedUpdateManyWithoutProfesorInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    horaInicio1?: StringFieldUpdateOperationsInput | string
-    duracion1?: StringFieldUpdateOperationsInput | string
-    horaInicio2?: NullableStringFieldUpdateOperationsInput | string | null
-    duracion2?: NullableStringFieldUpdateOperationsInput | string | null
-    dia1?: EnumCursoDiaFieldUpdateOperationsInput | $Enums.CursoDia
-    dia2?: NullableEnumCursoDiaFieldUpdateOperationsInput | $Enums.CursoDia | null
-    anioDeCarrera?: IntFieldUpdateOperationsInput | number
-    activo?: BoolFieldUpdateOperationsInput | boolean
-    ac?: StringFieldUpdateOperationsInput | string
-    sedeId?: IntFieldUpdateOperationsInput | number
-    materiaId?: IntFieldUpdateOperationsInput | number
-    divisionId?: IntFieldUpdateOperationsInput | number
-    turno?: EnumTurnoCursoFieldUpdateOperationsInput | $Enums.TurnoCurso
-    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
-    fechaModificacion?: DateTimeFieldUpdateOperationsInput | Date | string
-    usuarioCreadorId?: StringFieldUpdateOperationsInput | string
-    usuarioModificadorId?: StringFieldUpdateOperationsInput | string
+  export type SessionUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sessionToken?: StringFieldUpdateOperationsInput | string
+    expires?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type CursoAyudanteUpdateWithoutUsuarioInput = {
+  export type UsuarioRolUpdateWithoutUsuarioInput = {
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
     usuarioCreadorId?: StringFieldUpdateOperationsInput | string
-    fechaModificacion?: DateTimeFieldUpdateOperationsInput | Date | string
-    usuarioModificadorId?: StringFieldUpdateOperationsInput | string
-    curso?: CursoUpdateOneRequiredWithoutAyudantesNestedInput
+    rol?: RolUpdateOneRequiredWithoutUsuariosNestedInput
   }
 
-  export type CursoAyudanteUncheckedUpdateWithoutUsuarioInput = {
-    cursoId?: IntFieldUpdateOperationsInput | number
+  export type UsuarioRolUncheckedUpdateWithoutUsuarioInput = {
+    rolId?: IntFieldUpdateOperationsInput | number
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
     usuarioCreadorId?: StringFieldUpdateOperationsInput | string
-    fechaModificacion?: DateTimeFieldUpdateOperationsInput | Date | string
-    usuarioModificadorId?: StringFieldUpdateOperationsInput | string
   }
 
-  export type CursoAyudanteUncheckedUpdateManyWithoutUsuarioInput = {
-    cursoId?: IntFieldUpdateOperationsInput | number
+  export type UsuarioRolUncheckedUpdateManyWithoutUsuarioInput = {
+    rolId?: IntFieldUpdateOperationsInput | number
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
     usuarioCreadorId?: StringFieldUpdateOperationsInput | string
-    fechaModificacion?: DateTimeFieldUpdateOperationsInput | Date | string
-    usuarioModificadorId?: StringFieldUpdateOperationsInput | string
   }
 
-  export type FallaUpdateWithoutAsignadoAInput = {
-    tipoFalla?: StringFieldUpdateOperationsInput | string
-    fallas?: FallaUpdatefallasInput | string[]
-    descripcionEquipo?: NullableStringFieldUpdateOperationsInput | string | null
-    descripcionFalla?: StringFieldUpdateOperationsInput | string
-    condicion?: NullableStringFieldUpdateOperationsInput | string | null
-    fechaReporte?: DateTimeFieldUpdateOperationsInput | Date | string
-    estado?: StringFieldUpdateOperationsInput | string
-    palabrasClave?: NullableStringFieldUpdateOperationsInput | string | null
-    equipo?: EquipoUpdateOneWithoutFallaPcNestedInput
-    reportadoPor?: UserUpdateOneWithoutFallasReportadasNestedInput
-    historial?: FallaHistorialUpdateManyWithoutFallaNestedInput
-  }
-
-  export type FallaUncheckedUpdateWithoutAsignadoAInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    equipoId?: NullableIntFieldUpdateOperationsInput | number | null
-    tipoFalla?: StringFieldUpdateOperationsInput | string
-    fallas?: FallaUpdatefallasInput | string[]
-    descripcionEquipo?: NullableStringFieldUpdateOperationsInput | string | null
-    descripcionFalla?: StringFieldUpdateOperationsInput | string
-    condicion?: NullableStringFieldUpdateOperationsInput | string | null
-    fechaReporte?: DateTimeFieldUpdateOperationsInput | Date | string
-    reportadoPorId?: NullableStringFieldUpdateOperationsInput | string | null
-    estado?: StringFieldUpdateOperationsInput | string
-    palabrasClave?: NullableStringFieldUpdateOperationsInput | string | null
-    historial?: FallaHistorialUncheckedUpdateManyWithoutFallaNestedInput
-  }
-
-  export type FallaUncheckedUpdateManyWithoutAsignadoAInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    equipoId?: NullableIntFieldUpdateOperationsInput | number | null
-    tipoFalla?: StringFieldUpdateOperationsInput | string
-    fallas?: FallaUpdatefallasInput | string[]
-    descripcionEquipo?: NullableStringFieldUpdateOperationsInput | string | null
-    descripcionFalla?: StringFieldUpdateOperationsInput | string
-    condicion?: NullableStringFieldUpdateOperationsInput | string | null
-    fechaReporte?: DateTimeFieldUpdateOperationsInput | Date | string
-    reportadoPorId?: NullableStringFieldUpdateOperationsInput | string | null
-    estado?: StringFieldUpdateOperationsInput | string
-    palabrasClave?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type FallaUpdateWithoutReportadoPorInput = {
-    tipoFalla?: StringFieldUpdateOperationsInput | string
-    fallas?: FallaUpdatefallasInput | string[]
-    descripcionEquipo?: NullableStringFieldUpdateOperationsInput | string | null
-    descripcionFalla?: StringFieldUpdateOperationsInput | string
-    condicion?: NullableStringFieldUpdateOperationsInput | string | null
-    fechaReporte?: DateTimeFieldUpdateOperationsInput | Date | string
-    estado?: StringFieldUpdateOperationsInput | string
-    palabrasClave?: NullableStringFieldUpdateOperationsInput | string | null
-    asignadoA?: UserUpdateOneWithoutFallasAsignadasNestedInput
-    equipo?: EquipoUpdateOneWithoutFallaPcNestedInput
-    historial?: FallaHistorialUpdateManyWithoutFallaNestedInput
-  }
-
-  export type FallaUncheckedUpdateWithoutReportadoPorInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    equipoId?: NullableIntFieldUpdateOperationsInput | number | null
-    tipoFalla?: StringFieldUpdateOperationsInput | string
-    fallas?: FallaUpdatefallasInput | string[]
-    descripcionEquipo?: NullableStringFieldUpdateOperationsInput | string | null
-    descripcionFalla?: StringFieldUpdateOperationsInput | string
-    condicion?: NullableStringFieldUpdateOperationsInput | string | null
-    fechaReporte?: DateTimeFieldUpdateOperationsInput | Date | string
-    asignadoAId?: NullableStringFieldUpdateOperationsInput | string | null
-    estado?: StringFieldUpdateOperationsInput | string
-    palabrasClave?: NullableStringFieldUpdateOperationsInput | string | null
-    historial?: FallaHistorialUncheckedUpdateManyWithoutFallaNestedInput
-  }
-
-  export type FallaUncheckedUpdateManyWithoutReportadoPorInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    equipoId?: NullableIntFieldUpdateOperationsInput | number | null
-    tipoFalla?: StringFieldUpdateOperationsInput | string
-    fallas?: FallaUpdatefallasInput | string[]
-    descripcionEquipo?: NullableStringFieldUpdateOperationsInput | string | null
-    descripcionFalla?: StringFieldUpdateOperationsInput | string
-    condicion?: NullableStringFieldUpdateOperationsInput | string | null
-    fechaReporte?: DateTimeFieldUpdateOperationsInput | Date | string
-    asignadoAId?: NullableStringFieldUpdateOperationsInput | string | null
-    estado?: StringFieldUpdateOperationsInput | string
-    palabrasClave?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type FallaHistorialUpdateWithoutAsignadoAInput = {
-    fallas?: FallaHistorialUpdatefallasInput | string[]
-    descripcionEquipo?: NullableStringFieldUpdateOperationsInput | string | null
-    descripcionFalla?: StringFieldUpdateOperationsInput | string
-    estado?: StringFieldUpdateOperationsInput | string
-    fechaReporte?: DateTimeFieldUpdateOperationsInput | Date | string
-    fechaCambioEstado?: DateTimeFieldUpdateOperationsInput | Date | string
-    falla?: FallaUpdateOneRequiredWithoutHistorialNestedInput
-    reportadoPor?: UserUpdateOneWithoutFallasHistReportadasNestedInput
-  }
-
-  export type FallaHistorialUncheckedUpdateWithoutAsignadoAInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    fallaId?: IntFieldUpdateOperationsInput | number
-    fallas?: FallaHistorialUpdatefallasInput | string[]
-    descripcionEquipo?: NullableStringFieldUpdateOperationsInput | string | null
-    descripcionFalla?: StringFieldUpdateOperationsInput | string
-    reportadoPorId?: NullableStringFieldUpdateOperationsInput | string | null
-    estado?: StringFieldUpdateOperationsInput | string
-    fechaReporte?: DateTimeFieldUpdateOperationsInput | Date | string
-    fechaCambioEstado?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type FallaHistorialUncheckedUpdateManyWithoutAsignadoAInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    fallaId?: IntFieldUpdateOperationsInput | number
-    fallas?: FallaHistorialUpdatefallasInput | string[]
-    descripcionEquipo?: NullableStringFieldUpdateOperationsInput | string | null
-    descripcionFalla?: StringFieldUpdateOperationsInput | string
-    reportadoPorId?: NullableStringFieldUpdateOperationsInput | string | null
-    estado?: StringFieldUpdateOperationsInput | string
-    fechaReporte?: DateTimeFieldUpdateOperationsInput | Date | string
-    fechaCambioEstado?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type FallaHistorialUpdateWithoutReportadoPorInput = {
-    fallas?: FallaHistorialUpdatefallasInput | string[]
-    descripcionEquipo?: NullableStringFieldUpdateOperationsInput | string | null
-    descripcionFalla?: StringFieldUpdateOperationsInput | string
-    estado?: StringFieldUpdateOperationsInput | string
-    fechaReporte?: DateTimeFieldUpdateOperationsInput | Date | string
-    fechaCambioEstado?: DateTimeFieldUpdateOperationsInput | Date | string
-    asignadoA?: UserUpdateOneWithoutFallasHistAsignadasNestedInput
-    falla?: FallaUpdateOneRequiredWithoutHistorialNestedInput
-  }
-
-  export type FallaHistorialUncheckedUpdateWithoutReportadoPorInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    fallaId?: IntFieldUpdateOperationsInput | number
-    fallas?: FallaHistorialUpdatefallasInput | string[]
-    descripcionEquipo?: NullableStringFieldUpdateOperationsInput | string | null
-    descripcionFalla?: StringFieldUpdateOperationsInput | string
-    asignadoAId?: NullableStringFieldUpdateOperationsInput | string | null
-    estado?: StringFieldUpdateOperationsInput | string
-    fechaReporte?: DateTimeFieldUpdateOperationsInput | Date | string
-    fechaCambioEstado?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type FallaHistorialUncheckedUpdateManyWithoutReportadoPorInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    fallaId?: IntFieldUpdateOperationsInput | number
-    fallas?: FallaHistorialUpdatefallasInput | string[]
-    descripcionEquipo?: NullableStringFieldUpdateOperationsInput | string | null
-    descripcionFalla?: StringFieldUpdateOperationsInput | string
-    asignadoAId?: NullableStringFieldUpdateOperationsInput | string | null
-    estado?: StringFieldUpdateOperationsInput | string
-    fechaReporte?: DateTimeFieldUpdateOperationsInput | Date | string
-    fechaCambioEstado?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type InscripcionEspecialUpdateWithoutSolicitanteInput = {
-    caso?: StringFieldUpdateOperationsInput | string
-    justificacion?: StringFieldUpdateOperationsInput | string
-    turnoAlternativa1?: NullableStringFieldUpdateOperationsInput | string | null
-    turnoAlternativa2?: NullableStringFieldUpdateOperationsInput | string | null
-    materias?: InscripcionEspecialUpdatemateriasInput | number[]
-    materiasAdeudadas?: InscripcionEspecialUpdatemateriasAdeudadasInput | number[]
-    estado?: StringFieldUpdateOperationsInput | string
-    respuesta?: NullableStringFieldUpdateOperationsInput | string | null
-    fueContactado?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    vinoPresencialmente?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
-    fechaRespuesta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  }
-
-  export type InscripcionEspecialUncheckedUpdateWithoutSolicitanteInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    caso?: StringFieldUpdateOperationsInput | string
-    justificacion?: StringFieldUpdateOperationsInput | string
-    turnoAlternativa1?: NullableStringFieldUpdateOperationsInput | string | null
-    turnoAlternativa2?: NullableStringFieldUpdateOperationsInput | string | null
-    materias?: InscripcionEspecialUpdatemateriasInput | number[]
-    materiasAdeudadas?: InscripcionEspecialUpdatemateriasAdeudadasInput | number[]
-    estado?: StringFieldUpdateOperationsInput | string
-    respuesta?: NullableStringFieldUpdateOperationsInput | string | null
-    fueContactado?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    vinoPresencialmente?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
-    fechaRespuesta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  }
-
-  export type InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    caso?: StringFieldUpdateOperationsInput | string
-    justificacion?: StringFieldUpdateOperationsInput | string
-    turnoAlternativa1?: NullableStringFieldUpdateOperationsInput | string | null
-    turnoAlternativa2?: NullableStringFieldUpdateOperationsInput | string | null
-    materias?: InscripcionEspecialUpdatemateriasInput | number[]
-    materiasAdeudadas?: InscripcionEspecialUpdatemateriasAdeudadasInput | number[]
-    estado?: StringFieldUpdateOperationsInput | string
-    respuesta?: NullableStringFieldUpdateOperationsInput | string | null
-    fueContactado?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    vinoPresencialmente?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
-    fechaRespuesta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  }
-
-  export type MateriaUpdateWithoutDirectorUsuarioInput = {
-    nombre?: StringFieldUpdateOperationsInput | string
-    codigo?: StringFieldUpdateOperationsInput | string
-    anio?: IntFieldUpdateOperationsInput | number
-    duracion?: EnumMateriaDuracionFieldUpdateOperationsInput | $Enums.MateriaDuracion
-    tipo?: EnumMateriaTipoFieldUpdateOperationsInput | $Enums.MateriaTipo
-    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
-    fechaModificacion?: DateTimeFieldUpdateOperationsInput | Date | string
+  export type ReservaUpdateWithoutUsuarioSolicitoInput = {
+    estatus?: EnumReservaEstatusFieldUpdateOperationsInput | $Enums.ReservaEstatus
+    fechaHoraInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaHoraFin?: DateTimeFieldUpdateOperationsInput | Date | string
+    tipo?: EnumReservaTipoFieldUpdateOperationsInput | $Enums.ReservaTipo
+    asistio?: BoolFieldUpdateOperationsInput | boolean
+    motivoRechazo?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaRenovacion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaAprobacion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaRechazo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaRecibido?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     usuarioCreadorId?: StringFieldUpdateOperationsInput | string
     usuarioModificadorId?: StringFieldUpdateOperationsInput | string
-    cursos?: CursoUpdateManyWithoutMateriaNestedInput
-    libros?: LibroMateriaUpdateManyWithoutMateriaNestedInput
-    correlativa?: MateriaCorrelativaUpdateManyWithoutCorrelativaNestedInput
-    materiaPrerequisito?: MateriaCorrelativaUpdateManyWithoutMateriaPrerequisitoNestedInput
-    jefeTrabajoPracticos?: MateriaJefeTpUpdateManyWithoutMateriaNestedInput
-    reservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalMateriaNestedInput
-  }
-
-  export type MateriaUncheckedUpdateWithoutDirectorUsuarioInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    nombre?: StringFieldUpdateOperationsInput | string
-    codigo?: StringFieldUpdateOperationsInput | string
-    anio?: IntFieldUpdateOperationsInput | number
-    duracion?: EnumMateriaDuracionFieldUpdateOperationsInput | $Enums.MateriaDuracion
-    tipo?: EnumMateriaTipoFieldUpdateOperationsInput | $Enums.MateriaTipo
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaModificacion?: DateTimeFieldUpdateOperationsInput | Date | string
-    usuarioCreadorId?: StringFieldUpdateOperationsInput | string
-    usuarioModificadorId?: StringFieldUpdateOperationsInput | string
-    cursos?: CursoUncheckedUpdateManyWithoutMateriaNestedInput
-    libros?: LibroMateriaUncheckedUpdateManyWithoutMateriaNestedInput
-    correlativa?: MateriaCorrelativaUncheckedUpdateManyWithoutCorrelativaNestedInput
-    materiaPrerequisito?: MateriaCorrelativaUncheckedUpdateManyWithoutMateriaPrerequisitoNestedInput
-    jefeTrabajoPracticos?: MateriaJefeTpUncheckedUpdateManyWithoutMateriaNestedInput
-    reservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalMateriaNestedInput
+    mostrarEnPantalla?: BoolFieldUpdateOperationsInput | boolean
+    usuarioAprobador?: UserUpdateOneWithoutReservasAprobadasNestedInput
+    usuarioRechazado?: UserUpdateOneWithoutReservasRechazadasNestedInput
+    usuarioRecibio?: UserUpdateOneWithoutReservasRecibidasNestedInput
+    usuarioRenovo?: UserUpdateOneWithoutReservasRenovadasNestedInput
+    usuarioTutor?: UserUpdateOneWithoutReservasComoTutorNestedInput
+    reservaEquipo?: ReservaEquipoUpdateOneWithoutReservaNestedInput
+    reservaLaboratorioAbierto?: ReservaLaboratorioAbiertoUpdateOneWithoutReservaNestedInput
+    reservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateOneWithoutReservaNestedInput
+    reservaLibro?: ReservaLibroUpdateOneWithoutReservaNestedInput
   }
 
-  export type MateriaUncheckedUpdateManyWithoutDirectorUsuarioInput = {
+  export type ReservaUncheckedUpdateWithoutUsuarioSolicitoInput = {
     id?: IntFieldUpdateOperationsInput | number
-    nombre?: StringFieldUpdateOperationsInput | string
-    codigo?: StringFieldUpdateOperationsInput | string
-    anio?: IntFieldUpdateOperationsInput | number
-    duracion?: EnumMateriaDuracionFieldUpdateOperationsInput | $Enums.MateriaDuracion
-    tipo?: EnumMateriaTipoFieldUpdateOperationsInput | $Enums.MateriaTipo
+    estatus?: EnumReservaEstatusFieldUpdateOperationsInput | $Enums.ReservaEstatus
+    fechaHoraInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaHoraFin?: DateTimeFieldUpdateOperationsInput | Date | string
+    tipo?: EnumReservaTipoFieldUpdateOperationsInput | $Enums.ReservaTipo
+    asistio?: BoolFieldUpdateOperationsInput | boolean
+    motivoRechazo?: NullableStringFieldUpdateOperationsInput | string | null
+    usuarioAprobadorId?: NullableStringFieldUpdateOperationsInput | string | null
+    usuarioRechazadoId?: NullableStringFieldUpdateOperationsInput | string | null
+    usuarioRenovoId?: NullableStringFieldUpdateOperationsInput | string | null
+    usuarioRecibioId?: NullableStringFieldUpdateOperationsInput | string | null
+    usuarioTutorId?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaRenovacion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaAprobacion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaRechazo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaRecibido?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    usuarioCreadorId?: StringFieldUpdateOperationsInput | string
+    usuarioModificadorId?: StringFieldUpdateOperationsInput | string
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaModificacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    mostrarEnPantalla?: BoolFieldUpdateOperationsInput | boolean
+    reservaEquipo?: ReservaEquipoUncheckedUpdateOneWithoutReservaNestedInput
+    reservaLaboratorioAbierto?: ReservaLaboratorioAbiertoUncheckedUpdateOneWithoutReservaNestedInput
+    reservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateOneWithoutReservaNestedInput
+    reservaLibro?: ReservaLibroUncheckedUpdateOneWithoutReservaNestedInput
+  }
+
+  export type ReservaUncheckedUpdateManyWithoutUsuarioSolicitoInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    estatus?: EnumReservaEstatusFieldUpdateOperationsInput | $Enums.ReservaEstatus
+    fechaHoraInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaHoraFin?: DateTimeFieldUpdateOperationsInput | Date | string
+    tipo?: EnumReservaTipoFieldUpdateOperationsInput | $Enums.ReservaTipo
+    asistio?: BoolFieldUpdateOperationsInput | boolean
+    motivoRechazo?: NullableStringFieldUpdateOperationsInput | string | null
+    usuarioAprobadorId?: NullableStringFieldUpdateOperationsInput | string | null
+    usuarioRechazadoId?: NullableStringFieldUpdateOperationsInput | string | null
+    usuarioRenovoId?: NullableStringFieldUpdateOperationsInput | string | null
+    usuarioRecibioId?: NullableStringFieldUpdateOperationsInput | string | null
+    usuarioTutorId?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaRenovacion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaAprobacion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaRechazo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaRecibido?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     usuarioCreadorId?: StringFieldUpdateOperationsInput | string
     usuarioModificadorId?: StringFieldUpdateOperationsInput | string
+    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaModificacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    mostrarEnPantalla?: BoolFieldUpdateOperationsInput | boolean
   }
 
-  export type MateriaJefeTpUpdateWithoutUsuarioInput = {
-    materia?: MateriaUpdateOneRequiredWithoutJefeTrabajoPracticosNestedInput
+  export type ReservaUpdateWithoutUsuarioRenovoInput = {
+    estatus?: EnumReservaEstatusFieldUpdateOperationsInput | $Enums.ReservaEstatus
+    fechaHoraInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaHoraFin?: DateTimeFieldUpdateOperationsInput | Date | string
+    tipo?: EnumReservaTipoFieldUpdateOperationsInput | $Enums.ReservaTipo
+    asistio?: BoolFieldUpdateOperationsInput | boolean
+    motivoRechazo?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaRenovacion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaAprobacion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaRechazo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaRecibido?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    usuarioCreadorId?: StringFieldUpdateOperationsInput | string
+    usuarioModificadorId?: StringFieldUpdateOperationsInput | string
+    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaModificacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    mostrarEnPantalla?: BoolFieldUpdateOperationsInput | boolean
+    usuarioAprobador?: UserUpdateOneWithoutReservasAprobadasNestedInput
+    usuarioRechazado?: UserUpdateOneWithoutReservasRechazadasNestedInput
+    usuarioRecibio?: UserUpdateOneWithoutReservasRecibidasNestedInput
+    usuarioSolicito?: UserUpdateOneRequiredWithoutReservasSolicitadasNestedInput
+    usuarioTutor?: UserUpdateOneWithoutReservasComoTutorNestedInput
+    reservaEquipo?: ReservaEquipoUpdateOneWithoutReservaNestedInput
+    reservaLaboratorioAbierto?: ReservaLaboratorioAbiertoUpdateOneWithoutReservaNestedInput
+    reservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateOneWithoutReservaNestedInput
+    reservaLibro?: ReservaLibroUpdateOneWithoutReservaNestedInput
   }
 
-  export type MateriaJefeTpUncheckedUpdateWithoutUsuarioInput = {
-    materiaId?: IntFieldUpdateOperationsInput | number
+  export type ReservaUncheckedUpdateWithoutUsuarioRenovoInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    estatus?: EnumReservaEstatusFieldUpdateOperationsInput | $Enums.ReservaEstatus
+    fechaHoraInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaHoraFin?: DateTimeFieldUpdateOperationsInput | Date | string
+    tipo?: EnumReservaTipoFieldUpdateOperationsInput | $Enums.ReservaTipo
+    asistio?: BoolFieldUpdateOperationsInput | boolean
+    motivoRechazo?: NullableStringFieldUpdateOperationsInput | string | null
+    usuarioSolicitoId?: StringFieldUpdateOperationsInput | string
+    usuarioAprobadorId?: NullableStringFieldUpdateOperationsInput | string | null
+    usuarioRechazadoId?: NullableStringFieldUpdateOperationsInput | string | null
+    usuarioRecibioId?: NullableStringFieldUpdateOperationsInput | string | null
+    usuarioTutorId?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaRenovacion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaAprobacion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaRechazo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaRecibido?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    usuarioCreadorId?: StringFieldUpdateOperationsInput | string
+    usuarioModificadorId?: StringFieldUpdateOperationsInput | string
+    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaModificacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    mostrarEnPantalla?: BoolFieldUpdateOperationsInput | boolean
+    reservaEquipo?: ReservaEquipoUncheckedUpdateOneWithoutReservaNestedInput
+    reservaLaboratorioAbierto?: ReservaLaboratorioAbiertoUncheckedUpdateOneWithoutReservaNestedInput
+    reservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateOneWithoutReservaNestedInput
+    reservaLibro?: ReservaLibroUncheckedUpdateOneWithoutReservaNestedInput
   }
 
-  export type MateriaJefeTpUncheckedUpdateManyWithoutUsuarioInput = {
-    materiaId?: IntFieldUpdateOperationsInput | number
+  export type ReservaUncheckedUpdateManyWithoutUsuarioRenovoInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    estatus?: EnumReservaEstatusFieldUpdateOperationsInput | $Enums.ReservaEstatus
+    fechaHoraInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaHoraFin?: DateTimeFieldUpdateOperationsInput | Date | string
+    tipo?: EnumReservaTipoFieldUpdateOperationsInput | $Enums.ReservaTipo
+    asistio?: BoolFieldUpdateOperationsInput | boolean
+    motivoRechazo?: NullableStringFieldUpdateOperationsInput | string | null
+    usuarioSolicitoId?: StringFieldUpdateOperationsInput | string
+    usuarioAprobadorId?: NullableStringFieldUpdateOperationsInput | string | null
+    usuarioRechazadoId?: NullableStringFieldUpdateOperationsInput | string | null
+    usuarioRecibioId?: NullableStringFieldUpdateOperationsInput | string | null
+    usuarioTutorId?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaRenovacion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaAprobacion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaRechazo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaRecibido?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    usuarioCreadorId?: StringFieldUpdateOperationsInput | string
+    usuarioModificadorId?: StringFieldUpdateOperationsInput | string
+    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaModificacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    mostrarEnPantalla?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type ReservaUpdateWithoutUsuarioTutorInput = {
+    estatus?: EnumReservaEstatusFieldUpdateOperationsInput | $Enums.ReservaEstatus
+    fechaHoraInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaHoraFin?: DateTimeFieldUpdateOperationsInput | Date | string
+    tipo?: EnumReservaTipoFieldUpdateOperationsInput | $Enums.ReservaTipo
+    asistio?: BoolFieldUpdateOperationsInput | boolean
+    motivoRechazo?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaRenovacion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaAprobacion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaRechazo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaRecibido?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    usuarioCreadorId?: StringFieldUpdateOperationsInput | string
+    usuarioModificadorId?: StringFieldUpdateOperationsInput | string
+    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaModificacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    mostrarEnPantalla?: BoolFieldUpdateOperationsInput | boolean
+    usuarioAprobador?: UserUpdateOneWithoutReservasAprobadasNestedInput
+    usuarioRechazado?: UserUpdateOneWithoutReservasRechazadasNestedInput
+    usuarioRecibio?: UserUpdateOneWithoutReservasRecibidasNestedInput
+    usuarioRenovo?: UserUpdateOneWithoutReservasRenovadasNestedInput
+    usuarioSolicito?: UserUpdateOneRequiredWithoutReservasSolicitadasNestedInput
+    reservaEquipo?: ReservaEquipoUpdateOneWithoutReservaNestedInput
+    reservaLaboratorioAbierto?: ReservaLaboratorioAbiertoUpdateOneWithoutReservaNestedInput
+    reservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateOneWithoutReservaNestedInput
+    reservaLibro?: ReservaLibroUpdateOneWithoutReservaNestedInput
+  }
+
+  export type ReservaUncheckedUpdateWithoutUsuarioTutorInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    estatus?: EnumReservaEstatusFieldUpdateOperationsInput | $Enums.ReservaEstatus
+    fechaHoraInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaHoraFin?: DateTimeFieldUpdateOperationsInput | Date | string
+    tipo?: EnumReservaTipoFieldUpdateOperationsInput | $Enums.ReservaTipo
+    asistio?: BoolFieldUpdateOperationsInput | boolean
+    motivoRechazo?: NullableStringFieldUpdateOperationsInput | string | null
+    usuarioSolicitoId?: StringFieldUpdateOperationsInput | string
+    usuarioAprobadorId?: NullableStringFieldUpdateOperationsInput | string | null
+    usuarioRechazadoId?: NullableStringFieldUpdateOperationsInput | string | null
+    usuarioRenovoId?: NullableStringFieldUpdateOperationsInput | string | null
+    usuarioRecibioId?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaRenovacion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaAprobacion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaRechazo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaRecibido?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    usuarioCreadorId?: StringFieldUpdateOperationsInput | string
+    usuarioModificadorId?: StringFieldUpdateOperationsInput | string
+    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaModificacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    mostrarEnPantalla?: BoolFieldUpdateOperationsInput | boolean
+    reservaEquipo?: ReservaEquipoUncheckedUpdateOneWithoutReservaNestedInput
+    reservaLaboratorioAbierto?: ReservaLaboratorioAbiertoUncheckedUpdateOneWithoutReservaNestedInput
+    reservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateOneWithoutReservaNestedInput
+    reservaLibro?: ReservaLibroUncheckedUpdateOneWithoutReservaNestedInput
+  }
+
+  export type ReservaUncheckedUpdateManyWithoutUsuarioTutorInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    estatus?: EnumReservaEstatusFieldUpdateOperationsInput | $Enums.ReservaEstatus
+    fechaHoraInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaHoraFin?: DateTimeFieldUpdateOperationsInput | Date | string
+    tipo?: EnumReservaTipoFieldUpdateOperationsInput | $Enums.ReservaTipo
+    asistio?: BoolFieldUpdateOperationsInput | boolean
+    motivoRechazo?: NullableStringFieldUpdateOperationsInput | string | null
+    usuarioSolicitoId?: StringFieldUpdateOperationsInput | string
+    usuarioAprobadorId?: NullableStringFieldUpdateOperationsInput | string | null
+    usuarioRechazadoId?: NullableStringFieldUpdateOperationsInput | string | null
+    usuarioRenovoId?: NullableStringFieldUpdateOperationsInput | string | null
+    usuarioRecibioId?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaRenovacion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaAprobacion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaRechazo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaRecibido?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    usuarioCreadorId?: StringFieldUpdateOperationsInput | string
+    usuarioModificadorId?: StringFieldUpdateOperationsInput | string
+    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaModificacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    mostrarEnPantalla?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type ReservaUpdateWithoutUsuarioAprobadorInput = {
@@ -97610,241 +100759,220 @@ export namespace Prisma {
     mostrarEnPantalla?: BoolFieldUpdateOperationsInput | boolean
   }
 
-  export type ReservaUpdateWithoutUsuarioRenovoInput = {
-    estatus?: EnumReservaEstatusFieldUpdateOperationsInput | $Enums.ReservaEstatus
-    fechaHoraInicio?: DateTimeFieldUpdateOperationsInput | Date | string
-    fechaHoraFin?: DateTimeFieldUpdateOperationsInput | Date | string
-    tipo?: EnumReservaTipoFieldUpdateOperationsInput | $Enums.ReservaTipo
-    asistio?: BoolFieldUpdateOperationsInput | boolean
-    motivoRechazo?: NullableStringFieldUpdateOperationsInput | string | null
-    fechaRenovacion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    fechaAprobacion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    fechaRechazo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    fechaRecibido?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    usuarioCreadorId?: StringFieldUpdateOperationsInput | string
-    usuarioModificadorId?: StringFieldUpdateOperationsInput | string
-    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
-    fechaModificacion?: DateTimeFieldUpdateOperationsInput | Date | string
-    mostrarEnPantalla?: BoolFieldUpdateOperationsInput | boolean
-    usuarioAprobador?: UserUpdateOneWithoutReservasAprobadasNestedInput
-    usuarioRechazado?: UserUpdateOneWithoutReservasRechazadasNestedInput
-    usuarioRecibio?: UserUpdateOneWithoutReservasRecibidasNestedInput
-    usuarioSolicito?: UserUpdateOneRequiredWithoutReservasSolicitadasNestedInput
-    usuarioTutor?: UserUpdateOneWithoutReservasComoTutorNestedInput
-    reservaEquipo?: ReservaEquipoUpdateOneWithoutReservaNestedInput
-    reservaLaboratorioAbierto?: ReservaLaboratorioAbiertoUpdateOneWithoutReservaNestedInput
-    reservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateOneWithoutReservaNestedInput
-    reservaLibro?: ReservaLibroUpdateOneWithoutReservaNestedInput
+  export type InscripcionEspecialUpdateWithoutSolicitanteInput = {
+    caso?: StringFieldUpdateOperationsInput | string
+    justificacion?: StringFieldUpdateOperationsInput | string
+    turnoAlternativa1?: NullableStringFieldUpdateOperationsInput | string | null
+    turnoAlternativa2?: NullableStringFieldUpdateOperationsInput | string | null
+    materias?: InscripcionEspecialUpdatemateriasInput | number[]
+    materiasAdeudadas?: InscripcionEspecialUpdatemateriasAdeudadasInput | number[]
+    estado?: StringFieldUpdateOperationsInput | string
+    respuesta?: NullableStringFieldUpdateOperationsInput | string | null
+    fueContactado?: BoolFieldUpdateOperationsInput | boolean
+    vinoPresencialmente?: BoolFieldUpdateOperationsInput | boolean
+    fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaRespuesta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type ReservaUncheckedUpdateWithoutUsuarioRenovoInput = {
+  export type InscripcionEspecialUncheckedUpdateWithoutSolicitanteInput = {
     id?: IntFieldUpdateOperationsInput | number
-    estatus?: EnumReservaEstatusFieldUpdateOperationsInput | $Enums.ReservaEstatus
-    fechaHoraInicio?: DateTimeFieldUpdateOperationsInput | Date | string
-    fechaHoraFin?: DateTimeFieldUpdateOperationsInput | Date | string
-    tipo?: EnumReservaTipoFieldUpdateOperationsInput | $Enums.ReservaTipo
-    asistio?: BoolFieldUpdateOperationsInput | boolean
-    motivoRechazo?: NullableStringFieldUpdateOperationsInput | string | null
-    usuarioSolicitoId?: StringFieldUpdateOperationsInput | string
-    usuarioAprobadorId?: NullableStringFieldUpdateOperationsInput | string | null
-    usuarioRechazadoId?: NullableStringFieldUpdateOperationsInput | string | null
-    usuarioRecibioId?: NullableStringFieldUpdateOperationsInput | string | null
-    usuarioTutorId?: NullableStringFieldUpdateOperationsInput | string | null
-    fechaRenovacion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    fechaAprobacion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    fechaRechazo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    fechaRecibido?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    usuarioCreadorId?: StringFieldUpdateOperationsInput | string
-    usuarioModificadorId?: StringFieldUpdateOperationsInput | string
-    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
-    fechaModificacion?: DateTimeFieldUpdateOperationsInput | Date | string
-    mostrarEnPantalla?: BoolFieldUpdateOperationsInput | boolean
-    reservaEquipo?: ReservaEquipoUncheckedUpdateOneWithoutReservaNestedInput
-    reservaLaboratorioAbierto?: ReservaLaboratorioAbiertoUncheckedUpdateOneWithoutReservaNestedInput
-    reservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateOneWithoutReservaNestedInput
-    reservaLibro?: ReservaLibroUncheckedUpdateOneWithoutReservaNestedInput
+    caso?: StringFieldUpdateOperationsInput | string
+    justificacion?: StringFieldUpdateOperationsInput | string
+    turnoAlternativa1?: NullableStringFieldUpdateOperationsInput | string | null
+    turnoAlternativa2?: NullableStringFieldUpdateOperationsInput | string | null
+    materias?: InscripcionEspecialUpdatemateriasInput | number[]
+    materiasAdeudadas?: InscripcionEspecialUpdatemateriasAdeudadasInput | number[]
+    estado?: StringFieldUpdateOperationsInput | string
+    respuesta?: NullableStringFieldUpdateOperationsInput | string | null
+    fueContactado?: BoolFieldUpdateOperationsInput | boolean
+    vinoPresencialmente?: BoolFieldUpdateOperationsInput | boolean
+    fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaRespuesta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type ReservaUncheckedUpdateManyWithoutUsuarioRenovoInput = {
+  export type InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteInput = {
     id?: IntFieldUpdateOperationsInput | number
-    estatus?: EnumReservaEstatusFieldUpdateOperationsInput | $Enums.ReservaEstatus
-    fechaHoraInicio?: DateTimeFieldUpdateOperationsInput | Date | string
-    fechaHoraFin?: DateTimeFieldUpdateOperationsInput | Date | string
-    tipo?: EnumReservaTipoFieldUpdateOperationsInput | $Enums.ReservaTipo
-    asistio?: BoolFieldUpdateOperationsInput | boolean
-    motivoRechazo?: NullableStringFieldUpdateOperationsInput | string | null
-    usuarioSolicitoId?: StringFieldUpdateOperationsInput | string
-    usuarioAprobadorId?: NullableStringFieldUpdateOperationsInput | string | null
-    usuarioRechazadoId?: NullableStringFieldUpdateOperationsInput | string | null
-    usuarioRecibioId?: NullableStringFieldUpdateOperationsInput | string | null
-    usuarioTutorId?: NullableStringFieldUpdateOperationsInput | string | null
-    fechaRenovacion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    fechaAprobacion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    fechaRechazo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    fechaRecibido?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    usuarioCreadorId?: StringFieldUpdateOperationsInput | string
-    usuarioModificadorId?: StringFieldUpdateOperationsInput | string
-    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
-    fechaModificacion?: DateTimeFieldUpdateOperationsInput | Date | string
-    mostrarEnPantalla?: BoolFieldUpdateOperationsInput | boolean
+    caso?: StringFieldUpdateOperationsInput | string
+    justificacion?: StringFieldUpdateOperationsInput | string
+    turnoAlternativa1?: NullableStringFieldUpdateOperationsInput | string | null
+    turnoAlternativa2?: NullableStringFieldUpdateOperationsInput | string | null
+    materias?: InscripcionEspecialUpdatemateriasInput | number[]
+    materiasAdeudadas?: InscripcionEspecialUpdatemateriasAdeudadasInput | number[]
+    estado?: StringFieldUpdateOperationsInput | string
+    respuesta?: NullableStringFieldUpdateOperationsInput | string | null
+    fueContactado?: BoolFieldUpdateOperationsInput | boolean
+    vinoPresencialmente?: BoolFieldUpdateOperationsInput | boolean
+    fechaSolicitud?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaRespuesta?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type ReservaUpdateWithoutUsuarioSolicitoInput = {
-    estatus?: EnumReservaEstatusFieldUpdateOperationsInput | $Enums.ReservaEstatus
-    fechaHoraInicio?: DateTimeFieldUpdateOperationsInput | Date | string
-    fechaHoraFin?: DateTimeFieldUpdateOperationsInput | Date | string
-    tipo?: EnumReservaTipoFieldUpdateOperationsInput | $Enums.ReservaTipo
-    asistio?: BoolFieldUpdateOperationsInput | boolean
-    motivoRechazo?: NullableStringFieldUpdateOperationsInput | string | null
-    fechaRenovacion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    fechaAprobacion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    fechaRechazo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    fechaRecibido?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    usuarioCreadorId?: StringFieldUpdateOperationsInput | string
-    usuarioModificadorId?: StringFieldUpdateOperationsInput | string
-    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
-    fechaModificacion?: DateTimeFieldUpdateOperationsInput | Date | string
-    mostrarEnPantalla?: BoolFieldUpdateOperationsInput | boolean
-    usuarioAprobador?: UserUpdateOneWithoutReservasAprobadasNestedInput
-    usuarioRechazado?: UserUpdateOneWithoutReservasRechazadasNestedInput
-    usuarioRecibio?: UserUpdateOneWithoutReservasRecibidasNestedInput
-    usuarioRenovo?: UserUpdateOneWithoutReservasRenovadasNestedInput
-    usuarioTutor?: UserUpdateOneWithoutReservasComoTutorNestedInput
-    reservaEquipo?: ReservaEquipoUpdateOneWithoutReservaNestedInput
-    reservaLaboratorioAbierto?: ReservaLaboratorioAbiertoUpdateOneWithoutReservaNestedInput
-    reservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateOneWithoutReservaNestedInput
-    reservaLibro?: ReservaLibroUpdateOneWithoutReservaNestedInput
+  export type InscripcionEspecialPeriodoUpdateWithoutUsuarioCreadorInput = {
+    fechaInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaFin?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type ReservaUncheckedUpdateWithoutUsuarioSolicitoInput = {
+  export type InscripcionEspecialPeriodoUncheckedUpdateWithoutUsuarioCreadorInput = {
     id?: IntFieldUpdateOperationsInput | number
-    estatus?: EnumReservaEstatusFieldUpdateOperationsInput | $Enums.ReservaEstatus
-    fechaHoraInicio?: DateTimeFieldUpdateOperationsInput | Date | string
-    fechaHoraFin?: DateTimeFieldUpdateOperationsInput | Date | string
-    tipo?: EnumReservaTipoFieldUpdateOperationsInput | $Enums.ReservaTipo
-    asistio?: BoolFieldUpdateOperationsInput | boolean
-    motivoRechazo?: NullableStringFieldUpdateOperationsInput | string | null
-    usuarioAprobadorId?: NullableStringFieldUpdateOperationsInput | string | null
-    usuarioRechazadoId?: NullableStringFieldUpdateOperationsInput | string | null
-    usuarioRenovoId?: NullableStringFieldUpdateOperationsInput | string | null
-    usuarioRecibioId?: NullableStringFieldUpdateOperationsInput | string | null
-    usuarioTutorId?: NullableStringFieldUpdateOperationsInput | string | null
-    fechaRenovacion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    fechaAprobacion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    fechaRechazo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    fechaRecibido?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    usuarioCreadorId?: StringFieldUpdateOperationsInput | string
-    usuarioModificadorId?: StringFieldUpdateOperationsInput | string
-    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
-    fechaModificacion?: DateTimeFieldUpdateOperationsInput | Date | string
-    mostrarEnPantalla?: BoolFieldUpdateOperationsInput | boolean
-    reservaEquipo?: ReservaEquipoUncheckedUpdateOneWithoutReservaNestedInput
-    reservaLaboratorioAbierto?: ReservaLaboratorioAbiertoUncheckedUpdateOneWithoutReservaNestedInput
-    reservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateOneWithoutReservaNestedInput
-    reservaLibro?: ReservaLibroUncheckedUpdateOneWithoutReservaNestedInput
+    fechaInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaFin?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type ReservaUncheckedUpdateManyWithoutUsuarioSolicitoInput = {
+  export type InscripcionEspecialPeriodoUncheckedUpdateManyWithoutUsuarioCreadorInput = {
     id?: IntFieldUpdateOperationsInput | number
-    estatus?: EnumReservaEstatusFieldUpdateOperationsInput | $Enums.ReservaEstatus
-    fechaHoraInicio?: DateTimeFieldUpdateOperationsInput | Date | string
-    fechaHoraFin?: DateTimeFieldUpdateOperationsInput | Date | string
-    tipo?: EnumReservaTipoFieldUpdateOperationsInput | $Enums.ReservaTipo
-    asistio?: BoolFieldUpdateOperationsInput | boolean
-    motivoRechazo?: NullableStringFieldUpdateOperationsInput | string | null
-    usuarioAprobadorId?: NullableStringFieldUpdateOperationsInput | string | null
-    usuarioRechazadoId?: NullableStringFieldUpdateOperationsInput | string | null
-    usuarioRenovoId?: NullableStringFieldUpdateOperationsInput | string | null
-    usuarioRecibioId?: NullableStringFieldUpdateOperationsInput | string | null
-    usuarioTutorId?: NullableStringFieldUpdateOperationsInput | string | null
-    fechaRenovacion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    fechaAprobacion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    fechaRechazo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    fechaRecibido?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    usuarioCreadorId?: StringFieldUpdateOperationsInput | string
-    usuarioModificadorId?: StringFieldUpdateOperationsInput | string
-    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
-    fechaModificacion?: DateTimeFieldUpdateOperationsInput | Date | string
-    mostrarEnPantalla?: BoolFieldUpdateOperationsInput | boolean
+    fechaInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaFin?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type ReservaUpdateWithoutUsuarioTutorInput = {
-    estatus?: EnumReservaEstatusFieldUpdateOperationsInput | $Enums.ReservaEstatus
-    fechaHoraInicio?: DateTimeFieldUpdateOperationsInput | Date | string
-    fechaHoraFin?: DateTimeFieldUpdateOperationsInput | Date | string
-    tipo?: EnumReservaTipoFieldUpdateOperationsInput | $Enums.ReservaTipo
-    asistio?: BoolFieldUpdateOperationsInput | boolean
-    motivoRechazo?: NullableStringFieldUpdateOperationsInput | string | null
-    fechaRenovacion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    fechaAprobacion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    fechaRechazo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    fechaRecibido?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    usuarioCreadorId?: StringFieldUpdateOperationsInput | string
-    usuarioModificadorId?: StringFieldUpdateOperationsInput | string
+  export type CursoAyudanteUpdateWithoutUsuarioInput = {
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    usuarioCreadorId?: StringFieldUpdateOperationsInput | string
     fechaModificacion?: DateTimeFieldUpdateOperationsInput | Date | string
-    mostrarEnPantalla?: BoolFieldUpdateOperationsInput | boolean
-    usuarioAprobador?: UserUpdateOneWithoutReservasAprobadasNestedInput
-    usuarioRechazado?: UserUpdateOneWithoutReservasRechazadasNestedInput
-    usuarioRecibio?: UserUpdateOneWithoutReservasRecibidasNestedInput
-    usuarioRenovo?: UserUpdateOneWithoutReservasRenovadasNestedInput
-    usuarioSolicito?: UserUpdateOneRequiredWithoutReservasSolicitadasNestedInput
-    reservaEquipo?: ReservaEquipoUpdateOneWithoutReservaNestedInput
-    reservaLaboratorioAbierto?: ReservaLaboratorioAbiertoUpdateOneWithoutReservaNestedInput
-    reservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateOneWithoutReservaNestedInput
-    reservaLibro?: ReservaLibroUpdateOneWithoutReservaNestedInput
+    usuarioModificadorId?: StringFieldUpdateOperationsInput | string
+    curso?: CursoUpdateOneRequiredWithoutAyudantesNestedInput
   }
 
-  export type ReservaUncheckedUpdateWithoutUsuarioTutorInput = {
+  export type CursoAyudanteUncheckedUpdateWithoutUsuarioInput = {
+    cursoId?: IntFieldUpdateOperationsInput | number
+    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    usuarioCreadorId?: StringFieldUpdateOperationsInput | string
+    fechaModificacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    usuarioModificadorId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type CursoAyudanteUncheckedUpdateManyWithoutUsuarioInput = {
+    cursoId?: IntFieldUpdateOperationsInput | number
+    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    usuarioCreadorId?: StringFieldUpdateOperationsInput | string
+    fechaModificacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    usuarioModificadorId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type CursoUpdateWithoutProfesorInput = {
+    horaInicio1?: StringFieldUpdateOperationsInput | string
+    duracion1?: StringFieldUpdateOperationsInput | string
+    horaInicio2?: NullableStringFieldUpdateOperationsInput | string | null
+    duracion2?: NullableStringFieldUpdateOperationsInput | string | null
+    dia1?: EnumCursoDiaFieldUpdateOperationsInput | $Enums.CursoDia
+    dia2?: NullableEnumCursoDiaFieldUpdateOperationsInput | $Enums.CursoDia | null
+    anioDeCarrera?: IntFieldUpdateOperationsInput | number
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    ac?: StringFieldUpdateOperationsInput | string
+    turno?: EnumTurnoCursoFieldUpdateOperationsInput | $Enums.TurnoCurso
+    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaModificacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    usuarioCreadorId?: StringFieldUpdateOperationsInput | string
+    usuarioModificadorId?: StringFieldUpdateOperationsInput | string
+    division?: DivisionUpdateOneRequiredWithoutCursosNestedInput
+    materia?: MateriaUpdateOneRequiredWithoutCursosNestedInput
+    sede?: SedeUpdateOneRequiredWithoutCursosNestedInput
+    ayudantes?: CursoAyudanteUpdateManyWithoutCursoNestedInput
+    reservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutCursoNestedInput
+  }
+
+  export type CursoUncheckedUpdateWithoutProfesorInput = {
     id?: IntFieldUpdateOperationsInput | number
-    estatus?: EnumReservaEstatusFieldUpdateOperationsInput | $Enums.ReservaEstatus
-    fechaHoraInicio?: DateTimeFieldUpdateOperationsInput | Date | string
-    fechaHoraFin?: DateTimeFieldUpdateOperationsInput | Date | string
-    tipo?: EnumReservaTipoFieldUpdateOperationsInput | $Enums.ReservaTipo
-    asistio?: BoolFieldUpdateOperationsInput | boolean
-    motivoRechazo?: NullableStringFieldUpdateOperationsInput | string | null
-    usuarioSolicitoId?: StringFieldUpdateOperationsInput | string
-    usuarioAprobadorId?: NullableStringFieldUpdateOperationsInput | string | null
-    usuarioRechazadoId?: NullableStringFieldUpdateOperationsInput | string | null
-    usuarioRenovoId?: NullableStringFieldUpdateOperationsInput | string | null
-    usuarioRecibioId?: NullableStringFieldUpdateOperationsInput | string | null
-    fechaRenovacion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    fechaAprobacion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    fechaRechazo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    fechaRecibido?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    usuarioCreadorId?: StringFieldUpdateOperationsInput | string
-    usuarioModificadorId?: StringFieldUpdateOperationsInput | string
+    horaInicio1?: StringFieldUpdateOperationsInput | string
+    duracion1?: StringFieldUpdateOperationsInput | string
+    horaInicio2?: NullableStringFieldUpdateOperationsInput | string | null
+    duracion2?: NullableStringFieldUpdateOperationsInput | string | null
+    dia1?: EnumCursoDiaFieldUpdateOperationsInput | $Enums.CursoDia
+    dia2?: NullableEnumCursoDiaFieldUpdateOperationsInput | $Enums.CursoDia | null
+    anioDeCarrera?: IntFieldUpdateOperationsInput | number
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    ac?: StringFieldUpdateOperationsInput | string
+    sedeId?: IntFieldUpdateOperationsInput | number
+    materiaId?: IntFieldUpdateOperationsInput | number
+    divisionId?: IntFieldUpdateOperationsInput | number
+    turno?: EnumTurnoCursoFieldUpdateOperationsInput | $Enums.TurnoCurso
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaModificacion?: DateTimeFieldUpdateOperationsInput | Date | string
-    mostrarEnPantalla?: BoolFieldUpdateOperationsInput | boolean
-    reservaEquipo?: ReservaEquipoUncheckedUpdateOneWithoutReservaNestedInput
-    reservaLaboratorioAbierto?: ReservaLaboratorioAbiertoUncheckedUpdateOneWithoutReservaNestedInput
-    reservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateOneWithoutReservaNestedInput
-    reservaLibro?: ReservaLibroUncheckedUpdateOneWithoutReservaNestedInput
+    usuarioCreadorId?: StringFieldUpdateOperationsInput | string
+    usuarioModificadorId?: StringFieldUpdateOperationsInput | string
+    ayudantes?: CursoAyudanteUncheckedUpdateManyWithoutCursoNestedInput
+    reservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutCursoNestedInput
   }
 
-  export type ReservaUncheckedUpdateManyWithoutUsuarioTutorInput = {
+  export type CursoUncheckedUpdateManyWithoutProfesorInput = {
     id?: IntFieldUpdateOperationsInput | number
-    estatus?: EnumReservaEstatusFieldUpdateOperationsInput | $Enums.ReservaEstatus
-    fechaHoraInicio?: DateTimeFieldUpdateOperationsInput | Date | string
-    fechaHoraFin?: DateTimeFieldUpdateOperationsInput | Date | string
-    tipo?: EnumReservaTipoFieldUpdateOperationsInput | $Enums.ReservaTipo
-    asistio?: BoolFieldUpdateOperationsInput | boolean
-    motivoRechazo?: NullableStringFieldUpdateOperationsInput | string | null
-    usuarioSolicitoId?: StringFieldUpdateOperationsInput | string
-    usuarioAprobadorId?: NullableStringFieldUpdateOperationsInput | string | null
-    usuarioRechazadoId?: NullableStringFieldUpdateOperationsInput | string | null
-    usuarioRenovoId?: NullableStringFieldUpdateOperationsInput | string | null
-    usuarioRecibioId?: NullableStringFieldUpdateOperationsInput | string | null
-    fechaRenovacion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    fechaAprobacion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    fechaRechazo?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    fechaRecibido?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    usuarioCreadorId?: StringFieldUpdateOperationsInput | string
-    usuarioModificadorId?: StringFieldUpdateOperationsInput | string
+    horaInicio1?: StringFieldUpdateOperationsInput | string
+    duracion1?: StringFieldUpdateOperationsInput | string
+    horaInicio2?: NullableStringFieldUpdateOperationsInput | string | null
+    duracion2?: NullableStringFieldUpdateOperationsInput | string | null
+    dia1?: EnumCursoDiaFieldUpdateOperationsInput | $Enums.CursoDia
+    dia2?: NullableEnumCursoDiaFieldUpdateOperationsInput | $Enums.CursoDia | null
+    anioDeCarrera?: IntFieldUpdateOperationsInput | number
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    ac?: StringFieldUpdateOperationsInput | string
+    sedeId?: IntFieldUpdateOperationsInput | number
+    materiaId?: IntFieldUpdateOperationsInput | number
+    divisionId?: IntFieldUpdateOperationsInput | number
+    turno?: EnumTurnoCursoFieldUpdateOperationsInput | $Enums.TurnoCurso
     fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaModificacion?: DateTimeFieldUpdateOperationsInput | Date | string
-    mostrarEnPantalla?: BoolFieldUpdateOperationsInput | boolean
+    usuarioCreadorId?: StringFieldUpdateOperationsInput | string
+    usuarioModificadorId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type MateriaJefeTpUpdateWithoutUsuarioInput = {
+    materia?: MateriaUpdateOneRequiredWithoutJefeTrabajoPracticosNestedInput
+  }
+
+  export type MateriaJefeTpUncheckedUpdateWithoutUsuarioInput = {
+    materiaId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type MateriaJefeTpUncheckedUpdateManyWithoutUsuarioInput = {
+    materiaId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type MateriaUpdateWithoutDirectorUsuarioInput = {
+    nombre?: StringFieldUpdateOperationsInput | string
+    codigo?: StringFieldUpdateOperationsInput | string
+    anio?: IntFieldUpdateOperationsInput | number
+    duracion?: EnumMateriaDuracionFieldUpdateOperationsInput | $Enums.MateriaDuracion
+    tipo?: EnumMateriaTipoFieldUpdateOperationsInput | $Enums.MateriaTipo
+    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaModificacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    usuarioCreadorId?: StringFieldUpdateOperationsInput | string
+    usuarioModificadorId?: StringFieldUpdateOperationsInput | string
+    cursos?: CursoUpdateManyWithoutMateriaNestedInput
+    libros?: LibroMateriaUpdateManyWithoutMateriaNestedInput
+    correlativa?: MateriaCorrelativaUpdateManyWithoutCorrelativaNestedInput
+    materiaPrerequisito?: MateriaCorrelativaUpdateManyWithoutMateriaPrerequisitoNestedInput
+    jefeTrabajoPracticos?: MateriaJefeTpUpdateManyWithoutMateriaNestedInput
+    reservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalMateriaNestedInput
+  }
+
+  export type MateriaUncheckedUpdateWithoutDirectorUsuarioInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nombre?: StringFieldUpdateOperationsInput | string
+    codigo?: StringFieldUpdateOperationsInput | string
+    anio?: IntFieldUpdateOperationsInput | number
+    duracion?: EnumMateriaDuracionFieldUpdateOperationsInput | $Enums.MateriaDuracion
+    tipo?: EnumMateriaTipoFieldUpdateOperationsInput | $Enums.MateriaTipo
+    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaModificacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    usuarioCreadorId?: StringFieldUpdateOperationsInput | string
+    usuarioModificadorId?: StringFieldUpdateOperationsInput | string
+    cursos?: CursoUncheckedUpdateManyWithoutMateriaNestedInput
+    libros?: LibroMateriaUncheckedUpdateManyWithoutMateriaNestedInput
+    correlativa?: MateriaCorrelativaUncheckedUpdateManyWithoutCorrelativaNestedInput
+    materiaPrerequisito?: MateriaCorrelativaUncheckedUpdateManyWithoutMateriaPrerequisitoNestedInput
+    jefeTrabajoPracticos?: MateriaJefeTpUncheckedUpdateManyWithoutMateriaNestedInput
+    reservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalMateriaNestedInput
+  }
+
+  export type MateriaUncheckedUpdateManyWithoutDirectorUsuarioInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nombre?: StringFieldUpdateOperationsInput | string
+    codigo?: StringFieldUpdateOperationsInput | string
+    anio?: IntFieldUpdateOperationsInput | number
+    duracion?: EnumMateriaDuracionFieldUpdateOperationsInput | $Enums.MateriaDuracion
+    tipo?: EnumMateriaTipoFieldUpdateOperationsInput | $Enums.MateriaTipo
+    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaModificacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    usuarioCreadorId?: StringFieldUpdateOperationsInput | string
+    usuarioModificadorId?: StringFieldUpdateOperationsInput | string
   }
 
   export type ReservaLaboratorioCerradoUpdateWithoutDiscrecionalDocenteInput = {
@@ -97902,42 +101030,6 @@ export namespace Prisma {
     usuarioModificadorId?: StringFieldUpdateOperationsInput | string
   }
 
-  export type SessionUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    sessionToken?: StringFieldUpdateOperationsInput | string
-    expires?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type SessionUncheckedUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    sessionToken?: StringFieldUpdateOperationsInput | string
-    expires?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type SessionUncheckedUpdateManyWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    sessionToken?: StringFieldUpdateOperationsInput | string
-    expires?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type UsuarioRolUpdateWithoutUsuarioInput = {
-    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
-    usuarioCreadorId?: StringFieldUpdateOperationsInput | string
-    rol?: RolUpdateOneRequiredWithoutUsuariosNestedInput
-  }
-
-  export type UsuarioRolUncheckedUpdateWithoutUsuarioInput = {
-    rolId?: IntFieldUpdateOperationsInput | number
-    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
-    usuarioCreadorId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type UsuarioRolUncheckedUpdateManyWithoutUsuarioInput = {
-    rolId?: IntFieldUpdateOperationsInput | number
-    fechaCreacion?: DateTimeFieldUpdateOperationsInput | Date | string
-    usuarioCreadorId?: StringFieldUpdateOperationsInput | string
-  }
-
   export type VotoUpdateWithoutUserInput = {
     posicion?: EnumPosicionFieldUpdateOperationsInput | $Enums.Posicion
     comentario?: NullableStringFieldUpdateOperationsInput | string | null
@@ -97959,6 +101051,162 @@ export namespace Prisma {
     posicion?: EnumPosicionFieldUpdateOperationsInput | $Enums.Posicion
     comentario?: NullableStringFieldUpdateOperationsInput | string | null
     fechaEmision?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FallaUpdateWithoutReportadoPorInput = {
+    tipoFalla?: StringFieldUpdateOperationsInput | string
+    fallas?: FallaUpdatefallasInput | string[]
+    descripcionEquipo?: NullableStringFieldUpdateOperationsInput | string | null
+    descripcionFalla?: StringFieldUpdateOperationsInput | string
+    condicion?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaReporte?: DateTimeFieldUpdateOperationsInput | Date | string
+    estado?: StringFieldUpdateOperationsInput | string
+    palabrasClave?: NullableStringFieldUpdateOperationsInput | string | null
+    asignadoA?: UserUpdateOneWithoutFallasAsignadasNestedInput
+    equipo?: EquipoUpdateOneWithoutFallaPcNestedInput
+    historial?: FallaHistorialUpdateManyWithoutFallaNestedInput
+  }
+
+  export type FallaUncheckedUpdateWithoutReportadoPorInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    equipoId?: NullableIntFieldUpdateOperationsInput | number | null
+    tipoFalla?: StringFieldUpdateOperationsInput | string
+    fallas?: FallaUpdatefallasInput | string[]
+    descripcionEquipo?: NullableStringFieldUpdateOperationsInput | string | null
+    descripcionFalla?: StringFieldUpdateOperationsInput | string
+    condicion?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaReporte?: DateTimeFieldUpdateOperationsInput | Date | string
+    asignadoAId?: NullableStringFieldUpdateOperationsInput | string | null
+    estado?: StringFieldUpdateOperationsInput | string
+    palabrasClave?: NullableStringFieldUpdateOperationsInput | string | null
+    historial?: FallaHistorialUncheckedUpdateManyWithoutFallaNestedInput
+  }
+
+  export type FallaUncheckedUpdateManyWithoutReportadoPorInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    equipoId?: NullableIntFieldUpdateOperationsInput | number | null
+    tipoFalla?: StringFieldUpdateOperationsInput | string
+    fallas?: FallaUpdatefallasInput | string[]
+    descripcionEquipo?: NullableStringFieldUpdateOperationsInput | string | null
+    descripcionFalla?: StringFieldUpdateOperationsInput | string
+    condicion?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaReporte?: DateTimeFieldUpdateOperationsInput | Date | string
+    asignadoAId?: NullableStringFieldUpdateOperationsInput | string | null
+    estado?: StringFieldUpdateOperationsInput | string
+    palabrasClave?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type FallaUpdateWithoutAsignadoAInput = {
+    tipoFalla?: StringFieldUpdateOperationsInput | string
+    fallas?: FallaUpdatefallasInput | string[]
+    descripcionEquipo?: NullableStringFieldUpdateOperationsInput | string | null
+    descripcionFalla?: StringFieldUpdateOperationsInput | string
+    condicion?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaReporte?: DateTimeFieldUpdateOperationsInput | Date | string
+    estado?: StringFieldUpdateOperationsInput | string
+    palabrasClave?: NullableStringFieldUpdateOperationsInput | string | null
+    equipo?: EquipoUpdateOneWithoutFallaPcNestedInput
+    reportadoPor?: UserUpdateOneWithoutFallasReportadasNestedInput
+    historial?: FallaHistorialUpdateManyWithoutFallaNestedInput
+  }
+
+  export type FallaUncheckedUpdateWithoutAsignadoAInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    equipoId?: NullableIntFieldUpdateOperationsInput | number | null
+    tipoFalla?: StringFieldUpdateOperationsInput | string
+    fallas?: FallaUpdatefallasInput | string[]
+    descripcionEquipo?: NullableStringFieldUpdateOperationsInput | string | null
+    descripcionFalla?: StringFieldUpdateOperationsInput | string
+    condicion?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaReporte?: DateTimeFieldUpdateOperationsInput | Date | string
+    reportadoPorId?: NullableStringFieldUpdateOperationsInput | string | null
+    estado?: StringFieldUpdateOperationsInput | string
+    palabrasClave?: NullableStringFieldUpdateOperationsInput | string | null
+    historial?: FallaHistorialUncheckedUpdateManyWithoutFallaNestedInput
+  }
+
+  export type FallaUncheckedUpdateManyWithoutAsignadoAInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    equipoId?: NullableIntFieldUpdateOperationsInput | number | null
+    tipoFalla?: StringFieldUpdateOperationsInput | string
+    fallas?: FallaUpdatefallasInput | string[]
+    descripcionEquipo?: NullableStringFieldUpdateOperationsInput | string | null
+    descripcionFalla?: StringFieldUpdateOperationsInput | string
+    condicion?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaReporte?: DateTimeFieldUpdateOperationsInput | Date | string
+    reportadoPorId?: NullableStringFieldUpdateOperationsInput | string | null
+    estado?: StringFieldUpdateOperationsInput | string
+    palabrasClave?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type FallaHistorialUpdateWithoutReportadoPorInput = {
+    fallas?: FallaHistorialUpdatefallasInput | string[]
+    descripcionEquipo?: NullableStringFieldUpdateOperationsInput | string | null
+    descripcionFalla?: StringFieldUpdateOperationsInput | string
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaReporte?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaCambioEstado?: DateTimeFieldUpdateOperationsInput | Date | string
+    asignadoA?: UserUpdateOneWithoutFallasHistAsignadasNestedInput
+    falla?: FallaUpdateOneRequiredWithoutHistorialNestedInput
+  }
+
+  export type FallaHistorialUncheckedUpdateWithoutReportadoPorInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    fallaId?: IntFieldUpdateOperationsInput | number
+    fallas?: FallaHistorialUpdatefallasInput | string[]
+    descripcionEquipo?: NullableStringFieldUpdateOperationsInput | string | null
+    descripcionFalla?: StringFieldUpdateOperationsInput | string
+    asignadoAId?: NullableStringFieldUpdateOperationsInput | string | null
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaReporte?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaCambioEstado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FallaHistorialUncheckedUpdateManyWithoutReportadoPorInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    fallaId?: IntFieldUpdateOperationsInput | number
+    fallas?: FallaHistorialUpdatefallasInput | string[]
+    descripcionEquipo?: NullableStringFieldUpdateOperationsInput | string | null
+    descripcionFalla?: StringFieldUpdateOperationsInput | string
+    asignadoAId?: NullableStringFieldUpdateOperationsInput | string | null
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaReporte?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaCambioEstado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FallaHistorialUpdateWithoutAsignadoAInput = {
+    fallas?: FallaHistorialUpdatefallasInput | string[]
+    descripcionEquipo?: NullableStringFieldUpdateOperationsInput | string | null
+    descripcionFalla?: StringFieldUpdateOperationsInput | string
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaReporte?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaCambioEstado?: DateTimeFieldUpdateOperationsInput | Date | string
+    falla?: FallaUpdateOneRequiredWithoutHistorialNestedInput
+    reportadoPor?: UserUpdateOneWithoutFallasHistReportadasNestedInput
+  }
+
+  export type FallaHistorialUncheckedUpdateWithoutAsignadoAInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    fallaId?: IntFieldUpdateOperationsInput | number
+    fallas?: FallaHistorialUpdatefallasInput | string[]
+    descripcionEquipo?: NullableStringFieldUpdateOperationsInput | string | null
+    descripcionFalla?: StringFieldUpdateOperationsInput | string
+    reportadoPorId?: NullableStringFieldUpdateOperationsInput | string | null
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaReporte?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaCambioEstado?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FallaHistorialUncheckedUpdateManyWithoutAsignadoAInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    fallaId?: IntFieldUpdateOperationsInput | number
+    fallas?: FallaHistorialUpdatefallasInput | string[]
+    descripcionEquipo?: NullableStringFieldUpdateOperationsInput | string | null
+    descripcionFalla?: StringFieldUpdateOperationsInput | string
+    reportadoPorId?: NullableStringFieldUpdateOperationsInput | string | null
+    estado?: StringFieldUpdateOperationsInput | string
+    fechaReporte?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaCambioEstado?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type RolPermisoCreateManyRolInput = {
@@ -98088,29 +101336,30 @@ export namespace Prisma {
     fechaRegistro?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaUltimoAcceso?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaUltimaActualizacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    documentoTipo?: DocumentoTipoUpdateOneWithoutUsuariosNestedInput
+    pais?: PaisUpdateOneWithoutUsuariosNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
-    cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
-    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
-    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
-    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
-    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
-    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
-    materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
-    MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
-    reservasRenovadas?: ReservaUpdateManyWithoutUsuarioRenovoNestedInput
-    reservasSolicitadas?: ReservaUpdateManyWithoutUsuarioSolicitoNestedInput
-    reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
-    sessions?: SessionUpdateManyWithoutUserNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUpdateManyWithoutUsuarioCreadorNestedInput
+    cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
-    documentoTipo?: DocumentoTipoUpdateOneWithoutUsuariosNestedInput
-    pais?: PaisUpdateOneWithoutUsuariosNestedInput
-    usuarioRol?: UsuarioRolUpdateManyWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUncheckedUpdateWithoutProvinciaInput = {
@@ -98141,26 +101390,27 @@ export namespace Prisma {
     fechaUltimaActualizacion?: DateTimeFieldUpdateOperationsInput | Date | string
     documentoTipoId?: NullableIntFieldUpdateOperationsInput | number | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
-    cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
-    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
-    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
-    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
-    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
-    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
-    materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
-    MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUncheckedUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUncheckedUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUncheckedUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
-    reservasRenovadas?: ReservaUncheckedUpdateManyWithoutUsuarioRenovoNestedInput
-    reservasSolicitadas?: ReservaUncheckedUpdateManyWithoutUsuarioSolicitoNestedInput
-    reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUncheckedUpdateManyWithoutUsuarioCreadorNestedInput
+    cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
-    usuarioRol?: UsuarioRolUncheckedUpdateManyWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutProvinciaInput = {
@@ -98270,29 +101520,30 @@ export namespace Prisma {
     fechaRegistro?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaUltimoAcceso?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaUltimaActualizacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    documentoTipo?: DocumentoTipoUpdateOneWithoutUsuariosNestedInput
+    provincia?: ProvinciaUpdateOneWithoutUsuariosNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
-    cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
-    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
-    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
-    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
-    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
-    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
-    materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
-    MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
-    reservasRenovadas?: ReservaUpdateManyWithoutUsuarioRenovoNestedInput
-    reservasSolicitadas?: ReservaUpdateManyWithoutUsuarioSolicitoNestedInput
-    reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
-    sessions?: SessionUpdateManyWithoutUserNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUpdateManyWithoutUsuarioCreadorNestedInput
+    cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
-    documentoTipo?: DocumentoTipoUpdateOneWithoutUsuariosNestedInput
-    provincia?: ProvinciaUpdateOneWithoutUsuariosNestedInput
-    usuarioRol?: UsuarioRolUpdateManyWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUncheckedUpdateWithoutPaisInput = {
@@ -98324,26 +101575,27 @@ export namespace Prisma {
     documentoTipoId?: NullableIntFieldUpdateOperationsInput | number | null
     provinciaIso?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
-    cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
-    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
-    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
-    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
-    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
-    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
-    materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
-    MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUncheckedUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUncheckedUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUncheckedUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
-    reservasRenovadas?: ReservaUncheckedUpdateManyWithoutUsuarioRenovoNestedInput
-    reservasSolicitadas?: ReservaUncheckedUpdateManyWithoutUsuarioSolicitoNestedInput
-    reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUncheckedUpdateManyWithoutUsuarioCreadorNestedInput
+    cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
-    usuarioRol?: UsuarioRolUncheckedUpdateManyWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutPaisInput = {
@@ -98432,29 +101684,30 @@ export namespace Prisma {
     fechaRegistro?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaUltimoAcceso?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaUltimaActualizacion?: DateTimeFieldUpdateOperationsInput | Date | string
+    provincia?: ProvinciaUpdateOneWithoutUsuariosNestedInput
+    pais?: PaisUpdateOneWithoutUsuariosNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
-    cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
-    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
-    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
-    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
-    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
-    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
-    materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
-    MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
     reservasAprobadas?: ReservaUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUpdateManyWithoutUsuarioRecibioNestedInput
-    reservasRenovadas?: ReservaUpdateManyWithoutUsuarioRenovoNestedInput
-    reservasSolicitadas?: ReservaUpdateManyWithoutUsuarioSolicitoNestedInput
-    reservasComoTutor?: ReservaUpdateManyWithoutUsuarioTutorNestedInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
-    sessions?: SessionUpdateManyWithoutUserNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUpdateManyWithoutSolicitanteNestedInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUpdateManyWithoutUsuarioCreadorNestedInput
+    cursosComoAyudante?: CursoAyudanteUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUpdateOneWithoutUsuarioNestedInput
-    pais?: PaisUpdateOneWithoutUsuariosNestedInput
-    provincia?: ProvinciaUpdateOneWithoutUsuariosNestedInput
-    usuarioRol?: UsuarioRolUpdateManyWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUncheckedUpdateWithoutDocumentoTipoInput = {
@@ -98486,26 +101739,27 @@ export namespace Prisma {
     provinciaIso?: NullableStringFieldUpdateOperationsInput | string | null
     paisIso?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
-    cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
-    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
-    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
-    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
-    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
-    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
-    materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
-    MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    usuarioRol?: UsuarioRolUncheckedUpdateManyWithoutUsuarioNestedInput
+    reservasSolicitadas?: ReservaUncheckedUpdateManyWithoutUsuarioSolicitoNestedInput
+    reservasRenovadas?: ReservaUncheckedUpdateManyWithoutUsuarioRenovoNestedInput
+    reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
     reservasAprobadas?: ReservaUncheckedUpdateManyWithoutUsuarioAprobadorNestedInput
     reservasRechazadas?: ReservaUncheckedUpdateManyWithoutUsuarioRechazadoNestedInput
     reservasRecibidas?: ReservaUncheckedUpdateManyWithoutUsuarioRecibioNestedInput
-    reservasRenovadas?: ReservaUncheckedUpdateManyWithoutUsuarioRenovoNestedInput
-    reservasSolicitadas?: ReservaUncheckedUpdateManyWithoutUsuarioSolicitoNestedInput
-    reservasComoTutor?: ReservaUncheckedUpdateManyWithoutUsuarioTutorNestedInput
-    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    inscripcionesEspeciales?: InscripcionEspecialUncheckedUpdateManyWithoutSolicitanteNestedInput
+    inscripcionEspecialPeriodosCreados?: InscripcionEspecialPeriodoUncheckedUpdateManyWithoutUsuarioCreadorNestedInput
+    cursosComoAyudante?: CursoAyudanteUncheckedUpdateManyWithoutUsuarioNestedInput
+    cursosComoProfesor?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
+    MateriaJefeTp?: MateriaJefeTpUncheckedUpdateManyWithoutUsuarioNestedInput
+    materiasDirector?: MateriaUncheckedUpdateManyWithoutDirectorUsuarioNestedInput
     tutor?: TutorUncheckedUpdateOneWithoutUsuarioNestedInput
-    usuarioRol?: UsuarioRolUncheckedUpdateManyWithoutUsuarioNestedInput
+    ReservaLaboratorioCerrado?: ReservaLaboratorioCerradoUncheckedUpdateManyWithoutDiscrecionalDocenteNestedInput
     Voto?: VotoUncheckedUpdateManyWithoutUserNestedInput
+    fallasReportadas?: FallaUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasAsignadas?: FallaUncheckedUpdateManyWithoutAsignadoANestedInput
+    fallasHistReportadas?: FallaHistorialUncheckedUpdateManyWithoutReportadoPorNestedInput
+    fallasHistAsignadas?: FallaHistorialUncheckedUpdateManyWithoutAsignadoANestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutDocumentoTipoInput = {

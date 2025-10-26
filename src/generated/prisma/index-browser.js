@@ -325,6 +325,13 @@ exports.Prisma.InscripcionEspecialScalarFieldEnum = {
   fechaRespuesta: 'fechaRespuesta'
 };
 
+exports.Prisma.InscripcionEspecialPeriodoScalarFieldEnum = {
+  id: 'id',
+  fechaInicio: 'fechaInicio',
+  fechaFin: 'fechaFin',
+  usuarioCreadorId: 'usuarioCreadorId'
+};
+
 exports.Prisma.LaboratorioScalarFieldEnum = {
   id: 'id',
   nombre: 'nombre',
@@ -662,6 +669,20 @@ exports.Prisma.DocumentoTipoScalarFieldEnum = {
   nombre: 'nombre'
 };
 
+exports.Prisma.ConsultaScalarFieldEnum = {
+  id: 'id',
+  nombre: 'nombre',
+  apellido: 'apellido',
+  legajo: 'legajo',
+  email: 'email',
+  asunto: 'asunto',
+  consulta: 'consulta',
+  fechaConsulta: 'fechaConsulta',
+  respuesta: 'respuesta',
+  fechaRespuesta: 'fechaRespuesta',
+  estado: 'estado'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -836,6 +857,7 @@ exports.SgeNombre = exports.$Enums.SgeNombre = {
   REP_FALLAS_BUSCAR_REP_FALLAS: 'REP_FALLAS_BUSCAR_REP_FALLAS',
   REP_FALLAS_REPORTAR_FALLAS: 'REP_FALLAS_REPORTAR_FALLAS',
   REP_FALLAS_ADMIN_REP_FALLAS: 'REP_FALLAS_ADMIN_REP_FALLAS',
+  REP_FALLAS_RESOLVER_FALLAS: 'REP_FALLAS_RESOLVER_FALLAS',
   ACTIVIDADES_USUARIO_SGE_PUBLICAR_ADMIN: 'ACTIVIDADES_USUARIO_SGE_PUBLICAR_ADMIN',
   ACTIVIDADES_USUARIO_SGE_VER_PUBLICACIONES: 'ACTIVIDADES_USUARIO_SGE_VER_PUBLICACIONES',
   ACTIVIDADES_ABIERTAS_PUBLICAR_ADMIN: 'ACTIVIDADES_ABIERTAS_PUBLICAR_ADMIN',
@@ -844,6 +866,8 @@ exports.SgeNombre = exports.$Enums.SgeNombre = {
   INSCRIPCIONES_ESPECIALES_VER_LISTADO: 'INSCRIPCIONES_ESPECIALES_VER_LISTADO',
   INSCRIPCIONES_ESPECIALES_ADMIN: 'INSCRIPCIONES_ESPECIALES_ADMIN',
   INSCRIPCIONES_ESPECIALES_SOLICITAR: 'INSCRIPCIONES_ESPECIALES_SOLICITAR',
+  VENTANILLA_VER_CONSULTAS: 'VENTANILLA_VER_CONSULTAS',
+  VENTANILLA_RESPONDER_CONSULTAS: 'VENTANILLA_RESPONDER_CONSULTAS',
   ACTA_VOTAR: 'ACTA_VOTAR',
   ACTA_CREAR: 'ACTA_CREAR',
   ACTA_GESTIONAR: 'ACTA_GESTIONAR',
@@ -870,6 +894,7 @@ exports.Prisma.ModelName = {
   Falla: 'Falla',
   FallaHistorial: 'FallaHistorial',
   InscripcionEspecial: 'InscripcionEspecial',
+  InscripcionEspecialPeriodo: 'InscripcionEspecialPeriodo',
   Laboratorio: 'Laboratorio',
   Armario: 'Armario',
   Estante: 'Estante',
@@ -899,7 +924,8 @@ exports.Prisma.ModelName = {
   Permiso: 'Permiso',
   Provincia: 'Provincia',
   Pais: 'Pais',
-  DocumentoTipo: 'DocumentoTipo'
+  DocumentoTipo: 'DocumentoTipo',
+  Consulta: 'Consulta'
 };
 
 /**

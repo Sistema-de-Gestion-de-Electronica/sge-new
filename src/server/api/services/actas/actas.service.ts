@@ -7,10 +7,13 @@ import { Prisma } from "@/generated/prisma";
 import { inputAgregarVoto } from "@/shared/filters/votos-filter.schema";
 import { getActaAbierta, getVotosFromActaAbierta } from "../../repositories/admin/actas-admin.repository";
 import { agregarVoto } from "../../repositories/votos/votos.repository";
+import { verificarPermisoUsuario } from "../../repositories/permisos/permisos.repository";
+import { SgeNombre, type PrismaClient } from "@/generated/prisma";
+
 
 export const existenActasProcedure = publicProcedure
   .query(async ({ctx}) => {
-    const esC = await esRol(ctx, "CONSEJERO");
+    const esC = await verificarPermisoUsuario(ctx, ctx.session?.user?.id ?? "", [SgeNombre.ACTA_VOTAR]);
     const actas = await getActas(ctx, esC);
     if (actas.length === 0)
       return false;
@@ -22,9 +25,9 @@ export const getAllActasProcedure = publicProcedure
   .input(inputGetAllActas)
   .query(async ({ ctx, input }) => {
     validarInput(inputGetAllActas, input);
-    const esC = await esRol(ctx, "CONSEJERO");
+    const esC = await verificarPermisoUsuario(ctx, ctx.session?.user?.id ?? "", [SgeNombre.ACTA_VOTAR]);
     const esA = await esRol(ctx,"ADMINISTRACIÓN")
-    const actas = await getAllActas(ctx, input, esC,esA, true);
+    const actas = await getAllActas(ctx, input, esC, esA, true);
     if (actas.length === 0)
       return [];
     else
@@ -33,15 +36,9 @@ export const getAllActasProcedure = publicProcedure
 
   export const getAllAniosActasProcedure = publicProcedure
   .query(async ({ ctx }) => {
-    const esC = await esRol(ctx, "CONSEJERO");
+    const esC = await verificarPermisoUsuario(ctx, ctx.session?.user?.id ?? "", [SgeNombre.ACTA_VOTAR]);
     const anios = await getAllAniosActas(ctx, esC);
     return anios;
-  });
-
-  export const tieneRolConsejero = publicProcedure
-    .query(async ({ ctx }) => {
-    const consejero = await esRol(ctx, "CONSEJERO");
-    return consejero;
   });
 
 async function esRol(ctx: any, rol: string) {
@@ -59,16 +56,13 @@ export const agregarVotoProcedure = protectedProcedure
       validarInput(inputAgregarVoto, input);
 
       const userId = ctx.session?.user?.id;
-      if (!userId) throw new TRPCError({ code: "UNAUTHORIZED" });
-
       const acta = await getActaAbierta(ctx);
       if (!acta?.id) {
-        throw new TRPCError({ code: "BAD_REQUEST", message: "No hay un acta abierta" });
+        throw new Error("No hay actas abiertas para votar");
       }
-      
       const yaVoto = await validarVoto(ctx, userId, acta.id);
       if (yaVoto) {
-        throw new TRPCError({ code: "BAD_REQUEST", message: "El usuario ya voto" });
+        throw new Error("El usuario ya voto" );
       }
 
       const voto = await agregarVoto(ctx, input, userId, acta.id);
@@ -76,20 +70,6 @@ export const agregarVotoProcedure = protectedProcedure
       return voto;
     } catch (e) {
       console.error("[votos.createVoto] error:", e);
-
-      // deja pasar TRPCError tal cual
-      if (e instanceof TRPCError) throw e;
-
-      // si viniera un P2002 desde el repo (índice único)
-      const pe = e as Prisma.PrismaClientKnownRequestError;
-      if (pe?.code === "P2002") {
-        throw new TRPCError({ code: "CONFLICT", message: "El consejero ya votó en esta acta" });
-      }
-
-      throw new TRPCError({
-        code: "INTERNAL_SERVER_ERROR",
-        message: e instanceof Error ? e.message : "Error agregando voto",
-      });
     }
   });
 

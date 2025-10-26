@@ -7,6 +7,7 @@ import { TienePermiso } from "@/app/_components/permisos/tienePermiso";
 import UploadActa from "./_components/UploadActa";
 import ClientDateModalPicker from "./_components/ClientDateSection";
 import OcultarEliminarActasModal from "./_components/ModalHistoricosActas";
+import { SgeNombre } from "@/generated/prisma";
 
 
 export default function Page() {
@@ -14,14 +15,17 @@ export default function Page() {
     <PageLayout 
       route={ACTAS_ROUTE}
       buttons={
-        <TienePermiso permisos={[]}>
-          {/* TODO: no se cual seria el permiso que va??*/}
-          <div className="flex items-center justify-end gap-2">
+        <div className="flex items-center justify-end gap-2">
+          <TienePermiso permisos={[SgeNombre.ACTA_CREAR]}>
             <UploadActa />
+          </TienePermiso>
+          <TienePermiso permisos={[SgeNombre.ACTA_GESTIONAR]}>
             <OcultarEliminarActasModal />
+          </TienePermiso>
+          <TienePermiso permisos={[SgeNombre.ACTA_CREAR_REUNION]}>
             <ClientDateModalPicker />
-          </div>
-        </TienePermiso>
+          </TienePermiso>
+        </div>
       }
     >
       <Suspense fallback={<p className="p-4">Cargando calendario...</p>}>

@@ -88,7 +88,7 @@ export default function VotacionActa() {
                 posicion: voto,
                 comentario: comentario.trim() || null
               });
-              toast.success("Voto agregado con exito");
+              toast.success("Voto emitido con exito");
               await utils.actas.yaVoto.invalidate();
               router.refresh();
             } catch (e) {

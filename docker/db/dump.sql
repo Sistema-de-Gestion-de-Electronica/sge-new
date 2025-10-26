@@ -215,7 +215,12 @@ CREATE TYPE public."SgeNombre" AS ENUM (
     'INSCRIPCIONES_ESPECIALES_SOLICITAR',
     'REP_FALLAS_RESOLVER_FALLAS',
     'VENTANILLA_VER_CONSULTAS',
-    'VENTANILLA_RESPONDER_CONSULTAS'
+    'VENTANILLA_RESPONDER_CONSULTAS',
+    'ACTA_VOTAR',
+    'ACTA_CREAR',
+    'ACTA_GESTIONAR',
+    'ACTA_VER_VOTACION',
+    'ACTA_CREAR_REUNION'
 );
 
 
@@ -7415,6 +7420,11 @@ COPY public."Permiso" (id, "sgeNombre", nombre, rubro, incluido, "fechaCreacion"
 88	REP_FALLAS_RESOLVER_FALLAS	Ser asignado para resolver fallas	Reporte de fallas	t	2025-04-14 06:14:20.858	2025-04-14 06:14:20.858	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
 89	VENTANILLA_VER_CONSULTAS	Ver consultas	Ventanilla	f	2025-08-28 22:47:37.105	2025-08-28 22:47:37.105	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
 90	VENTANILLA_RESPONDER_CONSULTAS	Responder consultas	Ventanilla	f	2025-08-28 22:47:37.105	2025-08-28 22:47:37.105	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
+91	ACTA_VOTAR	Votar actas	Actas	t	2025-08-28 22:47:37.105	2025-08-28 22:47:37.105	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
+92	ACTA_CREAR	Crear actas	Actas	t	2025-08-28 22:47:37.105	2025-08-28 22:47:37.105	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
+93	ACTA_GESTIONAR	Gestionar actas	Actas	t	2025-08-28 22:47:37.105	2025-08-28 22:47:37.105	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
+94	ACTA_VER_VOTACION	Visualizar votos del acta abierta	Actas	t	2025-08-28 22:47:37.105	2025-08-28 22:47:37.105	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
+95	ACTA_CREAR_REUNION	Setear fecha próxima reunión de consejo	Actas	t	2025-08-28 22:47:37.105	2025-08-28 22:47:37.105	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
 \.
 
 
@@ -52346,6 +52356,7 @@ COPY public."Reunion" (id, fecha, "fechaNormalizada", link, "createdAt") FROM st
 --
 
 COPY public."Rol" (id, nombre, "fechaCreacion", "fechaModificacion", "usuarioCreadorId", "usuarioModificadorId") FROM stdin;
+1	Administración	2025-04-14 06:14:20.865	2025-04-14 06:14:20.865	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
 2	Docente	2025-04-14 06:14:20.875	2025-04-14 06:14:20.875	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
 3	Cátedra	2025-04-14 06:14:20.884	2025-04-14 06:14:20.884	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
 4	Laboratorios	2025-04-14 06:14:20.893	2025-04-14 06:14:20.893	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
@@ -52359,9 +52370,10 @@ COPY public."Rol" (id, nombre, "fechaCreacion", "fechaModificacion", "usuarioCre
 12	Biblioteca	2025-04-14 06:14:20.928	2025-04-14 06:14:20.928	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
 13	Préstamo de libros	2025-04-14 06:14:20.932	2025-04-14 06:14:20.932	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
 14	Consejero	2025-08-29 20:50:19.869	2025-08-29 20:50:19.869	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
-1	Administración	2025-04-14 06:14:20.865	2025-08-29 21:05:26.918	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
 15	Administración de inscripciones especiales	2025-04-14 06:14:20.865	2025-08-29 21:05:26.918	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
 16	Servicio Técnico	2025-04-14 06:14:20.865	2025-08-29 21:05:26.918	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
+17	Director de Departamento	2025-10-19 22:10:20.225	2025-10-19 22:10:20.225	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
+18	Publicador	2025-10-19 22:10:20.225	2025-10-19 22:10:20.225	cm9goht79004qdrqpdif3osjy	cm9goht79004qdrqpdif3osjy
 \.
 
 
@@ -52380,9 +52392,6 @@ COPY public."RolPermiso" ("rolId", "permisoId", "fechaCreacion", "usuarioCreador
 1	4	2025-04-14 06:14:20.865	cm9goht79004qdrqpdif3osjy
 1	3	2025-04-14 06:14:20.865	cm9goht79004qdrqpdif3osjy
 1	2	2025-04-14 06:14:20.865	cm9goht79004qdrqpdif3osjy
-1	85	2025-04-14 06:14:20.865	cm9goht79004qdrqpdif3osjy
-1	86	2025-04-14 06:14:20.865	cm9goht79004qdrqpdif3osjy
-1	87	2025-04-14 06:14:20.865	cm9goht79004qdrqpdif3osjy
 2	77	2025-04-14 06:14:20.875	cm9goht79004qdrqpdif3osjy
 2	68	2025-04-14 06:14:20.875	cm9goht79004qdrqpdif3osjy
 2	64	2025-04-14 06:14:20.875	cm9goht79004qdrqpdif3osjy
@@ -52496,7 +52505,7 @@ COPY public."RolPermiso" ("rolId", "permisoId", "fechaCreacion", "usuarioCreador
 13	64	2025-04-14 06:14:20.932	cm9goht79004qdrqpdif3osjy
 13	63	2025-04-14 06:14:20.932	cm9goht79004qdrqpdif3osjy
 13	62	2025-04-14 06:14:20.932	cm9goht79004qdrqpdif3osjy
-14	84	2025-08-29 20:50:50.527	cm9goht79004qdrqpdif3osjy
+14	91	2025-08-29 20:50:50.527	cm9goht79004qdrqpdif3osjy
 1	14	2025-08-29 21:05:26.918	cm9goht79004qdrqpdif3osjy
 15	85	2025-08-29 20:50:50.527	cm9goht79004qdrqpdif3osjy
 15	86	2025-08-29 20:50:50.527	cm9goht79004qdrqpdif3osjy
@@ -52507,7 +52516,16 @@ COPY public."RolPermiso" ("rolId", "permisoId", "fechaCreacion", "usuarioCreador
 16	88	2025-08-29 21:05:26.918	cm9goht79004qdrqpdif3osjy
 1	89	2025-08-29 21:05:26.918	cm9goht79004qdrqpdif3osjy
 1	90	2025-08-29 21:05:26.918	cm9goht79004qdrqpdif3osjy
+17	91	2025-10-19 22:10:20.225	cm9goht79004qdrqpdif3osjy
+17	92	2025-10-19 22:10:20.225	cm9goht79004qdrqpdif3osjy
+17	93	2025-10-19 22:10:20.225	cm9goht79004qdrqpdif3osjy
+17	94	2025-10-19 22:10:20.225	cm9goht79004qdrqpdif3osjy
+17	95	2025-10-19 22:10:20.225	cm9goht79004qdrqpdif3osjy
+18	92	2025-10-19 22:10:20.225	cm9goht79004qdrqpdif3osjy
+18	94	2025-10-19 22:10:20.225	cm9goht79004qdrqpdif3osjy
+18	95	2025-10-19 22:10:20.225	cm9goht79004qdrqpdif3osjy
 \.
+
 
 
 --
@@ -57695,4 +57713,3 @@ ALTER TABLE ONLY public."Voto"
 --
 -- PostgreSQL database dump complete
 --
-

@@ -147,6 +147,7 @@ services:
       DATABASE_URL: postgresql://postgres:password@db-sge:5432/sge3
       NEXTAUTH_SECRET: lp2N2u+qEluD/OrZ+rAhQsKk6xGTVnogU8xNT5MtZj0=
       NEXTAUTH_URL: https://sge-dev.frba.utn.edu.ar
+      NEXT_PUBLIC_APP_HOST: sge-dev.frba.utn.edu.ar
       NODE_TLS_REJECT_UNAUTHORIZED: 0
 
       KEYCLOAK_CLIENT_ID: sge

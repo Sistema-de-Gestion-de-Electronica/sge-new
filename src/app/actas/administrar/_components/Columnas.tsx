@@ -19,7 +19,7 @@ export type VotoActa = {
 const VALOR_LABEL: Record<ValorVoto, string> = {
   ACUERDO: "De acuerdo",
   DESACUERDO: "En desacuerdo",
-  PARCIAL: "Acuerdo parcial",
+  ACUERDO_PARCIAL: "Acuerdo parcial",
 };
 
 const ValorBadge: React.FC<{ valor: ValorVoto }> = ({ valor }) => {

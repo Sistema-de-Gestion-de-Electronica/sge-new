@@ -304,20 +304,25 @@ export const REPORTES_ROUTE: AppRoute = {
 export const ACTAS_ROUTE: AppRoute = {
   href: "/actas",
   label: "Actas",
-  isPublic: false,
+  isPublic: true,
   permisos: [],
   subRutas: [
     {
       href: "/actas",
       label: "Historial",
-      isPublic: false,
+      isPublic: true,
       permisos: [],
     },
     {
       href: "/actas/administrar",
       label: "Administrar",
       isPublic: false,
-      permisos: [SgeNombre.ACTA_GESTIONAR, SgeNombre.ACTA_CREAR, SgeNombre.ACTA_CREAR_REUNION, SgeNombre.ACTA_VER_VOTACION],
+      permisos: [
+        SgeNombre.ACTA_GESTIONAR,
+        SgeNombre.ACTA_CREAR,
+        SgeNombre.ACTA_CREAR_REUNION,
+        SgeNombre.ACTA_VER_VOTACION,
+      ],
     },
   ],
 };

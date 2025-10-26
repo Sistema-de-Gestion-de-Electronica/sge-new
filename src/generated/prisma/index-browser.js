@@ -20,12 +20,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 6.17.0
- * Query Engine version: c0aafc03b8ef6cdced8654b9a817999e02457d6a
+ * Prisma Client JS version: 6.17.1
+ * Query Engine version: 272a37d34178c2894197e17273bf937f25acdeac
  */
 Prisma.prismaVersion = {
-  client: "6.17.0",
-  engine: "c0aafc03b8ef6cdced8654b9a817999e02457d6a"
+  client: "6.17.1",
+  engine: "272a37d34178c2894197e17273bf937f25acdeac"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -323,6 +323,13 @@ exports.Prisma.InscripcionEspecialScalarFieldEnum = {
   vinoPresencialmente: 'vinoPresencialmente',
   fechaSolicitud: 'fechaSolicitud',
   fechaRespuesta: 'fechaRespuesta'
+};
+
+exports.Prisma.InscripcionEspecialPeriodoScalarFieldEnum = {
+  id: 'id',
+  fechaInicio: 'fechaInicio',
+  fechaFin: 'fechaFin',
+  usuarioCreadorId: 'usuarioCreadorId'
 };
 
 exports.Prisma.LaboratorioScalarFieldEnum = {
@@ -662,6 +669,20 @@ exports.Prisma.DocumentoTipoScalarFieldEnum = {
   nombre: 'nombre'
 };
 
+exports.Prisma.ConsultaScalarFieldEnum = {
+  id: 'id',
+  nombre: 'nombre',
+  apellido: 'apellido',
+  legajo: 'legajo',
+  email: 'email',
+  asunto: 'asunto',
+  consulta: 'consulta',
+  fechaConsulta: 'fechaConsulta',
+  respuesta: 'respuesta',
+  fechaRespuesta: 'fechaRespuesta',
+  estado: 'estado'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -836,6 +857,7 @@ exports.SgeNombre = exports.$Enums.SgeNombre = {
   REP_FALLAS_BUSCAR_REP_FALLAS: 'REP_FALLAS_BUSCAR_REP_FALLAS',
   REP_FALLAS_REPORTAR_FALLAS: 'REP_FALLAS_REPORTAR_FALLAS',
   REP_FALLAS_ADMIN_REP_FALLAS: 'REP_FALLAS_ADMIN_REP_FALLAS',
+  REP_FALLAS_RESOLVER_FALLAS: 'REP_FALLAS_RESOLVER_FALLAS',
   ACTIVIDADES_USUARIO_SGE_PUBLICAR_ADMIN: 'ACTIVIDADES_USUARIO_SGE_PUBLICAR_ADMIN',
   ACTIVIDADES_USUARIO_SGE_VER_PUBLICACIONES: 'ACTIVIDADES_USUARIO_SGE_VER_PUBLICACIONES',
   ACTIVIDADES_ABIERTAS_PUBLICAR_ADMIN: 'ACTIVIDADES_ABIERTAS_PUBLICAR_ADMIN',
@@ -843,7 +865,14 @@ exports.SgeNombre = exports.$Enums.SgeNombre = {
   CONSEJERO_VOTACION_ACTA: 'CONSEJERO_VOTACION_ACTA',
   INSCRIPCIONES_ESPECIALES_VER_LISTADO: 'INSCRIPCIONES_ESPECIALES_VER_LISTADO',
   INSCRIPCIONES_ESPECIALES_ADMIN: 'INSCRIPCIONES_ESPECIALES_ADMIN',
-  INSCRIPCIONES_ESPECIALES_SOLICITAR: 'INSCRIPCIONES_ESPECIALES_SOLICITAR'
+  INSCRIPCIONES_ESPECIALES_SOLICITAR: 'INSCRIPCIONES_ESPECIALES_SOLICITAR',
+  VENTANILLA_VER_CONSULTAS: 'VENTANILLA_VER_CONSULTAS',
+  VENTANILLA_RESPONDER_CONSULTAS: 'VENTANILLA_RESPONDER_CONSULTAS',
+  ACTA_VOTAR: 'ACTA_VOTAR',
+  ACTA_CREAR: 'ACTA_CREAR',
+  ACTA_GESTIONAR: 'ACTA_GESTIONAR',
+  ACTA_VER_VOTACION: 'ACTA_VER_VOTACION',
+  ACTA_CREAR_REUNION: 'ACTA_CREAR_REUNION'
 };
 
 exports.Prisma.ModelName = {
@@ -865,6 +894,7 @@ exports.Prisma.ModelName = {
   Falla: 'Falla',
   FallaHistorial: 'FallaHistorial',
   InscripcionEspecial: 'InscripcionEspecial',
+  InscripcionEspecialPeriodo: 'InscripcionEspecialPeriodo',
   Laboratorio: 'Laboratorio',
   Armario: 'Armario',
   Estante: 'Estante',
@@ -894,7 +924,8 @@ exports.Prisma.ModelName = {
   Permiso: 'Permiso',
   Provincia: 'Provincia',
   Pais: 'Pais',
-  DocumentoTipo: 'DocumentoTipo'
+  DocumentoTipo: 'DocumentoTipo',
+  Consulta: 'Consulta'
 };
 
 /**

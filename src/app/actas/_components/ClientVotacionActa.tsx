@@ -9,6 +9,8 @@ import { api } from "@/trpc/react"
 import { useState } from 'react'
 import { Acta } from './TypeActa'
 import GraciasPorVotar from './thankYouDiv'
+import { SgeNombre } from '@/generated/prisma'
+import { TienePermiso } from '@/app/_components/permisos/tienePermiso'
 
 function EmptyStateNoActa() {
   return (
@@ -23,25 +25,23 @@ function EmptyStateNoActa() {
 
 export function ClientVotacionActa() {
   const methods = useForm();
-  const { data: esConsejero, isLoading } = api.actas.tieneRolConsejero.useQuery();
   const {data: existenActas} = api.actas.existenActas.useQuery();
   const [acta, setActa] = useState<Acta | undefined>(undefined);
   const {data: reunion  } = api.reunion.getUltimaReunion.useQuery();
   const [pdfLoading, setPdfLoading] = useState(false);
   const { data: yaVoto, error: yaVotoError } = api.actas.yaVoto.useQuery(undefined, {
-    enabled: !!esConsejero,
     retry: false,
   });
 
   const handleState = (acta: Acta) => {
-    //console.log('Información del acta seleccionada:', acta);
     setActa(acta);
   }
 
-const pdfUrl = acta?.label
-  ? `https://${process.env.NEXT_PUBLIC_APP_HOST}/actas/${acta.label}.pdf`
-  : undefined;
+  const pdfUrl = acta?.label
+    ? `https://${process.env.NEXT_PUBLIC_APP_HOST}/actas/${acta.label}.pdf`
+    : undefined;
 
+    console.log("El acta es",pdfUrl)
 
   if(!existenActas){
     return <EmptyStateNoActa/>
@@ -59,16 +59,12 @@ const pdfUrl = acta?.label
               <SelectActasForm name="acta" control={methods.control} onStateChange={handleState} />
             </div>
           </div>
-          {isLoading ? (
-            <div className="h-10 w-48 animate-pulse rounded bg-gray-200" />
-          ) : esConsejero ? (
+          <TienePermiso permisos={[SgeNombre.ACTA_VOTAR]}>
             <div className="flex flex-col items-center">
               <p>Próxima reunión: {reunion?.fechaNormalizada || "Aun no hay fecha establecida"}</p>
               <a href={reunion?.link} target="_blank" className="text-blue-600">Conectarse a la reunión</a>
             </div>
-          ) : (
-          <div className="flex flex-col items-center"></div>
-          )}
+          </TienePermiso>
         </div>
              
         {/* Header acta */}
@@ -86,7 +82,7 @@ const pdfUrl = acta?.label
               </p>
             </>
           ) : acta ? (
-            <h1 className="text-xl font-semibold text-gray-900">Acta-{acta.label}</h1>
+            <h1 className="text-xl text-center font-semibold text-gray-900">Acta del {acta.label}</h1>
           ) : (
             <div className="h-6 w-48 animate-pulse rounded bg-gray-200" />
           )}
@@ -96,11 +92,13 @@ const pdfUrl = acta?.label
           <PdfIframeViewer file={pdfUrl} onLoadingChange={setPdfLoading} />
         </div>
 
-        {esConsejero && acta?.estado === "ABIERTA"? (
-          !yaVoto
-            ? <VotacionActa />
-            : <GraciasPorVotar />
-        ) : <></>}
+        <TienePermiso permisos={[SgeNombre.ACTA_VOTAR]}>
+          {acta?.estado === "ABIERTA"? (
+            !yaVoto
+              ? <VotacionActa />
+              : <GraciasPorVotar />
+          ) : <></>}  
+        </TienePermiso>  
       </form>
     </FormProvider>
   )

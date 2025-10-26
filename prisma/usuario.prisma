@@ -1,6 +1,3 @@
-// Las propiedades y tablas  que estan escritas en ingles, se utilizan por el adapter de NextAuth para el login. No cambiar el nombre de las propiedades.
-// Todas las propiedades que no esten en ingles, deben tener algun valor por defecto o aceptar nulo.
-// https://authjs.dev/getting-started/adapters/prisma#naming-conventions
 model User {
   id            String   @id @default(cuid())
   name          String   @unique
@@ -43,13 +40,14 @@ model User {
   sessions   Session[]
   usuarioRol UsuarioRol[]
 
-  reservasSolicitadas     Reserva[]             @relation(name: "reservasSolicitadas")
-  reservasRenovadas       Reserva[]             @relation(name: "reservasRenovadas")
-  reservasComoTutor       Reserva[]             @relation(name: "reservaTutor")
-  reservasAprobadas       Reserva[]             @relation(name: "reservasAprobadas")
-  reservasRechazadas      Reserva[]             @relation(name: "reservasRechazadas")
-  reservasRecibidas       Reserva[]             @relation(name: "reservasRecibidas")
-  inscripcionesEspeciales InscripcionEspecial[] @relation(name: "inscripcionesEspeciales")
+  reservasSolicitadas                Reserva[]                    @relation(name: "reservasSolicitadas")
+  reservasRenovadas                  Reserva[]                    @relation(name: "reservasRenovadas")
+  reservasComoTutor                  Reserva[]                    @relation(name: "reservaTutor")
+  reservasAprobadas                  Reserva[]                    @relation(name: "reservasAprobadas")
+  reservasRechazadas                 Reserva[]                    @relation(name: "reservasRechazadas")
+  reservasRecibidas                  Reserva[]                    @relation(name: "reservasRecibidas")
+  inscripcionesEspeciales            InscripcionEspecial[]        @relation(name: "inscripcionesEspeciales")
+  inscripcionEspecialPeriodosCreados InscripcionEspecialPeriodo[] @relation(name: "inscripcionEspecialPeriodosCreados")
 
   cursosComoAyudante CursoAyudante[]
   cursosComoProfesor Curso[]
@@ -60,105 +58,88 @@ model User {
   ReservaLaboratorioCerrado ReservaLaboratorioCerrado[] @relation(name: "reservasLaboratorioCerrado")
   Voto                      Voto[]
 
-    fallasReportadas Falla[] @relation(name: "FallasReportadas")
-    fallasAsignadas  Falla[] @relation(name: "FallasAsignadas")
+  fallasReportadas Falla[] @relation(name: "FallasReportadas")
+  fallasAsignadas  Falla[] @relation(name: "FallasAsignadas")
 
-    fallasHistReportadas FallaHistorial[] @relation(name: "FallaHistorialReportadoPor")
-    fallasHistAsignadas  FallaHistorial[] @relation(name: "FallaHistorialAsignadoA")
+  fallasHistReportadas FallaHistorial[] @relation(name: "FallaHistorialReportadoPor")
+  fallasHistAsignadas  FallaHistorial[] @relation(name: "FallaHistorialAsignadoA")
 
-    @@unique([legajo(sort: Asc)], map: "usuario_legajo_asc_idx")
-    @@index([name(sort: Asc)])
-    @@index([apellido(sort: Asc)])
-    @@index([email(sort: Asc)])
-    @@index([legajo], type: Hash, map: "usuario_legajo_hash_idx")
+  @@unique([legajo(sort: Asc)], map: "usuario_legajo_asc_idx")
+  @@index([name(sort: Asc)])
+  @@index([apellido(sort: Asc)])
+  @@index([email(sort: Asc)])
+  @@index([legajo], type: Hash, map: "usuario_legajo_hash_idx")
 }
 
 model Tutor {
-  userId  String @unique
-  usuario User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  diasHorarios String
-  activo       Boolean
-
-  especialidad String
-
+  userId           String   @id @unique
+  diasHorarios     String
+  activo           Boolean
+  especialidad     String
   fechaCreacion    DateTime @default(now())
   usuarioCreadorId String
+  usuario          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@id([userId])
   @@index([especialidad])
 }
 
 model UsuarioRol {
-  userId  String
-  usuario User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  rolId Int
-  rol   Rol @relation(fields: [rolId], references: [id], onDelete: Cascade)
-
+  userId           String
+  rolId            Int
   fechaCreacion    DateTime @default(now())
   usuarioCreadorId String
+  rol              Rol      @relation(fields: [rolId], references: [id], onDelete: Cascade)
+  usuario          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([userId, rolId])
 }
 
 model Rol {
-  id Int @id @default(autoincrement())
-
-  nombre String @unique
-
-  usuarios   UsuarioRol[]
-  rolPermiso RolPermiso[]
-
-  fechaCreacion        DateTime @default(now())
-  fechaModificacion    DateTime @default(now()) @updatedAt
+  id                   Int          @id @default(autoincrement())
+  nombre               String       @unique
+  fechaCreacion        DateTime     @default(now())
+  fechaModificacion    DateTime     @default(now()) @updatedAt
   usuarioCreadorId     String
   usuarioModificadorId String
+  rolPermiso           RolPermiso[]
+  usuarios             UsuarioRol[]
 
-  @@index([nombre(sort: Asc)])
+  @@index([nombre])
 }
 
 model RolPermiso {
-  rolId Int
-  rol   Rol @relation(fields: [rolId], references: [id], onDelete: Cascade)
-
-  permisoId Int
-  permiso   Permiso @relation(fields: [permisoId], references: [id], onDelete: Cascade)
-
+  rolId            Int
+  permisoId        Int
   fechaCreacion    DateTime @default(now())
   usuarioCreadorId String
+  permiso          Permiso  @relation(fields: [permisoId], references: [id], onDelete: Cascade)
+  rol              Rol      @relation(fields: [rolId], references: [id], onDelete: Cascade)
 
   @@id([rolId, permisoId])
 }
 
 model Permiso {
-  id Int @id @default(autoincrement())
-
-  sgeNombre SgeNombre
-  nombre    String
-  rubro     String
-  incluido  Boolean   @default(true)
-
-  rolPermiso RolPermiso[]
-
-  fechaCreacion        DateTime @default(now())
-  fechaModificacion    DateTime @default(now()) @updatedAt
+  id                   Int          @id @default(autoincrement())
+  sgeNombre            SgeNombre    @unique
+  nombre               String
+  rubro                String
+  incluido             Boolean      @default(true)
+  fechaCreacion        DateTime     @default(now())
+  fechaModificacion    DateTime     @default(now()) @updatedAt
   usuarioCreadorId     String
   usuarioModificadorId String
+  rolPermiso           RolPermiso[]
 
   @@unique([nombre, rubro])
-  @@unique([sgeNombre])
-  @@index([nombre(sort: Asc)])
+  @@index([nombre])
   @@index([sgeNombre])
 }
 
 model Provincia {
-  iso    String
-  nombre String
-
-  paisIso String
-  pais    Pais   @relation(fields: [paisIso], references: [iso], onDelete: Cascade)
-
+  iso      String
+  nombre   String
+  paisIso  String
+  pais     Pais   @relation(fields: [paisIso], references: [iso], onDelete: Cascade)
   usuarios User[]
 
   @@id([iso, paisIso])
@@ -166,24 +147,21 @@ model Provincia {
 }
 
 model Pais {
-  iso            String @id
+  iso            String      @id
   nombreEspanol  String
   nombreIngles   String
   iso3           String
   codigoNumerico Int
+  provincias     Provincia[]
+  usuarios       User[]
 
-  usuarios   User[]
-  provincias Provincia[]
-
-  @@index([nombreEspanol(sort: Asc)])
+  @@index([nombreEspanol])
   @@index([iso3])
   @@index([codigoNumerico])
 }
 
 model DocumentoTipo {
-  id Int @id @default(autoincrement())
-
-  nombre String
-
+  id       Int    @id @default(autoincrement())
+  nombre   String
   usuarios User[]
 }

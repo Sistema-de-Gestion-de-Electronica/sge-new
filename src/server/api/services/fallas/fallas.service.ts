@@ -6,6 +6,7 @@ import {
   inputGestionarFallas,
   inputCambiarEstadoFalla,
   inputGetHistorialPorFallaId,
+  inputGetHistorialPorEquipoId,
   inputEliminarFalla,
 } from "@/shared/filters/fallas-filter.schema";
 import {
@@ -17,9 +18,11 @@ import {
   updateFalla,
   deleteFalla,
   findHistorialByFallaId,
+  findHistorialByEquipoId,
 } from "../../repositories/fallas/fallas.repository";
 import { protectedProcedure } from "../../trpc";
 import { validarInput } from "../helper";
+import { FallasEstatus } from "@/app/fallas/_components/badge-estatus-fallas";
 
 export const createFallaInstrumentoProcedure = protectedProcedure
   .input(inputReportarFallasInstrumento)
@@ -37,7 +40,7 @@ export const createFallaPCProcedure = protectedProcedure
 
 export const findAllFallasProcedure = protectedProcedure.input(inputGetAllFallas).query(async ({ ctx, input }) => {
   validarInput(inputGetAllFallas, input);
-  return await findAllFallas(ctx);
+  return await findAllFallas(ctx, input);
 });
 
 export const findFallaByIdProcedure = protectedProcedure.input(inputGetFallaPorId).query(async ({ ctx, input }) => {
@@ -68,3 +71,16 @@ export const findHistorialByFallaIdProcedure = protectedProcedure
     validarInput(inputGetHistorialPorFallaId, input);
     return await findHistorialByFallaId(ctx, input);
   });
+
+export const findHistorialByEquipoIdProcedure = protectedProcedure
+  .input(inputGetHistorialPorEquipoId)
+  .query(async ({ ctx, input }) => {
+    validarInput(inputGetHistorialPorEquipoId, input);
+    return await findHistorialByEquipoId(ctx, input);
+  });
+
+export const getAllEstadosProcedure = protectedProcedure.query(async () => {
+  return Object.values(FallasEstatus)
+    .filter((nombre) => nombre !== "ELIMINADO")
+    .map((nombre) => ({ nombre }));
+});

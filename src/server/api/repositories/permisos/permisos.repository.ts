@@ -1,4 +1,4 @@
-import { type SgeNombre, type PrismaClient } from "@/generated/prisma";
+import { type SgeNombre, type PrismaClient, User, Prisma } from "@/generated/prisma";
 import { type z } from "zod";
 import { type inputGetUsuarioYRol } from "@/shared/filters/permisos-filter";
 
@@ -48,4 +48,26 @@ export const verificarPermisoUsuario = async (
   `;
 
   return result[0]?.existe ?? false;
+};
+
+export const getUsuariosPorPermisos = async (
+  ctx: { db: PrismaClient },
+  sgePermisoNombre: SgeNombre | SgeNombre[],
+): Promise<Prisma.UserGetPayload<{ select: { id: true; email: true; nombre: true, apellido: true } }>[]> => {
+  const permisos = Array.isArray(sgePermisoNombre)
+    ? sgePermisoNombre
+    : [sgePermisoNombre];
+
+  const rows = await ctx.db.$queryRaw<{ id: string; email: string; nombre: string; apellido: string}[]
+  >`
+    SELECT DISTINCT u.id, u.email, u."nombre", u."apellido"
+    FROM "User" u
+    JOIN "UsuarioRol" ur   ON ur."userId" = u.id
+    JOIN "Rol" r           ON r.id = ur."rolId"
+    JOIN "RolPermiso" rp   ON rp."rolId" = r.id
+    JOIN "Permiso" p       ON p.id = rp."permisoId"
+    WHERE p."sgeNombre" = ANY(ARRAY[${permisos}]::"SgeNombre"[]);
+  `;
+
+  return rows;
 };

@@ -1,50 +1,36 @@
 model Falla {
-    id Int @id @default(autoincrement())
-
-    equipoId Int? // Puede ser nulo si no está inventariado
-    equipo   Equipo? @relation(fields: [equipoId], references: [id], onDelete: Cascade)
-
-    tipoFalla String // "PC" o "Instrumento"
-
-    fallas            String[] // Solo para PC
-    descripcionEquipo String? // Solo para Instrumento
-    descripcionFalla  String
-    condicion         String? // Solo para Instrumento
-
-    fechaReporte DateTime @default(now())
-
-    reportadoPorId String?
-    reportadoPor   User?   @relation("FallasReportadas", fields: [reportadoPorId], references: [id])
-
-    asignadoAId String?
-    asignadoA   User?   @relation("FallasAsignadas", fields: [asignadoAId], references: [id])
-
-    estado        String
-    palabrasClave String?
-
-    historial FallaHistorial[]
-
-    @@index([fechaReporte(sort: Desc)])
+  id                Int              @id @default(autoincrement())
+  equipoId          Int?
+  tipoFalla         String
+  fallas            String[]         @default([])
+  descripcionEquipo String?
+  descripcionFalla  String
+  condicion         String?
+  fechaReporte      DateTime         @default(now()) @db.Timestamp(6)
+  reportadoPorId    String?
+  asignadoAId       String?
+  estado            String
+  palabrasClave     String?
+  asignadoA         User?            @relation("FallasAsignadas", fields: [asignadoAId], references: [id], onDelete: Cascade)
+  equipo            Equipo?          @relation(fields: [equipoId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  reportadoPor      User?            @relation("FallasReportadas", fields: [reportadoPorId], references: [id], onDelete: Cascade)
+  historial         FallaHistorial[]
 }
 
 model FallaHistorial {
-    id Int @id @default(autoincrement())
+  id                Int      @id @default(autoincrement())
+  fallaId           Int
+  fallas            String[]
+  descripcionEquipo String?
+  descripcionFalla  String
+  reportadoPorId    String?
+  asignadoAId       String?
+  estado            String
+  fechaReporte      DateTime @db.Timestamp(6)
+  fechaCambioEstado DateTime @default(now()) @db.Timestamp(6)
+  asignadoA         User?    @relation("FallaHistorialAsignadoA", fields: [asignadoAId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  falla             Falla    @relation(fields: [fallaId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  reportadoPor      User?    @relation("FallaHistorialReportadoPor", fields: [reportadoPorId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
-    fallaId Int
-    falla   Falla @relation(fields: [fallaId], references: [id], onDelete: Cascade)
-
-    fallas            String[]
-    descripcionEquipo String?
-    descripcionFalla  String
-    reportadoPorId    String?
-    asignadoAId       String?
-    estado            String
-
-    fechaReporte      DateTime
-    fechaCambioEstado DateTime @default(now())
-
-    reportadoPor User? @relation("FallaHistorialReportadoPor", fields: [reportadoPorId], references: [id])
-    asignadoA    User? @relation("FallaHistorialAsignadoA", fields: [asignadoAId], references: [id])
-
-    @@index([fallaId, fechaCambioEstado(sort: Desc)])
+  @@index([fallaId, fechaCambioEstado(sort: Desc)])
 }

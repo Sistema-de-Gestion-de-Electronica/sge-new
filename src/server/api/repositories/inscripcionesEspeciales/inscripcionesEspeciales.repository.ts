@@ -232,12 +232,43 @@ export async function getAllInscripcionesEspeciales(
   userId: string,
 ): Promise<PaginatedResponse<InscripcionEspecialResponse>> {
   try {
-    const { filterByUserId } = input;
+    const {
+      filterByUserId,
+      pageIndex = 0,
+      pageSize = 10,
+      searchText,
+      caso,
+      estado,
+      vinoPresencialmente,
+      fueContactado,
+      orderBy = "fechaSolicitud",
+      orderDirection = "desc",
+    } = input;
 
     const filtrosWhere: Prisma.InscripcionEspecialWhereInput = {
       ...(filterByUserId === "true" ? { solicitanteId: userId } : {}),
       estado: { not: "ELIMINADA" },
+      ...(searchText && {
+        OR: [
+          { solicitante: { nombre: { contains: searchText, mode: "insensitive" } } },
+          { solicitante: { apellido: { contains: searchText, mode: "insensitive" } } },
+          { solicitante: { legajo: { contains: searchText, mode: "insensitive" } } },
+        ],
+      }),
+      ...(caso && { caso }),
+      ...(estado && { estado }),
+      ...(vinoPresencialmente !== undefined && { vinoPresencialmente: vinoPresencialmente === "true" }),
+      ...(fueContactado !== undefined && { fueContactado: fueContactado === "true" }),
     };
+
+    const orderByClause: Prisma.InscripcionEspecialOrderByWithRelationInput = {};
+    if (orderBy === "solicitante") {
+      orderByClause.solicitante = { apellido: orderDirection };
+    } else {
+      orderByClause[orderBy as keyof Prisma.InscripcionEspecialOrderByWithRelationInput] = orderDirection;
+    }
+
+    const skip = pageIndex * pageSize;
 
     const [count, inscripciones] = await ctx.prisma.$transaction([
       ctx.prisma.inscripcionEspecial.count({ where: filtrosWhere }),
@@ -248,7 +279,9 @@ export async function getAllInscripcionesEspeciales(
             select: getSolicitanteSelect(),
           },
         },
-        orderBy: { fechaSolicitud: "desc" },
+        orderBy: orderByClause,
+        skip,
+        take: pageSize,
       }),
     ]);
 
@@ -283,10 +316,6 @@ export async function getAllInscripcionesEspeciales(
         fechaRespuesta: i.fechaRespuesta ? formatDateToDays(i.fechaRespuesta) : "",
       };
     });
-
-    // TODO: Implementar paginado real
-    const pageIndex = 0;
-    const pageSize = 10;
 
     return {
       solicitudes,

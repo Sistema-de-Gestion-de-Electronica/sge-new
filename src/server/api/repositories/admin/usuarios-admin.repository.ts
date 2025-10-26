@@ -9,6 +9,7 @@ import {
   type inputGetUsuariosPorIds,
   type inputCambiarAsistio,
   type inputUserId,
+  type inputGetUsuarioPorLegajo,
 } from "@/shared/filters/admin-usuarios-filter.schema";
 import { ReservaTipo, type Prisma, type PrismaClient } from "@/generated/prisma";
 import { type z } from "zod";
@@ -380,4 +381,24 @@ export const cambiarAsistioReserva = async (ctx: { db: PrismaClient }, input: In
   } catch (error) {
     throw new Error(`Error cambiando asistió de reserva ${input.id}`);
   }
+};
+
+type InputGetUsuarioPorLegajo = z.infer<typeof inputGetUsuarioPorLegajo>;
+export const getUsuarioPorLegajo = async (
+  ctx: { db: PrismaClient },
+  input: InputGetUsuarioPorLegajo
+) => {
+  if (!input.legajo || input.legajo.trim() === "") {
+    return null;
+  }
+
+  const usuario = await ctx.db.user.findFirst({
+    where: { legajo: input.legajo },
+    select: {
+      nombre: true,
+      apellido: true,
+    },
+  });
+  
+  return usuario ?? null;
 };

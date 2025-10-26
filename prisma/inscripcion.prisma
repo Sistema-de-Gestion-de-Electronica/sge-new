@@ -14,9 +14,17 @@ model InscripcionEspecial {
     estado    String
     respuesta String?
 
-    fueContactado       Boolean?
-    vinoPresencialmente Boolean?
+    fueContactado       Boolean @default(false)
+    vinoPresencialmente Boolean @default(false)
 
     fechaSolicitud DateTime  @default(now())
     fechaRespuesta DateTime?
+}
+
+model InscripcionEspecialPeriodo {
+    id               Int      @id @default(autoincrement())
+    fechaInicio      DateTime
+    fechaFin         DateTime
+    usuarioCreadorId String
+    usuarioCreador   User     @relation(name: "inscripcionEspecialPeriodosCreados", fields: [usuarioCreadorId], references: [id], onDelete: Cascade)
 }

@@ -1,10 +1,11 @@
-import { Acta, PrismaClient } from "@/generated/prisma";
+import { Acta, PrismaClient, SgeNombre } from "@/generated/prisma";
 import { getAllConsejeros } from "../../repositories/actas/actas.repository";
 import { sendEmail } from "./email";
 import { ACTAS_ROUTE } from "@/shared/server-routes";
+import { getUsuariosPorPermisos } from "../../repositories/permisos/permisos.repository";
 
 export const enviarMailNuevaVotacionAbiertaProcedure = async (ctx: { db: PrismaClient }, acta: Acta, cuerpoMail: String) => {
-  const consejeros = getAllConsejeros(ctx);
+  const consejeros = getUsuariosPorPermisos(ctx, SgeNombre.ACTA_VOTAR);
 
   (await consejeros).forEach(async consejero => {
       if(!consejero.email) return;

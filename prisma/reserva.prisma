@@ -1,228 +1,166 @@
 model Reserva {
-  id Int @id @default(autoincrement())
-
-  estatus         ReservaEstatus
-  fechaHoraInicio DateTime
-  fechaHoraFin    DateTime
-  tipo            ReservaTipo
-  asistio         Boolean        @default(true)
-
-  motivoRechazo String?
-
-  // Usuario que hace la reserva
-  usuarioSolicitoId String
-  usuarioSolicito   User   @relation(fields: [usuarioSolicitoId], references: [id], name: "reservasSolicitadas", onDelete: Restrict)
-
-  // Usuario que aprueba la reserva
-  usuarioAprobadorId String?
-  usuarioAprobador   User?   @relation(fields: [usuarioAprobadorId], references: [id], name: "reservasAprobadas", onDelete: Restrict)
-
-  // Usuario que rechaza la reserva
-  usuarioRechazadoId String?
-  usuarioRechazado   User?   @relation(fields: [usuarioRechazadoId], references: [id], name: "reservasRechazadas", onDelete: Restrict)
-
-  // Usuario que solicita renovar la reserva
-  usuarioRenovoId String?
-  usuarioRenovo   User?   @relation(fields: [usuarioRenovoId], references: [id], name: "reservasRenovadas", onDelete: Restrict)
-
-  // Usuario que marca la reserva como terminada
-  usuarioRecibioId String?
-  usuarioRecibio   User?   @relation(fields: [usuarioRecibioId], references: [id], name: "reservasRecibidas", onDelete: Restrict)
-
-  // Tutor de la reserva (solo aplicable a reserva de laboratorio abierto)
-  usuarioTutorId String?
-  usuarioTutor   User?   @relation(fields: [usuarioTutorId], references: [id], name: "reservaTutor", onDelete: Restrict)
-
+  id                        Int                        @id @default(autoincrement())
+  estatus                   ReservaEstatus
+  fechaHoraInicio           DateTime
+  fechaHoraFin              DateTime
+  tipo                      ReservaTipo
+  asistio                   Boolean                    @default(true)
+  motivoRechazo             String?
+  usuarioSolicitoId         String
+  usuarioAprobadorId        String?
+  usuarioRechazadoId        String?
+  usuarioRenovoId           String?
+  usuarioRecibioId          String?
+  usuarioTutorId            String?
+  fechaRenovacion           DateTime?
+  fechaAprobacion           DateTime?
+  fechaRechazo              DateTime?
+  fechaRecibido             DateTime?
+  usuarioCreadorId          String
+  usuarioModificadorId      String
+  fechaCreacion             DateTime                   @default(now())
+  fechaModificacion         DateTime                   @updatedAt
+  mostrarEnPantalla         Boolean                    @default(true)
+  usuarioAprobador          User?                      @relation("reservasAprobadas", fields: [usuarioAprobadorId], references: [id], onDelete: Restrict)
+  usuarioRechazado          User?                      @relation("reservasRechazadas", fields: [usuarioRechazadoId], references: [id], onDelete: Restrict)
+  usuarioRecibio            User?                      @relation("reservasRecibidas", fields: [usuarioRecibioId], references: [id], onDelete: Restrict)
+  usuarioRenovo             User?                      @relation("reservasRenovadas", fields: [usuarioRenovoId], references: [id], onDelete: Restrict)
+  usuarioSolicito           User                       @relation("reservasSolicitadas", fields: [usuarioSolicitoId], references: [id])
+  usuarioTutor              User?                      @relation("reservaTutor", fields: [usuarioTutorId], references: [id], onDelete: Restrict)
   reservaEquipo             ReservaEquipo?
-  reservaLibro              ReservaLibro?
-  reservaLaboratorioCerrado ReservaLaboratorioCerrado?
   reservaLaboratorioAbierto ReservaLaboratorioAbierto?
-
-  fechaRenovacion DateTime?
-  fechaAprobacion DateTime?
-  fechaRechazo    DateTime?
-  fechaRecibido   DateTime?
-
-  // Auditorias
-  usuarioCreadorId     String
-  usuarioModificadorId String
-  fechaCreacion        DateTime @default(now())
-  fechaModificacion    DateTime @updatedAt
-
-  mostrarEnPantalla Boolean @default(true)
+  reservaLaboratorioCerrado ReservaLaboratorioCerrado?
+  reservaLibro              ReservaLibro?
 
   @@index([tipo], type: Hash)
   @@index([estatus], type: Hash)
   @@index([usuarioSolicitoId], type: Hash)
-  @@index([fechaHoraInicio(sort: Asc)], type: BTree)
-  @@index([fechaHoraFin(sort: Asc)], type: BTree)
+  @@index([fechaHoraInicio])
+  @@index([fechaHoraFin])
 }
 
 model ReservaEquipo {
-  id Int @id @default(autoincrement())
-
-  fechaEntregado DateTime
-
-  reservaId Int     @unique
-  reserva   Reserva @relation(fields: [reservaId], references: [id], onDelete: Cascade)
-
-  equipoId Int
-  equipo   Equipo @relation(fields: [equipoId], references: [id], onDelete: Cascade)
-
+  id                   Int      @id @default(autoincrement())
+  fechaEntregado       DateTime
+  reservaId            Int      @unique
+  equipoId             Int
   fechaCreacion        DateTime @default(now())
   fechaModificacion    DateTime @default(now()) @updatedAt
   usuarioCreadorId     String
   usuarioModificadorId String
+  equipo               Equipo   @relation(fields: [equipoId], references: [id], onDelete: Cascade)
+  reserva              Reserva  @relation(fields: [reservaId], references: [id], onDelete: Cascade)
 
-  @@index([fechaEntregado(sort: Asc)])
+  @@index([fechaEntregado])
 }
 
 model ReservaLibro {
-  id Int @id @default(autoincrement())
-
-  fechaEntregado DateTime
-
-  reservaId Int     @unique
-  reserva   Reserva @relation(fields: [reservaId], references: [id], onDelete: Cascade)
-
-  libroId Int
-  libro   Libro @relation(fields: [libroId], references: [id], onDelete: Cascade)
-
+  id                   Int      @id @default(autoincrement())
+  fechaEntregado       DateTime
+  reservaId            Int      @unique
+  libroId              Int
   fechaCreacion        DateTime @default(now())
   fechaModificacion    DateTime @default(now()) @updatedAt
   usuarioCreadorId     String
   usuarioModificadorId String
+  libro                Libro    @relation(fields: [libroId], references: [id], onDelete: Cascade)
+  reserva              Reserva  @relation(fields: [reservaId], references: [id], onDelete: Cascade)
 
-  @@index([fechaEntregado(sort: Asc)])
+  @@index([fechaEntregado])
 }
 
 model ReservaLaboratorioCerrado {
-  id Int @id @default(autoincrement())
-
-  descripcion       String  @default("")
-  requierePC        Boolean @default(false)
-  requiereProyector Boolean @default(false)
-
-  reservaId Int     @unique
-  reserva   Reserva @relation(fields: [reservaId], references: [id], onDelete: Cascade)
-
-  sedeId Int
-  sede   Sede @relation(fields: [sedeId], references: [id], onDelete: Cascade)
-
-  laboratorioId Int?
-  laboratorio   Laboratorio? @relation(fields: [laboratorioId], references: [id], onDelete: Cascade)
-
-  cursoId Int?
-  curso   Curso? @relation(fields: [cursoId], references: [id], onDelete: Cascade)
-
-  esDiscrecional        Boolean  @default(false)
-  discrecionalTitulo    String   @default("")
+  id                    Int                               @id @default(autoincrement())
+  descripcion           String                            @default("")
+  requierePC            Boolean                           @default(false)
+  requiereProyector     Boolean                           @default(false)
+  reservaId             Int                               @unique
+  sedeId                Int
+  laboratorioId         Int?
+  cursoId               Int?
+  esDiscrecional        Boolean                           @default(false)
+  discrecionalTitulo    String                            @default("")
   discrecionalMateriaId Int?
-  discrecionalMateria   Materia? @relation(fields: [discrecionalMateriaId], references: [id], onDelete: Cascade)
   discrecionalDocenteId String?
-  discrecionalDocente   User?    @relation(fields: [discrecionalDocenteId], references: [id], name: "reservasLaboratorioCerrado")
-
-  equipoReservado ReservaLaboratorioCerradoEquipo[]
-
-  fechaCreacion        DateTime @default(now())
-  fechaModificacion    DateTime @default(now()) @updatedAt
-  usuarioCreadorId     String
-  usuarioModificadorId String
+  fechaCreacion         DateTime                          @default(now())
+  fechaModificacion     DateTime                          @default(now()) @updatedAt
+  usuarioCreadorId      String
+  usuarioModificadorId  String
+  curso                 Curso?                            @relation(fields: [cursoId], references: [id], onDelete: Cascade)
+  discrecionalDocente   User?                             @relation("reservasLaboratorioCerrado", fields: [discrecionalDocenteId], references: [id])
+  discrecionalMateria   Materia?                          @relation(fields: [discrecionalMateriaId], references: [id], onDelete: Cascade)
+  laboratorio           Laboratorio?                      @relation(fields: [laboratorioId], references: [id], onDelete: Cascade)
+  reserva               Reserva                           @relation(fields: [reservaId], references: [id], onDelete: Cascade)
+  sede                  Sede                              @relation(fields: [sedeId], references: [id], onDelete: Cascade)
+  equipoReservado       ReservaLaboratorioCerradoEquipo[]
 }
 
 model ReservaLaboratorioCerradoEquipo {
-  id Int @id @default(autoincrement())
-
-  cantidad Int
-
+  id                          Int                       @id @default(autoincrement())
+  cantidad                    Int
   reservaLaboratorioCerradoId Int
+  equipoId                    Int
+  fechaCreacion               DateTime                  @default(now())
+  fechaModificacion           DateTime                  @default(now()) @updatedAt
+  usuarioCreadorId            String
+  usuarioModificadorId        String
+  equipoTipo                  EquipoTipo                @relation(fields: [equipoId], references: [id], onDelete: Cascade)
   reservaLaboratorioCerrado   ReservaLaboratorioCerrado @relation(fields: [reservaLaboratorioCerradoId], references: [id], onDelete: Cascade)
-
-  equipoId   Int
-  equipoTipo EquipoTipo @relation(fields: [equipoId], references: [id], onDelete: Cascade)
-
-  fechaCreacion        DateTime @default(now())
-  fechaModificacion    DateTime @default(now()) @updatedAt
-  usuarioCreadorId     String
-  usuarioModificadorId String
 }
 
 model ReservaLaboratorioAbierto {
-  id Int @id @default(autoincrement())
-
+  id                     Int                               @id @default(autoincrement())
   especialidad           String
-  descripcion            String                 @default("")
+  descripcion            String                            @default("")
   concurrentes           Int
   laboratorioAbiertoTipo LaboratorioAbiertoTipo
+  reservaId              Int                               @unique
+  sedeId                 Int
+  laboratorioId          Int?
+  fechaCreacion          DateTime                          @default(now())
+  fechaModificacion      DateTime                          @default(now()) @updatedAt
+  usuarioCreadorId       String
+  usuarioModificadorId   String
+  laboratorio            Laboratorio?                      @relation(fields: [laboratorioId], references: [id], onDelete: Cascade)
+  reserva                Reserva                           @relation(fields: [reservaId], references: [id], onDelete: Cascade)
+  sede                   Sede                              @relation(fields: [sedeId], references: [id], onDelete: Cascade)
+  equipoReservado        ReservaLaboratorioAbiertoEquipo[]
 
-  reservaId Int     @unique
-  reserva   Reserva @relation(fields: [reservaId], references: [id], onDelete: Cascade)
-
-  sedeId Int
-  sede   Sede @relation(fields: [sedeId], references: [id], onDelete: Cascade)
-
-  laboratorioId Int?
-  laboratorio   Laboratorio? @relation(fields: [laboratorioId], references: [id], onDelete: Cascade)
-
-  equipoReservado ReservaLaboratorioAbiertoEquipo[]
-
-  fechaCreacion        DateTime @default(now())
-  fechaModificacion    DateTime @default(now()) @updatedAt
-  usuarioCreadorId     String
-  usuarioModificadorId String
-
-  @@index([especialidad(sort: Asc)])
+  @@index([especialidad])
 }
 
 model ReservaLaboratorioAbiertoEquipo {
-  id Int @id @default(autoincrement())
-
-  cantidad Int
-
+  id                          Int                       @id @default(autoincrement())
+  cantidad                    Int
   reservaLaboratorioAbiertoId Int
+  equipoId                    Int
+  fechaCreacion               DateTime                  @default(now())
+  fechaModificacion           DateTime                  @default(now()) @updatedAt
+  usuarioCreadorId            String
+  usuarioModificadorId        String
+  equipoTipo                  EquipoTipo                @relation(fields: [equipoId], references: [id], onDelete: Cascade)
   reservaLaboratorioAbierto   ReservaLaboratorioAbierto @relation(fields: [reservaLaboratorioAbiertoId], references: [id], onDelete: Cascade)
-
-  equipoId   Int
-  equipoTipo EquipoTipo @relation(fields: [equipoId], references: [id], onDelete: Cascade)
-
-  fechaCreacion        DateTime @default(now())
-  fechaModificacion    DateTime @default(now()) @updatedAt
-  usuarioCreadorId     String
-  usuarioModificadorId String
 }
 
 model Pantalla {
-  id Int @id @default(autoincrement())
-
-  sedeId Int
-  sede   Sede @relation(fields: [sedeId], references: [id], onDelete: Cascade)
-
-  docente         String
-  materia         String?
-  laboratorio     String?
-  fechaHoraInicio DateTime
-  fechaHoraFin    DateTime
-
+  id               Int      @id @default(autoincrement())
+  sedeId           Int
+  docente          String
+  materia          String?
+  laboratorio      String?
+  fechaHoraInicio  DateTime
+  fechaHoraFin     DateTime
   usuarioCreadorId String
   fechaCreacion    DateTime @default(now())
+  sede             Sede     @relation(fields: [sedeId], references: [id], onDelete: Cascade)
 }
 
 enum ReservaEstatus {
-  PENDIENTE // Cuando el usuario creo y esta pendiente de aprobación
-  FINALIZADA // Cuando el usuario devuelve el equipo o libro / Cuando se aprueba la reserva de laboratorio
-  CANCELADA // Cuando el usuario que creo la reserva cancela la reserva (solo aplica a laboratorios abierto/cerrado no a equipo/bibioteca)
-  RECHAZADA // Cuando el administrador rechaza la reserva
+  PENDIENTE
+  FINALIZADA
+  CANCELADA
+  RECHAZADA
 }
-
-// Reservas de EQUIPO o LIBRO
-// 1. PENDIENTE => El usuario ya posee el equipo o libro y lo tiene que devolver en el futuro
-// 2. FINALIZADA => El usuario ya devolvió el equipo o libro
-
-// Reservas de LABORATORIO ABIERTO o CERRADO
-// 1. PENDIENTE => El usuario creó una solicitud de reserva de laboratorio abierto o cerrado
-// 2. FINALIZADA => El administador aprueba la reserva
-// 3. CANCELADA => El usuario que creó la reserva cancela la reserva (no puede volver a modificar)
-// 4. RECHAZADA => El administrador rechaza la reserva (el usuario creador puede modificarla y volver a pendiente)
 
 enum ReservaTipo {
   LABORATORIO_ABIERTO

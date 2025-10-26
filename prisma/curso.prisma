@@ -1,77 +1,60 @@
 model Curso {
-  id Int @id @default(autoincrement())
-
-  horaInicio1 String
-  duracion1   String
-  horaInicio2 String?
-  duracion2   String?
-
-  dia1 CursoDia
-  dia2 CursoDia?
-
-  ayudantes  CursoAyudante[]
-  profesorId String
-  profesor   User            @relation(fields: [profesorId], references: [id], onDelete: Cascade)
-
-  anioDeCarrera Int
-  activo        Boolean
-  ac            String
-
-  sedeId Int
-  sede   Sede @relation(fields: [sedeId], references: [id], onDelete: Cascade)
-
-  materiaId Int
-  materia   Materia @relation(fields: [materiaId], references: [id], onDelete: Cascade)
-
-  divisionId Int
-  division   Division @relation(fields: [divisionId], references: [id], onDelete: Cascade)
-
-  turno TurnoCurso
-
+  id                        Int                         @id @default(autoincrement())
+  horaInicio1               String
+  duracion1                 String
+  horaInicio2               String?
+  duracion2                 String?
+  dia1                      CursoDia
+  dia2                      CursoDia?
+  profesorId                String
+  anioDeCarrera             Int
+  activo                    Boolean
+  ac                        String
+  sedeId                    Int
+  materiaId                 Int
+  divisionId                Int
+  turno                     TurnoCurso
+  fechaCreacion             DateTime                    @default(now())
+  fechaModificacion         DateTime                    @default(now()) @updatedAt
+  usuarioCreadorId          String
+  usuarioModificadorId      String
+  division                  Division                    @relation(fields: [divisionId], references: [id], onDelete: Cascade)
+  materia                   Materia                     @relation(fields: [materiaId], references: [id], onDelete: Cascade)
+  profesor                  User                        @relation(fields: [profesorId], references: [id], onDelete: Cascade)
+  sede                      Sede                        @relation(fields: [sedeId], references: [id], onDelete: Cascade)
+  ayudantes                 CursoAyudante[]
   reservaLaboratorioCerrado ReservaLaboratorioCerrado[]
 
-  fechaCreacion        DateTime @default(now())
-  fechaModificacion    DateTime @default(now()) @updatedAt
-  usuarioCreadorId     String
-  usuarioModificadorId String
-
-  @@index([anioDeCarrera(sort: Asc)])
+  @@index([anioDeCarrera])
   @@index([activo], type: Hash)
   @@index([turno], type: Hash)
 }
 
 model CursoAyudante {
-  cursoId Int
-  userId  String
-
-  curso   Curso @relation(fields: [cursoId], references: [id], onDelete: Cascade)
-  usuario User  @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  fechaCreacion    DateTime @default(now())
-  usuarioCreadorId String
-
+  cursoId              Int
+  userId               String
+  fechaCreacion        DateTime @default(now())
+  usuarioCreadorId     String
   fechaModificacion    DateTime @default(now()) @updatedAt
   usuarioModificadorId String
+  curso                Curso    @relation(fields: [cursoId], references: [id], onDelete: Cascade)
+  usuario              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([cursoId, userId])
 }
 
 model Division {
-  id Int @id @default(autoincrement())
-
-  nombre String @unique
-  anio   Int
-
-  fechaCreacion    DateTime @default(now())
-  usuarioCreadorId String
-
+  id                   Int      @id @default(autoincrement())
+  nombre               String   @unique
+  anio                 Int
+  fechaCreacion        DateTime @default(now())
+  usuarioCreadorId     String
   fechaModificacion    DateTime @default(now()) @updatedAt
   usuarioModificadorId String
+  cursos               Curso[]
 
-  cursos Curso[]
-
-  @@index([anio(sort: Asc)])
-  @@index([nombre(sort: Asc)])
+  @@index([anio])
+  @@index([nombre])
 }
 
 enum TurnoCurso {

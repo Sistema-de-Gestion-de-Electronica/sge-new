@@ -74,7 +74,7 @@ const SignInTesting = () => {
             </>
           )}
           <button type="submit" className={style}>
-            <span>Inciar sesión con {provider.name}</span>
+            <span>Iniciar sesión con {provider.name}</span>
           </button>
           <div className="my-4 flex items-center gap-2">
             <div className="h-[1px] flex-1 bg-neutral-300" />

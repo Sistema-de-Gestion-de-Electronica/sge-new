@@ -317,7 +317,7 @@ export const ACTAS_ROUTE: AppRoute = {
       href: "/actas/administrar",
       label: "Administrar",
       isPublic: false,
-      permisos: [SgeNombre.ADMIN_ACTUALIZAR_ACTA_CONSEJEROS],
+      permisos: [SgeNombre.ACTA_GESTIONAR, SgeNombre.ACTA_CREAR, SgeNombre.ACTA_CREAR_REUNION, SgeNombre.ACTA_VER_VOTACION],
     },
   ],
 };
@@ -336,7 +336,7 @@ export const INSCRIPCIONES_ESPECIALES_ROUTE: AppRoute = {
       href: "/inscripciones_especiales/solicitudes",
       label: "Administrar Solicitudes",
       isPublic: false,
-      permisos: [SgeNombre.INSCRIPCIONES_ESPECIALES_VER_LISTADO],
+      permisos: [SgeNombre.INSCRIPCIONES_ESPECIALES_VER_LISTADO, SgeNombre.INSCRIPCIONES_ESPECIALES_ADMIN],
     },
     {
       href: "/inscripciones_especiales/solicitar",
@@ -350,15 +350,25 @@ export const INSCRIPCIONES_ESPECIALES_ROUTE: AppRoute = {
       isPublic: false,
       permisos: [SgeNombre.INSCRIPCIONES_ESPECIALES_SOLICITAR],
     },
+    {
+      href: "/inscripciones_especiales/periodos",
+      label: "Periodos de inscripción",
+      isPublic: false,
+      permisos: [SgeNombre.INSCRIPCIONES_ESPECIALES_ADMIN],
+    },
   ],
 };
 
 //const PERMISOS_VER_FALLAS = [SgeNombre.ADMIN_VER_PANEL_ADMIN];
 export const FALLAS_ROUTE: AppRoute = {
-  href: "/fallas/reportar_instrumento",
+  href: "/fallas",
   label: "Fallas",
   isPublic: false,
-  permisos: [SgeNombre.REP_FALLAS_REPORTAR_FALLAS], //PERMISOS_VER_FALLAS,
+  permisos: [
+    SgeNombre.REP_FALLAS_REPORTAR_FALLAS,
+    SgeNombre.REP_FALLAS_ADMIN_REP_FALLAS,
+    SgeNombre.REP_FALLAS_BUSCAR_REP_FALLAS,
+  ],
   subRutas: [
     {
       href: "/fallas/reportar_pc",
@@ -376,20 +386,40 @@ export const FALLAS_ROUTE: AppRoute = {
       href: "/fallas/reportes",
       label: "Administrar",
       isPublic: false,
-      permisos: [SgeNombre.REP_FALLAS_BUSCAR_REP_FALLAS],
+      permisos: [SgeNombre.REP_FALLAS_BUSCAR_REP_FALLAS, SgeNombre.REP_FALLAS_ADMIN_REP_FALLAS],
+    },
+  ],
+};
+
+export const VENTANILLA_ROUTE: AppRoute = {
+  href: "/ventanilla/consultar",
+  label: "Ventanilla",
+  isPublic: true,
+  permisos: [],
+  subRutas: [
+    {
+      href: "/ventanilla/consultar",
+      label: "Consultar",
+      isPublic: true,
+      permisos: [],
+    },
+    {
+      href: "/ventanilla/consultas",
+      label: "Ver consultas",
+      isPublic: false,
+      permisos: [SgeNombre.VENTANILLA_VER_CONSULTAS],
     },
   ],
 };
 
 export const SGE_1_ROUTE: AppRoute[] = [
-  {
+  /*{
     href: "https://sge.frba.utn.edu.ar/sge2/ventanilla/ventanilla.php",
     label: "Ventanilla",
     esExterna: true,
     isPublic: false,
     permisos: [],
-  },
-
+  },*/
   // {
   //   href: "https://sge.frba.utn.edu.ar/sge2/consejeros/index.php",
   //   label: "Consejeros",
@@ -425,6 +455,7 @@ export const APP_ROUTES: AppRoute[] = [
   ACTAS_ROUTE,
   INSCRIPCIONES_ESPECIALES_ROUTE,
   FALLAS_ROUTE,
+  VENTANILLA_ROUTE,
   ...SGE_1_ROUTE,
 ];
 

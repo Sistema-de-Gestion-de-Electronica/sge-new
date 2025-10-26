@@ -5,6 +5,8 @@ import { ActaVotosTable } from "./TableActaVotos";
 import EditActaModal from "./ModalEditarActa";
 import { api } from "@/trpc/react";
 import { Button } from "@/components/ui/button";
+import { SgeNombre } from "@/generated/prisma";
+import { TienePermiso } from "@/app/_components/permisos/tienePermiso";
 
 function EmptyStateNoActa() {
   return (
@@ -32,20 +34,22 @@ export function AdminConsejeros() {
   const votos = data?.votos ?? [];
 
   return (
-    <section className="space-y-4">
-      <div className="flex items-center justify-center gap-2">
-        <h1 className="text-gray-900 text-center text-2xl font-bold tracking-tight">
-          Acta en curso: {acta?.nombreActa ?? "—"}
-        </h1>
-      </div>
+    <TienePermiso permisos={[SgeNombre.ACTA_VER_VOTACION]}>
+      <section className="space-y-4">
+        <div className="flex items-center justify-center gap-2">
+          <h1 className="text-gray-900 text-center text-2xl font-bold tracking-tight">
+            Acta en curso: {acta?.nombreActa ?? "—"}
+          </h1>
+        </div>
 
-      <div className="flex items-center justify-center">
-        <h2 className="text-gray-900 text-center text-xl font-bold tracking-tight">
-          Votos del acta
-        </h2>
-      </div>
+        <div className="flex items-center justify-center">
+          <h2 className="text-gray-900 text-center text-xl font-bold tracking-tight">
+            Votos del acta
+          </h2>
+        </div>
 
-      <ActaVotosTable data={votos} />
-    </section>
+        <ActaVotosTable data={votos} />
+      </section>
+    </TienePermiso>
   );
 }

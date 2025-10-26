@@ -11,11 +11,13 @@ import {
   editarMateria,
   agregarMateria,
   getMateriaById,
+  getMateriasCorrelativas,
 } from "../../repositories/materia/materia.repository";
 
 import { createAuthorizedProcedure, protectedProcedure } from "../../trpc";
 import { validarInput } from "../helper";
 import { Prisma, SgeNombre } from "@/generated/prisma";
+import { z } from "zod";
 
 export const getAllMateriasProcedure = protectedProcedure.query(async ({ ctx }) => {
   return await getAllMaterias(ctx);
@@ -28,6 +30,12 @@ export const getMateriaByIdProcedure = protectedProcedure.input(inputGetMateria)
 
   return materia;
 });
+
+export const getMateriasCorrelativasProcedure = protectedProcedure
+  .input(z.object({ materiaIds: z.array(z.coerce.number()) }))
+  .query(async ({ ctx, input }) => {
+    return await getMateriasCorrelativas(ctx, input.materiaIds);
+  });
 
 export const eliminarMateriaProcedure = createAuthorizedProcedure([SgeNombre.MATERIAS_ABM])
   .input(inputEliminarMateria)

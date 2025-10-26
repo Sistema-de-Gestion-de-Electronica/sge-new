@@ -13,9 +13,6 @@ export default async function Page({ params }: PageProps) {
     (await estaLogueadoYConPermiso([SgeNombre.INSCRIPCIONES_ESPECIALES_VER_LISTADO])) ||
     (await estaLogueadoYConPermiso([SgeNombre.INSCRIPCIONES_ESPECIALES_ADMIN]));
   if (!puedeVer) {
-    if (await estaLogueadoYConPermiso([SgeNombre.INSCRIPCIONES_ESPECIALES_SOLICITAR])) {
-      redirect("/inscripciones_especiales/solicitar");
-    }
     redirect(INICIO_ROUTE.href);
   }
 

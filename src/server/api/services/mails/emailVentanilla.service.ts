@@ -23,7 +23,7 @@ export const enviarMailRespuestaVentanillaProcedure = async (
   const respuesta = consultaData?.respuesta;
 
   await sendEmail(ctx, {
-    asunto: `SGE - Ventanilla - Respuesta a tu consulta - ${fechaRespuesta}`,
+    asunto: `SGE - Ventanilla - ${consultaData?.asunto}`,
     to: consultaData?.email ?? "",
     usuario: {
       nombre: consultaData?.nombre ?? "",

@@ -1686,6 +1686,7 @@ CREATE TABLE public."Consulta" (
     apellido       TEXT NOT NULL,
     legajo         TEXT NULL,
     email          TEXT NOT NULL,
+    asunto         TEXT NOT NULL,
     consulta       TEXT NOT NULL,
     "fechaConsulta"  TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW(),
     respuesta      TEXT NULL,

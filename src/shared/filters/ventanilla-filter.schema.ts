@@ -5,6 +5,7 @@ export const inputConsulta = z.object({
   apellido: z.string().min(1, { message: "Requerido" }),
   email: z.string().email({ message: "Email inválido" }),
   legajo: z.string().regex(/^\d*$/, { message: "El legajo solo puede contener números" }).optional(),
+  asunto: z.string().min(1, { message: "Requerido" }).max(60, { message: "El asunto no puede exceder 60 caracteres" }),
   consulta: z.string().min(1, { message: "Requerido" }),
 });
 
@@ -16,13 +17,17 @@ export const inputGetAllConsultas = z.object({
     .default("0")
     .refine((value) => parseInt(value) >= 0, { message: "Debe ser mayor o igual a 0" })
     .catch("0"),
-  orderBy: z.enum(["id", "nombre", "apellido", "legajo", "email", "fechaConsulta", "estado"]).default("id").catch("id"),
+  orderBy: z
+    .enum(["id", "nombre", "apellido", "legajo", "email", "asunto", "fechaConsulta", "estado"])
+    .default("id")
+    .catch("id"),
   orderDirection: z.enum(["asc", "desc"]).default("desc").catch("desc"),
   searchText: z.string().default(""),
   nombre: z.string().default(""),
   apellido: z.string().default(""),
   legajo: z.string().default(""),
   email: z.string().default(""),
+  asunto: z.string().default(""),
   estado: z.string().default(""),
 });
 

@@ -14,6 +14,7 @@ export const consultar = async (ctx: { db: PrismaClient }, input: InputConsulta)
         apellido: input.apellido,
         legajo: input.legajo,
         email: input.email,
+        asunto: input.asunto,
         consulta: input.consulta,
         estado: "NUEVA",
       },
@@ -35,6 +36,7 @@ export const getAllConsultas = async (ctx: { db: PrismaClient }, input: InputGet
     apellido,
     legajo,
     email,
+    asunto,
     estado,
     filterByUserId,
   } = input;
@@ -59,6 +61,10 @@ export const getAllConsultas = async (ctx: { db: PrismaClient }, input: InputGet
     where.email = { contains: email, mode: "insensitive" };
   }
 
+  if (asunto) {
+    where.asunto = { contains: asunto, mode: "insensitive" };
+  }
+
   if (estado) {
     where.estado = estado;
   }
@@ -69,6 +75,7 @@ export const getAllConsultas = async (ctx: { db: PrismaClient }, input: InputGet
       { apellido: { contains: searchText, mode: "insensitive" } },
       { legajo: { contains: searchText, mode: "insensitive" } },
       { email: { contains: searchText, mode: "insensitive" } },
+      { asunto: { contains: searchText, mode: "insensitive" } },
       { consulta: { contains: searchText, mode: "insensitive" } },
     ];
   }
@@ -86,6 +93,9 @@ export const getAllConsultas = async (ctx: { db: PrismaClient }, input: InputGet
       break;
     case "email":
       orderByConfig.email = orderDirection;
+      break;
+    case "asunto":
+      orderByConfig.asunto = orderDirection;
       break;
     case "fechaConsulta":
       orderByConfig.fechaConsulta = orderDirection;

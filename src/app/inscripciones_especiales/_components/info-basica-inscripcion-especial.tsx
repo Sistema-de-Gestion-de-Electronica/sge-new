@@ -22,14 +22,45 @@ function CardLoading() {
 }
 
 const handlePrint = () => {
-  const printContents = document.getElementById("print-inscripcion-especial")?.innerHTML;
-  if (!printContents) return;
+  const content = document.getElementById("print-inscripcion-especial")?.innerHTML;
+  if (!content) return;
 
-  const originalContents = document.body.innerHTML;
-  document.body.innerHTML = printContents;
-  window.print();
-  document.body.innerHTML = originalContents;
-  window.location.reload();
+  const printWindow = window.open("", "_blank", "width=800,height=600");
+  if (!printWindow) return;
+
+  const styles = Array.from(document.styleSheets)
+    .map((styleSheet) => {
+      try {
+        return Array.from(styleSheet.cssRules)
+          .map((rule) => rule.cssText)
+          .join("");
+      } catch (e) {
+        return "";
+      }
+    })
+    .join("");
+
+  printWindow.document.write(`
+    <html>
+      <head>
+        <title>Imprimir</title>
+        <style>${styles}</style>
+      </head>
+      <body>
+        ${content}
+      </body>
+    </html>
+  `);
+
+  printWindow.document.close();
+
+  printWindow.onload = () => {
+    printWindow.focus();
+    printWindow.print();
+    setTimeout(() => {
+      printWindow.close();
+    }, 500);
+  };
 };
 
 type InscripcionEspecialDetalleProps = {
@@ -197,46 +228,60 @@ export function InscripcionEspecialDetalle({
 
       {/* Hoja de firmas para impresión */}
       <div className="hidden print:block">
-        <div id="print-inscripcion-especial" className="mx-10 my-8 bg-white p-8 text-black">
-          <div className="mb-6 border-b pb-4">
-            <h2 className="text-center text-xl font-semibold">Constancia de Inscripción Especial</h2>
-            <div className="mt-4 grid grid-cols-2 gap-4 text-sm">
-              <div>
-                <p>
-                  <span className="font-semibold">N° Solicitud:</span> {inscripcionEspecial?.id}
-                </p>
-                <p>
-                  <span className="font-semibold">Fecha solicitud:</span> {inscripcionEspecial?.fechaSolicitud}
-                </p>
-                <p>
-                  <span className="font-semibold">Estado:</span>{" "}
-                  {getStatusText(inscripcionEspecial?.estado as InscripcionEspecialEstatus)}
-                </p>
-              </div>
-              <div>
-                <p>
-                  <span className="font-semibold">Alumno:</span> {inscripcionEspecial?.solicitante?.apellido}{" "}
-                  {inscripcionEspecial?.solicitante?.nombre}
-                </p>
-                <p>
-                  <span className="font-semibold">Legajo:</span> {inscripcionEspecial?.solicitante?.legajo}
-                </p>
-                <p>
-                  <span className="font-semibold">Email:</span> {inscripcionEspecial?.solicitante?.email}
-                </p>
+        <div
+          id="print-inscripcion-especial"
+          className="mx-10 my-8 flex min-h-[90vh] flex-col justify-between bg-white p-8 text-black"
+        >
+          {/* Encabezado y datos */}
+          <div>
+            <div className="mb-8 border-b pb-4">
+              <h2 className="mb-6 text-center text-xl font-semibold">Constancia de Inscripción Especial</h2>
+
+              <div className="grid grid-cols-2 gap-6 text-sm">
+                <div className="space-y-1">
+                  <p>
+                    <span className="font-semibold">N° Solicitud:</span> {inscripcionEspecial?.id}
+                  </p>
+                  <p>
+                    <span className="font-semibold">Fecha solicitud:</span> {inscripcionEspecial?.fechaSolicitud}
+                  </p>
+                  <p>
+                    <span className="font-semibold">Estado:</span>{" "}
+                    {getStatusText(inscripcionEspecial?.estado as InscripcionEspecialEstatus)}
+                  </p>
+                </div>
+
+                <div className="space-y-1">
+                  <p>
+                    <span className="font-semibold">Alumno:</span> {inscripcionEspecial?.solicitante?.apellido}{" "}
+                    {inscripcionEspecial?.solicitante?.nombre}
+                  </p>
+                  <p>
+                    <span className="font-semibold">Legajo:</span> {inscripcionEspecial?.solicitante?.legajo}
+                  </p>
+                  <p>
+                    <span className="font-semibold">Email:</span> {inscripcionEspecial?.solicitante?.email}
+                  </p>
+                </div>
               </div>
             </div>
-            <div className="mt-4 text-sm">
-              <p className="font-semibold">Materias solicitadas:</p>
-              <p>{inscripcionEspecial?.materias?.join(", ") ?? "-"}</p>
+
+            {/* Materias y condiciones */}
+            <div className="space-y-4 text-sm">
+              <div>
+                <p className="font-semibold">Materias solicitadas:</p>
+                <p>{inscripcionEspecial?.materias?.join(", ") ?? "-"}</p>
+              </div>
+
               {(inscripcionEspecial?.materiasAdeudadas?.length ?? 0) > 0 && (
-                <div className="mt-2">
+                <div>
                   <p className="font-semibold">Materias adeudadas:</p>
                   <p>{inscripcionEspecial?.materiasAdeudadas?.join(", ")}</p>
                 </div>
               )}
+
               {inscripcionEspecial?.estado === "ACEPTADA_CON_CONDICION" && (
-                <div className="mt-4">
+                <div>
                   <p className="font-semibold">Condición:</p>
                   <p className="whitespace-pre-wrap">{inscripcionEspecial?.respuesta ?? "-"}</p>
                   {inscripcionEspecial?.fechaRespuesta && (
@@ -246,9 +291,10 @@ export function InscripcionEspecialDetalle({
                   )}
                 </div>
               )}
+
               {((inscripcionEspecial?.turnoAlternativa1 ?? "") !== "" ||
                 (inscripcionEspecial?.turnoAlternativa2 ?? "") !== "") && (
-                <div className="mt-4">
+                <div>
                   <p className="font-semibold">Alternativas de horario:</p>
                   {inscripcionEspecial?.turnoAlternativa1 && (
                     <p className="mt-1 text-sm">1) {inscripcionEspecial.turnoAlternativa1}</p>
@@ -261,28 +307,32 @@ export function InscripcionEspecialDetalle({
             </div>
           </div>
 
-          <div className="mt-10 grid grid-cols-2 gap-8">
-            {/* Firma Alumno */}
-            <div className="flex flex-col items-center">
-              <div className="mt-10 w-full border-b-2 border-black" />
-              <p className="mt-2 text-center text-sm">Firma del Alumno</p>
-              <div className="mt-8 w-full border-b border-black" />
-              <p className="mt-1 text-center text-sm">Aclaración</p>
+          {/* Sección inferior: firmas */}
+          <div className="mt-12">
+            <div className="grid grid-cols-2 gap-12">
+              {/* Firma Alumno */}
+              <div className="flex flex-col items-center">
+                <div className="mt-16 w-full border-b-2 border-black" />
+                <p className="mt-2 text-center text-sm">Firma del Alumno</p>
+                <div className="mt-8 w-full border-b border-black" />
+                <p className="mt-1 text-center text-sm">Aclaración</p>
+              </div>
+
+              {/* Firma Administrador */}
+              <div className="flex flex-col items-center">
+                <div className="mt-16 w-full border-b-2 border-black" />
+                <p className="mt-2 text-center text-sm">Firma del Administrador de Inscripciones Especiales</p>
+                <div className="mt-8 w-full border-b border-black" />
+                <p className="mt-1 text-center text-sm">Aclaración</p>
+              </div>
             </div>
 
-            {/* Firma Administrador */}
-            <div className="flex flex-col items-center">
-              <div className="mt-10 w-full border-b-2 border-black" />
-              <p className="mt-2 text-center text-sm">Firma del Administrador de Inscripciones Especiales</p>
-              <div className="mt-8 w-full border-b border-black" />
-              <p className="mt-1 text-center text-sm">Aclaración</p>
-            </div>
-          </div>
-
-          <div className="mt-10 grid grid-cols-2 gap-8 text-sm">
-            <div>
-              <p className="font-semibold">Fecha:</p>
-              <div className="mt-2 w-40 border-b border-black" />
+            {/* Fecha */}
+            <div className="mt-12 grid grid-cols-2 gap-8 text-sm">
+              <div>
+                <p className="font-semibold">Fecha:</p>
+                <div className="mt-2 w-40 border-b border-black" />
+              </div>
             </div>
           </div>
         </div>

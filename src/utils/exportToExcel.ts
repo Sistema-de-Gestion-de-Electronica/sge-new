@@ -20,7 +20,7 @@ export const exportInscripcionesEspecialesToExcel = (
     "Estado",
     "Contactado",
     "Asistio",
-    "Respuesta",
+    "Comentarios",
     "Fecha Respuesta",
   ];
 

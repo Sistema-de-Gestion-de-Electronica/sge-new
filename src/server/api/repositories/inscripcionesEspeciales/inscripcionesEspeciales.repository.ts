@@ -219,10 +219,8 @@ export async function aprobarInscripcionEspecial(
   ctx: DatabaseContext,
   { id, respuesta }: { id: number; respuesta?: string },
 ): Promise<InscripcionEspecialResponse> {
-  const contenidoRespuesta = respuesta?.trim().toLowerCase();
-  const estado = !contenidoRespuesta || contenidoRespuesta === "null" ? "ACEPTADA" : "ACEPTADA_CON_CONDICION";
-
-  return await gestionarInscripcionEspecial(ctx, id, estado, respuesta);
+  // Siempre aprobar como ACEPTADA, independientemente del contenido de 'respuesta'
+  return await gestionarInscripcionEspecial(ctx, id, "ACEPTADA", respuesta);
 }
 
 export async function rechazarInscripcionEspecial(
@@ -230,6 +228,14 @@ export async function rechazarInscripcionEspecial(
   { id, respuesta }: { id: number; respuesta?: string },
 ): Promise<InscripcionEspecialResponse> {
   return await gestionarInscripcionEspecial(ctx, id, "RECHAZADA", respuesta);
+}
+
+export async function aprobarInscripcionEspecialConCondicion(
+  ctx: DatabaseContext,
+  { id, respuesta }: { id: number; respuesta?: string },
+): Promise<InscripcionEspecialResponse> {
+  // Aprobar explícitamente como ACEPTADA_CON_CONDICION
+  return await gestionarInscripcionEspecial(ctx, id, "ACEPTADA_CON_CONDICION", respuesta);
 }
 
 type InputGetAllInscripcionesEspeciales = z.infer<typeof inputGetAllInscripcionesEspeciales>;

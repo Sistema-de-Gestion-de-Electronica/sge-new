@@ -68,3 +68,9 @@ export const inputActualizarPeriodoInscripcionEspecial = z
 export const inputGetPeriodoInscripcionEspecialActual = z.object({});
 
 export const inputGetUltimoPeriodoInscripcionEspecial = z.object({});
+
+export const inputEnviarMailContactoInscripcionEspecial = z.object({
+  id: z.number(),
+  asunto: z.string().min(1, { message: "Requerido" }).max(200, { message: "Máximo 200 caracteres" }),
+  mensaje: z.string().min(1, { message: "Requerido" }).max(5000, { message: "Máximo 5000 caracteres" }),
+});

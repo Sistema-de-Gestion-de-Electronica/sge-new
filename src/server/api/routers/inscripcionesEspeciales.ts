@@ -3,9 +3,11 @@ import {
   getAllInscripcionesEspecialesProcedure,
   rechazarInscripcionEspecialProcedure,
   aprobarInscripcionEspecialProcedure,
+  aprobarInscripcionEspecialConCondicionProcedure,
   getInscripcionEspecialByIdProcedure,
   actualizarContactoAsistenciaProcedure,
   eliminarInscripcionEspecialProcedure,
+  enviarMailContactoInscripcionEspecialProcedure,
 } from "../services/inscripcionesEspeciales/inscripcionesEspeciales.service";
 
 import {
@@ -23,9 +25,11 @@ export const inscripcionesEspecialesRouter = createTRPCRouter({
   getAllInscripcionesEspeciales: getAllInscripcionesEspecialesProcedure,
   rechazarInscripcionEspecial: rechazarInscripcionEspecialProcedure,
   aprobarInscripcionEspecial: aprobarInscripcionEspecialProcedure,
+  aprobarInscripcionEspecialConCondicion: aprobarInscripcionEspecialConCondicionProcedure,
   getInscripcionEspecialPorId: getInscripcionEspecialByIdProcedure,
   actualizarContactoAsistencia: actualizarContactoAsistenciaProcedure,
   eliminarInscripcionEspecial: eliminarInscripcionEspecialProcedure,
+  enviarMailContacto: enviarMailContactoInscripcionEspecialProcedure,
   crearPeriodoInscripcionEspecial: crearPeriodoInscripcionEspecialProcedure,
   actualizarPeriodoInscripcionEspecial: actualizarPeriodoInscripcionEspecialProcedure,
   getPeriodoInscripcionEspecialActual: getPeriodoInscripcionEspecialActualProcedure,

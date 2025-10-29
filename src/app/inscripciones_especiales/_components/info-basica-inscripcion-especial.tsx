@@ -1,6 +1,6 @@
 import { api } from "@/trpc/react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CalendarIcon, PersonStandingIcon, TextIcon, NotebookIcon, Mail, Copy } from "lucide-react";
+import { CalendarIcon, PersonStandingIcon, TextIcon, NotebookIcon, Mail, Copy, Printer } from "lucide-react";
 import { Label, Button, toast } from "@/components/ui";
 import {
   BadgeEstatusInscripcionEspecial,
@@ -9,6 +9,7 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { DatoUsuarioReserva } from "@/app/_components/datos-usuario";
 import { AlternativaHorario } from "./alternativas-horario";
+import { getStatusText } from "@/app/_components/badge-estatus-inscripcion-especial";
 
 function CardLoading() {
   return (
@@ -19,6 +20,17 @@ function CardLoading() {
     </div>
   );
 }
+
+const handlePrint = () => {
+  const printContents = document.getElementById("print-inscripcion-especial")?.innerHTML;
+  if (!printContents) return;
+
+  const originalContents = document.body.innerHTML;
+  document.body.innerHTML = printContents;
+  window.print();
+  document.body.innerHTML = originalContents;
+  window.location.reload();
+};
 
 type InscripcionEspecialDetalleProps = {
   inscripcionEspecialId: number;
@@ -48,11 +60,16 @@ export function InscripcionEspecialDetalle({
 
   return (
     <Card className="w-full">
-      <CardHeader>
+      <CardHeader className="print:hidden">
         <div className="flex flex-col items-center gap-4 sm:flex-row sm:items-start">
           <div className="flex-grow text-center sm:text-left">
             <CardTitle className="mb-1 flex flex-row justify-between text-2xl">
               <div>#{inscripcionEspecial?.id}</div>
+              <div className="flex items-center gap-2">
+                <Button size="sm" onClick={handlePrint} aria-label="Imprimir">
+                  <Printer className="mr-2 h-4 w-4" /> Imprimir
+                </Button>
+              </div>
             </CardTitle>
             <div className="flex flex-wrap justify-center gap-2 sm:justify-start">
               <BadgeEstatusInscripcionEspecial
@@ -62,7 +79,7 @@ export function InscripcionEspecialDetalle({
           </div>
         </div>
       </CardHeader>
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-4 print:hidden">
         <div className="grid auto-cols-max grid-cols-2 gap-4 md:grid-cols-4">
           {[
             ...[
@@ -177,6 +194,99 @@ export function InscripcionEspecialDetalle({
           </div>
         )}
       </CardContent>
+
+      {/* Hoja de firmas para impresión */}
+      <div className="hidden print:block">
+        <div id="print-inscripcion-especial" className="mx-10 my-8 bg-white p-8 text-black">
+          <div className="mb-6 border-b pb-4">
+            <h2 className="text-center text-xl font-semibold">Constancia de Inscripción Especial</h2>
+            <div className="mt-4 grid grid-cols-2 gap-4 text-sm">
+              <div>
+                <p>
+                  <span className="font-semibold">N° Solicitud:</span> {inscripcionEspecial?.id}
+                </p>
+                <p>
+                  <span className="font-semibold">Fecha solicitud:</span> {inscripcionEspecial?.fechaSolicitud}
+                </p>
+                <p>
+                  <span className="font-semibold">Estado:</span>{" "}
+                  {getStatusText(inscripcionEspecial?.estado as InscripcionEspecialEstatus)}
+                </p>
+              </div>
+              <div>
+                <p>
+                  <span className="font-semibold">Alumno:</span> {inscripcionEspecial?.solicitante?.apellido}{" "}
+                  {inscripcionEspecial?.solicitante?.nombre}
+                </p>
+                <p>
+                  <span className="font-semibold">Legajo:</span> {inscripcionEspecial?.solicitante?.legajo}
+                </p>
+                <p>
+                  <span className="font-semibold">Email:</span> {inscripcionEspecial?.solicitante?.email}
+                </p>
+              </div>
+            </div>
+            <div className="mt-4 text-sm">
+              <p className="font-semibold">Materias solicitadas:</p>
+              <p>{inscripcionEspecial?.materias?.join(", ") ?? "-"}</p>
+              {(inscripcionEspecial?.materiasAdeudadas?.length ?? 0) > 0 && (
+                <div className="mt-2">
+                  <p className="font-semibold">Materias adeudadas:</p>
+                  <p>{inscripcionEspecial?.materiasAdeudadas?.join(", ")}</p>
+                </div>
+              )}
+              {inscripcionEspecial?.estado === "ACEPTADA_CON_CONDICION" && (
+                <div className="mt-4">
+                  <p className="font-semibold">Condición:</p>
+                  <p className="whitespace-pre-wrap">{inscripcionEspecial?.respuesta ?? "-"}</p>
+                  {inscripcionEspecial?.fechaRespuesta && (
+                    <p className="mt-1 text-xs">
+                      <span className="font-semibold">Fecha respuesta:</span> {inscripcionEspecial.fechaRespuesta}
+                    </p>
+                  )}
+                </div>
+              )}
+              {((inscripcionEspecial?.turnoAlternativa1 ?? "") !== "" ||
+                (inscripcionEspecial?.turnoAlternativa2 ?? "") !== "") && (
+                <div className="mt-4">
+                  <p className="font-semibold">Alternativas de horario:</p>
+                  {inscripcionEspecial?.turnoAlternativa1 && (
+                    <p className="mt-1 text-sm">1) {inscripcionEspecial.turnoAlternativa1}</p>
+                  )}
+                  {inscripcionEspecial?.turnoAlternativa2 && (
+                    <p className="mt-1 text-sm">2) {inscripcionEspecial.turnoAlternativa2}</p>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="mt-10 grid grid-cols-2 gap-8">
+            {/* Firma Alumno */}
+            <div className="flex flex-col items-center">
+              <div className="mt-10 w-full border-b-2 border-black" />
+              <p className="mt-2 text-center text-sm">Firma del Alumno</p>
+              <div className="mt-8 w-full border-b border-black" />
+              <p className="mt-1 text-center text-sm">Aclaración</p>
+            </div>
+
+            {/* Firma Administrador */}
+            <div className="flex flex-col items-center">
+              <div className="mt-10 w-full border-b-2 border-black" />
+              <p className="mt-2 text-center text-sm">Firma del Administrador de Inscripciones Especiales</p>
+              <div className="mt-8 w-full border-b border-black" />
+              <p className="mt-1 text-center text-sm">Aclaración</p>
+            </div>
+          </div>
+
+          <div className="mt-10 grid grid-cols-2 gap-8 text-sm">
+            <div>
+              <p className="font-semibold">Fecha:</p>
+              <div className="mt-2 w-40 border-b border-black" />
+            </div>
+          </div>
+        </div>
+      </div>
     </Card>
   );
 }

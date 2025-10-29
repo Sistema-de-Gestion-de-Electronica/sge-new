@@ -30,7 +30,7 @@ export const DialogModalDrawer = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent className={className}>
-        <DialogHeader>
+        <DialogHeader className="print:hidden">
           <DialogTitle>{titulo}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>
         </DialogHeader>

@@ -90,6 +90,15 @@ export function InscripcionEspecialDetalle({
                 label: "Materias",
                 value: inscripcionEspecial?.materias.join(", "),
               },
+              ...((inscripcionEspecial?.materiasAdeudadas?.length ?? 0) > 0
+                ? [
+                    {
+                      icon: <NotebookIcon className="h-4 w-4" />,
+                      label: "Materias adeudadas",
+                      value: inscripcionEspecial?.materiasAdeudadas.join(", "),
+                    },
+                  ]
+                : []),
             ],
           ].map(({ icon, label, value }, index, array) => (
             <div
@@ -146,8 +155,6 @@ export function InscripcionEspecialDetalle({
             <AlternativaHorario titulo="Alternativa Horario 2" data={inscripcionEspecial?.turnoAlternativa2} />
           )}
         </div>
-
-        
 
         {inscripcionEspecial?.estado === InscripcionEspecialEstatus.ACEPTADA_CON_CONDICION && (
           <div>

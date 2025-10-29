@@ -25,6 +25,7 @@ interface InscripcionEspecialResponse {
   };
   caso: string;
   materias: string[];
+  materiasAdeudadas: string[];
   justificacion: string;
   turnoAlternativa1: string;
   turnoAlternativa2: string;
@@ -99,12 +100,14 @@ const buildInscripcionResponse = (
     fueContactado?: boolean | null;
   },
   materias: { nombre: string }[],
+  materiasAdeudadas: { nombre: string }[],
   includeContactInfo = false,
 ): InscripcionEspecialResponse => ({
   id: inscripcion.id,
   solicitante: inscripcion.solicitante,
   caso: inscripcion.caso,
   materias: materias.map((m) => m.nombre),
+  materiasAdeudadas: materiasAdeudadas.map((m) => m.nombre),
   justificacion: inscripcion.justificacion,
   turnoAlternativa1: inscripcion.turnoAlternativa1 ?? "",
   turnoAlternativa2: inscripcion.turnoAlternativa2 ?? "",
@@ -195,7 +198,12 @@ const gestionarInscripcionEspecial = async (
       select: { nombre: true },
     });
 
-    return buildInscripcionResponse(inscripcion, materias);
+    const materiasAdeudadas = await ctx.db.materia.findMany({
+      where: { id: { in: inscripcion.materiasAdeudadas } },
+      select: { nombre: true },
+    });
+
+    return buildInscripcionResponse(inscripcion, materias, materiasAdeudadas);
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (error.code === "P2025") {
@@ -285,7 +293,7 @@ export async function getAllInscripcionesEspeciales(
       }),
     ]);
 
-    const todasLasMateriasIds = inscripciones.flatMap((i) => i.materias);
+    const todasLasMateriasIds = inscripciones.flatMap((i) => [...i.materias, ...i.materiasAdeudadas]);
     const materiasMap = new Map();
 
     if (todasLasMateriasIds.length > 0) {
@@ -299,12 +307,13 @@ export async function getAllInscripcionesEspeciales(
 
     const solicitudes = inscripciones.map((i) => {
       const materiasNombres = i.materias.map((id) => materiasMap.get(id) || `Materia ${id}`);
-
+      const materiasAdeudadasNombres = i.materiasAdeudadas.map((id) => materiasMap.get(id) || `Materia ${id}`);
       return {
         id: i.id,
         solicitante: i.solicitante,
         caso: i.caso,
         materias: materiasNombres,
+        materiasAdeudadas: materiasAdeudadasNombres,
         vinoPresencialmente: i.vinoPresencialmente,
         fueContactado: i.fueContactado,
         justificacion: i.justificacion,
@@ -354,7 +363,12 @@ export async function getInscripcionEspecialById(
       select: { nombre: true },
     });
 
-    return buildInscripcionResponse(inscripcion, materias, true);
+    const materiasAdeudadas = await ctx.db.materia.findMany({
+      where: { id: { in: inscripcion.materiasAdeudadas } },
+      select: { nombre: true },
+    });
+
+    return buildInscripcionResponse(inscripcion, materias, materiasAdeudadas, true);
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       throw new Error(`Error de base de datos: ${error.message}`);

@@ -32,7 +32,7 @@ export const ExportExcelButton = ({
       className="flex items-center gap-2 border border-gray-300 bg-transparent text-gray-700 hover:bg-gray-100"
     >
       <Download className="h-4 w-4" />
-      Exportar CSV
+      Exportar Excel
     </Button>
   );
 };

@@ -37,10 +37,13 @@ type PeriodoFormData = {
 export default function GestionarPeriodosInscripcionEspecial() {
   const [isEditing, setIsEditing] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
+  const [selectedPeriodoId, setSelectedPeriodoId] = useState<number | null>(null);
 
   const { data: ultimoPeriodo, refetch: refetchUltimoPeriodo } =
     api.inscripcionesEspeciales.getUltimoPeriodoInscripcionEspecial.useQuery({});
   const { data: periodoActivo } = api.inscripcionesEspeciales.getPeriodoInscripcionEspecialActual.useQuery({});
+  const { data: periodos, refetch: refetchPeriodos } =
+    api.inscripcionesEspeciales.getTodosPeriodosInscripcionEspecial.useQuery({});
 
   const crearPeriodo = api.inscripcionesEspeciales.crearPeriodoInscripcionEspecial.useMutation({
     onSuccess: () => {
@@ -48,6 +51,7 @@ export default function GestionarPeriodosInscripcionEspecial() {
       setIsCreating(false);
       form.reset();
       void refetchUltimoPeriodo();
+      void refetchPeriodos();
     },
     onError: (error) => {
       toast.error(`Error al crear el período: ${error.message}`);
@@ -60,9 +64,25 @@ export default function GestionarPeriodosInscripcionEspecial() {
       setIsEditing(false);
       form.reset();
       void refetchUltimoPeriodo();
+      void refetchPeriodos();
+      setSelectedPeriodoId(null);
     },
     onError: (error) => {
       toast.error(`Error al actualizar el período: ${error.message}`);
+    },
+  });
+
+  const eliminarPeriodo = api.inscripcionesEspeciales.eliminarPeriodoInscripcionEspecial.useMutation({
+    onSuccess: () => {
+      toast.success("Período eliminado exitosamente");
+      if (selectedPeriodoId) {
+        setSelectedPeriodoId(null);
+      }
+      void refetchPeriodos();
+      void refetchUltimoPeriodo();
+    },
+    onError: (error) => {
+      toast.error(`Error al eliminar el período: ${error.message}`);
     },
   });
 
@@ -86,19 +106,21 @@ export default function GestionarPeriodosInscripcionEspecial() {
         fechaInicio: new Date(data.fechaInicio),
         fechaFin: new Date(data.fechaFin),
       });
-    } else if (isEditing && ultimoPeriodo) {
+    } else if (isEditing && selectedPeriodoId) {
       actualizarPeriodo.mutate({
-        id: ultimoPeriodo.id,
+        id: selectedPeriodoId,
         fechaInicio: new Date(data.fechaInicio),
         fechaFin: new Date(data.fechaFin),
       });
     }
   };
 
-  const handleEdit = () => {
-    if (ultimoPeriodo) {
-      setValue("fechaInicio", new Date(ultimoPeriodo.fechaInicio).toISOString().slice(0, 16));
-      setValue("fechaFin", new Date(ultimoPeriodo.fechaFin).toISOString().slice(0, 16));
+  const handleEdit = (id?: number) => {
+    const base = id ? periodos?.find((p) => p.id === id) : ultimoPeriodo;
+    if (base) {
+      setSelectedPeriodoId(base.id);
+      setValue("fechaInicio", new Date(base.fechaInicio).toISOString().slice(0, 16));
+      setValue("fechaFin", new Date(base.fechaFin).toISOString().slice(0, 16));
       setIsEditing(true);
       setIsCreating(false);
     }
@@ -109,11 +131,13 @@ export default function GestionarPeriodosInscripcionEspecial() {
     setValue("fechaFin", new Date().toISOString().slice(0, 16));
     setIsCreating(true);
     setIsEditing(false);
+    setSelectedPeriodoId(null);
   };
 
   const handleCancel = () => {
     setIsEditing(false);
     setIsCreating(false);
+    setSelectedPeriodoId(null);
     reset();
   };
 
@@ -211,6 +235,54 @@ export default function GestionarPeriodosInscripcionEspecial() {
         </Card>
       )}
 
+      {/* Listado de períodos */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">Listado de Períodos</CardTitle>
+        </CardHeader>
+        <CardContent>
+          {periodos && periodos.length > 0 ? (
+            <div className="space-y-3">
+              {periodos.map((p) => (
+                <div
+                  key={p.id}
+                  className="flex flex-col gap-1 border-b pb-3 md:flex-row md:items-center md:justify-between"
+                >
+                  <div>
+                    <div className="text-sm text-muted-foreground">ID #{p.id}</div>
+                    <div className="text-sm">
+                      Inicio: {format(new Date(p.fechaInicio), "dd/MM/yyyy HH:mm", { locale: es })}
+                    </div>
+                    <div className="text-sm">
+                      Fin: {format(new Date(p.fechaFin), "dd/MM/yyyy HH:mm", { locale: es })}
+                    </div>
+                    <div className="text-xs text-muted-foreground">
+                      Creador: {p.usuarioCreador.apellido} {p.usuarioCreador.nombre} ({p.usuarioCreador.legajo})
+                    </div>
+                  </div>
+                  <div className="flex gap-2 pt-2 md:pt-0">
+                    <Button onClick={() => handleEdit(p.id)} className="flex items-center gap-2">
+                      <Edit className="h-4 w-4" />
+                      Editar
+                    </Button>
+                    <Button
+                      variant="default"
+                      onClick={() => eliminarPeriodo.mutate({ id: p.id })}
+                      className="flex items-center gap-2"
+                    >
+                      <X className="h-4 w-4" />
+                      Eliminar
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-sm text-muted-foreground">No hay períodos cargados.</p>
+          )}
+        </CardContent>
+      </Card>
+
       {(isEditing || isCreating) && (
         <Card>
           <CardHeader>
@@ -273,7 +345,7 @@ export default function GestionarPeriodosInscripcionEspecial() {
             Crear Nuevo Período
           </Button>
           {ultimoPeriodo && (
-            <Button onClick={handleEdit} className="flex items-center gap-2">
+            <Button onClick={() => handleEdit(ultimoPeriodo.id)} className="flex items-center gap-2">
               <Edit className="h-4 w-4" />
               Editar Último Período
             </Button>

@@ -16,6 +16,8 @@ import {
   getPeriodoInscripcionEspecialActualProcedure,
   getUltimoPeriodoInscripcionEspecialProcedure,
   verificarPeriodoActivoProcedure,
+  getTodosPeriodosInscripcionEspecialProcedure,
+  eliminarPeriodoInscripcionEspecialProcedure as eliminarPeriodoIEProcedure,
 } from "../services/inscripcionesEspeciales/periodosInscripcionEspecial.service";
 
 import { createTRPCRouter } from "@/server/api/trpc";
@@ -35,4 +37,6 @@ export const inscripcionesEspecialesRouter = createTRPCRouter({
   getPeriodoInscripcionEspecialActual: getPeriodoInscripcionEspecialActualProcedure,
   getUltimoPeriodoInscripcionEspecial: getUltimoPeriodoInscripcionEspecialProcedure,
   verificarPeriodoActivo: verificarPeriodoActivoProcedure,
+  getTodosPeriodosInscripcionEspecial: getTodosPeriodosInscripcionEspecialProcedure,
+  eliminarPeriodoInscripcionEspecial: eliminarPeriodoIEProcedure,
 });

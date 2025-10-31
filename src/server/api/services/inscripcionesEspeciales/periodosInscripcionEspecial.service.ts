@@ -3,6 +3,8 @@ import {
   inputActualizarPeriodoInscripcionEspecial,
   inputGetPeriodoInscripcionEspecialActual,
   inputGetUltimoPeriodoInscripcionEspecial,
+  inputGetTodosPeriodosInscripcionEspecial,
+  inputEliminarPeriodoInscripcionEspecial,
 } from "../../../../shared/filters/inscripciones-especiales-filter.schema";
 
 import {
@@ -11,6 +13,8 @@ import {
   getPeriodoInscripcionEspecialActual,
   getUltimoPeriodoInscripcionEspecial,
   verificarPeriodoActivo,
+  getTodosPeriodosInscripcionEspecial,
+  eliminarPeriodoInscripcionEspecial,
 } from "../../repositories/inscripcionesEspeciales/periodosInscripcionEspecial.repository";
 
 import { protectedProcedure } from "../../trpc";
@@ -105,3 +109,29 @@ export const verificarPeriodoActivoProcedure = protectedProcedure.query(async ({
     handleDatabaseError(error, "verificar período activo");
   }
 });
+
+export const getTodosPeriodosInscripcionEspecialProcedure = protectedProcedure
+  .input(inputGetTodosPeriodosInscripcionEspecial)
+  .query(async ({ ctx }) => {
+    try {
+      if (!(await tienePermiso(ctx, [SgeNombre.INSCRIPCIONES_ESPECIALES_ADMIN], ctx.session.user.id))) {
+        throw new Error("No tiene permisos para ver períodos de inscripción especial");
+      }
+      return await getTodosPeriodosInscripcionEspecial(ctx);
+    } catch (error) {
+      handleDatabaseError(error, "obtener todos los períodos de inscripción especial");
+    }
+  });
+
+export const eliminarPeriodoInscripcionEspecialProcedure = protectedProcedure
+  .input(inputEliminarPeriodoInscripcionEspecial)
+  .mutation(async ({ ctx, input }) => {
+    try {
+      if (!(await tienePermiso(ctx, [SgeNombre.INSCRIPCIONES_ESPECIALES_ADMIN], ctx.session.user.id))) {
+        throw new Error("No tiene permisos para eliminar períodos de inscripción especial");
+      }
+      return await eliminarPeriodoInscripcionEspecial(ctx, input);
+    } catch (error) {
+      handleDatabaseError(error, "eliminar período de inscripción especial");
+    }
+  });

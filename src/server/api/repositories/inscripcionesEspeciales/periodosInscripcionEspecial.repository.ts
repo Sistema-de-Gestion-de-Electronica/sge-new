@@ -213,3 +213,36 @@ export const verificarPeriodoActivo = async (ctx: DatabaseContext): Promise<bool
     throw new Error("Error inesperado al verificar el período activo");
   }
 };
+
+export const getTodosPeriodosInscripcionEspecial = async (
+  ctx: DatabaseContext,
+): Promise<PeriodoInscripcionEspecialResponse[]> => {
+  try {
+    const periodos = await ctx.db.inscripcionEspecialPeriodo.findMany({
+      include: {
+        usuarioCreador: {
+          select: { id: true, nombre: true, apellido: true, legajo: true, email: true },
+        },
+      },
+      orderBy: { fechaInicio: "desc" },
+    });
+    return periodos.map(buildPeriodoResponse);
+  } catch (error) {
+    if (error instanceof Error) {
+      throw error;
+    }
+    throw new Error("Error inesperado al obtener todos los períodos de inscripción especial");
+  }
+};
+
+export const eliminarPeriodoInscripcionEspecial = async (ctx: DatabaseContext, { id }: { id: number }) => {
+  try {
+    await ctx.db.inscripcionEspecialPeriodo.delete({ where: { id } });
+    return { ok: true } as const;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw error;
+    }
+    throw new Error("Error inesperado al eliminar el período de inscripción especial");
+  }
+};

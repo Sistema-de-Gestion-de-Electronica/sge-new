@@ -30,7 +30,7 @@ export const DrawerModalDrawer = ({
     <Drawer open={open} onOpenChange={onOpenChange}>
       <DrawerTrigger asChild>{trigger}</DrawerTrigger>
       <DrawerContent className={className}>
-        <DrawerHeader>
+        <DrawerHeader className="print:hidden">
           <DrawerTitle>{titulo}</DrawerTitle>
           <DrawerDescription>{description}</DrawerDescription>
         </DrawerHeader>

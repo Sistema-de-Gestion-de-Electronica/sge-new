@@ -31,8 +31,10 @@ export const AlertDialogModalDrawer = ({
     <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogTrigger asChild>{trigger}</AlertDialogTrigger>
       <AlertDialogContent className={className}>
-        <AlertDialogTitle>{titulo}</AlertDialogTitle>
-        <AlertDialogDescription>{description}</AlertDialogDescription>
+        <div className="print:hidden">
+          <AlertDialogTitle>{titulo}</AlertDialogTitle>
+          <AlertDialogDescription>{description}</AlertDialogDescription>
+        </div>
         <div className="text-[#64748B]">{children}</div>
         <AlertDialogFooter>
           {onCancel && (

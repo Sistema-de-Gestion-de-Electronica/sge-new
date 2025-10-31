@@ -3,6 +3,7 @@ import { type PrismaClient } from "@/generated/prisma";
 import { INSCRIPCIONES_ESPECIALES_ROUTE } from "@/shared/server-routes";
 import { getInscripcionEspecialById } from "../../repositories/inscripcionesEspeciales/inscripcionesEspeciales.repository";
 import { type Session } from "next-auth";
+import { formatDateToDays } from "../../utils/dateFormat";
 
 export const enviarMailInscripcionEspecialCreadaProcedure = async (
   ctx: { db: PrismaClient; session: Session },
@@ -22,7 +23,7 @@ export const enviarMailInscripcionEspecialCreadaProcedure = async (
     },
     textoMail: `
       <p style="text-align: center;"><strong>¡Solicitud creada!</strong></p>
-      <p>Has creado una solicitud de inscripcion especial por ${tipo} el día <strong>${fecha}</strong>.</p>
+      <p>Has creado una solicitud de inscripción especial por ${tipo} el día <strong>${fecha}</strong>.</p>
     `,
     hipervinculo:
       INSCRIPCIONES_ESPECIALES_ROUTE.mis_solicitudes !== undefined

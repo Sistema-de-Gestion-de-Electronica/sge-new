@@ -51,23 +51,21 @@ export default function FormularioSolicitudInscripcionEspecial() {
     defaultValues: solicitudBase,
   });
 
+  const { handleSubmit, control, getValues, setValue, watch, reset } = formHook;
+
   useEffect(() => {
-    if (usuario && usuario.legajo !== formHook.getValues("legajo")) {
-      formHook.reset({
+    if (usuario && usuario.legajo !== getValues("legajo")) {
+      reset({
         ...solicitudBase,
         legajo: usuario.legajo ?? "",
       });
     }
-  }, [usuario, formHook, solicitudBase]);
-  const { handleSubmit, control, getValues, setValue, watch } = formHook;
+    // Dependemos solo de valores estables para evitar bucles
+  }, [usuario, getValues, reset, solicitudBase]);
 
   const casoSeleccionado = watch("caso");
 
-  const {
-    data: usuarioPorLegajo,
-    refetch: buscarUsuarioPorLegajo,
-    isFetching,
-  } = api.admin.usuarios.getUsuarioPorLegajo.useQuery(
+  const { refetch: buscarUsuarioPorLegajo, isFetching } = api.admin.usuarios.getUsuarioPorLegajo.useQuery(
     { legajo: legajoBuscado ?? "" },
     { enabled: !!legajoBuscado, retry: false },
   );
@@ -77,14 +75,14 @@ export default function FormularioSolicitudInscripcionEspecial() {
       if (getValues("legajo") !== usuario.legajo) {
         setValue("legajo", usuario.legajo ?? "");
       }
-      if (nombre !== usuario.nombre) {
-        setNombre(usuario.nombre ?? "");
+      if (usuario.nombre != null) {
+        setNombre(usuario.nombre);
       }
-      if (apellido !== usuario.apellido) {
-        setApellido(usuario.apellido ?? "");
+      if (usuario.apellido != null) {
+        setApellido(usuario.apellido);
       }
     }
-  }, [usuario, setValue, tienePermisos, getValues, nombre, apellido]);
+  }, [usuario, tienePermisos, setValue, getValues]);
 
   useEffect(() => {
     if (casoSeleccionado !== "Excepcion de correlativas") {

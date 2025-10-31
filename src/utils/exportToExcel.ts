@@ -76,7 +76,8 @@ export const exportInscripcionesEspecialesToExcel = (
                       const isNumber = typeof cell === "number" && isFinite(cell);
                       const isBoolean = typeof cell === "boolean";
                       const type = isNumber ? "Number" : isBoolean ? "String" : "String";
-                      const value = xmlEscape(cell);
+                      const displayValue = isBoolean ? (cell ? "Sí" : "No") : cell;
+                      const value = xmlEscape(displayValue);
                       return `<Cell><Data ss:Type="${type}">${value}</Data></Cell>`;
                     })
                     .join("")}</Row>`,

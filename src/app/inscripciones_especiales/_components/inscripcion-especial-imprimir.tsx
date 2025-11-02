@@ -1,10 +1,36 @@
+import { api } from "@/trpc/react";
+import { useMemo } from "react";
+
 interface Props {
-  inscripcionEspecial: any; // Podés tiparlo con InscripcionEspecialData
+  inscripcionEspecial: any;
 }
 
 export default function PrintInscripcionEspecial({ inscripcionEspecial }: Props) {
   // Obtener la URL base para la imagen
   const imageUrl = typeof window !== "undefined" ? `${window.location.origin}/utn-dpto-elec.png` : "/utn-dpto-elec.svg";
+
+  // Obtener los IDs de cursos únicos
+  const cursoIds = useMemo(() => {
+    const ids = (inscripcionEspecial?.cursos ?? []).filter((id: number) => id && id > 0) as number[];
+    return [...new Set(ids)];
+  }, [inscripcionEspecial?.cursos]);
+
+  const { data: todosLosCursosData } = api.cursos.getAll.useQuery({
+    filtrByActivo: "true",
+  });
+
+  // Crear un mapa de cursoId -> nombre de división
+  const divisionesMap = useMemo(() => {
+    const map = new Map<number, string>();
+    if (todosLosCursosData?.cursos) {
+      todosLosCursosData.cursos.forEach((curso: any) => {
+        if (cursoIds.includes(curso.id) && curso.division?.nombre) {
+          map.set(curso.id, curso.division.nombre);
+        }
+      });
+    }
+    return map;
+  }, [todosLosCursosData, cursoIds]);
 
   return (
     <div className="hidden print:block">
@@ -80,16 +106,20 @@ export default function PrintInscripcionEspecial({ inscripcionEspecial }: Props)
               </tr>
             </thead>
             <tbody>
-              {(inscripcionEspecial?.materias ?? []).map((materia: string, index: number) => (
-                <tr key={index} className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}>
-                  <td className="border px-2 py-1">{materia}</td>
-                  <td className="border px-2 py-1">{inscripcionEspecial?.respuesta ?? "—"}</td>
-                  <td className="border px-2 py-1">
-                    {(inscripcionEspecial?.materiasAdeudadas ?? []).join(", ") || "—"}
-                  </td>
-                  <td className="border px-2 py-1">{inscripcionEspecial?.curso ?? "—"}</td>
-                </tr>
-              ))}
+              {(inscripcionEspecial?.materias ?? []).map((materia: string, index: number) => {
+                const cursoId = inscripcionEspecial?.cursos?.[index];
+                const nombreDivision = cursoId ? (divisionesMap.get(cursoId) ?? "—") : "—";
+                return (
+                  <tr key={index} className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}>
+                    <td className="border px-2 py-1">{materia}</td>
+                    <td className="border px-2 py-1">{inscripcionEspecial?.justificacion ?? "—"}</td>
+                    <td className="border px-2 py-1">
+                      {(inscripcionEspecial?.materiasAdeudadas ?? []).join(", ") || "—"}
+                    </td>
+                    <td className="border px-2 py-1">{nombreDivision}</td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </section>

@@ -6,6 +6,7 @@ import {
   inputActualizarContactoAsistencia,
   inputEliminarInscripcionEspecial,
   inputEnviarMailContactoInscripcionEspecial,
+  inputActualizarCursosInscripcionEspecial,
 } from "../../../../shared/filters/inscripciones-especiales-filter.schema";
 
 import {
@@ -17,6 +18,7 @@ import {
   getInscripcionEspecialById,
   actualizarContactoAsistencia,
   eliminarInscripcionEspecial,
+  actualizarCursosInscripcionEspecial,
 } from "../../repositories/inscripcionesEspeciales/inscripcionesEspeciales.repository";
 import { enviarMailInscripcionEspecialCreadaProcedure } from "../mails/emailInscripcionEspecial.service";
 import { transporter, fromEmail, type EmailParams } from "../mails/email";
@@ -193,5 +195,16 @@ export const enviarMailContactoInscripcionEspecialProcedure = protectedProcedure
       return { ok: true } as const;
     } catch (error) {
       handleDatabaseError(error, "enviar mail de contacto de inscripción especial");
+    }
+  });
+
+export const actualizarCursosInscripcionEspecialProcedure = protectedProcedure
+  .input(inputActualizarCursosInscripcionEspecial)
+  .mutation(async ({ ctx, input }) => {
+    try {
+      validarInput(inputActualizarCursosInscripcionEspecial, input);
+      return await actualizarCursosInscripcionEspecial(ctx, input);
+    } catch (error) {
+      handleDatabaseError(error, "actualizar cursos de inscripción especial");
     }
   });

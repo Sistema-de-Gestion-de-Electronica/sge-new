@@ -44,6 +44,11 @@ export const inputEliminarInscripcionEspecial = z.object({
   id: z.number(),
 });
 
+export const inputActualizarCursosInscripcionEspecial = z.object({
+  id: z.number(),
+  cursos: z.array(z.coerce.number()),
+});
+
 export const inputCrearPeriodoInscripcionEspecial = z
   .object({
     fechaInicio: z.date(),

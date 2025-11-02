@@ -25,6 +25,7 @@ interface InscripcionEspecialResponse {
   };
   caso: string;
   materias: string[];
+  materiasIds: number[];
   materiasAdeudadas: string[];
   justificacion: string;
   turnoAlternativa1: string;
@@ -35,6 +36,7 @@ interface InscripcionEspecialResponse {
   fechaRespuesta: string;
   vinoPresencialmente?: boolean | null;
   fueContactado?: boolean | null;
+  cursos: number[];
 }
 
 interface PaginatedResponse<T> {
@@ -89,6 +91,7 @@ const buildInscripcionResponse = (
     };
     caso: string;
     materias: number[];
+    cursos: number[];
     justificacion: string;
     turnoAlternativa1: string | null;
     turnoAlternativa2: string | null;
@@ -107,6 +110,7 @@ const buildInscripcionResponse = (
   solicitante: inscripcion.solicitante,
   caso: inscripcion.caso,
   materias: materias.map((m) => m.nombre),
+  materiasIds: inscripcion.materias,
   materiasAdeudadas: materiasAdeudadas.map((m) => m.nombre),
   justificacion: inscripcion.justificacion,
   turnoAlternativa1: inscripcion.turnoAlternativa1 ?? "",
@@ -115,6 +119,7 @@ const buildInscripcionResponse = (
   respuesta: inscripcion.respuesta ?? "",
   fechaSolicitud: formatDateToSeconds(inscripcion.fechaSolicitud),
   fechaRespuesta: inscripcion.fechaRespuesta ? formatDateToSeconds(inscripcion.fechaRespuesta) : "",
+  cursos: inscripcion.cursos ?? [],
   ...(includeContactInfo && {
     vinoPresencialmente: inscripcion.vinoPresencialmente,
     fueContactado: inscripcion.fueContactado,
@@ -161,6 +166,7 @@ export const agregarInscripcionEspecial = async (ctx: DatabaseContext, input: In
           estado: "PENDIENTE",
           materias: input.materias,
           materiasAdeudadas: input.materiasAdeudadas,
+          cursos: [],
         },
       });
     });
@@ -319,6 +325,7 @@ export async function getAllInscripcionesEspeciales(
         solicitante: i.solicitante,
         caso: i.caso,
         materias: materiasNombres,
+        materiasIds: i.materias,
         materiasAdeudadas: materiasAdeudadasNombres,
         vinoPresencialmente: i.vinoPresencialmente,
         fueContactado: i.fueContactado,
@@ -329,6 +336,7 @@ export async function getAllInscripcionesEspeciales(
         respuesta: i.respuesta ?? "",
         fechaSolicitud: formatDateToDays(i.fechaSolicitud),
         fechaRespuesta: i.fechaRespuesta ? formatDateToDays(i.fechaRespuesta) : "",
+        cursos: i.cursos ?? [],
       };
     });
 
@@ -364,10 +372,12 @@ export async function getInscripcionEspecialById(
 
     if (!inscripcion) return null;
 
-    const materias = await ctx.db.materia.findMany({
+    const materiasRaw = await ctx.db.materia.findMany({
       where: { id: { in: inscripcion.materias } },
-      select: { nombre: true },
+      select: { id: true, nombre: true },
     });
+
+    const materias = inscripcion.materias.map((id) => materiasRaw.find((m) => m.id === id)!);
 
     const materiasAdeudadas = await ctx.db.materia.findMany({
       where: { id: { in: inscripcion.materiasAdeudadas } },
@@ -380,6 +390,39 @@ export async function getInscripcionEspecialById(
       throw new Error(`Error de base de datos: ${error.message}`);
     }
     throw new Error("Error inesperado al obtener la inscripción especial");
+  }
+}
+
+type InputActualizarCursos = { id: number; cursos: number[] };
+export async function actualizarCursosInscripcionEspecial(ctx: DatabaseContext, input: InputActualizarCursos) {
+  try {
+    const updated = await ctx.db.inscripcionEspecial.update({
+      where: { id: input.id },
+      data: { cursos: input.cursos },
+      include: {
+        solicitante: { select: getSolicitanteSelect() },
+      },
+    });
+
+    const materias = await ctx.db.materia.findMany({
+      where: { id: { in: updated.materias } },
+      select: { nombre: true },
+    });
+
+    const materiasAdeudadas = await ctx.db.materia.findMany({
+      where: { id: { in: updated.materiasAdeudadas } },
+      select: { nombre: true },
+    });
+
+    return buildInscripcionResponse(updated, materias, materiasAdeudadas, true);
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error.code === "P2025") {
+        throw new Error(`No se encontró la inscripción especial con ID ${input.id}`);
+      }
+      throw new Error(`Error de base de datos: ${error.message}`);
+    }
+    throw new Error("Error inesperado al actualizar los cursos de la inscripción especial");
   }
 }
 

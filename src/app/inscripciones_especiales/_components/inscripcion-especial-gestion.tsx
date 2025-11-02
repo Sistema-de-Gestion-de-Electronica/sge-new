@@ -1,5 +1,5 @@
 import { api } from "@/trpc/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { type z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, FormProvider, Controller } from "react-hook-form";
@@ -13,6 +13,8 @@ import ModalDrawer from "@/app/_components/modal/modal-drawer";
 import { Input } from "@/components/ui/Input";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/Label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/Select";
 
 type GestionarInscripcionEspecialFormData = z.infer<typeof inputGestionarInscripcionEspecial>;
 
@@ -38,6 +40,25 @@ export const InscripcionEspecialGestion = ({
   const { data: inscripcionEspecialData } = api.inscripcionesEspeciales.getInscripcionEspecialPorId.useQuery({
     id: inscripcionEspecialId,
   });
+  const actualizarCursosMutation = api.inscripcionesEspeciales.actualizarCursos.useMutation();
+
+  const [selectedCursos, setSelectedCursos] = useState<number[]>([]);
+
+  // Inicializa selección cuando llega la data
+  useState(() => {
+    if (inscripcionEspecialData) {
+      setSelectedCursos(inscripcionEspecialData.cursos ?? []);
+    }
+  });
+
+  useEffect(() => {
+    if (inscripcionEspecialData?.cursos) {
+      setSelectedCursos(inscripcionEspecialData.cursos);
+    } else if (inscripcionEspecialData?.materiasIds) {
+      setSelectedCursos(new Array(inscripcionEspecialData.materiasIds.length).fill(0));
+    }
+  }, [inscripcionEspecialData]);
+
   const { mutate: enviarMailContacto, isPending: enviandoMail } =
     api.inscripcionesEspeciales.enviarMailContacto.useMutation();
 
@@ -132,6 +153,24 @@ export const InscripcionEspecialGestion = ({
     );
   };
 
+  const handleGuardarCursos = () => {
+    const cursosAEnviar = (inscripcionEspecialData?.materiasIds || []).map((_, index) => selectedCursos[index] ?? 0);
+
+    actualizarCursosMutation.mutate(
+      { id: inscripcionEspecialId, cursos: cursosAEnviar },
+      {
+        onSuccess: () => {
+          toast.success("Cursos actualizados");
+          void utils.inscripcionesEspeciales.getInscripcionEspecialPorId.invalidate({
+            id: inscripcionEspecialId,
+          });
+          void utils.inscripcionesEspeciales.getAllInscripcionesEspeciales.invalidate();
+        },
+        onError: () => toast.error("No se pudieron actualizar los cursos"),
+      },
+    );
+  };
+
   const [open, setOpen] = useState(false);
   const [openContact, setOpenContact] = useState(false);
   const [asunto, setAsunto] = useState("");
@@ -177,6 +216,62 @@ export const InscripcionEspecialGestion = ({
             </div>
           </CardContent>
         </Card>
+
+        {/* Selección de Curso por Materia */}
+        {inscripcionEspecialData && (
+          <Card className="w-full">
+            <CardHeader>
+              <CardTitle>Asignar curso por materia</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {(inscripcionEspecialData.materiasIds || []).map((materiaId, index) => {
+                const { data: cursosData } = api.cursos.getAll.useQuery({
+                  materia: String(materiaId),
+                  filtrByActivo: "true",
+                });
+                const cursos = cursosData?.cursos ?? [];
+
+                return (
+                  <div key={materiaId} className="grid grid-cols-1 gap-2 md:grid-cols-2">
+                    <div>
+                      <Label className="text-xs font-semibold">
+                        {`${inscripcionEspecialData.materias?.[index] ?? ""}`}
+                      </Label>
+                    </div>
+                    <div>
+                      <Select
+                        value={String(selectedCursos[index] ?? "")}
+                        onValueChange={(val) => {
+                          setSelectedCursos((prev) => {
+                            const updated = [...prev];
+                            updated[index] = Number(val);
+                            return updated;
+                          });
+                        }}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder={`Seleccionar curso (División)`} />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {cursos.map((c: any) => (
+                            <SelectItem key={c.id} value={String(c.id)}>
+                              {c.division?.nombre ?? `Curso ${c.id}`}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+                );
+              })}
+              <div className="flex justify-end">
+                <Button type="button" variant="default" onClick={handleGuardarCursos} className="w-full md:w-auto">
+                  Guardar cursos
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        )}
         <div className="flex justify-center gap-2">
           <Controller
             name="alumnoAsistio"

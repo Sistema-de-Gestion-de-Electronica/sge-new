@@ -5266,15 +5266,6 @@ COPY public."Estante" (id, nombre, "armarioId", "fechaCreacion", "fechaModificac
 \.
 
 --
--- Data for Name: InscripcionEspecial; Type: TABLE DATA; Schema: public; Owner: -
---
-
-COPY public."InscripcionEspecial" (id, "solicitanteId", caso, justificacion, "turnoAlternativa1", "turnoAlternativa2", materias, "materiasAdeudadas", estado, respuesta, "fueContactado", "vinoPresencialmente", "fechaSolicitud", "fechaRespuesta") FROM stdin;
-1	cm9goht7j00lldrqponw9nq09	Excepcion de correlativas	Quiero cursar fisca 2	Martes: Tarde	Martes: Noche	{30}	{29}	RECHAZADA		t	t	2025-10-02 21:21:19.021	\N
-\.
-
-
---
 -- Data for Name: Laboratorio; Type: TABLE DATA; Schema: public; Owner: -
 --
 

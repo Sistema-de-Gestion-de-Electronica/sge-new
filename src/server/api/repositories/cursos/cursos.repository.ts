@@ -362,3 +362,35 @@ export const editarCurso = async (ctx: { db: PrismaClient }, input: InputEditarC
     throw new Error(`Error modificando curso ${input.id}`);
   }
 };
+
+/*export const getCursosByMateria = async (ctx: { db: PrismaClient }, materiaId: number) => {
+  try {
+    const divisiones = await ctx.db.curso.findMany({
+      where: {
+        materiaId,
+        activo: true,
+      },
+      select: {
+        division: {
+          select: {
+            id: true,
+            nombre: true,
+          },
+        },
+      },
+      distinct: ["divisionId"],
+      orderBy: {
+        division: {
+          nombre: "asc",
+        },
+      },
+    });
+
+    const divisionesLimpias = divisiones.map((c) => c.division);
+
+    return { divisiones: divisionesLimpias };
+  } catch (error) {
+    console.error("Error al obtener divisiones por materia:", error);
+    throw new Error("No se pudieron obtener las divisiones para la materia especificada");
+  }
+};*/

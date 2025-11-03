@@ -658,6 +658,7 @@ CREATE TABLE public."InscripcionEspecial" (
     "turnoAlternativa2" text,
     materias integer[] NOT NULL,
     "materiasAdeudadas" integer[] NOT NULL,
+    cursos integer[] NOT NULL,
     estado text NOT NULL,
     respuesta text,
     "fueContactado" boolean default FALSE,

@@ -11,6 +11,8 @@ model InscripcionEspecial {
     materias          Int[]
     materiasAdeudadas Int[]
 
+    cursos Int[]
+
     estado    String
     respuesta String?
 

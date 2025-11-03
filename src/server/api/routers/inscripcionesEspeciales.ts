@@ -8,6 +8,7 @@ import {
   actualizarContactoAsistenciaProcedure,
   eliminarInscripcionEspecialProcedure,
   enviarMailContactoInscripcionEspecialProcedure,
+  actualizarCursosInscripcionEspecialProcedure,
 } from "../services/inscripcionesEspeciales/inscripcionesEspeciales.service";
 
 import {
@@ -32,6 +33,7 @@ export const inscripcionesEspecialesRouter = createTRPCRouter({
   actualizarContactoAsistencia: actualizarContactoAsistenciaProcedure,
   eliminarInscripcionEspecial: eliminarInscripcionEspecialProcedure,
   enviarMailContacto: enviarMailContactoInscripcionEspecialProcedure,
+  actualizarCursos: actualizarCursosInscripcionEspecialProcedure,
   crearPeriodoInscripcionEspecial: crearPeriodoInscripcionEspecialProcedure,
   actualizarPeriodoInscripcionEspecial: actualizarPeriodoInscripcionEspecialProcedure,
   getPeriodoInscripcionEspecialActual: getPeriodoInscripcionEspecialActualProcedure,

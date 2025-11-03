@@ -89,3 +89,7 @@ export const inputEditarCurso = z
     id: z.number().optional(), // Si viene significa que se va a usar para editar, si no significa que se va a usar para crear
   })
   .merge(inputAgregarCurso);
+
+/*export const inputGetCursosByMateria = z.object({
+  materiaId: z.number(),
+});*/

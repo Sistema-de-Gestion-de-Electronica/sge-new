@@ -30,9 +30,6 @@ const handlePrint = () => {
   const baseUrl = window.location.origin;
   content = content.replace(/src="(\/[^"]+)"/g, `src="${baseUrl}$1"`);
 
-  const printWindow = window.open("", "_blank", "width=800,height=600");
-  if (!printWindow) return;
-
   const styles = Array.from(document.styleSheets)
     .map((styleSheet) => {
       try {
@@ -45,27 +42,53 @@ const handlePrint = () => {
     })
     .join("");
 
-  printWindow.document.write(`
-    <html>
-      <head>
-        <title>Imprimir</title>
-        <style>${styles}</style>
-      </head>
-      <body>
-        ${content}
-      </body>
-    </html>
-  `);
+  const html = `<!doctype html>
+  <html>
+    <head>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <title>Imprimir</title>
+      <style>${styles}</style>
+    </head>
+    <body>
+      ${content}
+      <script>
+        // Ensure images/fonts have time to load before printing
+        (function() {
+          const whenIdle = window.requestIdleCallback || function(cb){ return setTimeout(cb, 200); };
+          whenIdle(function(){ window.focus(); window.print(); });
+        })();
+      <\/script>
+    </body>
+  </html>`;
 
-  printWindow.document.close();
+  const blob = new Blob([html], { type: "text/html" });
+  const url = URL.createObjectURL(blob);
 
-  printWindow.onload = () => {
-    printWindow.focus();
-    printWindow.print();
-    setTimeout(() => {
-      printWindow.close();
-    }, 500);
+  const iframe = document.createElement("iframe");
+  iframe.style.position = "fixed";
+  iframe.style.right = "0";
+  iframe.style.bottom = "0";
+  iframe.style.width = "0";
+  iframe.style.height = "0";
+  iframe.style.border = "0";
+  iframe.src = url;
+
+  iframe.onload = () => {
+    try {
+      iframe.contentWindow?.focus();
+    } catch {}
   };
+
+  document.body.appendChild(iframe);
+
+  // Cleanup after a short delay (after print dialog opens)
+  setTimeout(() => {
+    URL.revokeObjectURL(url);
+    if (iframe.parentNode) {
+      iframe.parentNode.removeChild(iframe);
+    }
+  }, 2000);
 };
 
 type InscripcionEspecialDetalleProps = {
@@ -75,13 +98,12 @@ type InscripcionEspecialDetalleProps = {
 
 export function InscripcionEspecialDetalle({
   inscripcionEspecialId,
-  mostrarCompleto,
+  mostrarCompleto: _mostrarCompleto,
 }: InscripcionEspecialDetalleProps) {
   const {
     data: inscripcionEspecial,
     isLoading,
     isError,
-    refetch: refetchInscripcion,
   } = api.inscripcionesEspeciales.getInscripcionEspecialPorId.useQuery({
     id: Number(inscripcionEspecialId),
   });

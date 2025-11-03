@@ -11,6 +11,7 @@ export type InscripcionEspecialData = {
   };
   caso: string;
   materias: string[];
+  materiasIds: number[];
   materiasAdeudadas: string[];
   justificacion: string;
   turnoAlternativa1: string;
@@ -21,4 +22,5 @@ export type InscripcionEspecialData = {
   fechaRespuesta: string;
   vinoPresencialmente?: boolean | null;
   fueContactado?: boolean | null;
+  cursos: number[];
 };

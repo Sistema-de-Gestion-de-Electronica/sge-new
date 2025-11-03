@@ -6,10 +6,8 @@ interface Props {
 }
 
 export default function PrintInscripcionEspecial({ inscripcionEspecial }: Props) {
-  // Obtener la URL base para la imagen
   const imageUrl = typeof window !== "undefined" ? `${window.location.origin}/utn-dpto-elec.png` : "/utn-dpto-elec.svg";
 
-  // Obtener los IDs de cursos únicos
   const cursoIds = useMemo(() => {
     const ids = (inscripcionEspecial?.cursos ?? []).filter((id: number) => id && id > 0) as number[];
     return [...new Set(ids)];
@@ -19,7 +17,6 @@ export default function PrintInscripcionEspecial({ inscripcionEspecial }: Props)
     filtrByActivo: "true",
   });
 
-  // Crear un mapa de cursoId -> nombre de división
   const divisionesMap = useMemo(() => {
     const map = new Map<number, string>();
     if (todosLosCursosData?.cursos) {
@@ -50,7 +47,6 @@ export default function PrintInscripcionEspecial({ inscripcionEspecial }: Props)
           <img src={imageUrl} alt="UTN.BA Ingeniería Electrónica" width={200} height={110} className="object-contain" />
         </header>
 
-        {/* Datos principales */}
         <section className="mt-4 text-sm">
           <div className="flex flex-wrap justify-between">
             <p>
@@ -76,7 +72,6 @@ export default function PrintInscripcionEspecial({ inscripcionEspecial }: Props)
           </p>
         </section>
 
-        {/* Turnos */}
         {(inscripcionEspecial?.turnoAlternativa1 || inscripcionEspecial?.turnoAlternativa2) && (
           <section className="mt-5 space-y-1 text-sm">
             {inscripcionEspecial?.turnoAlternativa1 && (
@@ -94,7 +89,6 @@ export default function PrintInscripcionEspecial({ inscripcionEspecial }: Props)
           </section>
         )}
 
-        {/* Tabla */}
         <section className="mt-6">
           <table className="w-full border-collapse text-sm">
             <thead>
@@ -109,13 +103,17 @@ export default function PrintInscripcionEspecial({ inscripcionEspecial }: Props)
               {(inscripcionEspecial?.materias ?? []).map((materia: string, index: number) => {
                 const cursoId = inscripcionEspecial?.cursos?.[index];
                 const nombreDivision = cursoId ? (divisionesMap.get(cursoId) ?? "—") : "—";
+                const materiasAdeudadasTexto = (inscripcionEspecial?.materiasAdeudadas ?? []).join(", ") || "—";
+                const totalFilas = (inscripcionEspecial?.materias ?? []).length || 0;
                 return (
                   <tr key={index} className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}>
                     <td className="border px-2 py-1">{materia}</td>
                     <td className="border px-2 py-1">{inscripcionEspecial?.justificacion ?? "—"}</td>
-                    <td className="border px-2 py-1">
-                      {(inscripcionEspecial?.materiasAdeudadas ?? []).join(", ") || "—"}
-                    </td>
+                    {index === 0 && (
+                      <td className="border px-2 py-1 align-top" rowSpan={totalFilas}>
+                        {materiasAdeudadasTexto}
+                      </td>
+                    )}
                     <td className="border px-2 py-1">{nombreDivision}</td>
                   </tr>
                 );
@@ -124,7 +122,6 @@ export default function PrintInscripcionEspecial({ inscripcionEspecial }: Props)
           </table>
         </section>
 
-        {/* Pasos */}
         <section className="mt-6 space-y-2 text-sm">
           <div className="flex items-start gap-3">
             <div className="rounded bg-black px-2 py-[2px] text-xs font-semibold text-white">Paso 1</div>
@@ -135,8 +132,6 @@ export default function PrintInscripcionEspecial({ inscripcionEspecial }: Props)
             <p>Oficina 309 (Dirección de Gestión Académica)</p>
           </div>
         </section>
-
-        {/* Firmas */}
         <footer className="mt-12">
           <div className="grid grid-cols-2 gap-10 text-sm">
             <div className="flex flex-col items-center">

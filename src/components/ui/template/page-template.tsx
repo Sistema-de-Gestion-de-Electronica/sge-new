@@ -5,6 +5,7 @@ import { Tabs, TabsList } from "@radix-ui/react-tabs";
 import { TabItem } from "./tab-item";
 import { TabTitle } from "./tab-title";
 import { api } from "@/trpc/server";
+import { getServerAuthSession } from "@/server/auth";
 
 type PageLayoutProps = {
   route: AppRoute;
@@ -13,9 +14,13 @@ type PageLayoutProps = {
 };
 
 export default async function PageLayout({ route, buttons, children }: PageLayoutProps) {
-  const subRutasVisibles = await api.application.getNavbarChildren({
-    subRutas: route.subRutas ?? [],
-  });
+  let subRutasVisibles = [];
+  const session = await getServerAuthSession();
+  if (session?.user) {
+    subRutasVisibles = await api.application.getNavbarChildren({ subRutas: route.subRutas ?? [] });
+  } else {
+    subRutasVisibles = route.subRutas?.filter(r => r.isPublic) ?? [];
+  }
 
   return (
     <>

@@ -28,6 +28,16 @@ export const getTodosLosCursosProcedure = protectedProcedure.input(inputGetCurso
   return cursos;
 });
 
+/*export const getCursosByMateriaProcedure = protectedProcedure
+  .input(inputGetCursosByMateria)
+  .query(async ({ ctx, input }) => {
+    validarInput(inputGetCursosByMateria, input);
+
+    const cursos = await getCursosByMateria(ctx, input.materiaId);
+
+    return cursos;
+  });*/
+
 export const cursoPorIdProcedure = protectedProcedure.input(inputGetCurso).query(async ({ ctx, input }) => {
   validarInput(inputGetCurso, input);
 

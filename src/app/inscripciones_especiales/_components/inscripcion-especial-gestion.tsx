@@ -1,5 +1,5 @@
 import { api } from "@/trpc/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { type z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, FormProvider, Controller } from "react-hook-form";
@@ -10,6 +10,11 @@ import { FormTextarea } from "@/components/ui/textarea";
 import { inputGestionarInscripcionEspecial } from "@/shared/filters/inscripciones-especiales-filter.schema";
 import { Checkbox } from "@/components/ui/checkbox";
 import ModalDrawer from "@/app/_components/modal/modal-drawer";
+import { Input } from "@/components/ui/Input";
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/Label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/Select";
 
 type GestionarInscripcionEspecialFormData = z.infer<typeof inputGestionarInscripcionEspecial>;
 
@@ -29,11 +34,33 @@ export const InscripcionEspecialGestion = ({
   const utils = api.useUtils();
   const { isPending: estaAprobando, mutate: aprobarSolcitud } =
     api.inscripcionesEspeciales.aprobarInscripcionEspecial.useMutation();
-  const { isPending: estaRechazando, mutate: rechazarSolicitud } =
-    api.inscripcionesEspeciales.rechazarInscripcionEspecial.useMutation();
+  const { isPending: estaAprobandoCondicion, mutate: aprobarSolicitudConCondicion } =
+    api.inscripcionesEspeciales.aprobarInscripcionEspecialConCondicion.useMutation();
+  const { mutate: rechazarSolicitud } = api.inscripcionesEspeciales.rechazarInscripcionEspecial.useMutation();
   const { data: inscripcionEspecialData } = api.inscripcionesEspeciales.getInscripcionEspecialPorId.useQuery({
     id: inscripcionEspecialId,
   });
+  const actualizarCursosMutation = api.inscripcionesEspeciales.actualizarCursos.useMutation();
+
+  const [selectedCursos, setSelectedCursos] = useState<number[]>([]);
+
+  // Inicializa selección cuando llega la data
+  useState(() => {
+    if (inscripcionEspecialData) {
+      setSelectedCursos(inscripcionEspecialData.cursos ?? []);
+    }
+  });
+
+  useEffect(() => {
+    if (inscripcionEspecialData?.cursos) {
+      setSelectedCursos(inscripcionEspecialData.cursos);
+    } else if (inscripcionEspecialData?.materiasIds) {
+      setSelectedCursos(new Array(inscripcionEspecialData.materiasIds.length).fill(0));
+    }
+  }, [inscripcionEspecialData]);
+
+  const { mutate: enviarMailContacto, isPending: enviandoMail } =
+    api.inscripcionesEspeciales.enviarMailContacto.useMutation();
 
   const formHook = useForm<GestionarInscripcionEspecialFormData>({
     mode: "onChange",
@@ -46,18 +73,14 @@ export const InscripcionEspecialGestion = ({
     },
   });
 
-  const { handleSubmit, control, getValues } = formHook;
+  const { handleSubmit, control, getValues, watch } = formHook;
 
-  const onSubmit = async (data: GestionarInscripcionEspecialFormData) => {
+  const handleAprobar = (data: GestionarInscripcionEspecialFormData) => {
     aprobarSolcitud(data, {
       onSuccess: () => {
         toast.success("Solicitud de inscripcion especial aprobada con éxito");
-        utils.inscripcionesEspeciales.getInscripcionEspecialPorId
-          .invalidate({ id: inscripcionEspecialId })
-          .catch((err) => {
-            console.error(err);
-          });
-        utils.inscripcionesEspeciales.getAllInscripcionesEspeciales.invalidate();
+        void utils.inscripcionesEspeciales.getInscripcionEspecialPorId.invalidate({ id: inscripcionEspecialId });
+        void utils.inscripcionesEspeciales.getAllInscripcionesEspeciales.invalidate();
         onAprobar();
       },
       onError: (error) => {
@@ -65,23 +88,41 @@ export const InscripcionEspecialGestion = ({
         console.error(error);
       },
     });
-    console.log("Aprobando con justificacion: ", data.respuesta);
-    onAprobar();
   };
 
-  const handleRechazo = async () => {
+  const handleAprobarConCondicion = (data: GestionarInscripcionEspecialFormData) => {
+    aprobarSolicitudConCondicion(data, {
+      onSuccess: () => {
+        toast.success("Solicitud de inscripcion especial aprobada con condición");
+        void utils.inscripcionesEspeciales.getInscripcionEspecialPorId.invalidate({ id: inscripcionEspecialId });
+        void utils.inscripcionesEspeciales.getAllInscripcionesEspeciales.invalidate();
+        onAprobar();
+      },
+      onError: (error) => {
+        toast.error("Error al aprobar la reserva con condición");
+        console.error(error);
+      },
+    });
+  };
+
+  const handleRechazo = () => {
     const values = getValues();
+    const respuesta = values.respuesta ?? "";
+    if (respuesta.trim() === "") {
+      toast.error("La justificación es obligatoria para rechazar la inscripción especial.");
+      formHook.setError("respuesta", {
+        type: "manual",
+        message: "La justificación es obligatoria para rechazar la inscripción especial.",
+      });
+      return;
+    }
     rechazarSolicitud(
-      { id: inscripcionEspecialId, respuesta: values.respuesta },
+      { id: inscripcionEspecialId, respuesta },
       {
         onSuccess: () => {
           toast.success("Solicitud de inscripcion especial rechazada con éxito");
-          utils.inscripcionesEspeciales.getInscripcionEspecialPorId
-            .invalidate({ id: inscripcionEspecialId })
-            .catch((err) => {
-              console.error(err);
-            });
-          utils.inscripcionesEspeciales.getAllInscripcionesEspeciales.invalidate();
+          void utils.inscripcionesEspeciales.getInscripcionEspecialPorId.invalidate({ id: inscripcionEspecialId });
+          void utils.inscripcionesEspeciales.getAllInscripcionesEspeciales.invalidate();
           onRechazar();
         },
         onError: (error) => {
@@ -90,8 +131,6 @@ export const InscripcionEspecialGestion = ({
         },
       },
     );
-    console.log("Rechazando con justificacion: ", values.respuesta);
-    onRechazar();
   };
 
   const { mutate: guardarContacto } = api.inscripcionesEspeciales.actualizarContactoAsistencia.useMutation();
@@ -106,15 +145,36 @@ export const InscripcionEspecialGestion = ({
       {
         onSuccess: () => {
           toast.success("Cambios guardados");
-          utils.inscripcionesEspeciales.getInscripcionEspecialPorId.invalidate({ id: inscripcionEspecialId });
-          utils.inscripcionesEspeciales.getAllInscripcionesEspeciales.invalidate();
+          void utils.inscripcionesEspeciales.getInscripcionEspecialPorId.invalidate({ id: inscripcionEspecialId });
+          void utils.inscripcionesEspeciales.getAllInscripcionesEspeciales.invalidate();
         },
         onError: () => toast.error("No se pudieron guardar los cambios"),
       },
     );
   };
 
+  const handleGuardarCursos = () => {
+    const cursosAEnviar = (inscripcionEspecialData?.materiasIds || []).map((_, index) => selectedCursos[index] ?? 0);
+
+    actualizarCursosMutation.mutate(
+      { id: inscripcionEspecialId, cursos: cursosAEnviar },
+      {
+        onSuccess: () => {
+          toast.success("Cursos actualizados");
+          void utils.inscripcionesEspeciales.getInscripcionEspecialPorId.invalidate({
+            id: inscripcionEspecialId,
+          });
+          void utils.inscripcionesEspeciales.getAllInscripcionesEspeciales.invalidate();
+        },
+        onError: () => toast.error("No se pudieron actualizar los cursos"),
+      },
+    );
+  };
+
   const [open, setOpen] = useState(false);
+  const [openContact, setOpenContact] = useState(false);
+  const [asunto, setAsunto] = useState("");
+  const [mensaje, setMensaje] = useState("");
 
   const { mutate: eliminarInscripcionEspecial } = api.inscripcionesEspeciales.eliminarInscripcionEspecial.useMutation();
   const handleEliminar = () => {
@@ -123,10 +183,10 @@ export const InscripcionEspecialGestion = ({
       {
         onSuccess: () => {
           toast.success("Inscripción especial eliminada con éxito");
-          utils.inscripcionesEspeciales.getInscripcionEspecialPorId.invalidate({ id: inscripcionEspecialId });
-          utils.inscripcionesEspeciales.getAllInscripcionesEspeciales.invalidate();
+          void utils.inscripcionesEspeciales.getInscripcionEspecialPorId.invalidate({ id: inscripcionEspecialId });
+          void utils.inscripcionesEspeciales.getAllInscripcionesEspeciales.invalidate();
           setOpen(false);
-          onCancel(); // o la acción que corresponda después de eliminar
+          onCancel();
         },
         onError: () => {
           toast.error("No se pudo eliminar la inscripción especial");
@@ -135,9 +195,11 @@ export const InscripcionEspecialGestion = ({
     );
   };
 
+  void watch("respuesta");
+
   return (
     <FormProvider {...formHook}>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+      <form className="space-y-6">
         <Card className="w-full">
           <CardHeader>
             <CardTitle>Campos para Aprobacion con condicion o Rechazo</CardTitle>
@@ -147,13 +209,69 @@ export const InscripcionEspecialGestion = ({
               <FormTextarea
                 id="respuesta"
                 name="respuesta"
-                label={"Justificación"}
+                label={"Comentarios"}
                 control={control}
                 className="resize-none"
               />
             </div>
           </CardContent>
         </Card>
+
+        {/* Selección de Curso por Materia */}
+        {inscripcionEspecialData && (
+          <Card className="w-full">
+            <CardHeader>
+              <CardTitle>Asignar curso por materia</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {(inscripcionEspecialData.materiasIds || []).map((materiaId, index) => {
+                const { data: cursosData } = api.cursos.getAll.useQuery({
+                  materia: String(materiaId),
+                  filtrByActivo: "true",
+                });
+                const cursos = cursosData?.cursos ?? [];
+
+                return (
+                  <div key={materiaId} className="grid grid-cols-1 gap-2 md:grid-cols-2">
+                    <div>
+                      <Label className="text-xs font-semibold">
+                        {`${inscripcionEspecialData.materias?.[index] ?? ""}`}
+                      </Label>
+                    </div>
+                    <div>
+                      <Select
+                        value={String(selectedCursos[index] ?? "")}
+                        onValueChange={(val) => {
+                          setSelectedCursos((prev) => {
+                            const updated = [...prev];
+                            updated[index] = Number(val);
+                            return updated;
+                          });
+                        }}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder={`Seleccionar curso (División)`} />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {cursos.map((c: any) => (
+                            <SelectItem key={c.id} value={String(c.id)}>
+                              {c.division?.nombre ?? `Curso ${c.id}`}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+                );
+              })}
+              <div className="flex justify-end">
+                <Button type="button" variant="default" onClick={handleGuardarCursos} className="w-full md:w-auto">
+                  Guardar cursos
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        )}
         <div className="flex justify-center gap-2">
           <Controller
             name="alumnoAsistio"
@@ -207,6 +325,14 @@ export const InscripcionEspecialGestion = ({
         <Button
           type="button"
           variant="default"
+          className="w-full border border-gray-300 bg-transparent text-gray-700 hover:bg-gray-100"
+          onClick={() => setOpenContact(true)}
+        >
+          Contactar
+        </Button>
+        <Button
+          type="button"
+          variant="default"
           color="secondary"
           onClick={handleGuardar}
           className="w-full border border-gray-300 bg-transparent text-gray-700 hover:bg-gray-100"
@@ -245,11 +371,82 @@ export const InscripcionEspecialGestion = ({
           >
             Rechazar
           </Button>
-          <Button title="Aprobar" type="submit" variant="default" color="primary" className="w-full">
+          <Button
+            title="Aprobar"
+            type="button"
+            variant="default"
+            color="primary"
+            onClick={handleSubmit(handleAprobar)}
+            className="w-full"
+            disabled={estaAprobando}
+          >
             Aprobar
+          </Button>
+          <Button
+            title="Aprobar con condición"
+            type="button"
+            variant="default"
+            color="primary"
+            onClick={handleSubmit(handleAprobarConCondicion)}
+            className="w-full"
+            disabled={estaAprobandoCondicion}
+          >
+            Aprobar con condición
           </Button>
         </div>
       </form>
+      <Dialog open={openContact} onOpenChange={setOpenContact}>
+        <DialogContent className="max-w-lg">
+          <DialogHeader>
+            <DialogTitle>Contactar Alumno</DialogTitle>
+          </DialogHeader>
+          <div className="flex flex-col gap-3">
+            <Input value={inscripcionEspecialData?.solicitante.email ?? ""} readOnly placeholder="Email" />
+            <Input placeholder="Asunto" value={asunto} onChange={(e) => setAsunto(e.target.value)} maxLength={200} />
+            <Textarea
+              placeholder="Mensaje"
+              value={mensaje}
+              onChange={(e) => setMensaje(e.target.value)}
+              maxLength={5000}
+              className="min-h-[140px]"
+            />
+          </div>
+          <DialogFooter>
+            <Button variant="default" className="w-full" onClick={() => setOpenContact(false)}>
+              Cancelar
+            </Button>
+            <Button
+              variant="default"
+              className="w-full"
+              color="primary"
+              onClick={() => {
+                if (!asunto.trim() || !mensaje.trim()) {
+                  toast.error("Asunto y mensaje son obligatorios");
+                  return;
+                }
+                enviarMailContacto(
+                  { id: inscripcionEspecialId, asunto: asunto.trim(), mensaje: mensaje.trim() },
+                  {
+                    onSuccess: () => {
+                      toast.success("Correo enviado exitosamente");
+                      setOpenContact(false);
+                      setAsunto("");
+                      setMensaje("");
+                    },
+                    onError: (error) => {
+                      toast.error("Error al enviar el correo, intente de nuevo mas tarde");
+                      console.error(error);
+                    },
+                  },
+                );
+              }}
+              disabled={enviandoMail}
+            >
+              {enviandoMail ? "Enviando..." : "Enviar"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
       <ModalDrawer
         titulo={"Eliminar inscripción especial"}
         description={"¿Estás seguro de que deseas eliminar esta inscripción especial?"}

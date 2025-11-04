@@ -6,7 +6,7 @@ import { api, type RouterOutputs } from "@/trpc/react";
 import { type z } from "zod";
 import { DataTablePaginationStandalone } from "@/components/ui/table/table-pagination-standalone";
 import { type GroupingState, type SortingState } from "@tanstack/react-table";
-//import { useInscripicionesEspecialesQueryParam } from "@/app/inscripciones_especiales/_hooks/use-solicitudes-inscripciones-especiales-query-param";
+import { useInscripcionesEspecialesQueryParam } from "@/app/inscripciones_especiales/_hooks/use-inscripciones-especiales-query-param";
 
 import { getColumnasInscripcionesEspeciales } from "@/app/inscripciones_especiales/(listado)/columns-inscripciones-especiales";
 import { VerInscripcionEspecialModal } from "@/app/inscripciones_especiales/(listado)/ver-inscripcion-especial";
@@ -27,17 +27,17 @@ export const InscripcionesEspecialesSolicitudesTable = ({
   filters,
   filterByUser,
 }: InscripcionesEspecialesTableProps) => {
-  //   const { pagination, sorting, onSortingChange, onPaginationChange } = useInscripicionesEspecialesQueryParam(filters);
+  const { pagination, sorting, onSortingChange, onPaginationChange } = useInscripcionesEspecialesQueryParam(filters);
 
   const [grouping, setGrouping] = useState<GroupingState>(["caso"]);
   const columns = getColumnasInscripcionesEspeciales({ filterByUser });
 
   const utils = api.useUtils();
-  //   const refreshGetAll = () => {
-  //     utils.inscripcionesEspeciales.solicitudes.getAll.invalidate().catch((err) => {
-  //       console.error(err);
-  //     });
-  //   };
+  const refreshGetAll = () => {
+    utils.inscripcionesEspeciales.getAllInscripcionesEspeciales.invalidate().catch((err) => {
+      console.error(err);
+    });
+  };
 
   return (
     <>
@@ -47,13 +47,13 @@ export const InscripcionesEspecialesSolicitudesTable = ({
         data={data?.solicitudes ?? []}
         columns={columns}
         manualSorting
-        // pageSize={pagination.pageSize}
-        // pageIndex={pagination.pageIndex}
-        // config={{
-        //   sorting,
-        //   onSortingChange: (updaterOrValue: SortingState | ((prevState: SortingState) => SortingState)) =>
-        //     onSortingChange(typeof updaterOrValue === "function" ? updaterOrValue([]) : updaterOrValue),
-        // }}
+        pageSize={pagination.pageSize}
+        pageIndex={pagination.pageIndex}
+        config={{
+          sorting,
+          onSortingChange: (updaterOrValue: SortingState | ((prevState: SortingState) => SortingState)) =>
+            onSortingChange(typeof updaterOrValue === "function" ? updaterOrValue([]) : updaterOrValue),
+        }}
         action={{
           header: "Acciones",
           cell({ original }) {
@@ -68,12 +68,12 @@ export const InscripcionesEspecialesSolicitudesTable = ({
         }}
       />
 
-      {/* <DataTablePaginationStandalone
+      <DataTablePaginationStandalone
         pageIndex={pagination.pageIndex}
         pageSize={pagination.pageSize}
-        rowCount={data.count}
+        rowCount={data?.count ?? 0}
         onChange={onPaginationChange}
-      /> */}
+      />
     </>
   );
 };

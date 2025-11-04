@@ -5,18 +5,24 @@ import {
   inputGetInscripcionEspecialById,
   inputActualizarContactoAsistencia,
   inputEliminarInscripcionEspecial,
+  inputEnviarMailContactoInscripcionEspecial,
+  inputActualizarCursosInscripcionEspecial,
 } from "../../../../shared/filters/inscripciones-especiales-filter.schema";
 
 import {
   agregarInscripcionEspecial,
   aprobarInscripcionEspecial,
+  aprobarInscripcionEspecialConCondicion,
   rechazarInscripcionEspecial,
   getAllInscripcionesEspeciales,
   getInscripcionEspecialById,
   actualizarContactoAsistencia,
   eliminarInscripcionEspecial,
+  actualizarCursosInscripcionEspecial,
 } from "../../repositories/inscripcionesEspeciales/inscripcionesEspeciales.repository";
 import { enviarMailInscripcionEspecialCreadaProcedure } from "../mails/emailInscripcionEspecial.service";
+import { transporter, fromEmail, type EmailParams } from "../mails/email";
+import { cargarMailAuditoria } from "../mails/auditoria";
 
 import { protectedProcedure } from "../../trpc";
 import { validarInput } from "../helper";
@@ -73,6 +79,16 @@ export const aprobarInscripcionEspecialProcedure = protectedProcedure
       return await aprobarInscripcionEspecial(ctx, input);
     } catch (error) {
       handleDatabaseError(error, "aprobar inscripción especial");
+    }
+  });
+
+export const aprobarInscripcionEspecialConCondicionProcedure = protectedProcedure
+  .input(inputGestionarInscripcionEspecial)
+  .mutation(async ({ ctx, input }) => {
+    try {
+      return await aprobarInscripcionEspecialConCondicion(ctx, input);
+    } catch (error) {
+      handleDatabaseError(error, "aprobar inscripción especial con condición");
     }
   });
 
@@ -146,5 +162,49 @@ export const eliminarInscripcionEspecialProcedure = protectedProcedure
       return await eliminarInscripcionEspecial(ctx, input);
     } catch (error) {
       handleDatabaseError(error, "eliminar inscripción especial");
+    }
+  });
+
+export const enviarMailContactoInscripcionEspecialProcedure = protectedProcedure
+  .input(inputEnviarMailContactoInscripcionEspecial)
+  .mutation(async ({ ctx, input }) => {
+    try {
+      const inscripcion = await getInscripcionEspecialById(ctx, { id: input.id });
+      if (!inscripcion) {
+        throw new Error("Inscripción especial no encontrada");
+      }
+      const to = inscripcion.solicitante.email;
+      await transporter.sendMail({
+        from: fromEmail,
+        to,
+        subject: input.asunto,
+        text: input.mensaje,
+      });
+
+      const auditPayload: EmailParams = {
+        asunto: input.asunto,
+        to,
+        usuario: {
+          nombre: inscripcion.solicitante.nombre ?? "",
+          apellido: inscripcion.solicitante.apellido ?? "",
+        },
+        textoMail: input.mensaje,
+        hipervinculo: "",
+      };
+      await cargarMailAuditoria(ctx, auditPayload);
+      return { ok: true } as const;
+    } catch (error) {
+      handleDatabaseError(error, "enviar mail de contacto de inscripción especial");
+    }
+  });
+
+export const actualizarCursosInscripcionEspecialProcedure = protectedProcedure
+  .input(inputActualizarCursosInscripcionEspecial)
+  .mutation(async ({ ctx, input }) => {
+    try {
+      validarInput(inputActualizarCursosInscripcionEspecial, input);
+      return await actualizarCursosInscripcionEspecial(ctx, input);
+    } catch (error) {
+      handleDatabaseError(error, "actualizar cursos de inscripción especial");
     }
   });

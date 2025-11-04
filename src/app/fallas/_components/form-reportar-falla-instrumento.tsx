@@ -23,7 +23,6 @@ export default function FormularioReportarFallaInstrumento() {
     instrumento: "",
     descripcionEquipo: "",
     descripcionFalla: "",
-    condicion: "",
   };
 
   const formHook = useForm<FormReportarFallaInstrumento>({
@@ -52,7 +51,6 @@ export default function FormularioReportarFallaInstrumento() {
       instrumento: "",
       descripcionEquipo: "",
       descripcionFalla: "",
-      condicion: "",
     });
     formHook.setValue("tipoInstrumento", "");
     formHook.setValue("instrumento", "");
@@ -91,8 +89,13 @@ export default function FormularioReportarFallaInstrumento() {
         toast.error("Completa los campos requeridos para instrumentos inventariados.");
         return;
       }
+    } else {
+      if (!formData.descripcionEquipo || formData.descripcionEquipo.trim() === "") {
+        setError("descripcionEquipo", { type: "required", message: "Debe describir el instrumento" });
+        toast.error("Debe describir el instrumento para equipos no inventariados.");
+        return;
+      }
     }
-    
 
     reportarInstrumentoMutation.mutate(formData, {
       onSuccess: () => {
@@ -105,8 +108,6 @@ export default function FormularioReportarFallaInstrumento() {
       },
     });
   };
-
-
 
   return (
     <FormProvider {...formHook}>
@@ -167,22 +168,20 @@ export default function FormularioReportarFallaInstrumento() {
             ) : null}
 
             {/* Descripción del instrumento/equipo */}
-            <div className="flex w-full flex-row lg:flex-row lg:justify-between lg:gap-x-4">
-              <div className="mt-4 w-full">
-                <FormTextarea
-                  className="resize-none"
-                  label={esInventariado ? "Descripción del Equipo" : "Descripción del Instrumento"}
-                  control={control}
-                  name="descripcionEquipo"
-                  placeholder={
-                    esInventariado
-                      ? "Información adicional del equipo seleccionado"
-                      : "Describe el instrumento (marca, modelo, características, ubicación, etc.)"
-                  }
-                  required
-                />
+            {!esInventariado && (
+              <div className="flex w-full flex-row lg:flex-row lg:justify-between lg:gap-x-4">
+                <div className="mt-4 w-full">
+                  <FormTextarea
+                    className="resize-none"
+                    label="Descripción del Instrumento"
+                    control={control}
+                    name="descripcionEquipo"
+                    placeholder="Describe el instrumento (marca, modelo, características, ubicación, etc.)"
+                    required
+                  />
+                </div>
               </div>
-            </div>
+            )}
 
             {/* Descripción de la falla */}
             <div className="flex w-full flex-row lg:flex-row lg:justify-between lg:gap-x-4">
@@ -193,20 +192,6 @@ export default function FormularioReportarFallaInstrumento() {
                   control={control}
                   name="descripcionFalla"
                   placeholder="Describe el problema o falla detectada"
-                  required
-                />
-              </div>
-            </div>
-
-            {/* Condición del equipo */}
-            <div className="flex w-full flex-row lg:flex-row lg:justify-between lg:gap-x-4">
-              <div className="mt-4 w-full">
-                <FormTextarea
-                  className="resize-none"
-                  label={"Condición del Instrumento"}
-                  control={control}
-                  name="condicion"
-                  placeholder="Estado general del instrumento (funcionando parcialmente, no enciende, daños visibles, etc.)"
                   required
                 />
               </div>

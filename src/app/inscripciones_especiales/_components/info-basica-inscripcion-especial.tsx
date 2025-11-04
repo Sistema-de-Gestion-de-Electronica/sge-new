@@ -1,6 +1,6 @@
 import { api } from "@/trpc/react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CalendarIcon, PersonStandingIcon, TextIcon, NotebookIcon, Mail, Copy } from "lucide-react";
+import { CalendarIcon, PersonStandingIcon, TextIcon, NotebookIcon, Mail, Copy, Printer } from "lucide-react";
 import { Label, Button, toast } from "@/components/ui";
 import {
   BadgeEstatusInscripcionEspecial,
@@ -9,6 +9,7 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { DatoUsuarioReserva } from "@/app/_components/datos-usuario";
 import { AlternativaHorario } from "./alternativas-horario";
+import PrintInscripcionEspecial from "./inscripcion-especial-imprimir";
 
 function CardLoading() {
   return (
@@ -20,6 +21,76 @@ function CardLoading() {
   );
 }
 
+const handlePrint = () => {
+  const contentElement = document.getElementById("print-inscripcion-especial");
+  if (!contentElement) return;
+
+  let content = contentElement.innerHTML;
+
+  const baseUrl = window.location.origin;
+  content = content.replace(/src="(\/[^"]+)"/g, `src="${baseUrl}$1"`);
+
+  const styles = Array.from(document.styleSheets)
+    .map((styleSheet) => {
+      try {
+        return Array.from(styleSheet.cssRules)
+          .map((rule) => rule.cssText)
+          .join("");
+      } catch (e) {
+        return "";
+      }
+    })
+    .join("");
+
+  const html = `<!doctype html>
+  <html>
+    <head>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <title>Imprimir</title>
+      <style>${styles}</style>
+    </head>
+    <body>
+      ${content}
+      <script>
+        // Ensure images/fonts have time to load before printing
+        (function() {
+          const whenIdle = window.requestIdleCallback || function(cb){ return setTimeout(cb, 200); };
+          whenIdle(function(){ window.focus(); window.print(); });
+        })();
+      <\/script>
+    </body>
+  </html>`;
+
+  const blob = new Blob([html], { type: "text/html" });
+  const url = URL.createObjectURL(blob);
+
+  const iframe = document.createElement("iframe");
+  iframe.style.position = "fixed";
+  iframe.style.right = "0";
+  iframe.style.bottom = "0";
+  iframe.style.width = "0";
+  iframe.style.height = "0";
+  iframe.style.border = "0";
+  iframe.src = url;
+
+  iframe.onload = () => {
+    try {
+      iframe.contentWindow?.focus();
+    } catch {}
+  };
+
+  document.body.appendChild(iframe);
+
+  // Cleanup after a short delay (after print dialog opens)
+  setTimeout(() => {
+    URL.revokeObjectURL(url);
+    if (iframe.parentNode) {
+      iframe.parentNode.removeChild(iframe);
+    }
+  }, 2000);
+};
+
 type InscripcionEspecialDetalleProps = {
   inscripcionEspecialId: number;
   mostrarCompleto?: boolean;
@@ -27,13 +98,12 @@ type InscripcionEspecialDetalleProps = {
 
 export function InscripcionEspecialDetalle({
   inscripcionEspecialId,
-  mostrarCompleto,
+  mostrarCompleto: _mostrarCompleto,
 }: InscripcionEspecialDetalleProps) {
   const {
     data: inscripcionEspecial,
     isLoading,
     isError,
-    refetch: refetchInscripcion,
   } = api.inscripcionesEspeciales.getInscripcionEspecialPorId.useQuery({
     id: Number(inscripcionEspecialId),
   });
@@ -48,11 +118,16 @@ export function InscripcionEspecialDetalle({
 
   return (
     <Card className="w-full">
-      <CardHeader>
+      <CardHeader className="print:hidden">
         <div className="flex flex-col items-center gap-4 sm:flex-row sm:items-start">
           <div className="flex-grow text-center sm:text-left">
             <CardTitle className="mb-1 flex flex-row justify-between text-2xl">
               <div>#{inscripcionEspecial?.id}</div>
+              <div className="flex items-center gap-2">
+                <Button size="sm" onClick={handlePrint} aria-label="Imprimir">
+                  <Printer className="mr-2 h-4 w-4" /> Imprimir
+                </Button>
+              </div>
             </CardTitle>
             <div className="flex flex-wrap justify-center gap-2 sm:justify-start">
               <BadgeEstatusInscripcionEspecial
@@ -62,7 +137,7 @@ export function InscripcionEspecialDetalle({
           </div>
         </div>
       </CardHeader>
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-4 print:hidden">
         <div className="grid auto-cols-max grid-cols-2 gap-4 md:grid-cols-4">
           {[
             ...[
@@ -90,6 +165,15 @@ export function InscripcionEspecialDetalle({
                 label: "Materias",
                 value: inscripcionEspecial?.materias.join(", "),
               },
+              ...((inscripcionEspecial?.materiasAdeudadas?.length ?? 0) > 0
+                ? [
+                    {
+                      icon: <NotebookIcon className="h-4 w-4" />,
+                      label: "Materias adeudadas",
+                      value: inscripcionEspecial?.materiasAdeudadas.join(", "),
+                    },
+                  ]
+                : []),
             ],
           ].map(({ icon, label, value }, index, array) => (
             <div
@@ -147,8 +231,6 @@ export function InscripcionEspecialDetalle({
           )}
         </div>
 
-        
-
         {inscripcionEspecial?.estado === InscripcionEspecialEstatus.ACEPTADA_CON_CONDICION && (
           <div>
             <div>
@@ -170,6 +252,9 @@ export function InscripcionEspecialDetalle({
           </div>
         )}
       </CardContent>
+
+      {/* Hoja de firmas para impresión */}
+      {inscripcionEspecial && <PrintInscripcionEspecial inscripcionEspecial={inscripcionEspecial} />}
     </Card>
   );
 }

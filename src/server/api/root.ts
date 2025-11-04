@@ -11,11 +11,13 @@ import { notificacionRouter } from "./routers/notificaciones";
 import { usuarioPermiso } from "./routers/permisos";
 import { laboratoriosRouter } from "./routers/laboratorios";
 import { fallasRouter } from "./routers/fallas";
+import { usuariosFallasRouter } from "./routers/usuarios-fallas";
 import { applicationRouter } from "./routers/application";
 import { actasRouter } from "./routers/actas";
 import { votosRouter } from "./routers/votos";
 import { reunionRouter } from "./routers/reunion";
 import { inscripcionesEspecialesRouter } from "./routers/inscripcionesEspeciales";
+import { ventanillaRouter } from "./routers/ventanilla";
 
 /**
  * This is the primary router for your server.
@@ -35,11 +37,13 @@ export const appRouter = createTRPCRouter({
   software: softwareRouter,
   notificacion: notificacionRouter,
   fallas: fallasRouter,
+  usuariosFallas: usuariosFallasRouter,
   permisos: usuarioPermiso,
   actas: actasRouter,
   reunion: reunionRouter,
   votos: votosRouter,
   inscripcionesEspeciales: inscripcionesEspecialesRouter,
+  ventanilla: ventanillaRouter,
 });
 
 // export type definition of API

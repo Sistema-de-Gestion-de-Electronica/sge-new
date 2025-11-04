@@ -1,61 +1,74 @@
 model User {
-  id                        String                      @id @default(cuid())
-  name                      String                      @unique
-  email                     String                      @unique
-  emailVerified             Boolean?
-  image                     String                      @default("/default-avatar.svg")
-  nombre                    String?
-  apellido                  String?
-  fechaNacimiento           DateTime?                   @db.Date
-  direccion                 String?
-  piso                      String?
-  departamento              String?
-  ciudad                    String?
-  codigoPostal              String?
-  telefonoCasa              String?
-  telefonoCelular           String?
-  telefonoLaboral           String?
-  documentoNumero           String?
-  legajo                    String?                     @unique(map: "usuario_legajo_asc_idx")
-  gitlab                    String?
-  penalizaciones            Int                         @default(0)
-  esDocente                 Boolean                     @default(false)
-  esTutor                   Boolean                     @default(false)
-  fechaRegistro             DateTime                    @default(now())
-  fechaUltimoAcceso         DateTime                    @default(now())
-  fechaUltimaActualizacion  DateTime                    @default(now()) @updatedAt
-  documentoTipoId           Int?
-  provinciaIso              String?
-  paisIso                   String?
-  accounts                  Account[]
-  cursosComoProfesor        Curso[]
-  cursosComoAyudante        CursoAyudante[]
-  fallasAsignadas           Falla[]                     @relation("FallasAsignadas")
-  fallasReportadas          Falla[]                     @relation("FallasReportadas")
-  fallasHistAsignadas       FallaHistorial[]            @relation("FallaHistorialAsignadoA")
-  fallasHistReportadas      FallaHistorial[]            @relation("FallaHistorialReportadoPor")
-  inscripcionesEspeciales   InscripcionEspecial[]       @relation("inscripcionesEspeciales")
-  materiasDirector          Materia[]                   @relation("materiasDirector")
-  MateriaJefeTp             MateriaJefeTp[]             @relation("materiasJefeTrabajoPractico")
-  reservasAprobadas         Reserva[]                   @relation("reservasAprobadas")
-  reservasRechazadas        Reserva[]                   @relation("reservasRechazadas")
-  reservasRecibidas         Reserva[]                   @relation("reservasRecibidas")
-  reservasRenovadas         Reserva[]                   @relation("reservasRenovadas")
-  reservasSolicitadas       Reserva[]                   @relation("reservasSolicitadas")
-  reservasComoTutor         Reserva[]                   @relation("reservaTutor")
-  ReservaLaboratorioCerrado ReservaLaboratorioCerrado[] @relation("reservasLaboratorioCerrado")
-  sessions                  Session[]
-  tutor                     Tutor?
-  documentoTipo             DocumentoTipo?              @relation(fields: [documentoTipoId], references: [id], onDelete: Restrict)
-  pais                      Pais?                       @relation(fields: [paisIso], references: [iso], onDelete: Restrict)
-  provincia                 Provincia?                  @relation(fields: [provinciaIso, paisIso], references: [iso, paisIso], onDelete: Restrict)
-  usuarioRol                UsuarioRol[]
+  id            String   @id @default(cuid())
+  name          String   @unique
+  email         String   @unique
+  emailVerified Boolean?
+  image         String   @default("/default-avatar.svg")
+
+  nombre          String?
+  apellido        String?
+  fechaNacimiento DateTime? @db.Date
+  direccion       String?
+  piso            String?
+  departamento    String?
+  ciudad          String?
+  codigoPostal    String?
+  telefonoCasa    String?
+  telefonoCelular String?
+  telefonoLaboral String?
+  documentoNumero String?
+  legajo          String?
+  gitlab          String?
+  penalizaciones  Int       @default(0)
+  esDocente       Boolean   @default(false)
+  esTutor         Boolean   @default(false)
+
+  fechaRegistro            DateTime @default(now())
+  fechaUltimoAcceso        DateTime @default(now())
+  fechaUltimaActualizacion DateTime @default(now()) @updatedAt
+
+  documentoTipoId Int?
+  documentoTipo   DocumentoTipo? @relation(fields: [documentoTipoId], references: [id], onDelete: Restrict)
+
+  provinciaIso String?
+  provincia    Provincia? @relation(fields: [provinciaIso, paisIso], references: [iso, paisIso], onDelete: Restrict)
+
+  paisIso String?
+  pais    Pais?   @relation(fields: [paisIso], references: [iso], onDelete: Restrict)
+
+  accounts   Account[]
+  sessions   Session[]
+  usuarioRol UsuarioRol[]
+
+  reservasSolicitadas                Reserva[]                    @relation(name: "reservasSolicitadas")
+  reservasRenovadas                  Reserva[]                    @relation(name: "reservasRenovadas")
+  reservasComoTutor                  Reserva[]                    @relation(name: "reservaTutor")
+  reservasAprobadas                  Reserva[]                    @relation(name: "reservasAprobadas")
+  reservasRechazadas                 Reserva[]                    @relation(name: "reservasRechazadas")
+  reservasRecibidas                  Reserva[]                    @relation(name: "reservasRecibidas")
+  inscripcionesEspeciales            InscripcionEspecial[]        @relation(name: "inscripcionesEspeciales")
+  inscripcionEspecialPeriodosCreados InscripcionEspecialPeriodo[] @relation(name: "inscripcionEspecialPeriodosCreados")
+
+  cursosComoAyudante CursoAyudante[]
+  cursosComoProfesor Curso[]
+
+  MateriaJefeTp             MateriaJefeTp[]             @relation(name: "materiasJefeTrabajoPractico")
+  materiasDirector          Materia[]                   @relation(name: "materiasDirector")
+  tutor                     Tutor? // 1 tutor por 1 usuario maximo
+  ReservaLaboratorioCerrado ReservaLaboratorioCerrado[] @relation(name: "reservasLaboratorioCerrado")
   Voto                      Voto[]
 
-  @@index([name])
-  @@index([apellido])
-  @@index([email])
-  @@index([legajo], map: "usuario_legajo_hash_idx", type: Hash)
+  fallasReportadas Falla[] @relation(name: "FallasReportadas")
+  fallasAsignadas  Falla[] @relation(name: "FallasAsignadas")
+
+  fallasHistReportadas FallaHistorial[] @relation(name: "FallaHistorialReportadoPor")
+  fallasHistAsignadas  FallaHistorial[] @relation(name: "FallaHistorialAsignadoA")
+
+  @@unique([legajo(sort: Asc)], map: "usuario_legajo_asc_idx")
+  @@index([name(sort: Asc)])
+  @@index([apellido(sort: Asc)])
+  @@index([email(sort: Asc)])
+  @@index([legajo], type: Hash, map: "usuario_legajo_hash_idx")
 }
 
 model Tutor {

@@ -13,7 +13,7 @@ export const emailTemplate = ({
   usuario: string;
   hipervinculo: string;
   textoMail: string;
-  detalle?: string
+  detalle?: string;
 }) => {
   return `
     <!doctype html>

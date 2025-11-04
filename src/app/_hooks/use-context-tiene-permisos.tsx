@@ -55,7 +55,11 @@ export const PermisosProvider: React.FC<{ children: React.ReactNode; session?: S
     setPermisos(nuevosPermisos);
   }, [data]);
 
-  return <PermisosContext.Provider value={{ permisos, isLoading, isError, session: session ?? null }}>{children}</PermisosContext.Provider>;
+  return (
+    <PermisosContext.Provider value={{ permisos, isLoading, isError, session: session ?? null }}>
+      {children}
+    </PermisosContext.Provider>
+  );
 };
 
 export const usePermisos = () => useContext(PermisosContext);

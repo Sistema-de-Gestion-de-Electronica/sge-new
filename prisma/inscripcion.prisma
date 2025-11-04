@@ -1,17 +1,32 @@
 model InscripcionEspecial {
-  id                  Int       @id @default(autoincrement())
-  solicitanteId       String
-  caso                String
-  justificacion       String
-  turnoAlternativa1   String?
-  turnoAlternativa2   String?
-  materias            Int[]
-  materiasAdeudadas   Int[]
-  estado              String
-  respuesta           String?
-  fueContactado       Boolean?
-  vinoPresencialmente Boolean?
-  fechaSolicitud      DateTime  @default(now())
-  fechaRespuesta      DateTime?
-  solicitante         User      @relation("inscripcionesEspeciales", fields: [solicitanteId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "InscripcionEspecial_solicitante_fkey")
+    id            Int    @id @default(autoincrement())
+    solicitanteId String
+    solicitante   User   @relation(fields: [solicitanteId], references: [id], name: "inscripcionesEspeciales")
+
+    caso              String
+    justificacion     String
+    turnoAlternativa1 String?
+    turnoAlternativa2 String?
+
+    materias          Int[]
+    materiasAdeudadas Int[]
+
+    cursos Int[]
+
+    estado    String
+    respuesta String?
+
+    fueContactado       Boolean @default(false)
+    vinoPresencialmente Boolean @default(false)
+
+    fechaSolicitud DateTime  @default(now())
+    fechaRespuesta DateTime?
+}
+
+model InscripcionEspecialPeriodo {
+    id               Int      @id @default(autoincrement())
+    fechaInicio      DateTime
+    fechaFin         DateTime
+    usuarioCreadorId String
+    usuarioCreador   User     @relation(name: "inscripcionEspecialPeriodosCreados", fields: [usuarioCreadorId], references: [id], onDelete: Cascade)
 }

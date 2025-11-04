@@ -25,6 +25,8 @@ interface InscripcionEspecialResponse {
   };
   caso: string;
   materias: string[];
+  materiasIds: number[];
+  materiasAdeudadas: string[];
   justificacion: string;
   turnoAlternativa1: string;
   turnoAlternativa2: string;
@@ -34,6 +36,7 @@ interface InscripcionEspecialResponse {
   fechaRespuesta: string;
   vinoPresencialmente?: boolean | null;
   fueContactado?: boolean | null;
+  cursos: number[];
 }
 
 interface PaginatedResponse<T> {
@@ -88,6 +91,7 @@ const buildInscripcionResponse = (
     };
     caso: string;
     materias: number[];
+    cursos: number[];
     justificacion: string;
     turnoAlternativa1: string | null;
     turnoAlternativa2: string | null;
@@ -99,12 +103,15 @@ const buildInscripcionResponse = (
     fueContactado?: boolean | null;
   },
   materias: { nombre: string }[],
+  materiasAdeudadas: { nombre: string }[],
   includeContactInfo = false,
 ): InscripcionEspecialResponse => ({
   id: inscripcion.id,
   solicitante: inscripcion.solicitante,
   caso: inscripcion.caso,
   materias: materias.map((m) => m.nombre),
+  materiasIds: inscripcion.materias,
+  materiasAdeudadas: materiasAdeudadas.map((m) => m.nombre),
   justificacion: inscripcion.justificacion,
   turnoAlternativa1: inscripcion.turnoAlternativa1 ?? "",
   turnoAlternativa2: inscripcion.turnoAlternativa2 ?? "",
@@ -112,6 +119,7 @@ const buildInscripcionResponse = (
   respuesta: inscripcion.respuesta ?? "",
   fechaSolicitud: formatDateToSeconds(inscripcion.fechaSolicitud),
   fechaRespuesta: inscripcion.fechaRespuesta ? formatDateToSeconds(inscripcion.fechaRespuesta) : "",
+  cursos: inscripcion.cursos ?? [],
   ...(includeContactInfo && {
     vinoPresencialmente: inscripcion.vinoPresencialmente,
     fueContactado: inscripcion.fueContactado,
@@ -158,6 +166,7 @@ export const agregarInscripcionEspecial = async (ctx: DatabaseContext, input: In
           estado: "PENDIENTE",
           materias: input.materias,
           materiasAdeudadas: input.materiasAdeudadas,
+          cursos: [],
         },
       });
     });
@@ -195,7 +204,12 @@ const gestionarInscripcionEspecial = async (
       select: { nombre: true },
     });
 
-    return buildInscripcionResponse(inscripcion, materias);
+    const materiasAdeudadas = await ctx.db.materia.findMany({
+      where: { id: { in: inscripcion.materiasAdeudadas } },
+      select: { nombre: true },
+    });
+
+    return buildInscripcionResponse(inscripcion, materias, materiasAdeudadas);
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (error.code === "P2025") {
@@ -211,10 +225,8 @@ export async function aprobarInscripcionEspecial(
   ctx: DatabaseContext,
   { id, respuesta }: { id: number; respuesta?: string },
 ): Promise<InscripcionEspecialResponse> {
-  const contenidoRespuesta = respuesta?.trim().toLowerCase();
-  const estado = !contenidoRespuesta || contenidoRespuesta === "null" ? "ACEPTADA" : "ACEPTADA_CON_CONDICION";
-
-  return await gestionarInscripcionEspecial(ctx, id, estado, respuesta);
+  // Siempre aprobar como ACEPTADA, independientemente del contenido de 'respuesta'
+  return await gestionarInscripcionEspecial(ctx, id, "ACEPTADA", respuesta);
 }
 
 export async function rechazarInscripcionEspecial(
@@ -222,6 +234,14 @@ export async function rechazarInscripcionEspecial(
   { id, respuesta }: { id: number; respuesta?: string },
 ): Promise<InscripcionEspecialResponse> {
   return await gestionarInscripcionEspecial(ctx, id, "RECHAZADA", respuesta);
+}
+
+export async function aprobarInscripcionEspecialConCondicion(
+  ctx: DatabaseContext,
+  { id, respuesta }: { id: number; respuesta?: string },
+): Promise<InscripcionEspecialResponse> {
+  // Aprobar explícitamente como ACEPTADA_CON_CONDICION
+  return await gestionarInscripcionEspecial(ctx, id, "ACEPTADA_CON_CONDICION", respuesta);
 }
 
 type InputGetAllInscripcionesEspeciales = z.infer<typeof inputGetAllInscripcionesEspeciales>;
@@ -232,12 +252,43 @@ export async function getAllInscripcionesEspeciales(
   userId: string,
 ): Promise<PaginatedResponse<InscripcionEspecialResponse>> {
   try {
-    const { filterByUserId } = input;
+    const {
+      filterByUserId,
+      pageIndex = 0,
+      pageSize = 10,
+      searchText,
+      caso,
+      estado,
+      vinoPresencialmente,
+      fueContactado,
+      orderBy = "fechaSolicitud",
+      orderDirection = "desc",
+    } = input;
 
     const filtrosWhere: Prisma.InscripcionEspecialWhereInput = {
       ...(filterByUserId === "true" ? { solicitanteId: userId } : {}),
       estado: { not: "ELIMINADA" },
+      ...(searchText && {
+        OR: [
+          { solicitante: { nombre: { contains: searchText, mode: "insensitive" } } },
+          { solicitante: { apellido: { contains: searchText, mode: "insensitive" } } },
+          { solicitante: { legajo: { contains: searchText, mode: "insensitive" } } },
+        ],
+      }),
+      ...(caso && { caso }),
+      ...(estado && { estado }),
+      ...(vinoPresencialmente !== undefined && { vinoPresencialmente: vinoPresencialmente === "true" }),
+      ...(fueContactado !== undefined && { fueContactado: fueContactado === "true" }),
     };
+
+    const orderByClause: Prisma.InscripcionEspecialOrderByWithRelationInput = {};
+    if (orderBy === "solicitante") {
+      orderByClause.solicitante = { apellido: orderDirection };
+    } else {
+      orderByClause[orderBy as keyof Prisma.InscripcionEspecialOrderByWithRelationInput] = orderDirection;
+    }
+
+    const skip = pageIndex * pageSize;
 
     const [count, inscripciones] = await ctx.prisma.$transaction([
       ctx.prisma.inscripcionEspecial.count({ where: filtrosWhere }),
@@ -248,11 +299,13 @@ export async function getAllInscripcionesEspeciales(
             select: getSolicitanteSelect(),
           },
         },
-        orderBy: { fechaSolicitud: "desc" },
+        orderBy: orderByClause,
+        skip,
+        take: pageSize,
       }),
     ]);
 
-    const todasLasMateriasIds = inscripciones.flatMap((i) => i.materias);
+    const todasLasMateriasIds = inscripciones.flatMap((i) => [...i.materias, ...i.materiasAdeudadas]);
     const materiasMap = new Map();
 
     if (todasLasMateriasIds.length > 0) {
@@ -266,12 +319,14 @@ export async function getAllInscripcionesEspeciales(
 
     const solicitudes = inscripciones.map((i) => {
       const materiasNombres = i.materias.map((id) => materiasMap.get(id) || `Materia ${id}`);
-
+      const materiasAdeudadasNombres = i.materiasAdeudadas.map((id) => materiasMap.get(id) || `Materia ${id}`);
       return {
         id: i.id,
         solicitante: i.solicitante,
         caso: i.caso,
         materias: materiasNombres,
+        materiasIds: i.materias,
+        materiasAdeudadas: materiasAdeudadasNombres,
         vinoPresencialmente: i.vinoPresencialmente,
         fueContactado: i.fueContactado,
         justificacion: i.justificacion,
@@ -281,12 +336,9 @@ export async function getAllInscripcionesEspeciales(
         respuesta: i.respuesta ?? "",
         fechaSolicitud: formatDateToDays(i.fechaSolicitud),
         fechaRespuesta: i.fechaRespuesta ? formatDateToDays(i.fechaRespuesta) : "",
+        cursos: i.cursos ?? [],
       };
     });
-
-    // TODO: Implementar paginado real
-    const pageIndex = 0;
-    const pageSize = 10;
 
     return {
       solicitudes,
@@ -320,17 +372,57 @@ export async function getInscripcionEspecialById(
 
     if (!inscripcion) return null;
 
-    const materias = await ctx.db.materia.findMany({
+    const materiasRaw = await ctx.db.materia.findMany({
       where: { id: { in: inscripcion.materias } },
+      select: { id: true, nombre: true },
+    });
+
+    const materias = inscripcion.materias.map((id) => materiasRaw.find((m) => m.id === id)!);
+
+    const materiasAdeudadas = await ctx.db.materia.findMany({
+      where: { id: { in: inscripcion.materiasAdeudadas } },
       select: { nombre: true },
     });
 
-    return buildInscripcionResponse(inscripcion, materias, true);
+    return buildInscripcionResponse(inscripcion, materias, materiasAdeudadas, true);
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       throw new Error(`Error de base de datos: ${error.message}`);
     }
     throw new Error("Error inesperado al obtener la inscripción especial");
+  }
+}
+
+type InputActualizarCursos = { id: number; cursos: number[] };
+export async function actualizarCursosInscripcionEspecial(ctx: DatabaseContext, input: InputActualizarCursos) {
+  try {
+    const updated = await ctx.db.inscripcionEspecial.update({
+      where: { id: input.id },
+      data: { cursos: input.cursos },
+      include: {
+        solicitante: { select: getSolicitanteSelect() },
+      },
+    });
+
+    const materias = await ctx.db.materia.findMany({
+      where: { id: { in: updated.materias } },
+      select: { nombre: true },
+    });
+
+    const materiasAdeudadas = await ctx.db.materia.findMany({
+      where: { id: { in: updated.materiasAdeudadas } },
+      select: { nombre: true },
+    });
+
+    return buildInscripcionResponse(updated, materias, materiasAdeudadas, true);
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error.code === "P2025") {
+        throw new Error(`No se encontró la inscripción especial con ID ${input.id}`);
+      }
+      throw new Error(`Error de base de datos: ${error.message}`);
+    }
+    throw new Error("Error inesperado al actualizar los cursos de la inscripción especial");
   }
 }
 

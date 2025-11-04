@@ -27,7 +27,7 @@ const getStatusColor = (status: InscripcionEspecialEstatus | "") => {
   }
 };
 
-const getStatusText = (status: InscripcionEspecialEstatus | "") => {
+export const getStatusText = (status: InscripcionEspecialEstatus | "") => {
   switch (status) {
     case InscripcionEspecialEstatus.PENDIENTE:
       return "Pendiente";

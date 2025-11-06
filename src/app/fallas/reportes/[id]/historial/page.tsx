@@ -4,11 +4,9 @@ import { SgeNombre } from "@/generated/prisma";
 import { redirect } from "next/navigation";
 import { INICIO_ROUTE } from "@/shared/server-routes";
 
-type PageProps = {
-  params: { id: string };
-};
+type HistorialPageParams = { id: string };
 
-export default async function Page({ params }: PageProps) {
+export default async function Page({ params }: { params: Promise<HistorialPageParams> }) {
   const puedeVer =
     (await estaLogueadoYConPermiso([SgeNombre.REP_FALLAS_BUSCAR_REP_FALLAS])) ||
     (await estaLogueadoYConPermiso([SgeNombre.REP_FALLAS_ADMIN_REP_FALLAS]));

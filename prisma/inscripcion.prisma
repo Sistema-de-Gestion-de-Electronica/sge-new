@@ -3,10 +3,11 @@ model InscripcionEspecial {
     solicitanteId String
     solicitante   User   @relation(fields: [solicitanteId], references: [id], name: "inscripcionesEspeciales")
 
-    caso              String
-    justificacion     String
-    turnoAlternativa1 String?
-    turnoAlternativa2 String?
+    caso                        String
+    justificacion               String
+    detallesPreferenciasHorario String?
+    turnoAlternativa1           String?
+    turnoAlternativa2           String?
 
     materias          Int[]
     materiasAdeudadas Int[]

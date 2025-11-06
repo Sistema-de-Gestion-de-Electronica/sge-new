@@ -28,6 +28,7 @@ interface InscripcionEspecialResponse {
   materiasIds: number[];
   materiasAdeudadas: string[];
   justificacion: string;
+  detallesPreferenciasHorario: string;
   turnoAlternativa1: string;
   turnoAlternativa2: string;
   estado: string;
@@ -93,6 +94,7 @@ const buildInscripcionResponse = (
     materias: number[];
     cursos: number[];
     justificacion: string;
+    detallesPreferenciasHorario: string | null;
     turnoAlternativa1: string | null;
     turnoAlternativa2: string | null;
     estado: string;
@@ -113,6 +115,7 @@ const buildInscripcionResponse = (
   materiasIds: inscripcion.materias,
   materiasAdeudadas: materiasAdeudadas.map((m) => m.nombre),
   justificacion: inscripcion.justificacion,
+  detallesPreferenciasHorario: inscripcion.detallesPreferenciasHorario ?? "",
   turnoAlternativa1: inscripcion.turnoAlternativa1 ?? "",
   turnoAlternativa2: inscripcion.turnoAlternativa2 ?? "",
   estado: inscripcion.estado,
@@ -161,6 +164,7 @@ export const agregarInscripcionEspecial = async (ctx: DatabaseContext, input: In
           solicitanteId: solicitante.id,
           caso: input.caso,
           justificacion: input.justificacion,
+          detallesPreferenciasHorario: input.detallesPreferenciasHorario ?? null,
           turnoAlternativa1: input.turnoAlternativa1,
           turnoAlternativa2: input.turnoAlternativa2,
           estado: "PENDIENTE",
@@ -344,6 +348,7 @@ export async function getAllInscripcionesEspeciales(
         vinoPresencialmente: i.vinoPresencialmente,
         fueContactado: i.fueContactado,
         justificacion: i.justificacion,
+        detallesPreferenciasHorario: i.detallesPreferenciasHorario ?? "",
         turnoAlternativa1: i.turnoAlternativa1 ?? "",
         turnoAlternativa2: i.turnoAlternativa2 ?? "",
         estado: i.estado,

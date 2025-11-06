@@ -14,6 +14,7 @@ export type InscripcionEspecialData = {
   materiasIds: number[];
   materiasAdeudadas: string[];
   justificacion: string;
+  detallesPreferenciasHorario: string;
   turnoAlternativa1: string;
   turnoAlternativa2: string;
   estado: string;

@@ -40,6 +40,7 @@ export default function FormularioSolicitudInscripcionEspecial() {
       materiasAdeudadas: [],
       materias: [],
       justificacion: "",
+      detallesPreferenciasHorario: "",
       turnoAlternativa1: "",
       turnoAlternativa2: "",
     }),
@@ -60,7 +61,6 @@ export default function FormularioSolicitudInscripcionEspecial() {
         legajo: usuario.legajo ?? "",
       });
     }
-    // Dependemos solo de valores estables para evitar bucles
   }, [usuario, getValues, reset, solicitudBase]);
 
   const casoSeleccionado = watch("caso");
@@ -199,6 +199,16 @@ export default function FormularioSolicitudInscripcionEspecial() {
             <div className="flex w-full flex-row lg:flex-row lg:justify-between lg:gap-x-4">
               <div className="mt-4 w-full">
                 <FormInput label={"Justificacion"} control={control} name="justificacion" type={"textarea"} required />
+              </div>
+            </div>
+            <div className="flex w-full flex-row lg:flex-row lg:justify-between lg:gap-x-4">
+              <div className="mt-4 w-full">
+                <FormInput
+                  label={"Detalles de preferencias de las alternativas de horario"}
+                  control={control}
+                  name="detallesPreferenciasHorario"
+                  type={"textarea"}
+                />
               </div>
             </div>
             <div className="flex w-full flex-row lg:flex-row lg:justify-between lg:gap-x-4">

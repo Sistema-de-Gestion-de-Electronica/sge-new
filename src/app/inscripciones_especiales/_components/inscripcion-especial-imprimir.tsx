@@ -89,6 +89,13 @@ export default function PrintInscripcionEspecial({ inscripcionEspecial }: Props)
           </section>
         )}
 
+        {inscripcionEspecial?.detallesPreferenciasHorario && (
+          <section className="mt-5 space-y-1 text-sm">
+            <p className="font-semibold">Detalles de preferencias de las alternativas de horario:</p>
+            <p className="whitespace-pre-wrap">{inscripcionEspecial.detallesPreferenciasHorario}</p>
+          </section>
+        )}
+
         <section className="mt-6">
           <table className="w-full border-collapse text-sm">
             <thead>

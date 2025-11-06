@@ -222,6 +222,17 @@ export function InscripcionEspecialDetalle({
             {inscripcionEspecial?.justificacion ?? "Sin informar"}
           </div>
         </div>
+        {inscripcionEspecial?.detallesPreferenciasHorario && (
+          <div className="col-span-3 space-y-2">
+            <Label className="flex items-center font-semibold">
+              <TextIcon className="mr-2 h-4 w-4" />
+              Detalles de preferencias de las alternativas de horario
+            </Label>
+            <div className="whitespace-pre-wrap rounded-md border border-gray-300 bg-gray-50 p-4">
+              {inscripcionEspecial.detallesPreferenciasHorario}
+            </div>
+          </div>
+        )}
         <div className="col-span-3 flex flex-col items-start justify-center gap-4 md:flex-row">
           {inscripcionEspecial?.turnoAlternativa1 && (
             <AlternativaHorario titulo="Alternativa Horario 1" data={inscripcionEspecial?.turnoAlternativa1} />

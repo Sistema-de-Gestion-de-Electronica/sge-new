@@ -95,8 +95,8 @@ export default function PrintInscripcionEspecial({ inscripcionEspecial }: Props)
               <tr className="bg-gray-100 text-left text-[13px]">
                 <th className="w-[28%] border px-2 py-1">Materia</th>
                 <th className="w-[26%] border px-2 py-1">Justificación</th>
-                <th className="w-[26%] border px-2 py-1">Materias Adeudadas</th>
                 <th className="w-[10%] border px-2 py-1">Curso</th>
+                <th className="w-[26%] border px-2 py-1">Materias Adeudadas</th>
               </tr>
             </thead>
             <tbody>
@@ -109,12 +109,12 @@ export default function PrintInscripcionEspecial({ inscripcionEspecial }: Props)
                   <tr key={index} className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}>
                     <td className="border px-2 py-1">{materia}</td>
                     <td className="border px-2 py-1">{inscripcionEspecial?.justificacion ?? "—"}</td>
+                    <td className="border px-2 py-1">{nombreDivision}</td>
                     {index === 0 && (
                       <td className="border px-2 py-1 align-top" rowSpan={totalFilas}>
                         {materiasAdeudadasTexto}
                       </td>
                     )}
-                    <td className="border px-2 py-1">{nombreDivision}</td>
                   </tr>
                 );
               })}

@@ -25,6 +25,53 @@ interface InscripcionEspecialGestionProps {
   onRechazar: () => void;
 }
 
+interface SelectCursoPorMateriaProps {
+  materiaId: number;
+  materiaNombre: string;
+  selectedCurso: number;
+  onCursoChange: (cursoId: number) => void;
+}
+
+const SelectCursoPorMateria = ({
+  materiaId,
+  materiaNombre,
+  selectedCurso,
+  onCursoChange,
+}: SelectCursoPorMateriaProps) => {
+  const { data: cursosData } = api.cursos.getAll.useQuery({
+    materia: String(materiaId),
+    filtrByActivo: "true",
+  });
+  const cursos = cursosData?.cursos ?? [];
+
+  return (
+    <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
+      <div>
+        <Label className="text-xs font-semibold">{materiaNombre}</Label>
+      </div>
+      <div>
+        <Select
+          value={String(selectedCurso ?? "")}
+          onValueChange={(val) => {
+            onCursoChange(Number(val));
+          }}
+        >
+          <SelectTrigger>
+            <SelectValue placeholder={`Seleccionar curso (División)`} />
+          </SelectTrigger>
+          <SelectContent>
+            {cursos.map((c) => (
+              <SelectItem key={c.id} value={String(c.id)}>
+                {c.division?.nombre ?? `Curso ${c.id}`}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+    </div>
+  );
+};
+
 export const InscripcionEspecialGestion = ({
   inscripcionEspecialId,
   onAprobar,
@@ -43,13 +90,6 @@ export const InscripcionEspecialGestion = ({
   const actualizarCursosMutation = api.inscripcionesEspeciales.actualizarCursos.useMutation();
 
   const [selectedCursos, setSelectedCursos] = useState<number[]>([]);
-
-  // Inicializa selección cuando llega la data
-  useState(() => {
-    if (inscripcionEspecialData) {
-      setSelectedCursos(inscripcionEspecialData.cursos ?? []);
-    }
-  });
 
   useEffect(() => {
     if (inscripcionEspecialData?.cursos) {
@@ -73,7 +113,7 @@ export const InscripcionEspecialGestion = ({
     },
   });
 
-  const { handleSubmit, control, getValues, watch } = formHook;
+  const { handleSubmit, control, getValues } = formHook;
 
   const handleAprobar = (data: GestionarInscripcionEspecialFormData) => {
     aprobarSolcitud(data, {
@@ -154,7 +194,7 @@ export const InscripcionEspecialGestion = ({
   };
 
   const handleGuardarCursos = () => {
-    const cursosAEnviar = (inscripcionEspecialData?.materiasIds || []).map((_, index) => selectedCursos[index] ?? 0);
+    const cursosAEnviar = (inscripcionEspecialData?.materiasIds ?? []).map((_, index) => selectedCursos[index] ?? 0);
 
     actualizarCursosMutation.mutate(
       { id: inscripcionEspecialId, cursos: cursosAEnviar },
@@ -195,8 +235,6 @@ export const InscripcionEspecialGestion = ({
     );
   };
 
-  void watch("respuesta");
-
   return (
     <FormProvider {...formHook}>
       <form className="space-y-6">
@@ -224,46 +262,21 @@ export const InscripcionEspecialGestion = ({
               <CardTitle>Asignar curso por materia</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              {(inscripcionEspecialData.materiasIds || []).map((materiaId, index) => {
-                const { data: cursosData } = api.cursos.getAll.useQuery({
-                  materia: String(materiaId),
-                  filtrByActivo: "true",
-                });
-                const cursos = cursosData?.cursos ?? [];
-
-                return (
-                  <div key={materiaId} className="grid grid-cols-1 gap-2 md:grid-cols-2">
-                    <div>
-                      <Label className="text-xs font-semibold">
-                        {`${inscripcionEspecialData.materias?.[index] ?? ""}`}
-                      </Label>
-                    </div>
-                    <div>
-                      <Select
-                        value={String(selectedCursos[index] ?? "")}
-                        onValueChange={(val) => {
-                          setSelectedCursos((prev) => {
-                            const updated = [...prev];
-                            updated[index] = Number(val);
-                            return updated;
-                          });
-                        }}
-                      >
-                        <SelectTrigger>
-                          <SelectValue placeholder={`Seleccionar curso (División)`} />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {cursos.map((c: any) => (
-                            <SelectItem key={c.id} value={String(c.id)}>
-                              {c.division?.nombre ?? `Curso ${c.id}`}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </div>
-                );
-              })}
+              {(inscripcionEspecialData.materiasIds ?? []).map((materiaId, index) => (
+                <SelectCursoPorMateria
+                  key={materiaId}
+                  materiaId={materiaId}
+                  materiaNombre={inscripcionEspecialData.materias?.[index] ?? ""}
+                  selectedCurso={selectedCursos[index] ?? 0}
+                  onCursoChange={(cursoId) => {
+                    setSelectedCursos((prev) => {
+                      const updated = [...prev];
+                      updated[index] = cursoId;
+                      return updated;
+                    });
+                  }}
+                />
+              ))}
               <div className="flex justify-end">
                 <Button type="button" variant="default" onClick={handleGuardarCursos} className="w-full md:w-auto">
                   Guardar cursos

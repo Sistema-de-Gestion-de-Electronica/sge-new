@@ -30,13 +30,12 @@ export const InscripcionEspecialViewAdmin = ({
     id: Number(inscripcionEspecialId),
   });
 
-  const esInscripcionPendiente = inscripcionData?.estado === InscripcionEspecialEstatus.PENDIENTE;
   const esInscripcionElimnada = inscripcionData?.estado === InscripcionEspecialEstatus.ELIMINADA;
 
   return (
     <div className="container mx-auto space-y-8 p-4">
       <InscripcionEspecialDetalle inscripcionEspecialId={inscripcionEspecialId} />
-      {esInscripcionPendiente && !esInscripcionElimnada && (
+      {!esInscripcionElimnada && (
         <TienePermiso permisos={[SgeNombre.INSCRIPCIONES_ESPECIALES_ADMIN]}>
           <InscripcionEspecialGestion
             inscripcionEspecialId={inscripcionEspecialId}

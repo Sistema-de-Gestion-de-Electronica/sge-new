@@ -185,6 +185,20 @@ const gestionarInscripcionEspecial = async (
   respuesta?: string,
 ): Promise<InscripcionEspecialResponse> => {
   try {
+    // Verificar el estado actual antes de actualizar
+    const inscripcionActual = await ctx.db.inscripcionEspecial.findUnique({
+      where: { id },
+      select: { estado: true },
+    });
+
+    if (!inscripcionActual) {
+      throw new Error(`No se encontró la inscripción especial con ID ${id}`);
+    }
+
+    if (inscripcionActual.estado === "ELIMINADA") {
+      throw new Error("No se puede gestionar una inscripción especial que está en estado ELIMINADA");
+    }
+
     const inscripcion = await ctx.db.inscripcionEspecial.update({
       where: { id },
       data: {
@@ -396,6 +410,20 @@ export async function getInscripcionEspecialById(
 type InputActualizarCursos = { id: number; cursos: number[] };
 export async function actualizarCursosInscripcionEspecial(ctx: DatabaseContext, input: InputActualizarCursos) {
   try {
+    // Verificar el estado actual antes de actualizar
+    const inscripcionActual = await ctx.db.inscripcionEspecial.findUnique({
+      where: { id: input.id },
+      select: { estado: true },
+    });
+
+    if (!inscripcionActual) {
+      throw new Error(`No se encontró la inscripción especial con ID ${input.id}`);
+    }
+
+    if (inscripcionActual.estado === "ELIMINADA") {
+      throw new Error("No se pueden actualizar los cursos de una inscripción especial que está en estado ELIMINADA");
+    }
+
     const updated = await ctx.db.inscripcionEspecial.update({
       where: { id: input.id },
       data: { cursos: input.cursos },
@@ -430,6 +458,20 @@ type InputActualizarContactoAsistencia = z.infer<typeof inputActualizarContactoA
 
 export async function actualizarContactoAsistencia(ctx: DatabaseContext, input: InputActualizarContactoAsistencia) {
   try {
+    // Verificar el estado actual antes de actualizar
+    const inscripcionActual = await ctx.db.inscripcionEspecial.findUnique({
+      where: { id: input.id },
+      select: { estado: true },
+    });
+
+    if (!inscripcionActual) {
+      throw new Error(`No se encontró la inscripción especial con ID ${input.id}`);
+    }
+
+    if (inscripcionActual.estado === "ELIMINADA") {
+      throw new Error("No se puede actualizar el contacto de una inscripción especial que está en estado ELIMINADA");
+    }
+
     return await ctx.db.inscripcionEspecial.update({
       where: { id: input.id },
       data: {

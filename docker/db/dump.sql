@@ -650,43 +650,20 @@ ALTER SEQUENCE public."Estante_id_seq" OWNED BY public."Estante".id;
 --
 
 CREATE TABLE public."InscripcionEspecial" (
-    id integer NOT NULL,
-    "solicitanteId" text NOT NULL,
-    caso text NOT NULL,
-    justificacion text NOT NULL,
+    id SERIAL PRIMARY KEY,
+    "solicitanteId" TEXT NOT NULL,
+    caso TEXT NOT NULL,
+    justificacion TEXT NOT NULL,
     "detallesPreferenciasHorario" TEXT,
-    "turnoAlternativa1" text,
-    "turnoAlternativa2" text,
-    materias integer[] NOT NULL,
-    "materiasAdeudadas" integer[] NOT NULL,
-    cursos integer[] NOT NULL,
-    estado text NOT NULL,
-    respuesta text,
-    "fueContactado" boolean default FALSE,
-    "vinoPresencialmente" boolean default FALSE,
-    "fechaSolicitud" timestamp(3) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    "fechaRespuesta" timestamp(3) without time zone
+    "turnoAlternativa1" TEXT,
+    "turnoAlternativa2" TEXT,
+    estado TEXT NOT NULL,
+    respuesta TEXT,
+    "fueContactado" BOOLEAN DEFAULT FALSE,
+    "vinoPresencialmente" BOOLEAN DEFAULT FALSE,
+    "fechaSolicitud" TIMESTAMP(3) WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    "fechaRespuesta" TIMESTAMP(3) WITHOUT TIME ZONE
 );
-
-
---
--- Name: InscripcionEspecial_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public."InscripcionEspecial_id_seq"
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: InscripcionEspecial_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public."InscripcionEspecial_id_seq" OWNED BY public."InscripcionEspecial".id;
 
 --
 -- Name: InscripcionEspecialPeriodo; Type: TABLE; Schema: public; Owner: -
@@ -736,32 +713,6 @@ CREATE SEQUENCE public."Laboratorio_id_seq"
 --
 
 ALTER SEQUENCE public."Laboratorio_id_seq" OWNED BY public."Laboratorio".id;
-
---
--- Name: InscripcionEspecial; Type: TABLE; Schema: public; Owner: -
---
-
-/*CREATE TABLE public."InscripcionEspecial" (
-    "id" SERIAL NOT NULL,
-    "solicitanteId" TEXT NOT NULL, 
-
-    "caso" TEXT NOT NULL,
-    "justificacion" TEXT NOT NULL,
-    "turnoAlternativa1" TEXT,
-    "turnoAlternativa2" TEXT,
-    "materias" INTEGER[] NOT NULL,
-    "materiasAdeudadas" INTEGER[] NOT NULL,
-
-    "estado" TEXT NOT NULL,
-    "respuesta" TEXT,
-
-    "fueContactado" boolean,
-    "vinoPresencialmente" boolean,
-
-    "fechaSolicitud" TIMESTAMP(3) without time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "fechaRespuesta" TIMESTAMP(3)
-);*/
-
 --
 -- Name: Libro; Type: TABLE; Schema: public; Owner: -
 --
@@ -1814,13 +1765,6 @@ ALTER TABLE ONLY public."EquipoTipo" ALTER COLUMN id SET DEFAULT nextval('public
 --
 
 ALTER TABLE ONLY public."Estante" ALTER COLUMN id SET DEFAULT nextval('public."Estante_id_seq"'::regclass);
-
-
---
--- Name: InscripcionEspecial id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public."InscripcionEspecial" ALTER COLUMN id SET DEFAULT nextval('public."InscripcionEspecial_id_seq"'::regclass);
 
 
 --
@@ -52787,7 +52731,7 @@ cm9goht79003udrqpv3o8hs1k	earigon	earigon@frba.utn.edu.ar	\N	/default-avatar.svg
 cm9goht7p00vddrqp8ynsuuux	carrieta	carrieta@frba.utn.edu.ar	\N	/default-avatar.svg	Cristian Lucio	Arrieta	1963-01-29	Vicente lopez nº 284 	- -	- -	Ramos mejía	1704	 4658 1855	1533921855	4709 8156	16252860	31148	\N	0	t	f	2009-03-25 00:00:00	2024-11-03 00:00:00	2016-08-08 00:00:00	2	B	AR
 cm9goht7c0083drqp3meebllh	narrieta	narrieta@frba.utn.edu.ar	\N	/default-avatar.svg	Norberto Javier	Arrieta	1989-05-02	Malaspina 1956	- -	- -	Hurlingham	1686	44525641	15-2176-3201		34630719	1216582	\N	0	t	f	2009-04-07 00:00:00	2021-08-23 00:00:00	2016-10-19 00:00:00	2	B	AR
 cm9goht7u015xdrqprixkzrjf	jatencio	jatencio@frba.utn.edu.ar	\N	/default-avatar.svg	Jeronimo Francisco M	Atencio	1980-02-10	Bdo irigoyen 1378 7d	- -	- -	Capital federal	C1138ABD	43079649	1561545568	1561545568	28547863	58794	\N	0	t	f	2009-04-08 00:00:00	2025-01-13 00:00:00	2017-03-22 00:00:00	2	C	AR
-cm9goht7j00k6drqp55fs5a7l	raavila	raavila@frba.utn.edu.ar	\N	/default-avatar.svg	Raul	Avila	1977-06-15	El metodo 1980	- -	- -	Capital federal	1416	4582 4434	11 5694 2524 		25981640	1043572	yes	0	t	f	2007-12-14 00:00:00	2025-02-26 00:00:00	2013-06-01 00:00:00	2	C	AR
+cm9goht7j00k6drqp55fs5a7l	raavila	dpinto@frba.utn.edu.ar	\N	/default-avatar.svg	Raul	Avila	1977-06-15	El metodo 1980	- -	- -	Capital federal	1416	4582 4434	11 5694 2524 		25981640	1043572	yes	0	t	f	2007-12-14 00:00:00	2025-02-26 00:00:00	2013-06-01 00:00:00	2	C	AR
 cm9goht7q00ykdrqpya5bpnbz	juanbacigalupo	juanbacigalupo@frba.utn.edu.ar	\N	/default-avatar.svg	Juan Ignacio	Bacigalupo	1989-04-27	Av.Olazábal 5039	8	A	Ciudad de Buenos Aires	1431	4522-3696	15-3051-1620	5354-8622	34496763	1343956	\N	0	t	f	2008-04-15 00:00:00	2023-08-10 00:00:00	2014-10-11 00:00:00	2	C	AR
 cm9goht7o00t8drqphdow02nr	abaez	abaez@frba.utn.edu.ar	\N	/default-avatar.svg	Angel	Baez	1987-03-30	Manuel Estrada 1270	2	b	José c. paz	1665	02320426843	1540462072		32789853	1201311	\N	0	t	f	2009-09-18 00:00:00	2024-05-13 00:00:00	2016-10-17 00:00:00	2	B	AR
 cm9goht7i00igdrqp03shl1gr	ebatet	ebatet@frba.utn.edu.ar	\N	/default-avatar.svg	Emiliano Javier	Batet	1984-07-29	Arcos 1543	5	- -						31050199	1180277	\N	0	t	f	2008-06-03 00:00:00	2024-05-27 00:00:00	2017-02-15 00:00:00	2	C	AR
@@ -56071,14 +56015,6 @@ SELECT pg_catalog.setval('public."Equipo_id_seq"', 2139, true);
 
 SELECT pg_catalog.setval('public."Estante_id_seq"', 182, true);
 
-
---
--- Name: InscripcionEspecial_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
---
-
-SELECT pg_catalog.setval('public."InscripcionEspecial_id_seq"', 1, true);
-
-
 --
 -- Name: Laboratorio_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
@@ -56323,14 +56259,6 @@ ALTER TABLE ONLY public."Estante"
 
 
 --
--- Name: InscripcionEspecial InscripcionEspecial_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public."InscripcionEspecial"
-    ADD CONSTRAINT "InscripcionEspecial_pkey" PRIMARY KEY (id);
-
-
---
 -- Name: Laboratorio Laboratorio_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -56400,6 +56328,20 @@ ALTER TABLE ONLY public."MateriaJefeTp"
 
 ALTER TABLE ONLY public."Materia"
     ADD CONSTRAINT "Materia_pkey" PRIMARY KEY (id);
+
+--
+-- Name: InscripcionEspecialMateria; Type: TABLE; Schema: public; Owner: -
+--
+
+
+CREATE TABLE public."InscripcionEspecialMateria" (
+    id SERIAL PRIMARY KEY,
+    "inscripcionEspecialId" INTEGER NOT NULL REFERENCES public."InscripcionEspecial"(id) ON DELETE CASCADE,
+    "materiaId" INTEGER NOT NULL REFERENCES public."Materia"(id) ON DELETE CASCADE,
+    "materiasAdeudadas" INTEGER[],
+    "cursoId" INTEGER,
+    UNIQUE ("inscripcionEspecialId", "materiaId")
+);
 
 
 --

@@ -24,4 +24,11 @@ export type InscripcionEspecialData = {
   vinoPresencialmente?: boolean | null;
   fueContactado?: boolean | null;
   cursos: number[];
+  materiasInscripcion?: {
+    materiaId: number;
+    materiaNombre: string;
+    materiasAdeudadasIds: number[];
+    materiasAdeudadasNombres: string[];
+    cursoId?: number | null;
+  }[];
 };

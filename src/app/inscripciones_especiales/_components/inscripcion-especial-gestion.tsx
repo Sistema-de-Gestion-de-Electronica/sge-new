@@ -1,5 +1,6 @@
 import { api } from "@/trpc/react";
 import { useState, useEffect } from "react";
+import * as React from "react";
 import { type z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, FormProvider, Controller } from "react-hook-form";
@@ -38,11 +39,47 @@ const SelectCursoPorMateria = ({
   selectedCurso,
   onCursoChange,
 }: SelectCursoPorMateriaProps) => {
-  const { data: cursosData } = api.cursos.getAll.useQuery({
+  const { data: cursosData, isLoading: isLoadingCursos } = api.cursos.getAll.useQuery({
     materia: String(materiaId),
     filtrByActivo: "true",
   });
-  const cursos = cursosData?.cursos ?? [];
+  const { data: cursoSeleccionadoData, isLoading: isLoadingCursoSeleccionado } = api.cursos.cursoPorId.useQuery(
+    { id: selectedCurso },
+    { enabled: selectedCurso > 0 },
+  );
+
+  const cursosConSeleccionado = React.useMemo(() => {
+    const cursos = cursosData?.cursos ?? [];
+    if (selectedCurso > 0) {
+      const cursoEnLista = cursos.find((c) => c.id === selectedCurso);
+
+      if (cursoSeleccionadoData) {
+        if (!cursoEnLista) {
+          return [cursoSeleccionadoData, ...cursos];
+        }
+        const cursosActualizados = cursos.map((c) => (c.id === selectedCurso ? cursoSeleccionadoData : c));
+        return cursosActualizados;
+      }
+
+      if (cursoEnLista) {
+        return cursos;
+      }
+    }
+    return cursos;
+  }, [cursosData?.cursos, cursoSeleccionadoData, selectedCurso]);
+
+  const placeholderText = React.useMemo(() => {
+    if (selectedCurso > 0) {
+      const curso = cursoSeleccionadoData ?? cursosConSeleccionado.find((c) => c.id === selectedCurso);
+      if (curso?.division?.nombre) {
+        return undefined;
+      }
+      if (isLoadingCursoSeleccionado) {
+        return "Cargando...";
+      }
+    }
+    return "Seleccionar curso (División)";
+  }, [selectedCurso, cursoSeleccionadoData, cursosConSeleccionado, isLoadingCursoSeleccionado]);
 
   return (
     <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
@@ -51,20 +88,43 @@ const SelectCursoPorMateria = ({
       </div>
       <div>
         <Select
-          value={String(selectedCurso ?? "")}
+          value={selectedCurso && selectedCurso > 0 ? String(selectedCurso) : ""}
           onValueChange={(val) => {
             onCursoChange(Number(val));
           }}
         >
           <SelectTrigger>
-            <SelectValue placeholder={`Seleccionar curso (División)`} />
+            <SelectValue placeholder={placeholderText} />
           </SelectTrigger>
           <SelectContent>
-            {cursos.map((c) => (
-              <SelectItem key={c.id} value={String(c.id)}>
-                {c.division?.nombre ?? `Curso ${c.id}`}
+            {isLoadingCursos ? (
+              <SelectItem value="loading" disabled>
+                Cargando cursos...
               </SelectItem>
-            ))}
+            ) : (
+              <>
+                {selectedCurso > 0 && !cursosConSeleccionado.some((c) => c.id === selectedCurso) && (
+                  <SelectItem
+                    key={`selected-${selectedCurso}`}
+                    value={String(selectedCurso)}
+                    disabled={isLoadingCursoSeleccionado && cursoSeleccionadoData == null}
+                  >
+                    {cursoSeleccionadoData?.division?.nombre ??
+                      (isLoadingCursoSeleccionado ? `Curso ${selectedCurso} (cargando...)` : `Curso ${selectedCurso}`)}
+                  </SelectItem>
+                )}
+                {cursosConSeleccionado.map((c) => (
+                  <SelectItem key={c.id} value={String(c.id)}>
+                    {c.division?.nombre ?? `Curso ${c.id}`}
+                  </SelectItem>
+                ))}
+                {cursosConSeleccionado.length === 0 && selectedCurso === 0 && (
+                  <SelectItem value="no-cursos" disabled>
+                    No hay cursos disponibles
+                  </SelectItem>
+                )}
+              </>
+            )}
           </SelectContent>
         </Select>
       </div>
@@ -91,13 +151,31 @@ export const InscripcionEspecialGestion = ({
 
   const [selectedCursos, setSelectedCursos] = useState<number[]>([]);
 
-  useEffect(() => {
-    if (inscripcionEspecialData?.cursos) {
-      setSelectedCursos(inscripcionEspecialData.cursos);
-    } else if (inscripcionEspecialData?.materiasIds) {
-      setSelectedCursos(new Array(inscripcionEspecialData.materiasIds.length).fill(0));
+  // Crear un mapa de materiaId -> cursoId para acceso rápido
+  const cursoPorMateriaMap = React.useMemo(() => {
+    const map = new Map<number, number>();
+    if (inscripcionEspecialData?.materiasInscripcion) {
+      inscripcionEspecialData.materiasInscripcion.forEach((mi) => {
+        if (mi.cursoId != null && mi.cursoId > 0) {
+          map.set(mi.materiaId, mi.cursoId);
+        }
+      });
     }
-  }, [inscripcionEspecialData]);
+    return map;
+  }, [inscripcionEspecialData?.materiasInscripcion]);
+
+  useEffect(() => {
+    if (inscripcionEspecialData?.materiasInscripcion && inscripcionEspecialData.materiasInscripcion.length > 0) {
+      const cursosMapeados = inscripcionEspecialData.materiasInscripcion.map((mi) => mi.cursoId ?? 0);
+      setSelectedCursos(cursosMapeados);
+    } else if (inscripcionEspecialData?.materiasIds) {
+      // Si no hay materiasInscripcion, usar materiasIds y buscar cursos en el mapa
+      const cursosMapeados = inscripcionEspecialData.materiasIds.map(
+        (materiaId) => cursoPorMateriaMap.get(materiaId) ?? 0,
+      );
+      setSelectedCursos(cursosMapeados);
+    }
+  }, [inscripcionEspecialData, cursoPorMateriaMap]);
 
   const { mutate: enviarMailContacto, isPending: enviandoMail } =
     api.inscripcionesEspeciales.enviarMailContacto.useMutation();
@@ -194,7 +272,22 @@ export const InscripcionEspecialGestion = ({
   };
 
   const handleGuardarCursos = () => {
-    const cursosAEnviar = (inscripcionEspecialData?.materiasIds ?? []).map((_, index) => selectedCursos[index] ?? 0);
+    if (!inscripcionEspecialData) return;
+
+    // Usar materiasInscripcion si está disponible para mantener el orden correcto
+    // Si no está disponible, usar materiasIds como fallback
+    const data = inscripcionEspecialData;
+    const materiasParaMapear = data.materiasInscripcion
+      ? data.materiasInscripcion
+      : (data.materiasIds ?? []).map((id, idx) => ({
+          materiaId: id,
+          materiaNombre: data.materias?.[idx] ?? "",
+          cursoId: null,
+          materiasAdeudadasIds: [],
+          materiasAdeudadasNombres: [],
+        }));
+
+    const cursosAEnviar = materiasParaMapear.map((_, index) => selectedCursos[index] ?? 0);
 
     actualizarCursosMutation.mutate(
       { id: inscripcionEspecialId, cursos: cursosAEnviar },
@@ -238,6 +331,52 @@ export const InscripcionEspecialGestion = ({
   return (
     <FormProvider {...formHook}>
       <form className="space-y-6">
+        {inscripcionEspecialData && (
+          <Card className="w-full">
+            <CardHeader>
+              <CardTitle>Asignar curso por materia</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {(
+                inscripcionEspecialData.materiasInscripcion ??
+                inscripcionEspecialData.materiasIds?.map((id, idx) => ({
+                  materiaId: id,
+                  materiaNombre: inscripcionEspecialData.materias?.[idx] ?? "",
+                  cursoId: cursoPorMateriaMap.get(id) ?? null,
+                  materiasAdeudadasIds: [],
+                  materiasAdeudadasNombres: [],
+                })) ??
+                []
+              ).map((mi, index) => {
+                // Priorizar selectedCursos (cambios del usuario) sobre mi.cursoId (datos de la BD)
+                // Si selectedCursos tiene un valor válido, usarlo; sino usar mi.cursoId como fallback
+                const cursoDelEstado = selectedCursos[index];
+                const cursoSeleccionado =
+                  cursoDelEstado !== undefined && cursoDelEstado > 0 ? cursoDelEstado : (mi.cursoId ?? 0);
+                return (
+                  <SelectCursoPorMateria
+                    key={mi.materiaId}
+                    materiaId={mi.materiaId}
+                    materiaNombre={mi.materiaNombre}
+                    selectedCurso={cursoSeleccionado}
+                    onCursoChange={(cursoId) => {
+                      setSelectedCursos((prev) => {
+                        const updated = [...prev];
+                        updated[index] = cursoId;
+                        return updated;
+                      });
+                    }}
+                  />
+                );
+              })}
+              <div className="flex justify-end">
+                <Button type="button" variant="default" onClick={handleGuardarCursos} className="w-full md:w-auto">
+                  Guardar cursos
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        )}
         <Card className="w-full">
           <CardHeader>
             <CardTitle>Campos para Aprobacion con condicion o Rechazo</CardTitle>
@@ -254,37 +393,6 @@ export const InscripcionEspecialGestion = ({
             </div>
           </CardContent>
         </Card>
-
-        {/* Selección de Curso por Materia */}
-        {inscripcionEspecialData && (
-          <Card className="w-full">
-            <CardHeader>
-              <CardTitle>Asignar curso por materia</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {(inscripcionEspecialData.materiasIds ?? []).map((materiaId, index) => (
-                <SelectCursoPorMateria
-                  key={materiaId}
-                  materiaId={materiaId}
-                  materiaNombre={inscripcionEspecialData.materias?.[index] ?? ""}
-                  selectedCurso={selectedCursos[index] ?? 0}
-                  onCursoChange={(cursoId) => {
-                    setSelectedCursos((prev) => {
-                      const updated = [...prev];
-                      updated[index] = cursoId;
-                      return updated;
-                    });
-                  }}
-                />
-              ))}
-              <div className="flex justify-end">
-                <Button type="button" variant="default" onClick={handleGuardarCursos} className="w-full md:w-auto">
-                  Guardar cursos
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        )}
         <div className="flex justify-center gap-2">
           <Controller
             name="alumnoAsistio"

@@ -1,5 +1,11 @@
 import { z } from "zod";
 
+export const materiaInscripcionSchema = z.object({
+  materiaId: z.coerce.number().min(1, { message: "Debe seleccionar una materia" }),
+  materiasAdeudadas: z.array(z.coerce.number()).default([]),
+  cursoId: z.coerce.number().optional(),
+});
+
 export const inputAgregarInscripcion = z.object({
   legajo: z.string().min(1, { message: "Requerido" }),
   caso: z.string().min(1, { message: "Requerido" }),
@@ -7,8 +13,12 @@ export const inputAgregarInscripcion = z.object({
   detallesPreferenciasHorario: z.string().optional(),
   turnoAlternativa1: z.string().optional(),
   turnoAlternativa2: z.string().optional(),
-  materiasAdeudadas: z.array(z.coerce.number()),
-  materias: z.array(z.coerce.number()).min(1, { message: "Debe seleccionar al menos una materia" }),
+  materias: z
+    .array(materiaInscripcionSchema)
+    .min(1, { message: "Debe seleccionar al menos una materia" })
+    .max(4, { message: "No puede seleccionar más de 4 materias" }),
+  // Mantener campos antiguos para compatibilidad durante migración
+  materiasAdeudadas: z.array(z.coerce.number()).optional(),
 });
 
 export const inputGestionarInscripcionEspecial = z.object({

@@ -1,22 +1,23 @@
 model Materia {
-  id                        Int                         @id @default(autoincrement())
+  id                        Int                          @id @default(autoincrement())
   nombre                    String
-  codigo                    String                      @unique
+  codigo                    String                       @unique
   anio                      Int
   duracion                  MateriaDuracion
   tipo                      MateriaTipo
   directorUsuarioId         String?
-  fechaCreacion             DateTime                    @default(now())
-  fechaModificacion         DateTime                    @default(now()) @updatedAt
+  fechaCreacion             DateTime                     @default(now())
+  fechaModificacion         DateTime                     @default(now()) @updatedAt
   usuarioCreadorId          String
   usuarioModificadorId      String
   cursos                    Curso[]
   libros                    LibroMateria[]
-  directorUsuario           User?                       @relation("materiasDirector", fields: [directorUsuarioId], references: [id])
-  correlativa               MateriaCorrelativa[]        @relation("correlativa")
-  materiaPrerequisito       MateriaCorrelativa[]        @relation("materiaPrerequisito")
+  directorUsuario           User?                        @relation("materiasDirector", fields: [directorUsuarioId], references: [id])
+  correlativa               MateriaCorrelativa[]         @relation("correlativa")
+  materiaPrerequisito       MateriaCorrelativa[]         @relation("materiaPrerequisito")
   jefeTrabajoPracticos      MateriaJefeTp[]
   reservaLaboratorioCerrado ReservaLaboratorioCerrado[]
+  inscripcionesEspeciales   InscripcionEspecialMateria[]
 
   @@index([nombre])
   @@index([anio])

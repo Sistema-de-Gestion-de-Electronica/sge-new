@@ -303,7 +303,7 @@ function SelectMateriasAdeudadas({ value, onChange }: SelectMateriasAdeudadasPro
             {selectedMaterias.map((materia) => (
               <div
                 key={materia.id}
-                className="inline-flex items-center gap-1 rounded-full border border-gray-200 bg-gray-100 p-1 px-2"
+                className="inline-flex items-center gap-1 rounded-full border border-gray-200 bg-white p-1 px-2"
               >
                 <span className="max-w-32 truncate px-2 py-1 text-sm text-gray-800">{materia.nombre}</span>
                 <button
@@ -312,7 +312,7 @@ function SelectMateriasAdeudadas({ value, onChange }: SelectMateriasAdeudadasPro
                     e.stopPropagation();
                     removeMateria(materia.id);
                   }}
-                  className="focus:outline-hidden inline-flex h-5 w-5 shrink-0 cursor-pointer items-center justify-center rounded-full bg-gray-200 text-sm text-gray-800 hover:bg-gray-300"
+                  className="focus:outline-hidden inline-flex h-5 w-5 shrink-0 cursor-pointer items-center justify-center rounded-full bg-input text-sm text-gray-800 hover:bg-gray-100 focus:border-none"
                 >
                   <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />

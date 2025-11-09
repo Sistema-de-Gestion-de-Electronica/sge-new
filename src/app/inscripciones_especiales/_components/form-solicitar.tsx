@@ -84,7 +84,6 @@ export default function FormularioSolicitudInscripcionEspecial() {
   }, [usuario, tienePermisos, setValue, getValues]);
 
   useEffect(() => {
-    // Limpiar materias adeudadas si el caso cambia
     if (casoSeleccionado !== "Excepcion de correlativas") {
       const materiasActuales = getValues("materias") || [];
       const materiasSinAdeudadas = materiasActuales.map(
@@ -126,7 +125,6 @@ export default function FormularioSolicitudInscripcionEspecial() {
   };
 
   const onFormSubmit = async (formData: FormSolicitarInscripcionEspecial) => {
-    // Filtrar materias que no tienen materiaId válido
     const materiasValidas = (formData.materias || []).filter((m) => m.materiaId > 0);
 
     const payload = {
@@ -171,7 +169,7 @@ export default function FormularioSolicitudInscripcionEspecial() {
                   pattern="[0-9]*"
                   inputMode="numeric"
                   control={control}
-                  disabled={!tienePermisos} // solo editable si tiene permisos
+                  disabled={!tienePermisos}
                 />
               </div>
               {tienePermisos && (
@@ -206,6 +204,7 @@ export default function FormularioSolicitudInscripcionEspecial() {
                   control={control}
                   name="detallesPreferenciasHorario"
                   type={"textarea"}
+                  placeholder="Ej: Análisis Matemático I: Viernes - Tarde, Fisica I: Lunes - Mañana"
                 />
               </div>
             </div>

@@ -151,7 +151,6 @@ export const InscripcionEspecialGestion = ({
 
   const [selectedCursos, setSelectedCursos] = useState<number[]>([]);
 
-  // Crear un mapa de materiaId -> cursoId para acceso rápido
   const cursoPorMateriaMap = React.useMemo(() => {
     const map = new Map<number, number>();
     if (inscripcionEspecialData?.materiasInscripcion) {
@@ -169,7 +168,6 @@ export const InscripcionEspecialGestion = ({
       const cursosMapeados = inscripcionEspecialData.materiasInscripcion.map((mi) => mi.cursoId ?? 0);
       setSelectedCursos(cursosMapeados);
     } else if (inscripcionEspecialData?.materiasIds) {
-      // Si no hay materiasInscripcion, usar materiasIds y buscar cursos en el mapa
       const cursosMapeados = inscripcionEspecialData.materiasIds.map(
         (materiaId) => cursoPorMateriaMap.get(materiaId) ?? 0,
       );
@@ -285,8 +283,6 @@ export const InscripcionEspecialGestion = ({
   const handleGuardarCursos = () => {
     if (!inscripcionEspecialData) return;
 
-    // Usar materiasInscripcion si está disponible para mantener el orden correcto
-    // Si no está disponible, usar materiasIds como fallback
     const data = inscripcionEspecialData;
     const materiasParaMapear = data.materiasInscripcion
       ? data.materiasInscripcion

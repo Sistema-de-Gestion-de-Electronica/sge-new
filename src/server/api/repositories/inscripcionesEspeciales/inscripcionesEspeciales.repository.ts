@@ -198,7 +198,6 @@ export const agregarInscripcionEspecial = async (ctx: DatabaseContext, input: In
         },
       });
 
-      // Construir la respuesta usando buildInscripcionResponse
       const materiasIds = inscripcion.materiasInscripcion.map((mi) => mi.materiaId);
       const todasLasMateriasAdeudadasIds = inscripcion.materiasInscripcion.flatMap((mi) => mi.materiasAdeudadas);
 
@@ -215,7 +214,6 @@ export const agregarInscripcionEspecial = async (ctx: DatabaseContext, input: In
       const materias = materiasIds.map((id) => materiasRaw.find((m) => m.id === id)!);
       const materiasAdeudadas = materiasAdeudadasRaw;
 
-      // Crear un objeto compatible con el tipo esperado
       const inscripcionParaResponse = {
         ...inscripcion,
         materias: materiasIds,
@@ -239,7 +237,6 @@ const gestionarInscripcionEspecial = async (
   respuesta?: string,
 ): Promise<InscripcionEspecialResponse> => {
   try {
-    // Verificar el estado actual antes de actualizar
     const inscripcionActual = await ctx.db.inscripcionEspecial.findUnique({
       where: { id },
       select: { estado: true },
@@ -393,7 +390,6 @@ export async function getAllInscripcionesEspeciales(
       }),
     ]);
 
-    // Recopilar todas las materias y materias adeudadas
     const todasLasMateriasIds = inscripciones.flatMap((i) =>
       i.materiasInscripcion.flatMap((mi) => [mi.materiaId, ...mi.materiasAdeudadas]),
     );
@@ -475,12 +471,10 @@ export async function getInscripcionEspecialById(
 
     if (!inscripcion) return null;
 
-    // Extraer datos de las relaciones
     const materiasIds = inscripcion.materiasInscripcion.map((mi) => mi.materiaId);
     const todasLasMateriasAdeudadas = inscripcion.materiasInscripcion.flatMap((mi) => mi.materiasAdeudadas);
     const cursosIds = inscripcion.materiasInscripcion.map((mi) => mi.cursoId).filter((id): id is number => id !== null);
 
-    // Obtener nombres de materias
     const materiasRaw = await ctx.db.materia.findMany({
       where: { id: { in: materiasIds } },
       select: { id: true, nombre: true },
@@ -488,7 +482,6 @@ export async function getInscripcionEspecialById(
 
     const materias = materiasIds.map((id) => materiasRaw.find((m) => m.id === id)!);
 
-    // Obtener nombres de materias adeudadas
     const materiasAdeudadas = await ctx.db.materia.findMany({
       where: { id: { in: todasLasMateriasAdeudadas } },
       select: { id: true, nombre: true },

@@ -191,7 +191,18 @@ export const InscripcionEspecialGestion = ({
     },
   });
 
-  const { handleSubmit, control, getValues } = formHook;
+  const { handleSubmit, control, getValues, reset } = formHook;
+
+  useEffect(() => {
+    if (inscripcionEspecialData) {
+      reset({
+        id: inscripcionEspecialId,
+        respuesta: inscripcionEspecialData.respuesta ?? "",
+        alumnoContactado: inscripcionEspecialData.fueContactado ?? false,
+        alumnoAsistio: inscripcionEspecialData.vinoPresencialmente ?? false,
+      });
+    }
+  }, [inscripcionEspecialData, inscripcionEspecialId, reset]);
 
   const handleAprobar = (data: GestionarInscripcionEspecialFormData) => {
     aprobarSolcitud(data, {
@@ -307,7 +318,9 @@ export const InscripcionEspecialGestion = ({
   const [open, setOpen] = useState(false);
   const [openContact, setOpenContact] = useState(false);
   const [asunto, setAsunto] = useState("");
-  const [mensaje, setMensaje] = useState("");
+  const [mensaje, setMensaje] = useState(
+    "Estimado/a alumno/a\n\n" + "Saludos cordiales,\n" + "Departamento de Ing. Electronica",
+  );
 
   const { mutate: eliminarInscripcionEspecial } = api.inscripcionesEspeciales.eliminarInscripcionEspecial.useMutation();
   const handleEliminar = () => {
@@ -348,8 +361,6 @@ export const InscripcionEspecialGestion = ({
                 })) ??
                 []
               ).map((mi, index) => {
-                // Priorizar selectedCursos (cambios del usuario) sobre mi.cursoId (datos de la BD)
-                // Si selectedCursos tiene un valor válido, usarlo; sino usar mi.cursoId como fallback
                 const cursoDelEstado = selectedCursos[index];
                 const cursoSeleccionado =
                   cursoDelEstado !== undefined && cursoDelEstado > 0 ? cursoDelEstado : (mi.cursoId ?? 0);
@@ -379,7 +390,82 @@ export const InscripcionEspecialGestion = ({
         )}
         <Card className="w-full">
           <CardHeader>
-            <CardTitle>Campos para Aprobacion con condicion o Rechazo</CardTitle>
+            <CardTitle>Campos de Contacto y Asistencia</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex justify-center gap-2">
+              <Controller
+                name="alumnoAsistio"
+                control={control}
+                render={({ field, fieldState }) => (
+                  <>
+                    <div className="space-y-3 leading-none">
+                      <label
+                        htmlFor="aceptoTerminos"
+                        className="flex items-center space-x-2 text-sm leading-none underline peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                      >
+                        <Checkbox
+                          id="aceptoTerminos"
+                          name="aceptoTerminos"
+                          className="h-8 w-8"
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                        <span>Alumno asistió</span>
+                      </label>
+                      <div className="text-md min-h-4 text-danger">{fieldState.error && fieldState.error.message}</div>
+                    </div>
+                  </>
+                )}
+              />
+              <Controller
+                name="alumnoContactado"
+                control={control}
+                render={({ field, fieldState }) => (
+                  <>
+                    <div className="space-y-3 leading-none">
+                      <label
+                        htmlFor="aceptoTerminos"
+                        className="flex items-center space-x-2 text-sm leading-none underline peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                      >
+                        <Checkbox
+                          id="aceptoTerminos"
+                          name="aceptoTerminos"
+                          className="h-8 w-8"
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                        <span>Alumno contactado</span>
+                      </label>
+                      <div className="text-md min-h-4 text-danger">{fieldState.error && fieldState.error.message}</div>
+                    </div>
+                  </>
+                )}
+              />
+            </div>
+            <Button
+              type="button"
+              variant="default"
+              className="w-full border border-gray-300 bg-transparent text-gray-700 hover:bg-gray-100"
+              onClick={() => setOpenContact(true)}
+            >
+              Contactar
+            </Button>
+            <Button
+              type="button"
+              variant="default"
+              color="secondary"
+              onClick={handleGuardar}
+              className="w-full border border-gray-300 bg-transparent text-gray-700 hover:bg-gray-100"
+            >
+              Guardar cambios
+            </Button>
+          </CardContent>
+        </Card>
+
+        <Card className="w-full">
+          <CardHeader>
+            <CardTitle>Campos para Aprobación con condición o Rechazo</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex w-full flex-col gap-y-4">
@@ -393,74 +479,6 @@ export const InscripcionEspecialGestion = ({
             </div>
           </CardContent>
         </Card>
-        <div className="flex justify-center gap-2">
-          <Controller
-            name="alumnoAsistio"
-            control={control}
-            render={({ field, fieldState }) => (
-              <>
-                <div className="space-y-3 leading-none">
-                  <label
-                    htmlFor="aceptoTerminos"
-                    className="flex items-center space-x-2 text-sm leading-none underline peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                  >
-                    <Checkbox
-                      id="aceptoTerminos"
-                      name="aceptoTerminos"
-                      className="h-8 w-8"
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                    <span>Alumno asistió</span>
-                  </label>
-                  <div className="text-md min-h-4 text-danger">{fieldState.error && fieldState.error.message}</div>
-                </div>
-              </>
-            )}
-          />
-          <Controller
-            name="alumnoContactado"
-            control={control}
-            render={({ field, fieldState }) => (
-              <>
-                <div className="space-y-3 leading-none">
-                  <label
-                    htmlFor="aceptoTerminos"
-                    className="flex items-center space-x-2 text-sm leading-none underline peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                  >
-                    <Checkbox
-                      id="aceptoTerminos"
-                      name="aceptoTerminos"
-                      className="h-8 w-8"
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                    <span>Alumno contactado</span>
-                  </label>
-                  <div className="text-md min-h-4 text-danger">{fieldState.error && fieldState.error.message}</div>
-                </div>
-              </>
-            )}
-          />
-        </div>
-        <Button
-          type="button"
-          variant="default"
-          className="w-full border border-gray-300 bg-transparent text-gray-700 hover:bg-gray-100"
-          onClick={() => setOpenContact(true)}
-        >
-          Contactar
-        </Button>
-        <Button
-          type="button"
-          variant="default"
-          color="secondary"
-          onClick={handleGuardar}
-          className="w-full border border-gray-300 bg-transparent text-gray-700 hover:bg-gray-100"
-        >
-          Guardar cambios
-        </Button>
-
         <div className="sticky bottom-0 flex w-full flex-row items-end justify-end space-x-4 bg-white p-2 pb-2">
           <Button
             title="Cancelar"

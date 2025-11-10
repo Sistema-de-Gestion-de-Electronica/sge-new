@@ -14,6 +14,7 @@ export type InscripcionEspecialData = {
   materiasIds: number[];
   materiasAdeudadas: string[];
   justificacion: string;
+  detallesPreferenciasHorario: string;
   turnoAlternativa1: string;
   turnoAlternativa2: string;
   estado: string;
@@ -23,4 +24,11 @@ export type InscripcionEspecialData = {
   vinoPresencialmente?: boolean | null;
   fueContactado?: boolean | null;
   cursos: number[];
+  materiasInscripcion?: {
+    materiaId: number;
+    materiaNombre: string;
+    materiasAdeudadasIds: number[];
+    materiasAdeudadasNombres: string[];
+    cursoId?: number | null;
+  }[];
 };

@@ -650,42 +650,20 @@ ALTER SEQUENCE public."Estante_id_seq" OWNED BY public."Estante".id;
 --
 
 CREATE TABLE public."InscripcionEspecial" (
-    id integer NOT NULL,
-    "solicitanteId" text NOT NULL,
-    caso text NOT NULL,
-    justificacion text NOT NULL,
-    "turnoAlternativa1" text,
-    "turnoAlternativa2" text,
-    materias integer[] NOT NULL,
-    "materiasAdeudadas" integer[] NOT NULL,
-    cursos integer[] NOT NULL,
-    estado text NOT NULL,
-    respuesta text,
-    "fueContactado" boolean default FALSE,
-    "vinoPresencialmente" boolean default FALSE,
-    "fechaSolicitud" timestamp(3) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    "fechaRespuesta" timestamp(3) without time zone
+    id SERIAL PRIMARY KEY,
+    "solicitanteId" TEXT NOT NULL,
+    caso TEXT NOT NULL,
+    justificacion TEXT NOT NULL,
+    "detallesPreferenciasHorario" TEXT,
+    "turnoAlternativa1" TEXT,
+    "turnoAlternativa2" TEXT,
+    estado TEXT NOT NULL,
+    respuesta TEXT,
+    "fueContactado" BOOLEAN DEFAULT FALSE,
+    "vinoPresencialmente" BOOLEAN DEFAULT FALSE,
+    "fechaSolicitud" TIMESTAMP(3) WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    "fechaRespuesta" TIMESTAMP(3) WITHOUT TIME ZONE
 );
-
-
---
--- Name: InscripcionEspecial_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public."InscripcionEspecial_id_seq"
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: InscripcionEspecial_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public."InscripcionEspecial_id_seq" OWNED BY public."InscripcionEspecial".id;
 
 --
 -- Name: InscripcionEspecialPeriodo; Type: TABLE; Schema: public; Owner: -
@@ -735,32 +713,6 @@ CREATE SEQUENCE public."Laboratorio_id_seq"
 --
 
 ALTER SEQUENCE public."Laboratorio_id_seq" OWNED BY public."Laboratorio".id;
-
---
--- Name: InscripcionEspecial; Type: TABLE; Schema: public; Owner: -
---
-
-/*CREATE TABLE public."InscripcionEspecial" (
-    "id" SERIAL NOT NULL,
-    "solicitanteId" TEXT NOT NULL, 
-
-    "caso" TEXT NOT NULL,
-    "justificacion" TEXT NOT NULL,
-    "turnoAlternativa1" TEXT,
-    "turnoAlternativa2" TEXT,
-    "materias" INTEGER[] NOT NULL,
-    "materiasAdeudadas" INTEGER[] NOT NULL,
-
-    "estado" TEXT NOT NULL,
-    "respuesta" TEXT,
-
-    "fueContactado" boolean,
-    "vinoPresencialmente" boolean,
-
-    "fechaSolicitud" TIMESTAMP(3) without time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "fechaRespuesta" TIMESTAMP(3)
-);*/
-
 --
 -- Name: Libro; Type: TABLE; Schema: public; Owner: -
 --
@@ -1813,13 +1765,6 @@ ALTER TABLE ONLY public."EquipoTipo" ALTER COLUMN id SET DEFAULT nextval('public
 --
 
 ALTER TABLE ONLY public."Estante" ALTER COLUMN id SET DEFAULT nextval('public."Estante_id_seq"'::regclass);
-
-
---
--- Name: InscripcionEspecial id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public."InscripcionEspecial" ALTER COLUMN id SET DEFAULT nextval('public."InscripcionEspecial_id_seq"'::regclass);
 
 
 --
@@ -52429,7 +52374,8 @@ COPY public."RolPermiso" ("rolId", "permisoId", "fechaCreacion", "usuarioCreador
 4	23	2025-04-14 06:14:20.893	cm9goht79004qdrqpdif3osjy
 4	22	2025-04-14 06:14:20.893	cm9goht79004qdrqpdif3osjy
 4	21	2025-04-14 06:14:20.893	cm9goht79004qdrqpdif3osjy
-5	77	2025-04-14 06:14:20.897	cm9goht79004qdrqpdif3osjy
+5	78	2025-04-14 06:14:20.897	cm9goht79004qdrqpdif3osjy
+5	87	2025-04-14 06:14:20.897	cm9goht79004qdrqpdif3osjy
 5	68	2025-04-14 06:14:20.897	cm9goht79004qdrqpdif3osjy
 5	64	2025-04-14 06:14:20.897	cm9goht79004qdrqpdif3osjy
 5	63	2025-04-14 06:14:20.897	cm9goht79004qdrqpdif3osjy
@@ -54357,6 +54303,10 @@ cm9goht7t013ldrqp7drtliij	aramirezchino	aramirezchino@frba.utn.edu.ar	\N	/defaul
 cm9goht7q00y4drqpziblmif2	ramurrio	ramurrio@frba.utn.edu.ar	\N	/default-avatar.svg	Rodrigo	Amurrio Garcia	\N										2032211	yes	0	f	f	2025-02-27 00:00:00	2025-02-28 00:00:00	2025-02-27 00:00:00	2	B	AR
 cm9goht77000adrqpgr2354l3	mruano	mruano@frba.utn.edu.ar	\N	/default-avatar.svg	Matheo	Ruano	\N										2145327	yes	0	f	f	2025-03-02 00:00:00	2025-03-02 00:00:00	2025-03-02 00:00:00	2	B	AR
 cm9goht79004qdrqpdif3osjy	hspataro	hspataro@frba.utn.edu.ar	\N	/default-avatar.svg	Hector	Spataro	1970-02-23	Juan B. Alberdi 1016	- -	- -	-	1424	4433-6215	-	-	21484610	\N	\N	0	t	f	2017-03-29 00:00:00	2025-03-07 00:00:00	2025-08-29 20:58:21.481	2	B	AR
+cm9goht7r4q2n1df8vjx5k3ls	dpinto	dpinto@frba.utn.edu.ar	\N	/default-avatar.svg	Diego	Pinto	1970-02-23	Juan B. Alberdi 1016	- -	- -	-	1424	4433-6215	-	-	21484610	\N	\N	0	t	f	2017-03-29 00:00:00	2025-03-07 00:00:00	2025-08-29 20:58:21.481	2	B	AR
+cm9goht7t8p1w2r9z4y6q3bdf	mlingeri	mlingeri@frba.utn.edu.ar	\N	/default-avatar.svg	Martin	Lingeri	1970-02-23	Juan B. Alberdi 1016	- -	- -	-	1424	4433-6215	-	-	21484610	\N	\N	0	t	f	2017-03-29 00:00:00	2025-03-07 00:00:00	2025-08-29 20:58:21.481	2	B	AR
+cm9goht7x0n5m2j8r4k9v1qye	fmarsico	fmarsico@frba.utn.edu.ar	\N	/default-avatar.svg	Franco	Marsico	1970-02-23	Juan B. Alberdi 1016	- -	- -	-	1424	4433-6215	-	-	21484610	\N	\N	0	t	f	2017-03-29 00:00:00	2025-03-07 00:00:00	2025-08-29 20:58:21.481	2	B	AR
+cm9goht7b3z9x2t6p5r1n4jvd	cberetta	cberetta@frba.utn.edu.ar	\N	/default-avatar.svg	Chiara	Beretta	1970-02-23	Juan B. Alberdi 1016	- -	- -	-	1424	4433-6215	-	-	21484610	\N	\N	0	t	f	2017-03-29 00:00:00	2025-03-07 00:00:00	2025-08-29 20:58:21.481	2	B	AR
 \.
 
 
@@ -55967,6 +55917,15 @@ cm9goht79004qdrqpdif3osjy	13	2025-08-29 20:58:21.481	cm9goht79004qdrqpdif3osjy
 cm9goht79004qdrqpdif3osjy	14	2025-08-29 20:58:21.481	cm9goht79004qdrqpdif3osjy
 cm9goht79004qdrqpdif3osjy	15	2025-08-29 20:58:21.481	cm9goht79004qdrqpdif3osjy
 cm9goht79004qdrqpdif3osjy	16	2025-08-29 20:58:21.481	cm9goht79004qdrqpdif3osjy
+cm9goht7r4q2n1df8vjx5k3ls	5	2025-08-29 20:58:21.481	cm9goht79004qdrqpdif3osjy
+cm9goht7r4q2n1df8vjx5k3ls	16	2025-08-29 20:58:21.481	cm9goht79004qdrqpdif3osjy
+cm9goht7t8p1w2r9z4y6q3bdf	5	2025-08-29 20:58:21.481	cm9goht79004qdrqpdif3osjy
+cm9goht7t8p1w2r9z4y6q3bdf	15	2025-08-29 20:58:21.481	cm9goht79004qdrqpdif3osjy
+cm9goht7x0n5m2j8r4k9v1qye	5	2025-08-29 20:58:21.481	cm9goht79004qdrqpdif3osjy
+cm9goht7x0n5m2j8r4k9v1qye	14	2025-08-29 20:58:21.481	cm9goht79004qdrqpdif3osjy
+cm9goht7x0n5m2j8r4k9v1qye	18	2025-08-29 20:58:21.481	cm9goht79004qdrqpdif3osjy
+cm9goht7b3z9x2t6p5r1n4jvd	5	2025-08-29 20:58:21.481	cm9goht79004qdrqpdif3osjy
+cm9goht7b3z9x2t6p5r1n4jvd	17	2025-08-29 20:58:21.481	cm9goht79004qdrqpdif3osjy
 \.
 
 
@@ -56068,14 +56027,6 @@ SELECT pg_catalog.setval('public."Equipo_id_seq"', 2139, true);
 --
 
 SELECT pg_catalog.setval('public."Estante_id_seq"', 182, true);
-
-
---
--- Name: InscripcionEspecial_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
---
-
-SELECT pg_catalog.setval('public."InscripcionEspecial_id_seq"', 1, true);
-
 
 --
 -- Name: Laboratorio_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
@@ -56321,14 +56272,6 @@ ALTER TABLE ONLY public."Estante"
 
 
 --
--- Name: InscripcionEspecial InscripcionEspecial_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public."InscripcionEspecial"
-    ADD CONSTRAINT "InscripcionEspecial_pkey" PRIMARY KEY (id);
-
-
---
 -- Name: Laboratorio Laboratorio_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -56398,6 +56341,20 @@ ALTER TABLE ONLY public."MateriaJefeTp"
 
 ALTER TABLE ONLY public."Materia"
     ADD CONSTRAINT "Materia_pkey" PRIMARY KEY (id);
+
+--
+-- Name: InscripcionEspecialMateria; Type: TABLE; Schema: public; Owner: -
+--
+
+
+CREATE TABLE public."InscripcionEspecialMateria" (
+    id SERIAL PRIMARY KEY,
+    "inscripcionEspecialId" INTEGER NOT NULL REFERENCES public."InscripcionEspecial"(id) ON DELETE CASCADE,
+    "materiaId" INTEGER NOT NULL REFERENCES public."Materia"(id) ON DELETE CASCADE,
+    "materiasAdeudadas" INTEGER[],
+    "cursoId" INTEGER,
+    UNIQUE ("inscripcionEspecialId", "materiaId")
+);
 
 
 --

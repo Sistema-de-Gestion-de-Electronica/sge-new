@@ -12,8 +12,8 @@ import { useTienePermisos } from "@/app/_hooks/use-tiene-permisos";
 import { usePermisos } from "@/app/_hooks/use-context-tiene-permisos";
 import type { inputAgregarInscripcion } from "@/shared/filters/inscripciones-especiales-filter.schema";
 import { FormSelect } from "@/components/ui/autocomplete";
-import { SelectMateriasMultiple } from "@/app/inscripciones_especiales/_components/select-multiple-materias";
 import { SelectAlternativas } from "@/app/inscripciones_especiales/_components/select-alternativas";
+import { FormMateriasDinamico } from "@/app/inscripciones_especiales/_components/form-materias-dinamico";
 
 const casos = ["Ordenanza 1648", "Cambios de carrera", "Excepcion de correlativas"];
 
@@ -37,9 +37,9 @@ export default function FormularioSolicitudInscripcionEspecial() {
     () => ({
       legajo: usuario?.legajo ?? "",
       caso: casos[2] ?? "",
-      materiasAdeudadas: [],
-      materias: [],
+      materias: [{ materiaId: 0, materiasAdeudadas: [] }],
       justificacion: "",
+      detallesPreferenciasHorario: "",
       turnoAlternativa1: "",
       turnoAlternativa2: "",
     }),
@@ -60,7 +60,6 @@ export default function FormularioSolicitudInscripcionEspecial() {
         legajo: usuario.legajo ?? "",
       });
     }
-    // Dependemos solo de valores estables para evitar bucles
   }, [usuario, getValues, reset, solicitudBase]);
 
   const casoSeleccionado = watch("caso");
@@ -86,9 +85,16 @@ export default function FormularioSolicitudInscripcionEspecial() {
 
   useEffect(() => {
     if (casoSeleccionado !== "Excepcion de correlativas") {
-      setValue("materiasAdeudadas", []);
+      const materiasActuales = getValues("materias") || [];
+      const materiasSinAdeudadas = materiasActuales.map(
+        (m: { materiaId: number; materiasAdeudadas: number[]; cursoId?: number }) => ({
+          ...m,
+          materiasAdeudadas: [],
+        }),
+      );
+      setValue("materias", materiasSinAdeudadas);
     }
-  }, [casoSeleccionado, setValue]);
+  }, [casoSeleccionado, setValue, getValues]);
 
   const handleVerificarLegajo = async () => {
     if (!tienePermisos) return;
@@ -119,10 +125,12 @@ export default function FormularioSolicitudInscripcionEspecial() {
   };
 
   const onFormSubmit = async (formData: FormSolicitarInscripcionEspecial) => {
+    const materiasValidas = (formData.materias || []).filter((m) => m.materiaId > 0);
+
     const payload = {
       ...formData,
       legajo: String(formData.legajo ?? ""),
-      materiasAdeudadas: formData.caso === "Excepcion de correlativas" ? formData.materiasAdeudadas : [],
+      materias: materiasValidas,
     };
     solicitarInscripcionEspecial.mutate(payload, {
       onSuccess: () => {
@@ -161,7 +169,7 @@ export default function FormularioSolicitudInscripcionEspecial() {
                   pattern="[0-9]*"
                   inputMode="numeric"
                   control={control}
-                  disabled={!tienePermisos} // solo editable si tiene permisos
+                  disabled={!tienePermisos}
                 />
               </div>
               {tienePermisos && (
@@ -181,24 +189,23 @@ export default function FormularioSolicitudInscripcionEspecial() {
             </div>
             <div className="flex w-full flex-row lg:flex-row lg:justify-between lg:gap-x-4">
               <div className="mt-4 w-full">
-                <SelectMateriasMultiple control={control} name="materias" />
+                <FormMateriasDinamico control={control} name="materias" caso={casoSeleccionado} />
               </div>
             </div>
-            {casoSeleccionado === "Excepcion de correlativas" && (
-              <div className="flex w-full flex-row lg:flex-row lg:justify-between lg:gap-x-4">
-                <div className="mt-4 w-full">
-                  <SelectMateriasMultiple
-                    control={control}
-                    name="materiasAdeudadas"
-                    label={"Materias Adeudadas"}
-                    max={6}
-                  />
-                </div>
-              </div>
-            )}
             <div className="flex w-full flex-row lg:flex-row lg:justify-between lg:gap-x-4">
               <div className="mt-4 w-full">
                 <FormInput label={"Justificacion"} control={control} name="justificacion" type={"textarea"} required />
+              </div>
+            </div>
+            <div className="flex w-full flex-row lg:flex-row lg:justify-between lg:gap-x-4">
+              <div className="mt-4 w-full">
+                <FormInput
+                  label={"Detalles de preferencias de las alternativas de horario"}
+                  control={control}
+                  name="detallesPreferenciasHorario"
+                  type={"textarea"}
+                  placeholder="Ej: Análisis Matemático I: Viernes - Tarde, Fisica I: Lunes - Mañana"
+                />
               </div>
             </div>
             <div className="flex w-full flex-row lg:flex-row lg:justify-between lg:gap-x-4">

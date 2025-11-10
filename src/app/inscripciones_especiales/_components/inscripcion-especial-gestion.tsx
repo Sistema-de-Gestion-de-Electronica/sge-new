@@ -1,5 +1,6 @@
 import { api } from "@/trpc/react";
 import { useState, useEffect } from "react";
+import * as React from "react";
 import { type z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, FormProvider, Controller } from "react-hook-form";
@@ -25,6 +26,112 @@ interface InscripcionEspecialGestionProps {
   onRechazar: () => void;
 }
 
+interface SelectCursoPorMateriaProps {
+  materiaId: number;
+  materiaNombre: string;
+  selectedCurso: number;
+  onCursoChange: (cursoId: number) => void;
+}
+
+const SelectCursoPorMateria = ({
+  materiaId,
+  materiaNombre,
+  selectedCurso,
+  onCursoChange,
+}: SelectCursoPorMateriaProps) => {
+  const { data: cursosData, isLoading: isLoadingCursos } = api.cursos.getAll.useQuery({
+    materia: String(materiaId),
+    filtrByActivo: "true",
+  });
+  const { data: cursoSeleccionadoData, isLoading: isLoadingCursoSeleccionado } = api.cursos.cursoPorId.useQuery(
+    { id: selectedCurso },
+    { enabled: selectedCurso > 0 },
+  );
+
+  const cursosConSeleccionado = React.useMemo(() => {
+    const cursos = cursosData?.cursos ?? [];
+    if (selectedCurso > 0) {
+      const cursoEnLista = cursos.find((c) => c.id === selectedCurso);
+
+      if (cursoSeleccionadoData) {
+        if (!cursoEnLista) {
+          return [cursoSeleccionadoData, ...cursos];
+        }
+        const cursosActualizados = cursos.map((c) => (c.id === selectedCurso ? cursoSeleccionadoData : c));
+        return cursosActualizados;
+      }
+
+      if (cursoEnLista) {
+        return cursos;
+      }
+    }
+    return cursos;
+  }, [cursosData?.cursos, cursoSeleccionadoData, selectedCurso]);
+
+  const placeholderText = React.useMemo(() => {
+    if (selectedCurso > 0) {
+      const curso = cursoSeleccionadoData ?? cursosConSeleccionado.find((c) => c.id === selectedCurso);
+      if (curso?.division?.nombre) {
+        return undefined;
+      }
+      if (isLoadingCursoSeleccionado) {
+        return "Cargando...";
+      }
+    }
+    return "Seleccionar curso (División)";
+  }, [selectedCurso, cursoSeleccionadoData, cursosConSeleccionado, isLoadingCursoSeleccionado]);
+
+  return (
+    <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
+      <div>
+        <Label className="text-xs font-semibold">{materiaNombre}</Label>
+      </div>
+      <div>
+        <Select
+          value={selectedCurso && selectedCurso > 0 ? String(selectedCurso) : ""}
+          onValueChange={(val) => {
+            onCursoChange(Number(val));
+          }}
+        >
+          <SelectTrigger>
+            <SelectValue placeholder={placeholderText} />
+          </SelectTrigger>
+          <SelectContent>
+            {isLoadingCursos ? (
+              <SelectItem value="loading" disabled>
+                Cargando cursos...
+              </SelectItem>
+            ) : (
+              <>
+                {selectedCurso > 0 && !cursosConSeleccionado.some((c) => c.id === selectedCurso) && (
+                  <SelectItem
+                    key={`selected-${selectedCurso}`}
+                    value={String(selectedCurso)}
+                    disabled={isLoadingCursoSeleccionado && cursoSeleccionadoData == null}
+                  >
+                    {cursoSeleccionadoData?.division?.nombre ??
+                      (isLoadingCursoSeleccionado ? `Curso ${selectedCurso} (cargando...)` : `Curso ${selectedCurso}`)}
+                  </SelectItem>
+                )}
+                {cursosConSeleccionado.map((c) => (
+                  <SelectItem key={c.id} value={String(c.id)}>
+                    {c.division?.nombre ?? `Curso ${c.id}`}
+                  </SelectItem>
+                ))}
+                {cursosConSeleccionado.length === 0 && selectedCurso === 0 && (
+                  <SelectItem value="no-cursos" disabled>
+                    No hay cursos disponibles
+                  </SelectItem>
+                )}
+              </>
+            )}
+          </SelectContent>
+        </Select>
+      </div>
+    </div>
+  );
+};
+
 export const InscripcionEspecialGestion = ({
   inscripcionEspecialId,
   onAprobar,
@@ -44,20 +151,29 @@ export const InscripcionEspecialGestion = ({
 
   const [selectedCursos, setSelectedCursos] = useState<number[]>([]);
 
-  // Inicializa selección cuando llega la data
-  useState(() => {
-    if (inscripcionEspecialData) {
-      setSelectedCursos(inscripcionEspecialData.cursos ?? []);
+  const cursoPorMateriaMap = React.useMemo(() => {
+    const map = new Map<number, number>();
+    if (inscripcionEspecialData?.materiasInscripcion) {
+      inscripcionEspecialData.materiasInscripcion.forEach((mi) => {
+        if (mi.cursoId != null && mi.cursoId > 0) {
+          map.set(mi.materiaId, mi.cursoId);
+        }
+      });
     }
-  });
+    return map;
+  }, [inscripcionEspecialData?.materiasInscripcion]);
 
   useEffect(() => {
-    if (inscripcionEspecialData?.cursos) {
-      setSelectedCursos(inscripcionEspecialData.cursos);
+    if (inscripcionEspecialData?.materiasInscripcion && inscripcionEspecialData.materiasInscripcion.length > 0) {
+      const cursosMapeados = inscripcionEspecialData.materiasInscripcion.map((mi) => mi.cursoId ?? 0);
+      setSelectedCursos(cursosMapeados);
     } else if (inscripcionEspecialData?.materiasIds) {
-      setSelectedCursos(new Array(inscripcionEspecialData.materiasIds.length).fill(0));
+      const cursosMapeados = inscripcionEspecialData.materiasIds.map(
+        (materiaId) => cursoPorMateriaMap.get(materiaId) ?? 0,
+      );
+      setSelectedCursos(cursosMapeados);
     }
-  }, [inscripcionEspecialData]);
+  }, [inscripcionEspecialData, cursoPorMateriaMap]);
 
   const { mutate: enviarMailContacto, isPending: enviandoMail } =
     api.inscripcionesEspeciales.enviarMailContacto.useMutation();
@@ -73,7 +189,18 @@ export const InscripcionEspecialGestion = ({
     },
   });
 
-  const { handleSubmit, control, getValues, watch } = formHook;
+  const { handleSubmit, control, getValues, reset } = formHook;
+
+  useEffect(() => {
+    if (inscripcionEspecialData) {
+      reset({
+        id: inscripcionEspecialId,
+        respuesta: inscripcionEspecialData.respuesta ?? "",
+        alumnoContactado: inscripcionEspecialData.fueContactado ?? false,
+        alumnoAsistio: inscripcionEspecialData.vinoPresencialmente ?? false,
+      });
+    }
+  }, [inscripcionEspecialData, inscripcionEspecialId, reset]);
 
   const handleAprobar = (data: GestionarInscripcionEspecialFormData) => {
     aprobarSolcitud(data, {
@@ -154,7 +281,20 @@ export const InscripcionEspecialGestion = ({
   };
 
   const handleGuardarCursos = () => {
-    const cursosAEnviar = (inscripcionEspecialData?.materiasIds || []).map((_, index) => selectedCursos[index] ?? 0);
+    if (!inscripcionEspecialData) return;
+
+    const data = inscripcionEspecialData;
+    const materiasParaMapear = data.materiasInscripcion
+      ? data.materiasInscripcion
+      : (data.materiasIds ?? []).map((id, idx) => ({
+          materiaId: id,
+          materiaNombre: data.materias?.[idx] ?? "",
+          cursoId: null,
+          materiasAdeudadasIds: [],
+          materiasAdeudadasNombres: [],
+        }));
+
+    const cursosAEnviar = materiasParaMapear.map((_, index) => selectedCursos[index] ?? 0);
 
     actualizarCursosMutation.mutate(
       { id: inscripcionEspecialId, cursos: cursosAEnviar },
@@ -174,7 +314,9 @@ export const InscripcionEspecialGestion = ({
   const [open, setOpen] = useState(false);
   const [openContact, setOpenContact] = useState(false);
   const [asunto, setAsunto] = useState("");
-  const [mensaje, setMensaje] = useState("");
+  const [mensaje, setMensaje] = useState(
+    "Estimado/a alumno/a\n\n" + "Saludos cordiales,\n" + "Departamento de Ing. Electronica",
+  );
 
   const { mutate: eliminarInscripcionEspecial } = api.inscripcionesEspeciales.eliminarInscripcionEspecial.useMutation();
   const handleEliminar = () => {
@@ -195,14 +337,131 @@ export const InscripcionEspecialGestion = ({
     );
   };
 
-  void watch("respuesta");
-
   return (
     <FormProvider {...formHook}>
       <form className="space-y-6">
+        {inscripcionEspecialData && (
+          <Card className="w-full">
+            <CardHeader>
+              <CardTitle>Asignar curso por materia</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {(
+                inscripcionEspecialData.materiasInscripcion ??
+                inscripcionEspecialData.materiasIds?.map((id, idx) => ({
+                  materiaId: id,
+                  materiaNombre: inscripcionEspecialData.materias?.[idx] ?? "",
+                  cursoId: cursoPorMateriaMap.get(id) ?? null,
+                  materiasAdeudadasIds: [],
+                  materiasAdeudadasNombres: [],
+                })) ??
+                []
+              ).map((mi, index) => {
+                const cursoDelEstado = selectedCursos[index];
+                const cursoSeleccionado =
+                  cursoDelEstado !== undefined && cursoDelEstado > 0 ? cursoDelEstado : (mi.cursoId ?? 0);
+                return (
+                  <SelectCursoPorMateria
+                    key={mi.materiaId}
+                    materiaId={mi.materiaId}
+                    materiaNombre={mi.materiaNombre}
+                    selectedCurso={cursoSeleccionado}
+                    onCursoChange={(cursoId) => {
+                      setSelectedCursos((prev) => {
+                        const updated = [...prev];
+                        updated[index] = cursoId;
+                        return updated;
+                      });
+                    }}
+                  />
+                );
+              })}
+              <div className="flex justify-end">
+                <Button type="button" variant="default" onClick={handleGuardarCursos} className="w-full md:w-auto">
+                  Guardar cursos
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        )}
         <Card className="w-full">
           <CardHeader>
-            <CardTitle>Campos para Aprobacion con condicion o Rechazo</CardTitle>
+            <CardTitle>Campos de Contacto y Asistencia</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex justify-center gap-2">
+              <Controller
+                name="alumnoAsistio"
+                control={control}
+                render={({ field, fieldState }) => (
+                  <>
+                    <div className="space-y-3 leading-none">
+                      <label
+                        htmlFor="aceptoTerminos"
+                        className="flex items-center space-x-2 text-sm leading-none underline peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                      >
+                        <Checkbox
+                          id="aceptoTerminos"
+                          name="aceptoTerminos"
+                          className="h-8 w-8"
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                        <span>Alumno asistió</span>
+                      </label>
+                      <div className="text-md min-h-4 text-danger">{fieldState.error && fieldState.error.message}</div>
+                    </div>
+                  </>
+                )}
+              />
+              <Controller
+                name="alumnoContactado"
+                control={control}
+                render={({ field, fieldState }) => (
+                  <>
+                    <div className="space-y-3 leading-none">
+                      <label
+                        htmlFor="aceptoTerminos"
+                        className="flex items-center space-x-2 text-sm leading-none underline peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                      >
+                        <Checkbox
+                          id="aceptoTerminos"
+                          name="aceptoTerminos"
+                          className="h-8 w-8"
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                        <span>Alumno contactado</span>
+                      </label>
+                      <div className="text-md min-h-4 text-danger">{fieldState.error && fieldState.error.message}</div>
+                    </div>
+                  </>
+                )}
+              />
+            </div>
+            <Button
+              type="button"
+              variant="default"
+              className="w-full border border-gray-300 bg-transparent text-gray-700 hover:bg-gray-100"
+              onClick={() => setOpenContact(true)}
+            >
+              Contactar
+            </Button>
+            <Button
+              type="button"
+              variant="default"
+              color="secondary"
+              onClick={handleGuardar}
+              className="w-full border border-gray-300 bg-transparent text-gray-700 hover:bg-gray-100"
+            >
+              Guardar cambios
+            </Button>
+          </CardContent>
+        </Card>
+
+        <Card className="w-full">
+          <CardHeader>
+            <CardTitle>Campos para Aprobación con condición o Rechazo</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex w-full flex-col gap-y-4">
@@ -216,130 +475,6 @@ export const InscripcionEspecialGestion = ({
             </div>
           </CardContent>
         </Card>
-
-        {/* Selección de Curso por Materia */}
-        {inscripcionEspecialData && (
-          <Card className="w-full">
-            <CardHeader>
-              <CardTitle>Asignar curso por materia</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {(inscripcionEspecialData.materiasIds || []).map((materiaId, index) => {
-                const { data: cursosData } = api.cursos.getAll.useQuery({
-                  materia: String(materiaId),
-                  filtrByActivo: "true",
-                });
-                const cursos = cursosData?.cursos ?? [];
-
-                return (
-                  <div key={materiaId} className="grid grid-cols-1 gap-2 md:grid-cols-2">
-                    <div>
-                      <Label className="text-xs font-semibold">
-                        {`${inscripcionEspecialData.materias?.[index] ?? ""}`}
-                      </Label>
-                    </div>
-                    <div>
-                      <Select
-                        value={String(selectedCursos[index] ?? "")}
-                        onValueChange={(val) => {
-                          setSelectedCursos((prev) => {
-                            const updated = [...prev];
-                            updated[index] = Number(val);
-                            return updated;
-                          });
-                        }}
-                      >
-                        <SelectTrigger>
-                          <SelectValue placeholder={`Seleccionar curso (División)`} />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {cursos.map((c: any) => (
-                            <SelectItem key={c.id} value={String(c.id)}>
-                              {c.division?.nombre ?? `Curso ${c.id}`}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </div>
-                );
-              })}
-              <div className="flex justify-end">
-                <Button type="button" variant="default" onClick={handleGuardarCursos} className="w-full md:w-auto">
-                  Guardar cursos
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        )}
-        <div className="flex justify-center gap-2">
-          <Controller
-            name="alumnoAsistio"
-            control={control}
-            render={({ field, fieldState }) => (
-              <>
-                <div className="space-y-3 leading-none">
-                  <label
-                    htmlFor="aceptoTerminos"
-                    className="flex items-center space-x-2 text-sm leading-none underline peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                  >
-                    <Checkbox
-                      id="aceptoTerminos"
-                      name="aceptoTerminos"
-                      className="h-8 w-8"
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                    <span>Alumno asistió</span>
-                  </label>
-                  <div className="text-md min-h-4 text-danger">{fieldState.error && fieldState.error.message}</div>
-                </div>
-              </>
-            )}
-          />
-          <Controller
-            name="alumnoContactado"
-            control={control}
-            render={({ field, fieldState }) => (
-              <>
-                <div className="space-y-3 leading-none">
-                  <label
-                    htmlFor="aceptoTerminos"
-                    className="flex items-center space-x-2 text-sm leading-none underline peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                  >
-                    <Checkbox
-                      id="aceptoTerminos"
-                      name="aceptoTerminos"
-                      className="h-8 w-8"
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                    <span>Alumno contactado</span>
-                  </label>
-                  <div className="text-md min-h-4 text-danger">{fieldState.error && fieldState.error.message}</div>
-                </div>
-              </>
-            )}
-          />
-        </div>
-        <Button
-          type="button"
-          variant="default"
-          className="w-full border border-gray-300 bg-transparent text-gray-700 hover:bg-gray-100"
-          onClick={() => setOpenContact(true)}
-        >
-          Contactar
-        </Button>
-        <Button
-          type="button"
-          variant="default"
-          color="secondary"
-          onClick={handleGuardar}
-          className="w-full border border-gray-300 bg-transparent text-gray-700 hover:bg-gray-100"
-        >
-          Guardar cambios
-        </Button>
-
         <div className="sticky bottom-0 flex w-full flex-row items-end justify-end space-x-4 bg-white p-2 pb-2">
           <Button
             title="Cancelar"

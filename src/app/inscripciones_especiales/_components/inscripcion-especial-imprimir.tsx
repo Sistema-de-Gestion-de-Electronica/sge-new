@@ -1,17 +1,34 @@
 import { api } from "@/trpc/react";
 import { useMemo } from "react";
+import type { InscripcionEspecialData } from "./inscripcionEspecialData";
 
 interface Props {
-  inscripcionEspecial: any;
+  inscripcionEspecial: InscripcionEspecialData;
+}
+
+interface MateriaParaMostrar {
+  nombre: string;
+  cursoId?: number | null;
+  materiasAdeudadas: string[];
 }
 
 export default function PrintInscripcionEspecial({ inscripcionEspecial }: Props) {
   const imageUrl = typeof window !== "undefined" ? `${window.location.origin}/utn-dpto-elec.png` : "/utn-dpto-elec.svg";
 
   const cursoIds = useMemo(() => {
-    const ids = (inscripcionEspecial?.cursos ?? []).filter((id: number) => id && id > 0) as number[];
+    const ids: number[] = [];
+    if (inscripcionEspecial?.materiasInscripcion) {
+      inscripcionEspecial.materiasInscripcion.forEach((mi) => {
+        if (mi.cursoId && mi.cursoId > 0) {
+          ids.push(mi.cursoId);
+        }
+      });
+    }
+    if (inscripcionEspecial?.cursos) {
+      ids.push(...inscripcionEspecial.cursos.filter((id) => id && id > 0));
+    }
     return [...new Set(ids)];
-  }, [inscripcionEspecial?.cursos]);
+  }, [inscripcionEspecial?.cursos, inscripcionEspecial?.materiasInscripcion]);
 
   const { data: todosLosCursosData } = api.cursos.getAll.useQuery({
     filtrByActivo: "true",
@@ -29,13 +46,31 @@ export default function PrintInscripcionEspecial({ inscripcionEspecial }: Props)
     return map;
   }, [todosLosCursosData, cursoIds]);
 
+  const materiasParaMostrar = useMemo((): MateriaParaMostrar[] => {
+    if (inscripcionEspecial?.materiasInscripcion && inscripcionEspecial.materiasInscripcion.length > 0) {
+      return inscripcionEspecial.materiasInscripcion.map((mi) => ({
+        nombre: mi.materiaNombre,
+        cursoId: mi.cursoId,
+        materiasAdeudadas: mi.materiasAdeudadasNombres ?? [],
+      }));
+    }
+    if (inscripcionEspecial?.materias && inscripcionEspecial.materias.length > 0) {
+      const todasLasMateriasAdeudadas = inscripcionEspecial?.materiasAdeudadas ?? [];
+      return inscripcionEspecial.materias.map((materia: string, index: number) => ({
+        nombre: materia,
+        cursoId: inscripcionEspecial?.cursos?.[index],
+        materiasAdeudadas: index === 0 ? todasLasMateriasAdeudadas : [],
+      }));
+    }
+    return [];
+  }, [inscripcionEspecial]);
+
   return (
     <div className="hidden print:block">
       <div
         id="print-inscripcion-especial"
         className="mx-auto my-8 flex min-h-[90vh] max-w-[800px] flex-col justify-between bg-white p-12 text-black shadow-sm"
       >
-        {/* Encabezado */}
         <header className="flex items-center justify-between border-b-2 border-gray-300 pb-3">
           <div className="flex flex-col">
             <h1 className="text-lg font-bold text-[#002b5c]">ORDEN de INSCRIPCIÓN a ASIGNATURAS</h1>
@@ -94,34 +129,40 @@ export default function PrintInscripcionEspecial({ inscripcionEspecial }: Props)
             <thead>
               <tr className="bg-gray-100 text-left text-[13px]">
                 <th className="w-[28%] border px-2 py-1">Materia</th>
-                <th className="w-[26%] border px-2 py-1">Justificación</th>
-                <th className="w-[26%] border px-2 py-1">Materias Adeudadas</th>
                 <th className="w-[10%] border px-2 py-1">Curso</th>
+                <th className="w-[26%] border px-2 py-1">Materias Adeudadas</th>
+                <th className="w-[36%] border px-2 py-1">Justificación</th>
               </tr>
             </thead>
             <tbody>
-              {(inscripcionEspecial?.materias ?? []).map((materia: string, index: number) => {
-                const cursoId = inscripcionEspecial?.cursos?.[index];
-                const nombreDivision = cursoId ? (divisionesMap.get(cursoId) ?? "—") : "—";
-                const materiasAdeudadasTexto = (inscripcionEspecial?.materiasAdeudadas ?? []).join(", ") || "—";
-                const totalFilas = (inscripcionEspecial?.materias ?? []).length || 0;
+              {materiasParaMostrar.map((materia, index) => {
+                const nombreDivision = materia.cursoId ? (divisionesMap.get(materia.cursoId) ?? "—") : "—";
+                const materiasAdeudadasTexto =
+                  materia.materiasAdeudadas && materia.materiasAdeudadas.length > 0
+                    ? materia.materiasAdeudadas.join(", ")
+                    : "—";
                 return (
                   <tr key={index} className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}>
-                    <td className="border px-2 py-1">{materia}</td>
-                    <td className="border px-2 py-1">{inscripcionEspecial?.justificacion ?? "—"}</td>
+                    <td className="border px-2 py-1">{materia.nombre}</td>
+                    <td className="border px-2 py-1">{nombreDivision}</td>
+                    <td className="border px-2 py-1">{materiasAdeudadasTexto}</td>
                     {index === 0 && (
-                      <td className="border px-2 py-1 align-top" rowSpan={totalFilas}>
-                        {materiasAdeudadasTexto}
+                      <td className="border px-2 py-1 align-top" rowSpan={materiasParaMostrar.length}>
+                        {inscripcionEspecial?.justificacion ?? "—"}
                       </td>
                     )}
-                    <td className="border px-2 py-1">{nombreDivision}</td>
                   </tr>
                 );
               })}
             </tbody>
           </table>
         </section>
-
+        <section className="mt-6 space-y-2 text-sm">
+          <div className="flex items-start gap-3">
+            <p className="font-semibold">Comentarios: </p>
+            <p>{inscripcionEspecial?.respuesta ?? "Sin comentarios"}</p>
+          </div>
+        </section>
         <section className="mt-6 space-y-2 text-sm">
           <div className="flex items-start gap-3">
             <div className="rounded bg-black px-2 py-[2px] text-xs font-semibold text-white">Paso 1</div>

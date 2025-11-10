@@ -160,20 +160,6 @@ export function InscripcionEspecialDetalle({
                 label: "Legajo",
                 value: inscripcionEspecial?.solicitante?.legajo,
               },
-              {
-                icon: <NotebookIcon className="h-4 w-4" />,
-                label: "Materias",
-                value: inscripcionEspecial?.materias.join(", "),
-              },
-              ...((inscripcionEspecial?.materiasAdeudadas?.length ?? 0) > 0
-                ? [
-                    {
-                      icon: <NotebookIcon className="h-4 w-4" />,
-                      label: "Materias adeudadas",
-                      value: inscripcionEspecial?.materiasAdeudadas.join(", "),
-                    },
-                  ]
-                : []),
             ],
           ].map(({ icon, label, value }, index, array) => (
             <div
@@ -188,6 +174,27 @@ export function InscripcionEspecialDetalle({
             </div>
           ))}
         </div>
+        {inscripcionEspecial?.materiasInscripcion && inscripcionEspecial.materiasInscripcion.length > 0 && (
+          <div className="col-span-3 space-y-2">
+            <Label className="flex items-center font-semibold">
+              <NotebookIcon className="mr-2 h-4 w-4" />
+              Materias
+            </Label>
+            <div className="space-y-3">
+              {inscripcionEspecial.materiasInscripcion.map((materiaInscripcion, index) => (
+                <div key={index} className="rounded-md border border-gray-300 bg-gray-50 p-3">
+                  <div className="font-medium text-gray-900">{materiaInscripcion.materiaNombre}</div>
+                  {materiaInscripcion.materiasAdeudadasNombres.length > 0 && (
+                    <div className="mt-1 text-sm text-gray-600">
+                      <span className="font-medium">Materias adeudadas:</span>{" "}
+                      {materiaInscripcion.materiasAdeudadasNombres.join(", ")}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
         <div className="col-span-3 space-y-2">
           <Label className="flex items-center font-semibold">
             <Mail className="mr-2 h-4 w-4" />
@@ -222,6 +229,17 @@ export function InscripcionEspecialDetalle({
             {inscripcionEspecial?.justificacion ?? "Sin informar"}
           </div>
         </div>
+        {inscripcionEspecial?.detallesPreferenciasHorario && (
+          <div className="col-span-3 space-y-2">
+            <Label className="flex items-center font-semibold">
+              <TextIcon className="mr-2 h-4 w-4" />
+              Detalles de preferencias de las alternativas de horario
+            </Label>
+            <div className="whitespace-pre-wrap rounded-md border border-gray-300 bg-gray-50 p-4">
+              {inscripcionEspecial.detallesPreferenciasHorario}
+            </div>
+          </div>
+        )}
         <div className="col-span-3 flex flex-col items-start justify-center gap-4 md:flex-row">
           {inscripcionEspecial?.turnoAlternativa1 && (
             <AlternativaHorario titulo="Alternativa Horario 1" data={inscripcionEspecial?.turnoAlternativa1} />

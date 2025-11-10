@@ -3,15 +3,11 @@ model InscripcionEspecial {
     solicitanteId String
     solicitante   User   @relation(fields: [solicitanteId], references: [id], name: "inscripcionesEspeciales")
 
-    caso              String
-    justificacion     String
-    turnoAlternativa1 String?
-    turnoAlternativa2 String?
-
-    materias          Int[]
-    materiasAdeudadas Int[]
-
-    cursos Int[]
+    caso                        String
+    justificacion               String
+    detallesPreferenciasHorario String?
+    turnoAlternativa1           String?
+    turnoAlternativa2           String?
 
     estado    String
     respuesta String?
@@ -21,6 +17,22 @@ model InscripcionEspecial {
 
     fechaSolicitud DateTime  @default(now())
     fechaRespuesta DateTime?
+
+    materiasInscripcion InscripcionEspecialMateria[]
+}
+
+model InscripcionEspecialMateria {
+    id                    Int                 @id @default(autoincrement())
+    inscripcionEspecialId Int
+    inscripcionEspecial   InscripcionEspecial @relation(fields: [inscripcionEspecialId], references: [id], onDelete: Cascade)
+
+    materiaId Int
+    materia   Materia @relation(fields: [materiaId], references: [id], onDelete: Cascade)
+
+    materiasAdeudadas Int[]
+    cursoId           Int?
+
+    @@unique([inscripcionEspecialId, materiaId])
 }
 
 model InscripcionEspecialPeriodo {

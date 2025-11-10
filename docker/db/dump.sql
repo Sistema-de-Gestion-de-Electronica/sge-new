@@ -54303,10 +54303,10 @@ cm9goht7t013ldrqp7drtliij	aramirezchino	aramirezchino@frba.utn.edu.ar	\N	/defaul
 cm9goht7q00y4drqpziblmif2	ramurrio	ramurrio@frba.utn.edu.ar	\N	/default-avatar.svg	Rodrigo	Amurrio Garcia	\N										2032211	yes	0	f	f	2025-02-27 00:00:00	2025-02-28 00:00:00	2025-02-27 00:00:00	2	B	AR
 cm9goht77000adrqpgr2354l3	mruano	mruano@frba.utn.edu.ar	\N	/default-avatar.svg	Matheo	Ruano	\N										2145327	yes	0	f	f	2025-03-02 00:00:00	2025-03-02 00:00:00	2025-03-02 00:00:00	2	B	AR
 cm9goht79004qdrqpdif3osjy	hspataro	hspataro@frba.utn.edu.ar	\N	/default-avatar.svg	Hector	Spataro	1970-02-23	Juan B. Alberdi 1016	- -	- -	-	1424	4433-6215	-	-	21484610	\N	\N	0	t	f	2017-03-29 00:00:00	2025-03-07 00:00:00	2025-08-29 20:58:21.481	2	B	AR
-cm9goht7r4q2n1df8vjx5k3ls	dpinto	dpinto@frba.utn.edu.ar	\N	/default-avatar.svg	Diego	Pinto	1970-02-23	Juan B. Alberdi 1016	- -	- -	-	1424	4433-6215	-	-	21484610	\N	\N	0	t	f	2017-03-29 00:00:00	2025-03-07 00:00:00	2025-08-29 20:58:21.481	2	B	AR
-cm9goht7t8p1w2r9z4y6q3bdf	mlingeri	mlingeri@frba.utn.edu.ar	\N	/default-avatar.svg	Martin	Lingeri	1970-02-23	Juan B. Alberdi 1016	- -	- -	-	1424	4433-6215	-	-	21484610	\N	\N	0	t	f	2017-03-29 00:00:00	2025-03-07 00:00:00	2025-08-29 20:58:21.481	2	B	AR
-cm9goht7x0n5m2j8r4k9v1qye	fmarsico	fmarsico@frba.utn.edu.ar	\N	/default-avatar.svg	Franco	Marsico	1970-02-23	Juan B. Alberdi 1016	- -	- -	-	1424	4433-6215	-	-	21484610	\N	\N	0	t	f	2017-03-29 00:00:00	2025-03-07 00:00:00	2025-08-29 20:58:21.481	2	B	AR
-cm9goht7b3z9x2t6p5r1n4jvd	cberetta	cberetta@frba.utn.edu.ar	\N	/default-avatar.svg	Chiara	Beretta	1970-02-23	Juan B. Alberdi 1016	- -	- -	-	1424	4433-6215	-	-	21484610	\N	\N	0	t	f	2017-03-29 00:00:00	2025-03-07 00:00:00	2025-08-29 20:58:21.481	2	B	AR
+cm9goht7r4q2n1df8vjx5k3ls	dpinto	dpinto@frba.utn.edu.ar	\N	/default-avatar.svg	Diego	Pinto	1970-02-23	Juan B. Alberdi 1016	- -	- -	-	1424	4433-6215	-	-	21484610	2027574	\N	0	t	f	2017-03-29 00:00:00	2025-03-07 00:00:00	2025-08-29 20:58:21.481	2	B	AR
+cm9goht7t8p1w2r9z4y6q3bdf	mlingeri	mlingeri@frba.utn.edu.ar	\N	/default-avatar.svg	Martin	Lingeri	1970-02-23	Juan B. Alberdi 1016	- -	- -	-	1424	4433-6215	-	-	21484610	1724095	\N	0	t	f	2017-03-29 00:00:00	2025-03-07 00:00:00	2025-08-29 20:58:21.481	2	B	AR
+cm9goht7x0n5m2j8r4k9v1qye	fmarsico	fmarsico@frba.utn.edu.ar	\N	/default-avatar.svg	Franco	Marsico	1970-02-23	Juan B. Alberdi 1016	- -	- -	-	1424	4433-6215	-	-	21484610	2038183	\N	0	t	f	2017-03-29 00:00:00	2025-03-07 00:00:00	2025-08-29 20:58:21.481	2	B	AR
+cm9goht7b3z9x2t6p5r1n4jvd	cberetta	cberetta@frba.utn.edu.ar	\N	/default-avatar.svg	Chiara	Beretta	1970-02-23	Juan B. Alberdi 1016	- -	- -	-	1424	4433-6215	-	-	21484610	2046192	\N	0	t	f	2017-03-29 00:00:00	2025-03-07 00:00:00	2025-08-29 20:58:21.481	2	B	AR
 \.
 
 

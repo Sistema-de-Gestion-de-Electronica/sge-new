@@ -49,7 +49,7 @@ const handleDatabaseError = (error: unknown, operation: string): never => {
 
 const validateUserAuthorization = async (ctx: { db: PrismaClient }, sessionUserId: string, resourceUserId?: string) => {
   if (resourceUserId && sessionUserId !== resourceUserId) {
-    const esAdministrador = await tienePermiso(ctx, [SgeNombre.ADMIN_VER_PANEL_ADMIN], sessionUserId);
+    const esAdministrador = await tienePermiso(ctx, [SgeNombre.INSCRIPCIONES_ESPECIALES_VER_LISTADO], sessionUserId);
     if (!esAdministrador) {
       throw new Error("No tienes autorización para acceder a este recurso");
     }
